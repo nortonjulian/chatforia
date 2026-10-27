@@ -29,13 +29,27 @@ export function localMessageMediaPath(value) {
  */
 export function cloudMessageMediaKey(value) {
   if (typeof value !== 'string') return null;
-  let url;
-  try { url = new URL(value.trim()); } catch { return null; }
-  if (url.protocol !== 'https:' || url.hostname !== 'cdn.chatforia.com' ||
-      url.port || url.username || url.password || url.search || url.hash) return null;
-  const pathname = url.pathname;
-  if (pathname.includes('%') || pathname.includes('\\')) return null;
-  const key = pathname.replace(/^\//, '');
+  const raw = value.trim();
+  let key;
+
+  // /uploads/intent + /uploads/complete return storage keys, and web
+  // MessageInput persists the key instead of a public CDN URL.
+  if (raw.startsWith('uploads/')) {
+    key = raw;
+  } else {
+    // Check the unnormalized URL first: URL() silently resolves dot segments.
+    // Never accept encoded path components or path traversal as storage keys.
+    if (raw.includes('%') || raw.includes('\\')) return null;
+    let url;
+    try { url = new URL(raw); } catch { return null; }
+    if (url.protocol !== 'https:' || url.hostname !== 'cdn.chatforia.com' ||
+        url.port || url.username || url.password || url.search || url.hash) return null;
+    key = url.pathname.replace(/^\//, '');
+  }
+
+  // Only canonical user-scoped upload keys are eligible. Membership and
+  // deletion authorization still happen independently on the attachment row.
+  if (key.includes('%') || key.includes('\\') || key.includes('?') || key.includes('#')) return null;
   const parts = key.split('/');
   if (parts.length < 3 || parts[0] !== 'uploads' ||
       !/^u[1-9][0-9]*$/.test(parts[1]) ||
