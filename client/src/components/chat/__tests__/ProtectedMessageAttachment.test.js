@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import ProtectedMessageAttachment from '../ProtectedMessageAttachment';
+import ProtectedMessageAttachment, { isLocalPrivateMedia } from '../ProtectedMessageAttachment';
 import axiosClient from '@/api/axiosClient';
 
 jest.mock('@/api/axiosClient', () => ({
@@ -53,6 +53,22 @@ test('a prior account media URL disappears before new account authorization reso
   await waitFor(() => expect(axiosClient.get).toHaveBeenCalledTimes(2));
   resolveNew({ data: { url: '/private-media/file?token=new-account' } });
   await waitFor(() => expect(screen.getByAltText('Attachment').getAttribute('src')).toContain('new-account'));
+});
+
+test('Chatforia CDN message URLs require authorization; unrelated hosts remain external', async () => {
+  expect(isLocalPrivateMedia('https://cdn.chatforia.com/uploads/u2/voice.webm')).toBe(true);
+  expect(isLocalPrivateMedia('https://cdn.chatforia.com.evil.test/uploads/u2/voice.webm')).toBe(false);
+  axiosClient.get.mockResolvedValue({ data: { url: '/private-media/file?token=cdn-capability' } });
+  render(<ProtectedMessageAttachment viewerId={2} attachment={{
+    id: 55, kind: 'AUDIO', mimeType: 'audio/webm',
+    url: 'https://cdn.chatforia.com/uploads/u2/voice.webm'
+  }} index={0} />);
+  await waitFor(() => expect(document.querySelector('audio')).toHaveAttribute(
+    'src', 'https://api.chatforia.com/private-media/file?token=cdn-capability'
+  ));
+  expect(axiosClient.get).toHaveBeenCalledWith(
+    '/private-media/message/55', expect.objectContaining({ params: { variant: 'file' } })
+  );
 });
 
 test('external media URLs are unchanged and never require private local authorization', () => {
