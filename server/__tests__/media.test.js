@@ -35,10 +35,13 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
     messageAttachment: {
       findFirst: jest.fn(),
       findMany: jest.fn(),
+      findUnique: jest.fn(),
     },
     participant: {
       findFirst: jest.fn(),
+      findUnique: jest.fn(),
     },
+    threadState: { findUnique: jest.fn(async () => null) },
   };
   return {
     __esModule: true,
@@ -225,96 +228,52 @@ describe('POST /media/upload', () => {
     });
 
 describe('GET /media/signed-url', () => {
-  test('returns 400 when key is missing', async () => {
-    const res = await request(app)
-      .get('/media/signed-url')
-      .set('x-test-user-id', '1');
-
-    expect(res.status).toBe(400);
-    expect(res.body).toEqual({ error: 'Missing key' });
+  const key = 'uploads/u3/file.png';
+  const attachment = () => ({
+    id: 11, url: key, deletedAt: null,
+    message: {
+      id: 100, chatRoomId: 123, senderId: 3,
+      createdAt: new Date('2026-01-01'), expiresAt: null,
+      deletedForAll: false, deletedBySender: false, deletions: [],
+    },
   });
+  const get = () => request(app).get('/media/signed-url')
+    .query({ key }).set('x-test-user-id', '3');
 
-  test('returns 404 when attachment not found', async () => {
-    prismaMock.messageAttachment.findFirst.mockResolvedValueOnce(null);
-
-    const res = await request(app)
-      .get('/media/signed-url')
-      .query({ key: 'uploads/u1/file.png' })
-      .set('x-test-user-id', '1');
-
-    expect(res.status).toBe(404);
-    expect(res.body).toEqual({ error: 'Attachment not found' });
+  test('rejects absent and malformed keys', async () => {
+    expect((await request(app).get('/media/signed-url').set('x-test-user-id', '3')).status).toBe(400);
+    expect((await request(app).get('/media/signed-url')
+      .query({ key: '../secret' }).set('x-test-user-id', '3')).status).toBe(400);
   });
-
-  test('returns 403 when user is not a participant and not admin', async () => {
-    prismaMock.messageAttachment.findFirst.mockResolvedValueOnce({
-      id: 10,
-      url: 'https://media/u1/file.png',
-      message: { chatRoomId: 99 },
-    });
-    prismaMock.participant.findFirst.mockResolvedValueOnce(null);
-
-    const res = await request(app)
-      .get('/media/signed-url')
-      .query({ key: 'uploads/u1/file.png' })
-      .set('x-test-user-id', '2')
-      .set('x-test-role', 'USER');
-
-    expect(res.status).toBe(403);
-    expect(res.body).toEqual({ error: 'Forbidden' });
-
-    expect(prismaMock.participant.findFirst).toHaveBeenCalledWith({
-      where: { chatRoomId: 99, userId: 2 },
-      select: { id: true },
-    });
+  test('missing attachment cannot issue a grant', async () => {
+    prismaMock.messageAttachment.findMany.mockResolvedValueOnce([]);
+    expect((await get()).status).toBe(404);
+    expect(r2PresignGetMock).not.toHaveBeenCalled();
   });
-
-  test('returns signed URL when user is participant', async () => {
-    prismaMock.messageAttachment.findFirst.mockResolvedValueOnce({
-      id: 11,
-      url: 'https://media/u3/file.png',
-      message: { chatRoomId: 123 },
-    });
-    prismaMock.participant.findFirst.mockResolvedValueOnce({ id: 1 });
-    r2PresignGetMock.mockResolvedValueOnce('https://signed.example.com/url');
-
-    const res = await request(app)
-      .get('/media/signed-url')
-      .query({ key: 'uploads/u3/file.png' })
-      .set('x-test-user-id', '3')
-      .set('x-test-role', 'USER');
-
+  test('authorized participant gets private-media capability, not R2 signed URL', async () => {
+    prismaMock.messageAttachment.findMany.mockResolvedValueOnce([{ id: 11 }]);
+    prismaMock.messageAttachment.findUnique.mockResolvedValueOnce(attachment());
+    prismaMock.participant.findUnique.mockResolvedValueOnce({ id: 2, clearedAt: null });
+    const res = await get();
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({
-      url: 'https://signed.example.com/url',
-      expiresSec: 180,
-    });
-
-    expect(r2PresignGetMock).toHaveBeenCalledWith({
-      key: 'uploads/u3/file.png',
-      expiresSec: 180,
-    });
+    expect(res.body.url).toMatch(/^\/private-media\/file\?token=/);
+    expect(res.body.expiresSec).toBe(60);
+    expect(res.headers['cache-control']).toContain('no-store');
+    expect(r2PresignGetMock).not.toHaveBeenCalled();
   });
-
-  test('allows ADMIN without membership check', async () => {
-    prismaMock.messageAttachment.findFirst.mockResolvedValueOnce({
-      id: 12,
-      url: 'https://media/u4/file.png',
-      message: { chatRoomId: 777 },
-    });
-    // participant not needed; route should skip for ADMIN
-    r2PresignGetMock.mockResolvedValueOnce('https://signed.admin/url');
-
-    const res = await request(app)
-      .get('/media/signed-url')
-      .query({ key: 'uploads/u4/file.png' })
-      .set('x-test-user-id', '4')
-      .set('x-test-role', 'ADMIN');
-
-    expect(res.status).toBe(200);
-    expect(res.body.url).toBe('https://signed.admin/url');
-
-    expect(prismaMock.participant.findFirst).not.toHaveBeenCalled();
+  test('stranger, deleted message and mismatched key never get a grant', async () => {
+    for (const failure of ['stranger', 'deleted', 'mismatched']) {
+      const row = attachment();
+      if (failure === 'deleted') row.message.deletedForAll = true;
+      if (failure === 'mismatched') row.url = 'uploads/u3/another.png';
+      prismaMock.messageAttachment.findMany.mockResolvedValueOnce([{ id: 11 }]);
+      prismaMock.messageAttachment.findUnique.mockResolvedValueOnce(row);
+      prismaMock.participant.findUnique.mockResolvedValueOnce(
+        failure === 'stranger' ? null : { id: 2, clearedAt: null }
+      );
+      expect((await get()).status).toBe(404);
+    }
+    expect(r2PresignGetMock).not.toHaveBeenCalled();
   });
 });
 
