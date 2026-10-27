@@ -4,10 +4,16 @@ import express from 'express';
 import request from 'supertest';
 import { Readable } from 'node:stream';
 
-const state = { member: true, deleted: false, expired: false };
+const state = {
+  member: true, deleted: false, expired: false,
+  mediaRef: 'https://cdn.chatforia.com/uploads/u1/voice.webm',
+};
 const sendR2 = jest.fn(async command => {
   const { Bucket, Key, Range } = command.input;
-  if (Bucket !== 'test-private-bucket' || Key !== 'uploads/u1/voice.webm') {
+  if (Bucket !== 'test-private-bucket' || ![
+    'uploads/u1/voice.webm',
+    'uploads/u1/2026/10/26/voice.webm',
+  ].includes(Key)) {
     throw new Error('Unexpected R2 object key');
   }
   if (Range === 'bytes=0-3') {
@@ -23,7 +29,7 @@ const sendR2 = jest.fn(async command => {
 const db = {
   messageAttachment: { findUnique: jest.fn(async () => ({
     id: 12,
-    url: 'https://cdn.chatforia.com/uploads/u1/voice.webm',
+    url: state.mediaRef,
     thumbUrl: null,
     deletedAt: null,
     message: {
@@ -62,6 +68,7 @@ afterAll(() => {
 });
 beforeEach(() => {
   state.member = true; state.deleted = false; state.expired = false;
+  state.mediaRef = 'https://cdn.chatforia.com/uploads/u1/voice.webm';
   sendR2.mockClear();
 });
 const issue = (viewerId = 2) => request(app)
@@ -81,6 +88,30 @@ describe('authorized R2 message media streaming over HTTP', () => {
     expect(result.body.toString('utf8')).toBe('0123456789');
     expect(sendR2).toHaveBeenCalledTimes(1);
     expect(sendR2.mock.calls[0][0].input.Key).toBe('uploads/u1/voice.webm');
+  });
+
+  test('new nested R2 object keys stream only for authorized participants', async () => {
+    state.mediaRef = 'uploads/u1/2026/10/26/voice.webm';
+
+    // A bare storage key must never make an upload publicly downloadable.
+    expect((await issue(3)).status).toBe(404);
+    expect(sendR2).not.toHaveBeenCalled();
+
+    const grant = await issue(2);
+    expect(grant.status).toBe(200);
+    expect(grant.body.url).toMatch(/^\\/private-media\\/file\\?token=/);
+
+    const download = await request(app).get(grant.body.url);
+    expect(download.status).toBe(200);
+    expect(download.body.toString('utf8')).toBe('0123456789');
+    expect(sendR2).toHaveBeenCalledTimes(1);
+    expect(sendR2.mock.calls[0][0].input.Key).toBe(state.mediaRef);
+
+    // Issued URLs are not permanent access: revocation is checked on use.
+    state.member = false;
+    const revoked = await request(app).get(grant.body.url);
+    expect(revoked.status).toBe(404);
+    expect(sendR2).toHaveBeenCalledTimes(1);
   });
 
   test('a player Range request yields 206 and partial content, invalid range fails closed', async () => {
