@@ -95,7 +95,7 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
   test('owner can retrieve attachment through authenticated proxy', async () => {
     const response = await read();
     expect(response.status).toBe(200);
-    expect(response.text).toBe('fixture-image-bytes');
+    expect(response.body.toString('utf8')).toBe('fixture-image-bytes');
     expect(response.headers['content-type']).toMatch(/^image\/jpeg/);
     expect(response.headers['cache-control']).toContain('private');
     expect(fetchMock).toHaveBeenCalledTimes(1);
