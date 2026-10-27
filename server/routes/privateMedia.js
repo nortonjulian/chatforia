@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 import jwt from 'jsonwebtoken';
+import { issuePrivateMediaGrant, privateMediaTokenSecret } from '../services/privateMediaGrant.js';
 import mime from 'mime-types';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { r2 } from '../utils/r2.js';
@@ -14,27 +15,19 @@ import {
 } from '../services/privateMessageMedia.js';
 
 const router = express.Router();
-const MAX_TOKEN_SECONDS = 60;
-function secret() {
-  if (process.env.FILE_TOKEN_SECRET) return process.env.FILE_TOKEN_SECRET;
-  if (process.env.NODE_ENV === 'test') return 'test-secret';
-  throw new Error('FILE_TOKEN_SECRET is required');
-}
 const root = () => process.env.UPLOADS_DIR || path.resolve('uploads');
 
 router.get('/message/:attachmentId', requireAuth, async (req, res) => {
   try {
     const variant = req.query.variant === 'thumb' ? 'thumb' : 'file';
-    const claim = await getAuthorizedMessageMedia({
-      attachmentId: req.params.attachmentId, viewerId: req.user.id, variant,
+    const grant = await issuePrivateMediaGrant({
+      attachmentId: req.params.attachmentId,
+      viewerId: req.user.id,
+      variant,
     });
-    if (!claim) return res.status(404).json({ error: 'Not found' });
-    const token = jwt.sign(
-      { aid: claim.attachmentId, uid: claim.viewerId, v: variant, aud: 'private-media', iss: 'chatforia' },
-      secret(), { expiresIn: MAX_TOKEN_SECONDS }
-    );
+    if (!grant) return res.status(404).json({ error: 'Not found' });
     res.set('Cache-Control', 'no-store');
-    return res.json({ url: `/private-media/file?token=${encodeURIComponent(token)}`, expiresSec: MAX_TOKEN_SECONDS });
+    return res.json(grant);
   } catch {
     return res.status(500).json({ error: 'Could not authorize media' });
   }
@@ -49,7 +42,7 @@ router.get('/file', async (req, res) => {
     if (!token || token.length > 4096) return res.sendStatus(403);
     let payload;
     try {
-      payload = jwt.verify(token, secret(), { audience: 'private-media', issuer: 'chatforia' });
+      payload = jwt.verify(token, privateMediaTokenSecret(), { audience: 'private-media', issuer: 'chatforia' });
     } catch {
       return res.sendStatus(403);
     }
