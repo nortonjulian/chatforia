@@ -4,6 +4,8 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import jwt from 'jsonwebtoken';
 import mime from 'mime-types';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { r2 } from '../utils/r2.js';
 import { parseSingleByteRange } from '../utils/httpByteRanges.js';
 import { requireAuth } from '../middleware/auth.js';
 import {
@@ -55,6 +57,42 @@ router.get('/file', async (req, res) => {
       attachmentId: payload.aid, viewerId: payload.uid, variant: payload.v,
     });
     if (!claim) return res.sendStatus(404);
+    if (claim.storageKey) {
+      // Stream through the application; a presigned S3 URL would permit
+      // continued use until expiration after participant revocation.
+      const bucket = process.env.R2_BUCKET;
+      if (!bucket) return res.sendStatus(503);
+      const range = req.headers.range;
+      // R2 enforces byte-range syntax; reject multi-range/invalid requests.
+      if (range && !/^bytes=(?:[0-9]+-[0-9]*|-[0-9]+)$/.test(range)) {
+        return res.sendStatus(416);
+      }
+      try {
+        const object = await r2.send(new GetObjectCommand({
+          Bucket: bucket,
+          Key: claim.storageKey,
+          ...(range ? { Range: range } : {}),
+        }));
+        res.set({
+          'Cache-Control': 'private, no-store',
+          'X-Content-Type-Options': 'nosniff',
+          'Referrer-Policy': 'no-referrer',
+          'Content-Disposition': 'inline',
+          'Accept-Ranges': 'bytes',
+          'Content-Type': object.ContentType || 'application/octet-stream',
+        });
+        if (object.ContentLength != null) res.set('Content-Length', String(object.ContentLength));
+        if (object.ContentRange) res.set('Content-Range', object.ContentRange);
+        res.status(object.ContentRange ? 206 : 200);
+        if (!object.Body) return res.end();
+        // AWS SDK Node stream. Never cache, forward or log object bytes.
+        object.Body.on('error', () => res.destroy());
+        return object.Body.pipe(res);
+      } catch (err) {
+        const status = err?.$metadata?.httpStatusCode;
+        return res.sendStatus(status === 404 ? 404 : status === 416 ? 416 : 502);
+      }
+    }
     const abs = localMessageMediaAbsolutePath(claim.relativePath, root());
     if (!abs) return res.sendStatus(404);
     const info = await fsp.stat(abs).catch(() => null);
