@@ -8,8 +8,8 @@ const state = {
   member: true,
   deleted: false,
   enabled: true,
+  mediaUrl: 'https://cdn.chatforia.com/uploads/u7/voice.webm',
 };
-const mediaUrl = 'https://cdn.chatforia.com/uploads/u7/voice.webm';
 const r2Send = jest.fn(async ({ input }) => {
   if (input.Bucket !== 'fixture-private-bucket' || input.Key !== 'uploads/u7/voice.webm') {
     throw new Error('Unexpected private object');
@@ -44,7 +44,7 @@ const db = {
         id: 200,
         kind: 'AUDIO',
         mimeType: 'audio/webm',
-        url: mediaUrl,
+        url: state.mediaUrl,
         durationSec: 4,
         deletedAt: null,
         createdAt: new Date('2026-10-01'),
@@ -111,6 +111,7 @@ beforeEach(() => {
   state.member = true;
   state.deleted = false;
   state.enabled = true;
+  state.mediaUrl = 'https://cdn.chatforia.com/uploads/u7/voice.webm';
   process.env.R2_BUCKET = 'fixture-private-bucket';
   process.env.OPENAI_API_KEY = 'test-key-not-real';
   global.fetch = jest.fn(async () => { throw new Error('Public CDN fetch must never occur'); });
@@ -136,6 +137,17 @@ describe('voice-note HTTP transcription from private R2 storage', () => {
     expect(r2Send).toHaveBeenCalledTimes(1);
     expect(transcribeCreate).toHaveBeenCalledTimes(1);
     expect(db.transcript.create).toHaveBeenCalledTimes(1);
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  test('newly uploaded bare R2 key transcribes through private storage, never public CDN', async () => {
+    state.mediaUrl = 'uploads/u7/voice.webm';
+    const response = await requestTranscript();
+    expect(response.status).toBe(200);
+    expect(response.body.transcript.segments).toEqual([{ text: 'Private voice note transcript' }]);
+    expect(r2Send).toHaveBeenCalledTimes(1);
+    expect(r2Send.mock.calls[0][0].input.Key).toBe(state.mediaUrl);
+    expect(transcribeCreate).toHaveBeenCalledTimes(1);
     expect(global.fetch).not.toHaveBeenCalled();
   });
 
