@@ -314,7 +314,7 @@ cd server && npx prisma migrate dev
 cd server && npx prisma studio
 ```
 
-The schema includes domains for users/auth, devices, languages, pricing, family groups, purchases, chatrooms, messages, E2EE keys, contacts, reports, status/stories, bots, calls, phone numbers, voicemail, wireless/eSIM data packs, and accessibility preferences.
+The schema includes domains for users/auth, devices, languages, pricing, family groups, purchases, chatrooms, messages, E2EE keys, contacts, reports, legacy status records (not an active Stories feature), bots, calls, phone numbers, voicemail, wireless/eSIM data packs, and accessibility preferences.
 
 ---
 
