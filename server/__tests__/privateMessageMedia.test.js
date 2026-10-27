@@ -1,6 +1,6 @@
 /** @jest-environment node */
 import { describe, test, expect, jest } from '@jest/globals';
-import { getAuthorizedMessageMedia, localMessageMediaPath } from '../services/privateMessageMedia.js';
+import { getAuthorizedMessageMedia, localMessageMediaPath, cloudMessageMediaKey } from '../services/privateMessageMedia.js';
 
 const makeDb = (overrides = {}) => ({
   messageAttachment: { findUnique: jest.fn(async () => ({
@@ -49,6 +49,30 @@ describe('private message attachment authorization', () => {
       else db.threadState.findUnique.mockResolvedValue({ deletedAt: new Date('2026-08-01') });
       expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
     }
+  });
+  test('accepts only canonical Chatforia CDN object keys, rejects alternate hosts and traversal', () => {
+    expect(cloudMessageMediaKey('https://cdn.chatforia.com/uploads/u2/voice.webm'))
+      .toBe('uploads/u2/voice.webm');
+    for (const bad of [
+      'https://other.example/uploads/u2/voice.webm',
+      'http://cdn.chatforia.com/uploads/u2/voice.webm',
+      'https://cdn.chatforia.com.evil.example/uploads/u2/voice.webm',
+      'https://cdn.chatforia.com/uploads/u2/%2e%2e/voice.webm',
+      'https://cdn.chatforia.com/uploads/u2/voice.webm?token=foo',
+      'https://cdn.chatforia.com/other/voice.webm',
+    ]) expect(cloudMessageMediaKey(bad)).toBeNull();
+  });
+  test('authorized recipient can resolve CDN R2 object, unrelated participant cannot', async () => {
+    const db = makeDb();
+    const attachment = await db.messageAttachment.findUnique();
+    attachment.url = 'https://cdn.chatforia.com/uploads/u1/voice.webm';
+    db.messageAttachment.findUnique.mockResolvedValue(attachment);
+    const result = await getAuthorizedMessageMedia({ ...input, db });
+    expect(result?.storageKey).toBe('uploads/u1/voice.webm');
+    expect(result?.relativePath).toBeNull();
+    const blocked = makeDb({ participant: { findUnique: jest.fn(async () => null) } });
+    blocked.messageAttachment.findUnique.mockResolvedValue(attachment);
+    expect(await getAuthorizedMessageMedia({ ...input, db: blocked })).toBeNull();
   });
   test('does not treat external URLs or traversal as local attachments', () => {
     for (const s of ['https://evil.test/a', '/etc/passwd', '../media/a.png', 'media/../a.png', 'media/%2e%2e', 'avatars/profile.png']) {
