@@ -79,7 +79,6 @@ import eventLinksRouter from './routes/eventLinks.js';
 import a11yRouter from './routes/a11y.js';
 import translationsRouter from './routes/translations.js';
 import languagesRouter from './routes/languages.js';
-import storiesRouter from './routes/stories.js';
 import numbersRouter from './routes/numbers.js';
 import voiceWebhooks from './routes/voiceWebhooks.js';
 import videoTokens from './routes/videoTokens.js';
@@ -563,7 +562,6 @@ app.use('/settings', settingsForwardingRouter);
 app.use('/premium', premiumRouter);
 app.use('/api/translations', translationsRouter);
 app.use('/api/languages', languagesRouter);
-app.use('/stories', storiesRouter);
 app.use('/connectivity', connectivityRouter);
 
 app.use('/family', requireAuth, familyRouter);
