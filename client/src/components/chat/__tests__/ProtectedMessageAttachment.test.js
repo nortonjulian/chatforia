@@ -78,3 +78,20 @@ test('external media URLs are unchanged and never require private local authoriz
   expect(document.querySelector('audio')).toHaveAttribute('src', 'https://cdn.example.com/note.mp3');
   expect(axiosClient.get).not.toHaveBeenCalled();
 });
+
+test('canonical R2 upload keys use authorized media delivery, not a public path', async () => {
+  expect(isLocalPrivateMedia('uploads/u7/2026/10/26/voice.webm')).toBe(true);
+  expect(isLocalPrivateMedia('uploads/u7/../secret.webm')).toBe(false);
+  expect(isLocalPrivateMedia('uploads/u7/voice.webm?token=secret')).toBe(false);
+  axiosClient.get.mockResolvedValue({ data: { url: '/private-media/file?token=key-capability' } });
+  render(<ProtectedMessageAttachment viewerId={7} attachment={{
+    id: 88, kind: 'AUDIO', mimeType: 'audio/webm',
+    url: 'uploads/u7/2026/10/26/voice.webm',
+  }} index={0} />);
+  await waitFor(() => expect(document.querySelector('audio')).toHaveAttribute(
+    'src', 'https://api.chatforia.com/private-media/file?token=key-capability'
+  ));
+  expect(axiosClient.get).toHaveBeenCalledWith(
+    '/private-media/message/88', expect.objectContaining({ params: { variant: 'file' } })
+  );
+});
