@@ -74,6 +74,34 @@ describe('private message attachment authorization', () => {
     blocked.messageAttachment.findUnique.mockResolvedValue(attachment);
     expect(await getAuthorizedMessageMedia({ ...input, db: blocked })).toBeNull();
   });
+  test('new upload object keys resolve only for authorized room participants', async () => {
+    const db = makeDb();
+    const attachment = await db.messageAttachment.findUnique();
+    attachment.url = 'uploads/u7/2026/10/26/voice.webm';
+    db.messageAttachment.findUnique.mockResolvedValue(attachment);
+    const accepted = await getAuthorizedMessageMedia({ ...input, db });
+    expect(accepted?.storageKey).toBe(attachment.url);
+    const stranger = makeDb({ participant: { findUnique: jest.fn(async () => null) } });
+    stranger.messageAttachment.findUnique.mockResolvedValue(attachment);
+    expect(await getAuthorizedMessageMedia({ ...input, db: stranger })).toBeNull();
+  });
+
+  test('rejects malformed upload object keys without changing CDN compatibility', () => {
+    expect(cloudMessageMediaKey('uploads/u7/voice.webm')).toBe('uploads/u7/voice.webm');
+    expect(cloudMessageMediaKey('uploads/u7/2026/10/26/voice.webm')).toBe('uploads/u7/2026/10/26/voice.webm');
+    expect(cloudMessageMediaKey('https://cdn.chatforia.com/uploads/u7/voice.webm')).toBe('uploads/u7/voice.webm');
+    for (const value of [
+      'uploads/u7/../secret.webm',
+      'uploads/u7/%2e%2e/voice.webm',
+      'uploads/u7//voice.webm',
+      'uploads/u7/voice.webm?token=secret',
+      'uploads/u7/voice.webm#fragment',
+      'uploads/u0/voice.webm',
+      'uploads/u7/voice\\\\evil.webm',
+      'https://cdn.chatforia.com/uploads/u7/../secret.webm',
+    ]) expect(cloudMessageMediaKey(value)).toBeNull();
+  });
+
   test('does not treat external URLs or traversal as local attachments', () => {
     for (const s of ['https://evil.test/a', '/etc/passwd', '../media/a.png', 'media/../a.png', 'media/%2e%2e', 'avatars/profile.png']) {
       expect(localMessageMediaPath(s)).toBeNull();
