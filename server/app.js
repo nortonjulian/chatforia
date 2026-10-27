@@ -304,6 +304,11 @@ export function createApp() {
       logger,
       autoLogging: true,
       serializers: {
+        req: (req) => ({
+          method: req.method,
+          url: logSafeRequestPath(req.url),
+          id: req.id,
+        }),
         err: (e) => ({
           type: e?.name,
           message: e?.message,
