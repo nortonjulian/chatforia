@@ -9,7 +9,16 @@ import axiosClient from '@/api/axiosClient';
  */
 export function isLocalPrivateMedia(value) {
   if (typeof value !== 'string') return false;
-  return /^\/?(?:uploads\/)?(?:media|thumbs)\/[A-Za-z0-9_.-]+$/.test(value.trim());
+  const raw = value.trim();
+  if (/^\/?(?:uploads\/)?(?:media|thumbs)\/[A-Za-z0-9_.-]+$/.test(raw)) return true;
+  try {
+    const url = new URL(raw);
+    return url.protocol === 'https:' && url.hostname === 'cdn.chatforia.com' &&
+      !url.search && !url.hash &&
+      /^\/uploads\/u[1-9][0-9]*\/(?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+$/.test(url.pathname);
+  } catch {
+    return false;
+  }
 }
 
 function toAbsolute(url) {
