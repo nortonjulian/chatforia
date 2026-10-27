@@ -10,6 +10,15 @@ import axiosClient from '@/api/axiosClient';
 export function isLocalPrivateMedia(value) {
   if (typeof value !== 'string') return false;
   const raw = value.trim();
+  // New uploads are persisted as canonical R2 keys, not just CDN URLs.
+  // Do not let browser media elements try to fetch private storage directly.
+  if (raw.startsWith('uploads/')) {
+    const parts = raw.split('/');
+    if (parts.length >= 3 && parts[0] === 'uploads' &&
+        /^u[1-9][0-9]*$/.test(parts[1]) &&
+        parts.slice(2).every(part => /^[A-Za-z0-9._-]{1,200}$/.test(part) &&
+          part !== '.' && part !== '..')) return true;
+  }
   if (/^\/?(?:uploads\/)?(?:media|thumbs)\/[A-Za-z0-9_.-]+$/.test(raw)) return true;
   try {
     const url = new URL(raw);
