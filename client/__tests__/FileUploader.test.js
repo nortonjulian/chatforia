@@ -140,7 +140,8 @@ describe('FileUploader', () => {
         mimeType: 'image/png',
         contentType: 'image/png',
         size: file.size,
-      })
+      }),
+      file
     );
 
     expect(toast.ok).toHaveBeenCalledWith('File uploaded.');

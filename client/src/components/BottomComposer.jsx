@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, Group, Button, ActionIcon, Textarea, Tooltip} from '@mantine/core';
 import { Smile, Image as ImageIcon, Send } from 'lucide-react';
@@ -42,13 +42,25 @@ export default function BottomComposer({
   const openUploader = () => uploadTriggerRef.current?.click?.();
 
   const [pendingAttachment, setPendingAttachment] = useState(null);
+
+  useEffect(() => {
+    const url = pendingAttachment?.previewUrl;
+    return () => {
+      if (typeof url === 'string' && url.startsWith('blob:')) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [pendingAttachment?.previewUrl]);
   const [isPreviewHovered, setIsPreviewHovered] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState('');
+  const [sendError, setSendError] = useState('');
+  const sendingRef = useRef(false);
+  const [sending, setSending] = useState(false);
 
   const handleSend = async (payloadOrEvent) => {
-  if (disabled) return;
+  if (disabled || uploading || sendingRef.current) return;
 
   // Ignore click/submit events
   const isEvent =
@@ -60,7 +72,13 @@ export default function BottomComposer({
     payloadOrEvent.preventDefault?.();
   }
 
-  const attachments = pendingAttachment ? [pendingAttachment] : [];
+  const attachments = pendingAttachment
+    ? [Object.fromEntries(
+        Object.entries(pendingAttachment).filter(
+          ([key]) => key !== 'previewUrl'
+        )
+      )]
+    : [];
 
   const rawText = value || '';
   const trimmedText = rawText.trim();
@@ -78,8 +96,23 @@ export default function BottomComposer({
 
   if (!hasText && !hasAttachments) return;
 
-  console.log('BottomComposer handleSend payload:', outgoing);
-  await onSend?.(outgoing);
+  sendingRef.current = true;
+  setSending(true);
+  setSendError('');
+
+  try {
+    const result = await onSend?.(outgoing);
+    if (result === false) {
+      setSendError('Message could not be sent. Please try again.');
+      return;
+    }
+  } catch {
+    setSendError('Message could not be sent. Please try again.');
+    return;
+  } finally {
+    sendingRef.current = false;
+    setSending(false);
+  }
 
   setPendingAttachment(null);
   setUploadProgress(0);
@@ -119,6 +152,16 @@ export default function BottomComposer({
           >
             {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
 
+            {sendError && (
+              <div role="alert" style={{
+                fontSize: 12,
+                color: 'var(--mantine-color-red-6)',
+                marginBottom: 8,
+              }}>
+                {sendError}
+              </div>
+            )}
+
             {uploading && (
               <div style={{ fontSize: 12, opacity: 0.75, marginBottom: 8 }}>
                 {uploadStatus} {uploadProgress > 0 ? `${uploadProgress}%` : ''}
@@ -144,7 +187,7 @@ export default function BottomComposer({
                       position: 'relative',
                       display: 'block',
                       width: 96,
-                      overflow: 'visible',
+                      overflow: 'hidden',
                     }}
                     onMouseEnter={() => setIsPreviewHovered(true)}
                     onMouseLeave={() => setIsPreviewHovered(false)}
@@ -227,7 +270,7 @@ export default function BottomComposer({
                       </div>
                     )}
 
-                    {isPreviewHovered && (
+                    {pendingAttachment && (
                       <button
                         type="button"
                         aria-label="Remove selected attachment"
@@ -335,11 +378,20 @@ export default function BottomComposer({
                   onProgress={(pct) => {
                     setUploadProgress(pct);
                   }}
-                  onUploaded={(fileMeta) => {
+                  onUploaded={(fileMeta, file) => {
                     setUploading(false);
                     setUploadProgress(100);
                     setUploadStatus('');
-                    setPendingAttachment(fileMeta);
+
+                    const previewUrl =
+                      file && typeof URL.createObjectURL === 'function'
+                        ? URL.createObjectURL(file)
+                        : null;
+
+                    setPendingAttachment({
+                      ...fileMeta,
+                      ...(previewUrl ? { previewUrl } : {}),
+                    });
                   }}
                   onError={() => {
                     setUploading(false);
@@ -395,7 +447,7 @@ export default function BottomComposer({
                   variant="filled"
                   aria-label={t('composer.send', 'Send')}
                   onClick={handleSend}
-                  disabled={disabled || (!value?.trim() && !pendingAttachment)}
+                  disabled={disabled || uploading || sending || (!value?.trim() && !pendingAttachment)}
                 >
                   <Send size={16} />
                 </ActionIcon>

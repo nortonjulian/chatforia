@@ -118,7 +118,7 @@ export default function FileUploader({ button, onStart, onProgress, onUploaded, 
         thumbnailUrl: fileMeta.thumbnailUrl || null,
       };
 
-      onUploaded?.(finalMeta);
+      onUploaded?.(finalMeta, f);
       toast.ok('File uploaded.');
     } catch (err) {
       console.error('FileUploader error', err);

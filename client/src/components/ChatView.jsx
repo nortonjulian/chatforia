@@ -2610,7 +2610,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         height: f.height || null,
                         durationSec: f.durationSec || null,
                         caption: (f.caption || captionText || '').trim() || null,
-                        thumbUrl: f.previewUrl || f.thumbUrl || f.thumbnailUrl || null,
+                        thumbUrl: [f.thumbUrl, f.thumbnailUrl].find(
+                          (url) => typeof url === 'string' &&
+                            !url.startsWith('blob:')
+                        ) || null,
                       }));
 
                       setMessages((prev) =>
@@ -2638,7 +2641,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                       const roomIdNum = Number(chatroom?.id);
                       if (!Number.isFinite(roomIdNum)) {
                         console.error('❌ Invalid chatroom id:', chatroom?.id);
-                        return;
+                        return false;
                       }
 
                       const participantsRes = await axiosClient.get(
@@ -2721,7 +2724,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     console.warn(
                       'ThreadComposer provided raw files; wire onUploadFiles to handle uploads.'
                     );
-                    return;
+                    return false;
                   }
 
                   if (!text) return;
@@ -2778,6 +2781,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                 console.error('Send failed', e);
                 notifications.show(messageSendFeedback(e));
+                return false;
               }
               }}
             />
