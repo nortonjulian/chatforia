@@ -1,14 +1,7 @@
 name: Deploy Chatforia Backend
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'server/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
 
 jobs:
   deploy:
