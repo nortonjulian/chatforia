@@ -88,6 +88,7 @@ import { useAds } from '@/ads/AdProvider';
 import { ADS_CONFIG } from '@/ads/config';
 
 import '@/styles.css';
+import { privateAttachmentReference } from '../utils/privateAttachmentReference';
 
 /* ---------- helpers ---------- */
 export function formatCallStartError(error, fallback) {
@@ -2603,7 +2604,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                             : (f.mimeType || f.contentType || '').startsWith('audio/')
                             ? 'AUDIO'
                             : 'FILE'),
-                        url: f.url,
+                        url: privateAttachmentReference(f),
                         mimeType: f.mimeType || f.contentType || '',
                         width: f.width || null,
                         height: f.height || null,

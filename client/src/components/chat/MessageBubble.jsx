@@ -1,4 +1,5 @@
 import VoiceNoteTranscript from './VoiceNoteTranscript';
+import ProtectedMessageAttachment from './ProtectedMessageAttachment';
 import { Tooltip, Text, ActionIcon, Menu, Box, Group } from '@mantine/core';
 import {
   RotateCw,
@@ -496,69 +497,14 @@ export default function MessageBubble({
           {hasMedia ? (
             <Box mt={hasText ? 2 : 2} style={{ width: '100%' }}>
               <Group gap="xs" wrap="wrap" justify={mine ? 'flex-end' : 'flex-start'}>
-                {attachments.map((a, i) => {
-                  const url = a?.url;
-                  const mime = a?.mimeType;
-
-                  if (!url) return null;
-
-                  if (isAudio(mime, url)) {
-                    return (
-                      <audio
-                        key={a.id ?? `${url}-${i}`}
-                        controls
-                        style={{ width: 260, maxWidth: '100%' }}
-                      >
-                        <source src={url} />
-                      </audio>
-                    );
-                  }
-
-                  if (isVideo(mime, url)) {
-                    return (
-                      <video
-                        key={a.id ?? `${url}-${i}`}
-                        controls
-                        style={{ width: 260, maxWidth: '100%', borderRadius: 12 }}
-                      >
-                        <source src={url} />
-                      </video>
-                    );
-                  }
-
-                  if (isImage(mime, url)) {
-                    const isGif = mime === 'image/gif';
-                    const imgSrc = isGif ? url : (a.thumbUrl || a.thumbnailUrl || url);
-
-                    return (
-                      <a
-                        key={a.id ?? `${url}-${i}`}
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ display: 'inline-block' }}
-                      >
-                        <img
-                          src={imgSrc}
-                          alt="Attachment"
-                          style={{ width: 220, maxWidth: '100%', borderRadius: 12 }}
-                        />
-                      </a>
-                    );
-                  }
-
-                  return (
-                    <a
-                      key={a.id ?? `${url}-${i}`}
-                      href={url}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ textDecoration: 'underline' }}
-                    >
-                      {a.originalName || a.caption || 'Open file'}
-                    </a>
-                  );
-                })}
+                {attachments.map((a, i) => (
+                  <ProtectedMessageAttachment
+                    key={a.id ?? `attachment-${i}`}
+                    attachment={a}
+                    index={i}
+                    viewerId={currentUser?.id ?? currentUserId}
+                  />
+                ))}
               </Group>
 
               {hasText && (

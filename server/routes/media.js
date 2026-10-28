@@ -6,6 +6,8 @@ import path from 'path';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { r2PutObject, r2PresignGet } from '../utils/r2.js';
+import { cloudMessageMediaKey } from '../services/privateMessageMedia.js';
+import { issuePrivateMediaGrant } from '../services/privateMediaGrant.js';
 
 const router = Router();
 
@@ -139,34 +141,31 @@ router.get('/signed-url', requireAuth, async (req, res) => {
     const key = String(req.query.key || '').trim();
     if (!key) return res.status(400).json({ error: 'Missing key' });
 
-    // Find an attachment that references this key (url equals key or endsWith /key)
-    const att = await prisma.messageAttachment.findFirst({
-      where: {
-        OR: [{ url: { endsWith: `/${key}` } }, { url: key }],
-      },
-      select: {
-        id: true,
-        url: true,
-        message: { select: { chatRoomId: true } },
-      },
-    });
-    if (!att) return res.status(404).json({ error: 'Attachment not found' });
-
-    // Membership/role gate
-    const chatRoomId = att.message?.chatRoomId;
-    const userId = req.user.id;
-
-    if (req.user.role !== 'ADMIN') {
-      const member = await prisma.participant.findFirst({
-        where: { chatRoomId, userId },
-        select: { id: true },
-      });
-      if (!member) return res.status(403).json({ error: 'Forbidden' });
+    // Canonical object keys only. Never use a substring match to authorize
+    // a different attachment or issue an independently reusable R2 GET URL.
+    const canonical = cloudMessageMediaKey(key);
+    if (!canonical || canonical !== key) {
+      return res.status(400).json({ error: 'Invalid media key' });
     }
-
-    const expiresSec = Number(process.env.R2_SIGNED_EXPIRES_SEC || 120);
-    const url = await r2PresignGet({ key, expiresSec });
-    return res.json({ url, expiresSec });
+    const candidates = await prisma.messageAttachment.findMany({
+      where: {
+        OR: [{ url: key }, { url: `https://cdn.chatforia.com/${key}` }],
+      },
+      select: { id: true },
+      take: 20,
+    });
+    for (const attachment of candidates) {
+      const grant = await issuePrivateMediaGrant({
+        attachmentId: attachment.id,
+        viewerId: req.user.id,
+        expectedStorageKey: key,
+      });
+      if (grant) {
+        res.set('Cache-Control', 'no-store');
+        return res.json(grant);
+      }
+    }
+    return res.status(404).json({ error: 'Attachment unavailable' });
   } catch (err) {
     console.error('signed-url error:', err);
     return res.status(500).json({ error: 'Could not presign URL' });

@@ -8,6 +8,7 @@ import {
 
 import { toast } from '@/utils/toast';
 import axiosClient from '@/api/axiosClient';
+import { privateAttachmentReference } from '../utils/privateAttachmentReference';
 
 const MIME_CANDIDATES = [
   'audio/webm;codecs=opus',
@@ -165,10 +166,10 @@ export default function MicButton({ onUploaded }) {
       throw new Error('Upload completion did not return file metadata');
     }
 
-    const url = fileMeta.url || publicUrl;
+    const url = privateAttachmentReference({ key: fileMeta.key || key, url: fileMeta.url || publicUrl });
 
     if (!url) {
-      throw new Error('Uploaded voice note has no URL');
+      throw new Error('Uploaded voice note has no storage reference');
     }
 
     const finalMeta = {

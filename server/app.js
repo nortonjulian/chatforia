@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 
 // import listEndpoints from 'express-list-endpoints';
 import path from 'path';
+import { mountPublicAvatarFiles } from './middleware/publicUploadAssets.js';
 import { fileURLToPath } from 'url';
 
 import authMiddleware from './middleware/auth.js';
@@ -27,8 +28,8 @@ import adminVoiceLogsRouter from './routes/adminVoiceLogs.js';
 
 // Request ID + logging
 import { requestId } from './middleware/requestId.js';
-import pinoHttp from 'pino-http';
 import logger from './utils/logger.js';
+import { createRequestLoggingMiddleware } from './middleware/requestLogging.js';
 
 import smsDevRouter from './routes/smsDev.js';
 import smsDevMock from './routes/smsDevMock.js';
@@ -66,6 +67,8 @@ import featuresRouter from './routes/features.js';
 import peopleInvitesRouter from "./routes/peopleInvites.js";
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
+import filesRouter from './routes/files.js';
+import privateMediaRouter from './routes/privateMedia.js';
 import smsRouter from './routes/sms.js';
 import searchPeopleRouter from './routes/search.people.js';
 import voiceRouter from './routes/voice.js';
@@ -294,35 +297,7 @@ export function createApp() {
 
   app.use(hppGuard({ allow: ['tags', 'ids'] }));
 
-  app.use(
-    pinoHttp({
-      logger,
-      autoLogging: true,
-      serializers: {
-        err: (e) => ({
-          type: e?.name,
-          message: e?.message,
-          stack: e?.stack,
-        }),
-      },
-      genReqId: (req) => req.id || Math.random().toString(36).slice(2),
-      customProps: (req) => ({
-        requestId: req.id,
-        userId: req.user?.id ?? null,
-        method: req.method,
-        path: req.originalUrl || req.url,
-        region: req.region || null,
-      }),
-      customLogLevel: (req, res, err) => {
-        if (err || res.statusCode >= 500) return 'error';
-        if (res.statusCode >= 400) return 'warn';
-        return 'info';
-      },
-      redact: {
-        paths: ['req.headers.authorization', 'req.headers.cookie', 'res.headers["set-cookie"]'],
-      },
-    })
-  );
+  app.use(createRequestLoggingMiddleware());
 
   /*
    * Google Play RTDN:
@@ -519,6 +494,8 @@ export function createApp() {
   app.use('/stickers', stickersRouter);
 
   app.use('/uploads', uploadsRouter);
+  app.use('/files', filesRouter);
+  app.use('/private-media', privateMediaRouter);
 
   // PSTN/telephony surfaces (require at least email verification)
   app.use('/voice', voiceRouter);
@@ -578,7 +555,9 @@ app.use('/devices', devicesRouter);
 // Backups require auth
 app.use('/backups', requireAuth, backupsRouter);
 
-app.use('/uploads', express.static(path.resolve('uploads')));
+// Only public avatars may be served without authentication.
+// Private media and thumbnails must use authorization-aware delivery.
+mountPublicAvatarFiles(app);
 app.use('/settings', settingsForwardingRouter);
 app.use('/premium', premiumRouter);
 app.use('/api/translations', translationsRouter);

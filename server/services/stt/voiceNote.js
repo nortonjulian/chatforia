@@ -3,8 +3,50 @@ import fs from 'node:fs';
 import { mkdtemp, writeFile, rm, readFile, realpath, stat } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { r2 } from '../../utils/r2.js';
+import { cloudMessageMediaKey } from '../privateMessageMedia.js';
 
 const MAX_BYTES = 24 * 1024 * 1024;
+
+/**
+ * Recognized Chatforia CDN references are storage keys, not public download
+ * permissions. Transcription runs after message-level authorization; fetch
+ * media using the server's R2 credentials instead of a public CDN request.
+ */
+export async function readPrivateCloudVoiceNote(value, { client = r2, bucket = process.env.R2_BUCKET } = {}) {
+  const key = cloudMessageMediaKey(value);
+  if (!key) {
+    throw Object.assign(new Error('Audio unavailable'), { status: 422, code: 'UNSUPPORTED_MEDIA_ORIGIN' });
+  }
+  if (!bucket) {
+    throw Object.assign(new Error('Private media storage unavailable'), { status: 503, code: 'PRIVATE_STORAGE_UNAVAILABLE' });
+  }
+
+  const object = await client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
+  if (Number(object.ContentLength) > MAX_BYTES) {
+    object.Body?.destroy?.();
+    throw Object.assign(new Error('Audio too large'), { status: 413, code: 'AUDIO_TOO_LARGE' });
+  }
+  if (!object.Body) throw new Error('Audio unavailable');
+
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of object.Body) {
+    const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    size += bytes.length;
+    if (size > MAX_BYTES) {
+      object.Body.destroy?.();
+      throw Object.assign(new Error('Audio too large'), { status: 413, code: 'AUDIO_TOO_LARGE' });
+    }
+    chunks.push(bytes);
+  }
+  if (!size) throw new Error('Audio unavailable');
+  return {
+    buffer: Buffer.concat(chunks, size),
+    mime: String(object.ContentType || '').split(';')[0].toLowerCase(),
+  };
+}
 // Only configured media origins may be fetched. Never forward application credentials.
 export function voiceNoteMediaURL(value, env = process.env) {
   const bases = [env.R2_PUBLIC_BASE, env.STORAGE_PUBLIC_BASE_URL, env.API_BASE_URL,
@@ -28,6 +70,10 @@ export async function transcribeVoiceNote(value, language) {
     const filename = await realpath(path.join(root, String(value).replace(/^\//, '')));
     if (!filename.startsWith(root + path.sep) || (await stat(filename)).size > MAX_BYTES) throw new Error('Audio unavailable');
     buffer = await readFile(filename);
+  } else if (cloudMessageMediaKey(value)) {
+    const object = await readPrivateCloudVoiceNote(value);
+    buffer = object.buffer;
+    mime = object.mime;
   } else {
     const url = voiceNoteMediaURL(value);
     extension = path.extname(url.pathname).toLowerCase();
