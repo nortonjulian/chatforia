@@ -60,12 +60,27 @@ router.get('/file', async (req, res) => {
       if (range && !/^bytes=(?:[0-9]+-[0-9]*|-[0-9]+)$/.test(range)) {
         return res.sendStatus(416);
       }
+      const controller = new AbortController();
+      const abortPendingDownload = () => {
+        if (!res.writableFinished) controller.abort();
+      };
+
+      res.once('close', abortPendingDownload);
+
       try {
-        const object = await r2.send(new GetObjectCommand({
-          Bucket: bucket,
-          Key: claim.storageKey,
-          ...(range ? { Range: range } : {}),
-        }));
+        const object = await r2.send(
+          new GetObjectCommand({
+            Bucket: bucket,
+            Key: claim.storageKey,
+            ...(range ? { Range: range } : {}),
+          }),
+          { abortSignal: controller.signal }
+        );
+
+        if (controller.signal.aborted || res.destroyed) {
+          object.Body?.destroy?.();
+          return;
+        }
         res.set({
           'Cache-Control': 'private, no-store',
           'X-Content-Type-Options': 'nosniff',
@@ -79,9 +94,30 @@ router.get('/file', async (req, res) => {
         res.status(object.ContentRange ? 206 : 200);
         if (!object.Body) return res.end();
         // AWS SDK Node stream. Never cache, forward or log object bytes.
-        object.Body.on('error', () => res.destroy());
-        return object.Body.pipe(res);
+        // Release the upstream R2 connection if the downstream client
+        // disconnects before the response completes.
+        const stream = object.Body;
+
+        const destroyUpstream = () => {
+          if (!res.writableFinished && !stream.destroyed) {
+            stream.destroy();
+          }
+        };
+
+        const handleStreamError = () => {
+          if (!res.destroyed) res.destroy();
+        };
+
+        res.once('close', destroyUpstream);
+        stream.once('error', handleStreamError);
+
+        return stream.pipe(res);
       } catch (err) {
+        // A disconnected client must not trigger another HTTP response.
+        if (controller.signal.aborted || res.destroyed) {
+          return;
+        }
+
         const status = err?.$metadata?.httpStatusCode;
         return res.sendStatus(status === 404 ? 404 : status === 416 ? 416 : 502);
       }

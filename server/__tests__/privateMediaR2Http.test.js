@@ -74,6 +74,182 @@ beforeEach(() => {
 const issue = (viewerId = 2) => request(app)
   .get('/private-media/message/12').set('x-test-user-id', String(viewerId));
 
+describe('R2 downstream cancellation cleanup', () => {
+  test('destroys upstream R2 body after HTTP client disconnect', async () => {
+    const { PassThrough } = await import('node:stream');
+    const { createServer, get } = await import('node:http');
+
+    const upstream = new PassThrough();
+
+    sendR2.mockImplementationOnce(async () => ({
+      ContentType: 'audio/webm',
+      Body: upstream,
+    }));
+
+    const server = createServer(app);
+
+    try {
+      await new Promise(resolve =>
+        server.listen(0, '127.0.0.1', resolve)
+      );
+
+      const grant = await issue();
+      expect(grant.status).toBe(200);
+
+      const address = server.address();
+
+      await new Promise((resolve, reject) => {
+        let settled = false;
+
+        const succeed = () => {
+          if (settled) return;
+          settled = true;
+          resolve();
+        };
+
+        const fail = error => {
+          if (settled) return;
+          settled = true;
+          reject(error);
+        };
+
+        const req = get(
+          `http://127.0.0.1:${address.port}${grant.body.url}`,
+          response => {
+            response.once('data', () => {
+              response.destroy();
+              succeed();
+            });
+
+            response.once('error', error => {
+              if (response.destroyed) succeed();
+              else fail(error);
+            });
+          }
+        );
+
+        req.once('error', error => {
+          if (req.destroyed) succeed();
+          else fail(error);
+        });
+
+        // The request must reach the mocked R2 client before bytes
+        // are written, otherwise a stream timing race can hide the bug.
+        const checkReady = () => {
+          if (sendR2.mock.calls.length > 0) {
+            upstream.write('partial-media');
+          } else {
+            setImmediate(checkReady);
+          }
+        };
+
+        checkReady();
+      });
+
+      // Client-side destruction is asynchronous. Wait for the
+      // upstream stream's actual close event, with a bounded timeout.
+      await new Promise((resolve, reject) => {
+        if (upstream.destroyed) return resolve();
+
+        const timeout = setTimeout(() => {
+          upstream.off('close', onClose);
+          reject(new Error(
+            'R2 upstream was not destroyed after client disconnect'
+          ));
+        }, 1500);
+
+        const onClose = () => {
+          clearTimeout(timeout);
+          resolve();
+        };
+
+        upstream.once('close', onClose);
+      });
+
+      expect(upstream.destroyed).toBe(true);
+    } finally {
+      upstream.destroy();
+      await new Promise(resolve => server.close(resolve));
+    }
+  }, 10000);
+});
+
+describe('R2 pending-request cancellation', () => {
+  test('aborts the R2 request when the client disconnects before headers', async () => {
+    const { createServer, get } = await import('node:http');
+
+    let signal;
+    let notifyStarted;
+    const started = new Promise(resolve => { notifyStarted = resolve; });
+
+    sendR2.mockImplementationOnce((_command, options) => {
+      signal = options?.abortSignal;
+      notifyStarted();
+
+      // Simulate R2 taking time to return its response.
+      // Reject only when the server aborts the SDK request.
+      return new Promise((_resolve, reject) => {
+        signal.addEventListener('abort', () => {
+          const error = new Error('R2 request aborted');
+          error.name = 'AbortError';
+          reject(error);
+        }, { once: true });
+      });
+    });
+
+    const server = createServer(app);
+    let req;
+
+    try {
+      await new Promise(resolve =>
+        server.listen(0, '127.0.0.1', resolve)
+      );
+
+      const grant = await issue();
+      expect(grant.status).toBe(200);
+
+      const address = server.address();
+
+      req = get(
+        `http://127.0.0.1:${address.port}${grant.body.url}`
+      );
+
+      req.on('error', () => {
+        // Expected when disconnecting before receiving headers.
+      });
+
+      await started;
+      expect(signal).toBeDefined();
+      expect(signal.aborted).toBe(false);
+
+      req.destroy();
+
+      await new Promise((resolve, reject) => {
+        if (signal.aborted) return resolve();
+
+        const timeout = setTimeout(() => {
+          signal.removeEventListener('abort', onAbort);
+          reject(new Error(
+            'Pending R2 request did not receive cancellation'
+          ));
+        }, 1500);
+
+        const onAbort = () => {
+          clearTimeout(timeout);
+          resolve();
+        };
+
+        signal.addEventListener('abort', onAbort, { once: true });
+      });
+
+      expect(signal.aborted).toBe(true);
+    } finally {
+      req?.destroy();
+      await new Promise(resolve => server.close(resolve));
+    }
+  }, 10000);
+});
+
 describe('authorized R2 message media streaming over HTTP', () => {
   test('owner-room participant receives private cloud audio through API, not public CDN', async () => {
     expect((await issue(3)).status).toBe(404);
