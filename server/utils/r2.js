@@ -8,6 +8,36 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID?.trim();
 const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY?.trim();
 const R2_S3_ENDPOINT = process.env.R2_S3_ENDPOINT?.trim();
+
+function normalizedR2Endpoint(value) {
+  if (!value) return undefined;
+
+  const raw = value.startsWith('https://')
+    ? value
+    : `https://${value}`;
+
+  let parsed;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    throw new Error('Invalid R2 endpoint');
+  }
+
+  if (
+    parsed.protocol !== 'https:' ||
+    !parsed.hostname.endsWith('.r2.cloudflarestorage.com') ||
+    parsed.username ||
+    parsed.password ||
+    parsed.port ||
+    parsed.pathname !== '/' ||
+    parsed.search ||
+    parsed.hash
+  ) {
+    throw new Error('Invalid R2 endpoint');
+  }
+
+  return parsed.origin;
+}
 const R2_BUCKET = process.env.R2_BUCKET?.trim();
 const R2_PUBLIC_BASE = process.env.R2_PUBLIC_BASE?.trim();
 
@@ -20,7 +50,7 @@ if (!R2_BUCKET) {
 
 export const r2 = new S3Client({
   region: 'auto',
-  endpoint: `https://${R2_S3_ENDPOINT}`,
+  endpoint: normalizedR2Endpoint(R2_S3_ENDPOINT),
   forcePathStyle: true,
   credentials: {
     accessKeyId: R2_ACCESS_KEY_ID,

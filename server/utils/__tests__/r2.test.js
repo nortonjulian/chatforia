@@ -172,6 +172,30 @@ describe('r2.js', () => {
     ).toBe(true);
   });
 
+  test('accepts a complete HTTPS Cloudflare R2 endpoint', async () => {
+    const { s3ClientCtorArgs } = await loadR2Module({
+      endpointHost: 'https://acctid.r2.cloudflarestorage.com',
+    });
+
+    expect(s3ClientCtorArgs).toHaveLength(1);
+    expect(s3ClientCtorArgs[0].endpoint).toBe(
+      'https://acctid.r2.cloudflarestorage.com'
+    );
+  });
+
+  test('rejects insecure or malformed R2 endpoints', async () => {
+    for (const endpointHost of [
+      'http://acctid.r2.cloudflarestorage.com',
+      'https://acctid.r2.cloudflarestorage.com.evil.example',
+      'https://acctid.r2.cloudflarestorage.com/other',
+      'https://acctid.r2.cloudflarestorage.com?test=1',
+    ]) {
+      await expect(
+        loadR2Module({ endpointHost })
+      ).rejects.toThrow('Invalid R2 endpoint');
+    }
+  });
+
   test('r2PutObject issues PutObjectCommand with all metadata and calls r2.send', async () => {
     const {
       mod,
@@ -180,7 +204,7 @@ describe('r2.js', () => {
     } = await loadR2Module({
       accessKeyId: 'AK',
       secretAccessKey: 'SK',
-      endpointHost: 'acc.r2.example',
+      endpointHost: 'acc.r2.cloudflarestorage.com',
       bucket: 'chatforia-prod',
       publicBase: 'https://media.chatforia.com',
     });
@@ -227,7 +251,7 @@ describe('r2.js', () => {
       getObjectCtorArgs,
       getSignedUrlMock,
     } = await loadR2Module({
-      endpointHost: 'cloudflare.r2',
+      endpointHost: 'cloudflare.r2.cloudflarestorage.com',
       bucket: 'cf-bucket',
     });
 
@@ -263,7 +287,7 @@ describe('r2.js', () => {
       putObjectCtorArgs,
       getSignedUrlMock,
     } = await loadR2Module({
-      endpointHost: 'cloudflare.r2',
+      endpointHost: 'cloudflare.r2.cloudflarestorage.com',
       bucket: 'cf-bucket',
     });
 
