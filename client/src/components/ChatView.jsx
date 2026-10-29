@@ -640,7 +640,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const scrollViewportRef = useRef(null);
   const expiryNow = useNow();
   const visibleMessages = messages.filter((message) =>
-    !isMessageExpired(message) && !expiredMessageIds.current.has(Number(message.id)));
+    message.deletedForAll !== true &&
+    !isMessageExpired(message) &&
+    !expiredMessageIds.current.has(Number(message.id)));
 
   useEffect(() => {
     const expired = messages.filter((message) => isMessageExpired(message));
@@ -949,7 +951,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const viewport = scrollViewportRef.current;
     if (!viewport || typeof ResizeObserver === 'undefined') return;
 
-    const content = viewport.firstElementChild;
+    const content =
+      viewport.querySelector('[data-chat-message-content]');
+
     if (!content) return;
 
     const nearBottom = () =>
@@ -2935,6 +2939,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               type="auto"
             >
               <Box
+                data-chat-message-content
                 style={{
                   flex: 1,
                   display: 'flex',

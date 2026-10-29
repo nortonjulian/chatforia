@@ -66,8 +66,8 @@ function parseThreadTime(value) {
 }
 
 function getThreadSortTime(thread) {
-  return Math.max(
-    parseThreadTime(thread?.last?.at),
+  return (
+    parseThreadTime(thread?.last?.at) ||
     parseThreadTime(thread?.updatedAt)
   );
 }
@@ -92,6 +92,23 @@ function formatLastPreview(last, t) {
   const hasMedia =
     Boolean(last.hasMedia) ||
     (Array.isArray(last.mediaKinds) && last.mediaKinds.length);
+
+  if (last.deletedForAll === true) {
+    return t('messages.deleted', 'This message was deleted');
+  }
+
+  const mediaPlaceholders = {
+    '[image]': ['messages.mediaPhoto', '📷 Photo'],
+    '[video]': ['messages.mediaVideo', '🎥 Video'],
+    '[audio]': ['messages.mediaAudio', '🎙️ Audio'],
+    '[voice note]': ['messages.mediaAudio', '🎙️ Audio'],
+    '[gif]': ['messages.mediaGif', 'GIF'],
+    '[file]': ['messages.mediaFile', '📎 Attachment'],
+    '[attachment]': ['messages.mediaFile', '📎 Attachment'],
+  };
+
+  const placeholder = mediaPlaceholders[text.toLowerCase()];
+  if (placeholder) return t(...placeholder);
 
   if (text) return text;
 
@@ -367,7 +384,10 @@ export default function ChatroomsSidebar({
         : null;
       const snippet = isMessageExpired(c.last) ? '' : String(
         voiceNotePreview(
-          (previewKey && decryptedPreviews[previewKey]) || formatLastPreview(c.last, t), t
+          formatLastPreview({
+            ...c.last,
+            text: (previewKey && decryptedPreviews[previewKey]) || c.last?.text
+          }, t), t
         )
       ).toLowerCase();
       const phone = (c.phone || '').toLowerCase();
@@ -634,7 +654,10 @@ export default function ChatroomsSidebar({
           ? `${c.kind}:${c.id}:${c.last.messageId}`
           : null;
         const lastPreview = isMessageExpired(c.last) ? '' : voiceNotePreview(
-          (previewKey && decryptedPreviews[previewKey]) || formatLastPreview(c.last, t), t
+          formatLastPreview({
+            ...c.last,
+            text: (previewKey && decryptedPreviews[previewKey]) || c.last?.text
+          }, t), t
         );
 
         return (
