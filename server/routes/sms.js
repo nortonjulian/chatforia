@@ -118,7 +118,25 @@ r.get(
     res.setHeader('Cache-Control', 'private, max-age=60');
 
     if (upstream.body && typeof upstream.body.pipe === 'function') {
-      return upstream.body.pipe(res);
+      const stream = upstream.body;
+
+      stream.once('error', () => {
+        if (!res.headersSent) {
+          res.removeHeader('Content-Length');
+          res.status(502).end();
+        } else {
+          res.destroy();
+        }
+      });
+
+      res.once('close', () => {
+        if (!res.writableFinished) {
+          stream.destroy();
+        }
+      });
+
+      stream.pipe(res);
+      return;
     }
 
     const arrayBuffer = await upstream.arrayBuffer();
