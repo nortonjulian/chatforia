@@ -155,7 +155,7 @@ describe('Conversations: deleted-message preview fallback', () => {
       });
   });
 
-  test('delete for everyone falls back to previous visible message', async () => {
+  test('delete for everyone shows a sanitized tombstone preview', async () => {
     const previousId =
       await sendMessage('previous visible message');
 
@@ -178,9 +178,19 @@ describe('Conversations: deleted-message preview fallback', () => {
     const after =
       await conversationFor(senderId);
 
-    expect(after?.last?.messageId).toBe(previousId);
-    expect(after?.last?.text).toBe('previous visible message');
-    expect(after?.last?.text).not.toBe('(deleted)');
+    expect(after?.last?.messageId).toBe(latestId);
+    expect(after?.last?.text).toBe('This message was deleted');
+    expect(after?.last?.deletedForAll).toBe(true);
+    expect(after?.last?.hasMedia).toBe(false);
+    expect(after?.last?.mediaKinds).toEqual([]);
+    expect(after?.last?.contentCiphertext).toBeNull();
+    expect(after?.last?.encryptedKeyForMe).toBeNull();
+    expect(after?.last?.encryptedPayloadForMe).toBeNull();
+
+    const recipientAfter = await conversationFor(recipientId);
+    expect(recipientAfter?.last?.messageId).toBe(latestId);
+    expect(recipientAfter?.last?.text).toBe('This message was deleted');
+    expect(recipientAfter?.last?.deletedForAll).toBe(true);
   });
 
   test('delete for me falls back only for the deleting user', async () => {

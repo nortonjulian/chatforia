@@ -213,7 +213,8 @@ router.get(
         },
         messages: {
           where: {
-            deletedForAll: false,
+            // Include deleted-for-everyone tombstones as the latest
+            // preview, but never expose their content or attachments.
             AND: [{ OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] }],
             deletions: {
               none: {
@@ -384,6 +385,8 @@ router.get(
 
       const previewText = !lastMsg
         ? ''
+        : lastMsg.deletedForAll === true
+          ? 'This message was deleted'
         : plaintextPreview
             ? buildLastPreviewText({
                 text: plaintextPreview,
@@ -505,6 +508,7 @@ router.get(
         last: lastMsg?.createdAt
           ? {
               text: previewText,
+              deletedForAll: lastMsg.deletedForAll === true,
               messageId: lastMsg.id,
               expiresAt: lastMsg.expiresAt?.toISOString() ?? null,
               at: (lastMsg.editedAt || lastMsg.createdAt).toISOString(),
@@ -515,9 +519,9 @@ router.get(
                     publicKey: lastMsg.sender.publicKey || null,
                   }
                 : null,
-              contentCiphertext: lastMsg.contentCiphertext || null,
-              encryptedKeyForMe: lastMsg.keys?.[0]?.encryptedKey || null,
-              encryptedPayloadForMe: lastMsg.payloads?.[0]
+              contentCiphertext: lastMsg.deletedForAll ? null : (lastMsg.contentCiphertext || null),
+              encryptedKeyForMe: lastMsg.deletedForAll ? null : (lastMsg.keys?.[0]?.encryptedKey || null),
+              encryptedPayloadForMe: !lastMsg.deletedForAll && lastMsg.payloads?.[0]
                 ? {
                     contentCiphertext: lastMsg.payloads[0].contentCiphertext,
                     encryptedKey: lastMsg.payloads[0].encryptedKey,
@@ -525,7 +529,9 @@ router.get(
                     sourceLanguage: lastMsg.payloads[0].sourceLanguage ?? null,
                   }
                 : null,
-              ...media,
+              ...(lastMsg.deletedForAll
+                ? { hasMedia: false, mediaKinds: [] }
+                : media),
             }
           : null,
         unreadCount: unreadChatCountByRoom.get(r.id) || 0,

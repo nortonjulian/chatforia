@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
 import {
   Box,
@@ -556,17 +556,50 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       });
     }
 
+    const asTombstone = (message) => ({
+      ...message,
+      deletedForAll: true,
+      rawContent: null,
+      contentCiphertext: null,
+      decryptedContent: null,
+      encryptedPayloadForMe: null,
+      content: null,
+      text: null,
+      attachments: [],
+      attachmentsInline: [],
+      encryptedKeys: {},
+      encryptedKeyForMe: null,
+      translatedForMe: null,
+      optimistic: false,
+      failed: false,
+    });
+
     if (matchedIndex >= 0) {
-      next[matchedIndex] = {
-        ...next[matchedIndex],
+      const existing = next[matchedIndex];
+      const merged = {
+        ...existing,
         ...incoming,
         optimistic: false,
         failed: false,
       };
+
+      // A tombstone must never regain attachments or decrypted content
+      // because a delayed message event arrives out of order.
+      next[matchedIndex] =
+        existing?.deletedForAll === true ||
+        incoming?.deletedForAll === true
+          ? asTombstone(merged)
+          : merged;
+
       return sortMessagesChronologically(next);
     }
 
-    return sortMessagesChronologically([...next, incoming]);
+    return sortMessagesChronologically([
+      ...next,
+      incoming?.deletedForAll === true
+        ? asTombstone(incoming)
+        : incoming,
+    ]);
   });
 
   if (shouldScroll) {
@@ -603,6 +636,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [currentUser?.enableSmartReplies]);
 
   const messagesEndRef = useRef(null);
+  const initialScrollPendingRef = useRef(false);
   const scrollViewportRef = useRef(null);
   const expiryNow = useNow();
   const visibleMessages = messages.filter((message) =>
@@ -869,6 +903,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setShowNewMessage(false);
   }, []);
 
+  useLayoutEffect(() => {
+    if (!initialScrollPendingRef.current || !messages.length) return;
+
+    initialScrollPendingRef.current = false;
+    scrollToBottomNow();
+  }, [chatroom?.id, messages, scrollToBottomNow]);
+
   const scrollToBottom = useCallback(() => {
     const v = scrollViewportRef.current;
 
@@ -901,6 +942,46 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const threshold = 120; // px buffer
   return v.scrollHeight - v.scrollTop - v.clientHeight < threshold;
 };
+
+  // Keep the newest message visible when images or other media
+  // change the message content height after initial rendering.
+  useEffect(() => {
+    const viewport = scrollViewportRef.current;
+    if (!viewport || typeof ResizeObserver === 'undefined') return;
+
+    const content = viewport.firstElementChild;
+    if (!content) return;
+
+    const nearBottom = () =>
+      viewport.scrollHeight -
+      viewport.scrollTop -
+      viewport.clientHeight <= 120;
+
+    let stickToBottom = nearBottom();
+
+    const onScroll = () => {
+      const remaining =
+        viewport.scrollHeight -
+        viewport.scrollTop -
+        viewport.clientHeight;
+
+      stickToBottom = remaining <= 120;
+    };
+
+    const observer = new ResizeObserver((entries) => {
+      if (!entries.length || !stickToBottom) return;
+
+      viewport.scrollTop = viewport.scrollHeight;
+    });
+
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    observer.observe(content);
+
+    return () => {
+      observer.disconnect();
+      viewport.removeEventListener('scroll', onScroll);
+    };
+  }, [chatroom?.id]);
 
   const handleAddToCalendarFromMessage = (msg) => {
     const text =
@@ -1239,15 +1320,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       setE2eeLocked(looksEncrypted);
 
       if (initial) {
+        // Mark the scroll pending before React receives the state update.
+        initialScrollPendingRef.current = true;
         setMessages(chronological);
         setCursor(data?.nextCursor ?? null);
         setHasMore(Boolean(data?.nextCursor));
-
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            scrollToBottomNow();
-          });
-        });
       } else {
         const v = scrollViewportRef.current;
         const prevHeight = v ? v.scrollHeight : 0;
@@ -2329,21 +2406,45 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       return;
     }
 
-    // Surgical: only remove per-user deletes here.
-    // Tombstones already come through message:upsert and are working.
-    if (!raw.deletedForMe) {
-      console.log('🌐 WEB Ignoring message:deleted without deletedForMe flag');
-      return;
-    }
-
     const targetId = Number(raw.id);
-    if (!Number.isFinite(targetId)) {
-      console.warn('🌐 WEB delete payload missing numeric id');
+    if (!Number.isSafeInteger(targetId) || targetId <= 0) {
+      console.warn('🌐 WEB delete payload missing valid message id');
       return;
     }
 
-    setMessages((prev) => prev.filter((m) => Number(m?.id) !== targetId));
-    console.log(`🌐 WEB Removed message ${targetId} from local state`);
+    if (raw.deletedForAll === true) {
+      // Replace the visible message with a tombstone and discard every
+      // attachment reference. Do not merely hide the image visually.
+      setMessages((prev) =>
+        prev.map((message) =>
+          Number(message?.id) === targetId
+            ? {
+                ...message,
+                ...raw,
+                deletedForAll: true,
+                rawContent: null,
+                contentCiphertext: null,
+                decryptedContent: null,
+                encryptedPayloadForMe: null,
+                content: null,
+                text: null,
+                attachments: [],
+                attachmentsInline: [],
+                encryptedKeys: {},
+                encryptedKeyForMe: null,
+                translatedForMe: null,
+              }
+            : message
+        )
+      );
+      return;
+    }
+
+    if (raw.deletedForMe === true) {
+      setMessages((prev) =>
+        prev.filter((message) => Number(message?.id) !== targetId)
+      );
+    }
   };
 
   const handleRealtimeExpired = (payload) => {
