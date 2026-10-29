@@ -348,7 +348,7 @@ async function deliverSocketEvent(eventName, payload) {
   });
 }
 
-test('Delete for everyone replaces photo with tombstone', async () => {
+test('Delete for everyone removes photo from visible thread', async () => {
   await mountDeletionPhoto();
 
   await deliverSocketEvent('message:deleted', {
@@ -360,8 +360,8 @@ test('Delete for everyone replaces photo with tombstone', async () => {
     },
   });
 
-  expect(screen.getByText('This message was deleted'))
-    .toBeInTheDocument();
+  expect(screen.queryByText('This message was deleted'))
+    .not.toBeInTheDocument();
 
   expect(screen.queryByTestId('attachment-preview'))
     .not.toBeInTheDocument();
@@ -386,8 +386,8 @@ test('stale upsert cannot resurrect deleted photo', async () => {
     item: deletionPhoto,
   });
 
-  expect(screen.getByText('This message was deleted'))
-    .toBeInTheDocument();
+  expect(screen.queryByText('This message was deleted'))
+    .not.toBeInTheDocument();
 
   expect(screen.queryByTestId('attachment-preview'))
     .not.toBeInTheDocument();

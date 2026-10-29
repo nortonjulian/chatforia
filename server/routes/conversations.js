@@ -213,8 +213,10 @@ router.get(
         },
         messages: {
           where: {
-            // Include deleted-for-everyone tombstones as the latest
-            // preview, but never expose their content or attachments.
+            // Preview only messages that still exist for participants.
+            // Deleted-for-everyone messages remain stored internally
+            // but must not become conversation-list previews.
+            deletedForAll: false,
             AND: [{ OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] }],
             deletions: {
               none: {
@@ -667,7 +669,7 @@ router.get(
     function sortConversationTime(c) {
       const lastAt = c?.last?.at ? new Date(c.last.at).getTime() : 0;
       const updatedAt = c?.updatedAt ? new Date(c.updatedAt).getTime() : 0;
-      return Math.max(lastAt, updatedAt);
+      return lastAt || updatedAt;
     }
 
     const all = [...chatConvos, ...smsConvos].sort((a, b) => {
