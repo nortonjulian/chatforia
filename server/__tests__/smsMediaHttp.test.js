@@ -2,6 +2,7 @@
 import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
+import { Readable } from 'node:stream';
 
 const state = { messageExists: true, threadOwnerId: 7, urls: ['https://api.twilio.com/fixture'] };
 const db = {
@@ -113,6 +114,44 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
       expect([400, 404]).toContain(response.status);
     }
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  test('streams an authorized audio attachment with its MIME type', async () => {
+    const stream = Readable.from([Buffer.from('voice-note-bytes')]);
+
+    fetchMock.mockResolvedValueOnce({
+      ok: true,
+      headers: new Headers({
+        'content-type': 'audio/mp4',
+        'content-length': '16',
+      }),
+      body: stream,
+    });
+
+    const response = await read();
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch('audio/mp4');
+    expect(response.body.toString()).toBe('voice-note-bytes');
+  });
+
+  test('returns 502 when the stored-media stream fails before response starts', async () => {
+    const stream = new Readable({
+      read() {
+        this.destroy(new Error('fixture storage interruption'));
+      },
+    });
+
+    fetchMock.mockResolvedValueOnce({
+      ok: true,
+      headers: new Headers({ 'content-type': 'audio/mp4' }),
+      body: stream,
+    });
+
+    const response = await read();
+
+    expect(response.status).toBe(502);
+    expect(response.text || '').not.toContain('fixture storage interruption');
   });
 
   test('upstream rejection does not return private bytes', async () => {
