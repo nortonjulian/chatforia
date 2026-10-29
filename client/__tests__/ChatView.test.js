@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
 
 import { jest } from '@jest/globals';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils.js';
 
 /* ---------- Vite/env-safe mocks ---------- */
@@ -63,14 +63,15 @@ jest.mock('@/ads/config', () => ({
 /* ---------- Context ---------- */
 jest.mock('@/context/SocketContext', () => ({
   __esModule: true,
-  useSocket: () => ({
-    socket: {
+  useSocket: (() => {
+    const socket = {
       connected: true,
       on: jest.fn(),
       off: jest.fn(),
       emit: jest.fn(),
-    },
-  }),
+    };
+    return () => ({ socket });
+  })(),
 }));
 
 jest.mock('@/context/UserContext', () => ({
@@ -177,7 +178,16 @@ jest.mock('@/components/chat/MessageBubble.jsx', () => ({
   __esModule: true,
   default: ({ msg }) => (
     <div data-testid="message-bubble">
-      {msg?.decryptedContent || msg?.translatedForMe || msg?.rawContent || msg?.content}
+      {msg?.deletedForAll
+        ? 'This message was deleted'
+        : (
+          <>
+            {msg?.decryptedContent || msg?.translatedForMe || msg?.rawContent || msg?.content}
+            {(msg?.attachments?.length || msg?.attachmentsInline?.length)
+              ? <span data-testid="attachment-preview">Photo attachment</span>
+              : null}
+          </>
+        )}
     </div>
   ),
 }));
@@ -258,6 +268,7 @@ jest.mock('@/lib/sounds.js', () => ({
 import ChatView, {
   formatCallStartError,
 } from '../src/components/ChatView.jsx';
+import { useSocket } from '@/context/SocketContext';
 import axiosClient from '@/api/axiosClient';
 import { notifications } from '@mantine/notifications';
 import { fetchLatestMessages } from '@/lib/api';
@@ -284,6 +295,120 @@ beforeEach(() => {
   });
 
   axiosClient.post.mockResolvedValue({ data: {} });
+});
+
+
+const deletionPhoto = {
+  id: 90001,
+  chatRoomId: 10,
+  sender: { id: 68, username: 'papi' },
+  content: 'Photo before deletion',
+  createdAt: '2026-10-28T19:30:00.000Z',
+  attachments: [
+    {
+      id: 288,
+      kind: 'IMAGE',
+      mimeType: 'image/jpeg',
+      url: 'uploads/u68/deletion-qa.jpg',
+    },
+  ],
+};
+
+async function mountDeletionPhoto() {
+  fetchLatestMessages.mockResolvedValue({
+    items: [deletionPhoto],
+    nextCursor: null,
+  });
+
+  renderWithRouter(
+    <ChatView
+      currentUserId={1}
+      currentUser={{ id: 1 }}
+      chatroom={{ id: 10, name: 'Deletion QA' }}
+    />
+  );
+
+  await waitFor(() => {
+    expect(screen.getByText('Photo before deletion')).toBeInTheDocument();
+    expect(screen.getByTestId('attachment-preview')).toBeInTheDocument();
+  });
+}
+
+async function deliverSocketEvent(eventName, payload) {
+  const socket = useSocket().socket;
+
+  const callbacks = socket.on.mock.calls
+    .filter(([name]) => name === eventName)
+    .map(([, callback]) => callback);
+
+  expect(callbacks.length).toBeGreaterThan(0);
+
+  await act(async () => {
+    await callbacks[callbacks.length - 1](payload);
+  });
+}
+
+test('Delete for everyone replaces photo with tombstone', async () => {
+  await mountDeletionPhoto();
+
+  await deliverSocketEvent('message:deleted', {
+    item: {
+      id: 90001,
+      chatRoomId: 10,
+      deletedForAll: true,
+      attachments: [],
+    },
+  });
+
+  expect(screen.getByText('This message was deleted'))
+    .toBeInTheDocument();
+
+  expect(screen.queryByTestId('attachment-preview'))
+    .not.toBeInTheDocument();
+
+  expect(screen.queryByText('Photo before deletion'))
+    .not.toBeInTheDocument();
+});
+
+test('stale upsert cannot resurrect deleted photo', async () => {
+  await mountDeletionPhoto();
+
+  await deliverSocketEvent('message:deleted', {
+    item: {
+      id: 90001,
+      chatRoomId: 10,
+      deletedForAll: true,
+      attachments: [],
+    },
+  });
+
+  await deliverSocketEvent('message:upsert', {
+    item: deletionPhoto,
+  });
+
+  expect(screen.getByText('This message was deleted'))
+    .toBeInTheDocument();
+
+  expect(screen.queryByTestId('attachment-preview'))
+    .not.toBeInTheDocument();
+});
+
+test('Delete for me removes photo from this viewer', async () => {
+  await mountDeletionPhoto();
+
+  await deliverSocketEvent('message:deleted', {
+    item: {
+      id: 90001,
+      chatRoomId: 10,
+      deletedForMe: true,
+    },
+  });
+
+  expect(screen.queryByText('Photo before deletion'))
+    .not.toBeInTheDocument();
+
+  expect(screen.queryByTestId('attachment-preview'))
+    .not.toBeInTheDocument();
 });
 
 test('formats an active-call conflict for users', () => {
