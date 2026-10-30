@@ -357,6 +357,12 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
           size="xs"
           radius="md"
           variant="light"
+          style={{
+            background: 'transparent',
+            color: 'var(--accent)',
+            border: '1px solid var(--border)',
+            boxShadow: 'none',
+          }}
           leftSection={<IconRefresh size={15} stroke={2} />}
           onClick={retryVideo}
           mt={8}

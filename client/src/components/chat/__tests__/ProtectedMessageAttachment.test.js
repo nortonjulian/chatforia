@@ -596,6 +596,10 @@ test('failed video recovery uses the branded reload control', async () => {
   expect(button).toHaveAttribute('variant', 'light');
   expect(button).not.toHaveAttribute('color', 'yellow');
   expect(button).toHaveTextContent('Reload video');
+  expect(button.style.color).toBe('var(--accent)');
+  expect(button.style.border).toBe('1px solid var(--border)');
+  expect(button.style.background).toBe('transparent');
+  expect(button.style.boxShadow).toBe('none');
 });
 
 test('a failed video can request fresh authorization on retry', async () => {
