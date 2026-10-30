@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axiosClient from '@/api/axiosClient';
 
 /*
@@ -39,7 +39,11 @@ export function useAuthorizedMedia(id, original, variant = 'file', viewerId, pre
   const local = isLocalPrivateMedia(original);
   const scope = `${viewerId ?? 'anonymous'}:${id}:${variant}:${original ?? ''}`;
   const [result, setResult] = useState(() => ({
-    scope, url: local ? null : (original || null),
+    scope,
+    url: local ? null : (original || null),
+    issuedAt: 0,
+    latestUrl: null,
+    latestAt: 0,
   }));
   const visibleUrl = result.scope === scope ? result.url : null;
 
@@ -61,15 +65,28 @@ export function useAuthorizedMedia(id, original, variant = 'file', viewerId, pre
         });
         if (!cancelled) {
           const authorizedUrl = toAbsolute(data.url);
+          const issuedAt = Date.now();
+
           setResult((current) => {
             if (
               preserveSource &&
               current.scope === scope &&
               current.url
             ) {
-              return current;
+              return {
+                ...current,
+                latestUrl: authorizedUrl,
+                latestAt: issuedAt,
+              };
             }
-            return { scope, url: authorizedUrl };
+
+            return {
+              scope,
+              url: authorizedUrl,
+              issuedAt,
+              latestUrl: authorizedUrl,
+              latestAt: issuedAt,
+            };
           });
         }
       } catch (error) {
@@ -106,13 +123,86 @@ export function useAuthorizedMedia(id, original, variant = 'file', viewerId, pre
     };
   }, [id, original, variant, local, scope, retryCount]);
 
-  return { url: visibleUrl };
+  const activateForPlayback = async () => {
+    if (!local || result.scope !== scope) return false;
+
+    // Use a recent background renewal without an extra network request.
+    if (
+      result.latestUrl &&
+      result.latestUrl !== visibleUrl &&
+      Date.now() - result.latestAt < 45000
+    ) {
+      setResult((current) =>
+        current.scope === scope
+          ? {
+              ...current,
+              url: current.latestUrl,
+              issuedAt: current.latestAt,
+            }
+          : current
+      );
+      return true;
+    }
+
+    // The cached renewal is itself too old. Request a new capability.
+    try {
+      const { data } = await axiosClient.get(
+        `/private-media/message/${id}`,
+        {
+          params: { variant },
+          headers: { 'Cache-Control': 'no-store' },
+        }
+      );
+
+      const authorizedUrl = toAbsolute(data.url);
+      const issuedAt = Date.now();
+
+      setResult((current) =>
+        current.scope === scope
+          ? {
+              scope,
+              url: authorizedUrl,
+              issuedAt,
+              latestUrl: authorizedUrl,
+              latestAt: issuedAt,
+            }
+          : current
+      );
+
+      return true;
+    } catch (error) {
+      const status = error?.response?.status;
+      const temporary =
+        !error?.response ||
+        status === 408 ||
+        status === 429 ||
+        (status >= 500 && status <= 599);
+
+      if (!temporary) {
+        setResult((current) =>
+          current.scope === scope
+            ? { scope, url: null, issuedAt: 0 }
+            : current
+        );
+      }
+
+      return false;
+    }
+  };
+
+  return {
+    url: visibleUrl,
+    issuedAt: result.scope === scope ? result.issuedAt : 0,
+    activateForPlayback,
+  };
 }
 
 export default function ProtectedMessageAttachment({ attachment, index, viewerId }) {
   const original = attachment?.url;
   const [retryCount, setRetryCount] = useState(0);
   const [failedVideoScope, setFailedVideoScope] = useState(null);
+  const recoveringVideoRef = useRef(false);
+  const pendingPlaybackRef = useRef(null);
 
   const videoScope =
     `${viewerId ?? 'anonymous'}:${attachment?.id}:${original ?? ''}`;
@@ -147,6 +237,64 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
     attachment?.id, thumbnail, 'thumb', viewerId
   );
 
+  const recoverVideo = async (video) => {
+    if (
+      !isVideo ||
+      !isLocalPrivateMedia(original) ||
+      !file.url ||
+      !file.issuedAt ||
+      Date.now() - file.issuedAt < 50000 ||
+      recoveringVideoRef.current
+    ) {
+      return;
+    }
+
+    recoveringVideoRef.current = true;
+
+    const position = video.currentTime || 0;
+    video.pause();
+
+    pendingPlaybackRef.current = {
+      scope: videoScope,
+      position,
+      resume: true,
+    };
+
+    try {
+      const recovered = await file.activateForPlayback();
+
+      if (!recovered) {
+        pendingPlaybackRef.current = null;
+        setFailedVideoScope(videoScope);
+      }
+    } finally {
+      recoveringVideoRef.current = false;
+    }
+  };
+
+  const restoreVideoPlayback = (video) => {
+    const pending = pendingPlaybackRef.current;
+
+    if (!pending || pending.scope !== videoScope) return;
+
+    pendingPlaybackRef.current = null;
+
+    try {
+      if (pending.position > 0) {
+        video.currentTime = pending.position;
+      }
+    } catch {
+      // Some browsers reject seeking before enough media is available.
+    }
+
+    if (pending.resume) {
+      const attempt = video.play();
+      attempt?.catch?.(() => {
+        setFailedVideoScope(videoScope);
+      });
+    }
+  };
+
   const key = attachment?.id ?? `pending-${index}`;
   if (!file.url && !(isImage && preview.url)) {
     return <span key={key} role="status">Media unavailable or loading…</span>;
@@ -159,7 +307,21 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
         preload="metadata"
         playsInline
         src={file.url || undefined}
-        onError={() => setFailedVideoScope(videoScope)}
+        onPlay={(event) => {
+          void recoverVideo(event.currentTarget);
+        }}
+        onWaiting={(event) => {
+          if (!event.currentTarget.paused) {
+            void recoverVideo(event.currentTarget);
+          }
+        }}
+        onLoadedMetadata={(event) => {
+          restoreVideoPlayback(event.currentTarget);
+        }}
+        onError={() => {
+          pendingPlaybackRef.current = null;
+          setFailedVideoScope(videoScope);
+        }}
       style={{
         display: 'block',
         width: 260,

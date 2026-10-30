@@ -151,6 +151,252 @@ test('renewing a video capability does not reset an already loaded video', async
 });
 
 
+
+test('expired video capability is replaced when playback starts', async () => {
+  jest.useFakeTimers();
+
+  try {
+    const makeGrant = (name, expiresAtSeconds) => {
+      const payload = btoa(JSON.stringify({
+        exp: expiresAtSeconds,
+      }));
+
+      return `/private-media/file?token=header.${payload}.signature-${name}`;
+    };
+
+    const now = Math.floor(Date.now() / 1000);
+
+    axiosClient.get
+      .mockResolvedValueOnce({
+        data: {
+          url: makeGrant('initial', now + 60),
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          url: makeGrant('renewed', now + 100),
+        },
+      });
+
+    const attachment = {
+      id: 1460,
+      kind: 'VIDEO',
+      mimeType: 'video/mp4',
+      url: 'uploads/u7/fox-video.mp4',
+      width: 1080,
+      height: 1920,
+    };
+
+    const { container } = render(
+      <ProtectedMessageAttachment
+        viewerId={7}
+        attachment={attachment}
+        index={0}
+      />
+    );
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    const video = container.querySelector('video');
+
+    expect(video).not.toBeNull();
+
+    const initialSource = video.getAttribute('src');
+
+    await act(async () => {
+      jest.advanceTimersByTime(40000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(axiosClient.get).toHaveBeenCalledTimes(2);
+    expect(video.getAttribute('src')).toBe(initialSource);
+
+    await act(async () => {
+      jest.advanceTimersByTime(30000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(video.getAttribute('src')).toBe(initialSource);
+
+    await act(async () => {
+      fireEvent.play(video);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(video.getAttribute('src')).toContain('signature-renewed');
+    expect(video.getAttribute('src')).not.toBe(initialSource);
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+
+test('preserves playback position during capability recovery', async () => {
+  jest.useFakeTimers();
+
+  try {
+    axiosClient.get
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=initial' },
+      })
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=renewed' },
+      });
+
+    const { container } = render(
+      <ProtectedMessageAttachment
+        viewerId={7}
+        index={0}
+        attachment={{
+          id: 1460,
+          kind: 'VIDEO',
+          mimeType: 'video/mp4',
+          url: 'uploads/u7/recovery-position.mp4',
+        }}
+      />
+    );
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    const video = container.querySelector('video');
+
+    expect(video).not.toBeNull();
+
+    const pause = jest.fn();
+    const play = jest.fn().mockResolvedValue(undefined);
+
+    Object.defineProperty(video, 'pause', {
+      configurable: true,
+      value: pause,
+    });
+
+    Object.defineProperty(video, 'play', {
+      configurable: true,
+      value: play,
+    });
+
+    video.currentTime = 1.75;
+
+    await act(async () => {
+      jest.advanceTimersByTime(40000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    await act(async () => {
+      jest.advanceTimersByTime(30000);
+      fireEvent.play(video);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(video.getAttribute('src')).toContain('token=renewed');
+    expect(pause).toHaveBeenCalled();
+
+    video.currentTime = 0;
+
+    await act(async () => {
+      fireEvent.loadedMetadata(video);
+      await Promise.resolve();
+    });
+
+    expect(video.currentTime).toBeCloseTo(1.75, 2);
+    expect(play).toHaveBeenCalled();
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+test('denied playback recovery clears private video access', async () => {
+  jest.useFakeTimers();
+
+  try {
+    axiosClient.get
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=initial' },
+      })
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=renewed' },
+      })
+      .mockRejectedValueOnce({
+        response: { status: 403 },
+      });
+
+    const { container } = render(
+      <ProtectedMessageAttachment
+        viewerId={7}
+        index={0}
+        attachment={{
+          id: 1460,
+          kind: 'VIDEO',
+          mimeType: 'video/mp4',
+          url: 'uploads/u7/denied-recovery.mp4',
+        }}
+      />
+    );
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    const video = container.querySelector('video');
+
+    expect(video).not.toBeNull();
+
+    Object.defineProperty(video, 'pause', {
+      configurable: true,
+      value: jest.fn(),
+    });
+
+    await act(async () => {
+      jest.advanceTimersByTime(40000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    await act(async () => {
+      jest.advanceTimersByTime(70000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    await act(async () => {
+      fireEvent.play(video);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(axiosClient.get).toHaveBeenCalledTimes(3);
+
+    expect(container.querySelector('video')).toBeNull();
+
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Media unavailable or loading'
+    );
+
+    expect(container.innerHTML).not.toContain(
+      'uploads/u7/denied-recovery.mp4'
+    );
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
 test('a rejected video capability renewal removes the previous source', async () => {
   jest.useFakeTimers();
 
