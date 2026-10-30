@@ -940,12 +940,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, []);
 
   const isNearBottom = () => {
-  const v = scrollViewportRef.current;
-  if (!v) return true;
+    const viewport = scrollViewportRef.current;
+    if (!viewport) return true;
 
-  const threshold = 120; // px buffer
-  return v.scrollHeight - v.scrollTop - v.clientHeight < threshold;
-};
+    return isAtMessageBottom(viewport);
+  };
 
   // Keep the newest message visible when images or other media
   // change the message content height after initial rendering.
