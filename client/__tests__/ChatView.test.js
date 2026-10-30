@@ -348,6 +348,126 @@ async function deliverSocketEvent(eventName, payload) {
   });
 }
 
+
+test('incoming socket messages respect the actual chat viewport', async () => {
+  fetchLatestMessages.mockResolvedValueOnce({
+    items: [
+      {
+        id: 99002,
+        chatRoomId: 10,
+        sender: { id: 2 },
+        content: 'Existing message two',
+        createdAt: '2026-10-30T12:00:02.000Z',
+      },
+      {
+        id: 99001,
+        chatRoomId: 10,
+        sender: { id: 2 },
+        content: 'Existing message one',
+        createdAt: '2026-10-30T12:00:01.000Z',
+      },
+    ],
+    nextCursor: null,
+  });
+
+  renderWithRouter(
+    <ChatView
+      currentUserId={1}
+      currentUser={{ id: 1 }}
+      chatroom={{ id: 10, name: 'Scroll QA' }}
+    />
+  );
+
+  await waitFor(() => {
+    expect(screen.getByText('Existing message one'))
+      .toBeInTheDocument();
+    expect(screen.getByText('Existing message two'))
+      .toBeInTheDocument();
+  });
+
+  const content = document.querySelector(
+    '[data-chat-message-content]'
+  );
+
+  expect(content).not.toBeNull();
+
+  const viewport = content.parentElement;
+  expect(viewport).not.toBeNull();
+
+  let currentTop = 620;
+  const assignments = [];
+
+  Object.defineProperties(viewport, {
+    scrollHeight: {
+      configurable: true,
+      get: () => 1000,
+    },
+    clientHeight: {
+      configurable: true,
+      get: () => 300,
+    },
+    scrollTop: {
+      configurable: true,
+      get: () => currentTop,
+      set: (value) => {
+        currentTop = value;
+        assignments.push(value);
+      },
+    },
+  });
+
+  await act(async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  });
+
+  currentTop = 620;
+  assignments.length = 0;
+
+  const message = (id) => ({
+    id,
+    chatRoomId: 10,
+    sender: { id: 2 },
+    content: `Incoming QA ${id}`,
+    createdAt: new Date(Date.UTC(2026, 9, 30, 12, 0, id % 60))
+      .toISOString(),
+  });
+
+  await deliverSocketEvent('message:upsert', {
+    item: message(99101),
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText('Incoming QA 99101'))
+      .toBeInTheDocument();
+  });
+
+  await act(async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  });
+
+  expect(currentTop).toBe(620);
+  expect(assignments).toEqual([]);
+
+  currentTop = 700;
+  assignments.length = 0;
+
+  await deliverSocketEvent('message:upsert', {
+    item: message(99102),
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText('Incoming QA 99102'))
+      .toBeInTheDocument();
+  });
+
+  await act(async () => {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  });
+
+  expect(assignments.length).toBeGreaterThan(0);
+  expect(currentTop).toBe(1000);
+});
+
 test('Delete for everyone removes photo from visible thread', async () => {
   await mountDeletionPhoto();
 

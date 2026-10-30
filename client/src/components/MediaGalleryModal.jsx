@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, SimpleGrid, Image, Text, Group, Button } from '@mantine/core';
 import { getMediaInRoom } from '../utils/messagesStore';
+import { messageCacheKey } from '../utils/messageCacheKey';
+import { useAuthorizedMedia } from './chat/ProtectedMessageAttachment';
 
 /**
  * MediaGalleryModal
@@ -9,7 +11,19 @@ import { getMediaInRoom } from '../utils/messagesStore';
  * - Supports images, videos, and audio (attachments-first; falls back to legacy fields if present)
  * - Lightweight viewer modal for a single selected item
  */
-export default function MediaGalleryModal({ opened, onClose, roomId }) {
+function AuthorizedGallerySource({ item, accountId, children }) {
+  const { url } = useAuthorizedMedia(
+    item?.messageId,
+    item?.url,
+    'file',
+    accountId,
+    String(item?.kind || '').toUpperCase() === 'VIDEO'
+  );
+
+  return children(url);
+}
+
+export default function MediaGalleryModal({ opened, onClose, roomId, accountId }) {
   const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [viewerIndex, setViewerIndex] = useState(null);
@@ -19,7 +33,11 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
     let alive = true;
     (async () => {
       if (!opened) return;
-      const media = await getMediaInRoom(roomId);
+      if (!accountId || !roomId) {
+        if (alive) setItems([]);
+        return;
+      }
+      const media = await getMediaInRoom(messageCacheKey(accountId, roomId));
       // Expecting items like:
       // { id, kind: 'IMAGE'|'VIDEO'|'AUDIO', url, mimeType?, caption?, width?, height?, durationSec?, messageId? }
       // Fallbacks (legacy): some stores may return { imageUrl } only for images.
@@ -50,7 +68,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
     return () => {
       alive = false;
     };
-  }, [opened, roomId]);
+  }, [opened, roomId, accountId]);
 
   const selected = useMemo(
     () => (viewerIndex != null ? items[viewerIndex] : null),
@@ -79,12 +97,18 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
           </Text>
         ) : (
           <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="xs">
-            {items.map((m, i) =>
+            {items.map((m, i) => (
+              <AuthorizedGallerySource
+                key={m.id ?? `${m.url}-${i}`}
+                item={m}
+                accountId={accountId}
+              >
+                {(authorizedUrl) => (
               m.kind === 'IMAGE' ? (
                 <Image
                   key={m.id ?? `${m.url}-${i}`}
                   radius="md"
-                  src={m.url}
+                  src={authorizedUrl || undefined}
                   alt={m.caption || t('mediaGallery.imageAlt', 'image')}
                   style={{ cursor: 'pointer' }}
                   onClick={() => setViewerIndex(i)}
@@ -110,7 +134,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
                   onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setViewerIndex(i)}
                 >
                   <video
-                    src={m.url}
+                    src={authorizedUrl || undefined}
                     style={{ width: '100%', display: 'block' }}
                     preload="metadata"
                     muted
@@ -119,14 +143,16 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
               ) : m.kind === 'AUDIO' ? (
                 <div key={m.id ?? `${m.url}-${i}`} style={{ paddingTop: 6 }}>
                   <audio
-                    src={m.url}
+                    src={authorizedUrl || undefined}
                     style={{ width: '100%' }}
                     controls
                     preload="metadata"
                   />
                 </div>
               ) : null
-            )}
+                )}
+              </AuthorizedGallerySource>
+            ))}
           </SimpleGrid>
         )}
       </Modal>
@@ -165,11 +191,19 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
               : t('mediaGallery.preview', 'Preview')
         }
       >
-        {!selected ? null : selected.kind === 'IMAGE' ? (
+        {selected && (
+          <AuthorizedGallerySource
+            key={`${accountId}:${selected.messageId}:${selected.id}`}
+            item={selected}
+            accountId={accountId}
+          >
+            {(authorizedUrl) => (
+              <>
+        {selected.kind === 'IMAGE' ? (
           <>
             <Image
               radius="md"
-              src={selected.url}
+              src={authorizedUrl || undefined}
               alt={selected.caption || t('mediaGallery.imageAlt', 'image')}
               fit="contain"
               styles={{ image: { maxHeight: '70vh' } }}
@@ -183,7 +217,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
         ) : selected.kind === 'VIDEO' ? (
           <>
             <video
-              src={selected.url}
+              src={authorizedUrl || undefined}
               style={{
                 width: '100%',
                 maxHeight: '70vh',
@@ -202,7 +236,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
         ) : selected.kind === 'AUDIO' ? (
           <>
             <audio
-              src={selected.url}
+              src={authorizedUrl || undefined}
               style={{ width: '100%' }}
               controls
               preload="metadata"
@@ -215,11 +249,11 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
           </>
         ) : null}
 
-        {selected?.url && (
+        {authorizedUrl && (
           <Group justify="flex-end" mt="md">
             <Button
               component="a"
-              href={selected.url}
+              href={authorizedUrl}
               download
               variant="light"
               aria-label={t(
@@ -238,6 +272,10 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
               {t('mediaGallery.download', 'Download')}
             </Button>
           </Group>
+        )}
+              </>
+            )}
+          </AuthorizedGallerySource>
         )}
       </Modal>
     </>

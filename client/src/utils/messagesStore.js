@@ -1,6 +1,7 @@
 import { isMessageExpired } from './messageExpiry.js';
+import { assertMessageCacheKey } from './messageCacheKey.js';
 
-const DB_NAME = 'chatforia';
+const DB_NAME = 'chatforia_message_cache';
 const STORE = 'room_msgs';
 
 import { normalizeMessage, mergePageIntoState } from './messageUtils.js';
@@ -34,7 +35,7 @@ const isBlank = (v) => v == null || (typeof v === 'string' && v.trim().length ==
 // Internal: read raw persisted entry (returns { messages: [] })
 async function _readRaw(roomId) {
   const os = await _getConn('readonly');
-  const key = String(roomId);
+  const key = assertMessageCacheKey(roomId);
   return new Promise((resolve) => {
     const req = os.get(key);
     req.onsuccess = () => resolve(req.result || { key, messages: [] });
@@ -45,7 +46,7 @@ async function _readRaw(roomId) {
 // Internal: write raw entry
 async function _writeRaw(roomId, payload) {
   const os = await _getConn('readwrite');
-  const key = String(roomId);
+  const key = assertMessageCacheKey(roomId);
   return new Promise((resolve, reject) => {
     const req = os.put({ key, messages: payload.filter((message) => !isMessageExpired(message)) });
     req.onsuccess = () => resolve();
@@ -76,25 +77,59 @@ function defaultMerge(existing, incoming) {
  *   await addMessages(roomId, page.items);
  */
 export async function addMessages(roomId, msgs) {
-  const raw = await _readRaw(roomId);
-  const existing = raw.messages || [];
+  const key = assertMessageCacheKey(roomId);
+  const os = await _getConn('readwrite');
+  const tx = os.transaction;
 
-  // Build existing maps (keyed by id or cid)
-  const existingMap = new Map();
-  for (const m of existing) {
-    if (!m) continue;
-    if (m.id != null) existingMap.set(`id:${m.id}`, m);
-    if (m.clientMessageId) existingMap.set(`cid:${m.clientMessageId}`, m);
-  }
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error || new Error('Message cache transaction failed'));
+    tx.onabort = () => reject(tx.error || new Error('Message cache transaction aborted'));
 
-  // Existing order array (ids/cids) for stable merge; we store ids for ordering
-  const existingOrder = (existing || []).map((m) => (m.id != null ? m.id : m.clientMessageId));
+    const request = os.get(key);
 
-  // Use mergePageIntoState to combine
-  const { list: mergedList } = mergePageIntoState(existingMap, existingOrder, msgs || [], defaultMerge);
+    request.onsuccess = () => {
+      try {
+        const existing = request.result?.messages || [];
+        const existingMap = new Map();
 
-  // Persist mergedList (newest-first)
-  await _writeRaw(roomId, mergedList);
+        for (const message of existing) {
+          if (!message) continue;
+          if (message.id != null) {
+            existingMap.set(`id:${message.id}`, message);
+          }
+          if (message.clientMessageId) {
+            existingMap.set(`cid:${message.clientMessageId}`, message);
+          }
+        }
+
+        const existingOrder = existing.map((message) =>
+          message.id != null ? message.id : message.clientMessageId
+        );
+
+        const { list: mergedList } = mergePageIntoState(
+          existingMap,
+          existingOrder,
+          msgs || [],
+          defaultMerge
+        );
+
+        os.put({
+          key,
+          messages: mergedList.filter(
+            (message) => !isMessageExpired(message)
+          ),
+        });
+      } catch (error) {
+        reject(error);
+        try {
+          tx.abort();
+        } catch {
+          // Transaction may already be inactive.
+        }
+      }
+    };
+  });
 }
 
 /**
@@ -115,12 +150,13 @@ function mergeMessage(existing, incoming) {
  * Returns: { op: 'insert'|'update'|'noop', item: <message> } or undefined on noop/error.
  */
 export async function upsertMessage(roomId, msg) {
-  if (!roomId || !msg) return;
+  assertMessageCacheKey(roomId);
+  if (!msg) return;
   if (isMessageExpired(msg)) {
     await removeExpiredMessages(roomId, [msg.id]);
     return;
   }
-  const key = String(roomId);
+  const key = assertMessageCacheKey(roomId);
   const os = await _getConn('readwrite');
 
   // Read the single room entry (messages array) once
@@ -233,6 +269,7 @@ function normalize(str) {
 }
 
 export async function searchRoom(roomId, query) {
+  assertMessageCacheKey(roomId);
   const q = normalize(query);
   if (!q) return [];
 
@@ -260,10 +297,10 @@ export async function searchRoom(roomId, query) {
  * Permanently remove all locally cached messages for one room.
  */
 export async function deleteRoomMessages(roomId) {
-  if (roomId == null) return;
+  assertMessageCacheKey(roomId);
 
   const os = await _getConn('readwrite');
-  const key = String(roomId);
+  const key = assertMessageCacheKey(roomId);
 
   return new Promise((resolve, reject) => {
     const req = os.delete(key);
@@ -341,10 +378,10 @@ export async function getMediaInRoom(roomId) {
 }
 /** Purge only expired/explicitly expired IDs in one IndexedDB transaction. */
 export async function removeExpiredMessages(roomId, messageIds = []) {
-  if (roomId == null) return;
+  assertMessageCacheKey(roomId);
   const ids = new Set(messageIds.map(Number).filter((id) => Number.isSafeInteger(id) && id > 0));
   const os = await _getConn('readwrite');
-  const key = String(roomId);
+  const key = assertMessageCacheKey(roomId);
   return new Promise((resolve, reject) => {
     const get = os.get(key);
     get.onerror = () => reject(get.error);
