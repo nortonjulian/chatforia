@@ -1,3 +1,4 @@
+import { isAtMessageBottom } from '@/utils/chatScrollPosition.js';
 import { useEffect, useLayoutEffect, useRef, useState, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
 import {
@@ -51,6 +52,7 @@ import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 // ✅ Local message cache for search/media
 import { fetchLatestMessages, fetchOlderMessages, fetchMessageDeltas } from '@/lib/api';
 import { addMessages, upsertMessage, removeExpiredMessages } from '@/utils/messagesStore';
+import { messageCacheKey } from '@/utils/messageCacheKey';
 import { isMessageExpired, expiryEventMessageId } from '@/utils/messageExpiry';
 import { mergeRecoveredReadReceipts, recoverLoadedReadReceipts } from '@/utils/readReceiptRecovery';
 
@@ -650,7 +652,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const ids = expired.map((message) => Number(message.id)).filter((id) => id > 0);
     ids.forEach((id) => expiredMessageIds.current.add(id));
     setMessages((previous) => previous.filter((message) => !isMessageExpired(message)));
-    if (chatroom?.id) removeExpiredMessages(chatroom.id, ids).catch(() => {});
+    if (chatroom?.id) removeExpiredMessages(messageCacheKey(currentUserId, chatroom.id), ids).catch(() => {});
     window.dispatchEvent(new Event('sidebar:reload-rooms'));
   }, [expiryNow, messages, chatroom?.id]);
 
@@ -956,20 +958,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     if (!content) return;
 
-    const nearBottom = () =>
-      viewport.scrollHeight -
-      viewport.scrollTop -
-      viewport.clientHeight <= 120;
-
-    let stickToBottom = nearBottom();
+    let stickToBottom = isAtMessageBottom(viewport);
 
     const onScroll = () => {
-      const remaining =
-        viewport.scrollHeight -
-        viewport.scrollTop -
-        viewport.clientHeight;
-
-      stickToBottom = remaining <= 120;
+      stickToBottom = isAtMessageBottom(viewport);
     };
 
     const observer = new ResizeObserver((entries) => {
@@ -1176,8 +1168,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setMessages((prev) => upsertLocalMessage(prev, merged));
 
     if (chatroom?.id) {
-      upsertMessage(chatroom.id, merged).catch(() => {});
-      addMessages(chatroom.id, [merged]).catch(() => {});
+      upsertMessage(messageCacheKey(currentUserId, chatroom.id), merged).catch(() => {});
+      addMessages(messageCacheKey(currentUserId, chatroom.id), [merged]).catch(() => {});
     }
 
     closeEditModal();
@@ -1298,7 +1290,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       const chronological = rows.slice().reverse();
 
       if (chatroom?.id && chronological.length) {
-        addMessages(chatroom.id, chronological).catch((err) => {
+        addMessages(messageCacheKey(currentUserId, chatroom.id), chronological).catch((err) => {
           console.warn('[ChatView] failed to cache messages for search', err);
         });
       }
@@ -1641,7 +1633,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         return [...prev, ...newRows];
       });
 
-      addMessages(chatroom.id, chronological).catch(() => {});
+      addMessages(messageCacheKey(currentUserId, chatroom.id), chronological).catch(() => {});
 
       const maxId = rows
         .map((m) => Number(m?.id || 0))
@@ -2456,7 +2448,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (id == null) return;
     expiredMessageIds.current.add(id);
     setMessages((previous) => previous.filter((message) => Number(message.id) !== id));
-    removeExpiredMessages(currentRoomId, [id]).catch(() => {});
+    removeExpiredMessages(messageCacheKey(currentUserId, currentRoomId), [id]).catch(() => {});
   };
   socket.on('message:expired', handleRealtimeExpired);
   socket.on('message_expired', handleRealtimeExpired);
@@ -3094,6 +3086,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           opened={galleryOpen}
           onClose={() => setGalleryOpen(false)}
           roomId={chatroom.id}
+          accountId={currentUserId}
         />
 
         {/* Block account: only available for a verified direct Chatforia peer. */}

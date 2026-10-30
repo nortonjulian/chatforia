@@ -35,7 +35,7 @@ function toAbsolute(url) {
   return new URL(url, base.endsWith('/') ? base : base + '/').href;
 }
 
-function useAuthorizedMedia(id, original, variant = 'file', viewerId) {
+export function useAuthorizedMedia(id, original, variant = 'file', viewerId, preserveSource = false, retryCount = 0) {
   const local = isLocalPrivateMedia(original);
   const scope = `${viewerId ?? 'anonymous'}:${id}:${variant}:${original ?? ''}`;
   const [result, setResult] = useState(() => ({
@@ -59,9 +59,37 @@ function useAuthorizedMedia(id, original, variant = 'file', viewerId) {
         const { data } = await axiosClient.get(`/private-media/message/${id}`, {
           params: { variant }, headers: { 'Cache-Control': 'no-store' },
         });
-        if (!cancelled) setResult({ scope, url: toAbsolute(data.url) });
-      } catch {
-        if (!cancelled) setResult({ scope, url: null }); // never fall back to public local path
+        if (!cancelled) {
+          const authorizedUrl = toAbsolute(data.url);
+          setResult((current) => {
+            if (
+              preserveSource &&
+              current.scope === scope &&
+              current.url
+            ) {
+              return current;
+            }
+            return { scope, url: authorizedUrl };
+          });
+        }
+      } catch (error) {
+        if (cancelled) return;
+
+        const status = error?.response?.status;
+
+        const isTemporaryFailure =
+          !error?.response ||
+          status === 408 ||
+          status === 429 ||
+          (status >= 500 && status <= 599);
+
+        if (preserveSource && isTemporaryFailure) {
+          return;
+        }
+
+        setResult({ scope, url: null });
+        // Authorization denial clears the source.
+        // Temporary failures never grant new access.
       }
     };
 
@@ -76,20 +104,40 @@ function useAuthorizedMedia(id, original, variant = 'file', viewerId) {
       window.clearInterval(interval);
       document.removeEventListener('visibilitychange', onFocus);
     };
-  }, [id, original, variant, local, scope]);
+  }, [id, original, variant, local, scope, retryCount]);
 
   return { url: visibleUrl };
 }
 
 export default function ProtectedMessageAttachment({ attachment, index, viewerId }) {
   const original = attachment?.url;
+  const [retryCount, setRetryCount] = useState(0);
+  const [failedVideoScope, setFailedVideoScope] = useState(null);
+
+  const videoScope =
+    `${viewerId ?? 'anonymous'}:${attachment?.id}:${original ?? ''}`;
+
+  const videoFailed = failedVideoScope === videoScope;
+
+  const retryVideo = () => {
+    setFailedVideoScope(null);
+    setRetryCount((count) => count + 1);
+  };
+
   const mime = String(attachment?.mimeType || '').toLowerCase();
   const kind = String(attachment?.kind || '').toUpperCase();
   const isAudio = kind === 'AUDIO' || mime.startsWith('audio/');
   const isVideo = kind === 'VIDEO' || mime.startsWith('video/');
   const isImage = kind === 'IMAGE' || kind === 'GIF' || mime.startsWith('image/');
 
-  const file = useAuthorizedMedia(attachment?.id, original, 'file', viewerId);
+  const file = useAuthorizedMedia(
+    attachment?.id,
+    original,
+    'file',
+    viewerId,
+    isVideo,
+    retryCount
+  );
   // Only fetch a second URL when an image actually has a separate thumbnail.
   // Otherwise reuse the already-authorized original; do not issue twice.
   const thumbnail = isImage
@@ -104,7 +152,44 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
     return <span key={key} role="status">Media unavailable or loading…</span>;
   }
   if (isAudio) return <audio controls src={file.url || undefined} style={{ width: 260, maxWidth: '100%' }} />;
-  if (isVideo) return <video controls src={file.url || undefined} style={{ width: 260, maxWidth: '100%', borderRadius: 12 }} />;
+  if (isVideo) return (
+    <div>
+      <video
+        controls
+        preload="metadata"
+        playsInline
+        src={file.url || undefined}
+        onError={() => setFailedVideoScope(videoScope)}
+      style={{
+        display: 'block',
+        width: 260,
+        maxWidth: '100%',
+        aspectRatio:
+          Number(attachment?.width) > 0 &&
+          Number(attachment?.height) > 0
+            ? `${Number(attachment.width)} / ${Number(attachment.height)}`
+            : '9 / 16',
+        objectFit: 'contain',
+        borderRadius: 12,
+        background: '#000',
+      }}
+      />
+      {videoFailed && (
+        <button
+          type="button"
+          onClick={retryVideo}
+          style={{
+            display: 'block',
+            marginTop: 8,
+            padding: '8px 12px',
+            cursor: 'pointer',
+          }}
+        >
+          Retry video
+        </button>
+      )}
+    </div>
+  );
   if (isImage) {
     const display = preview.url || file.url;
     return (

@@ -1,3 +1,4 @@
+import { messageCacheKey, assertMessageCacheKey } from '../client/src/utils/messageCacheKey.js';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import fs from 'node:fs';
@@ -101,30 +102,31 @@ function storeHarness() {
   const os={get(key){return asyncRequest(()=>structuredClone(rows.get(key)));},
     put(row){return asyncRequest(()=>{rows.set(row.key,structuredClone(row));return row.key;});}};
   const source=read('client/src/utils/messagesStore.js')
+    .replace(/import \{ assertMessageCacheKey \} from .*;\n/,'')
     .replace(/import \{ normalizeMessage, mergePageIntoState \} from .*;\n/,'')
     .replace(/async function _getConn\(mode = 'readonly'\) \{[\s\S]*?\n\}/,'async function _getConn() { return os; }');
-  const store=execute(source,{os,isMessageExpired:expiry.isMessageExpired,normalizeMessage:m=>m},
+  const store=execute(source,{os,assertMessageCacheKey,isMessageExpired:expiry.isMessageExpired,normalizeMessage:m=>m},
     ['getRoomMessages','removeExpiredMessages','upsertMessage']);
   return {rows,store};
 }
 test('cached history and search input exclude elapsed messages after a fresh read', async () => {
-  const h=storeHarness(); h.rows.set('83',{key:'83',messages:[{id:42,expiresAt:past},{id:43,expiresAt:null}]});
-  const result=await h.store.getRoomMessages(83); assert.deepEqual(json(result.map(m=>m.id)),[43]);
+  const h=storeHarness(); h.rows.set('65:83',{key:'65:83',messages:[{id:42,expiresAt:past},{id:43,expiresAt:null}]});
+  const result=await h.store.getRoomMessages('65:83'); assert.deepEqual(json(result.map(m=>m.id)),[43]);
 });
 test('expiry purges exactly one room and preserves its unrelated messages', async () => {
-  const h=storeHarness(); h.rows.set('83',{key:'83',messages:[{id:42,expiresAt:past},{id:43,expiresAt:null}]});
-  h.rows.set('82',{key:'82',messages:[{id:44,expiresAt:null}]});
-  await h.store.removeExpiredMessages(83,[42]);
-  assert.deepEqual(h.rows.get('83').messages.map(m=>m.id),[43]);
-  assert.equal(h.rows.get('82').messages[0].id,44);
+  const h=storeHarness(); h.rows.set('65:83',{key:'65:83',messages:[{id:42,expiresAt:past},{id:43,expiresAt:null}]});
+  h.rows.set('65:82',{key:'65:82',messages:[{id:44,expiresAt:null}]});
+  await h.store.removeExpiredMessages('65:83',[42]);
+  assert.deepEqual(h.rows.get('65:83').messages.map(m=>m.id),[43]);
+  assert.equal(h.rows.get('65:82').messages[0].id,44);
 });
 test('late expired upsert cannot resurrect cached content', async () => {
-  const h=storeHarness(); h.rows.set('83',{key:'83',messages:[{id:43,expiresAt:null}]});
-  await h.store.upsertMessage(83,{id:42,expiresAt:past,rawContent:'stale'});
-  assert.deepEqual(h.rows.get('83').messages.map(m=>m.id),[43]);
+  const h=storeHarness(); h.rows.set('65:83',{key:'65:83',messages:[{id:43,expiresAt:null}]});
+  await h.store.upsertMessage('65:83',{id:42,expiresAt:past,rawContent:'stale'});
+  assert.deepEqual(h.rows.get('65:83').messages.map(m=>m.id),[43]);
 });
 test('duplicate expiry is idempotent and an unknown room stays absent', async () => {
-  const h=storeHarness(); await h.store.removeExpiredMessages(83,[42]); await h.store.removeExpiredMessages(83,[42]);
+  const h=storeHarness(); await h.store.removeExpiredMessages('65:83',[42]); await h.store.removeExpiredMessages('65:83',[42]);
   assert.equal(h.rows.size,0);
 });
 test('open thread clock, expiry listeners, and sidebar invalidation are wired', () => {
@@ -149,7 +151,8 @@ function expiryController(initial) {
   let messages=initial, purges=[], refreshes=0;
   const expiredMessageIds={current:new Set()};
   const bindings={
-    currentRoomId:83, chatroom:{id:83}, messages,
+    currentRoomId:83, currentUserId:65, chatroom:{id:83}, messages,
+    messageCacheKey,
     isMessageExpired:expiry.isMessageExpired, expiryEventMessageId:expiry.expiryEventMessageId,
     expiredMessageIds, setMessages(update){messages=update(messages);},
     removeExpiredMessages(room,ids){purges.push({room,ids});return Promise.resolve();},
@@ -168,7 +171,7 @@ function expiryController(initial) {
 test('actual open-thread expiry callback removes one message without affecting another', () => {
   const h=expiryController([{id:42,expiresAt:past},{id:43,expiresAt:null}]);
   h.on({id:42,chatRoomId:83,expiresAt:past});
-  assert.deepEqual(h.messages.map(m=>m.id),[43]); assert.equal(h.purges[0].room,83);
+  assert.deepEqual(h.messages.map(m=>m.id),[43]); assert.equal(h.purges[0].room,'65:83');
 });
 test('actual open-thread callback ignores another room and future expiry', () => {
   const h=expiryController([{id:42,expiresAt:null}]);
@@ -179,4 +182,49 @@ test('actual clock removes elapsed content and refreshes previews without a sock
   const h=expiryController([{id:42,expiresAt:past},{id:43,expiresAt:future},{id:44,expiresAt:null}]);
   h.tick(); assert.deepEqual(h.messages.map(m=>m.id),[43,44]);
   assert.equal(h.refreshes,1); assert.equal(h.expiredMessageIds.current.has(42),true);
+});
+
+
+test('unscoped room keys cannot access the message cache', async () => {
+  const h = storeHarness();
+
+  await assert.rejects(
+    h.store.getRoomMessages(83),
+    /account-scoped key/
+  );
+
+  await assert.rejects(
+    h.store.upsertMessage(83, {
+      id: 42,
+      expiresAt: null,
+    }),
+    /account-scoped key/
+  );
+
+  await assert.rejects(
+    h.store.removeExpiredMessages(83, [42]),
+    /account-scoped key/
+  );
+
+  assert.equal(h.rows.size, 0);
+});
+
+test('different accounts cannot read each others cached rooms', async () => {
+  const h = storeHarness();
+
+  h.rows.set('65:83', {
+    key: '65:83',
+    messages: [{ id: 42, rawContent: 'Account 65' }],
+  });
+
+  h.rows.set('1:83', {
+    key: '1:83',
+    messages: [{ id: 43, rawContent: 'Account 1' }],
+  });
+
+  const first = await h.store.getRoomMessages('65:83');
+  const second = await h.store.getRoomMessages('1:83');
+
+  assert.deepEqual(first.map(m => m.id), [42]);
+  assert.deepEqual(second.map(m => m.id), [43]);
 });

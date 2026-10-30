@@ -5,6 +5,7 @@ import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import EmptyState from '@/components/empty/EmptyState';
 import { useSocket } from '@/context/SocketContext';
 import { deleteRoomMessages } from '@/utils/messagesStore';
+import { messageCacheKey } from '@/utils/messageCacheKey';
 
 import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 
@@ -378,7 +379,7 @@ const handleDeleteThread = async (thread) => {
     );
 
     if (thread.type === 'chat') {
-      await deleteRoomMessages(thread.id);
+      await deleteRoomMessages(messageCacheKey(currentUser.id, thread.id));
     }
   } catch (e) {
     console.error('Delete thread failed', e);

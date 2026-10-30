@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ProtectedMessageAttachment, { isLocalPrivateMedia } from '../ProtectedMessageAttachment';
 import axiosClient from '@/api/axiosClient';
 
@@ -94,4 +94,213 @@ test('canonical R2 upload keys use authorized media delivery, not a public path'
   expect(axiosClient.get).toHaveBeenCalledWith(
     '/private-media/message/88', expect.objectContaining({ params: { variant: 'file' } })
   );
+});
+
+
+test('renewing a video capability does not reset an already loaded video', async () => {
+  jest.useFakeTimers();
+
+  try {
+    axiosClient.get
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=first' },
+      })
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=renewed' },
+      });
+
+    const attachment = {
+      id: 1460,
+      kind: 'VIDEO',
+      mimeType: 'video/mp4',
+      url: 'uploads/u7/test-video.mp4',
+      width: 1080,
+      height: 1920,
+    };
+
+    const { container } = render(
+      <ProtectedMessageAttachment
+        viewerId={7}
+        attachment={attachment}
+        index={0}
+      />
+    );
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    const video = container.querySelector('video');
+
+    expect(video).not.toBeNull();
+    expect(video.getAttribute('src')).toContain('token=first');
+
+    await act(async () => {
+      jest.advanceTimersByTime(40000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(axiosClient.get).toHaveBeenCalledTimes(2);
+
+    expect(video.getAttribute('src')).toContain('token=first');
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+
+test('a rejected video capability renewal removes the previous source', async () => {
+  jest.useFakeTimers();
+
+  try {
+    axiosClient.get
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=first' },
+      })
+      .mockRejectedValueOnce({
+        response: { status: 403 },
+      });
+
+    const attachment = {
+      id: 1460,
+      kind: 'VIDEO',
+      mimeType: 'video/mp4',
+      url: 'uploads/u7/test-video.mp4',
+    };
+
+    const { container } = render(
+      <ProtectedMessageAttachment
+        viewerId={7}
+        attachment={attachment}
+        index={0}
+      />
+    );
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(container.querySelector('video')).toHaveAttribute(
+      'src',
+      'https://api.chatforia.com/private-media/file?token=first'
+    );
+
+    await act(async () => {
+      jest.advanceTimersByTime(40000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(axiosClient.get).toHaveBeenCalledTimes(2);
+    expect(container.querySelector('video')).toBeNull();
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Media unavailable or loading'
+    );
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+
+test('a temporary capability renewal failure preserves the loaded video', async () => {
+  jest.useFakeTimers();
+
+  try {
+    axiosClient.get
+      .mockResolvedValueOnce({
+        data: { url: '/private-media/file?token=first' },
+      })
+      .mockRejectedValueOnce(new Error('Network Error'));
+
+    const attachment = {
+      id: 1460,
+      kind: 'VIDEO',
+      mimeType: 'video/mp4',
+      url: 'uploads/u7/test-video.mp4',
+    };
+
+    const { container } = render(
+      <ProtectedMessageAttachment
+        viewerId={7}
+        attachment={attachment}
+        index={0}
+      />
+    );
+
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    const video = container.querySelector('video');
+
+    expect(video).not.toBeNull();
+
+    const originalSrc = video.getAttribute('src');
+
+    await act(async () => {
+      jest.advanceTimersByTime(40000);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(axiosClient.get).toHaveBeenCalledTimes(2);
+    expect(container.querySelector('video')).toBe(video);
+    expect(video.getAttribute('src')).toBe(originalSrc);
+  } finally {
+    jest.useRealTimers();
+  }
+});
+
+
+test('a failed video can request fresh authorization on retry', async () => {
+  axiosClient.get
+    .mockResolvedValueOnce({
+      data: { url: '/private-media/file?token=first' },
+    })
+    .mockResolvedValueOnce({
+      data: { url: '/private-media/file?token=second' },
+    });
+
+  const attachment = {
+    id: 1460,
+    kind: 'VIDEO',
+    mimeType: 'video/mp4',
+    url: 'uploads/u7/test-video.mp4',
+  };
+
+  const { container } = render(
+    <ProtectedMessageAttachment
+      viewerId={7}
+      attachment={attachment}
+      index={0}
+    />
+  );
+
+  await waitFor(() => {
+    expect(container.querySelector('video')).toHaveAttribute(
+      'src',
+      'https://api.chatforia.com/private-media/file?token=first'
+    );
+  });
+
+  fireEvent.error(container.querySelector('video'));
+
+  const retry = await screen.findByRole('button', {
+    name: /retry video/i,
+  });
+
+  fireEvent.click(retry);
+
+  await waitFor(() => {
+    expect(container.querySelector('video')).toHaveAttribute(
+      'src',
+      'https://api.chatforia.com/private-media/file?token=second'
+    );
+  });
+
+  expect(axiosClient.get).toHaveBeenCalledTimes(2);
 });
