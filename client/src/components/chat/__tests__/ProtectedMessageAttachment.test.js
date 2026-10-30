@@ -502,6 +502,102 @@ test('a temporary capability renewal failure preserves the loaded video', async 
 });
 
 
+
+test('playing one message video pauses another without resetting position', () => {
+  const first = {
+    id: 101,
+    kind: 'VIDEO',
+    mimeType: 'video/mp4',
+    url: 'https://media.example.com/one.mp4',
+  };
+  const second = {
+    ...first,
+    id: 102,
+    url: 'https://media.example.com/two.mp4',
+  };
+
+  const { container } = render(
+    <>
+      <ProtectedMessageAttachment
+        attachment={first} viewerId={7} index={0}
+      />
+      <ProtectedMessageAttachment
+        attachment={second} viewerId={7} index={1}
+      />
+    </>
+  );
+
+  const videos = container.querySelectorAll(
+    'video[data-chatforia-message-video]'
+  );
+
+  expect(videos).toHaveLength(2);
+
+  let firstPaused = false;
+  const pauseFirst = jest.fn(() => { firstPaused = true; });
+  const pauseSecond = jest.fn();
+
+  Object.defineProperty(videos[0], 'paused', {
+    configurable: true,
+    get: () => firstPaused,
+  });
+  Object.defineProperty(videos[0], 'pause', {
+    configurable: true,
+    value: pauseFirst,
+  });
+  Object.defineProperty(videos[1], 'pause', {
+    configurable: true,
+    value: pauseSecond,
+  });
+
+  videos[0].currentTime = 1.75;
+  videos[1].currentTime = 0.5;
+
+  fireEvent.play(videos[1]);
+
+  expect(pauseFirst).toHaveBeenCalledTimes(1);
+  expect(pauseSecond).not.toHaveBeenCalled();
+  expect(videos[0].currentTime).toBeCloseTo(1.75);
+  expect(videos[0].getAttribute('src')).toBe(first.url);
+
+  fireEvent.play(videos[1]);
+  expect(pauseFirst).toHaveBeenCalledTimes(1);
+});
+
+test('failed video recovery uses the branded reload control', async () => {
+  axiosClient.get.mockResolvedValue({
+    data: { url: '/private-media/file?token=first' },
+  });
+
+  const { container } = render(
+    <ProtectedMessageAttachment
+      viewerId={7}
+      index={0}
+      attachment={{
+        id: 201,
+        kind: 'VIDEO',
+        mimeType: 'video/mp4',
+        url: 'uploads/u7/reload.mp4',
+      }}
+    />
+  );
+
+  await waitFor(() => {
+    expect(container.querySelector('video')).not.toBeNull();
+  });
+
+  fireEvent.error(container.querySelector('video'));
+
+  const button = await screen.findByRole('button', {
+    name: /reload video/i,
+  });
+
+  expect(button).toHaveAttribute('type', 'button');
+  expect(button).toHaveAttribute('variant', 'light');
+  expect(button).not.toHaveAttribute('color', 'yellow');
+  expect(button).toHaveTextContent('Reload video');
+});
+
 test('a failed video can request fresh authorization on retry', async () => {
   axiosClient.get
     .mockResolvedValueOnce({
@@ -536,7 +632,7 @@ test('a failed video can request fresh authorization on retry', async () => {
   fireEvent.error(container.querySelector('video'));
 
   const retry = await screen.findByRole('button', {
-    name: /retry video/i,
+    name: /reload video/i,
   });
 
   fireEvent.click(retry);
