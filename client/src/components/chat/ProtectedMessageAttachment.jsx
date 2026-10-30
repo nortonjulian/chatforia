@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import axiosClient from '@/api/axiosClient';
+import { Button } from '@mantine/core';
+import { IconRefresh } from '@tabler/icons-react';
 
 /*
  * Persisted local message media is not public. Fetch a user-authorized,
@@ -303,12 +305,25 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
   if (isVideo) return (
     <div>
       <video
+        data-chatforia-message-video
         controls
         preload="metadata"
         playsInline
         src={file.url || undefined}
         onPlay={(event) => {
-          void recoverVideo(event.currentTarget);
+          const current = event.currentTarget;
+
+          // Only coordinate message attachments in this document.
+          // Pausing another player never resets its position or source.
+          current.ownerDocument
+            .querySelectorAll('video[data-chatforia-message-video]')
+            .forEach((other) => {
+              if (other !== current && !other.paused) {
+                other.pause();
+              }
+            });
+
+          void recoverVideo(current);
         }}
         onWaiting={(event) => {
           if (!event.currentTarget.paused) {
@@ -337,18 +352,23 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
       }}
       />
       {videoFailed && (
-        <button
+        <Button
           type="button"
-          onClick={retryVideo}
+          size="xs"
+          radius="md"
+          variant="light"
           style={{
-            display: 'block',
-            marginTop: 8,
-            padding: '8px 12px',
-            cursor: 'pointer',
+            background: 'transparent',
+            color: 'var(--accent)',
+            border: '1px solid var(--border)',
+            boxShadow: 'none',
           }}
+          leftSection={<IconRefresh size={15} stroke={2} />}
+          onClick={retryVideo}
+          mt={8}
         >
-          Retry video
-        </button>
+          Reload video
+        </Button>
       )}
     </div>
   );
