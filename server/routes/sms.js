@@ -244,20 +244,41 @@ r.post(
       throw Boom.badRequest('Valid SMS thread id is required');
     }
 
-    // Ownership filter is part of the mutation, not a separate read check.
-    const result = await prisma.smsThread.updateMany({
+    const messageId = Number(req.body?.messageId);
+    if (!Number.isSafeInteger(messageId) || messageId <= 0) {
+      throw Boom.badRequest('Valid last visible inbound SMS message id is required');
+    }
+
+    // Never advance the read marker to current wall-clock time: a newer SMS
+    // could arrive after the UI rendered but before this request completes.
+    const visibleMessage = await prisma.smsMessage.findFirst({
+      where: {
+        id: messageId,
+        threadId,
+        direction: 'in',
+        thread: { userId, archivedAt: null, deletedAt: null },
+      },
+      select: { createdAt: true },
+    });
+    if (!visibleMessage) {
+      throw Boom.notFound('SMS message not found in owned thread');
+    }
+
+    // Monotonic, conditional read acknowledgement: retries and out-of-order
+    // requests cannot move the read marker backwards.
+    await prisma.smsThread.updateMany({
       where: {
         id: threadId,
         userId,
         archivedAt: null,
         deletedAt: null,
+        OR: [
+          { lastReadAt: null },
+          { lastReadAt: { lt: visibleMessage.createdAt } },
+        ],
       },
-      data: { lastReadAt: new Date() },
+      data: { lastReadAt: visibleMessage.createdAt },
     });
-
-    if (!result.count) {
-      throw Boom.notFound('SMS thread not found');
-    }
 
     await syncBadgeToUserDevices(userId, 'sms_thread_read');
     res.json({ ok: true });
