@@ -32,6 +32,7 @@ import {
 } from '@tabler/icons-react';
 
 import axiosClient from '@/api/axiosClient';
+import { sendCarrierMmsAttachment } from './sendCarrierMmsAttachment.js';
 import ThreadShell from '@/threads/ThreadShell';
 import ThreadComposer from '@/threads/ThreadComposer.jsx';
 import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
@@ -680,17 +681,11 @@ const showCallBanner = Boolean(
                 if (payload?.attachments?.length) {
                   const fileMeta = payload.attachments[0];
 
-                  // Carrier MMS must use the same authorized
-                  // SMS sending endpoint as text-only SMS.
-                  const mediaRef = fileMeta.key || fileMeta.url;
-                  if (!toNumber || !mediaRef) {
-                    throw new Error('Missing MMS recipient or media reference.');
-                  }
-
-                  await axiosClient.post('/sms/send', {
-                    to: toNumber,
-                    body: text,
-                    mediaUrls: [mediaRef],
+                  await sendCarrierMmsAttachment({
+                    axiosClient,
+                    toNumber,
+                    text,
+                    fileMeta,
                   });
 
                   clear();
