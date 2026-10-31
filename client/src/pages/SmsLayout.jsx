@@ -51,10 +51,10 @@ import './SmsLayout.css';
 import {
   addSmsMessages,
   searchSmsMessages,
-  getSmsMediaItems,
 } from '@/utils/smsMessagesStore.js';
 import SmsSearchDrawer from '@/components/sms/SmsSearchDrawer.jsx';
 import SmsMediaGalleryModal from '@/components/sms/SmsMediaGalleryModal.jsx';
+import { buildSmsGalleryItems } from '@/utils/buildSmsGalleryItems.js';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 
 function isSmsOutgoing(m) {
@@ -433,11 +433,11 @@ const showCallBanner = Boolean(
     }
   }, []);
 
-  // ✅ Media items for gallery
-  const smsMediaItems = useMemo(() => {
-    if (!threadId) return [];
-    return getSmsMediaItems(String(threadId));
-  }, [threadId, thread?.messages?.length]); // refresh when messages change
+  // Derive from the server-authorized thread; do not use an empty cache stub.
+  const smsMediaItems = useMemo(
+    () => buildSmsGalleryItems(loadedScope === scopeKey ? thread?.messages : []),
+    [loadedScope, scopeKey, thread?.messages]
+  );
 
   if (!thread || loadedScope !== scopeKey) {
     return loadError ? <Text role="alert">{loadError} <Button onClick={loadThread}>Retry</Button></Text> : null;
@@ -1005,6 +1005,7 @@ const showCallBanner = Boolean(
           onClose={() => setGalleryOpen(false)}
           title={titleText}
           items={smsMediaItems}
+          accountKey={accountKey}
         />
       </ThreadShell>
     </Box>
