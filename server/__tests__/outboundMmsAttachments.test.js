@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import {
   authorizeOutboundMmsAttachments,
   MAX_MMS_ATTACHMENT_BYTES,
+  MAX_MMS_NON_IMAGE_BYTES,
 } from '../services/outboundMmsAttachments.js';
 
 const key = 'uploads/u7/2026/10/29/picture.jpg';
@@ -102,7 +103,7 @@ describe('outbound MMS attachment authorization', () => {
 
     await expect(
       authorizeOutboundMmsAttachments(args)
-    ).rejects.toThrow('Unsupported MMS attachment type or size');
+    ).rejects.toThrow('MMS image exceeds the 5 MB message limit');
   });
 
   test('rejects duplicate attachments', async () => {
@@ -168,4 +169,41 @@ describe('outbound MMS attachment authorization', () => {
       authorizeOutboundMmsAttachments(args)
     ).resolves.toMatchObject({ storedUrls: [key] });
   });
+  test('allows an image at the 5,000,000-byte ceiling with no caption', async () => {
+    const args = setup({ size: MAX_MMS_ATTACHMENT_BYTES });
+    await expect(authorizeOutboundMmsAttachments(args)).resolves.toMatchObject({
+      storedUrls: [key],
+    });
+  });
+
+  test('rejects combined image and UTF-8 caption over 5 MB', async () => {
+    const args = setup({ size: MAX_MMS_ATTACHMENT_BYTES - 1 });
+    args.body = '😄';
+    await expect(authorizeOutboundMmsAttachments(args))
+      .rejects.toThrow('Combined MMS attachments and text exceed 5 MB');
+    expect(args.presignGet).not.toHaveBeenCalled();
+  });
+
+  test('rejects two images whose combined bytes exceed 5 MB', async () => {
+    const secondKey = 'uploads/u7/2026/10/29/another.jpg';
+    const args = setup();
+    args.mediaRefs = [key, secondKey];
+    args.prisma.upload.findFirst
+      .mockResolvedValueOnce({ key, mimeType: 'image/jpeg', size: 3_000_000 })
+      .mockResolvedValueOnce({ key: secondKey, mimeType: 'image/jpeg', size: 2_000_001 });
+    await expect(authorizeOutboundMmsAttachments(args))
+      .rejects.toThrow('Combined MMS attachments and text exceed 5 MB');
+    expect(args.presignGet).not.toHaveBeenCalled();
+  });
+
+  test('restricts MP4 to 500 KB and accepts smaller MP4', async () => {
+    const larger = setup({ mimeType: 'video/mp4', size: MAX_MMS_NON_IMAGE_BYTES + 1 });
+    await expect(authorizeOutboundMmsAttachments(larger))
+      .rejects.toThrow('MMS video must be 500 KB or smaller');
+
+    const smaller = setup({ mimeType: 'video/mp4', size: MAX_MMS_NON_IMAGE_BYTES });
+    await expect(authorizeOutboundMmsAttachments(smaller))
+      .resolves.toMatchObject({ storedUrls: [key] });
+  });
+
 });
