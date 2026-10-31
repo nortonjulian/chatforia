@@ -15,7 +15,7 @@ export async function fetchSMSMedia(value) {
   // as a URL or pass it to the Twilio fetcher.
   const privateKey = value.startsWith('uploads/');
   if (privateKey && (
-    !/^uploads\\/u[1-9]\\d*\\/[A-Za-z0-9._/-]+$/.test(value) ||
+    !/^uploads\/u[1-9]\d*\/[A-Za-z0-9._/-]+$/.test(value) ||
     value.split('/').some(segment =>
       !segment || segment === '.' || segment === '..'
     )
