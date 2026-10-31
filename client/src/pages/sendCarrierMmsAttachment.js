@@ -18,8 +18,18 @@ export async function sendCarrierMmsAttachment({
   if (mimeType && !accepted.has(mimeType)) {
     throw new Error('MMS supports JPEG, PNG, GIF, and MP4 files. Choose a supported attachment.');
   }
-  if (size != null && Number.isFinite(Number(size)) && Number(size) > 5 * 1024 * 1024) {
-    throw new Error('This attachment exceeds the 5 MiB MMS limit. Choose a smaller file.');
+  const bytes = Number(size);
+  const bodyBytes = new TextEncoder().encode(String(text ?? '')).length;
+  if (size != null && Number.isFinite(bytes)) {
+    if (mimeType === 'video/mp4' && bytes > 500_000) {
+      throw new Error('Carrier MMS video must be 500 KB or smaller.');
+    }
+    if (bytes + bodyBytes > 5_000_000) {
+      throw new Error('Attachment and message text exceed the 5 MB carrier MMS limit.');
+    }
+  }
+  if (bodyBytes >= 5_000_000) {
+    throw new Error('MMS text exceeds the 5 MB carrier MMS limit.');
   }
 
   if (!toNumber || !mediaRef) {
