@@ -7,9 +7,11 @@ const ALLOWED_TYPES = new Set([
   'video/mp4',
 ]);
 
-// Conservative initial QA ceiling, not a claim about every carrier.
-// Further provider/carrier limits must be tested independently.
-export const MAX_MMS_ATTACHMENT_BYTES = 5 * 1024 * 1024;
+// Twilio MMS has a 5,000,000 byte aggregate ceiling including the body.
+// Non-image video is less portable across carriers; use the conservative
+// 500 KB API guidance until transcode/carrier-specific QA is complete.
+export const MAX_MMS_ATTACHMENT_BYTES = 5_000_000;
+export const MAX_MMS_NON_IMAGE_BYTES = 500_000;
 
 export async function authorizeOutboundMmsAttachments({
   prisma,
@@ -18,6 +20,7 @@ export async function authorizeOutboundMmsAttachments({
   presignGet,
   publicBase,
   expiresSec = 3600,
+  body = '',
 }) {
   if (!Number.isSafeInteger(Number(userId)) || Number(userId) <= 0) {
     throw Boom.badRequest('Invalid sender');
@@ -50,6 +53,11 @@ export async function authorizeOutboundMmsAttachments({
 
   const seen = new Set();
   const uploads = [];
+  const textBytes = Buffer.byteLength(String(body ?? ''), 'utf8');
+  let totalBytes = textBytes;
+  if (totalBytes >= MAX_MMS_ATTACHMENT_BYTES) {
+    throw Boom.badRequest('MMS text exceeds the 5 MB combined message limit');
+  }
 
   // Authorize every item before generating any delivery URLs.
   for (const reference of mediaRefs) {
@@ -119,9 +127,21 @@ export async function authorizeOutboundMmsAttachments({
 
     if (!ALLOWED_TYPES.has(upload.mimeType) ||
         !Number.isSafeInteger(upload.size) ||
-        upload.size <= 0 ||
-        upload.size > MAX_MMS_ATTACHMENT_BYTES) {
+        upload.size <= 0) {
       throw Boom.badRequest('Unsupported MMS attachment type or size');
+    }
+
+    const maxFileBytes = upload.mimeType === 'video/mp4'
+      ? MAX_MMS_NON_IMAGE_BYTES
+      : MAX_MMS_ATTACHMENT_BYTES;
+    if (upload.size > maxFileBytes) {
+      throw Boom.badRequest(upload.mimeType === 'video/mp4'
+        ? 'MMS video must be 500 KB or smaller for carrier compatibility'
+        : 'MMS image exceeds the 5 MB message limit');
+    }
+    totalBytes += upload.size;
+    if (totalBytes > MAX_MMS_ATTACHMENT_BYTES) {
+      throw Boom.badRequest('Combined MMS attachments and text exceed 5 MB');
     }
 
     uploads.push(upload);
