@@ -884,7 +884,7 @@ const showCallBanner = Boolean(
                         <Tooltip label={ts} withinPortal>
                           <Paper
                             px="md"
-                            py="xs"
+                            py={6}
                             radius="lg"
                             withBorder={false}
                             style={{
