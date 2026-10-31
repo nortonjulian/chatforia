@@ -13,6 +13,9 @@ let listThreadsMock;
 let getThreadMock;
 let sendUserSmsMock;
 let boomBadRequestMock;
+let smsMessageFindFirstMock;
+let smsThreadUpdateManyMock;
+let syncBadgeMock;
 
 // --- Mocks ---
 
@@ -37,6 +40,22 @@ await jest.unstable_mockModule('../services/smsService.js', () => {
     getThread: getThreadMock,
     sendUserSms: sendUserSmsMock,
   };
+});
+
+await jest.unstable_mockModule('../utils/prismaClient.js', () => {
+  smsMessageFindFirstMock = jest.fn();
+  smsThreadUpdateManyMock = jest.fn().mockResolvedValue({ count: 1 });
+  return {
+    default: {
+      smsMessage: { findFirst: smsMessageFindFirstMock },
+      smsThread: { updateMany: smsThreadUpdateManyMock },
+    },
+  };
+});
+
+await jest.unstable_mockModule('../services/badgeSync.js', () => {
+  syncBadgeMock = jest.fn().mockResolvedValue(null);
+  return { syncBadgeToUserDevices: syncBadgeMock };
 });
 
 // Boom — create a realistic badRequest error object
@@ -129,6 +148,68 @@ describe('GET /sms/threads/:id', () => {
 
     expect(getThreadMock).toHaveBeenCalledTimes(1);
     expect(getThreadMock).toHaveBeenCalledWith(99, 'thread-123');
+    // A GET must never clear unread counts, even when the client refreshes.
+    expect(smsThreadUpdateManyMock).not.toHaveBeenCalled();
+    expect(syncBadgeMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('POST /sms/threads/:id/read', () => {
+  test('acknowledges only the last visible inbound message', async () => {
+    const displayedAt = new Date('2026-10-31T20:20:00.000Z');
+    smsMessageFindFirstMock.mockResolvedValueOnce({ createdAt: displayedAt });
+
+    const res = await request(app)
+      .post('/sms/threads/67/read')
+      .set('x-test-user-id', '1')
+      .send({ messageId: 501 });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ ok: true });
+    expect(smsMessageFindFirstMock).toHaveBeenCalledWith({
+      where: {
+        id: 501,
+        threadId: 67,
+        direction: 'in',
+        thread: { userId: 1, archivedAt: null, deletedAt: null },
+      },
+      select: { createdAt: true },
+    });
+    expect(smsThreadUpdateManyMock).toHaveBeenCalledWith({
+      where: {
+        id: 67,
+        userId: 1,
+        archivedAt: null,
+        deletedAt: null,
+        OR: [
+          { lastReadAt: null },
+          { lastReadAt: { lt: displayedAt } },
+        ],
+      },
+      data: { lastReadAt: displayedAt },
+    });
+    expect(syncBadgeMock).toHaveBeenCalledWith(1, 'sms_thread_read');
+  });
+
+  test('does not acknowledge a message missing from the owned thread', async () => {
+    smsMessageFindFirstMock.mockResolvedValueOnce(null);
+    const res = await request(app)
+      .post('/sms/threads/67/read')
+      .set('x-test-user-id', '2')
+      .send({ messageId: 501 });
+
+    expect(res.status).not.toBe(200);
+    expect(smsThreadUpdateManyMock).not.toHaveBeenCalled();
+    expect(syncBadgeMock).not.toHaveBeenCalled();
+  });
+
+  test('invalid acknowledgment does not modify unread state', async () => {
+    const res = await request(app)
+      .post('/sms/threads/67/read')
+      .set('x-test-user-id', '1')
+      .send({ messageId: 0 });
+    expect(res.status).toBe(400);
+    expect(smsThreadUpdateManyMock).not.toHaveBeenCalled();
   });
 });
 
