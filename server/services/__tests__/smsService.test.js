@@ -7,10 +7,14 @@ const mockPrisma = {
   },
   contact: {
     findFirst: jest.fn(),
+    findMany: jest.fn(),
   },
   phoneNumber: {
     findFirst: jest.fn(),
     updateMany: jest.fn(),
+  },
+  upload: {
+    findFirst: jest.fn(),
   },
   smsOptOut: {
     findFirst: jest.fn(),
@@ -78,6 +82,13 @@ await jest.unstable_mockModule(modulePath('../../lib/telco/index.js'), () => ({
   sendSms: sendSmsMock,
 }));
 
+const r2PresignGetMock = jest.fn();
+
+await jest.unstable_mockModule(modulePath('../../utils/r2.js'), () => ({
+  __esModule: true,
+  r2PresignGet: r2PresignGetMock,
+}));
+
 await jest.unstable_mockModule(modulePath('../socketBus.js'), () => ({
   __esModule: true,
   emitToUser: emitToUserMock,
@@ -111,6 +122,7 @@ describe('smsService', () => {
     mockPrisma.smsOptOut.findFirst.mockResolvedValue(null);
     mockPrisma.smsBlockedNumber.findUnique.mockResolvedValue(null);
     mockPrisma.contact.findFirst.mockResolvedValue(null);
+    mockPrisma.contact.findMany.mockResolvedValue([]);
     mockPrisma.user.findUnique.mockResolvedValue({ plan: 'PLUS' });
     mockPrisma.smsMessage.findFirst.mockResolvedValue(null);
     assertAndConsumeUsageMock.mockResolvedValue({});
@@ -128,6 +140,99 @@ describe('smsService', () => {
       provider: 'twilio',
       messageSid: 'SID-123',
       clientRef: 'client-ref-123',
+    });
+  });
+
+  describe('outbound MMS integration', () => {
+    const ownedKey = 'uploads/u1/qa/picture.jpg';
+    const stableURL = `https://media.chatforia.com/${ownedKey}`;
+    const signedURL = 'https://r2.example.test/signed-picture';
+
+    beforeEach(() => {
+      process.env.R2_PUBLIC_BASE = 'https://media.chatforia.com';
+
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        id: 1,
+        e164: '+19998887777',
+        status: 'ASSIGNED',
+      });
+
+      mockPrisma.smsThread.findFirst.mockResolvedValue({
+        id: 10,
+        userId: 1,
+        contactPhone: '+15551234567',
+        contactId: null,
+      });
+
+      mockPrisma.upload.findFirst.mockResolvedValue({
+        key: ownedKey,
+        mimeType: 'image/jpeg',
+        size: 1234,
+      });
+
+      r2PresignGetMock.mockResolvedValue(signedURL);
+    });
+
+    afterEach(() => {
+      delete process.env.R2_PUBLIC_BASE;
+    });
+
+    test('Twilio receives signed URL; database stores stable URL', async () => {
+      await sendUserSms({
+        userId: 1,
+        to: '+15551234567',
+        body: '',
+        mediaUrls: [ownedKey],
+      });
+
+      expect(mockPrisma.upload.findFirst).toHaveBeenCalledWith({
+        where: {
+          ownerId: 1,
+          key: ownedKey,
+          driver: 's3',
+        },
+        select: {
+          key: true,
+          mimeType: true,
+          size: true,
+        },
+      });
+
+      expect(r2PresignGetMock).toHaveBeenCalledWith({
+        key: ownedKey,
+        expiresSec: 3600,
+        responseContentType: 'image/jpeg',
+      });
+
+      expect(sendSmsMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          mediaUrls: [signedURL],
+        })
+      );
+
+      expect(mockPrisma.smsMessage.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          mediaUrls: [ownedKey],
+        }),
+      });
+
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('unauthorized attachment cannot reach Twilio', async () => {
+      mockPrisma.upload.findFirst.mockResolvedValue(null);
+
+      await expect(sendUserSms({
+        userId: 1,
+        to: '+15551234567',
+        body: '',
+        mediaUrls: [ownedKey],
+      })).rejects.toThrow('MMS attachment not owned by sender');
+
+      expect(r2PresignGetMock).not.toHaveBeenCalled();
+      expect(sendSmsMock).not.toHaveBeenCalled();
+      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(mockPrisma.smsMessage.create).not.toHaveBeenCalled();
     });
   });
 

@@ -3,6 +3,8 @@ import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
+import { authorizeOutboundMmsAttachments } from './outboundMmsAttachments.js';
+import { r2PresignGet } from '../utils/r2.js';
 import { emitToUser } from '../services/socketBus.js';
 import { recordSupportSignal } from './supportAutomationService.js';
 import {
@@ -336,6 +338,17 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       select: { plan: true },
     });
 
+    const mms = safeMediaUrls.length
+      ? await authorizeOutboundMmsAttachments({
+          prisma,
+          userId: uid,
+          mediaRefs: safeMediaUrls,
+          presignGet: r2PresignGet,
+          publicBase: process.env.R2_PUBLIC_BASE,
+          expiresSec: 3600,
+        })
+      : null;
+
     await assertAndConsumeUsage({
       userId: uid,
       plan: me?.plan || 'FREE',
@@ -353,7 +366,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
         text: safeBody,
         clientRef,
         from: fromNumber,
-        mediaUrls: safeMediaUrls,
+        mediaUrls: mms?.providerUrls ?? safeMediaUrls,
       });
 
       if (!result?.ok) {
@@ -399,7 +412,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
           body: safeBody,
           provider,
           providerMessageId: result?.messageSid || result?.messageId || null,
-          mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
+          mediaUrls: mms?.storedUrls ?? (safeMediaUrls.length ? safeMediaUrls : null),
         },
       });
 
