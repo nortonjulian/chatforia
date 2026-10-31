@@ -1,7 +1,7 @@
 import { Modal, SimpleGrid, Text, Stack } from '@mantine/core';
-import SmsMediaItem from './SmsMediaItem.jsx';
+import SmsMessageMedia from './SmsMessageMedia.jsx';
 
-export default function SmsMediaGalleryModal({ opened, onClose, title, items }) {
+export default function SmsMediaGalleryModal({ opened, onClose, title, items, accountKey }) {
   const list = Array.isArray(items) ? items : [];
 
   return (
@@ -18,11 +18,12 @@ export default function SmsMediaGalleryModal({ opened, onClose, title, items }) 
         ) : (
           <SimpleGrid cols={{ base: 2, sm: 3 }} spacing="sm">
             {list.map((it) => (
-              <SmsMediaItem
+              <SmsMessageMedia
                 key={it.id}
-                url={it.url}
-                mimeType={it.mimeType}
-                ratio={1}
+                messageId={it.messageId}
+                mediaIndex={it.mediaIndex}
+                item={it.item}
+                accountKey={accountKey}
               />
             ))}
           </SimpleGrid>
