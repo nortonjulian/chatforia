@@ -33,6 +33,7 @@ import {
 
 import axiosClient from '@/api/axiosClient';
 import { sendCarrierMmsAttachment } from './sendCarrierMmsAttachment.js';
+import { prepareCarrierMmsFile } from '@/utils/prepareCarrierMmsFile.js';
 import ThreadShell from '@/threads/ThreadShell';
 import ThreadComposer from '@/threads/ThreadComposer.jsx';
 import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
@@ -598,6 +599,7 @@ const showCallBanner = Boolean(
             <ThreadComposer
               value={draft}
               onChange={setDraft}
+              prepareFile={prepareCarrierMmsFile}
               placeholder="Type a message…"
               topSlot={
                 <Group gap="sm" align="center" wrap="wrap">
@@ -673,7 +675,7 @@ const showCallBanner = Boolean(
                     />
                   )}
                   <Text size="xs" c="dimmed" style={{ lineHeight: 1.35 }}>
-                    Carrier MMS: JPEG, PNG, GIF or MP4 up to 5 MiB. For more reliable photo delivery, use a JPEG under 1 MiB; carrier limits vary.
+                    Carrier MMS: Photos are resized to JPEG around 1 MB. GIFs are preserved; MP4 must be 500 KB or smaller. Combined message size must stay under 5 MB; carrier limits vary.
                   </Text>
                 </Group>
               }
