@@ -27,10 +27,17 @@ test('image and video retain their appropriate controls',async()=>{
  expect((await screen.findByLabelText('Video attachment')).tagName).toBe('VIDEO');
  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:sms-1');
 });
-test('failed attachment is visible and explicit Retry fetches it again',async()=>{
+test('failed attachment has a styled Retry loading control that only refetches media',async()=>{
  axiosClient.get.mockRejectedValueOnce(Error('offline'));render(<SmsMessageMedia {...props}/>);
- await screen.findByRole('alert');respond('audio/mp4');fireEvent.click(screen.getByRole('button',{name:'Retry'}));
- await screen.findByLabelText('Voice message');expect(axiosClient.get).toHaveBeenCalledTimes(2);
+ const alert=await screen.findByRole('alert');
+ expect(alert.textContent).toContain("Couldn't load attachment.");
+ const retry=screen.getByRole('button',{name:'Retry loading'});
+ expect(retry.type).toBe('button');
+ expect(retry.style.borderRadius).toBe('999px');
+ respond('audio/mp4');fireEvent.click(retry);
+ await screen.findByLabelText('Voice message');
+ expect(axiosClient.get).toHaveBeenCalledTimes(2);
+ expect(axiosClient.get.mock.calls.every(([url])=>url==='/sms/media/166/0')).toBe(true);
 });
 test('late previous-account response cannot render or allocate a media URL',async()=>{
  let resolve;axiosClient.get.mockImplementationOnce(()=>new Promise(r=>{resolve=r;}));
