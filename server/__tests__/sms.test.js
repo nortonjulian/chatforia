@@ -13,6 +13,7 @@ let listThreadsMock;
 let getThreadMock;
 let sendUserSmsMock;
 let boomBadRequestMock;
+let boomNotFoundMock;
 let smsMessageFindFirstMock;
 let smsThreadUpdateManyMock;
 let syncBadgeMock;
@@ -74,10 +75,25 @@ await jest.unstable_mockModule('@hapi/boom', () => {
     return err;
   });
 
+  boomNotFoundMock = jest.fn((message) => {
+    const err = new Error(message);
+    err.isBoom = true;
+    err.output = {
+      statusCode: 404,
+      payload: {
+        statusCode: 404,
+        error: 'Not Found',
+        message,
+      },
+    };
+    return err;
+  });
+
   return {
     __esModule: true,
     default: {
       badRequest: boomBadRequestMock,
+      notFound: boomNotFoundMock,
     },
   };
 });
@@ -198,7 +214,10 @@ describe('POST /sms/threads/:id/read', () => {
       .set('x-test-user-id', '2')
       .send({ messageId: 501 });
 
-    expect(res.status).not.toBe(200);
+    expect(res.status).toBe(404);
+    expect(boomNotFoundMock).toHaveBeenCalledWith(
+      'SMS message not found in owned thread'
+    );
     expect(smsThreadUpdateManyMock).not.toHaveBeenCalled();
     expect(syncBadgeMock).not.toHaveBeenCalled();
   });
