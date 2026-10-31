@@ -30,7 +30,30 @@ export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKe
     };
   }, [scope, attempt]); // item identity alone must not refetch on every thread refresh
 
-  if (failed) return <div role="alert">Could not load this attachment. <button type="button" onClick={() => setAttempt(value => value + 1)}>Retry</button></div>;
+  if (failed) return (
+    <div role="alert" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, maxWidth: '100%', padding: '6px 2px' }}>
+      <span style={{ fontSize: 13, lineHeight: 1.4 }}>Couldn't load attachment.</span>
+      <button
+        type="button"
+        onClick={() => setAttempt(value => value + 1)}
+        style={{
+          appearance: 'none',
+          border: '1px solid currentColor',
+          background: 'transparent',
+          color: 'inherit',
+          borderRadius: 999,
+          padding: '5px 12px',
+          font: 'inherit',
+          fontSize: 12,
+          fontWeight: 600,
+          lineHeight: 1.4,
+          cursor: 'pointer',
+        }}
+      >
+        Retry loading
+      </button>
+    </div>
+  );
   if (!media || media.scope !== scope) return <span role="status">Loading attachment…</span>;
   const onlyThisSMSAudio = event => {
     document.querySelectorAll('audio[data-sms-audio]').forEach(audio => { if (audio !== event.currentTarget) audio.pause(); });
