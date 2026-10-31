@@ -420,7 +420,7 @@ export default function MessageBubble({
                   role="text"
                   aria-label={`Message sent ${ts}`}
                   px="md"
-                  py={8}
+                  py={6}
                   style={{
                     ...bubbleStyle,
                     position: 'relative',
