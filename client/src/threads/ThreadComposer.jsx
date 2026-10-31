@@ -7,6 +7,7 @@ export default function ThreadComposer({
   onSend,
   topSlot = null,
   onUploadFiles, // optional
+  prepareFile, // carrier-only attachment preparation when supplied
   features = {
     showGif: true,
     showEmoji: true,
@@ -26,6 +27,7 @@ export default function ThreadComposer({
       showMic={!!features.showMic}
       showUpload={!!features.showUpload}
       onUploadFiles={onUploadFiles}
+      prepareFile={prepareFile}
     />
   );
 }
