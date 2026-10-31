@@ -106,7 +106,7 @@ r.get(
     const url = typeof item === 'string' ? item : item?.url;
     if (!url) throw Boom.notFound('Media item not found');
 
-    const upstream = await fetchSMSMedia(url);
+    const upstream = await fetchSMSMedia(url, { ownerId: Number(req.user.id) });
     if (!upstream.ok) throw Boom.badGateway('Failed to fetch upstream media');
 
     const contentType =

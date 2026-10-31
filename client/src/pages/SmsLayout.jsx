@@ -672,6 +672,9 @@ const showCallBanner = Boolean(
                       compact
                     />
                   )}
+                  <Text size="xs" c="dimmed" style={{ lineHeight: 1.35 }}>
+                    Carrier MMS: JPEG, PNG, GIF or MP4 up to 5 MiB. For more reliable photo delivery, use a JPEG under 1 MiB; carrier limits vary.
+                  </Text>
                 </Group>
               }
               onSend={async (payload) => {

@@ -90,6 +90,45 @@ describe('carrier MMS attachment submission', () => {
     expect(axiosClient.post).not.toHaveBeenCalled();
   });
 
+  test('rejects an oversized known attachment before carrier submission', async () => {
+    await expect(sendCarrierMmsAttachment({
+      axiosClient,
+      toNumber: '+15551234567',
+      fileMeta: {
+        key: privateKey,
+        mimeType: 'image/png',
+        size: 6.61 * 1024 * 1024,
+      },
+    })).rejects.toThrow('exceeds the 5 MiB MMS limit');
+    expect(axiosClient.post).not.toHaveBeenCalled();
+  });
+
+  test('rejects an unsupported known type before carrier submission', async () => {
+    await expect(sendCarrierMmsAttachment({
+      axiosClient,
+      toNumber: '+15551234567',
+      fileMeta: {
+        key: privateKey,
+        mimeType: 'image/heic',
+        size: 500000,
+      },
+    })).rejects.toThrow('MMS supports JPEG, PNG, GIF, and MP4');
+    expect(axiosClient.post).not.toHaveBeenCalled();
+  });
+
+  test('allows a known supported attachment at the ceiling', async () => {
+    await sendCarrierMmsAttachment({
+      axiosClient,
+      toNumber: '+15551234567',
+      fileMeta: {
+        key: privateKey,
+        mimeType: 'image/jpeg',
+        size: 5 * 1024 * 1024,
+      },
+    });
+    expect(axiosClient.post).toHaveBeenCalledTimes(1);
+  });
+
   test('propagates failure for composer retry handling', async () => {
     axiosClient.post.mockRejectedValueOnce(
       new Error('Carrier submission failed')

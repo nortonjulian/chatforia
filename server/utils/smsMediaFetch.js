@@ -5,12 +5,34 @@ import { fetchTwilioMedia } from './twilioMediaProxy.js';
 
 // Call only after the message/thread ownership check in /sms/media/:id/:index.
 // Storage media must never receive Twilio Basic Auth or follow a redirect.
-export async function fetchSMSMedia(value) {
+export async function fetchSMSMedia(value, { ownerId } = {}) {
   // Reject traversal before URL parsing normalizes dot segments.
   if (typeof value !== 'string') {
     throw Boom.badRequest('Invalid media URL');
   }
 
+  // Outgoing MMS stores an owner-scoped private R2 key; never interpret it
+  // as a URL or pass it to the Twilio fetcher.
+  const privateKey = value.startsWith('uploads/');
+  if (privateKey && (
+    !/^uploads\/u[1-9]\d*\/(?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+$/.test(value) ||
+    value.split('/').some(segment =>
+      !segment || segment === '.' || segment === '..'
+    )
+  )) {
+    throw Boom.badRequest('Invalid stored media key');
+  }
+
+  if (privateKey && (
+    !Number.isSafeInteger(Number(ownerId)) ||
+    Number(ownerId) <= 0 ||
+    !value.startsWith(`uploads/u${Number(ownerId)}/`)
+  )) {
+    throw Boom.forbidden('Media owner mismatch');
+  }
+
+  let key = privateKey ? value : null;
+  if (!privateKey) {
   const rawPath = value.replace(/^https:\/\/[^/?#]+/i, '').split(/[?#]/, 1)[0];
   const segments = rawPath.split('/');
 
@@ -64,11 +86,11 @@ export async function fetchSMSMedia(value) {
     throw Boom.badRequest('Invalid stored media key');
   }
 
-  let key;
   try {
     key = decodeURIComponent(encodedKey);
   } catch {
     throw Boom.badRequest('Invalid stored media key');
+  }
   }
 
   if (
