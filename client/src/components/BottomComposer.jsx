@@ -31,6 +31,7 @@ export default function BottomComposer({
   showEmoji = true,
   showMic = true,
   showUpload = true,
+  prepareFile, // optional; carrier MMS conversion only when caller supplies it
   onUploadFiles, // optional; if omitted, we'll pass files to onSend via 2nd arg
 }) {
   const { t } = useTranslation();
@@ -351,6 +352,7 @@ export default function BottomComposer({
 
               {showUpload && (
                 <FileUploader
+                  prepareFile={prepareFile}
                   button={
                     <ActionIcon
                       variant="default"
