@@ -680,39 +680,20 @@ const showCallBanner = Boolean(
                 if (payload?.attachments?.length) {
                   const fileMeta = payload.attachments[0];
 
-                  const roomId = thread?.chatRoomId;
-                  if (roomId) {
-                    await axiosClient.post('/messages', {
-                      chatRoomId: String(roomId),
-                      content: text || '',
-                      attachmentsInline: [
-                        {
-                          kind: (fileMeta.contentType || '').startsWith('audio/')
-                            ? 'AUDIO'
-                            : 'FILE',
-                          url: fileMeta.url,
-                          mimeType: fileMeta.contentType,
-                        },
-                      ],
-                    });
-                    setDraft('');
-                    await loadThread();
-                    return;
+                  // Carrier MMS must use the same authorized
+                  // SMS sending endpoint as text-only SMS.
+                  const mediaRef = fileMeta.key || fileMeta.url;
+                  if (!toNumber || !mediaRef) {
+                    throw new Error('Missing MMS recipient or media reference.');
                   }
 
-                  await axiosClient.post(`/sms/threads/${threadId}/messages`, {
-                    body: text || '',
-                    attachmentsInline: [
-                      {
-                        kind: (fileMeta.contentType || '').startsWith('audio/')
-                          ? 'AUDIO'
-                          : 'FILE',
-                        url: fileMeta.url,
-                        mimeType: fileMeta.contentType,
-                      },
-                    ],
+                  await axiosClient.post('/sms/send', {
+                    to: toNumber,
+                    body: text,
+                    mediaUrls: [mediaRef],
                   });
 
+                  clear();
                   setDraft('');
                   await loadThread();
                   return;
