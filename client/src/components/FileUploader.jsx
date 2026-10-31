@@ -19,7 +19,7 @@ import { toast } from '../utils/toast';
  * 3) POST /uploads/complete { key, name, mimeType, size, width?, height? }
  * 4) call onUploaded(fileMeta)
  */
-export default function FileUploader({ button, onStart, onProgress, onUploaded, onError }) {
+export default function FileUploader({ button, onStart, onProgress, onUploaded, onError, prepareFile }) {
   const inputRef = useRef();
 
   const handleClick = () => {
@@ -28,9 +28,18 @@ export default function FileUploader({ button, onStart, onProgress, onUploaded, 
 
   const handleFiles = async (files) => {
     if (!files || files.length === 0) return;
-    const f = files[0];
+    const original = files[0];
+    let f;
 
-    onStart?.(f);
+    try {
+      f = prepareFile ? await prepareFile(original) : original;
+      if (!f) throw new Error('Could not prepare the selected attachment.');
+      onStart?.(f);
+    } catch (err) {
+      onError?.(err.message || 'Could not prepare attachment');
+      toast.err(err.message || 'Could not prepare attachment');
+      return;
+    }
 
     // small helper: compute SHA-256 if you want dedupe (optional)
     async function sha256OfFile(file) {
@@ -157,4 +166,5 @@ FileUploader.propTypes = {
   onProgress: PropTypes.func,
   onUploaded: PropTypes.func,
   onError: PropTypes.func,
+  prepareFile: PropTypes.func,
 };
