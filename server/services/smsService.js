@@ -343,7 +343,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
           prisma,
           userId: uid,
           mediaRefs: safeMediaUrls,
-          body: body ?? '',
+          body: safeBody,
           presignGet: r2PresignGet,
           publicBase: process.env.R2_PUBLIC_BASE,
           expiresSec: 3600,
