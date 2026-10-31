@@ -22,6 +22,7 @@ import {
 import {
   assertCloudStorageAvailable,
   createUploadWithinCloudStorageAllowance,
+  finalizePendingUploadWithinCloudStorageAllowance,
 } from '../services/cloudStorageService.js';
 
 const router = express.Router();
@@ -205,17 +206,30 @@ async function createUploadFlexible(data) {
 */
 router.post('/intent', requireAuth, async (req, res) => {
   try {
-    const { name, size, mimeType, sha256: sha } = req.body || {};
-    if (!name || !mimeType) return res.status(400).json({ error: 'invalid_request' });
+    const { name, size, mimeType, sha256: sha, createOnly } =
+      req.body || {};
+
+    if (createOnly !== undefined && typeof createOnly !== 'boolean') {
+      return res.status(400).json({ error: 'invalid_create_only' });
+    }
+
+    if (typeof name !== 'string' || !name.trim() ||
+        typeof mimeType !== 'string' || !mimeType.trim()) {
+      return res.status(400).json({ error: 'invalid_request' });
+    }
+
+    if (looksLikeSvg(mimeType, name) || hasBannedType(mimeType, name)) {
+      return res.status(415).json({ error: 'unsupported_upload_type' });
+    }
 
     const ownerId = Number(req.user?.id);
-    const declaredSize = Math.floor(Number(size));
+    const declaredSize = Number(size);
 
     if (!Number.isInteger(ownerId) || ownerId <= 0) {
       return res.status(403).json({ error: 'no_access' });
     }
 
-    if (!Number.isFinite(declaredSize) || declaredSize <= 0) {
+    if (!Number.isSafeInteger(declaredSize) || declaredSize <= 0) {
       return res.status(400).json({ error: 'invalid_upload_size' });
     }
 
@@ -246,7 +260,37 @@ router.post('/intent', requireAuth, async (req, res) => {
     // If STORAGE_BUCKET is configured, return a presigned PUT URL
     if (process.env.R2_BUCKET) {
       const expires = Number(process.env.R2_SIGNED_EXPIRES_SEC || process.env.STORAGE_SIGNED_EXPIRES_SEC || 300);
-      const { url: uploadUrl, expiresIn } = await generatePresignedPutUrl({ key, contentType: mimeType, expiresIn: expires });
+      const { url: uploadUrl, expiresIn } =
+        await generatePresignedPutUrl({
+          key,
+          contentType: mimeType,
+          expiresIn: expires,
+          createOnly: createOnly === true,
+        });
+
+      // Persist authorization before returning the signed upload URL.
+      // Do not expose a URL unless completion can verify its owner,
+      // expected size, type, and expiration.
+      const signedLifetime = Number(expiresIn);
+
+      if (!Number.isFinite(signedLifetime) || signedLifetime <= 0) {
+        return res.status(500).json({ error: 'invalid_upload_expiration' });
+      }
+
+      const expiresAt = new Date(
+        Date.now() + Math.floor(signedLifetime) * 1000
+      );
+
+      await prisma.pendingUpload.create({
+        data: {
+          ownerId,
+          key,
+          originalName: safe,
+          mimeType,
+          expectedSize: declaredSize,
+          expiresAt,
+        },
+      });
 
       const publicUrl = process.env.R2_PUBLIC_BASE ? buildPublicUrlForKey(key) : undefined;
 
@@ -254,6 +298,12 @@ router.post('/intent', requireAuth, async (req, res) => {
         uploadUrl,
         key,
         expiresIn,
+        uploadHeaders: {
+          'Content-Type': mimeType,
+          ...(createOnly === true
+            ? { 'If-None-Match': '*' }
+            : {}),
+        },
         publicUrl,
         requiresComplete: true,
       });
@@ -273,12 +323,15 @@ router.post('/intent', requireAuth, async (req, res) => {
 */
 router.post('/complete', requireAuth, async (req, res) => {
   try {
-    const { key, name, mimeType, size, width, height, durationSec, sha256: sha } = req.body || {};
-    if (!key || !mimeType) return res.status(400).json({ error: 'invalid_request' });
+    const { key, mimeType, size, width, height, durationSec } = req.body || {};
+    if (typeof key !== 'string' || !key ||
+        typeof mimeType !== 'string' || !mimeType) {
+      return res.status(400).json({ error: 'invalid_request' });
+    }
 
-    const ownerId = Number(req.user?.id) || null;
+    const ownerId = Number(req.user?.id);
 
-    if (!Number.isInteger(ownerId) || ownerId <= 0) {
+    if (!Number.isSafeInteger(ownerId) || ownerId <= 0) {
       return res.status(403).json({ error: 'no_access' });
     }
 
@@ -286,106 +339,117 @@ router.post('/complete', requireAuth, async (req, res) => {
       return res.status(403).json({ error: 'invalid_upload_key' });
     }
 
-    let storedObject;
-    try {
-      storedObject = await headStorageObject({ key });
-    } catch (err) {
-      console.error('uploads.complete head error', err);
-      return res.status(400).json({ error: 'uploaded_object_not_found' });
-    }
-
-    const actualSize = Math.floor(Number(storedObject?.size || 0));
-
-    if (!Number.isFinite(actualSize) || actualSize <= 0) {
-      return res.status(400).json({ error: 'invalid_uploaded_object_size' });
-    }
-
-    if (Number.isFinite(MAX_BYTES) && actualSize > MAX_BYTES) {
-      await deleteStorageObject({ key }).catch(() => {});
-      return res.status(413).json({ error: 'File too large' });
-    }
-
-    // If storage is public, construct public URL (otherwise client may fetch signed GET)
-    const publicUrl = process.env.R2_PUBLIC_BASE ? buildPublicUrlForKey(key) : null;
-
-    const uploadPayload = {
-      ownerId,
-      key,
-      sha256: (
-        typeof sha === 'string' &&
-        /^[a-f0-9]{64}$/i.test(sha)
-      )
-        ? sha.toLowerCase()
-        : fallbackSha256ForObject(key, actualSize),
-      originalName: name || path.basename(key),
-      mimeType,
-      size: actualSize,
-      driver: process.env.R2_BUCKET ? 's3' : 'local',
-    };
-
-    let uploadRow;
-
-    try {
-      const result = await createUploadWithinCloudStorageAllowance({
-        userId: ownerId,
-        uploadData: uploadPayload,
-      });
-      uploadRow = result.upload;
-    } catch (err) {
-      if (err?.code === 'STORAGE_ALLOWANCE_EXCEEDED') {
-        await deleteStorageObject({ key }).catch(() => {});
-      }
-
-      const handled = uploadErrorResponse(res, err);
-      if (handled) return handled;
-      throw err;
-    }
-
-    memRegistry.byId.set(uploadRow.id, {
-      id: uploadRow.id,
-      ownerId,
-      key: uploadRow.key,
-      mimeType: uploadRow.mimeType,
-      originalName: uploadRow.originalName,
-      driver: uploadRow.driver,
-      size: uploadRow.size,
-      persisted: true,
+    // Fast authorization check before accessing cloud storage.
+    // The transaction helper repeats this check while holding
+    // the per-user advisory lock.
+    const pending = await prisma.pendingUpload.findUnique({
+      where: { key },
     });
 
-    memRegistry.byOwnerDigest.set(
-      `${ownerId}:${uploadRow.sha256}`,
-      uploadRow.id,
-    );
-
-    // (Optional) Thumbnail generation: skip heavy operations in this route to keep it fast.
-    // You can enqueue a worker or separate job to generate thumbs from the bucket.
-    let thumbUrl = null;
-    try {
-      // If you want to attempt a server-side thumb generation only when you can read the object,
-      // you could fetch and run sharp here. We'll skip by default to avoid blocking.
-      if (mimeType.startsWith('image/') && process.env.STORAGE_BUCKET && process.env.STORAGE_PUBLIC_BASE_URL) {
-        // recommended: enqueue a worker that downloads key, creates thumb, stores thumb key,
-        // and updates the upload record with thumbUrl. Skipping here.
-      }
-    } catch (thumbErr) {
-      console.warn('thumb generation skipped:', thumbErr);
+    if (!pending || pending.ownerId !== ownerId) {
+      return res.status(404).json({ error: 'upload_intent_not_found' });
     }
 
-    const fileMeta = {
-      id: uploadRow.id,
-      key: uploadRow.key,
-      url: publicUrl || null,
-      name: uploadRow.originalName,
-      contentType: uploadRow.mimeType,
-      size: uploadRow.size,
-      width: width || null,
-      height: height || null,
-      durationSec: durationSec || null,
-      thumbUrl,
+    const completed = pending.completedUploadId != null;
+
+    if (!completed && pending.expiresAt <= new Date()) {
+      return res.status(410).json({ error: 'upload_intent_expired' });
+    }
+
+    let storedObject = null;
+
+    if (!completed) {
+      try {
+        storedObject = await headStorageObject({ key });
+      } catch {
+        return res.status(400).json({
+          error: 'uploaded_object_not_found',
+        });
+      }
+
+      const actualSize = Number(storedObject?.size);
+
+      if (!Number.isSafeInteger(actualSize) || actualSize <= 0) {
+        return res.status(400).json({
+          error: 'invalid_uploaded_object_size',
+        });
+      }
+
+      if (Number.isFinite(MAX_BYTES) && actualSize > MAX_BYTES) {
+        return res.status(413).json({ error: 'File too large' });
+      }
+
+      if (actualSize !== pending.expectedSize ||
+          storedObject?.contentType !== pending.mimeType) {
+        return res.status(409).json({
+          error: 'uploaded_object_metadata_mismatch',
+        });
+      }
+
+      // Client declarations are checked for consistency, never
+      // treated as proof of the actual R2 object's metadata.
+      if (Number(size) !== pending.expectedSize ||
+          mimeType !== pending.mimeType) {
+        return res.status(409).json({
+          error: 'upload_declaration_mismatch',
+        });
+      }
+    }
+
+    // For a retry, the helper returns the original Upload record.
+    // For first completion, the helper verifies pending metadata
+    // and creates Upload + completion link in one transaction.
+    const result =
+      await finalizePendingUploadWithinCloudStorageAllowance({
+        userId: ownerId,
+        key,
+        actualSize: storedObject?.size,
+        actualMimeType: storedObject?.contentType,
+        sha256: fallbackSha256ForObject(
+          key,
+          storedObject?.size ?? pending.expectedSize,
+        ),
+      });
+
+    const upload = result.upload;
+
+    const publicUrl = process.env.R2_PUBLIC_BASE
+      ? buildPublicUrlForKey(key)
+      : null;
+
+    return res.json({
+      ok: true,
+      file: {
+        id: upload.id,
+        key: upload.key,
+        url: publicUrl,
+        name: upload.originalName,
+        contentType: upload.mimeType,
+        size: upload.size,
+        width: width || null,
+        height: height || null,
+        durationSec: durationSec || null,
+        thumbUrl: null,
+      },
+    });
+  } catch (err) {
+    const responses = {
+      UPLOAD_INTENT_NOT_FOUND: [404, 'upload_intent_not_found'],
+      UPLOAD_INTENT_EXPIRED: [410, 'upload_intent_expired'],
+      UPLOAD_METADATA_MISMATCH: [409, 'uploaded_object_metadata_mismatch'],
+      UPLOAD_COMPLETION_CONFLICT: [409, 'upload_completion_conflict'],
+      INVALID_UPLOAD_COMPLETION: [400, 'invalid_upload_completion'],
     };
 
-    return res.json({ ok: true, file: fileMeta });
-  } catch (err) {
+    const matched = responses[err?.code];
+
+    if (matched) {
+      return res.status(matched[0]).json({ error: matched[1] });
+    }
+
+    const handled = uploadErrorResponse(res, err);
+    if (handled) return handled;
+
     console.error('uploads.complete error', err);
     return res.status(500).json({ error: 'server_error' });
   }

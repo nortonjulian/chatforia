@@ -260,6 +260,7 @@ model User {
   cycling           Boolean            @default(false)
   strictE2EE        Boolean            @default(false)
   uploads           Upload[]           @relation("UserUploads")
+  pendingUploads   PendingUpload[] @relation("PendingUploadOwner")
   smsThreads        SmsThread[]        @relation("UserSmsThreads")
   smsBlockedNumbers SmsBlockedNumber[] @relation("UserSmsBlockedNumbers")
   blockedAccounts   UserBlock[]        @relation("UserBlocksMade")
@@ -1034,6 +1035,7 @@ model Upload {
   createdAt    DateTime @default(now())
 
   owner User @relation("UserUploads", fields: [ownerId], references: [id], onDelete: Cascade)
+  pendingCompletions PendingUpload[] @relation("PendingUploadCompletion")
 
   // choose ONE of these uniqueness guarantees:
   // key is globally unique:
@@ -1045,6 +1047,26 @@ model Upload {
 
   @@index([ownerId])
   @@index([sha256])
+}
+
+model PendingUpload {
+  id           String    @id @default(uuid())
+  ownerId      Int
+  key          String    @unique
+  originalName String
+  mimeType     String
+  expectedSize Int
+  expiresAt    DateTime
+  completedAt  DateTime?
+  completedUploadId Int? @unique
+  createdAt    DateTime  @default(now())
+
+  owner User @relation("PendingUploadOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  completedUpload Upload? @relation("PendingUploadCompletion", fields: [completedUploadId], references: [id], onDelete: SetNull)
+
+  @@index([ownerId, expiresAt])
+  @@index([expiresAt])
 }
 
 model SmsThread {

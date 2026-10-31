@@ -65,6 +65,7 @@ export async function generatePresignedPutUrl({
   key,
   contentType = 'application/octet-stream',
   expiresIn = 300,
+  createOnly = false,
 }) {
   const Bucket = STORAGE_BUCKET;
   if (!Bucket) {
@@ -75,9 +76,22 @@ export async function generatePresignedPutUrl({
     Bucket,
     Key: key,
     ContentType: contentType,
+    ...(createOnly ? { IfNoneMatch: '*' } : {}),
   });
 
-  const url = await getSignedUrl(s3, cmd, { expiresIn });
+  const url = await getSignedUrl(
+    s3,
+    cmd,
+    createOnly
+      ? {
+          expiresIn,
+          signableHeaders: new Set([
+            'content-type',
+            'if-none-match',
+          ]),
+        }
+      : { expiresIn },
+  );
 
   return { url, key, expiresIn };
 }

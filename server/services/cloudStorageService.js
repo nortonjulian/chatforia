@@ -130,3 +130,109 @@ export async function createUploadWithinCloudStorageAllowance({
     };
   });
 }
+
+/**
+ * Complete an issued presigned upload exactly once per owner/key.
+ * HEAD object metadata must be verified by the caller before entering
+ * this transaction. No client-supplied size/type is trusted here.
+ */
+export async function finalizePendingUploadWithinCloudStorageAllowance({
+  userId,
+  key,
+  actualSize,
+  actualMimeType,
+  sha256,
+}) {
+  const ownerId = Number(userId);
+  const size = Number(actualSize);
+
+  if (!Number.isSafeInteger(ownerId) || ownerId <= 0 ||
+      typeof key !== 'string' || !key) {
+    const error = new Error('Invalid upload completion');
+    error.code = 'INVALID_UPLOAD_COMPLETION';
+    throw error;
+  }
+
+  const reject = (code) => {
+    const error = new Error(code);
+    error.code = code;
+    throw error;
+  };
+
+  return prisma.$transaction(async (tx) => {
+    // Same per-user lock used by ordinary cloud upload accounting.
+    // Serializes concurrent completion requests for this user.
+    await tx.$executeRawUnsafe(
+      'SELECT pg_advisory_xact_lock($1)',
+      ownerId,
+    );
+
+    const pending = await tx.pendingUpload.findUnique({
+      where: { key },
+    });
+
+    if (!pending || pending.ownerId !== ownerId) {
+      reject('UPLOAD_INTENT_NOT_FOUND');
+    }
+
+    // Idempotent retry: do not charge storage a second time.
+    if (pending.completedUploadId != null) {
+      const existing = await tx.upload.findUnique({
+        where: { id: pending.completedUploadId },
+      });
+      if (!existing || existing.ownerId !== ownerId ||
+          existing.key !== key) {
+        reject('UPLOAD_COMPLETION_CONFLICT');
+      }
+      return { upload: existing, alreadyCompleted: true };
+    }
+
+    if (pending.expiresAt <= new Date()) {
+      reject('UPLOAD_INTENT_EXPIRED');
+    }
+
+    // A completed retry needs no new HEAD request. For a first
+    // completion, require trusted storage metadata before accounting.
+    if (!Number.isSafeInteger(size) || size <= 0 ||
+        typeof actualMimeType !== 'string' || !actualMimeType) {
+      reject('INVALID_UPLOAD_COMPLETION');
+    }
+
+    if (pending.expectedSize !== size ||
+        pending.mimeType !== actualMimeType) {
+      reject('UPLOAD_METADATA_MISMATCH');
+    }
+
+    const summary = await planAndUsage(tx, ownerId);
+
+    if (summary.used + size > summary.limit) {
+      throw storageAllowanceError({
+        limit: summary.limit,
+        used: summary.used,
+        requested: size,
+      });
+    }
+
+    const upload = await tx.upload.create({
+      data: {
+        ownerId,
+        key,
+        originalName: pending.originalName,
+        mimeType: pending.mimeType,
+        size,
+        sha256,
+        driver: 's3',
+      },
+    });
+
+    await tx.pendingUpload.update({
+      where: { id: pending.id },
+      data: {
+        completedAt: new Date(),
+        completedUploadId: upload.id,
+      },
+    });
+
+    return { upload, alreadyCompleted: false };
+  });
+}

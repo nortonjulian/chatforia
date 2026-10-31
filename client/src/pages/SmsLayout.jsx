@@ -32,6 +32,7 @@ import {
 } from '@tabler/icons-react';
 
 import axiosClient from '@/api/axiosClient';
+import { sendCarrierMmsAttachment } from './sendCarrierMmsAttachment.js';
 import ThreadShell from '@/threads/ThreadShell';
 import ThreadComposer from '@/threads/ThreadComposer.jsx';
 import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
@@ -680,39 +681,14 @@ const showCallBanner = Boolean(
                 if (payload?.attachments?.length) {
                   const fileMeta = payload.attachments[0];
 
-                  const roomId = thread?.chatRoomId;
-                  if (roomId) {
-                    await axiosClient.post('/messages', {
-                      chatRoomId: String(roomId),
-                      content: text || '',
-                      attachmentsInline: [
-                        {
-                          kind: (fileMeta.contentType || '').startsWith('audio/')
-                            ? 'AUDIO'
-                            : 'FILE',
-                          url: fileMeta.url,
-                          mimeType: fileMeta.contentType,
-                        },
-                      ],
-                    });
-                    setDraft('');
-                    await loadThread();
-                    return;
-                  }
-
-                  await axiosClient.post(`/sms/threads/${threadId}/messages`, {
-                    body: text || '',
-                    attachmentsInline: [
-                      {
-                        kind: (fileMeta.contentType || '').startsWith('audio/')
-                          ? 'AUDIO'
-                          : 'FILE',
-                        url: fileMeta.url,
-                        mimeType: fileMeta.contentType,
-                      },
-                    ],
+                  await sendCarrierMmsAttachment({
+                    axiosClient,
+                    toNumber,
+                    text,
+                    fileMeta,
                   });
 
+                  clear();
                   setDraft('');
                   await loadThread();
                   return;

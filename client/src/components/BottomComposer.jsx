@@ -274,7 +274,10 @@ export default function BottomComposer({
                       <button
                         type="button"
                         aria-label="Remove selected attachment"
-                        onClick={() => setPendingAttachment(null)}
+                        onClick={() => {
+                          setPendingAttachment(null);
+                          setSendError('');
+                        }}
                         style={{
                           position: 'absolute',
                           top: 6,
@@ -392,6 +395,7 @@ export default function BottomComposer({
                       ...fileMeta,
                       ...(previewUrl ? { previewUrl } : {}),
                     });
+                    setSendError('');
                   }}
                   onError={() => {
                     setUploading(false);
@@ -498,6 +502,7 @@ export default function BottomComposer({
             durationSec: pick.durationSec || null,
             previewUrl: pick.previewUrl || null,
           });
+          setSendError('');
 
           setPickerOpen(false);
         }}

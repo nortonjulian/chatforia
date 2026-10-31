@@ -27,6 +27,21 @@ jest.unstable_mockModule('../services/cloudStorageService.js', () => ({
       },
     })
   ),
+  finalizePendingUploadWithinCloudStorageAllowance: jest.fn(
+    async ({ userId, key, actualSize, actualMimeType, sha256 }) => ({
+      upload: {
+        id: mockUploadId++,
+        ownerId: userId,
+        key,
+        size: actualSize,
+        mimeType: actualMimeType,
+        originalName: 'test-video.mp4',
+        sha256,
+        driver: 's3',
+      },
+      alreadyCompleted: false,
+    })
+  ),
 }));
 
 const { uploadsRouter } = await import('../routes/uploads.js');
@@ -70,6 +85,82 @@ describe('uploadsRouter', () => {
 
     agent1 = request.agent(makeApp(1));
     agent2 = request.agent(makeApp(2));
+  });
+
+  test('rejects a fractional presigned upload size', async () => {
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'video.mp4',
+      mimeType: 'video/mp4',
+      size: 1000.5,
+    });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('invalid_upload_size');
+  });
+
+  test('rejects executable files through presigned uploads', async () => {
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'malware.exe',
+      mimeType: 'application/x-msdownload',
+      size: 1000,
+    });
+
+    expect(res.status).toBe(415);
+    expect(res.body.error).toBe('unsupported_upload_type');
+  });
+
+  test('rejects SVG files through presigned uploads', async () => {
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'unsafe.svg',
+      mimeType: 'image/svg+xml',
+      size: 1000,
+    });
+
+    expect(res.status).toBe(415);
+    expect(res.body.error).toBe('unsupported_upload_type');
+  });
+
+  test('rejects an oversized presigned upload intent', async () => {
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'large.mp4',
+      mimeType: 'video/mp4',
+      size: 11 * 1024 * 1024,
+    });
+
+    expect(res.status).toBe(413);
+    expect(res.body.error).toBe('File too large');
+  });
+
+  test('rejects an invalid presigned upload size', async () => {
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'empty.mp4',
+      mimeType: 'video/mp4',
+      size: 0,
+    });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('invalid_upload_size');
+  });
+
+  test('rejects completion using another owner’s storage key', async () => {
+    const res = await agent2.post('/uploads/complete').send({
+      key: 'uploads/u1/2026/10/29/video.mp4',
+      name: 'video.mp4',
+      mimeType: 'video/mp4',
+      size: 100,
+    });
+
+    expect(res.status).toBe(403);
+    expect(res.body.error).toBe('invalid_upload_key');
+  });
+
+  test('rejects incomplete upload-completion requests', async () => {
+    const res = await agent1.post('/uploads/complete').send({
+      key: 'uploads/u1/2026/10/29/video.mp4',
+    });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('invalid_request');
   });
 
   test('GET /uploads/__iam_uploads_router returns health', async () => {
