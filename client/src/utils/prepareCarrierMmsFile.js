@@ -25,7 +25,7 @@ export function assertCarrierMmsFile(file, body = '') {
       ? 'Carrier MMS video must be 500 KB or smaller. Trim or compress it before attaching.'
       : 'This photo exceeds the 5 MB carrier MMS limit. Choose a smaller photo.');
   }
-  const captionBytes = new TextEncoder().encode(String(body ?? '')).length;
+  const captionBytes = new Blob([String(body ?? '')]).size;
   if (file.size + captionBytes > MAX_MMS_BYTES) {
     throw new Error('Media and message text together exceed the 5 MB carrier MMS limit.');
   }
