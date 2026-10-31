@@ -99,7 +99,7 @@ describe('carrier MMS attachment submission', () => {
         mimeType: 'image/png',
         size: 6.61 * 1024 * 1024,
       },
-    })).rejects.toThrow('exceeds the 5 MiB MMS limit');
+    })).rejects.toThrow('Attachment and message text exceed the 5 MB carrier MMS limit');
     expect(axiosClient.post).not.toHaveBeenCalled();
   });
 
@@ -123,7 +123,7 @@ describe('carrier MMS attachment submission', () => {
       fileMeta: {
         key: privateKey,
         mimeType: 'image/jpeg',
-        size: 5 * 1024 * 1024,
+        size: 5_000_000,
       },
     });
     expect(axiosClient.post).toHaveBeenCalledTimes(1);
@@ -142,4 +142,23 @@ describe('carrier MMS attachment submission', () => {
 
     expect(axiosClient.post).toHaveBeenCalledTimes(1);
   });
+  test('rejects a small image when caption causes combined size to exceed 5 MB', async () => {
+    await expect(sendCarrierMmsAttachment({
+      axiosClient,
+      toNumber: '+15551234567',
+      text: '😄',
+      fileMeta: { key: privateKey, mimeType: 'image/jpeg', size: 4_999_998 },
+    })).rejects.toThrow('Attachment and message text exceed the 5 MB carrier MMS limit');
+    expect(axiosClient.post).not.toHaveBeenCalled();
+  });
+
+  test('rejects an MP4 over conservative 500 KB carrier limit', async () => {
+    await expect(sendCarrierMmsAttachment({
+      axiosClient,
+      toNumber: '+15551234567',
+      fileMeta: { key: privateKey, mimeType: 'video/mp4', size: 500_001 },
+    })).rejects.toThrow('Carrier MMS video must be 500 KB or smaller');
+    expect(axiosClient.post).not.toHaveBeenCalled();
+  });
+
 });
