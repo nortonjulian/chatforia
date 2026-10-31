@@ -5,7 +5,7 @@ import { fetchTwilioMedia } from './twilioMediaProxy.js';
 
 // Call only after the message/thread ownership check in /sms/media/:id/:index.
 // Storage media must never receive Twilio Basic Auth or follow a redirect.
-export async function fetchSMSMedia(value) {
+export async function fetchSMSMedia(value, { ownerId } = {}) {
   // Reject traversal before URL parsing normalizes dot segments.
   if (typeof value !== 'string') {
     throw Boom.badRequest('Invalid media URL');
@@ -21,6 +21,14 @@ export async function fetchSMSMedia(value) {
     )
   )) {
     throw Boom.badRequest('Invalid stored media key');
+  }
+
+  if (privateKey && (
+    !Number.isSafeInteger(Number(ownerId)) ||
+    Number(ownerId) <= 0 ||
+    !value.startsWith(`uploads/u${Number(ownerId)}/`)
+  )) {
+    throw Boom.forbidden('Media owner mismatch');
   }
 
   let key = privateKey ? value : null;
