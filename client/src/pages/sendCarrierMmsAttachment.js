@@ -19,7 +19,7 @@ export async function sendCarrierMmsAttachment({
     throw new Error('MMS supports JPEG, PNG, GIF, and MP4 files. Choose a supported attachment.');
   }
   const bytes = Number(size);
-  const bodyBytes = new TextEncoder().encode(String(text ?? '')).length;
+  const bodyBytes = new Blob([String(text ?? '')]).size;
   if (size != null && Number.isFinite(bytes)) {
     if (mimeType === 'video/mp4' && bytes > 500_000) {
       throw new Error('Carrier MMS video must be 500 KB or smaller.');
