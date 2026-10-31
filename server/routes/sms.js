@@ -226,25 +226,41 @@ r.get(
     }
     const thread = await smsService.getThread(req.user.id, req.params.id);
 
-    const resolvedThreadId = Number(thread?.id ?? req.params.id);
-    if (thread && Number.isInteger(resolvedThreadId) && resolvedThreadId > 0) {
-      await prisma.smsThread.updateMany({
-        where: {
-          id: resolvedThreadId,
-          userId: Number(req.user.id),
-        },
-        data: { lastReadAt: new Date() },
-      });
-    }
-
-    if (thread) {
-      await syncBadgeToUserDevices(
-        Number(req.user.id),
-        'sms_thread_read'
-      );
-    }
-
+    // Fetching a thread must not mark it read: background refreshes,
+    // link previews and other clients can fetch without the user viewing it.
     res.json(thread);
+  })
+);
+
+// POST /sms/threads/:id/read — an explicit acknowledgement from the
+// foreground, visible conversation view (never from background refresh).
+r.post(
+  '/threads/:id/read',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user.id);
+    const threadId = Number(req.params.id);
+    if (!Number.isSafeInteger(threadId) || threadId <= 0) {
+      throw Boom.badRequest('Valid SMS thread id is required');
+    }
+
+    // Ownership filter is part of the mutation, not a separate read check.
+    const result = await prisma.smsThread.updateMany({
+      where: {
+        id: threadId,
+        userId,
+        archivedAt: null,
+        deletedAt: null,
+      },
+      data: { lastReadAt: new Date() },
+    });
+
+    if (!result.count) {
+      throw Boom.notFound('SMS thread not found');
+    }
+
+    await syncBadgeToUserDevices(userId, 'sms_thread_read');
+    res.json({ ok: true });
   })
 );
 
