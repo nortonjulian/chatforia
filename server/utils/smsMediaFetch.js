@@ -11,6 +11,20 @@ export async function fetchSMSMedia(value) {
     throw Boom.badRequest('Invalid media URL');
   }
 
+  // Outgoing MMS stores an owner-scoped private R2 key; never interpret it
+  // as a URL or pass it to the Twilio fetcher.
+  const privateKey = value.startsWith('uploads/');
+  if (privateKey && (
+    !/^uploads\\/u[1-9]\\d*\\/[A-Za-z0-9._/-]+$/.test(value) ||
+    value.split('/').some(segment =>
+      !segment || segment === '.' || segment === '..'
+    )
+  )) {
+    throw Boom.badRequest('Invalid stored media key');
+  }
+
+  let key = privateKey ? value : null;
+  if (!privateKey) {
   const rawPath = value.replace(/^https:\/\/[^/?#]+/i, '').split(/[?#]/, 1)[0];
   const segments = rawPath.split('/');
 
@@ -64,11 +78,11 @@ export async function fetchSMSMedia(value) {
     throw Boom.badRequest('Invalid stored media key');
   }
 
-  let key;
   try {
     key = decodeURIComponent(encodedKey);
   } catch {
     throw Boom.badRequest('Invalid stored media key');
+  }
   }
 
   if (
