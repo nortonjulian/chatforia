@@ -101,6 +101,11 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   const bottomRef = useRef(null);
   const scrollViewportRef = useRef(null);
   const followBottomRef = useRef(true);
+  // During the first paint, browsers can restore an old scroll offset after
+  // React has already rendered the thread (notably Firefox).
+  const initialScrollPendingRef = useRef(false);
+  const initialScrollScopeRef = useRef('');
+
 
   const {
     startBrowserCall,
@@ -126,11 +131,47 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     };
   }, []);
 
+  // Align each newly opened thread after browser scroll restoration and
+  // delayed attachment layout. Stop immediately if the user chooses to scroll.
   useLayoutEffect(() => {
-    if (!thread) return undefined;
+    if (!thread || !loadedScope || loadedScope !== scopeKey) return undefined;
+    if (initialScrollScopeRef.current === scopeKey) return undefined;
+    initialScrollScopeRef.current = scopeKey;
+    initialScrollPendingRef.current = true;
     followBottomRef.current = true;
+
+    const align = () => {
+      if (!initialScrollPendingRef.current) return;
+      const viewport = scrollViewportRef.current;
+      if (viewport) viewport.scrollTop = viewport.scrollHeight;
+    };
+
+    align();
+    let secondFrame;
+    const firstFrame = requestAnimationFrame(() => {
+      align();
+      secondFrame = requestAnimationFrame(align);
+    });
+    const timers = [setTimeout(align, 100), setTimeout(() => {
+      align();
+      initialScrollPendingRef.current = false;
+    }, 350)];
+
+    return () => {
+      initialScrollPendingRef.current = false;
+      cancelAnimationFrame(firstFrame);
+      if (secondFrame != null) cancelAnimationFrame(secondFrame);
+      timers.forEach(clearTimeout);
+    };
+  }, [loadedScope, scopeKey, thread?.id]);
+
+  // New messages should only autoscroll if the user was following the bottom.
+  useLayoutEffect(() => {
+    if (!thread || loadedScope !== scopeKey || !followBottomRef.current) {
+      return undefined;
+    }
     return scrollToBottom();
-  }, [thread?.id, thread?.messages?.length, scrollToBottom]);
+  }, [thread?.messages?.length, loadedScope, scopeKey, scrollToBottom]);
 
   // Attachments and composer previews can resize after history first renders.
   // Follow those changes only while the reader is already at the bottom.
@@ -711,10 +752,16 @@ const showCallBanner = Boolean(
           ref={scrollViewportRef}
           className="sms-thread-viewport"
           onScroll={event => {
+            // Don't mistake browser scroll restoration/layout for user intent.
+            if (initialScrollPendingRef.current) return;
             const viewport = event.currentTarget;
             followBottomRef.current =
               viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight <= 32;
           }}
+          onWheel={() => { initialScrollPendingRef.current = false; }}
+          onTouchStart={() => { initialScrollPendingRef.current = false; }}
+          onPointerDown={() => { initialScrollPendingRef.current = false; }}
+          onKeyDown={() => { initialScrollPendingRef.current = false; }}
           w="100%"
           style={{
             flex: '1 1 auto',
