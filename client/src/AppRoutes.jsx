@@ -543,6 +543,20 @@ export default function AppRoutes() {
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
 
+        {/* Public informational destinations must also work while signed in. */}
+        <Route path="about" element={<AboutChatforia />} />
+        <Route path="careers" element={<Careers />} />
+        <Route path="press" element={<Press />} />
+        <Route path="advertise" element={<Advertise />} />
+        <Route path="help" element={<HelpCenter />} />
+        <Route path="contact" element={<ContactUs />} />
+        <Route path="privacy" element={<PrivacyPolicy />} />
+        <Route path="legal/terms" element={<TermsOfService />} />
+        <Route path="legal/sms" element={<SmsPolicy />} />
+        <Route path="legal/do-not-sell" element={<DoNotSellMyInfo />} />
+        <Route path="legal/cookies" element={<CookieSettings />} />
+        <Route path="legal/account-deletion" element={<AccountDeletion />} />
+
         <Route path="how-it-works" element={<HowItWorks />} />
         <Route path="safety" element={<Safety />} />
         <Route path="blog" element={<BlogIndex />} />
