@@ -62,6 +62,51 @@ describe('AdminSupport dashboard', () => {
     expect(mockGetTickets).toHaveBeenCalledTimes(1);
   });
 
+  test('formats support categories and diagnostic actions', async () => {
+    mockGetSummary.mockResolvedValueOnce({
+      ...summary,
+      topCategories: [
+        { category: 'account_not_found', count: 2 },
+      ],
+      topIssuesDetailed: [
+        {
+          category: 'general_support',
+          action: 'queue_for_support_review',
+          count: 1,
+        },
+      ],
+    });
+
+    renderDashboard();
+
+    expect(await screen.findByText('Account Not Found'))
+      .toBeInTheDocument();
+
+    expect(screen.getByText('General Support'))
+      .toBeInTheDocument();
+
+    expect(screen.getByText('Action: Queue For Support Review'))
+      .toBeInTheDocument();
+  });
+
+  test('displays complete ticket status and support level', async () => {
+    mockGetTickets.mockResolvedValueOnce({
+      tickets: [{
+        ...tickets.tickets[0],
+        status: 'auto_resolved',
+        supportLevel: 'STANDARD',
+      }],
+    });
+
+    renderDashboard();
+
+    expect(await screen.findByText('Auto Resolved'))
+      .toBeInTheDocument();
+
+    expect(screen.getByText('STANDARD'))
+      .toBeInTheDocument();
+  });
+
   test('displays error when initial loading fails', async () => {
     mockGetSummary.mockRejectedValueOnce(new Error('API unavailable'));
 

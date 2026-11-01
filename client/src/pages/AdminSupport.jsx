@@ -10,12 +10,25 @@ import {
   Table,
   SimpleGrid,
   Alert,
+  ScrollArea,
 } from '@mantine/core';
 import {
   getSupportSummary,
   getSupportTickets,
   updateSupportTicket,
 } from '@/api/adminSupport';
+
+function formatSupportLabel(value) {
+  if (typeof value !== 'string' || !value.trim()) {
+    return 'None';
+  }
+
+  return value
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
 
 export default function AdminSupport() {
   const [summary, setSummary] = useState(null);
@@ -101,7 +114,7 @@ export default function AdminSupport() {
         <Stack gap="xs">
           {(summary?.topCategories || []).map((item) => (
             <Group key={item.category} justify="space-between">
-              <Text>{item.category}</Text>
+              <Text>{formatSupportLabel(item.category)}</Text>
               <Badge>{item.count}</Badge>
             </Group>
           ))}
@@ -115,9 +128,9 @@ export default function AdminSupport() {
             {(summary?.topIssuesDetailed || []).map((item, i) => (
             <Group key={i} justify="space-between">
                 <div>
-                <Text fw={500}>{item.category}</Text>
+                <Text fw={500}>{formatSupportLabel(item.category)}</Text>
                 <Text size="xs" c="dimmed">
-                    Action: {item.action || 'None'}
+                    Action: {formatSupportLabel(item.action)}
                 </Text>
                 </div>
 
@@ -130,7 +143,8 @@ export default function AdminSupport() {
       <Card withBorder>
         <Title order={4} mb="sm">Recent tickets</Title>
 
-        <Table striped highlightOnHover>
+        <ScrollArea type="auto" offsetScrollbars>
+          <Table striped highlightOnHover style={{ minWidth: 850 }}>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>ID</Table.Th>
@@ -148,10 +162,13 @@ export default function AdminSupport() {
                 <Table.Td>{ticket.id}</Table.Td>
                 <Table.Td>{ticket.email}</Table.Td>
                 <Table.Td>
-                  <Badge>{ticket.status}</Badge>
+                  <Badge style={{ whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    {formatSupportLabel(ticket.status)}
+                  </Badge>
                 </Table.Td>
                 <Table.Td>
                   <Badge
+                    style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
                     color={
                       ticket.supportLevel === 'PRIORITY'
                         ? 'red'
@@ -160,7 +177,7 @@ export default function AdminSupport() {
                           : 'gray'
                     }
                   >
-                    {ticket.supportLevel || 'STANDARD'}
+                    {formatSupportLabel(ticket.supportLevel || 'STANDARD')}
                   </Badge>
                 </Table.Td>
                 <Table.Td>
@@ -188,7 +205,8 @@ export default function AdminSupport() {
               </Table.Tr>
             ))}
           </Table.Tbody>
-        </Table>
+          </Table>
+        </ScrollArea>
       </Card>
     </Stack>
   );
