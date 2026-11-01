@@ -20,12 +20,12 @@ const icons = {
   ),
   reddit: (props) => (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
-      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="8.5" cy="11" r="1.2" />
-      <circle cx="15.5" cy="11" r="1.2" />
-      <path d="M8 15c2.4 2 5.6 2 8 0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-      <path d="M12 7l1-3 3.2.6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="17" cy="4.8" r="1" />
+      <path d="M12.1 6.6 13.4 2.8 17 3.6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="17.9" cy="3.8" r="1.5" />
+      <path d="M5.5 9.4a3 3 0 0 0-2.3-.5 2.7 2.7 0 0 0-1.7 4.3 3 3 0 0 0 2.7 1.1c.6 4.1 3.8 6.7 7.8 6.7s7.2-2.6 7.8-6.7a3 3 0 0 0 2.7-1.1 2.7 2.7 0 0 0-1.7-4.3 3 3 0 0 0-2.3.5C17 7.8 14.7 7 12 7s-5 .8-6.5 2.4Z" />
+      <ellipse cx="9" cy="12.5" rx="1.1" ry="1.4" fill="white" />
+      <ellipse cx="15" cy="12.5" rx="1.1" ry="1.4" fill="white" />
+      <path d="M8.3 16.2c2.2 1.8 5.2 1.8 7.4 0" fill="none" stroke="white" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   ),
   facebook: (props) => (
@@ -135,9 +135,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="cf-footer__bottom">
           <p>
-            {t('footer.copyright', COPYRIGHT_TEXT).replace(/Chatforia Inc\./g, 'Chatforia LLC.')}
-            {" · "}
-            <span>Chatforia LLC</span>
+            {COPYRIGHT_TEXT}
             {" · "}
             <a href="mailto:support@chatforia.com">support@chatforia.com</a>
             {" · "}
