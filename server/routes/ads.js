@@ -9,6 +9,17 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Escape user-provided fields before inserting them into an HTML email.
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[char]);
+}
+
 // POST /ads/inquiries
 router.post('/inquiries', async (req, res, next) => {
   try {
@@ -44,12 +55,12 @@ router.post('/inquiries', async (req, res, next) => {
 
       const htmlBody = `
         <h2>New advertising inquiry</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Company:</strong> ${company || '—'}</p>
-        <p><strong>Budget:</strong> ${budget || '—'}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Company:</strong> ${escapeHtml(company || '—')}</p>
+        <p><strong>Budget:</strong> ${escapeHtml(budget || '—')}</p>
         <p><strong>Message:</strong></p>
-        <p>${String(message).replace(/\n/g, '<br>')}</p>
+        <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
         <hr>
         <p><strong>Internal ID:</strong> ${inquiry.id}</p>
       `;
