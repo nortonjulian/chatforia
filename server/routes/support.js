@@ -51,48 +51,64 @@ router.post('/tickets', verifyTokenOptional, async (req, res, next) => {
       },
     });
 
-    const automation = await runSupportAutomation({
-      userId,
-      email,
-      message,
-      ticketId: ticket.id,
-      categoryHint,
-      source: 'support_ticket',
-    });
-
-    const shouldEscalate =
-      automation.autoAction.status === 'escalated' ||
-      automation.diagnosis.severity === 'high' ||
-      automation.diagnosis.severity === 'urgent';
-
-    if (automation.diagnosis.resolved) {
-      await prisma.supportTicket.update({
-        where: { id: ticket.id },
-        data: { status: 'auto_resolved' },
+    // Ticket persistence is authoritative; automation must not turn a saved
+    // request into a failed submission or encourage duplicate retries.
+    try {
+      const automation = await runSupportAutomation({
+        userId,
+        email,
+        message,
+        ticketId: ticket.id,
+        categoryHint,
+        source: 'support_ticket',
       });
-    } else if (shouldEscalate) {
-      await prisma.supportTicket.update({
-        where: { id: ticket.id },
-        data: { status: 'escalated' },
+
+      const shouldEscalate =
+        automation.autoAction.status === 'escalated' ||
+        automation.diagnosis.severity === 'high' ||
+        automation.diagnosis.severity === 'urgent';
+
+      if (automation.diagnosis.resolved) {
+        await prisma.supportTicket.update({
+          where: { id: ticket.id },
+          data: { status: 'auto_resolved' },
+        });
+      } else if (shouldEscalate) {
+        await prisma.supportTicket.update({
+          where: { id: ticket.id },
+          data: { status: 'escalated' },
+        });
+      }
+
+      return res.status(201).json({
+        ok: true,
+        ticketId: ticket.id,
+        supportLevel,
+        status: automation.diagnosis.resolved
+          ? 'auto_resolved'
+          : shouldEscalate
+            ? 'escalated'
+            : 'queued',
+        category: automation.diagnosis.category,
+        resolved: automation.diagnosis.resolved,
+        severity: automation.diagnosis.severity,
+        message: automation.diagnosis.userMessage,
+        nextAction: automation.diagnosis.nextAction,
+        autoAction: automation.autoAction.action,
+      });
+    } catch (automationError) {
+      console.error('[support] automation failed for saved ticket', ticket.id, automationError);
+      return res.status(201).json({
+        ok: true,
+        ticketId: ticket.id,
+        supportLevel,
+        status: 'queued',
+        resolved: false,
+        message: 'Your request was received and is awaiting support review.',
+        nextAction: 'Our support team will review your request.',
+        autoAction: null,
       });
     }
-
-    return res.status(201).json({
-      ok: true,
-      ticketId: ticket.id,
-      supportLevel,
-      status: automation.diagnosis.resolved
-        ? 'auto_resolved'
-        : shouldEscalate
-          ? 'escalated'
-          : 'queued',
-      category: automation.diagnosis.category,
-      resolved: automation.diagnosis.resolved,
-      severity: automation.diagnosis.severity,
-      message: automation.diagnosis.userMessage,
-      nextAction: automation.diagnosis.nextAction,
-      autoAction: automation.autoAction.action,
-    });
   } catch (err) {
     next(err);
   }
