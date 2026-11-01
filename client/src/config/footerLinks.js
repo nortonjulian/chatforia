@@ -155,4 +155,4 @@ export const SOCIALS = [
   { name: "X (Twitter)", href: "https://x.com/chatforia", icon: "x" },
 ];
 
-export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} Chatforia Inc. All rights reserved.`;
+export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} Chatforia LLC. All rights reserved.`;
