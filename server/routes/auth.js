@@ -1232,6 +1232,7 @@ router.get(
       role: safeUser.role,
       plan: safeUser.plan,
       isPremium: paid,
+      twoFactorEnabled: safeUser.twoFactorEnabled === true,
 
       preferredLanguage: safeUser.preferredLanguage,
       uiLanguage: safeUser.uiLanguage,

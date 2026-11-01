@@ -1,45 +1,147 @@
-import { useEffect, useState } from 'react';
-import { Modal, Text, TextInput, Group, Button } from '@mantine/core';
+import { useState } from 'react';
+import {
+  Badge,
+  Button,
+  Group,
+  Modal,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
 
-export default function TwoFADisableModal({ opened, onClose }) {
-  const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
+import TwoFASetupModal from '@/components/auth/TwoFASetupModal.jsx';
+import { disableTwoFactor } from '@/api/twoFactor';
 
-  useEffect(() => { if (!opened) setCode(''); }, [opened]);
+export default function TwoFASection({ user, onChange }) {
+  const [setupOpen, setSetupOpen] = useState(false);
+  const [disableOpen, setDisableOpen] = useState(false);
+  const [disableCode, setDisableCode] = useState('');
+  const [disableBusy, setDisableBusy] = useState(false);
+  const [disableError, setDisableError] = useState('');
 
-  const disable = async () => {
-    setLoading(true);
+  const enabled = user?.twoFactorEnabled === true;
+
+  const closeSetup = async (completed = false) => {
+    setSetupOpen(false);
+    if (completed) {
+      await onChange?.();
+    }
+  };
+
+  const closeDisable = () => {
+    if (disableBusy) return;
+    setDisableOpen(false);
+    setDisableCode('');
+    setDisableError('');
+  };
+
+  const submitDisable = async () => {
+    if (disableBusy) return;
+
+    setDisableBusy(true);
+    setDisableError('');
+
     try {
-      const r = await fetch('/auth/2fa/disable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-      });
-      const j = await r.json();
-      if (j.ok) onClose?.(true);
-      else alert(j.reason || j.error || 'Invalid code');
+      await disableTwoFactor(disableCode);
+      setDisableOpen(false);
+      setDisableCode('');
+      await onChange?.();
+    } catch (error) {
+      setDisableError(
+        error?.response?.data?.error ||
+        error?.message ||
+        'Could not disable two-factor authentication.'
+      );
     } finally {
-      setLoading(false);
+      setDisableBusy(false);
     }
   };
 
   return (
-    <Modal opened={opened} onClose={() => onClose?.(false)} title="Disable 2FA" centered>
-      <Text size="sm" c="dimmed" mb="xs">
-        Enter a current code from your authenticator app to confirm disabling 2FA.
-      </Text>
-      <TextInput
-        placeholder="123456"
-        value={code}
-        onChange={(e) => setCode(e.currentTarget.value)}
-        maxLength={6}
-        inputMode="numeric"
-      />
-      <Group justify="end" mt="md">
-        <Button variant="outline" color="red" loading={loading} onClick={disable}>
-          Disable 2FA
-        </Button>
+    <Stack gap="sm">
+      <Group justify="space-between" align="center">
+        <Stack gap={2}>
+          <Text fw={600}>Two-factor authentication</Text>
+          <Text size="sm" c="dimmed">
+            Protect your account using an authenticator app.
+          </Text>
+        </Stack>
+
+        <Badge color={enabled ? 'green' : 'gray'}>
+          {enabled ? 'Enabled' : 'Disabled'}
+        </Badge>
       </Group>
-    </Modal>
+
+      {enabled ? (
+        <Button
+          variant="light"
+          color="red"
+          onClick={() => setDisableOpen(true)}
+        >
+          Disable two-factor authentication
+        </Button>
+      ) : (
+        <Button onClick={() => setSetupOpen(true)}>
+          Enable two-factor authentication
+        </Button>
+      )}
+
+      <TwoFASetupModal
+        opened={setupOpen}
+        onClose={closeSetup}
+      />
+
+      <Modal
+        opened={disableOpen}
+        onClose={closeDisable}
+        title="Disable two-factor authentication"
+        centered
+        closeOnEscape={!disableBusy}
+        closeOnClickOutside={!disableBusy}
+      >
+        <Stack gap="md">
+          <Text size="sm">
+            Enter your current authenticator code to disable
+            two-factor authentication.
+          </Text>
+
+          <TextInput
+            label="Authenticator code"
+            value={disableCode}
+            onChange={(event) =>
+              setDisableCode(event.currentTarget.value)
+            }
+            maxLength={6}
+            inputMode="numeric"
+            autoComplete="one-time-code"
+          />
+
+          {disableError && (
+            <Text size="sm" c="red" role="alert">
+              {disableError}
+            </Text>
+          )}
+
+          <Group justify="flex-end">
+            <Button
+              variant="light"
+              onClick={closeDisable}
+              disabled={disableBusy}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              color="red"
+              loading={disableBusy}
+              disabled={disableBusy || !/^\d{6}$/.test(disableCode)}
+              onClick={submitDisable}
+            >
+              Disable 2FA
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
+    </Stack>
   );
 }
