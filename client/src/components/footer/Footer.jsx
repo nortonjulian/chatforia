@@ -4,6 +4,7 @@ import { Group, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import LogoGlyph from "@/components/LogoGlyph";
 import { useTranslation } from "react-i18next";
+import { useUser } from "@/context/UserContext";
 
 // Compact inline SVGs for icons
 const icons = {
@@ -39,6 +40,8 @@ const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
 
 export default function Footer() {
   const { t } = useTranslation();
+  const { currentUser } = useUser();
+  const isAdmin = currentUser?.role === "ADMIN";
   const isInternal = (href) => typeof href === "string" && href.startsWith("/");
 
   return (
@@ -111,10 +114,18 @@ export default function Footer() {
           ))}
         </div>
 
+        {isAdmin && (
+          <div className="cf-footer__admin">
+            <Link to="/admin" className="cf-footer__link">
+              {t("footer.links.admin-dashboard", "Admin Dashboard")}
+            </Link>
+          </div>
+        )}
+
         {/* Bottom bar */}
         <div className="cf-footer__bottom">
           <p>
-            {t('footer.copyright', COPYRIGHT_TEXT)}
+            {t('footer.copyright', COPYRIGHT_TEXT).replace(/Chatforia Inc\./g, 'Chatforia LLC.')}
             {" · "}
             <span>Chatforia LLC</span>
             {" · "}
