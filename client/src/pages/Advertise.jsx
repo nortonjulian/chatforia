@@ -349,7 +349,7 @@ export default function Advertise() {
 
         <Text size="xs" c="dimmed" ta="center">
           {t('advertise.legal.disclaimerStart', 'By submitting, you agree to our')}{' '}
-          <Anchor href="/terms" target="_blank">
+          <Anchor href="/legal/terms" target="_blank">
             {t('advertise.legal.terms', 'Terms')}
           </Anchor>{' '}
           {t('advertise.legal.and', 'and')}{' '}
