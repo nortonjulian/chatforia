@@ -149,10 +149,10 @@ export const FOOTER_SECTIONS = [
 
 export const SOCIALS = [
   { name: "TikTok", href: "https://tiktok.com/@chatforia", icon: "tiktok" },
-  { name: "Instagram", href: "https://instagram.com/chatforia", icon: "instagram" },
-  { name: "Facebook", href: "https://facebook.com/chatforia", icon: "facebook" },
+  { name: "Instagram", href: "https://instagram.com/getchatforia", icon: "instagram" },
   { name: "LinkedIn", href: "https://linkedin.com/company/chatforia", icon: "linkedin" },
   { name: "X (Twitter)", href: "https://x.com/chatforia", icon: "x" },
+  { name: "Reddit", href: "https://www.reddit.com/user/Chatforia/", icon: "reddit" },
 ];
 
 export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} Chatforia LLC. All rights reserved.`;
