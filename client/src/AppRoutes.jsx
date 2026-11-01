@@ -598,6 +598,7 @@ export default function AppRoutes() {
             </AdminRoute>
           }
         >
+          <Route index element={<Navigate to="users" replace />} />
           <Route path="users" element={<UsersAdminPage />} />
           <Route path="reports" element={<AdminReportsPage />} />
           <Route path="audit" element={<AuditLogsPage />} />
