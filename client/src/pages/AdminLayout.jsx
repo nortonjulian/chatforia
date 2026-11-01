@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AppShell, ScrollArea, Title, Stack } from '@mantine/core';
+import Footer from '@/components/footer/Footer.jsx';
 
 export default function AdminLayout() {
   const { pathname } = useLocation();
@@ -56,6 +57,7 @@ export default function AdminLayout() {
 
       <AppShell.Main>
         <Outlet />
+        <Footer />
       </AppShell.Main>
     </AppShell>
   );
