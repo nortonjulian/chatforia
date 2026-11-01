@@ -67,11 +67,41 @@ describe('getRoomRole()', () => {
     expect(prismaMock.participant.findUnique).not.toHaveBeenCalled();
   });
 
-  test('global ADMIN bypasses room check', async () => {
+  test('verified global ADMIN bypasses room check', async () => {
     const { getRoomRole } = await reloadModule();
-    const out = await getRoomRole({ id: 99, role: 'ADMIN' }, 123);
+    const user = {
+      id: 99,
+      role: 'ADMIN',
+      twoFactorEnabled: true,
+    };
+    const req = {
+      user,
+      auth: { mfaVerified: true },
+    };
+
+    const out = await getRoomRole(user, 123, req);
+
     expect(out).toEqual({ role: 'ADMIN' });
     expect(prismaMock.participant.findUnique).not.toHaveBeenCalled();
+  });
+
+  test('unverified global ADMIN must have room membership', async () => {
+    prismaMock.participant.findUnique.mockResolvedValue(null);
+    const { getRoomRole } = await reloadModule();
+
+    const user = {
+      id: 99,
+      role: 'ADMIN',
+      twoFactorEnabled: true,
+    };
+
+    const out = await getRoomRole(user, 123, {
+      user,
+      auth: { mfaVerified: false },
+    });
+
+    expect(out).toEqual({ role: null });
+    expect(prismaMock.participant.findUnique).toHaveBeenCalledTimes(1);
   });
 
   test('returns DB participant role when found', async () => {
@@ -171,15 +201,49 @@ describe('requireRoomAdmin()', () => {
     await mw1(req1, res1, next1);
     expect(next1).toHaveBeenCalledWith();
 
-    // Case 2: global ADMIN (should bypass DB)
+    // Case 2: MFA-verified global ADMIN bypasses DB.
     prismaMock.participant.findUnique.mockClear();
     const mw2 = requireRoomAdmin();
     const { req: req2, res: res2, next: next2 } = makeReqResNext({
-      req: { user: { id: 7, role: 'ADMIN' }, params: { id: '33' } },
+      req: {
+        user: {
+          id: 7,
+          role: 'ADMIN',
+          twoFactorEnabled: true,
+        },
+        auth: { mfaVerified: true },
+        params: { id: '33' },
+      },
     });
     await mw2(req2, res2, next2);
     expect(next2).toHaveBeenCalledWith();
     expect(prismaMock.participant.findUnique).not.toHaveBeenCalled();
+  });
+
+  test('unverified global ADMIN retains actual room-admin permissions', async () => {
+    prismaMock.participant.findUnique.mockResolvedValue({
+      role: 'ADMIN',
+    });
+
+    const { requireRoomAdmin } = await reloadModule();
+    const middleware = requireRoomAdmin();
+
+    const { req, res, next } = makeReqResNext({
+      req: {
+        user: {
+          id: 77,
+          role: 'ADMIN',
+          twoFactorEnabled: true,
+        },
+        auth: { mfaVerified: false },
+        params: { id: '44' },
+      },
+    });
+
+    await middleware(req, res, next);
+
+    expect(next).toHaveBeenCalledWith();
+    expect(prismaMock.participant.findUnique).toHaveBeenCalledTimes(1);
   });
 
   test('forbidden when only MEMBER', async () => {

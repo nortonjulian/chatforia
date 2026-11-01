@@ -1,15 +1,18 @@
 import Boom from '@hapi/boom';
+import { hasVerifiedAdminAccess } from './verifiedAdmin.js';
 import { prisma } from '../utils/prismaClient.js';
 
 /**
  * Returns { role: 'ADMIN'|'MODERATOR'|'MEMBER'|null } for a user in a room.
  * Global app ADMIN bypasses room checks (returns 'ADMIN').
  */
-export async function getRoomRole(user, chatRoomId) {
+export async function getRoomRole(user, chatRoomId, req = null) {
   if (!user?.id) return { role: null };
 
   // Global app admin short-circuit
-  if (user.role === 'ADMIN') return { role: 'ADMIN' };
+  if (hasVerifiedAdminAccess(req) && req.user.id === user.id) {
+    return { role: 'ADMIN' };
+  }
 
   const member = await prisma.participant.findUnique({
     where: {
@@ -36,7 +39,7 @@ function ensureRoleOrThrow(actual, allowed) {
 export function requireRoomMember(param = 'id') {
   return async (req, _res, next) => {
     const chatRoomId = Number(req.params[param] ?? req.body.chatRoomId);
-    const { role } = await getRoomRole(req.user, chatRoomId);
+    const { role } = await getRoomRole(req.user, chatRoomId, req);
     try {
       ensureRoleOrThrow(role, ['MEMBER', 'MODERATOR', 'ADMIN']);
       next();
@@ -52,7 +55,7 @@ export function requireRoomMember(param = 'id') {
 export function requireRoomAdmin(param = 'id') {
   return async (req, _res, next) => {
     const chatRoomId = Number(req.params[param] ?? req.body.chatRoomId);
-    const { role } = await getRoomRole(req.user, chatRoomId);
+    const { role } = await getRoomRole(req.user, chatRoomId, req);
     try {
       ensureRoleOrThrow(role, ['MODERATOR', 'ADMIN']);
       next();

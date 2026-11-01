@@ -75,7 +75,15 @@ await jest.unstable_mockModule('../utils/roomAuth.js', () => ({
 
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, _res, next) => {
-    req.user = { id: 1, role: 'ADMIN', username: 'admin' };
+    req.user = {
+      id: 1,
+      role: 'ADMIN',
+      username: 'admin',
+      twoFactorEnabled: req.headers['x-test-mfa-enabled'] === 'true',
+    };
+    req.auth = {
+      mfaVerified: req.headers['x-test-mfa-verified'] === 'true',
+    };
     next();
   },
 }));
@@ -418,10 +426,22 @@ describe('chatrooms routes', () => {
   });
 
   describe('POST /rooms/:id/participants/:userId/promote', () => {
+    test('unverified global admin cannot promote a participant', async () => {
+      const res = await request(app)
+        .post('/rooms/10/participants/2/promote')
+        .set('x-test-mfa-enabled', 'true');
+
+      expect(res.statusCode).toBe(403);
+      expect(participantUpdate).not.toHaveBeenCalled();
+    });
+
     test('allows global admin and updates participant role', async () => {
       participantUpdate.mockResolvedValueOnce({ userId: 2, role: 'ADMIN' });
 
-      const res = await request(app).post('/rooms/10/participants/2/promote');
+      const res = await request(app)
+        .post('/rooms/10/participants/2/promote')
+        .set('x-test-mfa-enabled', 'true')
+        .set('x-test-mfa-verified', 'true');
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual({

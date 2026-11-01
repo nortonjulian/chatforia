@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
+import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
@@ -986,7 +987,7 @@ router.post(
     const roomId = Number(req.params.roomId);
     if (!Number.isFinite(roomId)) throw Boom.badRequest('Invalid roomId');
 
-    const isAdmin = req.user?.role === 'ADMIN';
+    const isAdmin = hasVerifiedAdminAccess(req);
     if (!isAdmin) {
       const member = await prisma.participant.findFirst({
         where: { chatRoomId: roomId, userId },
@@ -1016,7 +1017,7 @@ router.post(
     const roomId = Number(req.params.roomId);
     if (!Number.isFinite(roomId)) throw Boom.badRequest('Invalid roomId');
 
-    const isAdmin = req.user?.role === 'ADMIN';
+    const isAdmin = hasVerifiedAdminAccess(req);
     if (!isAdmin) {
       const member = await prisma.participant.findFirst({
         where: { chatRoomId: roomId, userId },
@@ -1184,7 +1185,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Invalid chatRoomId', received: rawRoomId });
   }
 
-  const isAdmin = req.user?.role === 'ADMIN';
+  const isAdmin = hasVerifiedAdminAccess(req);
 
   try {
     let membership = null;
@@ -2293,7 +2294,7 @@ router.delete(
   asyncHandler(async (req, res) => {
     const messageId = Number(req.params.id);
     const requesterId = Number(req.user?.id);
-    const isAdmin = req.user?.role === 'ADMIN';
+    const isAdmin = hasVerifiedAdminAccess(req);
     const scope = String(
       req.query.scope || req.query.mode || req.body?.scope || req.body?.mode || 'me'
     );

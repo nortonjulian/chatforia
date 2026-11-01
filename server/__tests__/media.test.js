@@ -66,7 +66,14 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, _res, next) => {
     const id = Number(req.headers['x-test-user-id'] || '1');
     const role = String(req.headers['x-test-role'] || 'USER');
-    req.user = { id, role };
+    req.user = {
+      id,
+      role,
+      twoFactorEnabled: req.headers['x-test-mfa-enabled'] === 'true',
+    };
+    req.auth = {
+      mfaVerified: req.headers['x-test-mfa-verified'] === 'true',
+    };
     next();
   },
 }));
@@ -345,6 +352,19 @@ describe('GET /media/chatrooms/:id/media', () => {
     });
   });
 
+  test('unverified global admin cannot list another room media', async () => {
+    prismaMock.participant.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .get('/media/chatrooms/123/media')
+      .set('x-test-user-id', '1')
+      .set('x-test-role', 'ADMIN')
+      .set('x-test-mfa-enabled', 'true');
+
+    expect(res.status).toBe(403);
+    expect(prismaMock.messageAttachment.findMany).not.toHaveBeenCalled();
+  });
+
   test('allows ADMIN even when not a participant', async () => {
     // participant.findFirst will be called and return null, but ADMIN bypasses
     prismaMock.participant.findFirst.mockResolvedValueOnce(null);
@@ -353,7 +373,9 @@ describe('GET /media/chatrooms/:id/media', () => {
     const res = await request(app)
       .get('/media/chatrooms/123/media')
       .set('x-test-user-id', '1')
-      .set('x-test-role', 'ADMIN');
+      .set('x-test-role', 'ADMIN')
+      .set('x-test-mfa-enabled', 'true')
+      .set('x-test-mfa-verified', 'true');
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual([]);
