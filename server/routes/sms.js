@@ -267,10 +267,17 @@ r.post(
         ? req.body.details.trim()
         : '';
     const details = detailsRaw ? detailsRaw.slice(0, 2000) : null;
-    const contextCount = Math.max(
-      0,
-      Math.min(Number(req.body?.contextCount) || 10, 20)
-    );
+    const requestedContextCount = req.body?.contextCount;
+    const parsedContextCount =
+      requestedContextCount === undefined ||
+      requestedContextCount === null ||
+      requestedContextCount === ''
+        ? 10
+        : Number(requestedContextCount);
+
+    const contextCount = Number.isFinite(parsedContextCount)
+      ? Math.max(0, Math.min(Math.trunc(parsedContextCount), 20))
+      : 10;
     const blockAfterReport = Boolean(req.body?.blockAfterReport);
 
     const message = await prisma.smsMessage.findFirst({
@@ -318,15 +325,19 @@ r.post(
         ? await prisma.smsMessage.findMany({
             where: {
               threadId: message.threadId,
-              createdAt: {
-                lte: message.createdAt,
-              },
+              OR: [
+                { createdAt: { lt: message.createdAt } },
+                {
+                  createdAt: message.createdAt,
+                  id: { lt: message.id },
+                },
+              ],
             },
             orderBy: [
               { createdAt: 'desc' },
               { id: 'desc' },
             ],
-            take: contextCount + 1,
+            take: contextCount,
             select: {
               id: true,
               direction: true,

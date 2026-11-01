@@ -45,6 +45,8 @@ import { canUseAiComposer } from '@/utils/planAccess';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 import { useSocket } from '@/context/SocketContext';
 import SmsMessageMedia from '@/components/sms/SmsMessageMedia';
+import SmsReportModal from '@/components/sms/SmsReportModal.jsx';
+import { submitSmsMessageReport } from '@/api/smsReporting';
 import { createSmsThreadLoader, subscribeSmsThread } from '@/utils/smsThreadLive';
 import './SmsLayout.css';
 
@@ -87,6 +89,15 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   // ✅ Edit state
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState('');
+
+  // Incoming SMS/MMS reporting
+  const [reportTarget, setReportTarget] = useState(null);
+  const [reportReason, setReportReason] = useState('spam_scam');
+  const [reportDetails, setReportDetails] = useState('');
+  const [reportContextCount, setReportContextCount] = useState('0');
+  const [blockAfterReport, setBlockAfterReport] = useState(false);
+  const [reportSubmitting, setReportSubmitting] = useState(false);
+  const [reportError, setReportError] = useState('');
 
   // ✅ Search + media UI
   const [searchOpen, setSearchOpen] = useState(false);
@@ -323,6 +334,57 @@ const showCallBanner = Boolean(
     } catch (e) {
       console.error('SMS delete failed', e);
       await loadThread();
+    }
+  };
+
+  const openSmsReport = (message) => {
+    if (!message?.id || isSmsOutgoing(message)) return;
+
+    setReportTarget(message);
+    setReportReason('spam_scam');
+    setReportDetails('');
+    setReportContextCount('0');
+    setBlockAfterReport(false);
+    setReportError('');
+  };
+
+  const closeSmsReport = () => {
+    if (reportSubmitting) return;
+    setReportTarget(null);
+    setReportError('');
+  };
+
+  const submitSmsReport = async () => {
+    if (!reportTarget?.id || reportSubmitting) return;
+
+    setReportSubmitting(true);
+    setReportError('');
+
+    try {
+      const report = await submitSmsMessageReport(reportTarget.id, {
+        reason: reportReason,
+        details: reportDetails,
+        contextCount: Number(reportContextCount),
+        blockAfterReport,
+      });
+
+      setReportTarget(null);
+      window.alert(
+        report.blockApplied
+          ? 'Report submitted and phone number blocked.'
+          : 'Report submitted successfully.'
+      );
+    } catch (error) {
+      console.error('SMS report failed', error);
+
+      setReportError(
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        'Could not submit your report. Please try again.'
+      );
+    } finally {
+      setReportSubmitting(false);
     }
   };
 
@@ -1017,6 +1079,11 @@ const showCallBanner = Boolean(
 
                           <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
                             <Menu.Item
+                              onClick={() => openSmsReport(m)}
+                            >
+                              Report
+                            </Menu.Item>
+                            <Menu.Item
                               color="red"
                               leftSection={<IconTrash size={16} />}
                               onClick={() => deleteMessage(m.id)}
@@ -1046,6 +1113,23 @@ const showCallBanner = Boolean(
           threadId={String(threadId)}
           onJumpToMessage={(id) => jumpToSmsMessage(id)}
           searchFn={searchSmsMessages}
+        />
+
+        <SmsReportModal
+          opened={Boolean(reportTarget)}
+          onClose={closeSmsReport}
+          message={reportTarget}
+          reason={reportReason}
+          onReasonChange={setReportReason}
+          details={reportDetails}
+          onDetailsChange={setReportDetails}
+          contextCount={reportContextCount}
+          onContextCountChange={setReportContextCount}
+          blockAfterReport={blockAfterReport}
+          onBlockAfterReportChange={setBlockAfterReport}
+          submitting={reportSubmitting}
+          error={reportError}
+          onSubmit={submitSmsReport}
         />
 
         {/* ✅ MMS / Media Gallery */}
