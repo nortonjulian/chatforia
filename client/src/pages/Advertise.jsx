@@ -90,7 +90,7 @@ export default function Advertise() {
         body
       )}`;
       window.location.href = mail;
-      setSubmitted(true);
+      // Opening a mail client does not mean the user sent the inquiry.
       toast.info(
         t(
           'advertise.form.mailtoInfo',
