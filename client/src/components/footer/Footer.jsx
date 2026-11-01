@@ -18,6 +18,16 @@ const icons = {
       <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zM17.75 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.75 6z"/>
     </svg>
   ),
+  reddit: (props) => (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="8.5" cy="11" r="1.2" />
+      <circle cx="15.5" cy="11" r="1.2" />
+      <path d="M8 15c2.4 2 5.6 2 8 0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M12 7l1-3 3.2.6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="17" cy="4.8" r="1" />
+    </svg>
+  ),
   facebook: (props) => (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <path d="M13 22v-8h3l.5-4H13V8.1c0-1.1.3-1.8 1.9-1.8H17V2.2C16.3 2.1 15.1 2 13.7 2 10.9 2 9 3.7 9 7v3H6v4h3v8h4z"/>
