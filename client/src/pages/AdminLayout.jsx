@@ -33,6 +33,14 @@ export default function AdminLayout() {
               Reports
             </NavLink>
             <NavLink
+              to="/admin/support"
+              className={({ isActive }) =>
+                isActive || pathname.startsWith("/admin/support") ? "active" : undefined
+              }
+            >
+              Support
+            </NavLink>
+            <NavLink
               to="/admin/audit"
               className={({ isActive }) =>
                 isActive || pathname.startsWith('/admin/audit')
@@ -47,16 +55,6 @@ export default function AdminLayout() {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        {needsKeyUnlock && (
-          <Alert
-            color="yellow"
-            title="Encrypted messages locked"
-            mb="md"
-          >
-            Your encrypted messages are locked on this device. You can still use settings,
-            billing, help, and logout. Unlock or restore your key to continue messaging.
-          </Alert>
-        )}
         <Outlet />
       </AppShell.Main>
     </AppShell>
