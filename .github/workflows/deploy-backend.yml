@@ -22,8 +22,28 @@ jobs:
             cd /var/www/chatforia-api
 
             git fetch origin
+
+            # Runtime uploads must never be changed by deployment.
+            if [ -n "$(git diff --name-only HEAD origin/main -- server/uploads/)" ]; then
+              echo "STOP: Deployment would change tracked upload files."
+              exit 1
+            fi
+
+            # Do not overwrite locally modified tracked upload files.
+            if [ -n "$(git status --porcelain --untracked-files=no -- server/uploads/)" ]; then
+              echo "STOP: Production has locally modified tracked upload files."
+              exit 1
+            fi
+
+            # Do not overwrite local production changes outside runtime uploads.
+            if [ -n "$(git status --porcelain --untracked-files=normal -- . ":(exclude)server/uploads/")" ]; then
+              echo "STOP: Production checkout has local changes."
+              exit 1
+            fi
+
+            # Preserve runtime uploads during cleanup.
             git reset --hard origin/main
-            git clean -fd
+            git clean -fd -e server/uploads/
 
             npm install
             npx prisma generate --schema=server/prisma/schema.prisma
