@@ -20,6 +20,7 @@ import { IconMail, IconInfoCircle, IconCheck } from '@tabler/icons-react';
 import { PLACEMENTS } from '@/ads/placements';
 import axiosClient from '@/api/axiosClient';
 import { toast } from '@/utils/toast';
+import { openAdvertisingEmailDraft } from '@/utils/openAdvertisingEmailDraft';
 import { useTranslation } from 'react-i18next';
 
 export default function Advertise() {
@@ -89,7 +90,7 @@ export default function Advertise() {
       const mail = `mailto:ads@chatforia.com?subject=Advertising%20Inquiry&body=${encodeURIComponent(
         body
       )}`;
-      window.location.href = mail;
+      openAdvertisingEmailDraft(mail);
       // Opening a mail client does not mean the user sent the inquiry.
       toast.info(
         t(
@@ -250,12 +251,13 @@ export default function Advertise() {
                     'Jane Doe'
                   )}
                   value={contact.name}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const value = e.currentTarget.value;
                     setContact((c) => ({
                       ...c,
-                      name: e.currentTarget.value,
-                    }))
-                  }
+                      name: value,
+                    }));
+                  }}
                   required
                 />
 
@@ -266,12 +268,13 @@ export default function Advertise() {
                     'you@company.com'
                   )}
                   value={contact.email}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const value = e.currentTarget.value;
                     setContact((c) => ({
                       ...c,
-                      email: e.currentTarget.value,
-                    }))
-                  }
+                      email: value,
+                    }));
+                  }}
                   required
                   type="email"
                 />
@@ -285,12 +288,13 @@ export default function Advertise() {
                     'Acme Inc.'
                   )}
                   value={contact.company}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const value = e.currentTarget.value;
                     setContact((c) => ({
                       ...c,
-                      company: e.currentTarget.value,
-                    }))
-                  }
+                      company: value,
+                    }));
+                  }}
                 />
 
                 <TextInput
@@ -303,12 +307,13 @@ export default function Advertise() {
                     'e.g. $1,000–$20,000+'
                   )}
                   value={contact.budget}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const value = e.currentTarget.value;
                     setContact((c) => ({
                       ...c,
-                      budget: e.currentTarget.value,
-                    }))
-                  }
+                      budget: value,
+                    }));
+                  }}
                 />
               </Group>
 
@@ -323,12 +328,13 @@ export default function Advertise() {
                 )}
                 minRows={4}
                 value={contact.message}
-                onChange={(e) =>
-                  setContact((c) => ({
-                    ...c,
-                    message: e.currentTarget.value,
-                  }))
-                }
+                onChange={(e) => {
+                    const value = e.currentTarget.value;
+                    setContact((c) => ({
+                      ...c,
+                      message: value,
+                    }));
+                  }}
                 required
               />
 

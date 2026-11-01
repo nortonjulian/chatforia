@@ -199,6 +199,44 @@ describe('POST /ads/inquiries', () => {
     });
   });
 
+  it('escapes advertiser HTML in notification emails', async () => {
+    mockCreate.mockResolvedValueOnce({ id: 123 });
+    mockSendMail.mockResolvedValueOnce({});
+
+    const payload = {
+      name: '<script>alert(1)</script>',
+      email: 'advertiser@example.com',
+      company: '<img src=x onerror=alert(1)>',
+      budget: '<b>$5000</b>',
+      message: '<script>alert(2)</script>\\nSecond line',
+    };
+
+    const res = await request(app)
+      .post('/ads/inquiries')
+      .send(payload);
+
+    expect(res.status).toBe(201);
+
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        name: payload.name,
+        message: payload.message,
+      }),
+    });
+
+    const email = mockSendMail.mock.calls[0][0];
+
+    expect(email.html).not.toContain('<script>');
+    expect(email.html).not.toContain('<img src=x');
+    expect(email.html).not.toContain('<b>$5000</b>');
+
+    expect(email.html).toContain('&lt;script&gt;');
+    expect(email.html).toContain('&lt;img');
+    expect(email.html).toContain('&lt;b&gt;');
+
+    expect(email.html).toContain('Second line');
+  });
+
   it('returns 500 when prisma create throws', async () => {
     mockCreate.mockRejectedValueOnce(
       new Error('Database unavailable')
