@@ -40,15 +40,15 @@ const app = express();
 app.use(express.json());
 app.use('/admin/reports', adminReportsRouter);
 
-const tokenFor = (id) =>
+const tokenFor = (id, { mfaVerified = false, tokenVersion = 0 } = {}) =>
   jwt.sign(
-    { id, tokenVersion: 0, typ: 'session' },
+    { id, tokenVersion, typ: 'session', mfaVerified },
     process.env.JWT_SECRET || 'test_secret',
     { algorithm: 'HS256', expiresIn: '15m' }
   );
 
-const asUser = (id) => ({
-  Authorization: `Bearer ${tokenFor(id)}`,
+const asUser = (id, options) => ({
+  Authorization: `Bearer ${tokenFor(id, options)}`,
 });
 
 beforeEach(() => {
@@ -71,6 +71,7 @@ beforeEach(() => {
         id: 1,
         username: 'admin-user',
         role: 'ADMIN',
+        twoFactorEnabled: true,
         tokenVersion: 0,
         isBanned: false,
         deletedAt: null,
@@ -109,7 +110,7 @@ describe('Admin Reports real authorization middleware', () => {
   test('allows administrators to list reports', async () => {
     const res = await request(app)
       .get('/admin/reports')
-      .set(asUser(1));
+      .set(asUser(1, { mfaVerified: true }));
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
@@ -118,6 +119,46 @@ describe('Admin Reports real authorization middleware', () => {
     });
 
     expect(db.report.findMany).toHaveBeenCalledTimes(1);
+  });
+
+  test('rejects administrator without MFA session proof', async () => {
+    const res = await request(app)
+      .get('/admin/reports')
+      .set(asUser(1));
+
+    expect(res.status).toBe(403);
+    expect(res.body.reason).toBe('mfa_verification_required');
+    expect(db.report.findMany).not.toHaveBeenCalled();
+  });
+
+  test('rejects administrator when MFA enrollment is disabled', async () => {
+    db.user.findUnique.mockImplementationOnce(async () => ({
+      id: 1,
+      role: 'ADMIN',
+      twoFactorEnabled: false,
+      tokenVersion: 0,
+    }));
+
+    const res = await request(app)
+      .get('/admin/reports')
+      .set(asUser(1, { mfaVerified: true }));
+
+    expect(res.status).toBe(403);
+    expect(res.body.reason).toBe('2fa_required');
+    expect(db.report.findMany).not.toHaveBeenCalled();
+  });
+
+  test('rejects administrator with stale session version', async () => {
+    const res = await request(app)
+      .get('/admin/reports')
+      .set(asUser(1, {
+        mfaVerified: true,
+        tokenVersion: 99,
+      }));
+
+    expect(res.status).toBe(401);
+    expect(res.body.error).toBe('invalid_session');
+    expect(db.report.findMany).not.toHaveBeenCalled();
   });
 
   test('rejects ordinary users from resolving reports', async () => {

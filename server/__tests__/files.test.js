@@ -80,7 +80,14 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, _res, next) => {
     const id = Number(req.headers['x-test-user-id'] || '1');
     const role = String(req.headers['x-test-role'] || 'USER');
-    req.user = { id, role };
+    req.user = {
+      id,
+      role,
+      twoFactorEnabled: req.headers['x-test-mfa-enabled'] === 'true',
+    };
+    req.auth = {
+      mfaVerified: req.headers['x-test-mfa-verified'] === 'true',
+    };
     next();
   },
 }));
@@ -135,6 +142,52 @@ describe('GET /files', () => {
 
     expect(verifyDownloadTokenMock).toHaveBeenCalledWith('tok-1');
     expect(fsStatMock).not.toHaveBeenCalled();
+  });
+
+  test('unverified global admin cannot download another user file', async () => {
+    verifyDownloadTokenMock.mockReturnValue({
+      path: 'docs/private.txt',
+      ownerId: 999,
+    });
+
+    const res = await request(app)
+      .get('/files')
+      .query({ token: 'admin-test' })
+      .set('x-test-user-id', '10')
+      .set('x-test-role', 'ADMIN')
+      .set('x-test-mfa-enabled', 'true');
+
+    expect(res.status).toBe(403);
+    expect(fsStatMock).not.toHaveBeenCalled();
+    expect(fsCreateReadStreamMock).not.toHaveBeenCalled();
+  });
+
+  test('verified global admin retains file access override', async () => {
+    verifyDownloadTokenMock.mockReturnValue({
+      path: 'docs/private.txt',
+      ownerId: 999,
+    });
+
+    fsStatMock.mockResolvedValue({
+      size: 7,
+      isFile: () => true,
+    });
+
+    mimeLookupMock.mockReturnValue('text/plain');
+    fsCreateReadStreamMock.mockReturnValue(
+      Readable.from(['private'])
+    );
+
+    const res = await request(app)
+      .get('/files')
+      .query({ token: 'admin-verified' })
+      .set('x-test-user-id', '10')
+      .set('x-test-role', 'ADMIN')
+      .set('x-test-mfa-enabled', 'true')
+      .set('x-test-mfa-verified', 'true');
+
+    expect(res.status).toBe(200);
+    expect(fsCreateReadStreamMock).toHaveBeenCalledTimes(1);
   });
 
   test('403 when resolved path escapes storage root', async () => {

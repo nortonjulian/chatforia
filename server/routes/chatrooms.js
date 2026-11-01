@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import Boom from '@hapi/boom';
 
 import { requireAuth } from '../middleware/auth.js';
+import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import prisma from '../utils/prismaClient.js';
 import { assertDirectUsersAllowed } from '../services/userBlockService.js';
 import { getIo } from '../services/socketBus.js';
@@ -404,7 +405,7 @@ router.patch(
         where: { chatRoomId_userId: { chatRoomId: roomId, userId: targetId } },
         select: { userId: true, role: true },
       }),
-      getEffectiveRoomRank(prisma, req.user.id, roomId, req.user.role),
+      getEffectiveRoomRank(prisma, req.user.id, roomId, hasVerifiedAdminAccess(req) ? 'ADMIN' : 'USER'),
     ]);
     if (!target) throw Boom.notFound('Participant not found');
     if (targetId === ownerId) throw Boom.forbidden('Cannot change owner role');
@@ -713,7 +714,7 @@ router.post(
     const roomId = Number(req.params.id);
     const targetId = Number(req.params.userId);
     const actorId = Number(req.user?.id);
-    const isGlobalAdmin = String(req.user?.role || '').toUpperCase() === 'ADMIN';
+    const isGlobalAdmin = hasVerifiedAdminAccess(req);
 
     if (!Number.isFinite(roomId) || !Number.isFinite(targetId) || !Number.isFinite(actorId)) {
       throw Boom.badRequest('Bad request');
@@ -729,7 +730,7 @@ router.post(
         allowed = ownerId === actorId;
       } else {
         // fall back to rank computation if schema has no ownerId
-        const rank = await getEffectiveRoomRank(prisma, actorId, roomId, req.user.role);
+        const rank = await getEffectiveRoomRank(prisma, actorId, roomId, hasVerifiedAdminAccess(req) ? 'ADMIN' : 'USER');
         allowed = rank != null && rank >= RoleRank.OWNER;
       }
     }
@@ -790,7 +791,7 @@ router.delete(
     const targetId = Number(req.params.userId);
     if (!Number.isFinite(roomId) || !Number.isFinite(targetId)) throw Boom.badRequest('Invalid id');
 
-    const actorRank = await getEffectiveRoomRank(prisma, req.user.id, roomId, req.user.role);
+    const actorRank = await getEffectiveRoomRank(prisma, req.user.id, roomId, hasVerifiedAdminAccess(req) ? 'ADMIN' : 'USER');
     if (actorRank === null || actorRank < RoleRank.MODERATOR) throw Boom.forbidden('Forbidden');
 
     const target = await prisma.participant.findUnique({

@@ -157,6 +157,8 @@ export function issueSession(res, user, { mfaVerified = false } = {}) {
     plan: user.plan,
     tokenVersion: user.tokenVersion ?? 0,
     typ: 'session',
+    // Only successful MFA completion may mark a session verified.
+    mfaVerified: mfaVerified === true,
   };
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });

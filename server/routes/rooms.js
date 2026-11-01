@@ -1,5 +1,6 @@
 import express from 'express';
 import { requireAuth } from '../middleware/auth.js';
+import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import chatroomsRouter from './chatrooms.js';
 import prisma from '../utils/prismaClient.js';
 import asyncHandler from 'express-async-handler';
@@ -677,7 +678,7 @@ if (!isProd) {
     const me = req.user;
     const ownerId = memRoom?.ownerId ?? (await getRoomOwnerId(roomId));
     const isOwner = ownerId === me.id;
-    const isAdmin = String(me.role || '').toUpperCase() === 'ADMIN';
+    const isAdmin = hasVerifiedAdminAccess(req);
     if (!isOwner && !isAdmin) return res.status(403).json({ error: 'Forbidden' });
 
     const { members, roles } = ensureRoomMaps(roomId);
@@ -763,7 +764,7 @@ if (!isProd) {
     const roomId = Number(req.params.id);
     const targetId = Number(req.params.userId);
     const actorId = Number(req.user?.id);
-    const isGlobalAdmin = String(req.user?.role || '').toUpperCase() === 'ADMIN';
+    const isGlobalAdmin = hasVerifiedAdminAccess(req);
 
     if (!Number.isFinite(roomId) || !Number.isFinite(targetId) || !Number.isFinite(actorId)) {
       return res.status(400).json({ error: 'Bad request' });
@@ -839,7 +840,7 @@ if (!isProd) {
     // only owner or global ADMIN can create invite
     const ownerId = room.ownerId ?? (await getRoomOwnerId(roomId));
     const isOwner = ownerId === actorId;
-    const isGlobalAdmin = String(req.user?.role || '').toUpperCase() === 'ADMIN';
+    const isGlobalAdmin = hasVerifiedAdminAccess(req);
     if (!isOwner && !isGlobalAdmin) {
       return res.status(403).json({ error: 'Forbidden' });
     }
@@ -990,7 +991,7 @@ if (!isProd) {
     if (ownerId == null) return res.json({ ok: true });
     const me = req.user;
     const isOwner = ownerId === me.id;
-    const isAdmin = String(me.role || '').toUpperCase() === 'ADMIN';
+    const isAdmin = hasVerifiedAdminAccess(req);
     if (!isOwner && !isAdmin) return res.status(403).json({ error: 'Forbidden' });
     if (targetId === ownerId) return res.status(403).json({ error: 'Cannot remove owner' });
 

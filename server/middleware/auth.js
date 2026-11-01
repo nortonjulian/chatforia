@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { hasVerifiedAdminAccess } from './verifiedAdmin.js';
 import prisma from '../utils/prismaClient.js';
 
 function getCookieName() {
@@ -38,7 +39,11 @@ function decodeSession(token) {
   const tokenVersion = Number(decoded.tokenVersion ?? 0);
   if (!Number.isSafeInteger(userId) || userId <= 0 || userId > 2147483647 ||
       !Number.isSafeInteger(tokenVersion) || tokenVersion < 0) return null;
-  return { userId, tokenVersion };
+  return {
+    userId,
+    tokenVersion,
+    mfaVerified: decoded.mfaVerified === true,
+  };
 }
 
 async function hydrateUser(userId) {
@@ -72,6 +77,7 @@ async function hydrateUser(userId) {
 /** Requires a valid session and a current, available database user. */
 export async function requireAuth(req, res, next) {
   delete req.user;
+  delete req.auth;
   const session = decodeSession(getTokenFromReq(req));
   if (!session) return res.status(401).json({ error: 'Unauthorized' });
   let user;
@@ -87,18 +93,27 @@ export async function requireAuth(req, res, next) {
     return res.status(401).json({ error: 'invalid_session' });
   }
   req.user = user;
+  req.auth = {
+    mfaVerified: session.mfaVerified,
+  };
   return next();
 }
 
 /** Invalid or unavailable authentication continues as an anonymous request. */
 export async function verifyTokenOptional(req, _res, next) {
   delete req.user;
+  delete req.auth;
   const session = decodeSession(getTokenFromReq(req));
   if (session) {
     try {
       const user = await hydrateUser(session.userId);
       if (user && Number.isSafeInteger(user.tokenVersion) && user.tokenVersion >= 0 &&
-          session.tokenVersion === user.tokenVersion) req.user = user;
+          session.tokenVersion === user.tokenVersion) {
+          req.user = user;
+          req.auth = {
+            mfaVerified: session.mfaVerified,
+          };
+        }
     } catch {
       // Continue anonymously during database failures.
     }
@@ -110,6 +125,18 @@ export async function verifyTokenOptional(req, _res, next) {
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== 'ADMIN') {
     return res.status(403).json({ error: 'Admin access required' });
+  }
+  if (!req.user.twoFactorEnabled) {
+    return res.status(403).json({
+      error: 'Administrator two-factor authentication required',
+      reason: '2fa_required',
+    });
+  }
+  if (!hasVerifiedAdminAccess(req)) {
+    return res.status(403).json({
+      error: 'MFA-verified administrator session required',
+      reason: 'mfa_verification_required',
+    });
   }
   return next();
 }

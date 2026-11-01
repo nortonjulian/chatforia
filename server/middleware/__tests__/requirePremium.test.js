@@ -127,7 +127,7 @@ describe('requirePremium middleware', () => {
     expect(res._json).toEqual({ error: 'Unauthorized' });
   });
 
-  test('next() and sets req.userPlan when role=ADMIN bypasses subscription checks', async () => {
+  test('MFA-verified ADMIN bypasses subscription checks', async () => {
     const { requirePremium } = await reloadWithEnv({
       NODE_ENV: 'development',
     });
@@ -141,7 +141,14 @@ describe('requirePremium middleware', () => {
     });
 
     const { req, res, next } = makeReqResNext({
-      req: { user: { id: 7 } },
+      req: {
+        user: {
+          id: 7,
+          role: 'ADMIN',
+          twoFactorEnabled: true,
+        },
+        auth: { mfaVerified: true },
+      },
     });
 
     await requirePremium(req, res, next);
@@ -149,6 +156,68 @@ describe('requirePremium middleware', () => {
     expect(next).toHaveBeenCalledTimes(1);
     expect(req.userPlan).toBe('FREE');
     expect(res._json).toBeNull();
+  });
+
+  test('unverified ADMIN without Premium cannot bypass subscription', async () => {
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
+
+    findUniqueMock.mockResolvedValue({
+      id: 7,
+      role: 'ADMIN',
+      plan: 'FREE',
+      subscriptionStatus: null,
+      subscriptionEndsAt: null,
+    });
+
+    const { req, res, next } = makeReqResNext({
+      req: {
+        user: {
+          id: 7,
+          role: 'ADMIN',
+          twoFactorEnabled: true,
+        },
+        auth: { mfaVerified: false },
+      },
+    });
+
+    await requirePremium(req, res, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(res.statusCode).toBe(402);
+    expect(res._json.code).toBe('SUBSCRIPTION_INACTIVE');
+  });
+
+  test('unverified ADMIN with active Premium retains subscription access', async () => {
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
+
+    findUniqueMock.mockResolvedValue({
+      id: 7,
+      role: 'ADMIN',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: null,
+    });
+
+    const { req, res, next } = makeReqResNext({
+      req: {
+        user: {
+          id: 7,
+          role: 'ADMIN',
+          twoFactorEnabled: true,
+        },
+        auth: { mfaVerified: false },
+      },
+    });
+
+    await requirePremium(req, res, next);
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(req.userPlan).toBe('PREMIUM');
+    expect(req.userEntitlements.plan).toBe('PREMIUM');
   });
 
   test('next(), sets req.userPlan, and sets req.userEntitlements when plan=PREMIUM and subscription is ACTIVE', async () => {

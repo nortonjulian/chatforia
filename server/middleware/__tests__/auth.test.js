@@ -382,11 +382,53 @@ describe('auth middleware', () => {
       expect(res._json).toEqual({ error: 'Admin access required' });
     });
 
-    test('next() when role is ADMIN', async () => {
+    test('rejects administrator without MFA enrollment', async () => {
       const mod = await loadModule();
 
       const { req, res, next } = makeReqResNext({
-        req: { user: { id: 1, role: 'ADMIN' } },
+        req: {
+          user: { id: 1, role: 'ADMIN', twoFactorEnabled: false },
+          auth: { mfaVerified: true },
+        },
+      });
+
+      mod.requireAdmin(req, res, next);
+
+      expect(res.statusCode).toBe(403);
+      expect(res._json.reason).toBe('2fa_required');
+      expect(next).not.toHaveBeenCalled();
+    });
+
+    test.each([undefined, false, 'true'])(
+      'rejects administrator without verified MFA proof: %p',
+      async (proof) => {
+        const mod = await loadModule();
+
+        const { req, res, next } = makeReqResNext({
+          req: {
+            user: { id: 1, role: 'ADMIN', twoFactorEnabled: true },
+            auth: proof === undefined
+              ? undefined
+              : { mfaVerified: proof },
+          },
+        });
+
+        mod.requireAdmin(req, res, next);
+
+        expect(res.statusCode).toBe(403);
+        expect(res._json.reason).toBe('mfa_verification_required');
+        expect(next).not.toHaveBeenCalled();
+      }
+    );
+
+    test('allows administrator with enrolled and verified MFA', async () => {
+      const mod = await loadModule();
+
+      const { req, res, next } = makeReqResNext({
+        req: {
+          user: { id: 1, role: 'ADMIN', twoFactorEnabled: true },
+          auth: { mfaVerified: true },
+        },
       });
 
       mod.requireAdmin(req, res, next);

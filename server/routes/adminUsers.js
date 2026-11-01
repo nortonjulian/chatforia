@@ -67,7 +67,15 @@ router.patch('/:id/role', async (req, res) => {
       return res.status(400).json({ error: 'Invalid role' });
     }
 
-    const updated = await prisma.user.update({ where: { id }, data: { role } });
+    // Role changes revoke existing sessions so old credentials
+    // cannot inherit newly granted administrator privileges.
+    const updated = await prisma.user.update({
+      where: { id },
+      data: {
+        role,
+        tokenVersion: { increment: 1 },
+      },
+    });
 
     // audit
     res.locals.audit = {

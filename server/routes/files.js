@@ -4,6 +4,7 @@ import path from 'path';
 import Boom from '@hapi/boom';
 import mime from 'mime-types';
 import { requireAuth } from '../middleware/auth.js';
+import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import { verifyDownloadToken } from '../utils/downloadTokens.js';
 
 const router = express.Router();
@@ -19,7 +20,7 @@ router.get('/', requireAuth, async (req, res) => {
 
     // This legacy token grants the owner access only; room-participant access
     // must be authorized by a separate message-aware endpoint.
-    if (Number(ownerId) !== Number(req.user.id) && req.user.role !== 'ADMIN') {
+    if (Number(ownerId) !== Number(req.user.id) && !hasVerifiedAdminAccess(req)) {
       throw Boom.forbidden('forbidden');
     }
 

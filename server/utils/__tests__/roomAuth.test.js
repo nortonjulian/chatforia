@@ -270,21 +270,72 @@ describe('requireRoomRank middleware', () => {
     expect(next).toHaveBeenCalledWith();
   });
 
-  test('global ADMINs auto-pass because getEffectiveRoomRank returns ADMIN rank', async () => {
+  test('MFA-verified global ADMIN bypasses room membership', async () => {
     const mw = requireRoomRank(prisma, RoleRank.MODERATOR);
 
     const req = makeReq({
       paramsId: 55,
       userId: 42,
-      userRole: 'ADMIN', // global admin short-circuit
+      userRole: 'ADMIN',
     });
+
+    req.user.twoFactorEnabled = true;
+    req.auth = { mfaVerified: true };
 
     await mw(req, {}, next);
 
     expect(next).toHaveBeenCalledWith();
-
-    // Since role was ADMIN, prisma shouldn't have been touched
     expect(prisma.chatRoom.findUnique).not.toHaveBeenCalled();
     expect(prisma.participant.findUnique).not.toHaveBeenCalled();
+  });
+
+  test('unverified global ADMIN cannot bypass room membership', async () => {
+    prisma.chatRoom.findUnique.mockResolvedValueOnce({
+      ownerId: 99,
+    });
+    prisma.participant.findUnique.mockResolvedValueOnce(null);
+
+    const mw = requireRoomRank(prisma, RoleRank.MODERATOR);
+
+    const req = makeReq({
+      paramsId: 55,
+      userId: 42,
+      userRole: 'ADMIN',
+    });
+
+    req.user.twoFactorEnabled = true;
+    req.auth = { mfaVerified: false };
+
+    await mw(req, {}, next);
+
+    expect(next).toHaveBeenCalledTimes(1);
+
+    const error = next.mock.calls[0][0];
+
+    expect(error.isBoom).toBe(true);
+    expect(error.output.statusCode).toBe(403);
+    expect(prisma.chatRoom.findUnique).toHaveBeenCalled();
+  });
+
+  test('unverified global ADMIN retains actual room-owner access', async () => {
+    prisma.chatRoom.findUnique.mockResolvedValueOnce({
+      ownerId: 42,
+    });
+
+    const mw = requireRoomRank(prisma, RoleRank.MODERATOR);
+
+    const req = makeReq({
+      paramsId: 55,
+      userId: 42,
+      userRole: 'ADMIN',
+    });
+
+    req.user.twoFactorEnabled = true;
+    req.auth = { mfaVerified: false };
+
+    await mw(req, {}, next);
+
+    expect(next).toHaveBeenCalledWith();
+    expect(prisma.chatRoom.findUnique).toHaveBeenCalled();
   });
 });

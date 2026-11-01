@@ -1,4 +1,5 @@
 import Boom from '@hapi/boom';
+import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 
 /** Highest wins */
 export const RoleRank = Object.freeze({
@@ -68,7 +69,7 @@ export function requireRoomRank(prisma, minRank) {
         prisma,
         req.user.id,
         roomId,
-        req.user.role
+        hasVerifiedAdminAccess(req) ? 'ADMIN' : 'USER'
       );
       if (rank === null) throw Boom.forbidden('Not a participant');
       if (rank < minRank) throw Boom.forbidden('Insufficient rank');

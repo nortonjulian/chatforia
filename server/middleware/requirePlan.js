@@ -1,4 +1,5 @@
 import prisma from '../utils/prismaClient.js';
+import { hasVerifiedAdminAccess } from './verifiedAdmin.js';
 
 export function requirePlan(...allowedPlans) {
   const normalized = allowedPlans.map((p) => String(p).toUpperCase());
@@ -26,7 +27,9 @@ export function requirePlan(...allowedPlans) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      if (me.role === 'ADMIN') {
+      // Platform-wide subscription overrides require verified MFA.
+      // Otherwise, evaluate the account's actual subscription.
+      if (me.role === 'ADMIN' && hasVerifiedAdminAccess(req)) {
         req.userPlan = me.plan;
         return next();
       }

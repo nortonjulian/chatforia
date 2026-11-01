@@ -138,7 +138,7 @@ describe('adminUsers routes', () => {
       expect(prismaMock.user.update).not.toHaveBeenCalled();
     });
 
-    test('updates role when valid', async () => {
+    test('updates role and revokes existing sessions', async () => {
       const app = buildApp();
 
       const updatedUser = { id: 5, role: 'ADMIN' };
@@ -153,7 +153,10 @@ describe('adminUsers routes', () => {
 
       expect(prismaMock.user.update).toHaveBeenCalledWith({
         where: { id: 5 },
-        data: { role: 'ADMIN' },
+        data: {
+          role: 'ADMIN',
+          tokenVersion: { increment: 1 },
+        },
       });
     });
 

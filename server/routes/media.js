@@ -5,6 +5,7 @@ import path from 'path';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
+import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import { r2PutObject, r2PresignGet } from '../utils/r2.js';
 import { cloudMessageMediaKey } from '../services/privateMessageMedia.js';
 import { issuePrivateMediaGrant } from '../services/privateMediaGrant.js';
@@ -182,7 +183,7 @@ router.get('/chatrooms/:id/media', requireAuth, async (req, res) => {
   const member = await prisma.participant.findFirst({
     where: { chatRoomId, userId },
   });
-  if (!member && req.user.role !== 'ADMIN')
+  if (!member && !hasVerifiedAdminAccess(req))
     return res.status(403).json({ error: 'Forbidden' });
 
   const rows = await prisma.messageAttachment.findMany({
