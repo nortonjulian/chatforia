@@ -1,5 +1,6 @@
 /** Auth reset integration: registration, verification, password change. */
 import crypto from 'node:crypto';
+import speakeasy from 'speakeasy';
 import prisma from '../utils/prismaClient.js';
 import { makeAgent, resetDb } from './helpers/testServer.js';
 
@@ -67,6 +68,7 @@ describe('Auth flows', () => {
 
     expect(me.body.user).toMatchObject({
       discoverability: 'NO_ONE',
+      twoFactorEnabled: false,
       a11yUiFont: 'lg',
       a11yVisualAlerts: true,
       a11yLiveCaptions: false,
@@ -74,6 +76,10 @@ describe('Auth flows', () => {
       a11yCaptionFont: 'sm',
       a11yCaptionBg: 'transparent',
     });
+
+    expect(me.body.user).not.toHaveProperty('totpSecretEnc');
+    expect(me.body.user).not.toHaveProperty('twoFactorRecoveryCodes');
+    expect(me.body.user).not.toHaveProperty('passwordHash');
   });
 
   it('rejects case-insensitive duplicate registration and wrong passwords', async () => {
@@ -91,5 +97,49 @@ describe('Auth flows', () => {
     await agent.post('/auth/login')
       .send({ identifier: `unknown_${crypto.randomBytes(4).toString('hex')}`, password }).expect(401);
     expect(await prisma.user.count()).toBe(1);
+  });
+
+  it('returns enabled MFA status after verified enrollment', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+
+    const id = registered.body.user.id;
+
+    await prisma.user.update({
+      where: { id },
+      data: { emailVerifiedAt: new Date() },
+    });
+
+    await agent.post('/auth/login')
+      .send({ email, password })
+      .expect(200);
+
+    const setup = await agent.post('/auth/2fa/setup')
+      .send({})
+      .expect(200);
+
+    expect(setup.body.ok).toBe(true);
+
+    const code = speakeasy.totp({
+      secret: setup.body.tmpSecret,
+      encoding: 'base32',
+    });
+
+    const enabled = await agent.post('/auth/2fa/enable')
+      .send({
+        tmpSecret: setup.body.tmpSecret,
+        code,
+      })
+      .expect(200);
+
+    expect(enabled.body.ok).toBe(true);
+    expect(enabled.body.backupCodes).toHaveLength(10);
+
+    const me = await agent.get('/auth/me').expect(200);
+
+    expect(me.body.user.twoFactorEnabled).toBe(true);
+    expect(me.body.user).not.toHaveProperty('totpSecretEnc');
+    expect(me.body.user).not.toHaveProperty('twoFactorRecoveryCodes');
+    expect(me.body.user).not.toHaveProperty('passwordHash');
   });
 });

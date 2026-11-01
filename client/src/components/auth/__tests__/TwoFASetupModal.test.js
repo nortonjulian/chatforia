@@ -1,182 +1,276 @@
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup,
+} from '@testing-library/react';
+
 import TwoFASetupModal from '../TwoFASetupModal';
+import {
+  setupTwoFactor,
+  enableTwoFactor,
+} from '@/api/twoFactor';
 
+jest.mock('@/api/twoFactor', () => ({
+  setupTwoFactor: jest.fn(),
+  enableTwoFactor: jest.fn(),
+}));
 
-// ---------- Mocks ----------
-
-// Mantine stand-ins
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
   const Modal = ({ opened, onClose, title, children }) =>
     opened ? (
-      <div role="dialog" aria-label={title}>
-        <button aria-label="close-modal" onClick={onClose} style={{ display: 'none' }} />
+      <section role="dialog" aria-label={title}>
+        <button
+          type="button"
+          aria-label="Close modal"
+          onClick={onClose}
+        >
+          Close modal
+        </button>
         {children}
-      </div>
+      </section>
     ) : null;
 
-  const Image = ({ src, alt, ...p }) => <img alt={alt} src={src} {...p} />;
-  const TextInput = ({ label, value, onChange }) => (
+  const Image = ({ src, alt }) => <img src={src} alt={alt} />;
+
+  const TextInput = ({ label, value, onChange, disabled }) => (
     <label>
       {label}
-      <input aria-label={label} value={value} onChange={onChange} />
+      <input
+        aria-label={label}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
     </label>
   );
-  const Button = ({ children, onClick, ...p }) => (
-    <button type="button" onClick={onClick} {...p}>{children}</button>
-  );
-  const Stack = ({ children, ...p }) => <div {...p}>{children}</div>;
-  const Code = ({ children, ...p }) => <code {...p}>{children}</code>;
 
-  return { Modal, Image, TextInput, Button, Stack, Code };
+  const Button = ({ children, onClick, disabled, loading }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled || loading}
+    >
+      {children}
+    </button>
+  );
+
+  const Checkbox = ({ label, checked, onChange }) => (
+    <label>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+      />
+      {label}
+    </label>
+  );
+
+  const Stack = ({ children }) => <div>{children}</div>;
+  const Code = ({ children }) => <code>{children}</code>;
+  const Text = ({ children }) => <p>{children}</p>;
+  const Alert = ({ children }) => <div role="alert">{children}</div>;
+
+  return {
+    Modal,
+    Image,
+    TextInput,
+    Button,
+    Checkbox,
+    Stack,
+    Code,
+    Text,
+    Alert,
+  };
 });
 
-// Global fetch
-const fetchMock = jest.fn();
-global.fetch = fetchMock;
+const setupResult = {
+  qrDataUrl: 'data:image/png;base64,example',
+  tmpSecret: 'TEST-SECRET',
+};
 
 beforeEach(() => {
   jest.clearAllMocks();
+  setupTwoFactor.mockResolvedValue(setupResult);
 });
 
-afterEach(() => {
-  cleanup();
-});
+afterEach(cleanup);
 
-describe('TwoFASetupModal', () => {
-  test('does not fetch when closed; fetches setup and shows QR when opened', async () => {
-    // Start closed: no call
-    fetchMock.mockResolvedValue({ ok: true, json: async () => ({}) });
-    const { rerender } = render(<TwoFASetupModal opened={false} onClose={jest.fn()} />);
-    expect(fetchMock).not.toHaveBeenCalled();
+async function openSetup(onClose = jest.fn()) {
+  render(<TwoFASetupModal opened onClose={onClose} />);
 
-    // Open: should POST /auth/2fa/setup and render QR
-    const setupResp = {
-      qrDataUrl: 'data:image/png;base64,abc',
-      tmpSecret: 'TMP-123',
-    };
-    fetchMock.mockResolvedValueOnce({ ok: true, json: async () => setupResp });
-    rerender(<TwoFASetupModal opened={true} onClose={jest.fn()} />);
+  await screen.findByAltText('Authenticator setup QR code');
 
-    await waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledWith('/auth/2fa/setup', { method: 'POST' });
-    });
-    const img = await screen.findByAltText(/scan qr/i);
-    expect(img).toHaveAttribute('src', 'data:image/png;base64,abc');
+  return onClose;
+}
+
+async function completeEnrollment() {
+  await openSetup();
+
+  fireEvent.change(screen.getByLabelText('Authenticator code'), {
+    target: { value: '123456' },
   });
 
-  test('enable posts with tmpSecret and code, then shows backup codes on ok=true', async () => {
-    // 1) Setup call to get tmpSecret/QR
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ qrDataUrl: 'data:image/png;base64,foo', tmpSecret: 'TMP-XYZ' }),
+  enableTwoFactor.mockResolvedValueOnce({
+    backupCodes: ['TEST-CODE-ONE', 'TEST-CODE-TWO'],
+  });
+
+  fireEvent.click(screen.getByRole('button', { name: 'Enable 2FA' }));
+
+  await screen.findByText('TEST-CODE-ONE');
+}
+
+describe('TwoFASetupModal', () => {
+  test('does not start enrollment while closed', () => {
+    render(<TwoFASetupModal opened={false} onClose={jest.fn()} />);
+
+    expect(setupTwoFactor).not.toHaveBeenCalled();
+  });
+
+  test('opens enrollment and displays authenticator QR code', async () => {
+    await openSetup();
+
+    expect(setupTwoFactor).toHaveBeenCalledTimes(1);
+
+    expect(screen.getByAltText('Authenticator setup QR code'))
+      .toHaveAttribute('src', setupResult.qrDataUrl);
+  });
+
+  test('enables MFA and displays recovery codes', async () => {
+    await completeEnrollment();
+
+    expect(enableTwoFactor).toHaveBeenCalledWith(
+      'TEST-SECRET',
+      '123456'
+    );
+
+    expect(screen.getByText('TEST-CODE-TWO'))
+      .toBeInTheDocument();
+  });
+
+  test('does not submit invalid authenticator codes', async () => {
+    await openSetup();
+
+    fireEvent.change(screen.getByLabelText('Authenticator code'), {
+      target: { value: '12345' },
     });
+
+    expect(screen.getByRole('button', { name: 'Enable 2FA' }))
+      .toBeDisabled();
+
+    expect(enableTwoFactor).not.toHaveBeenCalled();
+  });
+
+  test('shows enrollment setup failures', async () => {
+    setupTwoFactor.mockRejectedValueOnce(
+      new Error('Enrollment unavailable')
+    );
 
     render(<TwoFASetupModal opened onClose={jest.fn()} />);
 
-    await screen.findByAltText(/scan qr/i);
+    expect(await screen.findByText('Enrollment unavailable'))
+      .toBeInTheDocument();
 
-    // 2) Type code
-    fireEvent.change(screen.getByLabelText(/enter the 6-digit code/i), {
+    expect(enableTwoFactor).not.toHaveBeenCalled();
+  });
+
+  test('shows verification failures without claiming success', async () => {
+    await openSetup();
+
+    enableTwoFactor.mockRejectedValueOnce(
+      new Error('Invalid verification code')
+    );
+
+    fireEvent.change(screen.getByLabelText('Authenticator code'), {
       target: { value: '123456' },
     });
 
-    // 3) Enable -> responds with ok + backupCodes
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ ok: true, backupCodes: ['A1B2-C3D4', 'E5F6-G7H8'] }),
-    });
+    fireEvent.click(screen.getByRole('button', { name: 'Enable 2FA' }));
 
-    fireEvent.click(screen.getByRole('button', { name: /enable/i }));
+    expect(await screen.findByText('Invalid verification code'))
+      .toBeInTheDocument();
 
-    await waitFor(() => {
-      expect(fetchMock).toHaveBeenLastCalledWith('/auth/2fa/enable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tmpSecret: 'TMP-XYZ', code: '123456' }),
-      });
-    });
-
-    // Backup codes now visible
-    expect(await screen.findByText('A1B2-C3D4')).toBeInTheDocument();
-    expect(await screen.findByText('E5F6-G7H8')).toBeInTheDocument();
-    // Done button visible
-    expect(screen.getByRole('button', { name: /done/i })).toBeInTheDocument();
+    expect(screen.queryByText('TEST-CODE-ONE'))
+      .not.toBeInTheDocument();
   });
 
-  test('enable non-ok response does not show backup codes', async () => {
-    // Setup success
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ qrDataUrl: 'data:image/png;base64,x', tmpSecret: 'TMP-1' }),
-    });
+  test('requires recovery-code acknowledgment before Done', async () => {
+    await completeEnrollment();
 
-    render(<TwoFASetupModal opened onClose={jest.fn()} />);
+    expect(screen.getByRole('button', { name: 'Done' }))
+      .toBeDisabled();
 
-    await screen.findByAltText(/scan qr/i);
-    fireEvent.change(screen.getByLabelText(/enter the 6-digit code/i), {
-      target: { value: '000000' },
-    });
+    fireEvent.click(screen.getByRole('checkbox', {
+      name: 'I have saved my recovery codes in a safe place',
+    }));
 
-    // enable -> ok: false
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ ok: false }),
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /enable/i }));
-
-    // Should remain on input UI (no backup codes)
-    await waitFor(() => {
-      expect(screen.queryByText(/save these backup codes/i)).not.toBeInTheDocument();
-    });
+    expect(screen.getByRole('button', { name: 'Done' }))
+      .toBeEnabled();
   });
 
-  test('"Done" calls onClose when backup codes are shown', async () => {
+  test('prevents closing before recovery-code acknowledgment', async () => {
+    await completeEnrollment();
+
+    fireEvent.click(screen.getByRole('button', {
+      name: 'Close modal',
+    }));
+
+    expect(screen.getByText('TEST-CODE-ONE'))
+      .toBeInTheDocument();
+  });
+
+  test('notifies parent only after successful acknowledged enrollment', async () => {
     const onClose = jest.fn();
-    // Setup + enable returning codes
-    fetchMock
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ qrDataUrl: 'data:image/png;base64,y', tmpSecret: 'TMP-2' }),
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ ok: true, backupCodes: ['Z1Z1-Z1Z1'] }),
-      });
+
+    setupTwoFactor.mockResolvedValueOnce(setupResult);
 
     render(<TwoFASetupModal opened onClose={onClose} />);
 
-    await screen.findByAltText(/scan qr/i);
-    fireEvent.change(screen.getByLabelText(/enter the 6-digit code/i), {
-      target: { value: '654321' },
+    await screen.findByAltText('Authenticator setup QR code');
+
+    enableTwoFactor.mockResolvedValueOnce({
+      backupCodes: ['TEST-CODE-ONE'],
     });
-    fireEvent.click(screen.getByRole('button', { name: /enable/i }));
 
-    await screen.findByText('Z1Z1-Z1Z1');
+    fireEvent.change(screen.getByLabelText('Authenticator code'), {
+      target: { value: '123456' },
+    });
 
-    fireEvent.click(screen.getByRole('button', { name: /done/i }));
-    expect(onClose).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByRole('button', { name: 'Enable 2FA' }));
+
+    await screen.findByText('TEST-CODE-ONE');
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('checkbox', {
+      name: 'I have saved my recovery codes in a safe place',
+    }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Done' }));
+
+    expect(onClose).toHaveBeenCalledWith(true);
   });
 
-  test('re-open triggers setup fetch again', async () => {
-    const { rerender } = render(<TwoFASetupModal opened={false} onClose={jest.fn()} />);
+  test('reopening starts a fresh setup', async () => {
+    const onClose = jest.fn();
 
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ qrDataUrl: 'data:image/png;base64,first', tmpSecret: 'TMP-A' }),
-    });
-    rerender(<TwoFASetupModal opened onClose={jest.fn()} />);
-    await screen.findByAltText(/scan qr/i);
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const { rerender } = render(
+      <TwoFASetupModal opened={false} onClose={onClose} />
+    );
 
-    cleanup();
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ qrDataUrl: 'data:image/png;base64,second', tmpSecret: 'TMP-B' }),
-    });
-    render(<TwoFASetupModal opened onClose={jest.fn()} />);
-    await screen.findByAltText(/scan qr/i);
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    rerender(<TwoFASetupModal opened onClose={onClose} />);
+
+    await screen.findByAltText('Authenticator setup QR code');
+
+    expect(setupTwoFactor).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole('button', {
+      name: 'Close modal',
+    }));
+
+    expect(onClose).toHaveBeenCalledWith(false);
   });
 });

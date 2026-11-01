@@ -13,6 +13,7 @@ export function serializeUser(user) {
     publicKey: user.publicKey ?? null,
     plan: user.plan ?? 'FREE',
     role: user.role ?? 'USER',
+    twoFactorEnabled: user.twoFactorEnabled === true,
     discoverability: user.discoverability ?? 'EVERYONE',
     isPremium: premium,
 
