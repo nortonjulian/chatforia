@@ -9,6 +9,7 @@ import {
   Button,
   Table,
   SimpleGrid,
+  Alert,
 } from '@mantine/core';
 import {
   getSupportSummary,
@@ -20,9 +21,12 @@ export default function AdminSupport() {
   const [summary, setSummary] = useState(null);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   async function load() {
     setLoading(true);
+    setError('');
+
     try {
       const [summaryData, ticketData] = await Promise.all([
         getSupportSummary(),
@@ -31,6 +35,8 @@ export default function AdminSupport() {
 
       setSummary(summaryData);
       setTickets(ticketData.tickets || []);
+    } catch {
+      setError('Unable to load support tickets. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -41,8 +47,14 @@ export default function AdminSupport() {
   }, []);
 
   async function markTicket(id, status) {
-    await updateSupportTicket(id, status);
-    await load();
+    setError('');
+
+    try {
+      await updateSupportTicket(id, status);
+      await load();
+    } catch {
+      setError('Unable to update ticket. Please try again.');
+    }
   }
 
   const totals = summary?.totals || {};
@@ -55,6 +67,12 @@ export default function AdminSupport() {
           Refresh
         </Button>
       </Group>
+
+      {error && (
+        <Alert color="red" role="alert">
+          {error}
+        </Alert>
+      )}
 
       <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
         <Card withBorder>

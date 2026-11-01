@@ -144,6 +144,181 @@ describe('support plan entitlements', () => {
     expect(res.body.supportLevel).toBe('STANDARD');
   });
 
+  test.each([
+    { name: '   ', email: 'user@example.com', message: 'Help' },
+    { name: 'User', email: '   ', message: 'Help' },
+    { name: 'User', email: 'user@example.com', message: '   ' },
+    { name: 123, email: 'user@example.com', message: 'Help' },
+    { name: 'User', email: {}, message: 'Help' },
+    { name: 'User', email: 'user@example.com', message: [] },
+  ])('rejects invalid support fields: %j', async (payload) => {
+    const res = await request(makeSupportApp())
+      .post('/support/tickets')
+      .send(payload)
+      .expect(400);
+
+    expect(res.body).toEqual({
+      error: 'Missing required fields',
+    });
+
+    expect(mockPrisma.supportTicket.create).not.toHaveBeenCalled();
+    expect(mockRunSupportAutomation).not.toHaveBeenCalled();
+  });
+
+  test.each([
+    'not-an-email',
+    'user@',
+    '@example.com',
+    'user example@example.com',
+  ])('rejects malformed support email: %s', async (email) => {
+    const res = await request(makeSupportApp())
+      .post('/support/tickets')
+      .send({
+        name: 'Customer',
+        email,
+        message: 'Need help',
+      })
+      .expect(400);
+
+    expect(res.body).toEqual({
+      error: 'Invalid email address',
+    });
+
+    expect(mockPrisma.supportTicket.create).not.toHaveBeenCalled();
+    expect(mockRunSupportAutomation).not.toHaveBeenCalled();
+  });
+
+  test('saved ticket returns 201 when automation fails', async () => {
+    const errorSpy = jest.spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    try {
+      mockRunSupportAutomation.mockRejectedValueOnce(
+        new Error('Automation unavailable')
+      );
+
+      const res = await request(makeSupportApp())
+        .post('/support/tickets')
+        .send({
+          name: 'Customer',
+          email: 'customer@example.com',
+          message: 'I need help with my account.',
+        })
+        .expect(201);
+
+      expect(mockPrisma.supportTicket.create).toHaveBeenCalledTimes(1);
+
+      expect(mockPrisma.supportTicket.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          status: 'new',
+          supportLevel: 'STANDARD',
+        }),
+      });
+
+      expect(res.body).toEqual(
+        expect.objectContaining({
+          ok: true,
+          ticketId: 77,
+          status: 'queued',
+          resolved: false,
+        })
+      );
+
+      expect(mockPrisma.supportTicket.update).not.toHaveBeenCalled();
+      expect(errorSpy).toHaveBeenCalled();
+    } finally {
+      errorSpy.mockRestore();
+    }
+  });
+
+  test('database failure does not return false success', async () => {
+    const errorSpy = jest.spyOn(console, 'error')
+      .mockImplementation(() => {});
+
+    try {
+      mockPrisma.supportTicket.create.mockRejectedValueOnce(
+        new Error('Database unavailable')
+      );
+
+      const res = await request(makeSupportApp())
+        .post('/support/tickets')
+        .send({
+          name: 'Customer',
+          email: 'customer@example.com',
+          message: 'I need help.',
+        })
+        .expect(500);
+
+      expect(res.body.ok).not.toBe(true);
+      expect(mockRunSupportAutomation).not.toHaveBeenCalled();
+    } finally {
+      errorSpy.mockRestore();
+    }
+  });
+
+  test.each([
+    'new',
+    'in_progress',
+    'closed',
+    'escalated',
+    'auto_resolved',
+    'resolved',
+  ])('admin accepts supported ticket status: %s', async (status) => {
+    mockPrisma.supportTicket.update.mockResolvedValueOnce({
+      id: 77,
+      status,
+    });
+
+    const res = await request(makeAdminApp())
+      .patch('/admin/support/tickets/77')
+      .send({ status })
+      .expect(200);
+
+    expect(res.body.ok).toBe(true);
+
+    expect(mockPrisma.supportTicket.update).toHaveBeenCalledWith({
+      where: { id: 77 },
+      data: { status },
+    });
+  });
+
+  test.each([
+    'unknown',
+    'pending',
+    '',
+    123,
+  ])('admin rejects unsupported ticket status: %s', async (status) => {
+    await request(makeAdminApp())
+      .patch('/admin/support/tickets/77')
+      .send({ status })
+      .expect(400);
+
+    expect(mockPrisma.supportTicket.update).not.toHaveBeenCalled();
+  });
+
+  test.each([
+    '0',
+    '-1',
+    '1.5',
+    'abc',
+  ])('admin rejects invalid ticket ID: %s', async (id) => {
+    await request(makeAdminApp())
+      .patch(`/admin/support/tickets/${id}`)
+      .send({ status: 'resolved' })
+      .expect(400);
+
+    expect(mockPrisma.supportTicket.update).not.toHaveBeenCalled();
+  });
+
+  test('admin rejects unsupported ticket status filter', async () => {
+    await request(makeAdminApp())
+      .get('/admin/support/tickets')
+      .query({ status: 'unknown' })
+      .expect(400);
+
+    expect(mockPrisma.supportTicket.findMany).not.toHaveBeenCalled();
+  });
+
   test('admin ticket queue orders priority first, then newest', async () => {
     mockPrisma.supportTicket.findMany.mockResolvedValue([]);
 

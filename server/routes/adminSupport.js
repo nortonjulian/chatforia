@@ -4,6 +4,15 @@ import { requireAuth, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
+const SUPPORT_TICKET_STATUSES = new Set([
+  'new',
+  'in_progress',
+  'closed',
+  'escalated',
+  'auto_resolved',
+  'resolved',
+]);
+
 router.use(requireAuth, requireAdmin);
 
 // GET /admin/support/summary
@@ -68,7 +77,15 @@ router.get('/summary', async (_req, res, next) => {
 // GET /admin/support/tickets
 router.get('/tickets', async (req, res, next) => {
   try {
-    const status = req.query.status ? String(req.query.status) : undefined;
+    const status = req.query.status;
+
+    if (
+      status !== undefined &&
+      (typeof status !== 'string' ||
+        !SUPPORT_TICKET_STATUSES.has(status))
+    ) {
+      return res.status(400).json({ error: 'Invalid ticket status' });
+    }
 
     const tickets = await prisma.supportTicket.findMany({
       where: status ? { status } : undefined,
@@ -91,12 +108,15 @@ router.patch('/tickets/:id', async (req, res, next) => {
     const id = Number(req.params.id);
     const { status } = req.body || {};
 
-    if (!Number.isFinite(id)) {
+    if (!Number.isSafeInteger(id) || id <= 0) {
       return res.status(400).json({ error: 'Invalid ticket id' });
     }
 
-    if (!status) {
-      return res.status(400).json({ error: 'status required' });
+    if (
+      typeof status !== 'string' ||
+      !SUPPORT_TICKET_STATUSES.has(status)
+    ) {
+      return res.status(400).json({ error: 'Invalid ticket status' });
     }
 
     const ticket = await prisma.supportTicket.update({

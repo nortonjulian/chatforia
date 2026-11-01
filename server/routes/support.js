@@ -13,9 +13,21 @@ router.post('/tickets', verifyTokenOptional, async (req, res, next) => {
   try {
     const { name, email, message, categoryHint } = req.body || {};
 
-    if (!name || !email || !message) {
+    if (
+      typeof name !== 'string' || !name.trim() ||
+      typeof email !== 'string' || !email.trim() ||
+      typeof message !== 'string' || !message.trim()
+    ) {
       return res.status(400).json({
         error: 'Missing required fields',
+      });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      return res.status(400).json({
+        error: 'Invalid email address',
       });
     }
 
@@ -43,7 +55,7 @@ router.post('/tickets', verifyTokenOptional, async (req, res, next) => {
     const ticket = await prisma.supportTicket.create({
       data: {
         name: String(name).trim(),
-        email: String(email).trim().toLowerCase(),
+        email: normalizedEmail,
         message: String(message).trim(),
         status: 'new',
         supportLevel,
