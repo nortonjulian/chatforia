@@ -2097,7 +2097,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
 
       closeReportModal();
-      window.alert('Report submitted.');
+      notifications.show({
+        title: 'Report submitted',
+        message:
+          'Thank you for helping keep Chatforia safe. Our team will review your report.',
+        color: 'green',
+        withBorder: true,
+        autoClose: 5000,
+      });
     } catch (e) {
       console.error('submitReport failed', e);
       setReportError(e?.message || 'Failed to submit report');

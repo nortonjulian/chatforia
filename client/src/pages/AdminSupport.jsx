@@ -8,10 +8,11 @@ import {
   Badge,
   Button,
   Table,
-  SimpleGrid,
   Alert,
   ScrollArea,
 } from '@mantine/core';
+import "./AdminSupport.css";
+
 import {
   getSupportSummary,
   getSupportTickets,
@@ -87,7 +88,7 @@ export default function AdminSupport() {
         </Alert>
       )}
 
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
+      <div className="cf-admin-support__stats">
         <Card withBorder>
           <Text c="dimmed" size="sm">Total tickets</Text>
           <Title order={3}>{totals.totalTickets ?? 0}</Title>
@@ -107,7 +108,7 @@ export default function AdminSupport() {
           <Text c="dimmed" size="sm">Auto-resolved</Text>
           <Title order={3}>{totals.autoResolvedTickets ?? 0}</Title>
         </Card>
-      </SimpleGrid>
+      </div>
 
       <Card withBorder>
         <Title order={4} mb="sm">Top support categories</Title>

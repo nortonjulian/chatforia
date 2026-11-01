@@ -5,6 +5,13 @@ const mockNavigate = jest.fn();
 const mockGet = jest.fn();
 const mockSubmitReport = jest.fn();
 const mockRefresh = jest.fn();
+const mockNotificationsShow = jest.fn();
+
+jest.mock('@mantine/notifications', () => ({
+  notifications: {
+    show: (...args) => mockNotificationsShow(...args),
+  },
+}));
 
 const mockThread = {
   id: 19,
@@ -221,8 +228,15 @@ describe('SmsLayout reporting integration', () => {
     });
 
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith(
-        'Report submitted successfully.'
+      expect(mockNotificationsShow).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Report submitted',
+          message:
+            'Thank you for helping keep Chatforia safe. Our team will review your report.',
+          color: 'green',
+          withBorder: true,
+          autoClose: 5000,
+        })
       );
     });
   });
@@ -262,8 +276,15 @@ describe('SmsLayout reporting integration', () => {
     });
 
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith(
-        'Report submitted and phone number blocked.'
+      expect(mockNotificationsShow).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Report submitted',
+          message:
+            'Thank you for helping keep Chatforia safe. The phone number was also blocked.',
+          color: 'green',
+          withBorder: true,
+          autoClose: 5000,
+        })
       );
     });
   });
