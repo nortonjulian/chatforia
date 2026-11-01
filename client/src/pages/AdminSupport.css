@@ -1,0 +1,14 @@
+/* Responsive administrator support summary cards. */
+.cf-admin-support__stats {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 220px), 1fr)
+  );
+  gap: 16px;
+  min-width: 0;
+}
+
+.cf-admin-support__stats > * {
+  min-width: 0;
+}

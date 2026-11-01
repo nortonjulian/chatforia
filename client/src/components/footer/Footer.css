@@ -3,6 +3,8 @@
   /* Keep a subtle line, but let the page gradient show through */
   border-top: 1px solid var(--border, rgba(0, 0, 0, 0.08));
   background: transparent !important;
+  container-type: inline-size;
+  min-width: 0;
 }
 
 .cf-footer__nav {
@@ -80,17 +82,17 @@
   font-size: 14px;
 }
 
-@media (min-width: 640px) {
+@container (min-width: 640px) {
   .cf-footer__cols {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-@media (min-width: 900px) {
+@container (min-width: 900px) {
   .cf-footer__cols {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-@media (min-width: 1200px) {
+@container (min-width: 1200px) {
   .cf-footer__cols {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }

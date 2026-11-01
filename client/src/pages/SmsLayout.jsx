@@ -47,6 +47,7 @@ import { useSocket } from '@/context/SocketContext';
 import SmsMessageMedia from '@/components/sms/SmsMessageMedia';
 import SmsReportModal from '@/components/sms/SmsReportModal.jsx';
 import { submitSmsMessageReport } from '@/api/smsReporting';
+import { notifications } from '@mantine/notifications';
 import { createSmsThreadLoader, subscribeSmsThread } from '@/utils/smsThreadLive';
 import './SmsLayout.css';
 
@@ -369,11 +370,15 @@ const showCallBanner = Boolean(
       });
 
       setReportTarget(null);
-      window.alert(
-        report.blockApplied
-          ? 'Report submitted and phone number blocked.'
-          : 'Report submitted successfully.'
-      );
+      notifications.show({
+        title: 'Report submitted',
+        message: report.blockApplied
+          ? 'Thank you for helping keep Chatforia safe. The phone number was also blocked.'
+          : 'Thank you for helping keep Chatforia safe. Our team will review your report.',
+        color: 'green',
+        withBorder: true,
+        autoClose: 5000,
+      });
     } catch (error) {
       console.error('SMS report failed', error);
 
