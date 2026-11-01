@@ -14,6 +14,7 @@ import {
   Modal,
   Alert,
   Card,
+  ScrollArea,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 // Uncomment if you already have this utility in the project:
@@ -57,6 +58,7 @@ export default function AdminReportsPage() {
   const [resolveId, setResolveId] = useState(null);
   const [opened, { open, close }] = useDisclosure(false);
   const [err, setErr] = useState('');
+  const [evidenceReport, setEvidenceReport] = useState(null);
 
   const fetchReports = async () => {
     setLoading(true);
@@ -198,13 +200,19 @@ export default function AdminReportsPage() {
           <Text>No reports found.</Text>
         </Card>
       ) : (
-        <Table striped highlightOnHover withTableBorder>
+        <ScrollArea type="auto" offsetScrollbars>
+          <Table
+            striped
+            highlightOnHover
+            withTableBorder
+            style={{ minWidth: 850 }}
+          >
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Status</Table.Th>
               <Table.Th>Reported At</Table.Th>
               <Table.Th>Reporter</Table.Th>
-              <Table.Th>Reported User</Table.Th>
+              <Table.Th>Reported Party</Table.Th>
               <Table.Th>Message</Table.Th>
               <Table.Th>Actions</Table.Th>
             </Table.Tr>
@@ -212,13 +220,27 @@ export default function AdminReportsPage() {
 
           <Table.Tbody>
             {items.map((r) => {
-              const senderId = r.reportedUserId || r.message?.sender?.id || r.reportedUser?.id;
-              const messageId = r.message?.id;
+              const isPstn = r.reportType === 'PSTN';
+              const senderId = isPstn
+                ? null
+                : r.reportedUserId || r.message?.sender?.id || r.reportedUser?.id;
+              const messageId = isPstn
+                ? r.smsMessageId
+                : r.message?.id;
 
               return (
                 <Table.Tr key={r.id}>
                   <Table.Td>
-                    <StatusBadge status={r.status} />
+                    <Stack gap={4} align="flex-start">
+                      <StatusBadge status={r.status} />
+                      <Badge
+                        size="xs"
+                        variant="light"
+                        color={isPstn ? 'blue' : 'gray'}
+                      >
+                        {isPstn ? 'SMS/MMS' : 'Chatforia'}
+                      </Badge>
+                    </Stack>
                   </Table.Td>
 
                   <Table.Td>
@@ -239,14 +261,18 @@ export default function AdminReportsPage() {
                   <Table.Td>
                     <Stack gap={2}>
                       <Text size="sm" fw={600}>
-                        {r.reportedUser?.username ||
-                          r.message?.sender?.username ||
-                          'Unknown'}
-                      </Text>
+                          {isPstn
+                            ? r.reportedPhone || 'Unknown phone number'
+                            : r.reportedUser?.username ||
+                              r.message?.sender?.username ||
+                              'Unknown'}
+                        </Text>
 
-                      <Text size="xs" c="dimmed">
-                        {r.reportedUser?.email || 'no email'}
-                      </Text>
+                        <Text size="xs" c="dimmed">
+                          {isPstn
+                            ? 'External SMS/MMS number'
+                            : r.reportedUser?.email || 'no email'}
+                        </Text>
 
                       {r.message?.sender?.isBanned ? (
                         <Badge size="xs" color="red" variant="light">
@@ -259,8 +285,18 @@ export default function AdminReportsPage() {
                   <Table.Td>
                     <Stack gap={4}>
                       <Text size="xs" c="dimmed">
-                        Message ID: {messageId || '—'}
+                        {isPstn ? 'SMS Message ID' : 'Message ID'}: {messageId || '—'}
                       </Text>
+
+                      {isPstn && (
+                        <Button
+                          size="xs"
+                          variant="subtle"
+                          onClick={() => setEvidenceReport(r)}
+                        >
+                          View evidence
+                        </Button>
+                      )}
 
                       <Text size="sm" lineClamp={4}>
                         {getMessagePreview(r)}
@@ -278,7 +314,7 @@ export default function AdminReportsPage() {
 
                       {r.blockApplied ? (
                         <Badge size="xs" color="orange" variant="light">
-                          Reporter blocked user
+                          {isPstn ? 'Reporter blocked number' : 'Reporter blocked user'}
                         </Badge>
                       ) : null}
 
@@ -324,8 +360,8 @@ export default function AdminReportsPage() {
                       <Button
                         size="xs"
                         variant="light"
-                        onClick={() => warnUser(senderId)}
-                        disabled={!senderId}
+                        disabled
+                        title="User warnings are not yet available"
                       >
                         Warn
                       </Button>
@@ -335,7 +371,7 @@ export default function AdminReportsPage() {
                         color="red"
                         variant="light"
                         onClick={() => banUser(senderId)}
-                        disabled={!senderId}
+                        disabled={isPstn || !senderId}
                       >
                         Ban
                       </Button>
@@ -345,7 +381,7 @@ export default function AdminReportsPage() {
                         color="orange"
                         variant="light"
                         onClick={() => adminDeleteMessage(messageId)}
-                        disabled={!messageId}
+                        disabled={isPstn || !messageId}
                       >
                         Delete Msg
                       </Button>
@@ -355,8 +391,106 @@ export default function AdminReportsPage() {
               );
             })}
           </Table.Tbody>
-        </Table>
+          </Table>
+        </ScrollArea>
       )}
+
+      <Modal
+        opened={Boolean(evidenceReport)}
+        onClose={() => setEvidenceReport(null)}
+        title="SMS/MMS report evidence"
+        centered
+        radius="lg"
+        size="lg"
+      >
+        {evidenceReport && (
+          <Stack gap="md">
+            <Text size="sm">
+              <strong>Reported number:</strong>{' '}
+              {evidenceReport.reportedPhone || 'Unknown'}
+            </Text>
+
+            <Text size="sm">
+              <strong>SMS Message ID:</strong>{' '}
+              {evidenceReport.smsMessageId || '—'}
+            </Text>
+
+            <Text size="sm">
+              <strong>Reason:</strong>{' '}
+              {evidenceReport.reason || 'Not provided'}
+            </Text>
+
+            <Card withBorder>
+              <Stack gap="xs">
+                <Text fw={600} size="sm">
+                  Reported message
+                </Text>
+                <Text
+                  size="sm"
+                  style={{
+                    whiteSpace: 'pre-wrap',
+                    overflowWrap: 'anywhere',
+                  }}
+                >
+                  {getMessagePreview(evidenceReport)}
+                </Text>
+              </Stack>
+            </Card>
+
+            <Stack gap="xs">
+              <Text fw={600} size="sm">
+                Included conversation context
+              </Text>
+
+              {Array.isArray(evidenceReport.evidence?.contextMessages) &&
+              evidenceReport.evidence.contextMessages.length > 0 ? (
+                evidenceReport.evidence.contextMessages.map((message, index) => (
+                  <Card withBorder key={message.id ?? index}>
+                    <Stack gap={4}>
+                      <Text size="xs" c="dimmed">
+                        {message.direction === 'in' ? 'Incoming' : 'Outgoing'}
+                        {' · '}
+                        {message.createdAt
+                          ? new Date(message.createdAt).toLocaleString()
+                          : 'Unknown date'}
+                      </Text>
+
+                      <Text
+                        size="sm"
+                        style={{
+                          whiteSpace: 'pre-wrap',
+                          overflowWrap: 'anywhere',
+                        }}
+                      >
+                        {message.text || '[No text]'}
+                      </Text>
+
+                      {Array.isArray(message.mediaUrls) &&
+                        message.mediaUrls.length > 0 && (
+                          <Text size="xs" c="dimmed">
+                            {message.mediaUrls.length} media attachment(s)
+                            included in evidence
+                          </Text>
+                        )}
+                    </Stack>
+                  </Card>
+                ))
+              ) : (
+                <Text size="sm" c="dimmed">
+                  No previous messages were included in this report.
+                </Text>
+              )}
+            </Stack>
+
+            <Button
+              variant="light"
+              onClick={() => setEvidenceReport(null)}
+            >
+              Close
+            </Button>
+          </Stack>
+        )}
+      </Modal>
 
       <Modal
         opened={opened}

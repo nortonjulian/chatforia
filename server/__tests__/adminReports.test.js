@@ -158,47 +158,44 @@ describe('adminReports routes', () => {
   });
 
   describe('POST /admin/reports/users/:userId/warn', () => {
-    test('returns success and sets audit with provided notes', async () => {
+    test('returns 501 instead of claiming a warning was delivered', async () => {
       const app = buildApp();
 
       const res = await request(app)
         .post('/admin/reports/users/42/warn')
         .send({ notes: 'please be respectful' });
 
-      expect(res.statusCode).toBe(200);
+      expect(res.statusCode).toBe(501);
       expect(res.body).toEqual({
-        success: true,
-        userId: 42,
-        notes: 'please be respectful',
+        error: 'User warnings are not yet available',
       });
+
+      expect(prismaMock.user.update).not.toHaveBeenCalled();
     });
 
-    test('uses default "warned" when notes missing', async () => {
+    test('returns 501 when no warning notes are supplied', async () => {
       const app = buildApp();
 
       const res = await request(app)
         .post('/admin/reports/users/42/warn')
         .send({});
 
-      expect(res.statusCode).toBe(200);
+      expect(res.statusCode).toBe(501);
       expect(res.body).toEqual({
-        success: true,
-        userId: 42,
-        notes: 'warned',
+        error: 'User warnings are not yet available',
       });
     });
 
-    test('returns 500 on error', async () => {
+    test('does not report success for invalid user identifiers', async () => {
       const app = buildApp();
 
-      // Force error by throwing inside warn handler via mocking res.json? Easier:
-      // Temporarily make JSON.parse fail by sending circular data? Overkill.
-      // Instead, simulate error by temporarily throwing from prismaMock (none used)
-      // so we'll just mock console.error and throw from req handler via body parsing? Not needed.
-      // We'll simulate by monkey-patching the handler if needed, but it's okay to skip this one if you want.
-      // For completeness we can force an error by sending a very large body which shouldn't matter here.
-      // We'll skip explicit failure test for warn since it has no prisma calls.
-      expect(true).toBe(true);
+      const res = await request(app)
+        .post('/admin/reports/users/invalid/warn')
+        .send({ notes: 'test' });
+
+      expect(res.statusCode).toBe(501);
+      expect(res.body.success).not.toBe(true);
+      expect(prismaMock.user.update).not.toHaveBeenCalled();
     });
   });
 

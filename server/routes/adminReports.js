@@ -104,33 +104,12 @@ router.patch('/:id/resolve', requireAuth, requireAdmin, async (req, res) => {
   }
 });
 
-// POST /admin/reports/users/:userId/warn { notes? }
-router.post('/users/:userId/warn', requireAuth, requireAdmin, async (req, res) => {
-  try {
-    const userId = Number(req.params.userId);
-
-    if (!Number.isInteger(userId)) {
-      return res.status(400).json({ error: 'Invalid user id' });
-    }
-
-    const { notes } = req.body || {};
-    const finalNotes = notes || 'warned';
-
-    res.locals.audit = {
-      action: 'ADMIN_WARN_USER',
-      targetUserId: userId,
-      notes: finalNotes,
-    };
-
-    res.json({
-      success: true,
-      userId,
-      notes: finalNotes,
-    });
-  } catch (e) {
-    console.error(`POST /admin/reports/users/${req.params.userId}/warn failed:`, e);
-    res.status(500).json({ error: 'Failed to warn user' });
-  }
+// POST /admin/reports/users/:userId/warn
+// Warning delivery and persistence are not implemented yet.
+router.post('/users/:userId/warn', requireAuth, requireAdmin, (_req, res) => {
+  return res.status(501).json({
+    error: 'User warnings are not yet available',
+  });
 });
 
 // POST /admin/reports/users/:userId/ban { reason? }
