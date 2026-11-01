@@ -76,12 +76,16 @@ export default function TwoFASection({ user, onChange }) {
         <Button
           variant="light"
           color="red"
+          style={{ alignSelf: 'flex-start', maxWidth: '100%' }}
           onClick={() => setDisableOpen(true)}
         >
           Disable two-factor authentication
         </Button>
       ) : (
-        <Button onClick={() => setSetupOpen(true)}>
+        <Button
+          style={{ alignSelf: 'flex-start', maxWidth: '100%' }}
+          onClick={() => setSetupOpen(true)}
+        >
           Enable two-factor authentication
         </Button>
       )}

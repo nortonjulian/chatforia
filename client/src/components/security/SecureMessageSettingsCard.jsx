@@ -240,8 +240,9 @@ export default function SecureMessageSettingsCard() {
           </Text>
         )}
 
-        <Group justify="flex-end">
+        <Group justify="flex-start">
           <Button
+            style={{ maxWidth: '100%' }}
             onClick={() =>
               navigate('/settings/security')
             }
