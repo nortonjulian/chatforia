@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useUser } from '@/context/UserContext';
 import { Card, Text, Stack, Group, Button, Divider } from '@mantine/core';
 import api from '@/api/axiosClient';
 
@@ -11,56 +12,6 @@ function normalizeUsers(payload) {
   if (Array.isArray(payload.results)) return payload.results;
   if (payload.data) return normalizeUsers(payload.data);
   return [];
-}
-
-// Try very hard to find the current user that the test wrapper provided.
-function useCurrentUser(explicit) {
-  return useMemo(() => {
-    if (explicit) return explicit;
-
-    // Known globals some test harnesses use
-    const g = typeof globalThis !== 'undefined' ? globalThis : {};
-    const w = typeof window !== 'undefined' ? window : {};
-
-    const candidates = [
-      g.__TEST_USER__,
-      g.__USER__,
-      g.currentUser,
-      w.__TEST_USER__,
-      w.__USER__,
-      w.currentUser,
-    ];
-
-    for (const c of candidates) {
-      if (c && typeof c === 'object' && ('role' in c || 'id' in c)) return c;
-    }
-
-    // Look for a JSON user on <body data-user="...">
-    try {
-      const ds = typeof document !== 'undefined' ? document.body?.dataset : undefined;
-      if (ds?.user) {
-        const parsed = JSON.parse(ds.user);
-        if (parsed && typeof parsed === 'object') return parsed;
-      }
-    } catch { /* ignore */ }
-
-    // Last ditch: scan globals for any object that looks like a user
-    try {
-      const root = g;
-      for (const k of Object.keys(root)) {
-        const v = root[k];
-        if (
-          v && typeof v === 'object' &&
-          ('role' in v || 'plan' in v || 'username' in v) &&
-          ('id' in v || 'userId' in v)
-        ) {
-          return v;
-        }
-      }
-    } catch { /* ignore */ }
-
-    return null;
-  }, [explicit]);
 }
 
 function UsersTable() {
@@ -117,9 +68,9 @@ function UsersTable() {
   );
 }
 
-export default function UsersAdminPage({ currentUser }) {
-  const user = useCurrentUser(currentUser);
-  const role = (user?.role || '').toString().toUpperCase();
+export default function UsersAdminPage() {
+  const { currentUser } = useUser();
+  const role = (currentUser?.role || '').toString().toUpperCase();
 
   if (role !== 'ADMIN') {
     // Only the FIRST line matches the test regex once.

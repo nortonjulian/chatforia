@@ -147,6 +147,8 @@ function LegacySmsThreadRedirect() {
 }
 
 function AuthedLayout() {
+  const adminMatch = useMatch('/admin/*');
+  const isAdminRoute = Boolean(adminMatch);
   const smsThreadMatch = useMatch('/sms/:threadId');
   const isSMSThread = Boolean(
     smsThreadMatch && smsThreadMatch.params.threadId !== 'compose'
@@ -206,8 +208,8 @@ function AuthedLayout() {
           padding="md"
           style={{
             minHeight: '100dvh',
-            height: isSMSThread ? '100dvh' : undefined,
-            overflow: isSMSThread ? 'hidden' : undefined,
+            height: isSMSThread || isAdminRoute ? '100dvh' : undefined,
+            overflow: isSMSThread || isAdminRoute ? 'hidden' : undefined,
             display: 'flex',
             flexDirection: 'column',
           }}
