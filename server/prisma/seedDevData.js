@@ -1,119 +1,109 @@
-import pkg from '@prisma/client';
+import prisma from '../utils/prismaClient.js';
 import { generateKeyPair } from '../utils/encryption.js';
 
-const { PrismaClient } = pkg;
-const prisma = new PrismaClient();
-
 import bcrypt from 'bcrypt';
+import {
+  assertConnectedDevSeedTarget,
+  getDevSeedPassword,
+} from './assertDevSeedTarget.js';
 
 export async function seedDevData() {
-  console.log('💬 Seeding dev chat data...');
+  const seedPassword = getDevSeedPassword();
+  await assertConnectedDevSeedTarget(prisma);
 
-  const hashed = await bcrypt.hash('Temp12345!', 10);
+  const fixtures = [1, 2, 3, 4].map((number) => ({
+    username: `dev_user_${number}`,
+    email: `dev_user_${number}@example.com`,
+  }));
 
-  const { publicKey: julianPublicKey } = generateKeyPair();
-  const { publicKey: alicePublicKey } = generateKeyPair();
-  const { publicKey: bobPublicKey } = generateKeyPair();
-  const { publicKey: applePublicKey } = generateKeyPair();
-
-
-  const julian = await prisma.user.upsert({
-    where: { email: 'nortonjulian@gmail.com' },
-    update: {
-      email: 'nortonjulian@gmail.com',
-      phoneNumber: '3333333333',
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: julianPublicKey,
+  const existing = await prisma.user.findMany({
+    where: {
+      OR: [
+        { email: { in: fixtures.map((user) => user.email) } },
+        { username: { in: fixtures.map((user) => user.username) } },
+      ],
     },
-    create: {
-      username: 'julian',
-      email: 'nortonjulian@gmail.com',
-      phoneNumber: '3333333333',
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: julianPublicKey,
+    select: {
+      username: true,
+      email: true,
     },
   });
 
- const reviewer = await prisma.user.upsert({
-    where: { email: 'reviewer@chatforia.com' },
-    update: {
-      email: 'reviewer@chatforia.com',
-      phoneNumber: '4444444444',
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: applePublicKey,
-    },
-    create: {
-      username: 'reviewer',
-      email: 'reviewer@chatforia.com',
-      phoneNumber: '4444444444',
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: applePublicKey,
-    },
-  });
+  for (const user of existing) {
+    const fixture = fixtures.find(
+      (item) =>
+        item.username === user.username ||
+        item.email === user.email
+    );
 
-
-  const alice = await prisma.user.upsert({
-    where: { email: 'alice@example.com' },
-    update: {
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: alicePublicKey,
-    },
-    create: {
-      username: 'alice',
-      email: 'alice@example.com',
-      phoneNumber: '1111111111',
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: alicePublicKey,
-    },
-  });
-
-  const bob = await prisma.user.upsert({
-    where: { email: 'bob@example.com' },
-    update: {
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: bobPublicKey,
-    },
-    create: {
-      username: 'bob',
-      email: 'bob@example.com',
-      phoneNumber: '2222222222',
-      passwordHash: hashed,
-      emailVerifiedAt: new Date(),
-      publicKey: bobPublicKey,
-    },
-  });
-
-  const room = await prisma.chatRoom.create({
-    data: { isGroup: false },
-  });
-
-  await prisma.participant.createMany({
-    data: [
-      { chatRoomId: room.id, userId: julian.id },
-      { chatRoomId: room.id, userId: alice.id },
-      { chatRoomId: room.id, userId: bob.id },
-      { chatRoomId: room.id, userId: reviewer.id },
-    ],
-    skipDuplicates: true,
-  });
-
-  for (let i = 0; i < 20; i++) {
-    await prisma.message.create({
-      data: {
-        chatRoomId: room.id,
-        senderId: i % 2 === 0 ? alice.id : bob.id,
-        rawContent: `Seeded message ${i + 1}`,
-      },
-    });
+    if (
+      !fixture ||
+      user.username !== fixture.username ||
+      user.email !== fixture.email
+    ) {
+      throw new Error(
+        'Development fixture identity collision detected.'
+      );
+    }
   }
 
-  console.log('✅ Julian userId:', julian.id);
-  console.log('✅ Seed roomId:', room.id);
+  console.log('💬 Seeding dev account fixtures...');
+
+  const hashed = await bcrypt.hash(seedPassword, 10);
+
+  const { publicKey: devUser1PublicKey } = generateKeyPair();
+  const { publicKey: devUser3PublicKey } = generateKeyPair();
+  const { publicKey: devUser4PublicKey } = generateKeyPair();
+  const { publicKey: devUser2PublicKey } = generateKeyPair();
+
+  const devUser = await prisma.user.upsert({
+    where: { email: 'dev_user_1@example.com' },
+    update: {},
+    create: {
+      username: 'dev_user_1',
+      email: 'dev_user_1@example.com',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+      publicKey: devUser1PublicKey,
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'dev_user_2@example.com' },
+    update: {},
+    create: {
+      username: 'dev_user_2',
+      email: 'dev_user_2@example.com',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+      publicKey: devUser2PublicKey,
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'dev_user_3@example.com' },
+    update: {},
+    create: {
+      username: 'dev_user_3',
+      email: 'dev_user_3@example.com',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+      publicKey: devUser3PublicKey,
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'dev_user_4@example.com' },
+    update: {},
+    create: {
+      username: 'dev_user_4',
+      email: 'dev_user_4@example.com',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+      publicKey: devUser4PublicKey,
+    },
+  });
+
+  console.log('✅ Dev userId:', devUser.id);
+
 }
