@@ -1,6 +1,8 @@
 /** @jest-environment node */
 import { jest, test, expect } from '@jest/globals';
 import jwt from 'jsonwebtoken';
+import express from 'express';
+import request from 'supertest';
 
 // The session issuer must not contact a real database.
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
@@ -10,7 +12,7 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   },
 }));
 
-const { issueSession } = await import('../routes/auth.js');
+const { issueSession, default: authRouter } = await import('../routes/auth.js');
 
 const account = {
   id: 42,
@@ -70,4 +72,19 @@ test('MFA-enabled accounts cannot bypass verification', () => {
   ).toThrow('MFA must complete before session issuance');
 
   expect(res.cookie).not.toHaveBeenCalled();
+});
+
+test.each([true, false])('short API tokens preserve authenticated MFA proof (%s)', async mfaVerified => {
+  const app = express();
+  app.use((req, _res, next) => {
+    req.user = account;
+    req.auth = { mfaVerified, tokenVersion: 3 };
+    next();
+  });
+  app.use('/auth', authRouter);
+  const response = await request(app).get('/auth/token').expect(200);
+  const claims = jwt.verify(response.body.token, process.env.JWT_SECRET || 'test_secret');
+  expect(claims.typ).toBe('short');
+  expect(claims.mfaVerified).toBe(mfaVerified);
+  expect(claims.tokenVersion).toBe(3);
 });

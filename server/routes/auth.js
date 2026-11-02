@@ -531,6 +531,7 @@ router.get(
       plan: req.user.plan,
       tokenVersion: req.user.tokenVersion ?? 0,
       typ: 'short',
+      mfaVerified: req.auth?.mfaVerified === true,
     };
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '10m' });
