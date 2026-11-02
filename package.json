@@ -22,7 +22,8 @@
     "coverage": "npm run -w server coverage",
     "test:e2e": "playwright test",
     "test:all": "npm run test && npm run test:e2e",
-    "postinstall": "npm run -w server prisma:generate || true"
+    "postinstall": "npm run -w server prisma:generate || true",
+    "test:staff-security": "node server/scripts/run-staff-security-qa.mjs"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",

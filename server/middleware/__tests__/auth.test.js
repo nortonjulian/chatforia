@@ -526,6 +526,10 @@ describe('session authentication fails closed', () => {
     const { req, res, next } = requestWithToken();
     await mod.requireAuth(req, res, next);
     expect(req.user).toMatchObject({ id: 42, role: 'USER', tokenVersion: 2 });
+    expect(req.auth).toEqual({
+      mfaVerified: false,
+      tokenVersion: 2,
+    });
     expect(next).toHaveBeenCalledTimes(1);
     expect(res._json).toBeNull();
   });
@@ -565,6 +569,35 @@ describe('session authentication fails closed', () => {
     expect(optional.next).toHaveBeenCalledTimes(1);
   });
 
+  test('optional authentication exposes verified session version', async () => {
+    const mod = await loadModule();
+
+    verifyMock.mockReturnValue({
+      id: 42,
+      typ: 'session',
+      tokenVersion: 2,
+      mfaVerified: true,
+    });
+
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+
+    const { req, res, next } = requestWithToken();
+
+    await mod.verifyTokenOptional(req, res, next);
+
+    expect(req.user).toMatchObject({
+      id: 42,
+      tokenVersion: 2,
+    });
+
+    expect(req.auth).toEqual({
+      mfaVerified: true,
+      tokenVersion: 2,
+    });
+
+    expect(next).toHaveBeenCalledTimes(1);
+  });
+
   test('revoked token versions never attach a user', async () => {
     const mod = await loadModule();
     verifyMock.mockReturnValue({ id: 42, tokenVersion: 1 });
@@ -574,10 +607,12 @@ describe('session authentication fails closed', () => {
     expect(strict.res.statusCode).toBe(401);
     expect(strict.res._json).toEqual({ error: 'invalid_session' });
     expect(strict.req.user).toBeUndefined();
+    expect(strict.req.auth).toBeUndefined();
     expect(strict.next).not.toHaveBeenCalled();
     const optional = requestWithToken();
     await mod.verifyTokenOptional(optional.req, optional.res, optional.next);
     expect(optional.req.user).toBeUndefined();
+    expect(optional.req.auth).toBeUndefined();
     expect(optional.next).toHaveBeenCalledTimes(1);
   });
 

@@ -95,6 +95,7 @@ export async function requireAuth(req, res, next) {
   req.user = user;
   req.auth = {
     mfaVerified: session.mfaVerified,
+    tokenVersion: session.tokenVersion,
   };
   return next();
 }
@@ -112,6 +113,7 @@ export async function verifyTokenOptional(req, _res, next) {
           req.user = user;
           req.auth = {
             mfaVerified: session.mfaVerified,
+            tokenVersion: session.tokenVersion,
           };
         }
     } catch {

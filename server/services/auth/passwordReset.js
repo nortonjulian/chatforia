@@ -52,22 +52,25 @@ export async function resetPasswordWithToken(token, newPasswordRaw) {
   if (!token) throw Boom.badRequest('token required');
   if (newPassword.length < 8) throw Boom.badRequest('password too short');
 
-  const consumed = await consumeResetToken(token);
-  if (!consumed.ok) {
-    const map = {
-      invalid: Boom.badRequest('invalid token'),
-      expired: Boom.badRequest('token expired'),
-      used: Boom.badRequest('token already used')
-    };
-    throw map[consumed.reason] || Boom.badRequest('invalid token');
-  }
-
   const hash = await bcrypt.hash(newPassword, SALT_ROUNDS);
 
-  await prisma.user.update({
-    where: { id: consumed.userId },
-    data: { passwordHash: hash },
-  });
+  return prisma.$transaction(async (tx) => {
+    const consumed = await consumeResetToken(token, tx);
 
-  return { ok: true };
+    if (!consumed.ok) {
+      const map = {
+        invalid: Boom.badRequest('invalid token'),
+        expired: Boom.badRequest('token expired'),
+        used: Boom.badRequest('token already used')
+      };
+      throw map[consumed.reason] || Boom.badRequest('invalid token');
+    }
+
+    await tx.user.update({
+      where: { id: consumed.userId },
+      data: { passwordHash: hash, tokenVersion: { increment: 1 } },
+    });
+
+    return { ok: true };
+  });
 }
