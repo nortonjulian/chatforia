@@ -75,6 +75,7 @@ function finish() {
   writeFileSync(path, JSON.stringify({
     database: expectedDb,
     branch,
+    revision: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
     generatedAt: new Date().toISOString(),
     checks: report
   }, null, 2) + '\n');
@@ -168,15 +169,18 @@ const pending = [...diskMigrations]
 const missing = [...applied]
   .filter(name => !diskMigrations.has(name));
 
-const expectedPending =
-  '20261102090000_protect_staff_user_identity';
+const expectedPending = [
+  '20261102090000_protect_staff_user_identity',
+  '20261102091000_runtime_role_permissions',
+  '20261102092000_protected_credential_recovery',
+  '20261102093000_protected_mfa_login',
+];
 
 if (
   failed.length !== 0 ||
   missing.length !== 0 ||
-  pending.length !== 1 ||
-  pending[0] !== expectedPending ||
-  applied.has(expectedPending)
+  pending.length !== expectedPending.length ||
+  expectedPending.some(name => !pending.includes(name) || applied.has(name))
 ) {
   stop('Migration history mismatch: ' + JSON.stringify({
     pending, missing, failed
@@ -184,10 +188,10 @@ if (
 }
 
 console.log(
-  'PASS: Applied migrations verified; only identity guard pending.'
+  'PASS: Applied migrations verified; reviewed Stage 2 migrations pending.'
 );
 console.log('Applied:', applied.size);
-console.log('Pending:', pending[0]);
+console.log('Pending:', pending.join(', '));
 
 
 const testDir = resolve(root, 'server/security/__tests__');
@@ -197,6 +201,8 @@ const unitTests = readdirSync(testDir)
 
 unitTests.push('middleware/__tests__/auth.test.js');
 unitTests.push('__tests__/passwordReset.serviceAtomicity.test.js');
+unitTests.push('__tests__/mfaLogin.test.js');
+unitTests.push('__tests__/auth.sessionMfaClaim.test.js');
 
 run('Staff security and authentication Jest tests', 'npm', [
   'run', '-w', 'server', 'test', '--',
@@ -295,6 +301,10 @@ for (const test of cases) {
     }
   });
 }
+
+run('Integrated pending migrations, authentication, recovery and adversarial QA', 'node', [
+  'server/scripts/test-staff-integrated.mjs'
+], { env: { ...process.env, TEST_DATABASE_URL: dbUrl } });
 
 finish();
 console.log('\nPASS: Automated staff security QA completed.');
