@@ -1,6 +1,7 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import StaffDashboard from '../StaffDashboard';
+
 import axiosClient from '../../api/axiosClient';
+import StaffDashboard from '../StaffDashboard';
 jest.mock('../../api/axiosClient', () => ({
   __esModule: true,
   default: { get: jest.fn(), post: jest.fn() },
@@ -69,4 +70,89 @@ test('submits a reason and target without client authentication claims', async (
     )
   );
   expect(await screen.findByRole('status')).toHaveTextContent('Access updated');
+});
+
+test('support resolves reports with a required reason', async () => {
+  axiosClient.get.mockImplementation((path) =>
+    Promise.resolve({
+      data:
+        path === '/staff/session'
+          ? {
+              profile: 'SUPPORT',
+              permissions: ['reports.read', 'reports.resolve'],
+              delegatableProfiles: [],
+            }
+          : { items: [], total: 0 },
+    })
+  );
+  axiosClient.post.mockResolvedValue({ data: { changed: true } });
+  render(<StaffDashboard />);
+  await screen.findByText('Resolve report', { selector: 'h2' });
+  fireEvent.change(screen.getByLabelText('Report ID'), {
+    target: { value: '29' },
+  });
+  fireEvent.change(screen.getByLabelText('Resolution reason'), {
+    target: { value: 'Verified report resolution' },
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Resolve report' }));
+  await waitFor(() =>
+    expect(axiosClient.post).toHaveBeenCalledWith('/staff/reports/29/resolve', {
+      reason: 'Verified report resolution',
+    })
+  );
+});
+
+test('revocation submits the chosen target and reason', async () => {
+  axiosClient.get.mockImplementation((path) =>
+    Promise.resolve({
+      data:
+        path === '/staff/session'
+          ? {
+              profile: 'ACCESS_ADMIN',
+              permissions: ['staff.read', 'staff.assign'],
+              delegatableProfiles: ['SUPPORT'],
+            }
+          : { items: [], total: 0 },
+    })
+  );
+  axiosClient.post.mockResolvedValue({ data: { sessionsRevoked: true } });
+  render(<StaffDashboard />);
+  await screen.findByText('Manage staff access');
+  fireEvent.change(screen.getByLabelText('User ID'), {
+    target: { value: '16' },
+  });
+  fireEvent.change(screen.getByLabelText('Reason'), {
+    target: { value: 'Verified access revocation' },
+  });
+  fireEvent.click(screen.getByRole('button', { name: 'Revoke access' }));
+  await waitFor(() =>
+    expect(axiosClient.post).toHaveBeenCalledWith(
+      '/staff/assignments/16/revoke',
+      { profile: 'SUPPORT', reason: 'Verified access revocation' }
+    )
+  );
+});
+
+test('session loss clears protected content and management controls', async () => {
+  axiosClient.get.mockImplementation((path) =>
+    path === '/staff/session'
+      ? Promise.resolve({
+          data: {
+            profile: 'SUPPORT',
+            permissions: ['users.read', 'reports.read'],
+            delegatableProfiles: [],
+          },
+        })
+      : path === '/staff/users'
+        ? Promise.resolve({
+            data: { items: [{ id: 4, username: 'Private fixture' }], total: 1 },
+          })
+        : Promise.reject(new Error('Session revoked'))
+  );
+  render(<StaffDashboard />);
+  await screen.findByText('Private fixture');
+  fireEvent.click(screen.getByRole('button', { name: 'Reports' }));
+  await screen.findByRole('alert');
+  expect(screen.queryByText('Private fixture')).not.toBeInTheDocument();
+  expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
 });
