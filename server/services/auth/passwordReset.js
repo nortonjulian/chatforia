@@ -18,11 +18,12 @@ export async function requestPasswordReset(emailRaw) {
 
   const user = await prisma.user.findUnique({
     where: { email },
-    select: { id: true, username: true, email: true }
+    select: { id: true, username: true, email: true, role: true,
+      staffAssignment: { select: { id: true } }, founderOwnership: { select: { id: true } } }
   });
 
   // Always behave the same to prevent enumeration
-  if (!user) return { ok: true };
+  if (!user || user.role === 'ADMIN' || user.staffAssignment || user.founderOwnership) return { ok: true };
 
   const { token, expiresAt } = await createResetToken(user.id);
 

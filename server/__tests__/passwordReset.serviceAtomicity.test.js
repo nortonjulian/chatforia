@@ -25,6 +25,7 @@ const tokenDb = {
 };
 
 const userDb = {
+  findUnique: jest.fn(async () => state.user),
   update: jest.fn(async ({ where, data }) => {
     if (state.failPasswordUpdate) {
       throw new Error('simulated password write failure');
@@ -77,7 +78,7 @@ jest.unstable_mockModule('../utils/emailTemplates.js', () => ({
 const { hashToken, consumeResetToken } =
   await import('../utils/tokenStore.js');
 
-const { resetPasswordWithToken } =
+const { resetPasswordWithToken, requestPasswordReset } =
   await import('../services/auth/passwordReset.js');
 
 const plainToken = 'test-reset-token-do-not-use-in-production';
@@ -168,5 +169,22 @@ describe('passwordReset service and tokenStore', () => {
 
     expect([a.ok, b.ok].filter(Boolean)).toHaveLength(1);
     expect(state.token.usedAt).toBeInstanceOf(Date);
+  });
+});
+
+
+describe('protected public recovery isolation', () => {
+  test.each([
+    { role: 'ADMIN' },
+    { staffAssignment: { id: 1 } },
+    { founderOwnership: { id: 1 } },
+  ])('does not issue public reset tokens for protected identities', async protection => {
+    state.user = { ...state.user, ...protection };
+    await expect(requestPasswordReset('staff@example.test')).resolves.toEqual({ ok: true });
+    expect(state.token.usedAt).toBeNull();
+  });
+  test('unknown identity has the same public response', async () => {
+    state.user = null;
+    await expect(requestPasswordReset('unknown@example.test')).resolves.toEqual({ ok: true });
   });
 });
