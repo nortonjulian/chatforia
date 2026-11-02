@@ -1,3 +1,4 @@
+import StaffDashboard from './pages/StaffDashboard.jsx';
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, Outlet, Link, useParams, useMatch, useLocation } from 'react-router-dom';
 import {
@@ -591,6 +592,8 @@ export default function AppRoutes() {
 
         {/* ✅ eSIM activation */}
         <Route path="account/esim" element={<EsimActivatePage />} />
+
+        <Route path="staff" element={<StaffDashboard />} />
 
         <Route
           path="admin"

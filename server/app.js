@@ -1,3 +1,4 @@
+import staffRouter from './routes/staff.js';
 import 'dotenv/config';
 
 import express from 'express';
@@ -183,7 +184,8 @@ function csrfOnlyForCookieAuth(csrfMw) {
   return (req, res, next) => {
     const auth = req.headers.authorization;
     const hasBearer = typeof auth === 'string' && auth.startsWith('Bearer ');
-    if (hasBearer) return next();           // ✅ iOS / API clients
+    const cookieToken = req.cookies?.[process.env.JWT_COOKIE_NAME || 'foria_jwt'];
+    if (hasBearer && !cookieToken) return next();           // ✅ iOS / API clients
     return csrfMw(req, res, next);          // ✅ browser cookie/session
   };
 }
@@ -410,6 +412,7 @@ export function createApp() {
 
   app.use('/admin/support', adminSupportRouter);
   app.use('/admin/users', adminUsersReadOnlyRouter);
+  app.use('/staff', staffRouter);
   app.use(
     '/admin/esim-replacements',
     adminEsimReplacementsRouter
