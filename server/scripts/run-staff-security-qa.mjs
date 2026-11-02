@@ -1,7 +1,7 @@
 import { spawnSync, execFileSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
-import { readdirSync, writeFileSync } from 'node:fs';
-import { homedir, userInfo } from 'node:os';
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { userInfo } from 'node:os';
 import { resolve } from 'node:path';
 import { createStaffAuthorizationAssertion } from '../security/staffAuthorizationAssertion.js';
 
@@ -38,6 +38,9 @@ if (
 if (
   url.hostname !== '127.0.0.1' ||
   url.pathname !== '/' + expectedDb ||
+  url.hash ||
+  [...url.searchParams].some(([key, value]) => key !== 'schema' || value !== 'public') ||
+  [...url.searchParams].length > 1 ||
   (url.port && url.port !== '5432')
 ) stop('Refusing to run outside disposable local QA database.');
 
@@ -72,11 +75,14 @@ function run(name, command, args, options = {}) {
 
 function finish() {
   const path = '/tmp/chatforia-staff-qa-report.json';
+  const jestPassed = report.some(check => check.name === 'Staff security and authentication Jest tests' && check.passed);
+  const jest = jestPassed ? JSON.parse(readFileSync('/tmp/chatforia-staff-jest-report.json', 'utf8')) : null;
   writeFileSync(path, JSON.stringify({
     database: expectedDb,
     branch,
     revision: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
     generatedAt: new Date().toISOString(),
+    jest: jest ? { passed: jest.numPassedTests, failed: jest.numFailedTests, suites: jest.numTotalTestSuites } : null,
     checks: report
   }, null, 2) + '\n');
   console.log('\nReport:', path);
@@ -132,8 +138,8 @@ run('Rollback-only staff identity protection', 'zsh', [
   }
 });
 
-// Stage 2 QA: the identity guard must remain unapplied until
-// authorized staff credential/MFA workflows are implemented.
+// Pending migrations are exercised only in rolled-back transactions.
+// This harness never changes persistent migration history.
 const migrationDir = resolve(root, 'server/prisma/migrations');
 const diskMigrations = new Set(
   readdirSync(migrationDir, { withFileTypes: true })
@@ -208,6 +214,7 @@ run('Staff security and authentication Jest tests', 'npm', [
   'run', '-w', 'server', 'test', '--',
   '--watchman=false',
   '--coverage=false',
+  '--json', '--outputFile=/tmp/chatforia-staff-jest-report.json',
   '--runTestsByPath', ...unitTests
 ], {
   env: {

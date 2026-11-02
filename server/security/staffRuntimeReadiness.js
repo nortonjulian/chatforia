@@ -1,4 +1,18 @@
+import { createHmac, randomBytes } from 'node:crypto';
+
+import { staffCanaryIds } from './staffRollout.js';
+
 export async function assertStaffRuntimeReady(db, env = process.env) {
+  if (
+    env.STAFF_DASHBOARD_ENABLED === 'true' &&
+    (env.STAFF_SECURITY_ENABLED !== 'true' ||
+      (env.NODE_ENV === 'production' &&
+        !staffCanaryIds(env.STAFF_DASHBOARD_USER_IDS)))
+  ) {
+    throw new Error(
+      'Staff dashboard requires security and an explicit production canary cohort'
+    );
+  }
   if (env.STAFF_SECURITY_ENABLED !== 'true') return;
   if (
     typeof env.STAFF_ACCESS_SIGNING_SECRET !== 'string' ||
@@ -47,4 +61,13 @@ export async function assertStaffRuntimeReady(db, env = process.env) {
   `;
   if (rows?.length !== 1 || rows[0]?.ready !== true)
     throw new Error('Staff runtime database boundary is not ready');
+  const probe = randomBytes(32).toString('hex');
+  const signature = createHmac('sha256', env.STAFF_ACCESS_SIGNING_SECRET)
+    .update(`staff-readiness:${probe}`)
+    .digest('hex');
+  const keyCheck = await db.$queryRaw`
+    SELECT staff_security.runtime_key_matches(${probe}::text, ${signature}::text) AS ready
+  `;
+  if (keyCheck?.[0]?.ready !== true)
+    throw new Error('Staff runtime signing key does not match the database');
 }

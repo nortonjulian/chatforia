@@ -12,6 +12,9 @@ assert.equal(url.hostname, '127.0.0.1');
 assert.equal(url.port || '5432', '5432');
 assert.equal(url.pathname, '/chatforia_staff_access_test_20261102');
 assert.equal(url.searchParams.get('schema') || 'public', 'public');
+assert.equal(url.hash, '');
+assert.ok([...url.searchParams].length <= 1);
+assert.ok([...url.searchParams].every(([key, value]) => key === 'schema' && value === 'public'));
 assert.equal(
   execFileSync('git', ['branch', '--show-current'], {
     encoding: 'utf8',
@@ -19,6 +22,8 @@ assert.equal(
   'feature/staff-access-rbac-20261102'
 );
 process.env.APP_ENC_KEY = randomBytes(32).toString('base64');
+// Exercise the real CSRF middleware; Jest's test-mode bypass is not used here.
+process.env.NODE_ENV = 'development';
 process.env.STAFF_ACCESS_SIGNING_SECRET = randomBytes(32).toString('hex');
 process.env.STAFF_SECURITY_ENABLED = 'true';
 process.env.JWT_SECRET = randomBytes(32).toString('hex');
@@ -38,6 +43,7 @@ const { revokeStaffAccess } = await import(
 const { createStaffAuthorizationAssertion } = await import(
   '../security/staffAuthorizationAssertion.js'
 );
+const { verifyStaffApi } = await import('./staff-api-qa.mjs');
 const db = new PrismaClient({ datasources: { db: { url: url.href } } });
 class Rollback extends Error {}
 let checks = 0;
@@ -108,6 +114,17 @@ try {
         await assertStaffRuntimeReady(tx);
         pass(
           'Deployment runtime readiness accepts the migrated least-privilege role'
+        );
+        await assert.rejects(
+          () =>
+            assertStaffRuntimeReady(tx, {
+              ...process.env,
+              STAFF_ACCESS_SIGNING_SECRET: randomBytes(32).toString('hex'),
+            }),
+          /does not match/
+        );
+        pass(
+          'Startup rejects a signing key that does not match the protected database key'
         );
         const transactional = { $transaction: (callback) => callback(tx) };
         // Keep the transaction usable after every expected PostgreSQL error.
@@ -290,6 +307,7 @@ try {
         pass(
           'MFA attempt limit cannot be bypassed by a valid code after exhaustion'
         );
+        const verifyLostSessions = await verifyStaffApi(tx, pass);
         const auth = { tokenVersion: 0, mfaVerified: true };
         const changed = await grantOrChangeStaffAccess({
           actorUserId: 17,
@@ -299,7 +317,8 @@ try {
           reason: 'Integrated protected profile change',
           db: transactional,
         });
-        assert.equal(changed.sessionsRevoked, true);
+        assert.equal(changed.sessionsRevoked, false);
+        assert.equal(changed.action, 'STAFF_ACCESS_UNCHANGED');
         const assertion = createStaffAuthorizationAssertion({
           actorUserId: 17,
           targetUserId: 18,
@@ -317,6 +336,7 @@ try {
           where: { id: 17 },
           data: { tokenVersion: { increment: 1 } },
         });
+        await verifyLostSessions();
         await denied(
           () =>
             revokeStaffAccess({
@@ -352,6 +372,26 @@ try {
         await tx.$executeRawUnsafe('SET SESSION AUTHORIZATION qa_staff_issuer');
         await tx.$executeRaw`INSERT INTO staff_security.credential_recovery_approval (token_hash,target_user_id,value_hash,action,expires_at) VALUES (sha256(decode(${token},'hex')),16,sha256(convert_to(${passwordHash},'UTF8')),'PASSWORD',clock_timestamp() + interval '5 minutes')`;
         await tx.$executeRawUnsafe('RESET SESSION AUTHORIZATION');
+        await tx.$executeRawUnsafe(
+          'SET SESSION AUTHORIZATION qa_staff_executor'
+        );
+        await denied(
+          () =>
+            tx.$queryRaw`SELECT staff_security.execute_credential_recovery(${token},18,'PASSWORD',${passwordHash},'Wrong recovery target rejected')`,
+          'Recovery approval cannot be retargeted'
+        );
+        await tx.$executeRawUnsafe('RESET SESSION AUTHORIZATION');
+        await tx.$executeRaw`UPDATE staff_security.credential_recovery_approval SET expires_at = created_at + interval '1 microsecond' WHERE token_hash = sha256(decode(${token},'hex'))`;
+        await tx.$executeRawUnsafe(
+          'SET SESSION AUTHORIZATION qa_staff_executor'
+        );
+        await denied(
+          () =>
+            tx.$queryRaw`SELECT staff_security.execute_credential_recovery(${token},16,'PASSWORD',${passwordHash},'Expired recovery approval rejected')`,
+          'Expired recovery approval is rejected without credential changes'
+        );
+        await tx.$executeRawUnsafe('RESET SESSION AUTHORIZATION');
+        await tx.$executeRaw`UPDATE staff_security.credential_recovery_approval SET expires_at = created_at + interval '5 minutes' WHERE token_hash = sha256(decode(${token},'hex'))`;
         await tx.$executeRawUnsafe(
           'SET SESSION AUTHORIZATION qa_staff_executor'
         );

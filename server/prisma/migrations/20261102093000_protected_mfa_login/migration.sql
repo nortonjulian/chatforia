@@ -70,3 +70,20 @@ $fn$;
 ALTER FUNCTION staff_security.mfa_login_write(text,text) OWNER TO chatforia_staff_owner;
 REVOKE ALL ON FUNCTION staff_security.mfa_login_write(text,text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION staff_security.mfa_login_write(text,text) TO chatforia_dev;
+
+-- Read-only, domain-separated key confirmation. Never exposes the stored key
+-- or supplies a signature usable for delegation or MFA writes.
+CREATE FUNCTION staff_security.runtime_key_matches(p_probe text, p_signature text)
+RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER
+SET search_path = pg_catalog, staff_security, pg_temp
+AS $fn$
+  SELECT coalesce(
+    p_probe ~ '^[a-f0-9]{64}$' AND p_signature ~ '^[a-f0-9]{64}$'
+    AND p_signature = encode(staff_security.hmac(
+      convert_to('staff-readiness:' || p_probe, 'UTF8'),
+      verification_secret, 'sha256'), 'hex'), false)
+  FROM staff_security.assertion_secrets WHERE id = 1;
+$fn$;
+ALTER FUNCTION staff_security.runtime_key_matches(text,text) OWNER TO chatforia_staff_owner;
+REVOKE ALL ON FUNCTION staff_security.runtime_key_matches(text,text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION staff_security.runtime_key_matches(text,text) TO chatforia_dev;

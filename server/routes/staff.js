@@ -1,15 +1,17 @@
-import { isEligibleStaffActor } from '../security/staffAccountEligibility.js';
 import express from 'express';
-import prisma from '../utils/prismaClient.js';
+
 import { requireAuth } from '../middleware/auth.js';
 import { createRequireStaffPermission } from '../security/requireStaffPermission.js';
+import { isEligibleStaffActor } from '../security/staffAccountEligibility.js';
 import { lookupStaffAssignment } from '../security/staffAssignmentLookup.js';
+import { grantOrChangeStaffAccess } from '../security/staffGrantService.js';
 import {
   STAFF_PROFILES,
   DELEGATABLE_PROFILES,
 } from '../security/staffPermissions.js';
-import { grantOrChangeStaffAccess } from '../security/staffGrantService.js';
 import { revokeStaffAccess } from '../security/staffRevocationService.js';
+import { staffCohortAllows } from '../security/staffRollout.js';
+import database from '../utils/prismaClient.js';
 
 const validId = (value) =>
   Number.isSafeInteger(value) && value > 0 && value <= 2147483647;
@@ -19,7 +21,7 @@ const validReason = (value) =>
   value.trim().length <= 500;
 
 export function createStaffRouter({
-  db = prisma,
+  db = database,
   authenticate = requireAuth,
   grant = grantOrChangeStaffAccess,
   revoke = revokeStaffAccess,
@@ -35,6 +37,7 @@ export function createStaffRouter({
     next();
   });
   router.use(authenticate);
+  router.use((req, res, next) => staffCohortAllows(req.user?.id) ? next() : res.sendStatus(403));
   const permit = (permission) =>
     createRequireStaffPermission(permission, (id) =>
       lookupStaffAssignment(id, db)

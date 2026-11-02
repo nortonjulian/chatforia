@@ -142,7 +142,7 @@ import { inferRegion } from './middleware/region.js';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
 
 // CSRF + Rate limiters
-import { buildCsrf, setCsrfCookie } from './middleware/csrf.js';
+import { buildCsrf, setCsrfCookie, csrfOnlyForCookieAuth } from './middleware/csrf.js';
 import {
   limiterLogin,
   limiterRegister,
@@ -179,16 +179,6 @@ import { ESIM_ENABLED } from './config/esim.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-function csrfOnlyForCookieAuth(csrfMw) {
-  return (req, res, next) => {
-    const auth = req.headers.authorization;
-    const hasBearer = typeof auth === 'string' && auth.startsWith('Bearer ');
-    const cookieToken = req.cookies?.[process.env.JWT_COOKIE_NAME || 'foria_jwt'];
-    if (hasBearer && !cookieToken) return next();           // ✅ iOS / API clients
-    return csrfMw(req, res, next);          // ✅ browser cookie/session
-  };
-}
 
 export function createApp() {
   const app = express();

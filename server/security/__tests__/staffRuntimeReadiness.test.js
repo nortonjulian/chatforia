@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+
 import { assertStaffRuntimeReady } from '../staffRuntimeReadiness.js';
 const env = {
   STAFF_SECURITY_ENABLED: 'true',
@@ -34,4 +35,16 @@ test('accepts a verified runtime boundary', async () => {
   await expect(
     assertStaffRuntimeReady({ $queryRaw: async () => [{ ready: true }] }, env)
   ).resolves.toBeUndefined();
+});
+
+test('rejects a database signing-key mismatch after privilege verification', async () => {
+  const db = {
+    $queryRaw: jest
+      .fn()
+      .mockResolvedValueOnce([{ ready: true }])
+      .mockResolvedValueOnce([{ ready: false }]),
+  };
+  await expect(assertStaffRuntimeReady(db, env)).rejects.toThrow(
+    'does not match'
+  );
 });

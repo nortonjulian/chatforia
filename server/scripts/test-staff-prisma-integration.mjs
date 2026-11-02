@@ -27,6 +27,9 @@ const branch = execFileSync('git', ['branch', '--show-current'], {
 if (
   branch !== expectedBranch ||
   parsed.hostname !== '127.0.0.1' ||
+  parsed.hash ||
+  [...parsed.searchParams].length > 1 ||
+  [...parsed.searchParams].some(([key, value]) => key !== 'schema' || value !== 'public') ||
   parsed.pathname !== `/${expectedDatabase}` ||
   (parsed.searchParams.get('schema') || 'public') !== 'public' ||
   (parsed.port && parsed.port !== '5432')

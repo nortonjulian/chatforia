@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
+
 import { createStaffRouter } from '../../routes/staff.js';
 let assignment, session, db, grant, app;
 beforeEach(() => {
@@ -171,4 +172,14 @@ test('support resolution repeats session authorization inside the transaction an
   ).toBe(503);
   expect(tx.report.updateMany).not.toHaveBeenCalled();
   expect(tx.auditLog.create).not.toHaveBeenCalled();
+});
+
+test('canary cohort restriction does not widen an authenticated assignment', async () => {
+  process.env.STAFF_DASHBOARD_USER_IDS = '18';
+  try {
+    expect((await request(app).get('/staff/session')).status).toBe(403);
+    expect(db.staffAssignment.findUnique).not.toHaveBeenCalled();
+  } finally {
+    delete process.env.STAFF_DASHBOARD_USER_IDS;
+  }
 });

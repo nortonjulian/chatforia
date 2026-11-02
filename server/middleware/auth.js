@@ -46,8 +46,8 @@ function decodeSession(token) {
   };
 }
 
-async function hydrateUser(userId) {
-  const user = await prisma.user.findUnique({
+async function hydrateUser(userId, db = prisma) {
+  const user = await db.user.findUnique({
     where: { id: userId },
     select: {
       id: true, email: true, username: true, publicKey: true,
@@ -75,14 +75,14 @@ async function hydrateUser(userId) {
 }
 
 /** Requires a valid session and a current, available database user. */
-export async function requireAuth(req, res, next) {
+export async function requireAuth(req, res, next, db = prisma) {
   delete req.user;
   delete req.auth;
   const session = decodeSession(getTokenFromReq(req));
   if (!session) return res.status(401).json({ error: 'Unauthorized' });
   let user;
   try {
-    user = await hydrateUser(session.userId);
+    user = await hydrateUser(session.userId, db);
   } catch {
     // A database outage cannot authorize a request from JWT claims alone.
     return res.status(503).json({ error: 'Authentication temporarily unavailable' });
