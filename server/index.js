@@ -1,3 +1,4 @@
+import { assertStaffRuntimeReady } from './security/staffRuntimeReadiness.js';
 import 'dotenv/config';
 import http from 'http';
 import csurf from 'csurf';
@@ -56,6 +57,8 @@ if (ENV.IS_TEST) {
   // or call makeApp() if it wants an isolated instance.
   logger.info({ env: ENV.NODE_ENV }, 'Loaded server in test mode (no listener)');
 } else {
+  // Check privilege boundaries before creating listeners or background jobs.
+  await assertStaffRuntimeReady(prisma);
   // ---- REAL RUNTIME (dev/prod) ----
   const app = makeApp();
   const server = http.createServer(app);
