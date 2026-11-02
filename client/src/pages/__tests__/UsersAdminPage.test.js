@@ -49,6 +49,51 @@ describe('UsersAdminPage', () => {
     expect(mockGet).not.toHaveBeenCalled();
   });
 
+  test('shows an authorization error instead of an empty list', async () => {
+    mockCurrentUser = { id: 1, role: 'ADMIN' };
+
+    mockGet.mockRejectedValueOnce({
+      response: { status: 403 },
+    });
+
+    render(<UsersAdminPage />);
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Your session is not authorized to view users.'
+    );
+
+    expect(screen.queryByText('No users found.')).not.toBeInTheDocument();
+  });
+
+  test('shows a loading error when the API is unavailable', async () => {
+    mockCurrentUser = { id: 1, role: 'ADMIN' };
+
+    mockGet.mockRejectedValueOnce({
+      response: { status: 500 },
+    });
+
+    render(<UsersAdminPage />);
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Unable to load users.'
+    );
+
+    expect(screen.queryByText('No users found.')).not.toBeInTheDocument();
+  });
+
+  test('shows an empty state only after a successful empty response', async () => {
+    mockCurrentUser = { id: 1, role: 'ADMIN' };
+
+    mockGet.mockResolvedValueOnce({
+      data: { items: [], total: 0 },
+    });
+
+    render(<UsersAdminPage />);
+
+    expect(await screen.findByText('No users found.')).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
   test('non-admin blocked', () => {
     const peasant = { id: 2, username: 'bob', role: 'USER', plan: 'PREMIUM' };
     mockCurrentUser = peasant;
