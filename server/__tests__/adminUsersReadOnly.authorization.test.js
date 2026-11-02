@@ -159,7 +159,6 @@ describe('read-only administrator Users API authorization', () => {
           username: true,
           role: true,
           isBanned: true,
-          createdAt: true,
         },
       })
     );
