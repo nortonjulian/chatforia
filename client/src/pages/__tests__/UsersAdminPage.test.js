@@ -10,21 +10,29 @@ jest.mock('@/api/axiosClient', () => ({
   },
 }));
 
+// Mock the same authenticated user hook used by AdminRoute.
+let mockCurrentUser = null;
+
+jest.mock('@/context/UserContext', () => ({
+  useUser: () => ({ currentUser: mockCurrentUser }),
+}));
+
 // --- Now import test utils and SUT ---
-import { render, screen, waitFor, withUser } from '../../__tests__/test-utils.js';
+import { render, screen, waitFor } from '../../__tests__/test-utils.js';
 import UsersAdminPage from '@/pages/UsersAdminPage.js';
 
 describe('UsersAdminPage', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    mockCurrentUser = null;
   });
 
   test('admin loads user list', async () => {
     const admin = { id: 1, username: 'root', role: 'ADMIN', plan: 'PREMIUM' };
     mockGet.mockResolvedValueOnce({ data: { users: [{ id: 10, username: 'alice' }] } });
 
-    // Pass currentUser so the page doesn't render "Forbidden"
-    render(<UsersAdminPage currentUser={admin} />, { wrapper: withUser(admin) });
+    mockCurrentUser = admin;
+    render(<UsersAdminPage />);
 
     await waitFor(() => {
       expect(mockGet).toHaveBeenCalledWith('/admin/users');
@@ -32,11 +40,22 @@ describe('UsersAdminPage', () => {
     });
   });
 
+  test('signed-out visitor cannot load administrator users', () => {
+    mockCurrentUser = null;
+
+    render(<UsersAdminPage />);
+
+    expect(screen.getByText(/Forbidden.*admin only/i)).toBeInTheDocument();
+    expect(mockGet).not.toHaveBeenCalled();
+  });
+
   test('non-admin blocked', () => {
     const peasant = { id: 2, username: 'bob', role: 'USER', plan: 'PREMIUM' };
-    render(<UsersAdminPage />, { wrapper: withUser(peasant) });
+    mockCurrentUser = peasant;
+    render(<UsersAdminPage />);
 
     const blocked = screen.queryByText(/forbidden|not authorized|admin only/i);
     expect(blocked).toBeTruthy();
+    expect(mockGet).not.toHaveBeenCalled();
   });
 });
