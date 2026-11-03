@@ -17,7 +17,7 @@ import {
   Alert,
 } from '@mantine/core';
 import { IconMail, IconInfoCircle, IconCheck } from '@tabler/icons-react';
-import { PLACEMENTS } from '@/ads/placements';
+import { PLACEMENT_CONFIG } from '@/ads/placements';
 import axiosClient from '@/api/axiosClient';
 import { toast } from '@/utils/toast';
 import { openAdvertisingEmailDraft } from '@/utils/openAdvertisingEmailDraft';
@@ -39,7 +39,8 @@ export default function Advertise() {
   // Pull sizes from your declared placements for a quick spec table
   const placementSpecs = useMemo(() => {
     try {
-      return Object.entries(PLACEMENTS)
+      return Object.entries(PLACEMENT_CONFIG)
+        .filter(([, cfg]) => !cfg.houseOnly)
         .map(([key, cfg]) => {
           const sizes = Array.isArray(cfg?.sizes) ? cfg.sizes : [];
           // normalize sizes -> "WxH"
@@ -49,7 +50,7 @@ export default function Advertise() {
           return {
             id: key,
             sizes: pretty,
-            adsenseSlot: cfg?.adsenseSlot || null,
+            label: key.replaceAll('_', ' '),
           };
         })
         // Only show placements that actually have configured sizes
@@ -59,7 +60,6 @@ export default function Advertise() {
     }
   }, []);
 
-  const pubId = import.meta.env.VITE_ADSENSE_PUB_ID || null;
 
   async function submit(event) {
     event.preventDefault();
@@ -117,8 +117,8 @@ export default function Advertise() {
 
         <Text c="dimmed">
           {t(
-            'advertise.description',
-            'Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.'
+            'advertise.campaignIntro',
+            'Discuss display advertising opportunities with Chatforia. Placement availability depends on platform, screen size, and campaign requirements.'
           )}
         </Text>
 
@@ -128,15 +128,7 @@ export default function Advertise() {
           color="blue"
           variant="light"
         >
-          {pubId
-            ? t(
-                'advertise.adsense.withPubIdShort',
-                'We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.'
-              ).replace('{{pubId}}', pubId)
-            : t(
-                'advertise.adsense.noPubIdShort',
-                'We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below.'
-              )}
+          {t('advertise.availabilityNote', 'Tell us your campaign goals, dates, and budget. We will confirm available placements and specifications before any booking.')}
         </Alert>
 
         <Divider
@@ -150,7 +142,7 @@ export default function Advertise() {
               <Grid.Col key={p.id} span={{ base: 12, sm: 6 }}>
                 <Card withBorder radius="lg" p="md">
                   <Group justify="space-between" align="flex-start" mb="xs">
-                    <Text fw={600}>{p.id}</Text>
+                    <Text fw={600}>{p.label}</Text>
                     <Badge variant="light">
                       {t('advertise.placement.displayBadge', 'Display')}
                     </Badge>
@@ -171,15 +163,7 @@ export default function Advertise() {
                     ))}
                   </Group>
 
-                  {p.adsenseSlot && (
-                    <Text size="xs" mt="sm" c="dimmed">
-                      {t(
-                        'advertise.placement.adsenseSlot',
-                        'AdSense slot:'
-                      )}{' '}
-                      <code>{p.adsenseSlot}</code>
-                    </Text>
-                  )}
+
                 </Card>
               </Grid.Col>
             ))
@@ -197,7 +181,7 @@ export default function Advertise() {
 
         <Card withBorder radius="lg" p="md">
           <Title order={4} mb="xs">
-            {t('advertise.whyHeader', 'Why Chatforia?')}
+            {t('advertise.planningHeader', 'Plan your campaign')}
           </Title>
 
           <List
@@ -208,26 +192,26 @@ export default function Advertise() {
           >
             <List.Item>
               {t(
-                'advertise.why.highSession',
-                'High session frequency and dwell time in chat UI'
+                'advertise.why.campaignGoals',
+                'Share your audience and campaign goals'
               )}
             </List.Item>
             <List.Item>
               {t(
-                'advertise.why.brandSafe',
-                'Brand-safe formats; respectful frequency capping'
+                'advertise.why.creativeReview',
+                'Discuss creative requirements and placement fit'
               )}
             </List.Item>
             <List.Item>
               {t(
-                'advertise.why.sponsoredMoments',
-                'Sponsored moments (e.g., “Start a Chat” modal) available'
+                'advertise.why.confirmAvailability',
+                'Confirm availability before planning a launch'
               )}
             </List.Item>
             <List.Item>
               {t(
-                'advertise.why.deals',
-                'Direct deals or programmatic via AdSense/Google Ads'
+                'advertise.why.directContact',
+                'Contact our advertising team for campaign details'
               )}
             </List.Item>
           </List>

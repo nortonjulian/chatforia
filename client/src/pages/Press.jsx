@@ -12,11 +12,8 @@ export default function Press() {
 
   const boilerplateTitle = t('press.boilerplateTitle', 'Boilerplate');
   const boilerplateBody = t(
-    'press.boilerplateBody',
-    'Chatforia is a privacy-first messaging app that makes cross-language chat effortless. ' +
-      'Messages are end-to-end encrypted by default, and built-in translation supports 100+ ' +
-      'languages in real time. Users can enable disappearing messages, keep read receipts ' +
-      'optional, and sync across devices. Available on iOS, Android, and the web.'
+    'press.boilerplateCurrent',
+    'Chatforia is a messaging platform for communication across languages on web, iOS, and Android. It supports encrypted in-app messaging, translation across 100+ languages, voice/video calling, and user-controlled privacy settings. SMS/MMS and calls to ordinary phone numbers are not end-to-end encrypted. Optional translation and AI features process the text submitted to them.'
   );
 
   const contactLine = t(
@@ -25,7 +22,7 @@ export default function Press() {
   );
 
   const assetsTitle = t('press.assetsTitle', 'Brand assets');
-  const assetsSubtitle = t('press.assetsSubtitle', 'Logos, screenshots, and product imagery.');
+  const assetsSubtitle = t('press.assetsCurrent', 'Current website logo and usage notes.');
   const downloadCta = t('press.downloadCta', 'Download media kit');
 
   return (
