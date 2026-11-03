@@ -1,7 +1,7 @@
 import { Container, Title, Text, List, Anchor, Divider } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 
-const LAST_UPDATED = "July 1, 2026";
+const LAST_UPDATED = "November 3, 2026";
 
 const sections = [
   {
@@ -48,34 +48,7 @@ const sections = [
       "Google Identity / Google ID",
     ],
   },
-  {
-    title: "Website & Web App",
-    items: [
-      "React",
-      "Vite",
-      "Mantine",
-      "Emotion",
-      "React Router",
-      "Axios",
-      "Socket.IO",
-      "Sentry",
-      "PostHog",
-      "i18next",
-      "Giphy SDK",
-      "Twilio Voice SDK",
-      "Twilio Video",
-      "OpenAI SDK",
-      "Prisma",
-      "Express",
-      "Redis / ioredis",
-      "Day.js",
-      "Luxon",
-      "Lucide React",
-      "Tabler Icons",
-      "TweetNaCl",
-      "Zustand",
-    ],
-  },
+
 ];
 
 export default function OpenSourceLicenses() {
@@ -100,10 +73,16 @@ export default function OpenSourceLicenses() {
 
       <Text mb="xl">
         {t(
-          "openSource.notice",
-          "This page lists key third-party software used in Chatforia. Each project remains governed by its own license terms."
+          "openSource.noticeAudit20261103",
+          "The browser notices below include package versions and available license and attribution texts from the website build. Native app lists are an overview, not a complete license inventory. Some third-party SDKs use proprietary terms; listing them here does not mean they are open source."
         )}
       </Text>
+
+      <Title order={2} mt="lg" mb="xs">Website &amp; Web App</Title>
+      <Text mb="md">Browser package notices are generated for each production build. They do not cover native apps, server-only software, externally loaded SDKs, or separately supplied static assets.</Text>
+      <Anchor href="/third-party-notices.txt">Read browser third-party notices (plain text)</Anchor>
+      <Text mt="xs"><Anchor href="/third-party-notices.json" download>Download browser package inventory (JSON)</Anchor></Text>
+      <Divider my="lg" />
 
       {sections.map((section) => (
         <div key={section.title}>
