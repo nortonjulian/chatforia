@@ -5,8 +5,8 @@ export default function DoNotSellMyInfo() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2}>
+    <Container size="md" py="xl">
+      <Title order={1}>
         {t(
           'doNotSell.title',
           'Do Not Sell or Share My Personal Information'
