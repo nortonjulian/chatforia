@@ -30,8 +30,8 @@ export default function GlobalCommunication() {
       <h2>{t("blog.global.translationTitle", "The Role of Translation Technology")}</h2>
       <p>
         {t(
-          "blog.global.translationDesc",
-          "Language has traditionally been one of the biggest obstacles to global communication. Today, built-in translation tools help bridge that gap. Platforms like Chatforia allow users to communicate more easily even if they speak different languages, creating new opportunities for connection and understanding."
+          "blog.global.translationDescAudit20261103",
+          "Translation can help people communicate across languages, but automated translations can miss context or contain errors. Chatforia uses external providers to process text submitted for translation. Check important details against the original message."
         )}
       </p>
 
