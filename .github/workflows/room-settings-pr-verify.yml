@@ -19,7 +19,8 @@ permissions:
 jobs:
   room-settings-check:
     name: Node 22 build + room permissions
-    runs-on: ubuntu-latest
+    # Native isolated-cluster QA uses the PostgreSQL 16 tools on this image.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     services:
@@ -71,6 +72,13 @@ jobs:
           npm run test:staff-unit
           npm run lint:staff-security
           npm run verify:staff-release
+
+      - name: Verify older-snapshot reconciliation and recovered access
+        env:
+          STAFF_QA_PG_BIN: /usr/lib/postgresql/16/bin
+        run: |
+          test -x "$STAFF_QA_PG_BIN/initdb"
+          node server/scripts/staff-older-snapshot-qa.mjs
 
       - name: Verify room routes, authorization, and real HTTP/DB behavior
         env:
