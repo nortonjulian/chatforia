@@ -19,7 +19,7 @@ export default function AboutChatforia() {
           marginTop: "1.5rem",
           padding: "1rem",
           borderRadius: "8px",
-          background: "#f5f5f5",
+          background: "var(--mantine-color-default)",
         }}
       >
         <h2>{t("about.valuesTitle", "What we value")}</h2>
