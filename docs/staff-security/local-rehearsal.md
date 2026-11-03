@@ -115,3 +115,28 @@ and all 23 named checks were confirmed passed, including Users save/cancel,
 validation/denials and successful restored MFA with fresh token/sequence writes.
 Both clusters report stopped. No repeat database setup was needed for this
 documentation-only change; component regressions were rerun separately.
+
+## PR review follow-up (supersedes the 23-check run above)
+
+At the `fd64a584` implementation, the final new-cluster run passed **26/26**:
+17 Chrome browser, six restore/security and three source/setup/drift checks.
+Nine injected private-column/PUBLIC grants, replay writes, role-attribute and
+trigger-disable cases all rejected startup, then passed after exact restoration.
+Chrome Tab/Shift+Tab navigation, Escape cancellation and return of focus to the
+invoking Edit button passed after the dialog cleanup fix. A concurrent preference
+writer produced a browser-visible conflict with no overwrite or success audit.
+
+The report identifies parent `d16ada4f` with dirty source subsequently committed
+as `fd64a584`. Artifacts: `/private/tmp/chatforia-staff-rehearsal-jstp5h`;
+restore/initialization/verification interval: **1,279 ms**. Both clusters stopped.
+All 14 dataset fingerprints, positive restored MFA/new token writes and replay
+and direct-write denials passed again. The report path remains
+`/tmp/chatforia-staff-local-rehearsal.json`.
+
+`node server/scripts/staff-migration-qa.mjs` additionally initialized a fresh
+cluster and applied all 159 migrations through a non-superuser DBA executor.
+An unsafe pre-existing owner was rejected. Only the DBA executor received owner
+SET authority; runtime/recovery roles retained their restrictions. PostgreSQL 16
+would not revoke the executor membership without dependent-grant handling; no
+CASCADE was used. Actual DigitalOcean role/extension and backup/key compatibility
+remain the staging proposal's explicit preflight, not a local certification.

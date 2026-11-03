@@ -1,14 +1,15 @@
 # Staff security release and controlled rollout preparation
 
-Status: HOLD. Local engineering and isolated QA only. No staging or production
-migration, deployment, operator provisioning, staff grant, push, or rollout has
-been authorized or performed as part of this work.
+Status: HOLD. Draft PR [#293](https://github.com/nortonjulian/chatforia/pull/293)
+was published with explicit approval. No staging or production migration,
+deployment, production operator provisioning, staff grant or rollout has been
+authorized or performed. Existing Droplets and chatforia-db remain untouched.
 
 ## Completed local follow-up
 
-The follow-up passes 269 server unit/API tests, 20 UI component tests, 15 real
-Chrome browser checks and six cross-cluster restore/security checks (23 rehearsal
-checks including two source/setup checks). Both fresh clusters stopped; no
+The follow-up passes 269 server unit/API tests, 20 UI component tests, 17 real
+Chrome browser checks and six cross-cluster restore/security checks (26 rehearsal
+checks including three source/setup/drift checks). Both fresh clusters stopped; no
 existing database or production dataset was used. Successful restored MFA and new
 token writes were included. See `acceptance.md`, `lint-investigation.md` and
 `local-rehearsal.md`. These results do not enable rollout or waive the gates below.
@@ -60,6 +61,15 @@ The release owner must record the exact reviewed commit and migration checksums,
 verified target database identity, backup/restore rehearsal reference, named DBA,
 separate recovery approver and executor, incident owner, canary cohort and an
 explicit deployment approval. These fields intentionally remain unassigned.
+
+The DBA must verify managed-service ownership/SET ROLE and pgcrypto compatibility
+on the new empty staging cluster first. The local non-superuser executor
+rehearsal passes, but does not certify DigitalOcean. Owner bootstrap rejects an
+unsafe existing role instead of performing superuser-only role normalization.
+A separate DBA executor needs ownership-transfer authority; never grant it to
+the application. Preserve PostgreSQL 16 grantor provenance: do not CASCADE-revoke
+executor membership. Keep DBA credentials sealed offline and review dependencies
+before changing those memberships.
 
 The DBA must provision `chatforia_staff_owner`, `chatforia_recovery_issuer`, and
 `chatforia_recovery_executor` as NOLOGIN, non-superuser, non-CREATEROLE,
@@ -184,7 +194,7 @@ data. No staging or production changes are authorized by this document.
    must fail. The local browser used same-origin loopback HTTP, not the hosted
    multi-origin topology.
 4. **Cross-engine and keyboard/mobile behavior:** repeat View/Edit, native-dialog
-   close/cancel/focus, validation, profile selection and session-loss flows in
+   close/cancel/focus (Chrome Tab/Shift+Tab/Escape now verified locally), validation, profile selection and session-loss flows in
    Firefox on a supported renderer host and Safari/WebKit, including a real mobile
    viewport/device. Installed local Firefox failed before page creation; Chrome
    desktop and a 390×844 viewport passed. No Firefox sandbox bypass was used; Chrome used standard Playwright launch settings.
@@ -200,7 +210,7 @@ data. No staging or production changes are authorized by this document.
    keys through the actual secret-manager procedure and prove positive MFA plus
    stale-session/replay denial. Record measured RPO/RTO, restore time point,
    snapshot consistency and retention evidence. The local exact-snapshot fixture
-   took 1,464 ms for target initialization/restore/verification; it is not a
+   took 1,279 ms for target initialization/restore/verification; it is not a
    capacity or operational timing guarantee.
 7. **Older snapshots and post-backup security changes:** explicitly rehearse
    traffic fencing, token/assertion-key rotation or equivalent invalidation, and
@@ -217,33 +227,33 @@ data. No staging or production changes are authorized by this document.
    against the stop criteria above. Deployment and rollout require separate
    explicit approvals; elapsed time never grants approval.
 
-## Proposed publication and staging sequence — approval required
+## Publication and next approval boundary
 
-No command in this section has been executed. After explicit approval to publish:
+Branch `feature/staff-access-rbac-20261102` is published to the verified
+`nortonjulian/chatforia` origin and PR #293 targets main as a draft. Current remote
+main deployment workflows are manual-only; no indirect workflow deployment chain
+exists. Repository Webhooks is empty per the owner. No Render configuration is
+used as deployment evidence. Droplet-side cron/polling automation was not inspected.
+The existing production deployment workflows must not be dispatched for staging.
 
-1. Confirm `git status --short --branch`, review `git diff origin/main...HEAD`
-   and select the reviewed release SHA. Verify the configured `origin` destination
-   privately before publishing; do not print credential-bearing remote URLs.
-2. Push only this branch:
-   `git push -u origin feature/staff-access-rbac-20261102`.
-3. Open a review PR, without merging:
-   `gh pr create --base main --head feature/staff-access-rbac-20261102 --title "Protect staff access and administer permitted user details" --body-file /tmp/staff-security-pr-body.md`.
-   Prepare that body from the acceptance results, four migration hashes, known
-   root-lint failure and all remaining release gates before running the command.
-4. Inspect PR checks with `gh pr checks`; require security/DB review and resolve
-   repository lint through its owners. Do not bypass or weaken required checks.
-5. Obtain separate staging approval identifying the exact SHA, new synthetic
-   database, roles, keys, backup target and operators. Initialize an empty staging
-   target with the approved schema/migration procedure; do not run a generic
-   migrate command against an unspecified database. Record identity and manifest
-   checksums before any authorized write.
-6. Deploy only the approved SHA to that staging environment, initially with the
-   dashboard disabled and compatible security/schema/key provisioning complete.
-   Run every numbered staging/manual gate above, then the approved synthetic
-   canary and backup/restore/rollback rehearsals. Attach evidence to the PR.
-7. Request a separate production decision only after required CI/review and all
-   staging gates pass. Neither publication nor staging approval authorizes a
-   merge, production migration, deployment or rollout.
+Security review fixes are committed as `fd64a584`. CI setup fix `d16ada4f` passed
+run 135 (129 room/server tests, five client tests and build). The updated workflow
+also requires all 269 selected staff tests, scoped lint and migration/config
+verification. [Run 136](https://github.com/nortonjulian/chatforia/actions/runs/41574812500)
+completed successfully at `fd64a584`: all 269 staff regressions, scoped lint,
+release verifier, all migrations, 129 room/server tests, five client tests and
+the production client build passed. Later documentation-only revisions still
+require their own PR check result; this evidence is pinned to the tested source.
+Root lint remains separately red; a passing selected workflow does not waive it.
+
+Next: obtain explicit approval for the concrete isolated resources, budget,
+domain and named operators in [staging-proposal.md](staging-proposal.md). That
+proposal creates separate web/API Droplets, a new managed database and a separate
+restore target, uses synthetic data and completes all eight gates above. It does
+not reuse or access production resources. No resources have been provisioned.
+Require security/DB review and resolve repository lint ownership before any
+production release decision. Staging approval never authorizes a merge or
+production migration/deployment/rollout.
 
 ## Approval record to complete later
 

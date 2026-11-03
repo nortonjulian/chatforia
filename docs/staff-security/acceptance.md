@@ -2,20 +2,22 @@
 
 ## Current follow-up completion
 
-All authorized local follow-up work is complete. No push, deployment, merge,
-production access, production data use or migration against an existing database
-occurred. The earlier delivery record is retained below as historical evidence.
+Local follow-up work is complete. Draft PR [#293](https://github.com/nortonjulian/chatforia/pull/293)
+was published with explicit approval. No deployment, merge, production access,
+production data use or migration against an existing database occurred.
+The earlier delivery record is retained below as historical evidence.
 Current source commits are `09c514ac` (lint), `f5967c0d` (Users View/Edit),
-`716b0181` (rehearsals), and `672eb358` (restored MFA continuity).
+`716b0181` (rehearsals), `672eb358` (restored MFA continuity),
+`d16ada4f` (disposable CI bootstrap), and `fd64a584` (security review fixes).
 
 | Follow-up check                                                                  | Actual result                                                                        |
 | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | Selected server security/auth/API tests                                          | **269/269**, 22 suites; injected clients and unreachable loopback DB URL             |
 | Users dialog, mounted Users page, staff dashboard and AdminRoute component tests | **20/20**, four suites                                                               |
-| Fresh-cluster browser/backup/restore rehearsal                                   | **23/23** checks                                                                     |
-| Actual Chrome browser checks                                                     | **15/15**, desktop and 390×844 viewport; zero page exceptions/external page requests |
+| Fresh-cluster browser/backup/restore rehearsal                                   | **26/26** checks                                                                     |
+| Actual Chrome browser checks                                                     | **17/17**, desktop and 390×844 viewport; zero page exceptions/external page requests |
 | Cross-cluster restore/security checks                                            | **6/6**, including successful restored MFA and new token writes                      |
-| Synthetic source setup/recovery evidence                                         | **2/2**                                                                              |
+| Synthetic source setup/recovery evidence                                         | **3/3**                                                                              |
 | Critical restored datasets                                                       | **14/14** matching row counts and SHA-256 fingerprints before post-restore writes    |
 | Staff-project lint                                                               | Passed with zero allowed findings                                                    |
 | Baseline-aware lint audit                                                        | **Zero branch-introduced errors or warnings**                                        |
@@ -31,10 +33,41 @@ fixed. Configuration guards still reject missing imports; no rule was disabled
 or weakened. See [lint-investigation.md](lint-investigation.md) for methodology,
 comparable counts, remaining configuration/source debt and exact commands.
 
-The follow-up evidence was re-inspected at `672eb358`; scoped lint and the
-read-only migration verifier were rerun successfully. Browser/restore results
-are retained machine evidence from the unchanged implementation, not a new
-browser run. The four-file documentation update makes no application changes.
+## PR security review and new regressions
+
+Reviewed the complete branch change set and traced authentication/MFA, reset and
+operator recovery, staff grant/revoke, transaction locks/retries, current-session
+checks, audit atomicity, runtime grants and the four manifest-listed migrations.
+This is an engineering review, not independent penetration-test certification.
+
+Concrete findings fixed in `fd64a584`:
+
+- Startup now rejects runtime column/PUBLIC access to private signing, approval
+  and replay tables; unsafe owner/recovery role attributes; missing/disabled audit
+  and token-version rollback triggers. Trigger checks bind names to exact tables.
+  Nine real synthetic drift cases reject startup and pass again after repair.
+- React dialog removal lost the invoking button's keyboard focus. Native close
+  plus explicit opener restoration now passes Tab/Shift+Tab/Escape browser checks.
+- Owner bootstrap's unconditional `ALTER ROLE ... NOSUPERUSER` required a real
+  superuser even for a restricted role. It now verifies the complete safe role
+  attributes and rejects an unsafe existing role. All 159 migrations pass under
+  a local non-superuser executor with explicitly scoped DBA owner membership;
+  application roles remain restricted. No migration SQL/checksum was changed.
+
+The final rehearsal passes 26 checks, including new stale-value browser conflict
+rejection with no overwrite or success audit. Server tests remain 269/269; UI
+component tests were rerun at 20/20. Scoped lint, same-rule lint audit (zero new
+findings), and the read-only migration/config verifier pass. The PR workflow now
+runs staff unit/API tests, scoped lint and the release verifier in addition to
+its existing room tests and client build. Initial CI failed because its fresh
+service lacked prerequisite roles; `d16ada4f` fixed setup and CI run 135 passed
+129 server checks, five client checks and the build. See release-plan.md for the
+current PR verification and approval boundary.
+
+[CI run 136](https://github.com/nortonjulian/chatforia/actions/runs/41574812500)
+completed successfully at `fd64a584`, including the 269 staff tests, scoped lint,
+release verifier, 159 migrations, 129 room/server tests, five client tests and
+production client build. The subsequent report update changes documentation only.
 
 ## Users View/Edit contract and evidence
 
@@ -76,21 +109,22 @@ The final local run used PostgreSQL **16.13** and Chrome **156.0.8078.80**.
 Source data, grant/revocation/session state, audits, consumed approvals and replay
 registries survived restore. Restored runtime readiness, negative privilege tests,
 replay rejection and positive MFA/token writes passed. The measured target setup,
-restore and verification interval was **1,464 ms** on this fixture; this is not a
+restore and verification interval was **1,279 ms** on this fixture; this is not a
 managed-service RPO/RTO guarantee. The fixture's encryption and signing keys were
 retained separately in memory, not recovered from a production secret manager.
 
 Machine evidence: `/tmp/chatforia-staff-unit-report.json`,
 `/tmp/chatforia-staff-lint-audit.json`, and
-`/tmp/chatforia-staff-local-rehearsal.json`. The last contains 23 passed checks and
-points to private screenshots/dump/globals and `restore-evidence.json` under
-`/private/tmp/chatforia-staff-rehearsal-o5QCCp`. The extra restored-MFA assertion
-was tested in the working tree and then committed as `672eb358`; its report
-correctly records parent `716b0181` with a dirty working tree. See
-[local-rehearsal.md](local-rehearsal.md) for the harness boundary and safety guards.
+`/tmp/chatforia-staff-local-rehearsal.json`. The final report records 26 passes,
+both clusters stopped and private artifacts under
+`/private/tmp/chatforia-staff-rehearsal-jstp5h`. Changes were tested before commit
+`fd64a584`; the rehearsal correctly records parent `d16ada4f` and a dirty tree.
+`node server/scripts/staff-migration-qa.mjs` separately passed the full history
+under a provider-like non-superuser executor and rejected an unsafe owner.
+Actual managed-service role/extension behavior is still a staging gate.
 
-No authorized implementation work is blocked. Release/CI is still blocked by
-pre-existing repository lint findings. The installed Firefox renderer failed
+No authorized implementation work is blocked. The full-repository lint/release gate remains blocked by
+pre-existing findings; the selected PR workflow has its own recorded results. The installed Firefox renderer failed
 before opening a page on this host; Chrome completed the requested local cases.
 Full-shell sign-in, Firefox/Safari, real HTTPS cookie/CORS origins, managed-service
 role/backup/secret recovery, older-snapshot security reconciliation and staffed

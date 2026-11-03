@@ -89,3 +89,8 @@ output is `/tmp/chatforia-staff-repository-lint.log`.
 The final documentation review reran the baseline-aware audit and scoped lint at
 `672eb358`; the same zero-introduced-finding boundary remains required. The root
 findings remain a release gate, not an authorization to suppress baseline debt.
+
+The PR security review reran the comparison on the `fd64a584` changes before
+commit: 384 errors / 2,609 warnings, zero introduced or untracked findings. Scoped
+lint passed again. PR CI now runs scoped lint explicitly; it does not run or
+replace the still-failing full repository gate.
