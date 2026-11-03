@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Anchor, Button, Group, Paper, Stack, Switch, Text } from '@mantine/core';
+import { Alert, Anchor, Button, Group, Paper, Portal, Stack, Switch, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import usePrivacy from './usePrivacy';
 import { savePrivacy } from './preferences';
@@ -34,5 +34,20 @@ export function PrivacyChoices({ compact = false }) {
 export default function PrivacyBanner() {
   const privacy = usePrivacy();
   if (privacy.decided || privacy.gpc || window.location.pathname === '/legal/cookies') return null;
-  return <Paper component="section" aria-label="Privacy choices" withBorder p="md" m="md"><PrivacyChoices compact /></Paper>;
+  return <Portal>
+    <Paper component="section" aria-label="Privacy choices" withBorder p="md" shadow="md"
+      style={{
+        position: 'fixed',
+        left: 16,
+        right: 16,
+        bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+        zIndex: 400,
+        maxWidth: 720,
+        marginInline: 'auto',
+        maxHeight: '60dvh',
+        overflowY: 'auto',
+      }}>
+      <PrivacyChoices compact />
+    </Paper>
+  </Portal>;
 }
