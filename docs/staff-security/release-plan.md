@@ -1,5 +1,8 @@
 # Staff security release and controlled rollout preparation
 
+Current checkpoint: [2026-11-03 completed work, user-reported browser passes and remaining release gates](checkpoint-20261103.md). This supersedes older pending notes for the six reported Safari/Firefox admin flows.
+
+
 Status: HOLD. Draft PR [#293](https://github.com/nortonjulian/chatforia/pull/293)
 was published with explicit approval. No staging or production migration,
 deployment, production operator provisioning, staff grant or rollout has been

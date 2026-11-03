@@ -25,7 +25,18 @@ export default function UsersTable() {
     api
       .get('/admin/users')
       .then(({ data }) => {
-        if (alive) setUsers(normalizeUsers(data));
+        if (alive) {
+          const records = normalizeUsers(data);
+          setUsers(records);
+          setPermissions(
+            Object.fromEntries(
+              records.map((user) => [
+                user.id,
+                Array.isArray(user.editableFields) ? user.editableFields : [],
+              ])
+            )
+          );
+        }
       })
       .catch((error) => {
         if (alive) {
@@ -109,9 +120,9 @@ export default function UsersTable() {
                       </DashboardButton>
                       <DashboardButton
                         primary
-                        disabled={permissions[user.id]?.length === 0}
+                        disabled={!permissions[user.id]?.length}
                         title={
-                          permissions[user.id]?.length === 0
+                          !permissions[user.id]?.length
                             ? 'Editing is unavailable for this identity.'
                             : undefined
                         }

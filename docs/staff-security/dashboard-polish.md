@@ -27,8 +27,8 @@ instance, rotate its accounts, touch existing databases or use paid services.
   show their readable language description without restricting the API's valid
   language tags to a new client-side list.
 - Edit availability is cached only from the details API's `editableFields`.
-  Unknown availability is checked when View/Edit fetches details; a protected or
-  read-only response disables the row's Edit button. Later 401/403 denials clear
+  Listing metadata now disables protected identities immediately; missing or empty
+  permissions fail closed before any dialog opens. Detail responses refresh that state. Later 401/403 denials clear
   cached edit availability. Displayed USER/ADMIN role is never used to decide
   identity protection. Each open/save still goes through existing server checks.
 - Error presentation distinguishes 401 missing/expired sessions, the existing MFA
@@ -60,5 +60,5 @@ instance, rotate its accounts, touch existing databases or use paid services.
 
 Server authorization, protected identities, MFA, optimistic versioning, required
 reasons and transactional audit writes are unchanged. Server/restore suites were
-not repeated for these client-only changes. Safari/Firefox hands-on checks remain
-pending as described in `full-browser-local.md`. No push, merge or deployment.
+not repeated for these client-only changes. The six administrator Safari/Firefox flows are now user-reported passes; see
+`checkpoint-20261103.md` for scope and genuinely outstanding gates. No merge or deployment.

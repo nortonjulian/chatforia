@@ -4,6 +4,7 @@ import request from 'supertest';
 
 import { hasVerifiedAdminAccess } from '../../middleware/verifiedAdmin.js';
 import { createAdminUserDetailsRouter } from '../../routes/adminUserDetails.js';
+import { createAdminUsersReadOnlyRouter } from '../../routes/adminUsersReadOnly.js';
 import { USER_EDIT_FIELDS } from '../adminUserDetails.js';
 
 let users, audits, actor, authentication, signedIn, failAudit, db, app;
@@ -225,4 +226,55 @@ test('audit failure rolls back the user update and returns no private error deta
 test('invalid IDs and nonexistent users are handled without disclosure', async () => {
   expect((await request(app).get('/admin/users/invalid')).status).toBe(400);
   expect((await request(app).get('/admin/users/999')).status).toBe(404);
+});
+
+test('listing supplies authoritative edit fields immediately without leaking protection records or credentials', async () => {
+  const rows = [
+    ...users.values(),
+    { ...ordinary(8), isTestAccount: true },
+    { ...ordinary(9), deletedAt: new Date() },
+  ];
+  db.user.findMany = jest.fn(async () => rows);
+  db.user.count = jest.fn(async () => rows.length);
+  const listing = express();
+  listing.use(
+    '/admin/users',
+    createAdminUsersReadOnlyRouter({
+      db,
+      authenticate: (req, res, next) => {
+        req.user = actor;
+        req.auth = authentication;
+        next();
+      },
+      authorize: (req, res, next) =>
+        hasVerifiedAdminAccess(req) ? next() : res.sendStatus(403),
+    })
+  );
+  const result = await request(listing).get('/admin/users').expect(200);
+  for (const row of result.body.items) {
+    expect(row.editableFields).toEqual(
+      row.id === 2 ? [...USER_EDIT_FIELDS] : []
+    );
+    expect(Object.keys(row).sort()).toEqual(
+      [
+        'id',
+        'username',
+        'displayName',
+        'role',
+        'isBanned',
+        'editableFields',
+      ].sort()
+    );
+  }
+  expect(JSON.stringify(result.body)).not.toMatch(
+    /NEVER_RETURN|staffAssignment|founderOwnership|isSystem|isTestAccount|deletedAt/
+  );
+  const selection = db.user.findMany.mock.calls[0][0].select;
+  expect(selection.staffAssignment).toEqual({ select: { id: true } });
+  expect(selection.founderOwnership).toEqual({ select: { id: true } });
+  expect(selection).not.toHaveProperty('totpSecretEnc');
+  expect(selection).not.toHaveProperty('passwordHash');
+  authentication.mfaVerified = false;
+  await request(listing).get('/admin/users').expect(403);
+  expect(db.user.findMany).toHaveBeenCalledTimes(1);
 });

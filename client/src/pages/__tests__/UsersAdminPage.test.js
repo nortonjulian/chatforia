@@ -133,10 +133,37 @@ test('Edit follows authoritative detail permissions even when the displayed role
     });
   render(<UsersAdminPage />);
   const edit = await screen.findByRole('button', { name: 'Edit', exact: true });
-  expect(edit).not.toBeDisabled();
+  expect(edit).toBeDisabled();
   fireEvent.click(screen.getByRole('button', { name: 'View', exact: true }));
   await screen.findByRole('dialog');
   await waitFor(() => expect(edit).toBeDisabled());
   fireEvent.click(screen.getByRole('button', { name: 'Close', exact: true }));
   expect(edit).toBeDisabled();
+});
+
+test('initial Edit buttons fail closed and follow listing permissions, not USER role', async () => {
+  mockGet.mockReset();
+  mockCurrentUser = { id: 1, role: 'ADMIN' };
+  mockGet.mockResolvedValueOnce({
+    data: {
+      items: [
+        {
+          id: 2,
+          username: 'ordinary',
+          role: 'USER',
+          editableFields: ['displayName'],
+        },
+        { id: 3, username: 'protected', role: 'USER', editableFields: [] },
+        { id: 4, username: 'unknown', role: 'USER' },
+      ],
+    },
+  });
+  render(<UsersAdminPage />);
+  await screen.findByText('ordinary');
+  const editFor = (id) =>
+    document.querySelector(`[data-user-id="${id}"] button:last-child`);
+  expect(editFor(2)).not.toBeDisabled();
+  expect(editFor(3)).toBeDisabled();
+  expect(editFor(4)).toBeDisabled();
+  expect(mockGet).toHaveBeenCalledTimes(1);
 });

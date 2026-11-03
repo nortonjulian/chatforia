@@ -58,12 +58,13 @@ and the $0 spending boundary are unchanged.
 
 These do not inherently need DigitalOcean or paid resources:
 
-- Full client browser shell/UserContext sign-in and navigation, including
-  administrator View/Edit after actual sign-in. The new full-app probe covers
-  server routing, not the complete browser shell or all UI context transitions.
-- Safari/WebKit, supported Firefox renderer host, screen reader, real mobile
-  device, keyboard/focus and accessibility review. Chrome keyboard/mobile viewport
-  evidence already passes. Firefox failed on this host; WebKit is not installed.
+- Completed: actual full client shell/UserContext password/MFA and Users flows in
+  Chrome; the owner also reports the six administrator flows passing in Safari and
+  Firefox. See `checkpoint-20261103.md` for exact scope; these are local results.
+- Remaining human/device coverage: screen readers, real mobile devices and browser
+  edges outside the user-reported admin flows. Chrome keyboard/mobile-viewport
+  evidence passes; earlier automated Firefox host failure does not negate the
+  separately user-reported Firefox passes.
 - Real OAuth sandbox consent/redirect/MFA and operator identity-verification
   exercises with independently controlled human identities. Offline mocks cannot
   prove provider console configuration or a human verification process.

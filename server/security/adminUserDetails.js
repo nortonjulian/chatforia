@@ -18,13 +18,17 @@ const DETAIL_FIELDS = [
   'showReadReceipts',
   'showOriginalWithTranslation',
 ];
-const SELECT = Object.freeze({
-  ...Object.fromEntries(DETAIL_FIELDS.map((field) => [field, true])),
+export const USER_PROTECTION_SELECT = Object.freeze({
+  role: true,
   isSystem: true,
   isTestAccount: true,
   deletedAt: true,
   staffAssignment: { select: { id: true } },
   founderOwnership: { select: { id: true } },
+});
+const SELECT = Object.freeze({
+  ...Object.fromEntries(DETAIL_FIELDS.map((field) => [field, true])),
+  ...USER_PROTECTION_SELECT,
 });
 export class UserDetailsError extends Error {
   constructor(status, message) {
@@ -47,13 +51,17 @@ const versionOf = (user) =>
   createHash('sha256')
     .update(JSON.stringify(USER_EDIT_FIELDS.map((field) => user[field])))
     .digest('hex');
+export function editableUserFields(user, administrator = false) {
+  return administrator && !user.deletedAt && !protectedIdentity(user)
+    ? USER_EDIT_FIELDS
+    : [];
+}
 function details(user, administrator) {
   return {
     user: Object.fromEntries(
       DETAIL_FIELDS.map((field) => [field, user[field]])
     ),
-    editableFields:
-      administrator && !protectedIdentity(user) ? USER_EDIT_FIELDS : [],
+    editableFields: editableUserFields(user, administrator),
     version: versionOf(user),
   };
 }

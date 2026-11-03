@@ -1,5 +1,9 @@
 # Zero-cost full application browser rehearsal
 
+Update: the owner reports Safari **and** Firefox passes for admin login/MFA, View,
+Cancel, Save with a reason, persistence after reload, and logout/Back/reload denial.
+These are user-reported passes, not automation; see [current checkpoint](checkpoint-20261103.md).
+
 Start from the repository root with `node server/scripts/staff-shell-local.mjs`.
 This creates a new synthetic PostgreSQL cluster; it accepts no existing database
 URL or dump. The runtime role retains the staff migrations' privilege restrictions.
@@ -120,7 +124,8 @@ PASS/FAIL and any screenshot without passwords/codes.
    reveal the list. Log out. Sign in with `qa_user` plus MFA and verify both
    `/staff` and `/admin/users` deny access. Log out and close private windows.
 
-Safari/Firefox results remain pending until a human performs these steps. Chrome
+The six reported administrator flows are recorded as user-reported Safari/Firefox
+passes. Other checklist steps remain outside that reported scope. Chrome
 automation is not a substitute for WebKit/Firefox, screen-reader, mobile device,
 production cookie/domain/TLS, accessibility or hosted deployment testing.
 

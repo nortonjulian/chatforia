@@ -1,6 +1,10 @@
 import express from 'express';
 
 import { requireAuth, requireAdmin } from '../middleware/auth.js';
+import {
+  USER_PROTECTION_SELECT,
+  editableUserFields,
+} from '../security/adminUserDetails.js';
 import database from '../utils/prismaClient.js';
 
 export function createAdminUsersReadOnlyRouter({
@@ -55,12 +59,23 @@ export function createAdminUsersReadOnlyRouter({
             displayName: true,
             role: true,
             isBanned: true,
+            ...USER_PROTECTION_SELECT,
           },
         }),
         db.user.count({ where }),
       ]);
 
-      return res.json({ items, total });
+      return res.json({
+        items: items.map((user) => ({
+          id: user.id,
+          username: user.username,
+          displayName: user.displayName,
+          role: user.role,
+          isBanned: user.isBanned,
+          editableFields: editableUserFields(user, true),
+        })),
+        total,
+      });
     } catch (error) {
       console.error('Admin user listing failed', error);
       return res.status(500).json({

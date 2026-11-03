@@ -1,5 +1,8 @@
 # Staff-security acceptance record
 
+Current checkpoint: [2026-11-03 completed work, user-reported browser passes and remaining release gates](checkpoint-20261103.md). This supersedes older pending notes for the six reported Safari/Firefox admin flows.
+
+
 ## Full application browser follow-up
 
 The zero-cost harness in [full-browser-local.md](full-browser-local.md) mounts the

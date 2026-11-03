@@ -132,10 +132,13 @@ try {
     await expect(dialog).not.toBeVisible();
     const protectedRow = page.locator('[data-user-id="3"]');
     await expect(protectedRow).toContainText('USER');
+    await expect(
+      protectedRow.getByRole('button', { name: 'Edit', exact: true })
+    ).toBeDisabled();
     await protectedRow
-      .getByRole('button', { name: 'Edit', exact: true })
+      .getByRole('button', { name: 'View', exact: true })
       .click();
-    await expect(dialog).toContainText('identity is protected');
+    await expect(dialog).toBeVisible();
     await expect(
       page.getByRole('button', { name: 'Save changes' })
     ).toHaveCount(0);
@@ -147,7 +150,7 @@ try {
       protectedRow.getByRole('button', { name: 'View', exact: true })
     ).toBeFocused();
     pass(
-      'Server-authoritative protection disables Edit for staff with displayed USER role; focus falls back to View'
+      'Listing permissions disable protected USER-role staff Edit before any interaction; View restores focus'
     );
     for (const width of [1280, 390]) {
       await page.setViewportSize({ width, height: 900 });
