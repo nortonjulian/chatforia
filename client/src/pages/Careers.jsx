@@ -55,10 +55,10 @@ export default function Careers() {
           <Text fw={700} size="sm" style={{ color: 'var(--accent)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
             {t('careers.title', 'Careers')}
           </Text>
-          <Title order={1} style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', lineHeight: 1.1 }}>
+          <Title order={1}>
             {copy('designHeadline', 'Build what connects us.')}
           </Title>
-          <Text size="xl" lh={1.55}>
+          <Text size="md" lh={1.55}>
             {copy('designIntro', 'Help shape Chatforia—a private, global messenger connecting people across languages on web, iOS, and Android.')}
           </Text>
         </Stack>
@@ -82,7 +82,7 @@ export default function Careers() {
             styles={{
               item: { background: 'transparent', borderColor: 'var(--mantine-color-default-border)' },
               control: { paddingInline: 8 },
-              label: { fontWeight: 600, fontSize: 'clamp(1rem, 2vw, 1.2rem)', paddingBlock: 18, overflowWrap: 'anywhere' },
+              label: { fontWeight: 600, fontSize: 'var(--mantine-font-size-md)', paddingBlock: 18, overflowWrap: 'anywhere' },
               content: { paddingInline: 8, paddingBottom: 20 },
               chevron: { color: 'var(--accent)' },
             }}
