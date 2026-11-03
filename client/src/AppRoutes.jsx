@@ -368,6 +368,23 @@ function AuthedLayout() {
   );
 }
 
+const PUBLIC_READING_PAGES = {
+  '/about': AboutChatforia,
+  '/careers': Careers,
+  '/press': Press,
+  '/advertise': Advertise,
+  '/help': HelpCenter,
+  '/contact': ContactUs,
+  '/download': Downloads,
+  '/guides/getting-started': GettingStarted,
+  '/how-it-works': HowItWorks,
+  '/safety': Safety,
+  '/blog': BlogIndex,
+  '/blog/chat-safely-online': ChatSafelyOnline,
+  '/blog/global-communication': GlobalCommunication,
+  '/blog/why-messaging-matters': WhyMessagingMatters,
+};
+
 export default function AppRoutes() {
   const location = useLocation();
  const {
@@ -382,6 +399,21 @@ export default function AppRoutes() {
 
   if (authLoading) {
     return null;
+  }
+
+  // Informational pages remain accessible outside account setup and chat guards.
+  const ReadingPage = PUBLIC_READING_PAGES[location.pathname.replace(/\/$/, '').toLowerCase()];
+  if (ReadingPage) {
+    return (
+      <>
+        <AdSenseAutoAds />
+        <Routes>
+          <Route element={<AuthLayout />}>
+            <Route path="*" element={<ReadingPage />} />
+          </Route>
+        </Routes>
+      </>
+    );
   }
 
   if (currentUser && pairingPending) {
@@ -432,23 +464,9 @@ export default function AppRoutes() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/complete" element={<OAuthComplete />} />
 
-          <Route path="/about" element={<AboutChatforia />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/press" element={<Press />} />
-          <Route path="/advertise" element={<Advertise />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/download" element={<Downloads />} />
-
-          <Route path="/guides/getting-started" element={<GettingStarted />} />
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/safety" element={<Safety />} />
-          <Route path="/blog" element={<BlogIndex />} />
-          <Route path="/blog/chat-safely-online" element={<ChatSafelyOnline />} />
-          <Route path="/blog/global-communication" element={<GlobalCommunication />} />
-          <Route path="/blog/why-messaging-matters" element={<WhyMessagingMatters />} />
+
 
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
@@ -541,17 +559,11 @@ export default function AppRoutes() {
         <Route path="family" element={<Navigate to="/wireless" replace />} />
         <Route path="family/join/:token" element={<FamilyJoin />} />
 
-        <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
 
         {/* Public informational destinations must also work while signed in. */}
-        <Route path="about" element={<AboutChatforia />} />
-        <Route path="careers" element={<Careers />} />
-        <Route path="press" element={<Press />} />
-        <Route path="advertise" element={<Advertise />} />
-        <Route path="help" element={<HelpCenter />} />
-        <Route path="contact" element={<ContactUs />} />
+
         <Route path="privacy" element={<PrivacyPolicy />} />
         <Route path="legal/terms" element={<TermsOfService />} />
         <Route path="legal/sms" element={<SmsPolicy />} />
@@ -559,12 +571,6 @@ export default function AppRoutes() {
         <Route path="legal/cookies" element={<CookieSettings />} />
         <Route path="legal/account-deletion" element={<AccountDeletion />} />
 
-        <Route path="how-it-works" element={<HowItWorks />} />
-        <Route path="safety" element={<Safety />} />
-        <Route path="blog" element={<BlogIndex />} />
-        <Route path="blog/chat-safely-online" element={<ChatSafelyOnline />} />
-        <Route path="blog/global-communication" element={<GlobalCommunication />} />
-        <Route path="blog/why-messaging-matters" element={<WhyMessagingMatters />} />
 
         <Route path="join/:code" element={<JoinInvitePage />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
