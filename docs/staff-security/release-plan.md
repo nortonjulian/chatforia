@@ -5,6 +5,18 @@ was published with explicit approval. No staging or production migration,
 deployment, production operator provisioning, staff grant or rollout has been
 authorized or performed. Existing Droplets and chatforia-db remain untouched.
 
+## Full browser follow-up
+
+See [full-browser-local.md](full-browser-local.md) for the real-shell synthetic
+harness, account-helper instructions and exact Safari/Firefox checklist. A discovered
+configured JWT cookie logout defect is fixed with issuing-scope expiration;
+271 staff/API tests pass, including development/production GET/POST logout coverage.
+The final real-shell Chrome run passed 10/10 checks with zero page exceptions.
+This local HTTP harness does not validate production TLS/domain/cross-site cookies,
+Redis/multi-instance behavior or real Google/Apple providers. Human browser checks
+and the existing hosted/managed-database gates remain HOLD. No paid resource or
+existing database is needed for the local checklist.
+
 ## Completed local follow-up
 
 The follow-up passes 269 server unit/API tests, 20 UI component tests, 17 real

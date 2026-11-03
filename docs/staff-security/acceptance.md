@@ -1,5 +1,26 @@
 # Staff-security acceptance record
 
+## Full application browser follow-up
+
+The zero-cost harness in [full-browser-local.md](full-browser-local.md) mounts the
+actual client entry point, UserContext, router and password/MFA forms against the
+real app factory and a fresh restricted-role synthetic database. External services
+and unrelated paid routes are unavailable; OAuth is disabled, not provider-verified.
+
+The full-shell run exposed configured-cookie logout persistence: the server cleared
+only legacy cookie aliases, so a custom JWT cookie restored the session on reload.
+Logout now clears the configured name using its actual issuing scope before retaining
+the existing legacy cleanup. Both GET and POST logout are covered in development
+and production cookie-scope regression cases. Staff/API regression suite: **271/271**
+across 22 suites. No MFA, authorization or database restriction was weakened.
+
+Final full-shell Chrome run: **10/10**, zero page exceptions, including successful
+logout/reload after the fix. Scoped lint and release manifest checks pass.
+Browser completion evidence and remaining hands-on gates are recorded in
+[full-browser-local.md](full-browser-local.md). Safari/Firefox, real-provider OAuth,
+hosted TLS/cookies and multi-instance/managed-database gates remain pending. Prior
+backup/restore, older-snapshot and offline OAuth successes were not rerun.
+
 ## Current follow-up completion
 
 Local follow-up work is complete. Draft PR [#293](https://github.com/nortonjulian/chatforia/pull/293)
