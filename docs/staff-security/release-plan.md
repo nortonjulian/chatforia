@@ -17,6 +17,10 @@ The [read-only provenance/schema follow-up](migration-reconciliation.md) searche
 retained release directories, archives and available CI artifacts. No original
 applied SQL was recovered. Additional catalog comparisons passed but cannot
 replace a trusted applied artifact or reviewed reconciliation.
+The [per-migration design](migration-reconciliation.md) records all four hash
+pairs and historical data-effect uncertainty. Its non-mutating artifact route
+remains conditional on trusted original bytes and independent DBA/security
+review; the current-SQL reconstruction is not production authorization.
 
 **Authorized read-only inspection succeeded.** Existing keys authenticated root
 on both owner-confirmed Droplets. [Infrastructure inspection](infrastructure-inspection.md)

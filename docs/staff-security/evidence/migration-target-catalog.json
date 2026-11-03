@@ -1,0 +1,1664 @@
+{
+  "source": "authorized read-only PostgreSQL 18.6 catalog on defaultdb",
+  "scope": "Five tables touched by four checksum-mismatched migrations; no customer rows",
+  "objects": [
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "apnsPushToken",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "apnsSandboxPushToken",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "createdAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "deviceId",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "fcmPushToken",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "id",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "isPrimary",
+      "type": "boolean",
+      "notNull": true,
+      "default": "false"
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "keyAlgorithm",
+      "type": "text",
+      "notNull": true,
+      "default": "'curve25519'::text"
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "keyVersion",
+      "type": "integer",
+      "notNull": true,
+      "default": "1"
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "lastSeenAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "name",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "pairingApprovedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "pairingRejectedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "pairingRequestedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "pairingStatus",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "platform",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "publicKey",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "pushProvider",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "pushToken",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "revokedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "revokedById",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "updatedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "userId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "voiceIdentity",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "voicePushEnvironment",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "voiceRegisteredAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "voiceRegistrationVer",
+      "type": "integer",
+      "notNull": true,
+      "default": "0"
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "voipPushToken",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "voipSandboxPushToken",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "wrappedAccountKey",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "wrappedAccountKeyAlgo",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Device",
+      "name": "wrappedAccountKeyVer",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "completedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "createdAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "errorCode",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "errorMessage",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "id",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "idempotencyKey",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "newIccid",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "newProviderProfileId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "newProviderPurchaseId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "newSubscriberId",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "oldIccid",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "oldPackageTerminatedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "oldProviderProfileId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "oldProviderPurchaseId",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "oldSubscriberId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "originalExpiresAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "provisionedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "purchaseId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "reason",
+      "type": "text",
+      "notNull": true,
+      "default": "'DEVICE_REPLACEMENT'::text"
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "remainingDataMb",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "replacementAddonKind",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "replacementDataMb",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "status",
+      "type": "text",
+      "notNull": true,
+      "default": "'PENDING'::text"
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "updatedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "EsimReplacement",
+      "name": "userId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "addonKind",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "billingTransactionId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "esimProfileId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "expiresAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "iccid",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "id",
+      "type": "integer",
+      "notNull": true,
+      "default": "nextval('\"MobileDataPackPurchase_id_seq\"'::regclass)"
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "kind",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "lastRefundEventId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "lastRefundId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "providerPurchaseId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "provisioningError",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "purchasedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "qrCodeSvg",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "refundReviewRequired",
+      "type": "boolean",
+      "notNull": true,
+      "default": "false"
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "refundStatus",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "refundedAmountMinor",
+      "type": "integer",
+      "notNull": true,
+      "default": "0"
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "refundedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "refundedCurrency",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "refundedDataMb",
+      "type": "integer",
+      "notNull": true,
+      "default": "0"
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "remainingDataMb",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "stripeChargeId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "stripeCheckoutSessionId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "stripePaymentIntentId",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "totalDataMb",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "MobileDataPackPurchase",
+      "name": "userId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "aiCategory",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "aiSummary",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "autoHidden",
+      "type": "boolean",
+      "notNull": true,
+      "default": "false"
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "blockApplied",
+      "type": "boolean",
+      "notNull": true,
+      "default": "false"
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "chatRoomId",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "createdAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "decryptedContent",
+      "type": "text",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "details",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "evidence",
+      "type": "jsonb",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "id",
+      "type": "integer",
+      "notNull": true,
+      "default": "nextval('\"Report_id_seq\"'::regclass)"
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "messageId",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "notes",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "priority",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "reason",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "recommendedAction",
+      "type": "text",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "reportType",
+      "type": "text",
+      "notNull": true,
+      "default": "'APP'::text"
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "reportedPhone",
+      "type": "character varying(32)",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "reportedUserId",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "reporterId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "resolvedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "reviewedByAiAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "scoreFactors",
+      "type": "jsonb",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "severityScore",
+      "type": "double precision",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "smsMessageId",
+      "type": "integer",
+      "notNull": false,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "Report",
+      "name": "status",
+      "type": "text",
+      "notNull": true,
+      "default": "'OPEN'::text"
+    },
+    {
+      "kind": "column",
+      "table": "SmsBlockedNumber",
+      "name": "createdAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": "CURRENT_TIMESTAMP"
+    },
+    {
+      "kind": "column",
+      "table": "SmsBlockedNumber",
+      "name": "id",
+      "type": "integer",
+      "notNull": true,
+      "default": "nextval('\"SmsBlockedNumber_id_seq\"'::regclass)"
+    },
+    {
+      "kind": "column",
+      "table": "SmsBlockedNumber",
+      "name": "phone",
+      "type": "character varying(32)",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "SmsBlockedNumber",
+      "name": "updatedAt",
+      "type": "timestamp(3) without time zone",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "column",
+      "table": "SmsBlockedNumber",
+      "name": "userId",
+      "type": "integer",
+      "notNull": true,
+      "default": null
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_createdAt_not_null",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_deviceId_not_null",
+      "definition": "NOT NULL \"deviceId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_id_not_null",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_isPrimary_not_null",
+      "definition": "NOT NULL \"isPrimary\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_keyAlgorithm_not_null",
+      "definition": "NOT NULL \"keyAlgorithm\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_keyVersion_not_null",
+      "definition": "NOT NULL \"keyVersion\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_pkey",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_publicKey_not_null",
+      "definition": "NOT NULL \"publicKey\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_revokedById_fkey",
+      "definition": "FOREIGN KEY (\"revokedById\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_updatedAt_not_null",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_userId_fkey",
+      "definition": "FOREIGN KEY (\"userId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_userId_not_null",
+      "definition": "NOT NULL \"userId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Device",
+      "name": "Device_voiceRegistrationVer_not_null",
+      "definition": "NOT NULL \"voiceRegistrationVer\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_createdAt_not_null",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_id_not_null",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_idempotencyKey_not_null",
+      "definition": "NOT NULL \"idempotencyKey\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_newSubscriberId_fkey",
+      "definition": "FOREIGN KEY (\"newSubscriberId\") REFERENCES \"Subscriber\"(id) ON UPDATE CASCADE ON DELETE RESTRICT",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_oldIccid_not_null",
+      "definition": "NOT NULL \"oldIccid\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_oldProviderPurchaseId_not_null",
+      "definition": "NOT NULL \"oldProviderPurchaseId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_oldSubscriberId_fkey",
+      "definition": "FOREIGN KEY (\"oldSubscriberId\") REFERENCES \"Subscriber\"(id) ON UPDATE CASCADE ON DELETE RESTRICT",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_oldSubscriberId_not_null",
+      "definition": "NOT NULL \"oldSubscriberId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_pkey",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_purchaseId_fkey",
+      "definition": "FOREIGN KEY (\"purchaseId\") REFERENCES \"MobileDataPackPurchase\"(id) ON UPDATE CASCADE ON DELETE RESTRICT",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_purchaseId_not_null",
+      "definition": "NOT NULL \"purchaseId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_reason_not_null",
+      "definition": "NOT NULL reason",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_remainingDataMb_not_null",
+      "definition": "NOT NULL \"remainingDataMb\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_status_not_null",
+      "definition": "NOT NULL status",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_updatedAt_not_null",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_userId_fkey",
+      "definition": "FOREIGN KEY (\"userId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_userId_not_null",
+      "definition": "NOT NULL \"userId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_addonKind_not_null",
+      "definition": "NOT NULL \"addonKind\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_id_not_null",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_kind_not_null",
+      "definition": "NOT NULL kind",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_pkey",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_purchasedAt_not_null",
+      "definition": "NOT NULL \"purchasedAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_refundReviewRequired_not_null",
+      "definition": "NOT NULL \"refundReviewRequired\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_refundedAmountMinor_not_null",
+      "definition": "NOT NULL \"refundedAmountMinor\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_refundedDataMb_not_null",
+      "definition": "NOT NULL \"refundedDataMb\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_remainingDataMb_not_null",
+      "definition": "NOT NULL \"remainingDataMb\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_totalDataMb_not_null",
+      "definition": "NOT NULL \"totalDataMb\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_userId_fkey",
+      "definition": "FOREIGN KEY (\"userId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE RESTRICT",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_userId_not_null",
+      "definition": "NOT NULL \"userId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_autoHidden_not_null",
+      "definition": "NOT NULL \"autoHidden\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_blockApplied_not_null",
+      "definition": "NOT NULL \"blockApplied\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_createdAt_not_null",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_decryptedContent_not_null",
+      "definition": "NOT NULL \"decryptedContent\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_id_not_null",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_messageId_fkey",
+      "definition": "FOREIGN KEY (\"messageId\") REFERENCES \"Message\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_pkey",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_reportType_not_null",
+      "definition": "NOT NULL \"reportType\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_reportedUserId_fkey",
+      "definition": "FOREIGN KEY (\"reportedUserId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_reporterId_fkey",
+      "definition": "FOREIGN KEY (\"reporterId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_reporterId_not_null",
+      "definition": "NOT NULL \"reporterId\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_smsMessageId_fkey",
+      "definition": "FOREIGN KEY (\"smsMessageId\") REFERENCES \"SmsMessage\"(id) ON UPDATE CASCADE ON DELETE SET NULL",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "Report",
+      "name": "Report_status_not_null",
+      "definition": "NOT NULL status",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_createdAt_not_null",
+      "definition": "NOT NULL \"createdAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_id_not_null",
+      "definition": "NOT NULL id",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_phone_not_null",
+      "definition": "NOT NULL phone",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_pkey",
+      "definition": "PRIMARY KEY (id)",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_updatedAt_not_null",
+      "definition": "NOT NULL \"updatedAt\"",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_userId_fkey",
+      "definition": "FOREIGN KEY (\"userId\") REFERENCES \"User\"(id) ON UPDATE CASCADE ON DELETE CASCADE",
+      "validated": true
+    },
+    {
+      "kind": "constraint",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_userId_not_null",
+      "definition": "NOT NULL \"userId\"",
+      "validated": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_apnsPushToken_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_apnsPushToken_key\" ON public.\"Device\" USING btree (\"apnsPushToken\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_apnsSandboxPushToken_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_apnsSandboxPushToken_key\" ON public.\"Device\" USING btree (\"apnsSandboxPushToken\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_fcmPushToken_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_fcmPushToken_key\" ON public.\"Device\" USING btree (\"fcmPushToken\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Device_pkey\" ON public.\"Device\" USING btree (id)",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_pushToken_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_pushToken_key\" ON public.\"Device\" USING btree (\"pushToken\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_userId_deviceId_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_userId_deviceId_key\" ON public.\"Device\" USING btree (\"userId\", \"deviceId\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_userId_idx",
+      "definition": "CREATE INDEX \"Device_userId_idx\" ON public.\"Device\" USING btree (\"userId\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_userId_pairingStatus_idx",
+      "definition": "CREATE INDEX \"Device_userId_pairingStatus_idx\" ON public.\"Device\" USING btree (\"userId\", \"pairingStatus\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_userId_revokedAt_idx",
+      "definition": "CREATE INDEX \"Device_userId_revokedAt_idx\" ON public.\"Device\" USING btree (\"userId\", \"revokedAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_voiceIdentity_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_voiceIdentity_key\" ON public.\"Device\" USING btree (\"voiceIdentity\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_voipPushToken_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_voipPushToken_key\" ON public.\"Device\" USING btree (\"voipPushToken\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Device",
+      "name": "Device_voipSandboxPushToken_key",
+      "definition": "CREATE UNIQUE INDEX \"Device_voipSandboxPushToken_key\" ON public.\"Device\" USING btree (\"voipSandboxPushToken\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_newSubscriberId_idx",
+      "definition": "CREATE INDEX \"EsimReplacement_newSubscriberId_idx\" ON public.\"EsimReplacement\" USING btree (\"newSubscriberId\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_oldProviderPurchaseId_key",
+      "definition": "CREATE UNIQUE INDEX \"EsimReplacement_oldProviderPurchaseId_key\" ON public.\"EsimReplacement\" USING btree (\"oldProviderPurchaseId\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_oldSubscriberId_idx",
+      "definition": "CREATE INDEX \"EsimReplacement_oldSubscriberId_idx\" ON public.\"EsimReplacement\" USING btree (\"oldSubscriberId\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_pkey",
+      "definition": "CREATE UNIQUE INDEX \"EsimReplacement_pkey\" ON public.\"EsimReplacement\" USING btree (id)",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_purchaseId_createdAt_idx",
+      "definition": "CREATE INDEX \"EsimReplacement_purchaseId_createdAt_idx\" ON public.\"EsimReplacement\" USING btree (\"purchaseId\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_status_idx",
+      "definition": "CREATE INDEX \"EsimReplacement_status_idx\" ON public.\"EsimReplacement\" USING btree (status)",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_userId_createdAt_idx",
+      "definition": "CREATE INDEX \"EsimReplacement_userId_createdAt_idx\" ON public.\"EsimReplacement\" USING btree (\"userId\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "EsimReplacement",
+      "name": "EsimReplacement_userId_idempotencyKey_key",
+      "definition": "CREATE UNIQUE INDEX \"EsimReplacement_userId_idempotencyKey_key\" ON public.\"EsimReplacement\" USING btree (\"userId\", \"idempotencyKey\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_billingTransactionId_key",
+      "definition": "CREATE UNIQUE INDEX \"MobileDataPackPurchase_billingTransactionId_key\" ON public.\"MobileDataPackPurchase\" USING btree (\"billingTransactionId\")",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_pkey",
+      "definition": "CREATE UNIQUE INDEX \"MobileDataPackPurchase_pkey\" ON public.\"MobileDataPackPurchase\" USING btree (id)",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_refundReviewRequired_idx",
+      "definition": "CREATE INDEX \"MobileDataPackPurchase_refundReviewRequired_idx\" ON public.\"MobileDataPackPurchase\" USING btree (\"refundReviewRequired\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_refundStatus_idx",
+      "definition": "CREATE INDEX \"MobileDataPackPurchase_refundStatus_idx\" ON public.\"MobileDataPackPurchase\" USING btree (\"refundStatus\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_userId_expiresAt_idx",
+      "definition": "CREATE INDEX \"MobileDataPackPurchase_userId_expiresAt_idx\" ON public.\"MobileDataPackPurchase\" USING btree (\"userId\", \"expiresAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "MobileDataPackPurchase",
+      "name": "MobileDataPackPurchase_userId_purchasedAt_idx",
+      "definition": "CREATE INDEX \"MobileDataPackPurchase_userId_purchasedAt_idx\" ON public.\"MobileDataPackPurchase\" USING btree (\"userId\", \"purchasedAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_autoHidden_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_autoHidden_createdAt_idx\" ON public.\"Report\" USING btree (\"autoHidden\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_chatRoomId_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_chatRoomId_createdAt_idx\" ON public.\"Report\" USING btree (\"chatRoomId\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_pkey",
+      "definition": "CREATE UNIQUE INDEX \"Report_pkey\" ON public.\"Report\" USING btree (id)",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_priority_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_priority_createdAt_idx\" ON public.\"Report\" USING btree (priority, \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_reportType_status_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_reportType_status_createdAt_idx\" ON public.\"Report\" USING btree (\"reportType\", status, \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_reportedPhone_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_reportedPhone_createdAt_idx\" ON public.\"Report\" USING btree (\"reportedPhone\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_reportedUserId_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_reportedUserId_createdAt_idx\" ON public.\"Report\" USING btree (\"reportedUserId\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_reporterId_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_reporterId_createdAt_idx\" ON public.\"Report\" USING btree (\"reporterId\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_severityScore_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_severityScore_createdAt_idx\" ON public.\"Report\" USING btree (\"severityScore\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_smsMessageId_reporterId_status_idx",
+      "definition": "CREATE INDEX \"Report_smsMessageId_reporterId_status_idx\" ON public.\"Report\" USING btree (\"smsMessageId\", \"reporterId\", status)",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "Report",
+      "name": "Report_status_createdAt_idx",
+      "definition": "CREATE INDEX \"Report_status_createdAt_idx\" ON public.\"Report\" USING btree (status, \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_phone_idx",
+      "definition": "CREATE INDEX \"SmsBlockedNumber_phone_idx\" ON public.\"SmsBlockedNumber\" USING btree (phone)",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_pkey",
+      "definition": "CREATE UNIQUE INDEX \"SmsBlockedNumber_pkey\" ON public.\"SmsBlockedNumber\" USING btree (id)",
+      "unique": true,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_userId_createdAt_idx",
+      "definition": "CREATE INDEX \"SmsBlockedNumber_userId_createdAt_idx\" ON public.\"SmsBlockedNumber\" USING btree (\"userId\", \"createdAt\")",
+      "unique": false,
+      "valid": true
+    },
+    {
+      "kind": "index",
+      "table": "SmsBlockedNumber",
+      "name": "SmsBlockedNumber_userId_phone_key",
+      "definition": "CREATE UNIQUE INDEX \"SmsBlockedNumber_userId_phone_key\" ON public.\"SmsBlockedNumber\" USING btree (\"userId\", phone)",
+      "unique": true,
+      "valid": true
+    }
+  ]
+}

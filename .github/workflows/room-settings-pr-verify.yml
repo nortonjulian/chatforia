@@ -37,6 +37,19 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 12
+      postgres18:
+        image: postgres:18.6
+        env:
+          POSTGRES_USER: chatforia
+          POSTGRES_PASSWORD: qa_password
+          POSTGRES_DB: defaultdb
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U chatforia -d defaultdb"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
 
     env:
       TEST_DATABASE_URL: postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test
@@ -89,6 +102,11 @@ jobs:
         env:
           STAFF_QA_PG_BIN: /usr/lib/postgresql/16/bin
         run: node --test server/scripts/staff-production-prerequisite-roles.test.mjs
+
+      - name: Reconstruct current baseline and verify prepared roles on PostgreSQL 18.6
+        env:
+          CI_POSTGRES18_CONTAINER: ${{ job.services.postgres18.id }}
+        run: node server/scripts/staff-pg18-reconciliation-ci.mjs
 
       - name: Verify room routes, authorization, and real HTTP/DB behavior
         env:

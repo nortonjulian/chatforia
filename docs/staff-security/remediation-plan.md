@@ -11,6 +11,11 @@ The later [migration provenance follow-up](migration-reconciliation.md) searched
 retained Droplet release directories/archives and GitHub Actions artifacts, and
 compared current catalog defaults/indexes/FK actions. No original applied SQL
 was found; the first hard stop below remains in force.
+The same record now contains a separately reviewable, non-mutating design:
+recover original SQL with the exact recorded hashes, independently review data
+effects, reconstruct it in isolated PostgreSQL 18, then use a pinned historical
+release artifact only if unchanged exact-hash preflight passes. Current SQL
+reconstruction alone does not authorize a baseline acceptance.
 
 ## Priority 0: resolve history before a change window
 

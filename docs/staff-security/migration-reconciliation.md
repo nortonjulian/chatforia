@@ -29,6 +29,12 @@ non-unique Device indexes were correctly removed by the later completed
 unique indexes. A further 32 focused checks of defaults, current index validity
 and FK delete/update actions passed. This is evidence about **current schema**,
 not proof of the original applied SQL or of every historical DDL side effect.
+The [schema-only target catalog](evidence/migration-target-catalog.json) pins
+215 column, index and constraint entries for these five tables. A fresh
+`postgres:18.6` CI service reconstructs the available 141-file baseline and
+compares those entries exactly; it also tests prepared role SQL and confirms
+the four recorded hashes still fail strict preflight. No customer rows,
+credentials or token values are in this fixture.
 
 | Recorded migration | Expected current objects and reviewed catalog result |
 | --- | --- |
@@ -37,7 +43,92 @@ not proof of the original applied SQL or of every historical DDL side effect.
 | `20260807010000_add_sandbox_apns_tokens` | Two nullable Device sandbox token columns. The original non-unique indexes were superseded by two present, valid unique single-column indexes in the later migration. |
 | `20261013_add_esim_replacement_audit` | `EsimReplacement` 25 columns, reason/status defaults `DEVICE_REPLACEMENT`/`PENDING`, created-at default, primary key plus seven intended indexes, four validated FKs. User FK is CASCADE/CASCADE; purchase and both Subscriber FKs are RESTRICT/CASCADE. All inspected objects match. |
 
-## Exact evidence still needed before a reconciliation design
+## Per-migration reconciliation record
+
+The available SQL is the current file at the linked path. Hashes below are
+SHA-256 of SQL bytes, not hashes of customer data. No original applied file has
+been found. Current catalog comparisons do not prove prior DML.
+
+### `20260726034500_add_wireless_refund_audit`
+
+- Recorded: `63434b2fb65211b9d6e4be08352ac66db4c7e209d1e20b67006022ba36d34767`.
+  [Available SQL](../../server/prisma/migrations/20260726034500_add_wireless_refund_audit/migration.sql):
+  `f20ce82990bc7627a5f1d485b0f43a4e36ebf81bba3e35482d086ba7166533ca`.
+- Available SQL adds nine refund/audit fields to `MobileDataPackPurchase` and
+  two indexes. Three `NOT NULL DEFAULT` additions give pre-existing rows logical
+  values `0`, `0` and `false`; later refunds can change them. Current type,
+  nullability, default and index checks match.
+- Unknown: whether applied SQL contained another default, backfill, data
+  correction, trigger or statement. Review original SQL and approved aggregate
+  refund amount/data/currency/status invariants. Current values do not prove
+  the historical backfill.
+
+### `20260806030000_add_pstn_reporting_and_blocking`
+
+- Recorded: `94fe6d123994ae57dffeca09dfa26539b3174725bad2ae3fd9efabcbd785785b`.
+  [Available SQL](../../server/prisma/migrations/20260806030000_add_pstn_reporting_and_blocking/migration.sql):
+  `19a1a154ba49a030dbe3aa4116c692b563e630ff6029656c5372a0d691a81cf1`.
+- Available SQL adds Report phone/SMS/type fields, loosens `messageId`
+  nullability, creates `SmsBlockedNumber`, three Report indexes, three blocked-
+  number indexes and two FKs. `reportType NOT NULL DEFAULT 'APP'` gives older
+  Report rows a logical `APP` value. The new table starts empty in this SQL.
+  Current columns/defaults/indexes/FK actions match.
+- Unknown: whether applied SQL reclassified reports, copied blocked numbers or
+  changed relationships. Verify original DML and approved aggregate counts by
+  report type, SMS linkage and invalid FK states.
+
+### `20260807010000_add_sandbox_apns_tokens`
+
+- Recorded: `164917910396613ca5934d542d661268ba88d506dddf3d9ad73965417a418ab7`.
+  [Available SQL](../../server/prisma/migrations/20260807010000_add_sandbox_apns_tokens/migration.sql):
+  `d2a68cbfbc475480b14b40d91ff1e591990e2ac144910cc8080689e9f609f271`.
+- Available SQL adds two nullable Device token fields and two non-unique indexes.
+  Existing rows gain null values unless another statement populated them. A
+  later completed migration replaced the indexes with valid unique indexes;
+  both columns and replacements match the current catalog.
+- Unknown: whether applied SQL migrated live/sandbox tokens or cleaned up
+  duplicates before unique ownership. Verify original SQL and approved
+  aggregate duplicate/null/ownership invariants; never print token values.
+
+### `20261013_add_esim_replacement_audit`
+
+- Recorded: `3e95935c4c4646839fc532a7fd7f6565688fd1e52700612994494f3f5f79e3b3`.
+  [Available SQL](../../server/prisma/migrations/20261013_add_esim_replacement_audit/migration.sql):
+  `b2d299423e802dfb50958caa92c71813702c210df1ef7c84f039d3e22a1a39f4`.
+- Available SQL creates `EsimReplacement` with 25 columns, a primary key,
+  seven indexes and four FKs. It has no explicit `INSERT`/`UPDATE`/`DELETE`;
+  defaults apply only to later inserts because the table is newly created.
+  Current columns/defaults/indexes/FK actions match.
+- Unknown: whether applied SQL imported prior events, seeded idempotency keys
+  or altered provider-purchase ownership. Verify original SQL, approved
+  aggregate duplicate/FK/orphan checks and audit chronology.
+
+## Smallest justified reconciliation design
+
+**Now:** leave the target ledger and strict preflight unchanged. Current schema
+similarity is insufficient to approve an alternate baseline, ledger rewrite or
+release. The isolated PG18 reconstruction uses **available** SQL and tests only
+its compatibility and current catalog equivalence.
+
+**If trusted original bytes are recovered:** an independent DBA and security
+reviewer verify all four recorded SHA-256 values, provenance and full SQL deltas.
+In fresh isolated PG18, apply the original 141-file baseline and compare schema
+and approved aggregate invariants to the target. If compatible, prepare a pinned
+release artifact containing those reviewed historical bytes for the four already-
+applied migrations, leaving all 18 new staff migration bytes and target ledger
+intact. The existing exact-hash preflight must pass against that artifact before
+migration approval. Test empty and populated synthetic upgrades. If those
+historical bytes break fresh installs, stop and review a separate design; do
+not substitute a manifest waiver.
+
+**Abort/rollback:** absent or untrusted bytes, hash mismatch, unexplained DML,
+catalog difference, failed aggregate check, failing 141-entry preflight,
+changed new-migration hash or unverified backup means NO-GO. Discard a failing
+isolated artifact. If a later separately approved deployment fails after DDL,
+keep ingress fenced and use compatible-code containment or separately approved
+restore/reconciliation; never blindly run down migrations or pre-PR code.
+
+## Exact evidence still needed to decide
 
 1. Obtain the **original bytes** of each applied `migration.sql` from a trusted
    retained build/deployment package, independent repository object or migration
@@ -53,7 +144,9 @@ not proof of the original applied SQL or of every historical DDL side effect.
    for the immediate post-migration state.
 3. Reconstruct the 141-migration baseline in a **fresh isolated** PostgreSQL 18
    database using trusted applied artifacts, then compare schema-only catalog
-   metadata against the actual target. Confirm existing data invariants with
+   metadata against the actual target. CI reconstruction of **available** SQL
+   is a compatibility test and cannot replace this historical test. Confirm
+   existing data invariants with
    approved aggregate checks only; do not export customer rows into local QA.
    Review any divergence and a repair plan with a DBA/security reviewer.
 4. Require a separately approved, rehearsed resolution with a recoverable
@@ -69,7 +162,8 @@ test cannot start because macOS `initdb` fails at `shmget(IPC_PRIVATE, 56)` with
 the sandbox; two existing 56-byte SysV segments were listed, and no shared
 system setting was changed. This does not establish the underlying kernel cause.
 The existing synthetic preview and production hosts were left untouched. The
-smallest non-disruptive prerequisite is an environment where a **new disposable**
-PostgreSQL cluster can allocate SysV IPC, or a separately authorized isolated
-Linux CI runner. Never use the production cluster or its logical test databases
-for this role test.
+standard public-repository CI runner now hosts a separate disposable
+`postgres:18.6` container for role SQL and current-baseline reconstruction.
+GitHub documents standard hosted runners as free for public repositories; the
+CI result is recorded in PR #293. Never use the production cluster or its
+logical test databases for this role test.
