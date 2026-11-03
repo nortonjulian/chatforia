@@ -13,6 +13,10 @@ The [ordered remediation proposal](remediation-plan.md) specifies actions,
 impacts, verification and rollback for each observed target blocker. Its first
 hard stop is the four unmatched baseline migration checksums; no ledger bypass
 or production mutation is proposed to hide them.
+The [read-only provenance/schema follow-up](migration-reconciliation.md) searched
+retained release directories, archives and available CI artifacts. No original
+applied SQL was recovered. Additional catalog comparisons passed but cannot
+replace a trusted applied artifact or reviewed reconciliation.
 
 **Authorized read-only inspection succeeded.** Existing keys authenticated root
 on both owner-confirmed Droplets. [Infrastructure inspection](infrastructure-inspection.md)

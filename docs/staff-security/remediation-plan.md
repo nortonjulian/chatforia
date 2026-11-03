@@ -7,6 +7,11 @@ option is an advertised capability, not a verified restore. CI 141/143/144,
 local PG18.3 upgrade, Google/MFA/logout and Safari/Firefox checks remain valid;
 none was repeated to prepare this plan.
 
+The later [migration provenance follow-up](migration-reconciliation.md) searched
+retained Droplet release directories/archives and GitHub Actions artifacts, and
+compared current catalog defaults/indexes/FK actions. No original applied SQL
+was found; the first hard stop below remains in force.
+
 ## Priority 0: resolve history before a change window
 
 Actual `defaultdb` has 141 completed baseline migrations; four ledger checksums
@@ -17,6 +22,10 @@ and deployed-file hashes agree; 263 copies in 67/62 local worktrees have only
 those current hashes. Simple BOM/newline/CRLF variants and adjacent server
 backup candidates also failed to match. The migration names and exact hashes
 are in [sanitized evidence](evidence/live-infrastructure-inspection.json).
+The bounded follow-up found 10 API SQL copies and four matching-named SQL members
+inside retained archives, all with current hashes, and zero GitHub workflow
+artifacts. A further 32 targeted catalog checks passed; see the reconciliation
+record for exact scope and limits.
 
 **Action:** locate the original applied SQL from a trusted deployment artifact,
 signed build/archive, migration job record, or independently retained repository

@@ -85,6 +85,11 @@ jobs:
           STAFF_QA_PG_BIN: /usr/lib/postgresql/16/bin
         run: node server/scripts/staff-deployment-qa.mjs
 
+      - name: Verify prepared role SQL in another disposable PostgreSQL cluster
+        env:
+          STAFF_QA_PG_BIN: /usr/lib/postgresql/16/bin
+        run: node --test server/scripts/staff-production-prerequisite-roles.test.mjs
+
       - name: Verify room routes, authorization, and real HTTP/DB behavior
         env:
           NODE_ENV: test

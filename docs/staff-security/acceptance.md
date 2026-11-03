@@ -11,6 +11,13 @@ shared memory could not be allocated; the existing synthetic preview was left
 running. The static role guard and focused session-secret/provenance tests pass.
 This tooling does not authorize a production change or waive strict preflight.
 
+The subsequent [read-only provenance and schema follow-up](migration-reconciliation.md)
+found no recorded hash match in retained Droplet release SQL, inspected archives
+or available GitHub CI artifacts. The target catalog passes 32 additional
+default/index/FK-action checks, but historical SQL equivalence is not proven.
+The local `shmget` failure reproduces outside the sandbox; the role-SQL fresh
+cluster test remains pending without changing shared settings or the preview.
+
 Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
 now includes successful root SSH to both owner-confirmed Droplets and catalog
 queries from the API host using its existing connection. **NO-GO for deployment**:
