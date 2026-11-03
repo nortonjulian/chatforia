@@ -40,6 +40,7 @@ export default function SupportWidget({
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchState, setSearchState] = useState('idle');
 
   const [topic, setTopic] = useState('login');
   const [message, setMessage] = useState('');
@@ -67,6 +68,7 @@ export default function SupportWidget({
   useEffect(() => {
     if (!opened) {
       setQ('');
+      setSearchState('idle');
       setResults([]);
       setOk('');
       setErr('');
@@ -76,14 +78,18 @@ export default function SupportWidget({
 
   const searchHelp = async () => {
     const query = q.trim();
-    if (!query) return;
+    if (!query || loading) return;
+    setSearchState('loading');
     setLoading(true);
     try {
       const { data } = await axiosClient.get('/help/search', { params: { q: query } });
       const items = Array.isArray(data) ? data : (data?.results || []);
+      if (!Array.isArray(items)) throw new Error('Invalid search response');
       setResults(items.slice(0, 8));
+      setSearchState('complete');
     } catch {
       setResults([]);
+      setSearchState('error');
     } finally {
       setLoading(false);
     }
@@ -285,11 +291,16 @@ export default function SupportWidget({
                 ))}
               </Group>
 
+              <div aria-live="polite">
               <ScrollArea.Autosize mah={280}>
                 <Stack gap="xs">
                   {results.length === 0 && !loading ? (
                     <Text c="dimmed" size="sm">
-                      {t('support.trySearching', 'Try searching for “translate”, “backups”, or “privacy”.')}
+                      {searchState === 'error'
+                        ? t('support.searchUnavailable', 'Help search is unavailable right now. Browse the Help Center or contact us.')
+                        : searchState === 'complete'
+                          ? t('support.searchEmpty', 'No matching articles found. Try another phrase or contact us.')
+                          : t('support.trySearching', 'Try searching for “translate”, “backups”, or “privacy”.')}
                     </Text>
                   ) : (
                     results.map((r, i) => (
@@ -319,6 +330,17 @@ export default function SupportWidget({
                   )}
                 </Stack>
               </ScrollArea.Autosize>
+              </div>
+              <Button component="a" href="/help" variant="subtle">
+                {t('support.browseHelp', 'Browse Help Center')}
+              </Button>
+            </Stack>
+          ) : !currentUser?.email ? (
+            <Stack gap="sm">
+              <Text>{t('support.guestContact', 'Use our contact form so we have an email address to reply to. You do not need to sign in.')}</Text>
+              <Button component="a" href="/contact">
+                {t('support.guestContactCta', 'Open contact form')}
+              </Button>
             </Stack>
           ) : (
             <Stack gap="sm">
