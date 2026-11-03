@@ -80,8 +80,8 @@ export default function GettingStarted() {
         </List.Item>
         <List.Item>
           {t(
-            'gettingStarted.section2.item2',
-            'Use instant translation to chat across 100+ languages.'
+            "gettingStarted.section2.item2Audit20261103",
+          "Enable optional translation to communicate across languages. Translation sends message text to an external provider and is unavailable in strict end-to-end encryption mode."
           )}
         </List.Item>
         <List.Item>
