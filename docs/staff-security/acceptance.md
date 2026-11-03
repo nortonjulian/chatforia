@@ -30,9 +30,10 @@ contains no customer rows, values, identifiers or tokens. These necessary
 checks can pass vacuously on empty tables and do not establish historical DML
 or provider/payment reconciliation. Without checksum-matching original SQL,
 the conditional pinned-artifact route cannot satisfy strict preflight. The
-reviewed [reconciliation route](migration-reconciliation.md) remains NO-GO
-pending owner decision on the proposed target-bound preflight change;
-no target migration record or preflight condition was changed.
+reviewed [reconciliation route](migration-reconciliation.md) remains NO-GO.
+The target-bound preflight path is implemented only for guarded isolated CI;
+its manifest blocks production activation pending a separate owner decision.
+No target migration record or migration SQL file was changed.
 
 Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
 now includes successful root SSH to both owner-confirmed Droplets and catalog

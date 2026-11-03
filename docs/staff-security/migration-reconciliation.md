@@ -153,39 +153,39 @@ new, separately approved change to the release policy; it must not be described
 as historical equivalence or slipped into the current preflight. No checksum
 rewrite, `migrate resolve`, fabricated SQL or silent waiver is proposed.
 
-### One proposed preflight change for owner decision (not implemented)
+### Target-bound preflight mechanism (implemented for isolated testing only)
 
-Create a versioned, code-reviewed
-`server/security/staffMigrationReconciliation.v1.json` manifest for this **one
-verified target**. It pins the 141 active baseline migration names, the four
-recorded ledger checksums and their differing available-file checksums, the
-other 137 matching file checksums, the three known rolled-back attempts, the
-target database/endpoint identity, and digests of the catalog and bounded-data
-evidence. Label each mismatch `original_sql_unavailable`; never claim SQL
-equivalence. Keep the current migration files and every target
-`_prisma_migrations` row unchanged. Retain a sanitized, hashed read-only ledger
-export and the review/owner decision with the release artifact.
+The branch adds a versioned, hash-pinned
+`server/security/staffMigrationReconciliation.v1.json` manifest for the **one
+verified target**. It pins four recorded ledger/current-file checksum pairs,
+the 141-entry baseline and 159-entry post-staff counts, target database/endpoint
+identity and digests of the catalog and bounded-data evidence. The other 137
+baseline migrations and all new migrations still require exact file/ledger
+hashes. The target's three historical rolled-back attempts remain untouched;
+the check, like the original strict preflight, excludes rolled-back rows from
+the active sequence. The manifest does not claim SQL equivalence. No migration
+SQL or target `_prisma_migrations` row was changed. A sanitized, hashed
+read-only ledger export and owner decision are still required before any
+production authorization.
 
-Refactor `assertPreMigrationHistory` to default to its existing exact-hash
-rule. A new explicit `STAFF_MIGRATION_RECONCILIATION_ID` value, pinned to that
-manifest and target,
-would allow **only** those four exact recorded-hash/current-file-hash pairs
-after verifying the whole active ledger, known rolled-back rows, target
-identity, current file bytes and the reviewed pre-migration catalog/data
-predicates. Missing, extra, unfinished, newly rolled-back, changed or fifth
-mismatch remains a hard failure. An unrecognized ID or another database remains
-on the original strict path. No generic `ignore checksum` switch is allowed.
+`assertMigrationHistory` retains exact-hash validation by default. An explicit
+`STAFF_MIGRATION_RECONCILIATION_ID` allows **only** the four pinned pairs after
+checking the complete active sequence, target identity, current file bytes,
+reviewed catalog and bounded-data predicates. Missing, extra, unfinished,
+changed or fifth mismatches fail. A wrong ID, target or manifest fails. There
+is no generic `ignore checksum` switch. The manifest status is
+`proposed-not-authorized-for-production`; the production CLI cannot activate
+this path. Only the guarded disposable CI harness can exercise it. Enabling
+production use would require a separate reviewed code/manifest change and
+explicit owner risk acceptance.
 
-For this and later releases, a read-only pre-deploy check must compare every
-already-applied migration with its release-file hash, except those same four
-explicit pairs. After `migrate deploy`, a separate executor-side check must
-verify the exact expected ordered active migration set and SHA-256 checksums of
-all newly applied files. Future migrations get no exception. The exception ID
-and evidence stay visible in every affected release until a separate decision
-retires them. Exercise the proposed check against an isolated PostgreSQL 18
-copy with the four recorded hashes, plus negative cases, before considering
-production use. This is a **deliberate revision of preflight acceptance**,
-not proof of the missing SQL and not an authorized production change.
+The new `--after-migrations` executor check requires the exact 159-entry active
+sequence and file hashes for all 18 new staff migrations; only the same four
+baseline pairs can differ. Any later release must deliberately update the
+versioned count/check and verify its new migrations exactly. The CI PostgreSQL
+18 harness tests accepted and rejected states without touching target records.
+This is a **deliberate proposed revision of preflight acceptance**, not proof
+of the missing SQL and not an authorized production change.
 
 The release owner would have to accept residual uncertainty about historical
 data transformations, missing/rotated token values and unobserved past

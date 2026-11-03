@@ -4,6 +4,10 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 import { assertStaffRuntimeReady } from '../security/staffRuntimeReadiness.js';
+import {
+  assertReconciliationCatalogAndData,
+  assertReconciliationRequested,
+} from '../security/staffMigrationReconciliation.js';
 
 class PreflightError extends Error {}
 
@@ -53,36 +57,45 @@ export async function assertDeploymentPrerequisites(db) {
   return checks;
 }
 
-async function assertPreMigrationHistory(db) {
-  const root = 'server/prisma/migrations';
+async function assertMigrationHistory(db, env, mode, database, options) {
+  const root = options.migrationRoot || 'server/prisma/migrations';
   const expected = readdirSync(root)
-    .filter((name) => /^\d/.test(name) && !name.startsWith('20261102'))
+    .filter((name) => /^\d/.test(name) && (mode === '--after-migrations' || !name.startsWith('20261102')))
     .sort();
+  const reconciliation = env.STAFF_MIGRATION_RECONCILIATION_ID
+    ? assertReconciliationRequested(env, database, options)
+    : null;
   const rows = await db.$queryRaw`
     SELECT migration_name, checksum, finished_at FROM public._prisma_migrations
     WHERE rolled_back_at IS NULL ORDER BY migration_name
   `;
   if (
-    expected.length !== 141 ||
+    expected.length !== (mode === '--after-migrations' ? 159 : 141) ||
     rows.length !== expected.length ||
     rows.some(
-      (row, index) =>
-        row.migration_name !== expected[index] ||
-        !row.finished_at ||
-        row.checksum !==
-          createHash('sha256')
-            .update(readFileSync(`${root}/${expected[index]}/migration.sql`))
-            .digest('hex')
+      (row, index) => {
+        const name = expected[index];
+        const fileChecksum = createHash('sha256')
+          .update(readFileSync(`${root}/${name}/migration.sql`))
+          .digest('hex');
+        const exception = reconciliation?.exceptions[name];
+        return row.migration_name !== name || !row.finished_at ||
+          (exception
+            ? fileChecksum !== exception.availableChecksum || row.checksum !== exception.recordedChecksum
+            : row.checksum !== fileChecksum);
+      }
     )
   )
     throw new PreflightError(
       'Migration history differs from the reviewed pre-PR baseline'
     );
+  if (reconciliation) await assertReconciliationCatalogAndData(db);
+  return reconciliation?.id || null;
 }
 
-export async function runPreflight(db, env, mode) {
-  if (!['--before-migrations', '--runtime'].includes(mode))
-    throw new PreflightError('Select --before-migrations or --runtime');
+export async function runPreflight(db, env, mode, options = {}) {
+  if (!['--before-migrations', '--after-migrations', '--runtime'].includes(mode))
+    throw new PreflightError('Select --before-migrations, --after-migrations or --runtime');
   if (!env.STAFF_EXPECTED_DATABASE)
     throw new PreflightError(
       'An independently verified database name is required'
@@ -91,6 +104,8 @@ export async function runPreflight(db, env, mode) {
     throw new PreflightError(
       'Post-migration runtime must enable staff security'
     );
+  if (mode === '--runtime' && env.STAFF_MIGRATION_RECONCILIATION_ID)
+    throw new PreflightError('Reconciliation ID is only valid for migration checks');
   return db.$transaction(
     async (tx) => {
       await tx.$executeRaw`SET TRANSACTION READ ONLY`;
@@ -98,15 +113,15 @@ export async function runPreflight(db, env, mode) {
       const [identity] = await tx.$queryRaw`SELECT current_database() AS name`;
       if (identity?.name !== env.STAFF_EXPECTED_DATABASE)
         throw new PreflightError('Database identity mismatch');
-      if (mode === '--before-migrations') {
+      if (mode !== '--runtime') {
         const prerequisites = await assertDeploymentPrerequisites(tx);
-        await assertPreMigrationHistory(tx);
-        return { ...prerequisites, baselineMigrationHistory: true };
+        const reconciliationId = await assertMigrationHistory(tx, env, mode, identity.name, options);
+        return { ...prerequisites, baselineMigrationHistory: true, reconciliationId };
       }
       await assertStaffRuntimeReady(tx, env);
       return { runtimeBoundaryAndKey: true };
     },
-    { timeout: 15000 }
+    { timeout: env.STAFF_MIGRATION_RECONCILIATION_ID ? 60000 : 15000 }
   );
 }
 
