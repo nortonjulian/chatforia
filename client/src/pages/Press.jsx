@@ -30,7 +30,7 @@ export default function Press() {
 
   return (
     <Container size="lg" py="xl">
-      <Title order={2} mb="md">{pageTitle}</Title>
+      <Title order={1} mb="md">{pageTitle}</Title>
 
       <Text c="dimmed" mb="md">
         {contactLine} <a href="mailto:press@chatforia.com">press@chatforia.com</a>.
@@ -39,7 +39,7 @@ export default function Press() {
       <Stack gap="lg">
         {/* Boilerplate */}
         <Paper withBorder p="md" radius="md">
-          <Title order={4} mb={6}>{boilerplateTitle}</Title>
+          <Title order={2} mb={6}>{boilerplateTitle}</Title>
           <Text>{boilerplateBody}</Text>
         </Paper>
 
@@ -47,7 +47,7 @@ export default function Press() {
         <Paper withBorder p="md" radius="md">
           <Group justify="space-between" align="center" wrap="wrap">
             <div>
-              <Title order={4} mb={6}>{assetsTitle}</Title>
+              <Title order={2} mb={6}>{assetsTitle}</Title>
               <Text>{assetsSubtitle}</Text>
             </div>
             <Button

@@ -6,7 +6,7 @@ export default function HelpCenter() {
 
   return (
     <Container size="md" py="xl">
-      <Title order={2} mb="md">
+      <Title order={1} mb="md">
         {t('helpCenter.title', 'Help Center')}
       </Title>
 
@@ -40,8 +40,8 @@ export default function HelpCenter() {
           <Accordion.Panel>
             <Text>
               {t(
-                'helpCenter.faq.privacy.a',
-                'Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them.'
+                'helpCenter.faq.privacy.transportAnswer',
+                'Chatforia supports end-to-end encrypted in-app messaging. SMS/MMS and calls to ordinary phone numbers are not end-to-end encrypted. Optional translation and AI features require processing the text you submit.'
               )}
             </Text>
           </Accordion.Panel>
@@ -58,8 +58,8 @@ export default function HelpCenter() {
           <Accordion.Panel>
             <Text>
               {t(
-                'helpCenter.faq.translate.a',
-                'Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata.'
+                'helpCenter.faq.translate.serviceAnswer',
+                'Choose your preferred language and enable Auto-translate in your settings. Translation uses an external service to process message text. Strict end-to-end encryption mode disables translation and AI features.'
               )}
             </Text>
           </Accordion.Panel>
