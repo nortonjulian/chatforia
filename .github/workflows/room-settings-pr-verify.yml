@@ -80,6 +80,11 @@ jobs:
           test -x "$STAFF_QA_PG_BIN/initdb"
           node server/scripts/staff-older-snapshot-qa.mjs
 
+      - name: Verify populated staff upgrade and read-only deployment preflight
+        env:
+          STAFF_QA_PG_BIN: /usr/lib/postgresql/16/bin
+        run: node server/scripts/staff-deployment-qa.mjs
+
       - name: Verify room routes, authorization, and real HTTP/DB behavior
         env:
           NODE_ENV: test

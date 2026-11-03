@@ -1,338 +1,118 @@
-# Staff security release and controlled rollout preparation
+# Staff security release plan — PR #293
 
-Real Google web OAuth → Chatforia MFA → SUPPORT authorization/logout is now locally
-verified. See [Google result and exact remaining scope](google-oauth-local.md).
+## Decision and scope
 
+**GO for review of the implementation; NO-GO for deployment today.** The remaining
+blockers are target-specific operational evidence and explicit approval, not a
+request to repeat passing local browser suites or fix unrelated launch work.
+PR [#293](https://github.com/nortonjulian/chatforia/pull/293) stays draft. No merge,
+deployment, production access, existing-database migration or spending occurred.
 
-Current checkpoint: [2026-11-03 completed work, user-reported browser passes and remaining release gates](checkpoint-20261103.md). This supersedes older pending notes for the six reported Safari/Firefox admin flows.
+This record supersedes the older broad gate lists in the historical acceptance,
+checkpoint, rehearsal and staging-proposal records. The executable local work and
+exact future deployment/preflight/abort/rollback sequence are in
+[deployment-runbook.md](deployment-runbook.md). Commands there are prepared only.
 
+## Evidence retained, without rerunning completed browser QA
 
-Status: HOLD. Draft PR [#293](https://github.com/nortonjulian/chatforia/pull/293)
-was published with explicit approval. No staging or production migration,
-deployment, production operator provisioning, staff grant or rollout has been
-authorized or performed. Existing Droplets and chatforia-db remain untouched.
+- [CI 141](https://github.com/nortonjulian/chatforia/actions/runs/41701102110)
+  passed on `9974f507a7c0da7c8cdbdea13893dd2c7cd8ddfc`: 274 staff tests,
+  129 room/server tests, five client tests, all 159 disposable PostgreSQL
+  migrations, older-snapshot reconciliation/recovered access, scoped lint,
+  release verification and Node 22 client build. This remains the application
+  checkpoint; follow-up CI separately verifies the new readiness tooling.
+- Real Google web sign-in → Chatforia MFA → SUPPORT passed. Pre-MFA staff/admin
+  returned 401; post-MFA SUPPORT 200 and Admin 403; observed logout then
+  staff/admin/session all returned 401. All four observer booleans are true.
+  [Sanitized evidence](evidence/google-oauth-local-20261103.json) and
+  [scope/procedure](google-oauth-local.md). No claim of real Apple/mobile OAuth.
+- Safari and Firefox admin login/MFA, View, Cancel, Save with reason, persistence
+  after reload and logout/Back/reload denial are **user-reported passes**. Chrome
+  full shell/UserContext/routing and detailed Users validation/denial/focus/layout
+  automation already passed. No browser suite was repeated for this readiness work.
+- Synthetic exact-snapshot restore: 14 datasets matched, six security/restore
+  checks, positive restored MFA and new token writes. Older-snapshot recovery:
+  ten checks through authenticated reconciliation and controlled reopening;
+  revived sessions/grants/replays denied and legitimate recovered access works.
+  These do not certify managed backup/PITR, real key custody or human recovery.
+- New readiness verification: **11/11 checks passed**, populated 141→159 migration upgrade with preserved
+  existing synthetic ordinary/admin users, non-superuser executor, read-only
+  preflight rejection cases and runtime containment configurations. See
+  [deployment evidence](evidence/deployment-readiness-local.json). No existing
+  database or paid integration is accepted by this rehearsal.
 
-## Full browser follow-up
+## Final security review
 
-See [full-browser-local.md](full-browser-local.md) for the real-shell synthetic
-harness, account-helper instructions and exact Safari/Firefox checklist. A discovered
-configured JWT cookie logout defect is fixed with issuing-scope expiration;
-271 staff/API tests pass, including development/production GET/POST logout coverage.
-The final real-shell Chrome run passed 10/10 checks with zero page exceptions.
-This local HTTP harness does not validate production TLS/domain/cross-site cookies,
-Redis/multi-instance behavior or real Google/Apple providers. Human browser checks
-and the existing hosted/managed-database gates remain HOLD. No paid resource or
-existing database is needed for the local checklist.
+Reviewed the latest CORS, session/MFA/token, protected credential/reset, permission
+DTO, audit and runtime-boundary changes against main and the complete 18-migration
+sequence. No new concrete application defect was identified in this review.
+The `localhost:5002` CORS addition is development-only; production allowlist is
+unchanged, including its pre-existing localhost:5173 entry. It does not bypass
+CSRF, reflect arbitrary origins or weaken MFA. Removal of that pre-existing
+production development origin is a separate policy/hardening decision; this PR
+neither adds nor relies on it in production.
 
-## Completed local follow-up
+Readiness defects corrected: the release verifier previously pinned only four
+of the 18 added migrations; it now pins all 18 while preserving the original four
+hashes. The plan previously treated the both-false template as generally safe;
+after migration security=true is mandatory before authentication reopens.
+The new preflight refuses disabled security, mismatched keys, unsafe role/schema
+prerequisites and divergent baseline migration history. It does not provision or
+repair anything. Existing application authorization/recovery rules are unchanged.
 
-The follow-up passes 269 server unit/API tests, 20 UI component tests, 17 real
-Chrome browser checks and six cross-cluster restore/security checks (26 rehearsal
-checks including three source/setup/drift checks). Both fresh clusters stopped; no
-existing database or production dataset was used. Successful restored MFA and new
-token writes were included. See `acceptance.md`, `lint-investigation.md` and
-`local-rehearsal.md`. These results do not enable rollout or waive the gates below.
+Existing manual deployment workflows are not suitable for this first security
+migration cutover as written (moving main, no fencing/role/key preparation or
+separate migration connection). The runbook supplies the controlled alternative.
+Push/PR CI cannot dispatch deployment through repository workflow triggers;
+Droplet-side polling remains uninspected. No deployment workflow was dispatched.
 
-Root lint still fails with 384 errors and 2,609 warnings; the same-rule comparison
-finds no branch-introduced findings. Remaining source/configuration debt needs
-separate repository ownership before claiming a green full CI gate.
+## Gates assessed against this release
 
-## Release contents
+| Gate | Disposition and smallest missing evidence |
+| --- | --- |
+| Changed authorization, MFA, recovery, audit, Users actions and CORS | Local implementation and focused regressions complete; ordinary reviewer approval is still required before merge. This is not independent penetration-test certification. |
+| Repository-wide lint | Existing debt: 384 errors / 2,609 warnings in the documented same-rule comparison, zero introduced findings. Scoped staff lint and PR CI pass. Defer broad cleanup to its own work; do not call full-root lint green or make unrelated cleanup a new technical prerequisite for this release. If repository policy requires root lint, the owner must explicitly disposition that policy. |
+| Migration/role/pgcrypto compatibility on the actual target | **Deployment blocker.** Need approved catalog-only inventory showing database identity, PG version, object owners, SET/INHERIT memberships, extension namespace and migration checksums. The populated local non-superuser upgrade is complete. It cannot prove provider-specific permissions. Wrong namespace/runtime ownership requires a reviewed target-specific transition and isolated rehearsal before any mutation. |
+| Recoverable backup and key custody | **Before-migration blocker.** Need actual provider backup/restore evidence, independent destination, retention/time point and measured RPO/RTO, plus recoverable existing MFA encryption key and matching signing-key custody. Local restore/reconciliation already passed; no repetition requested. No production data enters local QA. |
+| Hosted HTTPS/proxy/cookies/CSRF and process topology | **Before-public-traffic blocker.** Need the actual topology/config metadata and a short fenced deployment smoke on the approved target. Local HTTP cannot certify Secure/domain cookies, reverse proxy trust or key consistency across deployed instances. A separate environment is necessary to rehearse the actual provider boundary without touching production. |
+| Founder/initial authority and independent recovery operators | **Before-dashboard/recovery activation blocker.** Need verified account IDs, distinct human approver/executor logins, secret custody and approved identity verification. No automatic promotion or invented founder. Initial assignments require separately approved atomic audited infrastructure bootstrap; later changes use protected APIs. |
+| Canary/alerts/containment | **Before-rollout blocker.** Need named canary IDs, incident/observation owners, actual alert receipt and error/latency baselines. Dashboard disable does not disable the global Admin Users APIs; incident containment may require wider ingress fencing. Actual process rollback remains target verification, not a local claim. |
+| Real Apple or mobile provider/device matrix | Unverified. Provider handlers/identity resolution are unchanged, and shared MFA/state/token behavior has offline coverage plus the real Google web proof. Defer expansion to Apple/mobile staff use outside the initial web cohort. If any such flow already serves affected users, include its minimal sign-in/MFA smoke before traffic reopens; migration effects are global, not canary-scoped. Mocked OAuth is never provider certification. |
+| Additional Safari/Firefox/mobile/screen-reader matrix | Six specified Safari/Firefox flows are complete as user-reported; Chrome keyboard and narrow layout checks passed. Broader real-device/a11y certification is launch work beyond this patch. No known unresolved UI defect requires repeating those six flows. |
+| SMS, billing, telecom, unrelated integrations and assertion-retention scheduling | Outside this PR's initial staff canary. No paid-provider testing/provisioning authorized. Existing jobs must nevertheless be inventoried/fenced during migration; retention is later capacity work, not permission to delete audit/live replay state. |
 
-The existing checkpoint supplies protected founder identity, staff delegation,
-revocation, immutable staff history, signed single-use assertions and session
-version invalidation. Pending migrations, in order:
+## Zero-cost next boundary
 
-1. `20261102090000_protect_staff_user_identity`: protects active and former staff,
-   founder and global administrator identities, credentials, deletion and ADMIN
-   insertion. Existing checkpoint migration is retained.
-2. `20261102091000_runtime_role_permissions`: preserves ordinary Prisma CRUD,
-   explicitly removes broad User UPDATE, excludes primary key/global role updates,
-   and guards privileged reset, verification and recovery-code records.
-3. `20261102092000_protected_credential_recovery`: independent approval and execution
-   by different database login identities, approval bound to target, action and
-   exact credential hash, ten-minute maximum lifetime, atomic consumption,
-   session invalidation and mandatory append-only recovery audit.
-4. `20261102093000_protected_mfa_login`: permits domain-separated signed login-token
-   mutations without allowing runtime SQL credentials to forge privileged MFA
-   challenges or recovery-code claims. Expiries use UTC to match Prisma.
+No verified dedicated DigitalOcean sandbox is known. Reusing chatforia-db via a
+second logical database is **not sufficient isolation**: role names/memberships
+are cluster-wide. A container on either production Droplet does not prove CPU,
+network, secret or data isolation and is not authorized. A separate paid service
+would be needed if no already-paid dedicated sandbox exists; spending remains
+prohibited and those provider checks remain pending rather than fabricated.
 
-Two independent flags default off. `STAFF_SECURITY_ENABLED=true` enables signed
-MFA writes and startup database/configuration validation.
-`STAFF_DASHBOARD_ENABLED=true` additionally exposes `/staff` APIs and the client
-`/staff` dashboard. Turning off only the dashboard flag closes staff management
-while keeping protected sign-in operational.
+The smallest next action is **owner-provided, redacted infrastructure metadata or
+separate approval for a read-only inventory**: actual PostgreSQL major version,
+role/ownership/extension/migration metadata, current process/proxy/deployment
+configuration, existing backup/restore/key-custody evidence, and whether an
+already-paid dedicated non-production sandbox exists. No credentials or data
+export is needed. This can resolve compatibility unknowns and determine whether
+provider rehearsal is possible at $0; it does not itself authorize migration,
+resource creation, production access by this agent or rollout.
 
-In production, enabling the dashboard also requires `STAFF_DASHBOARD_USER_IDS`,
-a comma-separated allowlist of at most 200 positive user IDs. Missing or invalid
-cohorts fail startup and deny requests. The cohort never grants RBAC permissions.
-The checked-in `runtime.env.example` leaves both flags disabled and the cohort
-empty. No production cohort has been selected or enabled.
+The preparation tool is ready for a later approved operator:
+`node server/scripts/staff-deployment-preflight.mjs --before-migrations` after
+DBA prerequisite preparation, and `--runtime` after migration/key provisioning.
+Both run read-only transactions and suppress driver errors that could disclose
+connection information. The first verifies the exact 141-migration baseline,
+not a partially migrated target. All required execution/abort details are in the
+runbook; no commands have been run against existing infrastructure.
 
-`migration-manifest.json` records the four reviewed SQL checksums.
-`npm run verify:staff-release` verifies that manifest and the disabled template
-without contacting any database. Startup also confirms the signing key against
-the protected database key through a read-only, domain-separated HMAC check.
+## Approval record still required for execution
 
-## Required decisions and preparation before a deployment approval
-
-The release owner must record the exact reviewed commit and migration checksums,
-verified target database identity, backup/restore rehearsal reference, named DBA,
-separate recovery approver and executor, incident owner, canary cohort and an
-explicit deployment approval. These fields intentionally remain unassigned.
-
-The DBA must verify managed-service ownership/SET ROLE and pgcrypto compatibility
-on the new empty staging cluster first. The local non-superuser executor
-rehearsal passes, but does not certify DigitalOcean. Owner bootstrap rejects an
-unsafe existing role instead of performing superuser-only role normalization.
-A separate DBA executor needs ownership-transfer authority; never grant it to
-the application. Preserve PostgreSQL 16 grantor provenance: do not CASCADE-revoke
-executor membership. Keep DBA credentials sealed offline and review dependencies
-before changing those memberships.
-
-The DBA must provision `chatforia_staff_owner`, `chatforia_recovery_issuer`, and
-`chatforia_recovery_executor` as NOLOGIN, non-superuser, non-CREATEROLE,
-non-CREATEDB, non-BYPASSRLS roles. Runtime is `chatforia_dev`; it must have no
-membership in these roles, no schema/table ownership and no ability to alter
-security triggers. Give issuer and executor membership to separate operator
-logins. Neither login may hold both memberships or inherit security-owner
-privileges. Review transitive role memberships as well as direct memberships.
-Migrations intentionally fail when prerequisite role boundaries are unsafe.
-No role passwords belong in source control or command arguments.
-
-Provision distinct random JWT and staff assertion keys (at least 32 bytes each)
-and a 32-byte base64 encryption key through the secret manager. Match the staff
-assertion key to the protected database verification key through the existing
-DBA provisioning process; the runtime cannot read or replace that key. Keep the
-encryption key stable for existing MFA secrets. Rehearse key rotation and
-rollback in an isolated environment. Never dump secrets or assertions into logs.
-
-Drain writes and authentication traffic while installing the complete migration
-set: applying the identity guard without compatible MFA code creates a staff
-login outage. Migration credentials must never be used by the application.
-Enable the security flag only with the complete compatible schema and keys.
-Startup must pass `assertStaffRuntimeReady` before listeners or jobs start.
-
-## Recovery procedure prepared for authorized operators
-
-Public password-reset requests return the same generic success for protected
-accounts without issuing a reset token. Existing ordinary reset tokens cannot
-write protected credentials. Self-service credential/MFA changes for protected
-accounts are intentionally blocked by the database and use this operator path.
-
-Verify the account owner through the organization's approved independent identity
-process. Record the incident reference and reason outside the application.
-For PASSWORD, securely prepare a bcrypt hash with cost 10–15. For MFA_REPLACE,
-prepare an AES-256-GCM secret compatible with `secretBox.js`, securely enroll the
-owner's authenticator and verify a code before approving the replacement.
-Recovery replaces MFA while keeping it enabled; it never creates a password-only
-privileged session. Losing both password and MFA requires two separate approvals.
-
-Use a fresh 32-byte random token transported through a secure operator channel.
-As the issuer login, insert only token SHA-256, target ID, action, SHA-256 of the
-exact replacement value encoded as UTF-8, and expiry into
-`staff_security.credential_recovery_approval`. `approved_by` is assigned from
-`session_user`; issuer cannot override it. Executor uses parameterized
-`staff_security.execute_credential_recovery(token, targetId, action, value, reason)`
-from a different login. Do not put token, replacement value or database credentials
-on a command line or in tickets. Approval expires within ten minutes and is
-single-use. Review the recovery event and incremented token version, then verify
-old sessions, challenges and reset links fail. Operator procedures were exercised only with synthetic identities in rollback-only
-QA and newly created disposable clusters, never in staging or production.
-
-## Canary plan (prepared, not started)
-
-1. Obtain explicit approval for the named environment, reviewed revision and
-   migration set. Re-run the acceptance suite and isolated restore rehearsal.
-2. Rehearse deployment, ordinary login/reset, staff password/MFA login, backup-code
-   login, recovery, grant, revoke, report resolution and kill switch in staging.
-   No live operator identities or production data may be copied into QA.
-3. After a separate production approval, drain writes, take the verified backup,
-   install reviewed migrations with DBA credentials and deploy compatible code
-   with security enabled and dashboard disabled. Validate runtime startup and
-   ordinary/staff sign-in before admitting traffic.
-4. Limit access to named canary staff by existing protected assignments. Enable
-   the dashboard only after canary authorization, then verify direct API denials,
-   profile boundaries, current-session enforcement and audit records.
-5. Observe for at least one staffed operating window before expanding. The release
-   owner must record actual error rates, latency, auth success, denial counts,
-   audit completeness and recovery outcomes. Do not infer approval from elapsed time.
-
-Stop expansion immediately on any unauthorized grant, audit mismatch, successful
-replay, missing session invalidation, recovery operator overlap, privilege drift,
-or failed staff/ordinary authentication. Stop on sustained new 5xx errors above
-1% or p95 staff API latency above twice the measured pre-rollout baseline over
-five minutes. Assign alert routing and baseline measurements before rollout.
-
-## Containment and rollback
-
-Before a future rollout, assign a DBA-owned retention job for expired
-`mfa_login_assertions` (only rows expired for at least one day may be removed).
-Expired assertions still fail signature-claim validation after pruning. Retain
-recovery events and staff audit history under the organization's audit policy;
-never prune live approvals or assertions. No retention job is enabled here.
-
-First disable `STAFF_DASHBOARD_ENABLED` and restart compatible application
-instances. Keep `STAFF_SECURITY_ENABLED=true` and keep all security restrictions,
-audits and anti-replay records. Revoke affected staff through the protected
-service from a current authorized session and validate token invalidation.
-If the protected service itself is suspect, stop traffic and use the incident
-DBA procedure with explicit authorization. Disabling authentication security or
-removing identity triggers is not a rollback strategy.
-
-Roll application code back only to a revision compatible with these migrations
-and signed MFA writes. The original checkpoint is not compatible with the new
-identity/token restrictions. Preserve the verification/encryption keys, protected
-schema and mandatory audit history. Database restore is a separate incident
-operation requiring explicit approval and a verified backup; it must account for
-post-backup sessions, approvals, assertions and audit events. No automatic down
-migration, table drop, token-version decrease or production restore is provided.
-
-## Remaining verification gates and zero-cost boundary
-
-The owner has explicitly declined spending and paid provisioning. Additional
-cloud budget is $0. No existing infrastructure access is authorized. See the
-revised [zero-cost plan](staging-proposal.md) for which checks are local, human
-assisted or provider-specific; they do not all inherently require a paid staging
-environment. The eight gates below remain release gates, with these new local
-subchecks completed:
-
-- Additional offline OAuth/MFA/state/token/reset/serialization suites: 53/53 pass,
-  mocked provider/Redis/database clients and no actual provider requests.
-- Real application factory HTTP password/TOTP/cookie-session staff access and
-  admin denial: passed against a new synthetic runtime DB, loopback listener and
-  sanitized environment. Redis/provider configuration is test-only; this is not
-  a full browser-shell or production HTTPS check.
-- Five new older-snapshot/full-app checks pass in fresh local clusters. The
-  older restore deliberately revives old session/grant and replay capability;
-  fenced key rotation, version increments, restored-staff revocation and approval
-  expiry deny stale credentials. New MFA/token writes pass after rotation.
-  External synthetic audits are preserved, but complete reconciliation and
-  reopening are not certified. Both clusters stop. This does not waive provider
-  backup/PITR or incident-owner approval.
-
-No staging or production changes are authorized by this document.
-
-1. **Full application routing and sign-in:** exercise `/admin/users` and `/staff`
-   through the real application shell, UserContext bootstrap, password/TOTP,
-   backup-code and configured OAuth entry points. The local harness mounted real
-   components/APIs directly with synthetic signed session cookies. Verify a
-   signed-out visitor and a non-MFA or stale session cannot display protected
-   content; a genuine current session opens only its authorized controls.
-2. **View/Edit through the hosted app:** View the selected current user; Edit and
-   save only the four allowed preferences; cancel without a write; provoke invalid
-   values, a stale-value conflict and session loss while the form is open. Verify
-   refreshed committed values and exactly one audit per actual successful change.
-   Attempt credential/role/identity fields and protected current/former staff,
-   founder, system and administrator targets; expect rejection and no mutation.
-   Confirm legacy `/role`, `/flags`, `/ban`, `/unban` and delete handlers remain
-   unmounted under the Users API.
-3. **Actual HTTPS hosting boundary:** validate Secure/HttpOnly/SameSite/domain
-   cookies, proxy settings and the site's real API origin/CORS allowlist. Correct
-   browser CSRF headers must work; missing/wrong CSRF and cookie-plus-Bearer bypass
-   must fail. The local browser used same-origin loopback HTTP, not the hosted
-   multi-origin topology.
-4. **Cross-engine and keyboard/mobile behavior:** repeat View/Edit, native-dialog
-   close/cancel/focus (Chrome Tab/Shift+Tab/Escape now verified locally), validation, profile selection and session-loss flows in
-   Firefox on a supported renderer host and Safari/WebKit, including a real mobile
-   viewport/device. Installed local Firefox failed before page creation; Chrome
-   desktop and a 390×844 viewport passed. No Firefox sandbox bypass was used; Chrome used standard Playwright launch settings.
-5. **Managed PostgreSQL and operator boundary:** verify the actual supported
-   extension/version, owner/NOLOGIN roles, runtime memberships/ACLs/trigger status,
-   migration hashes, explicit canary IDs, and startup rejection of key mismatch
-   or privilege drift. Confirm issuer/executor logins are independent and neither
-   overlaps the runtime/security owner. Rehearse recovery with approved identity
-   verification, expiry, replay denial, session invalidation and atomic audit.
-6. **Backup/key recovery and security time point:** restore a synthetic managed
-   staging backup into a new empty target, including role-grantor provenance,
-   ownership, ACLs, sequences, audit and replay state. Recover encryption/signing
-   keys through the actual secret-manager procedure and prove positive MFA plus
-   stale-session/replay denial. Record measured RPO/RTO, restore time point,
-   snapshot consistency and retention evidence. The local exact-snapshot fixture
-   took 1,279 ms for target initialization/restore/verification; it is not a
-   capacity or operational timing guarantee.
-7. **Older snapshots and post-backup security changes:** explicitly rehearse
-   traffic fencing, token/assertion-key rotation or equivalent invalidation, and
-   reconciliation of post-backup revocations/consumed approvals before reopening
-   traffic. The earlier exact-snapshot backup contained the tested revocations.
-   The new offline older-snapshot test reproduces the resurrection hazard and
-   now proves authenticated reconciliation and controlled loopback reopening.
-   Actual managed-service restore, authoritative production journal completeness
-   and public ingress fencing remain unverified. Do not reopen a real service until the
-   chosen time-point security policy is proved and approved.
-8. **Operations and rollback:** assign the DBA, recovery operators, canary cohort,
-   incident owner and alert routes. Verify auth failures, direct denials, replay
-   and audit-failure alerts reach the approved operator channel without secrets.
-   Measure baseline latency/error rates, rehearse the dashboard-only kill switch
-   and a compatible application rollback, then observe the staffed canary window
-   against the stop criteria above. Deployment and rollout require separate
-   explicit approvals; elapsed time never grants approval.
-
-## Older-snapshot local reopening gate — completed
-
-The new local rehearsal supersedes the earlier containment-only result above:
-10/10 checks pass through authenticated reconciliation and controlled loopback
-reopening. See [older-snapshot-recovery.md](older-snapshot-recovery.md).
-The gate verifies actual imported event/replay/approval records, full audit
-payload/provenance mappings, exact authorized active grants, source-based session
-version floors and independently audited fresh password/MFA recovery for every
-protected fixture identity, including founder. Audit-write failure rolls back
-reconciliation; repeating a committed batch does not duplicate or regress state.
-Old credentials/replays remain denied after access opens, while the recovered
-account can use only its reconciled profile after new MFA. The revoked staff
-account still has no staff access. Only loopback test traffic was opened; both
-fresh clusters stopped afterward.
-
-For a real incident, reopening still requires an authentic complete post-backup
-record through a fenced cutover, independently held trust keys, actual human
-reverification and the provider's tested restore/network/secret-store procedure.
-If no complete authoritative journal/source survives, that is the exact missing
-prerequisite: do not fabricate history or reopen with snapshot grants/credentials.
-All such provider/access gates remain pending under the $0 boundary.
-
-## Publication and next approval boundary
-
-Branch `feature/staff-access-rbac-20261102` is published to the verified
-`nortonjulian/chatforia` origin and PR #293 targets main as a draft. Current remote
-main deployment workflows are manual-only; no indirect workflow deployment chain
-exists. Repository Webhooks is empty per the owner. No Render configuration is
-used as deployment evidence. Droplet-side cron/polling automation was not inspected.
-The existing production deployment workflows must not be dispatched for staging.
-
-Security review fixes are committed as `fd64a584`. CI setup fix `d16ada4f` passed
-run 135 (129 room/server tests, five client tests and build). The updated workflow
-also requires all 269 selected staff tests, scoped lint and migration/config
-verification. [Run 136](https://github.com/nortonjulian/chatforia/actions/runs/41574812500)
-completed successfully at `fd64a584`: all 269 staff regressions, scoped lint,
-release verifier, all migrations, 129 room/server tests, five client tests and
-the production client build passed. Later documentation-only revisions still
-require their own PR check result; this evidence is pinned to the tested source.
-Root lint remains separately red; a passing selected workflow does not waive it.
-
-The previously proposed paid staging resources are withdrawn. The current
-[zero-cost plan](staging-proposal.md) uses only the workstation and installed
-software. No production Droplet or database was accessed, no cloud resource was
-provisioned and no cost was authorized. Existing dedicated non-production
-resources could be considered only after a separately approved read-only
-inventory proves isolation and no incremental charges. A second database on
-chatforia-db or a container on a production Droplet is not assumed safe.
-
-Actual managed-role/extension, managed-backup/PITR and hosted-topology gates remain
-pending. Without an already-paid, genuinely dedicated sandbox, those need a
-separate normally billable environment and cannot proceed under the $0 boundary.
-Human browser/device, OAuth sandbox, recovery identity and secret-store checks
-may be free but require participation/access; no permission for them is inferred.
-Require security/DB review and resolve repository lint ownership before any
-production release decision. PR #293 remains draft; no merge or deployment.
-
-## Approval record to complete later
-
-| Field                                               | Status                                                |
-| --------------------------------------------------- | ----------------------------------------------------- |
-| Reviewed revision and migration hashes              | Pending reviewer selection                            |
-| Target database/environment                         | Pending explicit authorization                        |
-| DBA and independent recovery operators              | Pending assignment                                    |
-| Restore rehearsal evidence and recovery time        | Local synthetic pass; managed staging/RPO/RTO pending |
-| Canary identities, observation owner, alert routing | Pending assignment                                    |
-| Production deployment approval                      | NOT GRANTED                                           |
-| Controlled rollout start approval                   | NOT GRANTED                                           |
+Record the reviewed SHA/artifact hashes, exact target and migration ledger,
+backup/restore/key-custody evidence, DBA and independent recovery operators,
+verified founder/initial authority, canary IDs, incident/alert owners and change
+window. Deployment, migration, staff bootstrap and public rollout each remain
+subject to the owner's explicit authorization. Keep security=true after the
+migration; retain security schema, audits and replay history on rollback.
+No down migration or pre-PR backend rollback is approved.

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
 // Read-only release preparation: no network, database, migration or deployment.
@@ -27,11 +27,32 @@ for (const { name, sha256 } of manifest.migrations) {
   );
 }
 const config = readFileSync('docs/staff-security/runtime.env.example', 'utf8');
+const deployment = JSON.parse(
+  readFileSync('docs/staff-security/deployment-migrations.json', 'utf8')
+);
+assert.equal(deployment.version, 1);
+const deploymentNames = readdirSync('server/prisma/migrations')
+  .filter((name) => name.startsWith('20261102'))
+  .sort();
+assert.equal(deploymentNames.length, 18);
+assert.deepEqual(
+  deployment.migrations.map(({ name }) => name),
+  deploymentNames
+);
+for (const { name, sha256 } of deployment.migrations) {
+  assert.equal(
+    createHash('sha256')
+      .update(readFileSync(`server/prisma/migrations/${name}/migration.sql`))
+      .digest('hex'),
+    sha256,
+    `Deployment migration changed: ${name}`
+  );
+}
 assert.match(config, /^STAFF_SECURITY_ENABLED=false$/m);
 assert.match(config, /^STAFF_DASHBOARD_ENABLED=false$/m);
 assert.match(config, /^STAFF_DASHBOARD_USER_IDS=$/m);
 console.log(
-  'PASS: Four reviewed migration checksums and disabled rollout configuration'
+  'PASS: All 18 deployment migration checksums, original four checksums and disabled rollout template'
 );
 console.log(
   'Local revision:',

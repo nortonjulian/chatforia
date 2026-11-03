@@ -1,5 +1,37 @@
 # Staff-security acceptance record
 
+## Deployment-readiness checkpoint — 2026-11-03
+
+**Local work complete; GO for review, NO-GO for deployment pending target evidence
+and approval.** [release-plan.md](release-plan.md) now provides the authoritative
+gate assessment; its scope supersedes the broader historical pending lists below.
+Existing root lint debt and unrelated launch work are not newly introduced code
+blockers. No new application defect was found in the final scoped security/CORS
+review, and no security restriction or reviewed migration SQL was changed.
+
+Reused successful [CI 141](https://github.com/nortonjulian/chatforia/actions/runs/41701102110)
+on `9974f507`: 274 staff tests, 129 room/server tests, five client tests, all 159
+disposable migrations, older-snapshot recovery, scoped lint/release checks and
+Node 22 build. Reused the real Google/MFA/SUPPORT/Admin-denial/logout report and
+the six user-reported Safari/Firefox passes. No browser QA was repeated.
+
+New work pins all **18** branch migrations (the prior four hashes are unchanged),
+adds read-only pre-/post-migration checks, and passes **11/11** checks for a populated 141→159
+upgrade in a newly created synthetic cluster. The preflight catches missing
+roles, wrong database, baseline checksum drift, wrong pgcrypto namespace, runtime
+ownership/SET membership, missing/mismatched signing keys and security disabled
+after migration. Existing user rows survive, ordinary writes work and protected
+administrator credential writes remain denied. Both canary and dashboard-off
+containment configurations retain runtime readiness. See the sanitized
+[new evidence](evidence/deployment-readiness-local.json) and
+[exact deployment/abort/rollback procedure](deployment-runbook.md).
+
+No existing database, Droplet, production data or paid service was used. Actual
+provider role/backup capability, hosted boundary, independent human recovery/key
+custody and staffed rollout remain genuine execution gates. The smallest next
+step is redacted owner-supplied infrastructure metadata or explicit approval for
+read-only inventory, not paid provisioning or repeating completed local tests.
+
 Real Google web OAuth → Chatforia MFA → SUPPORT authorization/logout is now locally
 verified. See [Google result and exact remaining scope](google-oauth-local.md).
 
