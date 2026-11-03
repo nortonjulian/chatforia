@@ -207,6 +207,28 @@ export default function AuthLayout() {
     pathname.startsWith('/reset-password') || pathname.startsWith('/forgot-password');
   const PUBLIC_PRICING_ROUTE = '/pricing';
 
+  // Careers uses a reading layout; other public/auth pages keep their existing grid.
+  if (/^\/careers\/?$/i.test(pathname)) {
+    return (
+      <div id="top" className="auth-page public-page flex flex-col min-h-screen">
+        <main className="flex-1 auth-main-container">
+          <Container size="lg">
+            <Group justify="space-between" align="center" wrap="nowrap">
+              <MobileTopBar />
+              <Anchor component={Link} to="/" className="auth-link-gradient">
+                {t('auth.home', 'Home')}
+              </Anchor>
+            </Group>
+            <Divider />
+            <Outlet />
+            <SupportWidget excludeRoutes={['/login', '/reset-password']} />
+          </Container>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   const showGetAppCard =
     pathname === '/' ||
     pathname.startsWith('/login') ||
