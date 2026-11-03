@@ -16,7 +16,7 @@ export default function GettingStarted() {
 
   return (
     <Stack maw={820} mx="auto" p="md" gap="md">
-      <Title order={2}>
+      <Title order={1}>
         {t('gettingStarted.title', 'Getting Started')}
       </Title>
 
@@ -38,7 +38,7 @@ export default function GettingStarted() {
         {'.'}
       </Alert>
 
-      <Title order={4}>
+      <Title order={2}>
         {t('gettingStarted.section1.title', '1) Create your account')}
       </Title>
       <List withPadding>
@@ -47,7 +47,7 @@ export default function GettingStarted() {
             {t('gettingStarted.section1.signup', 'Sign up')}
           </Anchor>{' '}
           {t('gettingStarted.section1.or', 'or')}{' '}
-          <Anchor component={Link} to="/login">
+          <Anchor component={Link} to="/">
             {t('gettingStarted.section1.login', 'log in')}
           </Anchor>{' '}
           {t(
@@ -68,7 +68,7 @@ export default function GettingStarted() {
         </List.Item>
       </List>
 
-      <Title order={4}>
+      <Title order={2}>
         {t('gettingStarted.section2.title', '2) Start messaging')}
       </Title>
       <List withPadding>
@@ -92,7 +92,7 @@ export default function GettingStarted() {
         </List.Item>
       </List>
 
-      <Title order={4}>
+      <Title order={2}>
         {t('gettingStarted.section3.title', '3) Go further')}
       </Title>
       <List withPadding>
