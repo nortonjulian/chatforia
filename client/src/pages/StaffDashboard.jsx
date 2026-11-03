@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import axiosClient from '../api/axiosClient';
+import UserDetailsDialog from '../components/admin/UserDetailsDialog.jsx';
 
 const views = [
   ['users', 'Users', 'users.read'],
@@ -20,6 +21,7 @@ export default function StaffDashboard() {
   const [profile, setProfile] = useState('');
   const [reason, setReason] = useState('');
   const [message, setMessage] = useState('');
+  const [viewedUser, setViewedUser] = useState(null);
   useEffect(() => {
     let live = true;
     axiosClient
@@ -114,6 +116,7 @@ export default function StaffDashboard() {
   return (
     <main style={{ padding: '1.5rem', maxWidth: 1100, margin: 'auto' }}>
       <h1>Staff dashboard</h1>
+      {viewedUser && <UserDetailsDialog userId={viewedUser} apiBase="/staff/users" onClose={() => setViewedUser(null)} />}
       {error && <p role="alert">{error}</p>}
       {!session && !error && <p role="status">Checking staff access…</p>}
       {session && (
@@ -241,6 +244,7 @@ export default function StaffDashboard() {
                           {key.replace(/([a-z])([A-Z])/g, '$1 $2')}
                         </th>
                       ))}
+                      {view === 'users' && <th scope="col">Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -251,6 +255,7 @@ export default function StaffDashboard() {
                             {value == null ? '—' : String(value)}
                           </td>
                         ))}
+                        {view === 'users' && <td><button onClick={() => setViewedUser(item.id)}>View</button></td>}
                       </tr>
                     ))}
                   </tbody>

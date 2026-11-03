@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { requireAuth } from '../middleware/auth.js';
+import { readUserDetails, UserDetailsError } from '../security/adminUserDetails.js';
 import { createRequireStaffPermission } from '../security/requireStaffPermission.js';
 import { isEligibleStaffActor } from '../security/staffAccountEligibility.js';
 import { lookupStaffAssignment } from '../security/staffAssignmentLookup.js';
@@ -94,6 +95,10 @@ export function createStaffRouter({
       })
     );
   }
+  router.get('/users/:id', permit('users.read'), async (req, res) => {
+    try { res.json(await readUserDetails(db, Number(req.params.id))); }
+    catch (error) { res.status(error instanceof UserDetailsError ? error.status : 503).json({ error: error instanceof UserDetailsError ? error.message : 'User details unavailable' }); }
+  });
   listing('/assignments', 'staff.read', 'staffAssignment', {
     id: true,
     userId: true,

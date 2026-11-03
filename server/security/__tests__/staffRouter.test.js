@@ -183,3 +183,34 @@ test('canary cohort restriction does not widen an authenticated assignment', asy
     delete process.env.STAFF_DASHBOARD_USER_IDS;
   }
 });
+
+test('authorized staff View returns only safe current details and no editing authority', async () => {
+  assignment.profile = 'SUPPORT';
+  db.user.findUnique = jest.fn(async () => ({
+    id: 42,
+    username: 'synthetic',
+    displayName: 'Permitted detail',
+    role: 'USER',
+    isBanned: false,
+    preferredLanguage: 'en',
+    showReadReceipts: true,
+    showOriginalWithTranslation: true,
+    isSystem: false,
+    isTestAccount: false,
+    deletedAt: null,
+    staffAssignment: null,
+    founderOwnership: null,
+    passwordHash: 'NEVER_RETURN',
+    totpSecretEnc: 'NEVER_RETURN',
+  }));
+  const response = await request(app).get('/staff/users/42');
+  expect(response.status).toBe(200);
+  expect(response.body.user.displayName).toBe('Permitted detail');
+  expect(response.body.editableFields).toEqual([]);
+  expect(response.text).not.toContain('NEVER_RETURN');
+});
+test('staff without users.read cannot open user details', async () => {
+  db.user.findUnique = jest.fn();
+  expect((await request(app).get('/staff/users/42')).status).toBe(403);
+  expect(db.user.findUnique).not.toHaveBeenCalled();
+});
