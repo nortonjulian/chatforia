@@ -61,8 +61,13 @@ export default function Advertise() {
 
   const pubId = import.meta.env.VITE_ADSENSE_PUB_ID || null;
 
-  async function submit() {
-    if (!contact.name || !contact.email || !contact.message) {
+  async function submit(event) {
+    event.preventDefault();
+    if (submitting) return;
+    const inquiry = Object.fromEntries(
+      Object.entries(contact).map(([key, value]) => [key, value.trim()])
+    );
+    if (!inquiry.name || !inquiry.email || !inquiry.message) {
       toast.err(
         t(
           'advertise.form.missingRequired',
@@ -74,7 +79,7 @@ export default function Advertise() {
     setSubmitting(true);
     try {
       // Preferred: send to your server
-      await axiosClient.post('/ads/inquiries', contact);
+      await axiosClient.post('/ads/inquiries', inquiry);
       setSubmitted(true);
       toast.ok(
         t('advertise.form.successToast', "Thanks! We’ll be in touch soon.")
@@ -82,11 +87,11 @@ export default function Advertise() {
     } catch (e) {
       // Fallback: open a mailto prefilled with the form content
       const body =
-        `Name: ${contact.name}\n` +
-        `Email: ${contact.email}\n` +
-        `Company: ${contact.company}\n` +
-        `Budget: ${contact.budget}\n\n` +
-        `${contact.message}`;
+        `Name: ${inquiry.name}\n` +
+        `Email: ${inquiry.email}\n` +
+        `Company: ${inquiry.company}\n` +
+        `Budget: ${inquiry.budget}\n\n` +
+        `${inquiry.message}`;
       const mail = `mailto:ads@chatforia.com?subject=Advertising%20Inquiry&body=${encodeURIComponent(
         body
       )}`;
@@ -106,7 +111,7 @@ export default function Advertise() {
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg" maw={880} mx="auto">
       <Stack gap="md">
-        <Title order={2}>
+        <Title order={1}>
           {t('advertise.title', 'Advertise with Chatforia')}
         </Title>
 
@@ -241,7 +246,7 @@ export default function Advertise() {
             )}
           </Alert>
         ) : (
-          <Card withBorder radius="lg" p="md">
+          <Card component="form" onSubmit={submit} withBorder radius="lg" p="md">
             <Stack gap="sm">
               <Group grow wrap="wrap">
                 <TextInput
@@ -345,7 +350,7 @@ export default function Advertise() {
                   </Group>
                 </Anchor>
 
-                <Button loading={submitting} onClick={submit}>
+                <Button type="submit" loading={submitting} radius="xl" disabled={!contact.name.trim() || !contact.email.trim() || !contact.message.trim()}>
                   {t('advertise.form.sendCta', 'Send inquiry')}
                 </Button>
               </Group>
