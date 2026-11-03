@@ -31,8 +31,6 @@ export default function Safety() {
         <li>{t("safety.prohibited.spam", "Spam or deceptive practices")}</li>
       </ul>
 
-      <p>{t("safety.filterScopeAudit20261103", "The explicit-content preference controls profanity filtering in supported messaging features. It does not override these guidelines or permit prohibited content. Filtering is not a guarantee that every harmful message will be detected.")}</p>
-
       <h2>{t("safety.toolsTitle", "User Safety Tools")}</h2>
       <ul>
         <li>{t("safety.tools.report", "Report inappropriate behavior or content")}</li>
