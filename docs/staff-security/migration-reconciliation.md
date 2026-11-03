@@ -132,17 +132,18 @@ fully correct current state would leave that provenance gap. A later migration
 could also have repaired an earlier omission.
 
 **Recommended decision:** keep deployment at **NO-GO** and commission a
-separately reviewed reconciliation dossier. The DBA reviewer should validate
+separately reviewed reconciliation dossier. A database reviewer should validate
 the ledger and schema lineage, design approved aggregate/independent-source
 data comparisons for each migration, and identify any forward-only repair.
-The security reviewer should assess authorization, token secrecy, audit
-continuity, privilege boundaries and residual historical risk. Both review
-the exact evidence, assumptions, abort conditions and proposed release gate.
+Security review should assess authorization, token secrecy, audit
+continuity, privilege boundaries and residual historical risk. The review
+should cover the exact evidence, assumptions, abort conditions and proposed
+release gate.
 One person qualified in both disciplines may provide a combined technical
 review if independent of the preparer/operator and organizational policy
 permits it; that remains **one** independent approval, not two-person control.
-For this exceptional history discrepancy, obtain distinct DBA and security
-signoffs before requesting an exception decision.
+Distinct DBA and security signoffs were my recommendation, not a project-policy
+or user-imposed requirement. The release owner decides the reviewer model.
 
 The existing strict preflight still rejects the four ledger hashes. Without
 checksum-matching original SQL, the conditional pinned-artifact route below
@@ -151,6 +152,44 @@ gate. Any alternate release mechanism or explicit risk acceptance would be a
 new, separately approved change to the release policy; it must not be described
 as historical equivalence or slipped into the current preflight. No checksum
 rewrite, `migrate resolve`, fabricated SQL or silent waiver is proposed.
+
+### One proposed preflight change for owner decision (not implemented)
+
+Create a versioned, code-reviewed
+`server/security/staffMigrationReconciliation.v1.json` manifest for this **one
+verified target**. It pins the 141 active baseline migration names, the four
+recorded ledger checksums and their differing available-file checksums, the
+other 137 matching file checksums, the three known rolled-back attempts, the
+target database/endpoint identity, and digests of the catalog and bounded-data
+evidence. Label each mismatch `original_sql_unavailable`; never claim SQL
+equivalence. Keep the current migration files and every target
+`_prisma_migrations` row unchanged. Retain a sanitized, hashed read-only ledger
+export and the review/owner decision with the release artifact.
+
+Refactor `assertPreMigrationHistory` to default to its existing exact-hash
+rule. A new explicit `STAFF_MIGRATION_RECONCILIATION_ID` value, pinned to that
+manifest and target,
+would allow **only** those four exact recorded-hash/current-file-hash pairs
+after verifying the whole active ledger, known rolled-back rows, target
+identity, current file bytes and the reviewed pre-migration catalog/data
+predicates. Missing, extra, unfinished, newly rolled-back, changed or fifth
+mismatch remains a hard failure. An unrecognized ID or another database remains
+on the original strict path. No generic `ignore checksum` switch is allowed.
+
+For this and later releases, a read-only pre-deploy check must compare every
+already-applied migration with its release-file hash, except those same four
+explicit pairs. After `migrate deploy`, a separate executor-side check must
+verify the exact expected ordered active migration set and SHA-256 checksums of
+all newly applied files. Future migrations get no exception. The exception ID
+and evidence stay visible in every affected release until a separate decision
+retires them. Exercise the proposed check against an isolated PostgreSQL 18
+copy with the four recorded hashes, plus negative cases, before considering
+production use. This is a **deliberate revision of preflight acceptance**,
+not proof of the missing SQL and not an authorized production change.
+
+The release owner would have to accept residual uncertainty about historical
+data transformations, missing/rotated token values and unobserved past
+financial or audit effects; current invariants cannot close those gaps.
 
 For each migration, the reviewer would need the following further evidence:
 
@@ -175,8 +214,9 @@ release. The isolated PG18 reconstruction uses **available** SQL and tests only
 its compatibility and current catalog equivalence. Because the matching bytes
 have not been recovered, this conditional route is currently unusable.
 
-**If trusted original bytes are recovered:** an independent DBA and security
-reviewer verify all four recorded SHA-256 values, provenance and full SQL deltas.
+**If trusted original bytes are recovered:** a reviewer or reviewers covering
+database and security concerns verify all four recorded SHA-256 values,
+provenance and full SQL deltas.
 In fresh isolated PG18, apply the original 141-file baseline and compare schema
 and approved aggregate invariants to the target. If compatible, prepare a pinned
 release artifact containing those reviewed historical bytes for the four already-

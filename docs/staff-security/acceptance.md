@@ -31,7 +31,7 @@ checks can pass vacuously on empty tables and do not establish historical DML
 or provider/payment reconciliation. Without checksum-matching original SQL,
 the conditional pinned-artifact route cannot satisfy strict preflight. The
 reviewed [reconciliation route](migration-reconciliation.md) remains NO-GO
-pending independent DBA/security review and a separately authorized resolution;
+pending owner decision on the proposed target-bound preflight change;
 no target migration record or preflight condition was changed.
 
 Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
