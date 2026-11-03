@@ -34,7 +34,8 @@ Commands for new evidence:
 
 Private summaries: `/tmp/chatforia-staff-offline-auth-report.json` and
 `/tmp/chatforia-staff-older-snapshot-report.json`. The latter names the private
-artifact directory and records that traffic was never reopened. Artifacts contain
+artifact directory and distinguishes controlled loopback reopening from
+production access, which remains closed. Artifacts contain
 only synthetic data. The containment sequence is a test, not a production restore
 tool: it accepts no existing connection/archive and cannot be pointed at a live DB.
 
