@@ -216,7 +216,7 @@ export default function AuthLayout() {
   ];
   if (readingPaths.includes(pathname.replace(/\/$/, '').toLowerCase())) {
     return (
-      <div id="top" className="auth-page public-page flex flex-col min-h-screen">
+      <div id="top" className="auth-page public-page flex flex-col" style={{ height: '100dvh', overflowY: 'auto', overflowX: 'hidden' }}>
         <main className="flex-1 auth-main-container">
           <Container size="lg">
             <Group justify="space-between" align="center" wrap="nowrap">
