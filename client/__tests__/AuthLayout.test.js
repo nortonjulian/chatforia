@@ -133,6 +133,7 @@ const renderAt = (path) =>
     <MemoryRouter initialEntries={[path]}>
       <Routes>
         <Route element={<AuthLayout />}>
+          <Route path="*" element={<div data-testid="outlet">Reading content</div>} />
           <Route index element={<div data-testid="outlet">Index Outlet</div>} />
           <Route path="/login" element={<div data-testid="outlet">Login Outlet</div>} />
         </Route>
@@ -201,5 +202,19 @@ describe('AuthLayout', () => {
     expect(qr.getAttribute('src')).toContain(
       encodeURIComponent('https://go.chatforia.com/app')
     );
+  });
+});
+
+
+describe('Legal reading pages', () => {
+  test.each([
+    '/privacy', '/legal/terms', '/refund-policy', '/legal/sms',
+    '/legal/open-source', '/legal/do-not-sell', '/legal/cookies',
+  ])('%s renders content without the marketing panel', (path) => {
+    renderAt(path);
+    expect(screen.getByTestId('outlet')).toHaveTextContent('Reading content');
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /create free account/i })).not.toBeInTheDocument();
+    expect(document.querySelector('.public-page')).toHaveStyle({ overflowY: 'auto', height: '100dvh' });
   });
 });
