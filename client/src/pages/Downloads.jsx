@@ -6,7 +6,7 @@ const APP_ANDROID = 'https://go.chatforia.com/android';
 export default function Downloads() {
   return (
     <Container size="md" py="xl">
-      <Title order={2} mb="md">Get the app</Title>
+      <Title order={1} mb="md">Get the app</Title>
       <Text c="dimmed" mb="lg">Use the same account on web and mobile. Your messages stay in sync.</Text>
 
       <Paper withBorder p="lg" radius="lg">
@@ -17,10 +17,10 @@ export default function Downloads() {
           </Group>
           <Group gap="sm">
             <Anchor href={APP_IOS} target="_blank" rel="noopener">
-              <Image src="/badges/app-store-badge.png" h={56} alt="Download on the App Store" />
+              <Image src="/badges/AppStore.svg" h={56} alt="Download on the App Store" />
             </Anchor>
             <Anchor href={APP_ANDROID} target="_blank" rel="noopener">
-              <Image src="/badges/google-play-badge.png" h={56} alt="Get it on Google Play" />
+              <Image src="/badges/GooglePlay.svg" h={56} alt="Get it on Google Play" />
             </Anchor>
           </Group>
         </Group>
