@@ -7,8 +7,8 @@ export default function TermsOfService() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2}>
+    <Container size="md" py="xl">
+      <Title order={1}>
         {t('terms.title', 'Terms of Service')}
       </Title>
 
@@ -23,7 +23,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.accounts.title', 'Accounts')}
       </Title>
       <List>
@@ -41,7 +41,7 @@ export default function TermsOfService() {
         </List.Item>
       </List>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.acceptableUse.title', 'Acceptable use')}
       </Title>
       <List>
@@ -59,7 +59,7 @@ export default function TermsOfService() {
         </List.Item>
       </List>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.sms.title', 'SMS communications')}
       </Title>
       <Text mb="md">
@@ -69,7 +69,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.yourContent.title', 'Your content')}
       </Title>
       <Text>
@@ -79,7 +79,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.disclaimer.title', 'Disclaimers & liability')}
       </Title>
       <Text>
@@ -89,7 +89,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.changes.title', 'Changes')}
       </Title>
       <Text>
@@ -99,12 +99,12 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.contact.title', 'Contact')}
       </Title>
       <Text>
         {t(
-          'terms.contact.body',
+          'terms.contact.registeredAddress',
           'support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA'
         )}
       </Text>
