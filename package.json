@@ -25,7 +25,9 @@
     "postinstall": "npm run -w server prisma:generate || true",
     "test:staff-security": "node server/scripts/run-staff-security-qa.mjs",
     "verify:staff-release": "node server/scripts/verify-staff-release.mjs",
-    "lint:staff-security": "eslint server/security server/scripts/*staff*.mjs server/routes/staff.js client/src/pages/StaffDashboard.jsx client/src/pages/__tests__/StaffDashboard.test.jsx --max-warnings=0",
+    "lint:staff-security": "eslint server/security server/routes/staff.js server/routes/adminUserDetails.js server/routes/adminUsersReadOnly.js server/scripts/*staff*.mjs client/src/pages/StaffDashboard.jsx client/src/pages/UsersAdminPage.jsx client/src/components/admin client/src/pages/__tests__/StaffDashboard.test.jsx --max-warnings=0",
+    "test:staff-unit": "node server/scripts/test-staff-unit.mjs",
+    "qa:staff-local": "node server/scripts/staff-local-rehearsal.mjs",
     "audit:staff-lint": "node server/scripts/audit-staff-lint.mjs"
   },
   "devDependencies": {
