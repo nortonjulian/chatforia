@@ -207,9 +207,11 @@ export default function AuthLayout() {
     pathname.startsWith('/reset-password') || pathname.startsWith('/forgot-password');
   const PUBLIC_PRICING_ROUTE = '/pricing';
 
-  // Company, Support and Downloads pages share the approved reading layout.
-  // Keep auth, pricing and legal pages on their existing layouts.
+  // Public informational pages share the approved reading layout.
+  // Keep authentication, pricing and consent flows on their existing layouts.
   const readingPaths = [
+    '/privacy', '/legal/terms', '/refund-policy', '/legal/sms',
+    '/legal/open-source', '/legal/do-not-sell', '/legal/cookies',
     '/about', '/how-it-works', '/blog', '/careers', '/press', '/advertise',
     '/guides/getting-started', '/help', '/safety', '/contact', '/download',
     '/blog/chat-safely-online', '/blog/global-communication', '/blog/why-messaging-matters',
