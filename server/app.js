@@ -19,6 +19,7 @@ import authMiddleware from './middleware/auth.js';
 import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
 import {
   createCorsForbiddenError,
+  appAllowedOrigins,
 } from './middleware/cors.js';
 import { csp } from './middleware/csp.js';
 import { buildCsrf, setCsrfCookie, csrfOnlyForCookieAuth } from './middleware/csrf.js';
@@ -183,13 +184,7 @@ export function createApp() {
   /* Early security */
   app.use(httpsRedirect());
 
-  const allowedOrigins = [
-    'https://chatforia.com',
-    'https://www.chatforia.com',
-    'https://api.chatforia.com',
-    'http://localhost:5173',
-    'https://appleid.apple.com',
-  ];
+  const allowedOrigins = appAllowedOrigins({ isProd });
 
   function normalizeOrigin(origin) {
     if (!origin) return origin;

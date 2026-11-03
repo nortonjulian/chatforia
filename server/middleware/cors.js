@@ -3,14 +3,27 @@ import cors from 'cors';
 function parseList(v) {
   return (v || '')
     .split(',')
-    .map(s => s.trim())
+    .map((s) => s.trim())
     .filter(Boolean);
 }
 
+// The server-rendered MFA page posts from the local API origin, not Vite.
+// Production origins remain unchanged; never reflect arbitrary request origins.
+export function appAllowedOrigins({
+  isProd = process.env.NODE_ENV === 'production',
+} = {}) {
+  return [
+    'https://chatforia.com',
+    'https://www.chatforia.com',
+    'https://api.chatforia.com',
+    'http://localhost:5173',
+    'https://appleid.apple.com',
+    ...(!isProd ? ['http://localhost:5002'] : []),
+  ];
+}
+
 export function createCorsForbiddenError() {
-  const error = new Error(
-    'Not allowed by CORS'
-  );
+  const error = new Error('Not allowed by CORS');
 
   error.status = 403;
   error.statusCode = 403;

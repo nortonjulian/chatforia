@@ -9,6 +9,7 @@ const tests = readdirSync('server/security/__tests__')
   .map((name) => `security/__tests__/${name}`);
 tests.push(
   'middleware/__tests__/auth.test.js',
+  'middleware/__tests__/cors.test.js',
   '__tests__/passwordReset.serviceAtomicity.test.js',
   '__tests__/mfaLogin.test.js',
   '__tests__/auth.sessionMfaClaim.test.js'
