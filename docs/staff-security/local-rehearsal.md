@@ -140,3 +140,31 @@ SET authority; runtime/recovery roles retained their restrictions. PostgreSQL 16
 would not revoke the executor membership without dependent-grant handling; no
 CASCADE was used. Actual DigitalOcean role/extension and backup/key compatibility
 remain the staging proposal's explicit preflight, not a local certification.
+
+## Zero-cost missing-evidence follow-up
+
+The original 26-check baseline was not repeated. New commands:
+
+- `node server/scripts/staff-offline-auth-qa.mjs`: 53/53 tests, five previously
+  unrun offline suites. Mocked OAuth providers/Redis/database clients; no real
+  accounts or callbacks.
+- `node server/scripts/staff-older-snapshot-qa.mjs`: five checks against two new
+  private clusters, including the subprocess `staff-full-auth-probe.mjs` with
+  a sanitized environment, no developer dotenv file and loopback-only HTTP.
+  Actual app factory password/TOTP/cookie staff access/admin denial passed;
+  test-mode Redis and dummy payment setup do not certify hosted integrations.
+
+The snapshot precedes revocation, assertion consumption and credential recovery.
+The offline target demonstrably resurrects a stale session and staff grant,
+forgets assertion consumption and lacks newer audit records. JWT/assertion-key
+rotation, version increments, revocation of all restored staff assignments and
+expiry of restored approvals deny old sessions/signatures/approvals. Expected
+signature/approval rejection reasons are asserted. New MFA/token writes pass
+with rotated keys; no restored service listener or traffic reopening occurs.
+
+Private reports are `/tmp/chatforia-staff-offline-auth-report.json` and
+`/tmp/chatforia-staff-older-snapshot-report.json`; the latter names the private
+synthetic dump/audit-evidence directory. Both clusters stop. Recovery/reopening
+still requires authoritative post-backup audit/security reconciliation and human
+approval; the test does not implement or certify that process. No existing
+infrastructure was accessed and no spending/provisioning occurred.

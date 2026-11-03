@@ -169,10 +169,30 @@ operation requiring explicit approval and a verified backup; it must account for
 post-backup sessions, approvals, assertions and audit events. No automatic down
 migration, table drop, token-version decrease or production restore is provided.
 
-## Exact staging/manual checks still required
+## Remaining verification gates and zero-cost boundary
 
-These checks require a separately authorized staging environment and synthetic
-data. No staging or production changes are authorized by this document.
+The owner has explicitly declined spending and paid provisioning. Additional
+cloud budget is $0. No existing infrastructure access is authorized. See the
+revised [zero-cost plan](staging-proposal.md) for which checks are local, human
+assisted or provider-specific; they do not all inherently require a paid staging
+environment. The eight gates below remain release gates, with these new local
+subchecks completed:
+
+- Additional offline OAuth/MFA/state/token/reset/serialization suites: 53/53 pass,
+  mocked provider/Redis/database clients and no actual provider requests.
+- Real application factory HTTP password/TOTP/cookie-session staff access and
+  admin denial: passed against a new synthetic runtime DB, loopback listener and
+  sanitized environment. Redis/provider configuration is test-only; this is not
+  a full browser-shell or production HTTPS check.
+- Five new older-snapshot/full-app checks pass in fresh local clusters. The
+  older restore deliberately revives old session/grant and replay capability;
+  fenced key rotation, version increments, restored-staff revocation and approval
+  expiry deny stale credentials. New MFA/token writes pass after rotation.
+  External synthetic audits are preserved, but complete reconciliation and
+  reopening are not certified. Both clusters stop. This does not waive provider
+  backup/PITR or incident-owner approval.
+
+No staging or production changes are authorized by this document.
 
 1. **Full application routing and sign-in:** exercise `/admin/users` and `/staff`
    through the real application shell, UserContext bootstrap, password/TOTP,
@@ -215,9 +235,10 @@ data. No staging or production changes are authorized by this document.
 7. **Older snapshots and post-backup security changes:** explicitly rehearse
    traffic fencing, token/assertion-key rotation or equivalent invalidation, and
    reconciliation of post-backup revocations/consumed approvals before reopening
-   traffic. The local backup already contained the tested revocations; it did not
-   certify restoring an older snapshot that could otherwise revive old sessions
-   or lose newer audit/replay records. Do not reopen a restored service until the
+   traffic. The earlier exact-snapshot backup contained the tested revocations.
+   The new offline older-snapshot test reproduces the resurrection hazard and
+   proves fenced invalidation, but does not certify managed-service restore,
+   full post-backup audit/state reconciliation or reopening. Do not reopen until the
    chosen time-point security policy is proved and approved.
 8. **Operations and rollback:** assign the DBA, recovery operators, canary cohort,
    incident owner and alert routes. Verify auth failures, direct denials, replay
@@ -246,14 +267,21 @@ the production client build passed. Later documentation-only revisions still
 require their own PR check result; this evidence is pinned to the tested source.
 Root lint remains separately red; a passing selected workflow does not waive it.
 
-Next: obtain explicit approval for the concrete isolated resources, budget,
-domain and named operators in [staging-proposal.md](staging-proposal.md). That
-proposal creates separate web/API Droplets, a new managed database and a separate
-restore target, uses synthetic data and completes all eight gates above. It does
-not reuse or access production resources. No resources have been provisioned.
+The previously proposed paid staging resources are withdrawn. The current
+[zero-cost plan](staging-proposal.md) uses only the workstation and installed
+software. No production Droplet or database was accessed, no cloud resource was
+provisioned and no cost was authorized. Existing dedicated non-production
+resources could be considered only after a separately approved read-only
+inventory proves isolation and no incremental charges. A second database on
+chatforia-db or a container on a production Droplet is not assumed safe.
+
+Actual managed-role/extension, managed-backup/PITR and hosted-topology gates remain
+pending. Without an already-paid, genuinely dedicated sandbox, those need a
+separate normally billable environment and cannot proceed under the $0 boundary.
+Human browser/device, OAuth sandbox, recovery identity and secret-store checks
+may be free but require participation/access; no permission for them is inferred.
 Require security/DB review and resolve repository lint ownership before any
-production release decision. Staging approval never authorizes a merge or
-production migration/deployment/rollout.
+production release decision. PR #293 remains draft; no merge or deployment.
 
 ## Approval record to complete later
 

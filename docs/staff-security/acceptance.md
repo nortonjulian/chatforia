@@ -132,6 +132,38 @@ observability/rollout checks remain explicit staging/manual gates in
 [release-plan.md](release-plan.md). None of those environments was deployed or
 accessed. Rollout remains on HOLD.
 
+## Zero-additional-cost follow-up
+
+QA-only commit `4df06df8` adds the missing local checks below.
+The owner declined paid provisioning/spending. The paid staging proposal is
+superseded by [staging-proposal.md](staging-proposal.md), with $0 additional cloud
+budget and no existing infrastructure access. Production resources were untouched.
+Already-passing 269/20/26 suites were not rerun without a source change.
+
+New missing evidence completed locally: **53/53** offline OAuth callback/state,
+web/mobile MFA enforcement, token signature/issuer/audience/nonce, reset-token
+atomicity and serialization tests. Providers/Redis/database clients are mocked;
+URLs fail closed at unreachable loopback port 1.
+
+**Five** new synthetic older-snapshot/full-app checks pass: actual app-factory
+password/TOTP/cookie staff access and admin denial; snapshot before real security
+changes; explicit offline resurrection/replay hazard; fenced key/session/grant/
+approval invalidation; rotated-key readiness and fresh MFA/token writes. Source
+HTTP binds loopback; restored traffic is never reopened. Both new clusters stop.
+External synthetic audits are retained; this is containment evidence, not a
+complete production reconciliation/reopening procedure. No existing databases or
+paid integrations are used. Reports: `/tmp/chatforia-staff-offline-auth-report.json`
+and `/tmp/chatforia-staff-older-snapshot-report.json`.
+
+Full browser-shell/UserContext, real OAuth console, Safari/Firefox/device,
+independent-human recovery, actual secret-store and operational checks remain
+human/access gates and need not inherently cost money. Actual DigitalOcean
+managed-role/extension, provider backup/PITR and hosted proxy/network gates remain
+unverified: no dedicated zero-cost provider sandbox has been identified. A new
+logical database on production chatforia-db is explicitly not sufficient isolation.
+No paid fallback is authorized. New QA scripts pass targeted lint; no application
+security implementation or migration changes were made for this follow-up.
+
 ## Initial delivery record — historical
 
 The following original results describe the earlier delivery and are not claims
