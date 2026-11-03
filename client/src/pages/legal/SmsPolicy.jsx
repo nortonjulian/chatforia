@@ -10,7 +10,7 @@ export default function SmsPolicy() {
       style={{
         maxWidth: 900,
         margin: '0 auto',
-        padding: '100px 20px 40px',
+        padding: '32px 20px 40px',
         fontFamily: 'Inter, system-ui, sans-serif',
       }}
     >
