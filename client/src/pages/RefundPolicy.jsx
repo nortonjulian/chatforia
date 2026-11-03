@@ -7,8 +7,8 @@ export default function RefundPolicy() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2}>
+    <Container size="md" py="xl">
+      <Title order={1}>
         {t('refund.title', 'Refund Policy')}
       </Title>
 
@@ -23,7 +23,7 @@ export default function RefundPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('refund.subscriptions.title', 'Subscriptions')}
       </Title>
       <Text mb="md">
@@ -33,7 +33,7 @@ export default function RefundPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('refund.eligibility.title', 'Refund Eligibility')}
       </Title>
       <Text mb="md">
@@ -43,7 +43,7 @@ export default function RefundPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('refund.nonRefundable.title', 'Non-Refundable')}
       </Title>
       <Text mb="md">
@@ -53,7 +53,7 @@ export default function RefundPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('refund.thirdParty.title', 'Third-Party Purchases')}
       </Title>
       <Text mb="md">
@@ -63,7 +63,7 @@ export default function RefundPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('refund.contact.title', 'Contact')}
       </Title>
       <Text>
