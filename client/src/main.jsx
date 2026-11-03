@@ -1,3 +1,4 @@
+import { readPrivacy, subscribePrivacy } from '@/privacy/preferences';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
@@ -46,29 +47,27 @@ window.addEventListener('unhandledrejection', (e) => {
 
 /* ---------------- Sentry (prod only) ---------------- */
 const isProd = import.meta.env.PROD;
+const startedWithAnalytics = readPrivacy().analytics;
+subscribePrivacy(() => {
+  // Unload active performance instrumentation on cross-tab withdrawal or GPC.
+  if (startedWithAnalytics && !readPrivacy().analytics) window.location.reload();
+});
 
 if (isProd && import.meta.env.VITE_SENTRY_DSN) {
   (async () => {
     try {
-      const integrations = [Sentry.browserTracingIntegration()];
+      const integrations = readPrivacy().analytics ? [Sentry.browserTracingIntegration()] : [];
 
-      if (import.meta.env.VITE_SENTRY_REPLAY === 'true') {
-        try {
-          const { replayIntegration } = await import('@sentry/replay');
-          integrations.push(replayIntegration());
-        } catch {
-          console.warn('[sentry] @sentry/replay not installed; continuing without it');
-        }
-      }
+      // Session replay stays disabled on messaging/account screens.
 
       Sentry.init({
         dsn: import.meta.env.VITE_SENTRY_DSN,
         environment: import.meta.env.MODE,
         release: import.meta.env.VITE_COMMIT_SHA,
         integrations,
-        tracesSampleRate: Number(import.meta.env.VITE_SENTRY_TRACES_RATE ?? 0.15),
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
+        tracesSampleRate: readPrivacy().analytics ? Number(import.meta.env.VITE_SENTRY_TRACES_RATE ?? 0.15) : 0,
+        replaysSessionSampleRate: 0,
+        replaysOnErrorSampleRate: 0,
       });
     } catch (err) {
       console.error('[sentry.init] failed', err);
@@ -76,8 +75,8 @@ if (isProd && import.meta.env.VITE_SENTRY_DSN) {
   })();
 }
 
-console.log('ALL ENV:', import.meta.env);
-console.log('POSTHOG KEY:', import.meta.env.VITE_POSTHOG_KEY);
+
+
 
 /* ---------------- Mantine theme ---------------- */
 const theme = createTheme({
