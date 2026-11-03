@@ -4,6 +4,19 @@ Status: HOLD. Local engineering and isolated QA only. No staging or production
 migration, deployment, operator provisioning, staff grant, push, or rollout has
 been authorized or performed as part of this work.
 
+## Completed local follow-up
+
+The follow-up passes 269 server unit/API tests, 20 UI component tests, 15 real
+Chrome browser checks and six cross-cluster restore/security checks (23 rehearsal
+checks including two source/setup checks). Both fresh clusters stopped; no
+existing database or production dataset was used. Successful restored MFA and new
+token writes were included. See `acceptance.md`, `lint-investigation.md` and
+`local-rehearsal.md`. These results do not enable rollout or waive the gates below.
+
+Root lint still fails with 384 errors and 2,609 warnings; the same-rule comparison
+finds no branch-introduced findings. Remaining source/configuration debt needs
+separate repository ownership before claiming a green full CI gate.
+
 ## Release contents
 
 The existing checkpoint supplies protected founder identity, staff delegation,
@@ -95,8 +108,8 @@ exact replacement value encoded as UTF-8, and expiry into
 from a different login. Do not put token, replacement value or database credentials
 on a command line or in tickets. Approval expires within ten minutes and is
 single-use. Review the recovery event and incremented token version, then verify
-old sessions, challenges and reset links fail. No operator procedure was executed
-outside rollback-only QA during this project.
+old sessions, challenges and reset links fail. Operator procedures were exercised only with synthetic identities in rollback-only
+QA and newly created disposable clusters, never in staging or production.
 
 ## Canary plan (prepared, not started)
 
@@ -146,14 +159,100 @@ operation requiring explicit approval and a verified backup; it must account for
 post-backup sessions, approvals, assertions and audit events. No automatic down
 migration, table drop, token-version decrease or production restore is provided.
 
+## Exact staging/manual checks still required
+
+These checks require a separately authorized staging environment and synthetic
+data. No staging or production changes are authorized by this document.
+
+1. **Full application routing and sign-in:** exercise `/admin/users` and `/staff`
+   through the real application shell, UserContext bootstrap, password/TOTP,
+   backup-code and configured OAuth entry points. The local harness mounted real
+   components/APIs directly with synthetic signed session cookies. Verify a
+   signed-out visitor and a non-MFA or stale session cannot display protected
+   content; a genuine current session opens only its authorized controls.
+2. **View/Edit through the hosted app:** View the selected current user; Edit and
+   save only the four allowed preferences; cancel without a write; provoke invalid
+   values, a stale-value conflict and session loss while the form is open. Verify
+   refreshed committed values and exactly one audit per actual successful change.
+   Attempt credential/role/identity fields and protected current/former staff,
+   founder, system and administrator targets; expect rejection and no mutation.
+   Confirm legacy `/role`, `/flags`, `/ban`, `/unban` and delete handlers remain
+   unmounted under the Users API.
+3. **Actual HTTPS hosting boundary:** validate Secure/HttpOnly/SameSite/domain
+   cookies, proxy settings and the site's real API origin/CORS allowlist. Correct
+   browser CSRF headers must work; missing/wrong CSRF and cookie-plus-Bearer bypass
+   must fail. The local browser used same-origin loopback HTTP, not the hosted
+   multi-origin topology.
+4. **Cross-engine and keyboard/mobile behavior:** repeat View/Edit, native-dialog
+   close/cancel/focus, validation, profile selection and session-loss flows in
+   Firefox on a supported renderer host and Safari/WebKit, including a real mobile
+   viewport/device. Installed local Firefox failed before page creation; Chrome
+   desktop and a 390×844 viewport passed. No Firefox sandbox bypass was used; Chrome used standard Playwright launch settings.
+5. **Managed PostgreSQL and operator boundary:** verify the actual supported
+   extension/version, owner/NOLOGIN roles, runtime memberships/ACLs/trigger status,
+   migration hashes, explicit canary IDs, and startup rejection of key mismatch
+   or privilege drift. Confirm issuer/executor logins are independent and neither
+   overlaps the runtime/security owner. Rehearse recovery with approved identity
+   verification, expiry, replay denial, session invalidation and atomic audit.
+6. **Backup/key recovery and security time point:** restore a synthetic managed
+   staging backup into a new empty target, including role-grantor provenance,
+   ownership, ACLs, sequences, audit and replay state. Recover encryption/signing
+   keys through the actual secret-manager procedure and prove positive MFA plus
+   stale-session/replay denial. Record measured RPO/RTO, restore time point,
+   snapshot consistency and retention evidence. The local exact-snapshot fixture
+   took 1,464 ms for target initialization/restore/verification; it is not a
+   capacity or operational timing guarantee.
+7. **Older snapshots and post-backup security changes:** explicitly rehearse
+   traffic fencing, token/assertion-key rotation or equivalent invalidation, and
+   reconciliation of post-backup revocations/consumed approvals before reopening
+   traffic. The local backup already contained the tested revocations; it did not
+   certify restoring an older snapshot that could otherwise revive old sessions
+   or lose newer audit/replay records. Do not reopen a restored service until the
+   chosen time-point security policy is proved and approved.
+8. **Operations and rollback:** assign the DBA, recovery operators, canary cohort,
+   incident owner and alert routes. Verify auth failures, direct denials, replay
+   and audit-failure alerts reach the approved operator channel without secrets.
+   Measure baseline latency/error rates, rehearse the dashboard-only kill switch
+   and a compatible application rollback, then observe the staffed canary window
+   against the stop criteria above. Deployment and rollout require separate
+   explicit approvals; elapsed time never grants approval.
+
+## Proposed publication and staging sequence — approval required
+
+No command in this section has been executed. After explicit approval to publish:
+
+1. Confirm `git status --short --branch`, review `git diff origin/main...HEAD`
+   and select the reviewed release SHA. Verify the configured `origin` destination
+   privately before publishing; do not print credential-bearing remote URLs.
+2. Push only this branch:
+   `git push -u origin feature/staff-access-rbac-20261102`.
+3. Open a review PR, without merging:
+   `gh pr create --base main --head feature/staff-access-rbac-20261102 --title "Protect staff access and administer permitted user details" --body-file /tmp/staff-security-pr-body.md`.
+   Prepare that body from the acceptance results, four migration hashes, known
+   root-lint failure and all remaining release gates before running the command.
+4. Inspect PR checks with `gh pr checks`; require security/DB review and resolve
+   repository lint through its owners. Do not bypass or weaken required checks.
+5. Obtain separate staging approval identifying the exact SHA, new synthetic
+   database, roles, keys, backup target and operators. Initialize an empty staging
+   target with the approved schema/migration procedure; do not run a generic
+   migrate command against an unspecified database. Record identity and manifest
+   checksums before any authorized write.
+6. Deploy only the approved SHA to that staging environment, initially with the
+   dashboard disabled and compatible security/schema/key provisioning complete.
+   Run every numbered staging/manual gate above, then the approved synthetic
+   canary and backup/restore/rollback rehearsals. Attach evidence to the PR.
+7. Request a separate production decision only after required CI/review and all
+   staging gates pass. Neither publication nor staging approval authorizes a
+   merge, production migration, deployment or rollout.
+
 ## Approval record to complete later
 
-| Field                                               | Status                         |
-| --------------------------------------------------- | ------------------------------ |
-| Reviewed revision and migration hashes              | Pending reviewer selection     |
-| Target database/environment                         | Pending explicit authorization |
-| DBA and independent recovery operators              | Pending assignment             |
-| Restore rehearsal evidence and recovery time        | Pending staging rehearsal      |
-| Canary identities, observation owner, alert routing | Pending assignment             |
-| Production deployment approval                      | NOT GRANTED                    |
-| Controlled rollout start approval                   | NOT GRANTED                    |
+| Field                                               | Status                                                |
+| --------------------------------------------------- | ----------------------------------------------------- |
+| Reviewed revision and migration hashes              | Pending reviewer selection                            |
+| Target database/environment                         | Pending explicit authorization                        |
+| DBA and independent recovery operators              | Pending assignment                                    |
+| Restore rehearsal evidence and recovery time        | Local synthetic pass; managed staging/RPO/RTO pending |
+| Canary identities, observation owner, alert routing | Pending assignment                                    |
+| Production deployment approval                      | NOT GRANTED                                           |
+| Controlled rollout start approval                   | NOT GRANTED                                           |
