@@ -52,7 +52,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 jest.mock('@/ads/placements', () => ({
-  PLACEMENTS: {},
+  PLACEMENT_CONFIG: { sidebar_primary: { sizes: [[300, 250]] }, internal_promo: { houseOnly: true, sizes: [[320, 50]] } },
 }));
 
 function renderPage() {
@@ -132,3 +132,10 @@ describe('Advertise inquiry submission', () => {
     expect(mockToastOk).not.toHaveBeenCalled();
   });
 });
+
+ test('shows configured public ad sizes and excludes house-only inventory', () => {
+  renderPage();
+  expect(screen.getByText('sidebar primary')).toBeInTheDocument();
+  expect(screen.getByText('300x250')).toBeInTheDocument();
+  expect(screen.queryByText('internal promo')).not.toBeInTheDocument();
+ });
