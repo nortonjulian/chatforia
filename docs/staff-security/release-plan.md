@@ -237,8 +237,9 @@ No staging or production changes are authorized by this document.
    reconciliation of post-backup revocations/consumed approvals before reopening
    traffic. The earlier exact-snapshot backup contained the tested revocations.
    The new offline older-snapshot test reproduces the resurrection hazard and
-   proves fenced invalidation, but does not certify managed-service restore,
-   full post-backup audit/state reconciliation or reopening. Do not reopen until the
+   now proves authenticated reconciliation and controlled loopback reopening.
+   Actual managed-service restore, authoritative production journal completeness
+   and public ingress fencing remain unverified. Do not reopen a real service until the
    chosen time-point security policy is proved and approved.
 8. **Operations and rollback:** assign the DBA, recovery operators, canary cohort,
    incident owner and alert routes. Verify auth failures, direct denials, replay
@@ -247,6 +248,28 @@ No staging or production changes are authorized by this document.
    and a compatible application rollback, then observe the staffed canary window
    against the stop criteria above. Deployment and rollout require separate
    explicit approvals; elapsed time never grants approval.
+
+## Older-snapshot local reopening gate — completed
+
+The new local rehearsal supersedes the earlier containment-only result above:
+10/10 checks pass through authenticated reconciliation and controlled loopback
+reopening. See [older-snapshot-recovery.md](older-snapshot-recovery.md).
+The gate verifies actual imported event/replay/approval records, full audit
+payload/provenance mappings, exact authorized active grants, source-based session
+version floors and independently audited fresh password/MFA recovery for every
+protected fixture identity, including founder. Audit-write failure rolls back
+reconciliation; repeating a committed batch does not duplicate or regress state.
+Old credentials/replays remain denied after access opens, while the recovered
+account can use only its reconciled profile after new MFA. The revoked staff
+account still has no staff access. Only loopback test traffic was opened; both
+fresh clusters stopped afterward.
+
+For a real incident, reopening still requires an authentic complete post-backup
+record through a fenced cutover, independently held trust keys, actual human
+reverification and the provider's tested restore/network/secret-store procedure.
+If no complete authoritative journal/source survives, that is the exact missing
+prerequisite: do not fabricate history or reopen with snapshot grants/credentials.
+All such provider/access gates remain pending under the $0 boundary.
 
 ## Publication and next approval boundary
 

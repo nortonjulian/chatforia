@@ -18,14 +18,14 @@ passwords and provider identities are generated locally; no production credentia
 or dotenv files are supplied to the full-app probe. Existing passing suites are
 retained as evidence instead of rerun without a change.
 
-| Missing check                                                                                    | Zero-cost local evidence / remaining boundary                                                                                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Web/mobile OAuth MFA gates, callback state, issuer/audience/signature/nonce and replay rejection | Additional offline suites: 53/53 pass using mocked providers/Redis/database clients and locally generated signing keys. No real provider account called.                                                                                                                                                           |
-| Real application factory password/TOTP/cookie-session staff routing                              | New synthetic full-app HTTP probe; real routes and runtime DB, test-mode Redis and dummy payment config. This is not a production-hosting or full browser-shell certification.                                                                                                                                     |
-| Older-snapshot revocation/approval/audit loss                                                    | New source and restore clusters deliberately snapshot BEFORE security changes. The test reproduces revived session/staff access and forgotten assertion consumption offline.                                                                                                                                       |
-| Containment after that older restore                                                             | Rotate JWT/assertion keys, increment session versions, revoke restored staff assignments, expire restored approvals, append containment audit and retain external synthetic audit evidence. Test readiness and new MFA/token writes. Traffic remains fenced; no reopening or complete reconciliation is certified. |
-| View/Edit save/cancel/validation/denial, keyboard, stale conflict; exact-snapshot restore        | Already passed 26-check rehearsal; not rerun for this documentation change.                                                                                                                                                                                                                                        |
-| Non-superuser executor migration/owner boundary                                                  | Already passed 159 migrations in fresh local PostgreSQL; not a DigitalOcean certification.                                                                                                                                                                                                                         |
+| Missing check                                                                                    | Zero-cost local evidence / remaining boundary                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Web/mobile OAuth MFA gates, callback state, issuer/audience/signature/nonce and replay rejection | Additional offline suites: 53/53 pass using mocked providers/Redis/database clients and locally generated signing keys. No real provider account called.                                                                                                                                                                                                  |
+| Real application factory password/TOTP/cookie-session staff routing                              | New synthetic full-app HTTP probe; real routes and runtime DB, test-mode Redis and dummy payment config. This is not a production-hosting or full browser-shell certification.                                                                                                                                                                            |
+| Older-snapshot revocation/approval/audit loss                                                    | New source and restore clusters deliberately snapshot BEFORE security changes. The test reproduces revived session/staff access and forgotten assertion consumption offline.                                                                                                                                                                              |
+| Reconciliation and controlled local reopening                                                    | Signed complete source evidence, atomic/idempotent replay/history/authority import, audit lineage and source-based version floors; fresh independent password/MFA recovery for every protected fixture identity. Only then, loopback HTTP proves old credential denial and legitimate least-privilege access. Provider/public ingress remains unverified. |
+| View/Edit save/cancel/validation/denial, keyboard, stale conflict; exact-snapshot restore        | Already passed 26-check rehearsal; not rerun for this documentation change.                                                                                                                                                                                                                                                                               |
+| Non-superuser executor migration/owner boundary                                                  | Already passed 159 migrations in fresh local PostgreSQL; not a DigitalOcean certification.                                                                                                                                                                                                                                                                |
 
 Commands for new evidence:
 
@@ -37,6 +37,21 @@ Private summaries: `/tmp/chatforia-staff-offline-auth-report.json` and
 artifact directory and records that traffic was never reopened. Artifacts contain
 only synthetic data. The containment sequence is a test, not a production restore
 tool: it accepts no existing connection/archive and cannot be pointed at a live DB.
+
+## Completed local reconciliation follow-up
+
+The older containment-only scenario is now extended through reconciliation and
+controlled reopening: **10/10** checks pass. Signed complete evidence from a
+fenced source restores current authority/replay/history; source/target audit-ID
+collisions preserve both records with explicit provenance. Actual missing or
+altered records, unapproved grants, audit failure and incomplete recovery block
+the gate. Every protected fixture account, including founder, receives fresh
+independent password/MFA recovery. Real loopback HTTP then denies revoked
+credentials and permits the legitimate recovered account only within its profile.
+No public/production access opens, and both clusters stop. See
+[older-snapshot-recovery.md](older-snapshot-recovery.md). This supersedes the
+earlier containment-only result; provider gates
+and the $0 spending boundary are unchanged.
 
 ## Zero-cost checks still needing human participation
 
@@ -72,8 +87,8 @@ real alert delivery or a hosted compatible rollback.
 
 These remain **pending**. The exact manifest and application security restrictions
 must stay intact; a provider incompatibility is not grounds for broader runtime
-privileges, trigger bypass or removing prerequisites. The local old-snapshot
-containment pass does not waive managed-service restore or reopening gates.
+privileges, trigger bypass or removing prerequisites. The local old-snapshot reconciliation/reopening pass does not waive
+managed-service restore, secret custody, human verification or live ingress gates.
 
 ## Can existing infrastructure provide isolation without more spending?
 

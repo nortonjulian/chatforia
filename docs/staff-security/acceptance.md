@@ -164,6 +164,39 @@ logical database on production chatforia-db is explicitly not sufficient isolati
 No paid fallback is authorized. New QA scripts pass targeted lint; no application
 security implementation or migration changes were made for this follow-up.
 
+## Completed local older-snapshot reconciliation
+
+Implementation/regression commit: `5b4205c0` (QA/CI only).
+
+The earlier containment-only limit is superseded for the synthetic local case.
+The extended older-snapshot rehearsal passes **10/10 checks**, including signed
+complete post-backup evidence, atomic/idempotent import, preserved source/target
+audit-ID collision lineage, replay/approval state, and current grants/revocations.
+Session floors are above the source's post-backup versions, not just the older
+snapshot's values. Tampered/incomplete evidence, missing actual replay/approval
+rows, unapproved active grants, changed audit payloads and partial credential
+recovery all block reopening. A real not-null failure in the mandatory audit
+rolls back imported records, authority, version floors and the private QA ledger.
+
+All protected fixture identities, including the founder, receive new password
+and MFA through fresh independent issuer/executor approvals before the local
+gate opens. Real loopback HTTP denies snapshot passwords, the superseded
+post-backup password, old TOTP, backup codes and old sessions. Legitimately
+recovered ACCESS_ADMIN access succeeds only after new MFA and stays within its
+profile; revoked staff remains denied even with a current ordinary MFA session.
+A consumed assertion resigned with a current key/current actor version is still
+rejected, so the revoked grant cannot be revived by replay.
+
+The current report records `trafficReopened: true` for the controlled loopback
+probe only, `productionAccessReopened: false`, and both clusters stopped.
+Local artifacts: `/private/tmp/chatforia-staff-rehearsal-yDED6b`; report remains
+`/tmp/chatforia-staff-older-snapshot-report.json`. Detailed prerequisites and
+instructions: [older-snapshot-recovery.md](older-snapshot-recovery.md).
+Actual provider recovery, secret-store custody and human identity verification
+remain pending; no spending, production access or deployment is authorized.
+The reconciliation/ledger/gate code is QA-only and creates no application route,
+runtime grant or production migration. The four security SQL hashes are unchanged.
+
 ## Initial delivery record — historical
 
 The following original results describe the earlier delivery and are not claims

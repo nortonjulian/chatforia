@@ -168,3 +168,29 @@ synthetic dump/audit-evidence directory. Both clusters stop. Recovery/reopening
 still requires authoritative post-backup audit/security reconciliation and human
 approval; the test does not implement or certify that process. No existing
 infrastructure was accessed and no spending/provisioning occurred.
+
+## Reconciliation through controlled local reopening (supersedes containment-only)
+
+The same fresh-cluster command now passes 10 checks, with no caller-supplied URL
+or archive. It signs a complete repeatable-read post-backup security export after
+stopping the source. The fixture-only reconciliation ledger preserves signed
+original payloads, remaps colliding audit IDs by appending records, imports replay
+state and current authority, and raises session floors above source values.
+A mandatory audit DB failure rolls back rows, authority and floors. Reapplying the
+same batch is idempotent. Reopening checks actual records; removing replay or
+approval data, adding a grant or changing an audit payload blocks it.
+
+All protected identities, including founder, complete fresh independent PASSWORD
+and MFA_REPLACE recovery. The gate rejects partial recovery; old backup codes and
+challenges are invalidated. A consumed assertion resigned with the new key and
+current actor version remains denied. Only after the signed local gate and audit
+exist does the real app bind a loopback listener: old passwords/TOTP/backup codes/
+sessions fail, recovered ACCESS_ADMIN with new MFA gets its approved access and
+revoked staff remains denied. No production ingress opens.
+
+Report: `/tmp/chatforia-staff-older-snapshot-report.json`; final local artifacts
+`/private/tmp/chatforia-staff-rehearsal-yDED6b`; both clusters stopped. The ten-check
+result replaces the earlier five-check containment-only limit. New instructions
+and remaining provider/human prerequisites are in `older-snapshot-recovery.md`.
+CI now runs this scenario in fresh native PostgreSQL 16 clusters, separate from
+its disposable migration service. No security migration or runtime grant changed.
