@@ -1,6 +1,12 @@
+import { ScrollArea } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 import axiosClient from '../api/axiosClient';
+import { DashboardButton } from '../components/admin/DashboardButton.jsx';
+import {
+  displayValue,
+  dashboardError,
+} from '../components/admin/dashboardFormatting.js';
 import UserDetailsDialog from '../components/admin/UserDetailsDialog.jsx';
 
 const views = [
@@ -36,10 +42,13 @@ export default function StaffDashboard() {
           )?.[0] || ''
         );
       })
-      .catch(() => {
+      .catch((failure) => {
         if (live)
           setError(
-            'Staff access requires a current MFA-verified session. Sign in again or contact your access administrator.'
+            dashboardError(
+              failure,
+              'Staff access requires a current MFA-verified session. Sign in again or contact your access administrator.'
+            )
           );
       });
     return () => {
@@ -58,10 +67,15 @@ export default function StaffDashboard() {
           setError('');
         }
       })
-      .catch(() => {
+      .catch((failure) => {
         if (live) {
           setSession(null);
-          setError('Staff access is unavailable. Refresh and sign in again.');
+          setError(
+            dashboardError(
+              failure,
+              'Staff access is unavailable. Try again later.'
+            )
+          );
         }
       });
     return () => {
@@ -81,9 +95,12 @@ export default function StaffDashboard() {
         `Access ${action === 'grant' ? 'updated' : 'revoked'} for user ${target}. Existing sessions were invalidated when access changed.`
       );
       setReason('');
-    } catch {
+    } catch (failure) {
       setError(
-        'Access change failed. Refresh to verify your session, target and delegated scope before retrying.'
+        dashboardError(
+          failure,
+          'Access change failed. Refresh to verify the target and delegated scope before retrying.'
+        )
       );
     } finally {
       setBusy(false);
@@ -105,45 +122,56 @@ export default function StaffDashboard() {
           : 'Report was already resolved or is unavailable.'
       );
       setReason('');
-    } catch {
+    } catch (failure) {
       setError(
-        'Report could not be resolved. Refresh and verify your session before retrying.'
+        dashboardError(
+          failure,
+          'Report could not be resolved. Refresh before retrying.'
+        )
       );
     } finally {
       setBusy(false);
     }
   }
   return (
-    <main style={{ padding: '1.5rem', maxWidth: 1100, margin: 'auto' }}>
+    <main className="cf-dashboard">
       <h1>Staff dashboard</h1>
-      {viewedUser && <UserDetailsDialog userId={viewedUser} apiBase="/staff/users" onClose={() => setViewedUser(null)} />}
+      {viewedUser && (
+        <UserDetailsDialog
+          userId={viewedUser}
+          apiBase="/staff/users"
+          onClose={() => setViewedUser(null)}
+        />
+      )}
       {error && <p role="alert">{error}</p>}
       {!session && !error && <p role="status">Checking staff access…</p>}
       {session && (
         <>
           <p>Signed in as {session.profile.replaceAll('_', ' ')}</p>
-          <nav aria-label="Staff sections">
+          <nav aria-label="Staff sections" className="cf-dashboard-actions">
             {views
               .filter(([, , permission]) =>
                 session.permissions.includes(permission)
               )
               .map(([key, label]) => (
-                <button
+                <DashboardButton
                   key={key}
                   onClick={() => {
                     setView(key);
                     setPage(0);
                   }}
+                  primary={view === key}
                   aria-pressed={view === key}
                 >
                   {label}
-                </button>
+                </DashboardButton>
               ))}
           </nav>
           {message && <p role="status">{message}</p>}
           {view === 'assignments' &&
             session.permissions.includes('staff.assign') && (
               <form
+                className="cf-dashboard-form"
                 onSubmit={(event) => {
                   event.preventDefault();
                   changeAccess('grant');
@@ -185,21 +213,21 @@ export default function StaffDashboard() {
                     onChange={(event) => setReason(event.target.value)}
                   />
                 </label>
-                <button disabled={busy} type="submit">
+                <DashboardButton primary disabled={busy} type="submit">
                   Grant or change access
-                </button>
-                <button
+                </DashboardButton>
+                <DashboardButton
                   disabled={busy || !target || reason.trim().length < 5}
                   type="button"
                   onClick={() => changeAccess('revoke')}
                 >
                   Revoke access
-                </button>
+                </DashboardButton>
               </form>
             )}
           {view === 'reports' &&
             session.permissions.includes('reports.resolve') && (
-              <form onSubmit={resolveReport}>
+              <form className="cf-dashboard-form" onSubmit={resolveReport}>
                 <h2>Resolve report</h2>
                 <label>
                   Report ID{' '}
@@ -222,17 +250,20 @@ export default function StaffDashboard() {
                     onChange={(event) => setReason(event.target.value)}
                   />
                 </label>
-                <button disabled={busy} type="submit">
+                <DashboardButton primary disabled={busy} type="submit">
                   Resolve report
-                </button>
+                </DashboardButton>
               </form>
             )}
           {!result ? (
             <p role="status">Loading…</p>
           ) : (
             <>
-              <div style={{ overflowX: 'auto' }}>
-                <table>
+              <ScrollArea
+                className="cf-dashboard-table-scroll"
+                viewportProps={{ tabIndex: 0, 'aria-label': 'Staff records' }}
+              >
+                <table className="cf-dashboard-table">
                   <caption>
                     {views.find(([key]) => key === view)?.[1]} — {result.total}{' '}
                     records
@@ -241,7 +272,15 @@ export default function StaffDashboard() {
                     <tr>
                       {Object.keys(result.items[0] || {}).map((key) => (
                         <th key={key} scope="col">
-                          {key.replace(/([a-z])([A-Z])/g, '$1 $2')}
+                          {key === 'id'
+                            ? 'ID'
+                            : key === 'isBanned'
+                              ? 'Banned'
+                              : key
+                                  .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                  .replace(/^./, (character) =>
+                                    character.toUpperCase()
+                                  )}
                         </th>
                       ))}
                       {view === 'users' && <th scope="col">Actions</th>}
@@ -251,26 +290,37 @@ export default function StaffDashboard() {
                     {result.items.map((item) => (
                       <tr key={item.id}>
                         {Object.entries(item).map(([key, value]) => (
-                          <td key={key}>
-                            {value == null ? '—' : String(value)}
-                          </td>
+                          <td key={key}>{displayValue(key, value)}</td>
                         ))}
-                        {view === 'users' && <td><button onClick={() => setViewedUser(item.id)}>View</button></td>}
+                        {view === 'users' && (
+                          <td>
+                            <DashboardButton
+                              onClick={() => setViewedUser(item.id)}
+                            >
+                              View
+                            </DashboardButton>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
+              </ScrollArea>
               {!result.items.length && <p>No records.</p>}
-              <button disabled={page === 0} onClick={() => setPage(page - 1)}>
-                Previous
-              </button>
-              <button
-                disabled={(page + 1) * 25 >= result.total}
-                onClick={() => setPage(page + 1)}
-              >
-                Next
-              </button>
+              <div className="cf-dashboard-actions" aria-label="Pagination">
+                <DashboardButton
+                  disabled={page === 0}
+                  onClick={() => setPage(page - 1)}
+                >
+                  Previous
+                </DashboardButton>
+                <DashboardButton
+                  disabled={(page + 1) * 25 >= result.total}
+                  onClick={() => setPage(page + 1)}
+                >
+                  Next
+                </DashboardButton>
+              </div>
             </>
           )}
         </>

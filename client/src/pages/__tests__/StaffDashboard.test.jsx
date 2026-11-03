@@ -1,4 +1,10 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MantineProvider } from '@mantine/core';
+import {
+  render as rtlRender,
+  screen,
+  waitFor,
+  fireEvent,
+} from '@testing-library/react';
 
 import axiosClient from '../../api/axiosClient';
 import StaffDashboard from '../StaffDashboard';
@@ -156,3 +162,7 @@ test('session loss clears protected content and management controls', async () =
   expect(screen.queryByText('Private fixture')).not.toBeInTheDocument();
   expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
 });
+
+function render(ui) {
+  return rtlRender(<MantineProvider>{ui}</MantineProvider>);
+}

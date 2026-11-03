@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MantineProvider } from '@mantine/core';
+import {
+  fireEvent,
+  render as rtlRender,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
 import api from '../../../api/axiosClient';
 import UserDetailsDialog from '../UserDetailsDialog';
@@ -95,13 +101,15 @@ test('a save denial removes editable fields and does not refresh with unconfirme
   api.patch.mockRejectedValue({
     response: { status: 403, data: { error: 'Current session denied' } },
   });
-  const saved = jest.fn();
+  const saved = jest.fn(),
+    permissions = jest.fn();
   render(
     <UserDetailsDialog
       userId={2}
       mode="edit"
       onClose={jest.fn()}
       onSaved={saved}
+      onPermissions={permissions}
     />
   );
   await screen.findByLabelText('Display name');
@@ -110,10 +118,51 @@ test('a save denial removes editable fields and does not refresh with unconfirme
   });
   fireEvent.click(screen.getByRole('button', { name: 'Save changes' }));
   expect(await screen.findByRole('alert')).toHaveTextContent(
-    'Current session denied'
+    'You do not have permission'
   );
   expect(
     screen.queryByRole('button', { name: 'Save changes' })
   ).not.toBeInTheDocument();
   expect(saved).not.toHaveBeenCalled();
+  expect(permissions).toHaveBeenLastCalledWith(2, []);
+});
+
+function render(ui) {
+  return rtlRender(<MantineProvider>{ui}</MantineProvider>);
+}
+
+test('friendly values and no duplicate preference summaries in Edit', async () => {
+  const view = render(<UserDetailsDialog userId={2} onClose={jest.fn()} />);
+  expect(await screen.findByText('English')).toBeInTheDocument();
+  expect(screen.getByText('No')).toBeInTheDocument();
+  expect(screen.queryByText('true')).not.toBeInTheDocument();
+  view.unmount();
+  render(<UserDetailsDialog userId={2} mode="edit" onClose={jest.fn()} />);
+  await screen.findByLabelText('Display name');
+  expect(document.querySelector('dl').textContent).not.toContain(
+    'Display name'
+  );
+  expect(screen.getByLabelText('Display name')).toHaveValue('Current name');
+});
+test.each([
+  [401, {}, 'session has expired'],
+  [403, { reason: 'mfa_verification_required' }, 'MFA-verified session'],
+  [403, { error: 'Staff permission denied' }, 'do not have permission'],
+])('distinguishes auth failures (%s)', async (status, data, message) => {
+  api.get.mockRejectedValue({ response: { status, data } });
+  render(<UserDetailsDialog userId={2} onClose={jest.fn()} />);
+  expect(await screen.findByRole('alert')).toHaveTextContent(message);
+});
+
+test('View keeps forward and reverse tab navigation inside the dialog', async () => {
+  render(<UserDetailsDialog userId={2} onClose={jest.fn()} />);
+  const close = await screen.findByRole('button', {
+    name: 'Close',
+    exact: true,
+  });
+  close.focus();
+  fireEvent.keyDown(close, { key: 'Tab' });
+  expect(close).toHaveFocus();
+  fireEvent.keyDown(close, { key: 'Tab', shiftKey: true });
+  expect(close).toHaveFocus();
 });
