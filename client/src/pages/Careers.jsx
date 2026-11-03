@@ -55,7 +55,7 @@ export default function Careers() {
           <Title order={1}>{t('careers.title', 'Careers')}</Title>
           <Title order={2}>{copy('headline', 'Help build Chatforia')}</Title>
           <Text c="dimmed">
-            {copy('intro', 'Chatforia connects people across languages through messaging and calling on web, iOS, and Android. We’re a founder-led company building with care for privacy, security, and the people using our products.')}
+            {copy('intro', 'Chatforia connects people across languages through messaging and calling on web, iOS, and Android. We’re building with care for privacy, security, and the people using our products.')}
           </Text>
           <Text>
             {copy('status', 'We’re accepting résumés for future employment and contract opportunities. The areas below represent potential future needs, not current vacancies. Hiring will depend on business priorities, and timelines have not been set.')}
@@ -94,7 +94,7 @@ export default function Careers() {
         <Stack gap="sm">
           <Title order={2}>{copy('whyTitle', 'Why contribute to Chatforia?')}</Title>
           <List spacing="xs">
-            <List.Item>{copy('whyFounder', 'Work directly with the founder on meaningful product decisions.')}</List.Item>
+            <List.Item>{copy('whyCollaboration', 'Collaborate on meaningful product decisions that improve how people connect.')}</List.Item>
             <List.Item>{copy('whyOwnership', 'Own improvements across messaging, translation, voice, video, and connectivity.')}</List.Item>
             <List.Item>{copy('whyPractices', 'Help shape the product and how a small team works with AI responsibly.')}</List.Item>
           </List>
