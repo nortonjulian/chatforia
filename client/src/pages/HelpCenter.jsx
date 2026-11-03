@@ -73,8 +73,8 @@ export default function HelpCenter() {
           <Accordion.Panel>
             <Text>
               {t(
-                'helpCenter.faq.contact.a',
-                'Reach us at support@chatforia.com. Include screenshots and your app version.'
+                "helpCenter.faq.contact.aAudit20261103",
+          "Use Contact Us or email support@chatforia.com. Include your app version and a description of the issue. Remove private messages and personal information from screenshots where possible. Never send passwords, verification codes, or recovery keys."
               )}
             </Text>
           </Accordion.Panel>

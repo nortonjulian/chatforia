@@ -1,14 +1,14 @@
 import { Container, Title, Text, List } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
-const LAST_UPDATED = 'April 13, 2026';
+const LAST_UPDATED = 'November 3, 2026';
 
 export default function TermsOfService() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2}>
+    <Container size="md" py="xl">
+      <Title order={1}>
         {t('terms.title', 'Terms of Service')}
       </Title>
 
@@ -23,7 +23,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.accounts.title', 'Accounts')}
       </Title>
       <List>
@@ -41,7 +41,7 @@ export default function TermsOfService() {
         </List.Item>
       </List>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.acceptableUse.title', 'Acceptable use')}
       </Title>
       <List>
@@ -59,17 +59,17 @@ export default function TermsOfService() {
         </List.Item>
       </List>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.sms.title', 'SMS communications')}
       </Title>
       <Text mb="md">
         {t(
-          'terms.sms.body',
-          'If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app.'
+          "terms.sms.bodyAudit20261103",
+          "Where you opt in, Chatforia may send account-related SMS such as verification codes and notifications. Providing a phone number alone does not authorize promotional messages. Message frequency varies; message and data rates may apply. Reply STOP to the sending number to opt out, or HELP for assistance. In-app notification settings do not replace SMS opt-out. Users sending SMS/MMS through Chatforia must have the recipient consent required for their messages and respect opt-outs."
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.yourContent.title', 'Your content')}
       </Title>
       <Text>
@@ -79,7 +79,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.disclaimer.title', 'Disclaimers & liability')}
       </Title>
       <Text>
@@ -89,7 +89,7 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.changes.title', 'Changes')}
       </Title>
       <Text>
@@ -99,12 +99,12 @@ export default function TermsOfService() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('terms.contact.title', 'Contact')}
       </Title>
       <Text>
         {t(
-          'terms.contact.body',
+          'terms.contact.registeredAddress',
           'support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA'
         )}
       </Text>

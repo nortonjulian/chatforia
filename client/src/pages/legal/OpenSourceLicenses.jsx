@@ -82,8 +82,8 @@ export default function OpenSourceLicenses() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2} mb="sm">
+    <Container size="md" py="xl">
+      <Title order={1} mb="sm">
         {t("openSource.title", "Open Source Licenses")}
       </Title>
 
@@ -107,7 +107,7 @@ export default function OpenSourceLicenses() {
 
       {sections.map((section) => (
         <div key={section.title}>
-          <Title order={4} mt="lg" mb="xs">
+          <Title order={2} mt="lg" mb="xs">
             {section.title}
           </Title>
 
@@ -121,7 +121,7 @@ export default function OpenSourceLicenses() {
         </div>
       ))}
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         Contact
       </Title>
 

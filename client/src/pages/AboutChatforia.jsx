@@ -14,6 +14,8 @@ export default function AboutChatforia() {
         )}
       </p>
 
+      <p>{t("about.encryptionScopeAudit20261103", "Encryption depends on the communication method. SMS/MMS and calls to ordinary phone numbers are not end-to-end encrypted. Optional translation and AI features process the text submitted to them.")}</p>
+
       <div
         style={{
           marginTop: "1.5rem",

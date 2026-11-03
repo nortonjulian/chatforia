@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-const LAST_UPDATED = 'April 13, 2026';
+const LAST_UPDATED = 'November 3, 2026';
 
 export default function SmsPolicy() {
   const { t } = useTranslation();
@@ -10,7 +10,7 @@ export default function SmsPolicy() {
       style={{
         maxWidth: 900,
         margin: '0 auto',
-        padding: '100px 20px 40px',
+        padding: '32px 20px 40px',
         fontFamily: 'Inter, system-ui, sans-serif',
       }}
     >
@@ -25,8 +25,8 @@ export default function SmsPolicy() {
 
         <p>
           {t(
-            'smsPolicy.whatWeSend.body',
-            'Chatforia sends only account-related and conversational SMS to phone numbers a user has explicitly provided and consented to. Typical messages include login/verification codes, message delivery alerts, security notices, and transactional account updates.'
+            "smsPolicy.whatWeSend.bodyAudit20261103",
+          "Chatforia supports account-related SMS, such as verification codes and notifications, and user-to-user SMS/MMS. Account messages follow the applicable opt-in flow. Users sending messages through Chatforia must obtain required recipient consent and respect opt-outs. Message frequency varies. Message and data rates may apply."
           )}
         </p>
       </section>
@@ -52,15 +52,15 @@ export default function SmsPolicy() {
         <ul>
           <li>
             {t(
-              'smsPolicy.optOut.stop',
-              'Reply STOP to any Chatforia SMS to opt out.'
+              "smsPolicy.optOut.stopAudit20261103",
+          "Reply STOP to the sending number to opt out of that SMS conversation or program."
             )}
           </li>
 
           <li>
             {t(
-              'smsPolicy.optOut.start',
-              'Reply START to resubscribe.'
+              "smsPolicy.optOut.startAudit20261103",
+          "Reply START to the same number to resubscribe where supported."
             )}
           </li>
 
@@ -120,7 +120,8 @@ export default function SmsPolicy() {
           color: '#666',
         }}
       >
-        {t('smsPolicy.footer', '© 2026 Chatforia Inc.')}
+        {t("smsPolicy.footerAudit20261103",
+          "© 2026 Chatforia LLC.")}
       </footer>
     </main>
   );

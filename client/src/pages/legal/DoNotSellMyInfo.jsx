@@ -5,8 +5,8 @@ export default function DoNotSellMyInfo() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2}>
+    <Container size="md" py="xl">
+      <Title order={1}>
         {t(
           'doNotSell.title',
           'Do Not Sell or Share My Personal Information'
@@ -15,12 +15,13 @@ export default function DoNotSellMyInfo() {
 
       <Text c="dimmed" mb="md">
         {t(
-          'doNotSell.body',
-          'Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.'
+          "doNotSell.bodyAudit20261103",
+          "Use this page to request an opt-out of the sale or sharing of your personal information, including sharing for cross-context behavioral advertising where applicable. Advertising integrations may process identifiers and online activity. The button below opens your email app; send the message to submit your request. Clicking the button alone does not change advertising settings. You do not need a Chatforia account to email a request."
         )}
       </Text>
 
       <Button
+        radius="xl"
         component="a"
         href="mailto:privacy@chatforia.com?subject=CPRA%20Request"
       >
