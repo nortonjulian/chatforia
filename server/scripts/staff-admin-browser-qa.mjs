@@ -63,6 +63,29 @@ export async function adminBrowserQa({ pageFor, admin, pass }) {
   );
 
   await edit();
+  await dialog.getByLabel('Display name', { exact: true }).focus();
+  await page.keyboard.press('Tab');
+  await expect(
+    dialog.getByLabel('Preferred language', { exact: true })
+  ).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(
+    dialog.getByLabel('Display name', { exact: true })
+  ).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(
+    row.getByRole('button', { name: 'Edit', exact: true })
+  ).toBeFocused();
+  assert.equal(
+    (await admin.user.findUnique({ where: { id: 100 } })).displayName,
+    'Current user display'
+  );
+  pass(
+    'Chromium Users dialog keyboard navigation works, Escape cancels and returns focus to Edit'
+  );
+
+  await edit();
   await dialog
     .getByLabel('Preferred language', { exact: true })
     .fill('bad locale');
@@ -78,6 +101,43 @@ export async function adminBrowserQa({ pageFor, admin, pass }) {
   await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
   pass(
     'Chromium Users Edit displays server validation errors without changing the record'
+  );
+
+  await edit();
+  // Synthetic independent writer changes the preference tuple after form load.
+  await admin.user.update({
+    where: { id: 100 },
+    data: { preferredLanguage: 'fr' },
+  });
+  await dialog
+    .getByLabel('Display name', { exact: true })
+    .fill('Stale browser name');
+  await dialog
+    .getByLabel('Change reason', { exact: true })
+    .fill('Synthetic concurrent edit conflict');
+  await dialog.getByRole('button', { name: 'Save changes' }).click();
+  await expect(dialog.getByRole('alert')).toContainText('User values changed');
+  assert.equal(
+    (await admin.user.findUnique({ where: { id: 100 } })).preferredLanguage,
+    'fr'
+  );
+  assert.equal(
+    (await admin.user.findUnique({ where: { id: 100 } })).displayName,
+    'Current user display'
+  );
+  assert.equal(
+    await admin.auditLog.count({
+      where: { action: 'ADMIN_USER_PREFERENCES_UPDATED' },
+    }),
+    0
+  );
+  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await admin.user.update({
+    where: { id: 100 },
+    data: { preferredLanguage: 'en' },
+  });
+  pass(
+    'Chromium Users Edit rejects a concurrent preference change without overwrite or success audit'
   );
 
   await edit();

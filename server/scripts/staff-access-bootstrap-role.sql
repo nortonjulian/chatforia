@@ -19,14 +19,20 @@ BEGIN
 END
 $$;
 
-ALTER ROLE chatforia_staff_owner
-  NOLOGIN
-  NOINHERIT
-  NOSUPERUSER
-  NOCREATEDB
-  NOCREATEROLE
-  NOREPLICATION
-  NOBYPASSRLS;
+-- Fail closed on a pre-existing unsafe role rather than silently rewriting it.
+-- Even ALTER ROLE ... NOSUPERUSER requires a real superuser on PostgreSQL;
+-- managed-service administrators cannot execute that unnecessary normalization.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT FROM pg_roles WHERE rolname = 'chatforia_staff_owner'
+      AND NOT (rolcanlogin OR rolinherit OR rolsuper OR rolcreatedb
+        OR rolcreaterole OR rolreplication OR rolbypassrls)
+  ) THEN
+    RAISE EXCEPTION 'Existing staff security owner role is unsafe';
+  END IF;
+END
+$$;
 
 CREATE SCHEMA IF NOT EXISTS staff_security
   AUTHORIZATION chatforia_staff_owner;

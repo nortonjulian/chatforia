@@ -31,8 +31,16 @@ export default function UserDetailsDialog({
   const [busy, setBusy] = useState(false),
     [reload, setReload] = useState(0);
   useEffect(() => {
-    if (dialog.current.showModal) dialog.current.showModal();
-    else dialog.current.setAttribute('open', '');
+    const modal = dialog.current;
+    const opener = document.activeElement;
+    if (modal.showModal) modal.showModal();
+    else modal.setAttribute('open', '');
+    return () => {
+      if (modal.open && typeof modal.close === 'function') modal.close();
+      // React removes the dialog on save/cancel. Native removal alone does not
+      // restore focus as dialog.close() does; preserve the invoking control.
+      if (opener instanceof HTMLElement && opener.isConnected) opener.focus();
+    };
   }, []);
   useEffect(() => {
     let live = true;

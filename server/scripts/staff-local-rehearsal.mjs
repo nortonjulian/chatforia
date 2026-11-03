@@ -165,6 +165,56 @@ try {
   pass(
     'Fresh verified cluster contains only generated schema, restricted roles and synthetic fixtures'
   );
+  // Privilege drift must fail startup, including column and PUBLIC grants.
+  for (const [grant, revoke] of [
+    [
+      'GRANT SELECT (verification_secret) ON staff_security.assertion_secrets TO chatforia_dev',
+      'REVOKE SELECT (verification_secret) ON staff_security.assertion_secrets FROM chatforia_dev',
+    ],
+    [
+      'GRANT SELECT ON staff_security.assertion_secrets TO PUBLIC',
+      'REVOKE SELECT ON staff_security.assertion_secrets FROM PUBLIC',
+    ],
+    [
+      'GRANT INSERT (token_hash) ON staff_security.credential_recovery_approval TO chatforia_dev',
+      'REVOKE INSERT (token_hash) ON staff_security.credential_recovery_approval FROM chatforia_dev',
+    ],
+    [
+      'GRANT DELETE ON staff_security.consumed_assertions TO chatforia_dev',
+      'REVOKE DELETE ON staff_security.consumed_assertions FROM chatforia_dev',
+    ],
+    [
+      'GRANT UPDATE (expires_at) ON staff_security.mfa_login_assertions TO chatforia_dev',
+      'REVOKE UPDATE (expires_at) ON staff_security.mfa_login_assertions FROM chatforia_dev',
+    ],
+    [
+      'ALTER TABLE public."AuditLog" DISABLE TRIGGER protect_staff_audit_events_insert',
+      'ALTER TABLE public."AuditLog" ENABLE TRIGGER protect_staff_audit_events_insert',
+    ],
+    [
+      'ALTER TABLE public."User" DISABLE TRIGGER prevent_user_token_version_rollback',
+      'ALTER TABLE public."User" ENABLE TRIGGER prevent_user_token_version_rollback',
+    ],
+    [
+      'ALTER ROLE chatforia_recovery_issuer LOGIN',
+      'ALTER ROLE chatforia_recovery_issuer NOLOGIN',
+    ],
+    [
+      'ALTER ROLE chatforia_recovery_executor REPLICATION',
+      'ALTER ROLE chatforia_recovery_executor NOREPLICATION',
+    ],
+  ]) {
+    await admin.$executeRawUnsafe(grant);
+    try {
+      await assert.rejects(assertStaffRuntimeReady(runtime), /boundary/);
+    } finally {
+      await admin.$executeRawUnsafe(revoke);
+    }
+    await assertStaffRuntimeReady(runtime);
+  }
+  pass(
+    'Startup rejects private column/PUBLIC ACL drift, replay writes, unsafe recovery roles and disabled audit/session triggers'
+  );
   phase = 'Chromium dashboard QA';
   const { browserQa } = await import('./staff-browser-qa.mjs');
   try {

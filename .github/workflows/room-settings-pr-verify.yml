@@ -66,6 +66,12 @@ jobs:
       - name: Apply test-database migrations
         run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
 
+      - name: Verify staff security regressions and release boundaries
+        run: |
+          npm run test:staff-unit
+          npm run lint:staff-security
+          npm run verify:staff-release
+
       - name: Verify room routes, authorization, and real HTTP/DB behavior
         env:
           NODE_ENV: test

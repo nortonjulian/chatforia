@@ -29,7 +29,19 @@ export async function assertStaffRuntimeReady(db, env = process.env) {
   const rows = await db.$queryRaw`
     SELECT current_user = 'chatforia_dev'
       AND NOT EXISTS (SELECT FROM pg_roles WHERE rolname = current_user
-        AND (rolsuper OR rolcreaterole OR rolcreatedb OR rolbypassrls))
+        AND (rolsuper OR rolcreaterole OR rolcreatedb OR rolreplication OR rolbypassrls))
+      AND (SELECT count(*) = 3 FROM pg_roles
+        WHERE rolname IN ('chatforia_staff_owner', 'chatforia_recovery_issuer', 'chatforia_recovery_executor')
+          AND NOT (rolcanlogin OR rolsuper OR rolcreaterole OR rolcreatedb OR rolreplication OR rolbypassrls))
+      -- Include column grants and inherited/PUBLIC privileges, not just table ACLs.
+      AND NOT EXISTS (
+        SELECT FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE n.nspname = 'staff_security'
+          AND c.relname IN ('assertion_secrets', 'consumed_assertions',
+            'credential_recovery_approval', 'credential_recovery_event', 'mfa_login_assertions')
+          AND (has_any_column_privilege(current_user, c.oid, 'SELECT,INSERT,UPDATE,REFERENCES')
+            OR has_table_privilege(current_user, c.oid, 'DELETE,TRUNCATE,TRIGGER'))
+      )
       AND NOT has_schema_privilege(current_user, 'public', 'CREATE')
       AND NOT has_schema_privilege(current_user, 'staff_security', 'CREATE')
       AND NOT has_table_privilege(current_user, 'public."User"', 'TRUNCATE,TRIGGER')
@@ -51,10 +63,26 @@ export async function assertStaffRuntimeReady(db, env = process.env) {
       AND has_function_privilege(current_user, 'staff_security.mfa_login_write(text,text)', 'EXECUTE')
       AND has_function_privilege(current_user, 'staff_security.grant_or_change_staff_access(text,text)', 'EXECUTE')
       AND has_function_privilege(current_user, 'staff_security.revoke_staff_access(text,text)', 'EXECUTE')
-      AND (SELECT count(*) = 3 FROM pg_trigger WHERE NOT tgisinternal AND tgenabled = 'O'
-        AND tgname IN ('protect_staff_user_identity_insert','protect_staff_user_identity_update','protect_staff_user_identity_delete'))
-      AND (SELECT count(*) = 3 FROM pg_trigger WHERE NOT tgisinternal AND tgenabled = 'O'
-        AND tgname = 'protect_privileged_auth_token_dml')
+      AND NOT EXISTS (
+        SELECT FROM (VALUES
+          ('User', 'protect_staff_user_identity_insert'),
+          ('User', 'protect_staff_user_identity_update'),
+          ('User', 'protect_staff_user_identity_delete'),
+          ('User', 'prevent_user_token_version_rollback'),
+          ('PasswordResetToken', 'protect_privileged_auth_token_dml'),
+          ('VerificationToken', 'protect_privileged_auth_token_dml'),
+          ('TwoFactorRecoveryCode', 'protect_privileged_auth_token_dml'),
+          ('AuditLog', 'protect_staff_audit_events_insert')
+        ) AS required(table_name, trigger_name)
+        WHERE NOT EXISTS (
+          SELECT FROM pg_trigger t
+          JOIN pg_class c ON c.oid = t.tgrelid
+          JOIN pg_namespace n ON n.oid = c.relnamespace
+          WHERE n.nspname = 'public' AND c.relname = required.table_name
+            AND t.tgname = required.trigger_name
+            AND NOT t.tgisinternal AND t.tgenabled = 'O'
+        )
+      )
       AND NOT EXISTS (SELECT FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
         WHERE n.nspname IN ('public','staff_security') AND c.relowner = (SELECT oid FROM pg_roles WHERE rolname=current_user))
       AS ready
