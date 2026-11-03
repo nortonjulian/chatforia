@@ -207,8 +207,14 @@ export default function AuthLayout() {
     pathname.startsWith('/reset-password') || pathname.startsWith('/forgot-password');
   const PUBLIC_PRICING_ROUTE = '/pricing';
 
-  // Careers uses a reading layout; other public/auth pages keep their existing grid.
-  if (/^\/careers\/?$/i.test(pathname)) {
+  // Company, Support and Downloads pages share the approved reading layout.
+  // Keep auth, pricing and legal pages on their existing layouts.
+  const readingPaths = [
+    '/about', '/how-it-works', '/blog', '/careers', '/press', '/advertise',
+    '/guides/getting-started', '/help', '/safety', '/contact', '/download',
+    '/blog/chat-safely-online', '/blog/global-communication', '/blog/why-messaging-matters',
+  ];
+  if (readingPaths.includes(pathname.replace(/\/$/, '').toLowerCase())) {
     return (
       <div id="top" className="auth-page public-page flex flex-col min-h-screen">
         <main className="flex-1 auth-main-container">
