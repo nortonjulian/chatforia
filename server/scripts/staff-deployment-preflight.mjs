@@ -12,7 +12,7 @@ class PreflightError extends Error {}
 export async function assertDeploymentPrerequisites(db) {
   const [checks] = await db.$queryRaw`
     SELECT
-      current_setting('server_version_num')::integer / 10000 = 16 AS "reviewedPostgresVersion",
+      current_setting('server_version_num')::integer / 10000 IN (16, 18) AS "reviewedPostgresVersion",
       current_user NOT IN ('chatforia_dev', 'chatforia_staff_owner',
         'chatforia_recovery_issuer', 'chatforia_recovery_executor') AS "separateExecutor",
       (SELECT count(*) = 3 FROM pg_roles WHERE rolname IN

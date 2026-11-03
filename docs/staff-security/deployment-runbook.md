@@ -63,8 +63,10 @@ PostgreSQL version, TLS CA and verified-host policy, database/schema/table owner
 role graph (including SET membership), installed pgcrypto namespace/owner,
 migration ledger, all app/job instances, proxy/cookie topology and deployment
 automation. Supply metadata only, no URLs with passwords, keys or user records.
-The local verifier supports the tested PostgreSQL 16 baseline; another version
-or migration history is a review/isolated rehearsal gate, not an override switch.
+The local verifier supports tested PostgreSQL 16 and 18 baselines; another major
+version or migration history is a review/isolated rehearsal gate, not an override
+switch. The owner reports chatforia-db is PG18; the PG18.3 populated local upgrade
+now passes, while target-specific role/extension verification remains pending.
 
 Require a recoverable pre-change snapshot plus logical database export and
 password-free role/ownership/grantor metadata, with encrypted restricted custody,

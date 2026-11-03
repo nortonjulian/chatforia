@@ -2,6 +2,25 @@
 
 ## Deployment-readiness checkpoint — 2026-11-03
 
+Read-only infrastructure inspection is now authorized. The
+[initial inspection](infrastructure-inspection.md) verifies public edge TLS,
+redirects and observed API security headers/CSRF-cookie attributes. No Droplet or
+database connection has yet been established: verified SSH host/user mapping
+and DigitalOcean account visibility remain access prerequisites. Deployment
+remains NO-GO; no production mutation or additional browser QA was performed.
+
+Owner-reported console evidence now establishes PostgreSQL 18, primary-only SFO2,
+chatforia-api-01 as the sole Network Access entry, doadmin as the visible user,
+defaultdb plus two existing voicemail/wireless test databases, and seven-day
+latest-transaction/PITR options into a new cluster. Restore success and actual
+SQL role/ownership/pgcrypto configuration remain unverified. The test databases
+share production's role namespace; they are not isolated staging resources.
+A new fresh PostgreSQL 18.3 synthetic upgrade passes **11/11 checks**; the
+read-only preflight now explicitly supports tested majors 16 and 18. No security
+privilege checks or migration SQL were relaxed. See
+[console report](evidence/digitalocean-console-report.json) and
+[PG18 local evidence](evidence/postgres18-upgrade-local.json).
+
 **Local work complete; GO for review, NO-GO for deployment pending target evidence
 and approval.** [release-plan.md](release-plan.md) now provides the authoritative
 gate assessment; its scope supersedes the broader historical pending lists below.
@@ -29,8 +48,8 @@ containment configurations retain runtime readiness. See the sanitized
 No existing database, Droplet, production data or paid service was used. Actual
 provider role/backup capability, hosted boundary, independent human recovery/key
 custody and staffed rollout remain genuine execution gates. The smallest next
-step is redacted owner-supplied infrastructure metadata or explicit approval for
-read-only inventory, not paid provisioning or repeating completed local tests.
+step is the access information listed in the inspection record (read-only
+authorization is already granted), not paid provisioning or repeating local tests.
 
 Real Google web OAuth → Chatforia MFA → SUPPORT authorization/logout is now locally
 verified. See [Google result and exact remaining scope](google-oauth-local.md).

@@ -20,6 +20,7 @@ const cluster = await freshCluster('source');
 const database = 'chatforia_room_settings_test';
 const clients = [];
 const checks = [];
+let postgresVersion;
 const pass = (name) => {
   checks.push(name);
   console.log('PASS:', name);
@@ -102,6 +103,9 @@ try {
     CREATE DATABASE ${database} OWNER staff_migration_probe;`
   );
   const executor = client('staff_migration_probe');
+  const [engine] = await executor.$queryRaw`
+    SELECT current_setting('server_version') AS version`;
+  postgresVersion = engine.version;
   await assert.rejects(
     runPreflight(executor, env, '--before-migrations'),
     /prerequisites/
@@ -270,6 +274,7 @@ writeFileSync(
   JSON.stringify(
     {
       syntheticOnly: true,
+      postgresVersion,
       checks,
       total: checks.length,
       clusterStopped: true,
