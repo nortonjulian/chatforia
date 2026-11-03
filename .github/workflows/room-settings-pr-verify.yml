@@ -1,7 +1,7 @@
 name: Room Settings PR Verification
 
 # This workflow NEVER deploys. Production DigitalOcean deployment remains
-# restricted to the existing push-to-main deployment workflows.
+# restricted to the separate manual deployment workflows.
 on:
   pull_request:
     branches: [main, 'feature/group-ria-consent-gates-20261024']
@@ -53,6 +53,15 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      # Use only this job's newly created service container, never a host/URL
+      # supplied by repository secrets or an existing database.
+      - name: Bootstrap restricted staff roles in disposable PostgreSQL
+        env:
+          CI_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U chatforia -d chatforia_room_settings_test < server/scripts/staff-ci-bootstrap.sql
+          docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U chatforia -d chatforia_room_settings_test < server/scripts/staff-access-bootstrap-role.sql
 
       - name: Apply test-database migrations
         run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
