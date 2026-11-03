@@ -55,11 +55,10 @@ export async function verifyStaffApi(tx, pass) {
       .status(error.code === 'EBADCSRFTOKEN' ? 403 : 500)
       .json({ error: 'Request rejected' })
   );
-  const call = (method, path, auth = manager) =>
-    request(app)
-      [method](path)
-      .set('Authorization', `Bearer ${auth}`)
-      .timeout(5000);
+  const call = (method, path, auth = manager) => {
+    const test = request(app)[method](path);
+    return test.set('Authorization', `Bearer ${auth}`).timeout(5000);
+  };
 
   assert.equal((await request(app).get('/staff/session')).status, 401);
   assert.equal(

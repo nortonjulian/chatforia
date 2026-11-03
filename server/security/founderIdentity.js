@@ -1,4 +1,4 @@
-import prisma from '../utils/prismaClient.js';
+import database from '../utils/prismaClient.js';
 
 /**
  * Resolve the protected founder identity from the database.
@@ -7,7 +7,7 @@ import prisma from '../utils/prismaClient.js';
  * Staff Access must never infer founder identity from a
  * username, email, or client-supplied account attribute.
  */
-export async function getProtectedFounderUserId(db = prisma) {
+export async function getProtectedFounderUserId(db = database) {
   const ownership = await db.founderOwnership.findUnique({
     where: { id: 1 },
     select: {

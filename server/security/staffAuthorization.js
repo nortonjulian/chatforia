@@ -1,7 +1,6 @@
 import {
   createRequireStaffPermission,
 } from './requireStaffPermission.js';
-
 import {
   lookupStaffAssignment,
 } from './staffAssignmentLookup.js';

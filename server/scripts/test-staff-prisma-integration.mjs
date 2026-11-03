@@ -48,12 +48,6 @@ process.env.STAFF_ACCESS_SIGNING_SECRET = secret;
 
 class ExpectedRollback extends Error {}
 
-function requireFixture(user, assignment, version, profile) {
-  assert.equal(user?.tokenVersion, version);
-  assert.equal(assignment?.profile, profile);
-  assert.equal(assignment?.active, true);
-}
-
 async function state(db) {
   const [u16, u18, s16, s18, history, audits, registry] =
     await Promise.all([

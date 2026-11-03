@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+
 import {
   lockFounderIdentity,
 } from '../lockFounderIdentity.js';

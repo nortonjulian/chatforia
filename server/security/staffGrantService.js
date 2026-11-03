@@ -1,16 +1,16 @@
-import prisma from '../utils/prismaClient.js';
-
-import {
-  isRetryableTransactionConflict,
-} from './transactionConflicts.js';
-
-import {
-  authorizeStaffGrantChange,
-} from './staffManagementPreflight.js';
+import database from '../utils/prismaClient.js';
 
 import {
   createStaffAuthorizationAssertion,
 } from './staffAuthorizationAssertion.js';
+import {
+  authorizeStaffGrantChange,
+} from './staffManagementPreflight.js';
+import {
+  isRetryableTransactionConflict,
+} from './transactionConflicts.js';
+
+
 
 /**
  * Protected delegated staff grant/change/reactivation.
@@ -24,7 +24,7 @@ export async function grantOrChangeStaffAccess({
   targetProfile,
   authentication,
   reason,
-  db = prisma,
+  db = database,
 }) {
   if (
     typeof reason !== 'string' ||

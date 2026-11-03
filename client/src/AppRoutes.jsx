@@ -1,4 +1,3 @@
-import StaffDashboard from './pages/StaffDashboard.jsx';
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, Outlet, Link, useParams, useMatch, useLocation } from 'react-router-dom';
 import {
@@ -91,6 +90,7 @@ import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import SmsPolicy from '@/pages/legal/SmsPolicy.jsx';
 import OpenSourceLicenses from '@/pages/legal/OpenSourceLicenses.jsx';
 import SmsConsentPage from './pages/SmsConsentPage';
+
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 import AccountDeletion from '@/pages/legal/AccountDeletion.jsx';
@@ -124,6 +124,8 @@ import Video from '@/components/routes/Video.jsx';
 import EsimActivatePage from '@/pages/EsimActivatePage.jsx';
 
 import { pendingVoicemailReturn, rememberVoicemailReturn } from '@/utils/voicemailLink.js';
+
+import StaffDashboard from './pages/StaffDashboard.jsx';
 
 function VoicemailSignIn() {
   const location = useLocation();

@@ -1,7 +1,7 @@
 /** @jest-environment node */
 import { jest, test, expect } from '@jest/globals';
-import jwt from 'jsonwebtoken';
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import request from 'supertest';
 
 // The session issuer must not contact a real database.

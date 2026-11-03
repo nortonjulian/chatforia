@@ -1,7 +1,8 @@
-import { mfaLoginWrite } from '../security/mfaLoginWrite.js';
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import speakeasy from 'speakeasy';
+
+import { mfaLoginWrite } from '../security/mfaLoginWrite.js';
 import prisma from '../utils/prismaClient.js';
 import { open } from '../utils/secretBox.js';
 

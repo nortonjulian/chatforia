@@ -1,16 +1,16 @@
-import prisma from '../utils/prismaClient.js';
-
-import {
-  isRetryableTransactionConflict,
-} from './transactionConflicts.js';
-
-import {
-  authorizeStaffRevocation,
-} from './staffRevocationPreflight.js';
+import database from '../utils/prismaClient.js';
 
 import {
   createStaffAuthorizationAssertion,
 } from './staffAuthorizationAssertion.js';
+import {
+  authorizeStaffRevocation,
+} from './staffRevocationPreflight.js';
+import {
+  isRetryableTransactionConflict,
+} from './transactionConflicts.js';
+
+
 
 /**
  * Protected delegated staff revocation.
@@ -24,7 +24,7 @@ export async function revokeStaffAccess({
   targetUserId,
   authentication,
   reason,
-  db = prisma,
+  db = database,
 }) {
   if (
     typeof reason !== 'string' ||

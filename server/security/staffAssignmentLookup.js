@@ -1,4 +1,5 @@
-import prisma from '../utils/prismaClient.js';
+import database from '../utils/prismaClient.js';
+
 import {
   isKnownStaffProfile,
 } from './staffPermissions.js';
@@ -11,7 +12,7 @@ import {
  */
 export async function lookupStaffAssignment(
   userId,
-  db = prisma
+  db = database
 ) {
   if (
     !Number.isSafeInteger(userId) ||

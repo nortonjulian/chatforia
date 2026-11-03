@@ -1,5 +1,6 @@
-import { jest, beforeEach, afterAll, describe, test, expect } from '@jest/globals';
 import { fileURLToPath } from 'node:url';
+
+import { jest, beforeEach, afterAll, describe, test, expect } from '@jest/globals';
 
 const preflightPath = fileURLToPath(
   new URL('../staffRevocationPreflight.js', import.meta.url)

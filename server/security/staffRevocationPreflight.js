@@ -1,18 +1,15 @@
 import {
   lockFounderIdentity,
 } from './lockFounderIdentity.js';
-
-import {
-  lockStaffManagementUsers,
-} from './staffTransactionLocks.js';
-
 import {
   isEligibleStaffActor,
 } from './staffAccountEligibility.js';
-
 import {
   canRevokeStaffProfile,
 } from './staffDelegation.js';
+import {
+  lockStaffManagementUsers,
+} from './staffTransactionLocks.js';
 
 /**
  * Authorize delegated staff revocation inside a transaction.

@@ -1,19 +1,16 @@
 import {
   lockFounderIdentity,
 } from './lockFounderIdentity.js';
-
-import {
-  lockStaffManagementUsers,
-} from './staffTransactionLocks.js';
-
 import {
   isEligibleStaffActor,
   isEligibleStaffTarget,
 } from './staffAccountEligibility.js';
-
 import {
   canDelegateStaffProfile,
 } from './staffDelegation.js';
+import {
+  lockStaffManagementUsers,
+} from './staffTransactionLocks.js';
 
 /**
  * Authorize a staff grant/change within an existing transaction.
