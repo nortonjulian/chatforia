@@ -288,6 +288,26 @@ try {
   pass(
     'Restored roles, owners, ACLs, triggers, functions and signing-key match pass runtime readiness'
   );
+  const { createMfaChallenge, completeMfaChallenge } = await import(
+    '../services/mfaLogin.js'
+  );
+  const restoredUser = await restoredRuntime.user.findUnique({
+    where: { id: 17 },
+  });
+  const restoredChallenge = await createMfaChallenge(
+    restoredUser,
+    null,
+    restoredRuntime
+  );
+  const restoredLogin = await completeMfaChallenge(
+    restoredChallenge,
+    speakeasy.totp({ secret: process.env.STAFF_QA_TOTP, encoding: 'base32' }),
+    restoredRuntime
+  );
+  assert.equal(restoredLogin.ok, true);
+  pass(
+    'Restored protected MFA succeeds with retained external keys and fresh token/sequence writes'
+  );
   const { requireAuth } = await import('../middleware/auth.js');
   const { default: jwt } = await import('jsonwebtoken');
   async function authenticate(id, version) {
