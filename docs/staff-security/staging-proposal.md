@@ -65,9 +65,10 @@ These do not inherently need DigitalOcean or paid resources:
   edges outside the user-reported admin flows. Chrome keyboard/mobile-viewport
   evidence passes; earlier automated Firefox host failure does not negate the
   separately user-reported Firefox passes.
-- Real OAuth sandbox consent/redirect/MFA and operator identity-verification
-  exercises with independently controlled human identities. Offline mocks cannot
-  prove provider console configuration or a human verification process.
+- The local real Google web callback/MFA/SUPPORT/logout flow is now verified; see
+  `google-oauth-local.md`. Apple and untested provider/mobile flows remain pending,
+  as do operator identity-verification exercises with independent human identities.
+  Google success does not verify the operational recovery process.
 - Recovery through the organization's actual secret store and incident approval
   process, and review of how authoritative external post-backup audit/security
   records will be reconciled before any service is reopened.

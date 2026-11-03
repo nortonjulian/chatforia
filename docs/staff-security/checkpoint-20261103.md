@@ -3,6 +3,18 @@
 PR remains draft; release remains HOLD. No merge, deployment, production access,
 existing-database migration or spending is authorized.
 
+## Completed real Google web OAuth follow-up
+
+The real Google web callback → Chatforia MFA → SUPPORT access flow passed in a
+human browser against fresh isolated local PostgreSQL/Redis. The local observer
+independently records pre-MFA denial, post-MFA SUPPORT 200, ADMIN 403 and observed
+logout followed by staff/admin/session 401. The successful browser MFA request
+also has redacted pending-cookie/CSRF validation evidence. See
+[verified Google rehearsal and development CORS fix](google-oauth-local.md) and
+[sanitized evidence](evidence/google-oauth-local-20261103.json).
+This is real Google web verification, not mocked OAuth; it is not Apple/mobile,
+hosted HTTPS/proxy or DigitalOcean managed-service verification.
+
 ## Completed work and evidence
 
 - Protected authorization, MFA/credential recovery, session revocation, signed
@@ -52,8 +64,8 @@ are superseded for the six explicitly reported administrator flows only.
 - **Independent security/DB review and lint ownership:** root repository lint still
   has the documented baseline 384 errors / 2,609 warnings; prior comparison found
   zero introduced findings, and scoped staff lint passes. No rules were weakened.
-- **Real providers and human recovery:** actual Google/Apple sandbox consent,
-  redirects and MFA; independently controlled recovery identities and the actual
+- **Real providers and human recovery:** actual Apple sign-in and any provider/mobile/device flows outside the completed
+  Google web flow; independently controlled recovery identities and the actual
   secret store/approval process, including authoritative fenced post-backup
   security history. Offline OAuth mocks are not provider verification.
 - **Isolated hosted/provider staging:** DigitalOcean managed role/pgcrypto/ownership

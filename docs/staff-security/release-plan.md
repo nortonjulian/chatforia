@@ -1,5 +1,9 @@
 # Staff security release and controlled rollout preparation
 
+Real Google web OAuth → Chatforia MFA → SUPPORT authorization/logout is now locally
+verified. See [Google result and exact remaining scope](google-oauth-local.md).
+
+
 Current checkpoint: [2026-11-03 completed work, user-reported browser passes and remaining release gates](checkpoint-20261103.md). This supersedes older pending notes for the six reported Safari/Firefox admin flows.
 
 
