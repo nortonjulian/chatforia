@@ -86,8 +86,8 @@ export default function GettingStarted() {
         </List.Item>
         <List.Item>
           {t(
-            'gettingStarted.section2.item3',
-            'Try disappearing messages and read receipts in Profile → Privacy.'
+            'gettingStarted.section2.privacySettings',
+            'On the web, manage read receipts in Settings → Privacy. Explore your profile controls for disappearing messages.'
           )}
         </List.Item>
       </List>
