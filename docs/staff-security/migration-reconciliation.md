@@ -35,6 +35,10 @@ The [schema-only target catalog](evidence/migration-target-catalog.json) pins
 compares those entries exactly; it also tests prepared role SQL and confirms
 the four recorded hashes still fail strict preflight. No customer rows,
 credentials or token values are in this fixture.
+[CI run 147](https://github.com/nortonjulian/chatforia/actions/runs/41730818442)
+passed this isolated PostgreSQL 18.6 step: 141 current baseline migrations,
+215/215 catalog entries, guarded role SQL and expected four-hash preflight
+rejection. This is not a DigitalOcean managed-role test.
 
 | Recorded migration | Expected current objects and reviewed catalog result |
 | --- | --- |
@@ -162,8 +166,8 @@ test cannot start because macOS `initdb` fails at `shmget(IPC_PRIVATE, 56)` with
 the sandbox; two existing 56-byte SysV segments were listed, and no shared
 system setting was changed. This does not establish the underlying kernel cause.
 The existing synthetic preview and production hosts were left untouched. The
-standard public-repository CI runner now hosts a separate disposable
+standard public-repository CI runner hosted a separate disposable
 `postgres:18.6` container for role SQL and current-baseline reconstruction.
 GitHub documents standard hosted runners as free for public repositories; the
-CI result is recorded in PR #293. Never use the production cluster or its
+passing result is CI run 147. Never use the production cluster or its
 logical test databases for this role test.

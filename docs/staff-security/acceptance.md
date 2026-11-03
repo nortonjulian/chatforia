@@ -17,6 +17,11 @@ or available GitHub CI artifacts. The target catalog passes 32 additional
 default/index/FK-action checks, but historical SQL equivalence is not proven.
 The local `shmget` failure reproduces outside the sandbox; the role-SQL fresh
 cluster test remains pending without changing shared settings or the preview.
+The equivalent role-SQL execution and available-baseline reconstruction then
+passed on isolated PostgreSQL 18.6 in [CI run 147](https://github.com/nortonjulian/chatforia/actions/runs/41730818442):
+141 migrations, 215/215 current catalog entries and rejection of all four
+recorded target hashes by strict preflight. This closes isolated PG18 testing;
+it does not prove original SQL/data effects or DigitalOcean permissions.
 
 Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
 now includes successful root SSH to both owner-confirmed Droplets and catalog

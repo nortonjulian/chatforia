@@ -21,6 +21,11 @@ The [per-migration design](migration-reconciliation.md) records all four hash
 pairs and historical data-effect uncertainty. Its non-mutating artifact route
 remains conditional on trusted original bytes and independent DBA/security
 review; the current-SQL reconstruction is not production authorization.
+Isolated [CI run 147](https://github.com/nortonjulian/chatforia/actions/runs/41730818442)
+passed prepared role SQL on PostgreSQL 18.6, the available 141-file
+reconstruction, all 215 collected catalog entries and strict rejection of the
+four target hashes. DigitalOcean role/extension behavior and historical data
+effects remain unproven.
 
 **Authorized read-only inspection succeeded.** Existing keys authenticated root
 on both owner-confirmed Droplets. [Infrastructure inspection](infrastructure-inspection.md)
