@@ -106,7 +106,7 @@ export default function Careers() {
             {copy('designApplyBody', 'Send your résumé or professional profile, your area of interest, and whether you prefer employment, project-based contract work, or either. Relevant work links are welcome.')}
           </Text>
           <Text>{copy('otherSpecialties', 'Don’t see your specialty? Tell us how you could contribute.')}</Text>
-          <Button component="a" href="mailto:careers@chatforia.com" size="md" radius="md" style={{ alignSelf: 'flex-start', maxWidth: '100%' }}>
+          <Button component="a" href="mailto:careers@chatforia.com" size="md" radius="xl" style={{ alignSelf: 'flex-start', maxWidth: '100%' }}>
             {copy('resumeCta', 'Send your résumé')}
           </Button>
           <Text size="sm" c="dimmed">
