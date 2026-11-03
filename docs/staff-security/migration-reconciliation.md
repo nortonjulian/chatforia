@@ -47,6 +47,21 @@ rejection. This is not a DigitalOcean managed-role test.
 | `20260807010000_add_sandbox_apns_tokens` | Two nullable Device sandbox token columns. The original non-unique indexes were superseded by two present, valid unique single-column indexes in the later migration. |
 | `20261013_add_esim_replacement_audit` | `EsimReplacement` 25 columns, reason/status defaults `DEVICE_REPLACEMENT`/`PENDING`, created-at default, primary key plus seven intended indexes, four validated FKs. User FK is CASCADE/CASCADE; purchase and both Subscriber FKs are RESTRICT/CASCADE. All inspected objects match. |
 
+## Bounded current-data checks (read-only)
+
+On 2026-11-03, the verified API-host connection to managed `defaultdb` ran
+`BEGIN READ ONLY` queries with `transaction_read_only=on`, a 10-second statement
+timeout and boolean-only output. The [sanitized results](evidence/migration-current-data-invariants.json)
+showed: refund amount/data are nonnegative and required fields are non-null;
+Report types are `APP` or `PSTN` and Report/SMS/blocked-number links are valid;
+present sandbox APNs and VoIP tokens are unique within each field; eSIM
+replacement statuses are in the application set, balances are nonnegative,
+and referenced purchase/subscriber owners match. No row values, identifiers,
+token values or customer counts were returned. These predicates may pass
+vacuously on empty tables. They are necessary checks only; provider/payment
+records, historical snapshots and operational audit evidence would be needed
+for a fuller current-data reconciliation. No production state changed.
+
 ## Per-migration reconciliation record
 
 The available SQL is the current file at the linked path. Hashes below are
@@ -107,12 +122,58 @@ been found. Current catalog comparisons do not prove prior DML.
   or altered provider-purchase ownership. Verify original SQL, approved
   aggregate duplicate/FK/orphan checks and audit chronology.
 
-## Smallest justified reconciliation design
+## Route when original SQL remains unavailable
+
+The current schema and bounded data checks do not identify the SQL that was
+applied, whether it contained DML, or whether historical rows were changed and
+later overwritten. This is especially material for refund backfills, Report
+classification, sandbox-token transfer and replacement-audit imports. Even a
+fully correct current state would leave that provenance gap. A later migration
+could also have repaired an earlier omission.
+
+**Recommended decision:** keep deployment at **NO-GO** and commission a
+separately reviewed reconciliation dossier. The DBA reviewer should validate
+the ledger and schema lineage, design approved aggregate/independent-source
+data comparisons for each migration, and identify any forward-only repair.
+The security reviewer should assess authorization, token secrecy, audit
+continuity, privilege boundaries and residual historical risk. Both review
+the exact evidence, assumptions, abort conditions and proposed release gate.
+One person qualified in both disciplines may provide a combined technical
+review if independent of the preparer/operator and organizational policy
+permits it; that remains **one** independent approval, not two-person control.
+For this exceptional history discrepancy, obtain distinct DBA and security
+signoffs before requesting an exception decision.
+
+The existing strict preflight still rejects the four ledger hashes. Without
+checksum-matching original SQL, the conditional pinned-artifact route below
+**cannot pass**. A reviewed current-state dossier cannot by itself clear the
+gate. Any alternate release mechanism or explicit risk acceptance would be a
+new, separately approved change to the release policy; it must not be described
+as historical equivalence or slipped into the current preflight. No checksum
+rewrite, `migrate resolve`, fabricated SQL or silent waiver is proposed.
+
+For each migration, the reviewer would need the following further evidence:
+
+| Migration | Evidence for present correctness beyond the passing checks | Historical uncertainty that persists |
+| --- | --- | --- |
+| Wireless refund audit | Reconcile refund amounts, data, currency, status and review flags to payment/provider events and purchase balances using approved aggregates or controlled record-level review. | Which old rows were backfilled or corrected, and what values they held immediately after the applied migration. |
+| PSTN reporting/blocking | Reconcile Report classification and SMS/phone links to source events; validate blocked-number ownership and duplicate policy against moderation records. | Whether old reports were reclassified or blocked numbers copied, and any earlier orphan cleanup. |
+| Sandbox APNs tokens | Compare sandbox/live token ownership and environment assignment against an independent device-registration source without exposing tokens; inspect uniqueness and rotation audit. | Whether tokens were transferred or deduplicated by the applied SQL, including values later rotated. |
+| eSIM replacement audit | Reconcile replacement status chronology, purchase/subscriber ownership, idempotency and provider package events with independent provider/audit records. | Whether replacement events were imported or seeded, and whether earlier transitions were later overwritten. |
+
+Current catalog and boolean checks can be repeated under existing read-only
+authorization, but independent provider/payment sources, a controlled
+historical comparison and reviewer approval are not established by that access.
+Any record-level inspection needs a narrowly approved, privacy-preserving
+review plan; it must not be exported into local QA.
+
+## Conditional route if trusted original SQL is recovered
 
 **Now:** leave the target ledger and strict preflight unchanged. Current schema
 similarity is insufficient to approve an alternate baseline, ledger rewrite or
 release. The isolated PG18 reconstruction uses **available** SQL and tests only
-its compatibility and current catalog equivalence.
+its compatibility and current catalog equivalence. Because the matching bytes
+have not been recovered, this conditional route is currently unusable.
 
 **If trusted original bytes are recovered:** an independent DBA and security
 reviewer verify all four recorded SHA-256 values, provenance and full SQL deltas.

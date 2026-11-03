@@ -18,9 +18,13 @@ retained release directories, archives and available CI artifacts. No original
 applied SQL was recovered. Additional catalog comparisons passed but cannot
 replace a trusted applied artifact or reviewed reconciliation.
 The [per-migration design](migration-reconciliation.md) records all four hash
-pairs and historical data-effect uncertainty. Its non-mutating artifact route
-remains conditional on trusted original bytes and independent DBA/security
-review; the current-SQL reconstruction is not production authorization.
+pairs and historical data-effect uncertainty. A bounded read-only target check
+passed current-data predicates for each migration, but does not establish
+historical DML or independent provider/payment reconciliation. The pinned
+artifact route is unusable without checksum-matching original bytes; the
+current-SQL reconstruction is not production authorization. Independent DBA
+and security review of a separate reconciliation proposal is the next path;
+the unchanged preflight still blocks deployment.
 Isolated [CI run 147](https://github.com/nortonjulian/chatforia/actions/runs/41730818442)
 passed prepared role SQL on PostgreSQL 18.6, the available 141-file
 reconstruction, all 215 collected catalog entries and strict rejection of the
@@ -119,7 +123,7 @@ this does not rule out external automation. No deployment workflow was dispatche
 | --- | --- |
 | Changed authorization, MFA, recovery, audit, Users actions and CORS | Local implementation and focused regressions complete; ordinary reviewer approval is still required before merge. This is not independent penetration-test certification. |
 | Repository-wide lint | Existing debt: 384 errors / 2,609 warnings in the documented same-rule comparison, zero introduced findings. Scoped staff lint and PR CI pass. Defer broad cleanup to its own work; do not call full-root lint green or make unrelated cleanup a new technical prerequisite for this release. If repository policy requires root lint, the owner must explicitly disposition that policy. |
-| Migration/role/pgcrypto compatibility on the actual target | **Known deployment blocker.** Actual PG18.6/defaultdb runtime is doadmin with CREATEROLE/CREATEDB/REPLICATION/BYPASSRLS and table ownership. Four required roles and staff_security are absent; pgcrypto 1.4 is available but not installed (no namespace conflict). 141 active baseline migrations exist, but four checksums differ from PR/main/deployed files. Recover applied SQL/provenance or review reconciliation; do not rewrite/waive ledger checks. Prepare separate restricted-runtime credentials/DBA bootstrap and provider-compatible extension ownership under future approval. |
+| Migration/role/pgcrypto compatibility on the actual target | **Known deployment blocker.** Actual PG18.6/defaultdb runtime is doadmin with CREATEROLE/CREATEDB/REPLICATION/BYPASSRLS and table ownership. Four required roles and staff_security are absent; pgcrypto 1.4 is available but not installed (no namespace conflict). 141 active baseline migrations exist, but four checksums differ from PR/main/deployed files. Current catalog and bounded data invariants pass; neither proves original DML. With originals unavailable, the pinned-artifact route cannot clear strict preflight. Obtain independent DBA/security review and separately authorize any alternate reconciliation decision; do not rewrite/waive ledger checks. Prepare restricted-runtime credentials/DBA bootstrap and provider-compatible extension ownership only under future approval. |
 | Recoverable backup and key custody | **Before-migration blocker.** Seven-day latest-transaction/PITR-to-new-cluster options are console-reported. Actual restore success, recovery time points/RPO/RTO, independent destination and separately recoverable encryption/signing keys remain unverified. Local restore/reconciliation already passed; no repetition requested. No production data enters local QA. |
 | Hosted HTTPS/proxy/cookies/CSRF and process topology | **Before-public-traffic blocker.** Metadata is inspected: one API HTTP listener under root PM2, trust-proxy=1, secure domain cookie configuration, valid direct-origin TLS. SESSION_SECRET is absent with a literal fallback; staff signing key is absent; web upstream certificate verification is off. Require approved correction/key custody, verified DB TLS identity, cloud firewall/Cloudflare policy and a fenced deployment smoke. Enabled-but-inactive PM2 systemd unit leaves reboot/rollback unverified. No restart was attempted. |
 | Founder/initial authority and independent recovery operators | **Before-dashboard/recovery activation blocker.** Need verified account IDs, distinct human approver/executor logins, secret custody and approved identity verification. No automatic promotion or invented founder. Initial assignments require separately approved atomic audited infrastructure bootstrap; later changes use protected APIs. |

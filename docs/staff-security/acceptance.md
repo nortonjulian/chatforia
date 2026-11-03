@@ -23,6 +23,17 @@ passed on isolated PostgreSQL 18.6 in [CI run 147](https://github.com/nortonjuli
 recorded target hashes by strict preflight. This closes isolated PG18 testing;
 it does not prove original SQL/data effects or DigitalOcean permissions.
 
+A later bounded, authorized read-only check on the actual target returned only
+booleans: all tested refund, Report/SMS/blocking, sandbox-token uniqueness and
+eSIM replacement ownership/status invariants passed. The [sanitized result](evidence/migration-current-data-invariants.json)
+contains no customer rows, values, identifiers or tokens. These necessary
+checks can pass vacuously on empty tables and do not establish historical DML
+or provider/payment reconciliation. Without checksum-matching original SQL,
+the conditional pinned-artifact route cannot satisfy strict preflight. The
+reviewed [reconciliation route](migration-reconciliation.md) remains NO-GO
+pending independent DBA/security review and a separately authorized resolution;
+no target migration record or preflight condition was changed.
+
 Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
 now includes successful root SSH to both owner-confirmed Droplets and catalog
 queries from the API host using its existing connection. **NO-GO for deployment**:
