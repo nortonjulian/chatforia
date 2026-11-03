@@ -1,8 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+
+const defaultLicenseDir = fileURLToPath(new URL('../licenses/', import.meta.url));
 
 // Inspect only packages represented in emitted browser chunks, including transitives.
-export function collectNotices(moduleIds) {
+export function collectNotices(moduleIds, licenseDir = defaultLicenseDir) {
+  const supplemental = JSON.parse(fs.readFileSync(path.join(licenseDir, 'supplemental-notices.json'), 'utf8'));
   const roots = new Set();
   for (const id of moduleIds) {
     if (!id.includes('node_modules') || id.startsWith('\0')) continue;
@@ -27,6 +32,14 @@ export function collectNotices(moduleIds) {
       }
     };
     readNotices(root);
+    const supplement = supplemental[`${pkg.name}@${pkg.version}`];
+    for (const entry of supplement?.files || []) {
+      const bytes = fs.readFileSync(path.join(licenseDir, entry.file));
+      if (createHash('sha256').update(bytes).digest('hex') !== entry.sha256) {
+        throw new Error(`Supplemental notice checksum mismatch: ${entry.file}`);
+      }
+      notices.push({ file: entry.file, source: entry.source, text: bytes.toString('utf8') });
+    }
     return { name: pkg.name, version: pkg.version, license: pkg.license || 'Not declared', repository: typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url, notices: notices.sort((a,b) => a.file.localeCompare(b.file)) };
   }).sort((a,b) => `${a.name}@${a.version}`.localeCompare(`${b.name}@${b.version}`));
 }
@@ -41,7 +54,7 @@ export default function thirdPartyNotices() {
       const missing = packages.filter(pkg => !pkg.notices.length);
       if (missing.length) this.warn(`Packaged license texts missing for: ${missing.map(pkg => pkg.name).join(', ')}`);
       const header = 'Chatforia browser bundle — third-party notices\n\nGenerated from packages included in this build. This inventory does not cover native apps, server-only software, externally loaded SDKs, or separately supplied static assets. Package metadata does not replace license terms.\n';
-      const text = header + packages.map(pkg => `\n${'='.repeat(72)}\n${pkg.name} ${pkg.version}\nLicense metadata: ${typeof pkg.license === 'string' ? pkg.license : JSON.stringify(pkg.license)}\n${pkg.repository || ''}\n\n` + (pkg.notices.length ? pkg.notices.map(n => `--- ${n.file} ---\n${n.text}`).join('\n\n') : 'No license text was included in the installed package. Attribution review remains required.')).join('\n');
+      const text = header + packages.map(pkg => `\n${'='.repeat(72)}\n${pkg.name} ${pkg.version}\nLicense metadata: ${typeof pkg.license === 'string' ? pkg.license : JSON.stringify(pkg.license)}\n${pkg.repository || ''}\n\n` + (pkg.notices.length ? pkg.notices.map(n => `--- ${n.file} ---\n${n.source ? `Source: ${n.source}\n` : ''}${n.text}`).join('\n\n') : 'No license text was included in the installed package. Attribution review remains required.')).join('\n');
       this.emitFile({ type: 'asset', fileName: 'third-party-notices.txt', source: text });
       this.emitFile({ type: 'asset', fileName: 'third-party-notices.json', source: JSON.stringify({ scope: 'browser bundle', packages }, null, 2) });
     },
