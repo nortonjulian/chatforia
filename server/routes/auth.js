@@ -108,6 +108,8 @@ function setJwtCookie(res, token) {
 }
 
 function clearAllAuthCookies(res) {
+  // Match the configured cookie's issuing scope before clearing legacy aliases.
+  res.clearCookie(getCookieName(), getCookieBase());
   const names = ['foria_jwt', 'cf_session'];
 
   const domains = [

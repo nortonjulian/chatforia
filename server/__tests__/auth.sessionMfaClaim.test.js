@@ -88,3 +88,44 @@ test.each([true, false])('short API tokens preserve authenticated MFA proof (%s)
   expect(claims.mfaVerified).toBe(mfaVerified);
   expect(claims.tokenVersion).toBe(3);
 });
+
+test.each(['development', 'production'])(
+  'logout expires the configured session cookie with its issuing scope (%s)',
+  async (mode) => {
+    const previous = {
+      NODE_ENV: process.env.NODE_ENV,
+      JWT_COOKIE_NAME: process.env.JWT_COOKIE_NAME,
+      COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
+    };
+    try {
+      process.env.NODE_ENV = mode;
+      process.env.JWT_COOKIE_NAME = 'synthetic_custom_session';
+      process.env.COOKIE_DOMAIN = '.example.test';
+      const app = express();
+      app.use('/auth', authRouter);
+      for (const method of ['post', 'get']) {
+        const result = await request(app)[method]('/auth/logout');
+        const cookie = result.headers['set-cookie'].find((value) =>
+          value.startsWith('synthetic_custom_session=')
+        );
+        expect(cookie).toContain('Path=/');
+        expect(cookie).toContain('HttpOnly');
+        expect(cookie).toContain('Expires=Thu, 01 Jan 1970');
+        if (mode === 'production') {
+          expect(cookie).toContain('Secure');
+          expect(cookie).toContain('Domain=.example.test');
+          expect(cookie).toContain('SameSite=None');
+        } else {
+          expect(cookie).not.toContain('Secure');
+          expect(cookie).not.toContain('Domain=');
+          expect(cookie).toContain('SameSite=Lax');
+        }
+      }
+    } finally {
+      for (const [key, value] of Object.entries(previous)) {
+        if (value === undefined) delete process.env[key];
+        else process.env[key] = value;
+      }
+    }
+  }
+);
