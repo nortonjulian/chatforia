@@ -13,8 +13,8 @@ export default function CookieSettings() {
 
       <Text c="dimmed" mb="md">
         {t(
-          'cookies.body',
-          "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+          "cookies.bodyAudit20261103",
+          "Chatforia uses cookies and browser storage for sign-in, security, and preferences. When enabled, analytics and advertising integrations, including PostHog and Google AdSense, may also use cookies, identifiers, or similar technologies. This page currently provides information, not an in-page consent switch. You can manage cookies and site data in your browser; blocking or clearing them may sign you out or affect features. Browser cookie controls do not by themselves submit a privacy request to Chatforia. Contact privacy@chatforia.com for privacy requests."
         )}
       </Text>
     </Container>
