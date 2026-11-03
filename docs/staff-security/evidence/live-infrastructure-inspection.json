@@ -1,0 +1,303 @@
+{
+  "observedDate": "2026-11-03",
+  "scope": "Authorized read-only SSH, process/configuration metadata and PostgreSQL catalogs; no customer rows or secret values retained",
+  "productionMutations": false,
+  "migrationExecution": false,
+  "serviceRestart": false,
+  "backupRestore": false,
+  "resourcesProvisioned": false,
+  "ssh": {
+    "hosts": [
+      "chatforia-web-01",
+      "chatforia-api-01"
+    ],
+    "verifiedUsername": "root",
+    "existingKeysAuthenticated": true,
+    "strictKnownHostVerification": true,
+    "usernameEvidence": "Existing development checkout DEPLOYMENT.md; successful authentication on both owner-confirmed hosts"
+  },
+  "database": {
+    "identity": {
+      "kind": "identity",
+      "database": "defaultdb",
+      "role": "doadmin",
+      "sessionRole": "doadmin",
+      "serverVersion": "18.6",
+      "transactionReadOnly": "on"
+    },
+    "transport": {
+      "kind": "tls",
+      "ssl": true,
+      "version": "TLSv1.3",
+      "bits": 256
+    },
+    "runtimeRole": {
+      "kind": "role",
+      "name": "doadmin",
+      "login": true,
+      "inherit": true,
+      "superuser": false,
+      "createRole": true,
+      "createDb": true,
+      "replication": true,
+      "bypassRls": true
+    },
+    "runtimeConnectionSslmode": "require",
+    "runtimeConnectionIdentityVerificationConfirmed": false,
+    "databaseOwner": "doadmin",
+    "publicSchemaOwner": "doadmin",
+    "objectOwnership": [
+      {
+        "kind": "objectOwnership",
+        "schema": "public",
+        "owner": "doadmin",
+        "relationKind": "S",
+        "count": 58
+      },
+      {
+        "kind": "objectOwnership",
+        "schema": "public",
+        "owner": "doadmin",
+        "relationKind": "r",
+        "count": 85
+      },
+      {
+        "kind": "objectOwnership",
+        "schema": "public",
+        "owner": "doadmin",
+        "relationKind": "i",
+        "count": 296
+      }
+    ],
+    "protectedTablePrivileges": [
+      {
+        "kind": "tablePrivilege",
+        "table": "AuditLog",
+        "owner": "doadmin",
+        "runtimeOwnsOrCanSetOwner": true,
+        "runtimeUpdate": true,
+        "runtimeTruncate": true,
+        "runtimeTrigger": true
+      },
+      {
+        "kind": "tablePrivilege",
+        "table": "PasswordResetToken",
+        "owner": "doadmin",
+        "runtimeOwnsOrCanSetOwner": true,
+        "runtimeUpdate": true,
+        "runtimeTruncate": true,
+        "runtimeTrigger": true
+      },
+      {
+        "kind": "tablePrivilege",
+        "table": "TwoFactorRecoveryCode",
+        "owner": "doadmin",
+        "runtimeOwnsOrCanSetOwner": true,
+        "runtimeUpdate": true,
+        "runtimeTruncate": true,
+        "runtimeTrigger": true
+      },
+      {
+        "kind": "tablePrivilege",
+        "table": "User",
+        "owner": "doadmin",
+        "runtimeOwnsOrCanSetOwner": true,
+        "runtimeUpdate": true,
+        "runtimeTruncate": true,
+        "runtimeTrigger": true
+      },
+      {
+        "kind": "tablePrivilege",
+        "table": "VerificationToken",
+        "owner": "doadmin",
+        "runtimeOwnsOrCanSetOwner": true,
+        "runtimeUpdate": true,
+        "runtimeTruncate": true,
+        "runtimeTrigger": true
+      }
+    ],
+    "requiredRolesAbsent": [
+      "chatforia_dev",
+      "chatforia_staff_owner",
+      "chatforia_recovery_issuer",
+      "chatforia_recovery_executor"
+    ],
+    "staffSecuritySchemaPresent": false,
+    "pgcrypto": {
+      "kind": "pgcryptoAvailable",
+      "defaultVersion": "1.4",
+      "installedVersion": null
+    },
+    "extensionInstallPermissionTested": false,
+    "migrationLedger": {
+      "totalRows": 144,
+      "completedActive": 141,
+      "historicalRolledBack": 3,
+      "unresolvedFailed": 0,
+      "matchingBaselineChecksums": 137,
+      "mismatches": [
+        {
+          "migration": "20260726034500_add_wireless_refund_audit",
+          "recordedChecksum": "63434b2fb65211b9d6e4be08352ac66db4c7e209d1e20b67006022ba36d34767",
+          "checkoutChecksum": "f20ce82990bc7627a5f1d485b0f43a4e36ebf81bba3e35482d086ba7166533ca",
+          "origin/main": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "matchingHistoricalCommitCandidates": [],
+          "matchingSimpleEncodingVariant": []
+        },
+        {
+          "migration": "20260806030000_add_pstn_reporting_and_blocking",
+          "recordedChecksum": "94fe6d123994ae57dffeca09dfa26539b3174725bad2ae3fd9efabcbd785785b",
+          "checkoutChecksum": "19a1a154ba49a030dbe3aa4116c692b563e630ff6029656c5372a0d691a81cf1",
+          "origin/main": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "matchingHistoricalCommitCandidates": [],
+          "matchingSimpleEncodingVariant": []
+        },
+        {
+          "migration": "20260807010000_add_sandbox_apns_tokens",
+          "recordedChecksum": "164917910396613ca5934d542d661268ba88d506dddf3d9ad73965417a418ab7",
+          "checkoutChecksum": "d2a68cbfbc475480b14b40d91ff1e591990e2ac144910cc8080689e9f609f271",
+          "origin/main": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "matchingHistoricalCommitCandidates": [],
+          "matchingSimpleEncodingVariant": []
+        },
+        {
+          "migration": "20261013_add_esim_replacement_audit",
+          "recordedChecksum": "3e95935c4c4646839fc532a7fd7f6565688fd1e52700612994494f3f5f79e3b3",
+          "checkoutChecksum": "b2d299423e802dfb50958caa92c71813702c210df1ef7c84f039d3e22a1a39f4",
+          "origin/main": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70": {
+            "available": true,
+            "matchesCheckout": true,
+            "matchesRecorded": false
+          },
+          "matchingHistoricalCommitCandidates": [],
+          "matchingSimpleEncodingVariant": []
+        }
+      ],
+      "staffMigrationsApplied": 0
+    },
+    "partialSchemaComparison": {
+      "scope": "Expected named columns/types, index columns/uniqueness/validity and constraint presence/validation only; not full DDL/default/foreign-key-action equivalence or proof of original applied SQL",
+      "checks": 70,
+      "passed": 68,
+      "failures": [
+        {
+          "migration": "20260807010000_add_sandbox_apns_tokens",
+          "item": "Device_apnsSandboxPushToken_idx",
+          "ok": false
+        },
+        {
+          "migration": "20260807010000_add_sandbox_apns_tokens",
+          "item": "Device_voipSandboxPushToken_idx",
+          "ok": false
+        }
+      ],
+      "explanation": "The two original non-unique indexes were intentionally dropped by completed migration 20260807223500_unique_push_token_ownership. Both corresponding unique replacement indexes are present, valid, and cover the expected columns. No unexplained discrepancy in this limited comparison; checksum provenance remains unresolved.",
+      "replacementIndexesVerified": [
+        "Device_apnsSandboxPushToken_key",
+        "Device_voipSandboxPushToken_key"
+      ]
+    },
+    "isolatedSandboxEstablished": false
+  },
+  "runtime": {
+    "deployedApiSha": "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70",
+    "processUser": "root",
+    "manager": "PM2 6.0.14",
+    "savedMode": "fork",
+    "apiHttpListenerProcesses": 1,
+    "apiBind": "*:5002",
+    "redisBind": "loopback:6379",
+    "redisProtectedMode": true,
+    "pm2SystemdUnit": {
+      "enabled": true,
+      "active": false
+    },
+    "apiSystemdUnit": {
+      "enabled": false,
+      "active": false
+    },
+    "processRestartOrRollbackTested": false,
+    "trustProxy": 1,
+    "cookieDomain": ".chatforia.com",
+    "cookieSecure": true
+  },
+  "keyCustody": {
+    "appEncryptionKeyPresent": true,
+    "appEncryptionKeyDecodedBytes": 32,
+    "jwtKeyPresent": true,
+    "sessionSecretPresentInInspectedSources": false,
+    "deployedSessionCodeHasLiteralFallback": true,
+    "staffSigningKeyPresent": false,
+    "inspectedSecretFilesOwner": "root",
+    "inspectedSecretFilesMode": "0600",
+    "sameHostKeyCopiesMatch": true,
+    "actualEnvFilesTrackedByGit": false,
+    "independentRecoverableCustodyVerified": false,
+    "secretValuesOrHashesRecorded": false
+  },
+  "httpsProxy": {
+    "webApiUpstream": "https://api.chatforia.com",
+    "webUpstreamCertificateVerification": false,
+    "webUpstreamSni": true,
+    "apiUpstream": "http://127.0.0.1:5002",
+    "apiForwardedProto": "scheme",
+    "apiAllowedTls": [
+      "TLSv1.2",
+      "TLSv1.3"
+    ],
+    "apiOriginCertificateExpires": "2027-01-25",
+    "directApiOriginTrustedTls13Verified": true,
+    "webOriginCertificateExpires": "2041-04-08",
+    "webOriginCertificateType": "Cloudflare Origin CA",
+    "cloudflareEncryptionModeVerified": false,
+    "actualFrontendOriginRoutingVerified": false,
+    "apiAlsoHasFrontendVirtualHost": true,
+    "hostUfwActive": false,
+    "externalApiPort5002Probe": "One workstation TCP connection timed out; not proof of cloud firewall policy",
+    "digitalOceanCloudFirewallRulesVerified": false
+  },
+  "automation": {
+    "directDeploymentPollingFoundInInspectedCronSystemdLocations": false,
+    "inspectionExhaustive": false,
+    "deploymentWorkflowDispatched": false
+  },
+  "accountOnlyEvidence": {
+    "digitalOceanApiAccessAvailable": false,
+    "providerBackupModes": "Owner-reported latest transaction or PITR up to seven days into a new cluster",
+    "providerRestoreSuccessVerified": false,
+    "alreadyPaidDedicatedSandboxIdentified": false
+  },
+  "decision": "NO-GO for deployment; known target prerequisites and baseline drift unresolved"
+}

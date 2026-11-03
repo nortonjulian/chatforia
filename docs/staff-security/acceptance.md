@@ -2,18 +2,28 @@
 
 ## Deployment-readiness checkpoint — 2026-11-03
 
-Read-only infrastructure inspection is now authorized. The
-[initial inspection](infrastructure-inspection.md) verifies public edge TLS,
-redirects and observed API security headers/CSRF-cookie attributes. No Droplet or
-database connection has yet been established: verified SSH host/user mapping
-and DigitalOcean account visibility remain access prerequisites. Deployment
-remains NO-GO; no production mutation or additional browser QA was performed.
+Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
+now includes successful root SSH to both owner-confirmed Droplets and catalog
+queries from the API host using its existing connection. **NO-GO for deployment**:
+the actual runtime is privileged `doadmin` on PostgreSQL 18.6/defaultdb; required
+restricted roles/schema are absent, pgcrypto is available but uninstalled, and
+four of 141 active baseline migration checksums differ. These are pre-existing
+target conditions, not new PR migration edits. No production mutation or browser
+QA repetition was performed. See [sanitized evidence](evidence/live-infrastructure-inspection.json).
+
+Inspected secret files are root-owned 0600 and existing MFA/JWT keys match
+same-host copies, but independent recovery custody is unverified. No configured
+SESSION_SECRET was found and deployed session code has a literal fallback;
+the new staff signing key is absent. The web proxy disables upstream certificate
+verification. Actual cloud firewall/Cloudflare policy, provider restore success
+and process rollback remain unverified. These findings now replace the previous
+missing-SSH-mapping gate; a safe, separately approved remediation is required.
 
 Owner-reported console evidence now establishes PostgreSQL 18, primary-only SFO2,
 chatforia-api-01 as the sole Network Access entry, doadmin as the visible user,
 defaultdb plus two existing voicemail/wireless test databases, and seven-day
-latest-transaction/PITR options into a new cluster. Restore success and actual
-SQL role/ownership/pgcrypto configuration remain unverified. The test databases
+latest-transaction/PITR options into a new cluster. Restore success remains
+unverified; SQL role/ownership/pgcrypto metadata is now inspected. The test databases
 share production's role namespace; they are not isolated staging resources.
 A new fresh PostgreSQL 18.3 synthetic upgrade passes **11/11 checks**; the
 read-only preflight now explicitly supports tested majors 16 and 18. No security
@@ -21,8 +31,8 @@ privilege checks or migration SQL were relaxed. See
 [console report](evidence/digitalocean-console-report.json) and
 [PG18 local evidence](evidence/postgres18-upgrade-local.json).
 
-**Local work complete; GO for review, NO-GO for deployment pending target evidence
-and approval.** [release-plan.md](release-plan.md) now provides the authoritative
+**Local work complete; GO for review, NO-GO for deployment pending target
+remediation, remaining evidence and approval.** [release-plan.md](release-plan.md) provides the authoritative
 gate assessment; its scope supersedes the broader historical pending lists below.
 Existing root lint debt and unrelated launch work are not newly introduced code
 blockers. No new application defect was found in the final scoped security/CORS
@@ -45,11 +55,14 @@ containment configurations retain runtime readiness. See the sanitized
 [new evidence](evidence/deployment-readiness-local.json) and
 [exact deployment/abort/rollback procedure](deployment-runbook.md).
 
-No existing database, Droplet, production data or paid service was used. Actual
-provider role/backup capability, hosted boundary, independent human recovery/key
-custody and staffed rollout remain genuine execution gates. The smallest next
-step is the access information listed in the inspection record (read-only
-authorization is already granted), not paid provisioning or repeating local tests.
+The synthetic upgrade used no existing database, production data or paid service.
+The subsequent authorized production inspection was metadata-only and read-only.
+Latest application/tooling checkpoint [CI 143](https://github.com/nortonjulian/chatforia/actions/runs/41713557005)
+passed on `688903592ab264b6cbe18b6526c9d7b395e47ba0`; local PG18.3 upgrade remains
+11/11. No completed suites were repeated for this documentation-only inspection.
+Next evidence is trusted applied SQL/provenance for the four drifted migrations
+and the account/custody metadata specified in the inspection record. No paid
+provisioning, checksum waiver or existing-database migration is authorized.
 
 Real Google web OAuth → Chatforia MFA → SUPPORT authorization/logout is now locally
 verified. See [Google result and exact remaining scope](google-oauth-local.md).

@@ -3,25 +3,27 @@
 ## Decision and scope
 
 **GO for review of the implementation; NO-GO for deployment today.** The remaining
-blockers are target-specific operational evidence and explicit approval, not a
+blockers are observed target configuration/history, remaining operational
+evidence and explicit approval, not a
 request to repeat passing local browser suites or fix unrelated launch work.
 PR [#293](https://github.com/nortonjulian/chatforia/pull/293) stays draft. No merge,
 deployment, production mutation, existing-database migration or spending occurred.
 
-**Read-only inspection is now authorized.** The initial
-[infrastructure inspection](infrastructure-inspection.md) verified public edge
-TLS, HTTP redirects and API security-header/CSRF-cookie attributes. SSH/database
-inspection awaits verified Droplet IP/SSH-user mapping; account backup/resource
-inventory has partial owner-reported console evidence below.
-No authenticated server/database connection has yet been made. These specific
-access prerequisites replace the previous request for inspection authorization.
+**Authorized read-only inspection succeeded.** Existing keys authenticated root
+on both owner-confirmed Droplets. [Infrastructure inspection](infrastructure-inspection.md)
+now records actual PostgreSQL 18.6/defaultdb, privileged doadmin runtime/ownership,
+missing restricted roles/schema, available but uninstalled pgcrypto, and four
+pre-existing baseline checksum mismatches. It also records nginx/process/key-file
+metadata, absent SESSION_SECRET with a deployed literal fallback, missing staff
+signing key and disabled web upstream certificate verification. No customer rows
+or secret values were returned and no target mutation occurred.
 
 The owner reports chatforia-db is **PostgreSQL 18, primary-only in SFO2**, with
 Network Access restricted to chatforia-api-01; the console lists doadmin, defaultdb
 and two existing voicemail/wireless test databases. Recovery options are latest
 transaction or point in time up to seven days into a new cluster. No restore was
-performed. Actual SQL roles, runtime connection identity, pgcrypto and key custody
-are not established by these console listings.
+performed. The later catalog/config inspection independently verifies SQL state;
+same-host 0600 key copies do not establish independent recovery custody.
 
 A new **PostgreSQL 18.3 local synthetic upgrade passes 11/11 checks**. The
 preflight now accepts the explicitly exercised major versions 16 and 18 without
@@ -61,6 +63,11 @@ exact future deployment/preflight/abort/rollback sequence are in
   preflight rejection cases and runtime containment configurations. See
   [deployment evidence](evidence/deployment-readiness-local.json). No existing
   database or paid integration is accepted by this rehearsal.
+- [CI 143](https://github.com/nortonjulian/chatforia/actions/runs/41713557005)
+  passed on `688903592ab264b6cbe18b6526c9d7b395e47ba0`, including the readiness
+  tooling. CI uses PostgreSQL 16; the separate local PG18.3 result passes 11/11.
+  This read-only follow-up changes evidence/documentation only and reuses those
+  completed application/browser checks.
 
 ## Final security review
 
@@ -85,7 +92,8 @@ Existing manual deployment workflows are not suitable for this first security
 migration cutover as written (moving main, no fencing/role/key preparation or
 separate migration connection). The runbook supplies the controlled alternative.
 Push/PR CI cannot dispatch deployment through repository workflow triggers;
-Droplet-side polling remains uninspected. No deployment workflow was dispatched.
+No direct deployment polling was found in inspected host cron/systemd locations;
+this does not rule out external automation. No deployment workflow was dispatched.
 
 ## Gates assessed against this release
 
@@ -93,9 +101,9 @@ Droplet-side polling remains uninspected. No deployment workflow was dispatched.
 | --- | --- |
 | Changed authorization, MFA, recovery, audit, Users actions and CORS | Local implementation and focused regressions complete; ordinary reviewer approval is still required before merge. This is not independent penetration-test certification. |
 | Repository-wide lint | Existing debt: 384 errors / 2,609 warnings in the documented same-rule comparison, zero introduced findings. Scoped staff lint and PR CI pass. Defer broad cleanup to its own work; do not call full-root lint green or make unrelated cleanup a new technical prerequisite for this release. If repository policy requires root lint, the owner must explicitly disposition that policy. |
-| Migration/role/pgcrypto compatibility on the actual target | **Deployment blocker.** PG18/topology/network source are console-reported and local PG18 upgrade passes. Still need catalog-only database identity, owners, SET/INHERIT memberships, pgcrypto namespace and migration checksums. Console listing doadmin does not prove the application's role or absence of SQL-created NOLOGIN roles. Wrong namespace/runtime ownership requires a reviewed target-specific transition and isolated rehearsal before any mutation. |
+| Migration/role/pgcrypto compatibility on the actual target | **Known deployment blocker.** Actual PG18.6/defaultdb runtime is doadmin with CREATEROLE/CREATEDB/REPLICATION/BYPASSRLS and table ownership. Four required roles and staff_security are absent; pgcrypto 1.4 is available but not installed (no namespace conflict). 141 active baseline migrations exist, but four checksums differ from PR/main/deployed files. Recover applied SQL/provenance or review reconciliation; do not rewrite/waive ledger checks. Prepare separate restricted-runtime credentials/DBA bootstrap and provider-compatible extension ownership under future approval. |
 | Recoverable backup and key custody | **Before-migration blocker.** Seven-day latest-transaction/PITR-to-new-cluster options are console-reported. Actual restore success, recovery time points/RPO/RTO, independent destination and separately recoverable encryption/signing keys remain unverified. Local restore/reconciliation already passed; no repetition requested. No production data enters local QA. |
-| Hosted HTTPS/proxy/cookies/CSRF and process topology | **Before-public-traffic blocker.** Need the actual topology/config metadata and a short fenced deployment smoke on the approved target. Local HTTP cannot certify Secure/domain cookies, reverse proxy trust or key consistency across deployed instances. A separate environment is necessary to rehearse the actual provider boundary without touching production. |
+| Hosted HTTPS/proxy/cookies/CSRF and process topology | **Before-public-traffic blocker.** Metadata is inspected: one API HTTP listener under root PM2, trust-proxy=1, secure domain cookie configuration, valid direct-origin TLS. SESSION_SECRET is absent with a literal fallback; staff signing key is absent; web upstream certificate verification is off. Require approved correction/key custody, verified DB TLS identity, cloud firewall/Cloudflare policy and a fenced deployment smoke. Enabled-but-inactive PM2 systemd unit leaves reboot/rollback unverified. No restart was attempted. |
 | Founder/initial authority and independent recovery operators | **Before-dashboard/recovery activation blocker.** Need verified account IDs, distinct human approver/executor logins, secret custody and approved identity verification. No automatic promotion or invented founder. Initial assignments require separately approved atomic audited infrastructure bootstrap; later changes use protected APIs. |
 | Canary/alerts/containment | **Before-rollout blocker.** Need named canary IDs, incident/observation owners, actual alert receipt and error/latency baselines. Dashboard disable does not disable the global Admin Users APIs; incident containment may require wider ingress fencing. Actual process rollback remains target verification, not a local claim. |
 | Real Apple or mobile provider/device matrix | Unverified. Provider handlers/identity resolution are unchanged, and shared MFA/state/token behavior has offline coverage plus the real Google web proof. Defer expansion to Apple/mobile staff use outside the initial web cohort. If any such flow already serves affected users, include its minimal sign-in/MFA smoke before traffic reopens; migration effects are global, not canary-scoped. Mocked OAuth is never provider certification. |
@@ -113,15 +121,16 @@ network, secret or data isolation and is not authorized. A separate paid service
 would be needed if no already-paid dedicated sandbox exists; spending remains
 prohibited and those provider checks remain pending rather than fabricated.
 
-The smallest next action is **the Droplet IP/SSH-user mapping**, followed by
-available account visibility or the exact redacted console metadata listed in
-[infrastructure-inspection.md](infrastructure-inspection.md): remaining SQL
-role/ownership/extension/migration metadata, current process/proxy/deployment
-configuration, existing backup/restore/key-custody evidence, and whether an
-already-paid dedicated non-production sandbox exists. No credentials or data
-export is needed. This can resolve compatibility unknowns and determine whether
-provider rehearsal is possible at $0. Read-only inspection is authorized;
-migration, resource creation, production mutation and rollout remain prohibited.
+SSH and SQL access are no longer missing prerequisites. The smallest next evidence
+is **trusted applied SQL/provenance for the four drifted baseline migrations**,
+plus account-only Cloud Firewall/Cloudflare routing and TLS settings, backup
+health/recovery timestamps, independent key custody and dedicated sandbox
+inventory. Exact console screens/redacted metadata are listed in
+[infrastructure-inspection.md](infrastructure-inspection.md). No credential or
+customer-data export is needed. A separately approved remediation must isolate
+DBA/recovery credentials from the root application's effective access, provision
+the restricted runtime/session/staff keys and correct transport verification.
+Migration, resource creation, production mutation and rollout remain prohibited.
 
 The preparation tool is ready for a later approved operator:
 `node server/scripts/staff-deployment-preflight.mjs --before-migrations` after
@@ -129,7 +138,9 @@ DBA prerequisite preparation, and `--runtime` after migration/key provisioning.
 Both run read-only transactions and suppress driver errors that could disclose
 connection information. The first verifies the exact 141-migration baseline,
 not a partially migrated target. All required execution/abort details are in the
-runbook; no commands have been run against existing infrastructure.
+runbook; neither preflight execution requiring prepared roles nor any deployment
+command has been run against existing infrastructure. The independent catalog
+inspection was read-only and already establishes why preflight would reject it.
 
 ## Approval record still required for execution
 
