@@ -7,8 +7,8 @@ export default function PrivacyPolicy() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl" pt="3.5rem">
-      <Title order={2} mb="sm">
+    <Container size="md" py="xl">
+      <Title order={1} mb="sm">
         {t('privacyPolicy.title', 'Privacy Policy')}
       </Title>
 
@@ -23,7 +23,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t(
           'privacyPolicy.infoWeCollect.title',
           'Information we collect'
@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
       </List>
 
       {/* 🔹 New: Mobile phone numbers and SMS */}
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t(
           'privacyPolicy.sms.title',
           'Mobile phone numbers and SMS'
@@ -64,7 +64,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t(
           'privacyPolicy.howWeUse.title',
           'How we use information'
@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
         </List.Item>
       </List>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('privacyPolicy.sharing.title', 'Sharing')}
       </Title>
       <Text>
@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('privacyPolicy.rights.title', 'Your rights')}
       </Title>
       <Text>
@@ -111,7 +111,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t(
           'privacyPolicy.retention.title',
           'Data retention & security'
@@ -124,7 +124,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('privacyPolicy.children.title', 'Children')}
       </Title>
       <Text>
@@ -134,7 +134,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('privacyPolicy.changes.title', 'Changes')}
       </Title>
       <Text>
@@ -144,7 +144,7 @@ export default function PrivacyPolicy() {
         )}
       </Text>
 
-      <Title order={4} mt="md" mb="xs">
+      <Title order={2} mt="md" mb="xs">
         {t('privacyPolicy.contact.title', 'Contact')}
       </Title>
       <Text>
