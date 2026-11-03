@@ -1,112 +1,121 @@
-import { Container, Title, Text, Button, Stack } from '@mantine/core';
+import { Accordion, Container, Title, Text, Button, Stack, List } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+
+const opportunityAreas = [
+  [
+    "engineering",
+    "Engineering & quality",
+    "Full-stack, backend, web, iOS, Android, QA and test automation."
+  ],
+  [
+    "infrastructure",
+    "Infrastructure, security & telecom",
+    "DevOps/SRE, security and encryption, voice/SMS, eSIM and carrier integrations."
+  ],
+  [
+    "product",
+    "Product, design & accessibility",
+    "Product management, product design, UX research and accessibility."
+  ],
+  [
+    "support",
+    "Customer support & trust and safety",
+    "Customer support, technical support, moderation, and fraud and abuse prevention."
+  ],
+  [
+    "growth",
+    "Marketing & creative",
+    "Growth marketing, social media and content, copywriting, and graphic and video design."
+  ],
+  [
+    "partnerships",
+    "Sales & partnerships",
+    "Creator and affiliate partnerships, advertising sales, business development and carrier partnerships."
+  ],
+  [
+    "operations",
+    "Data & business operations",
+    "Data analytics, operations, and project and program management."
+  ],
+  [
+    "business",
+    "Finance, people & legal",
+    "Accounting and finance, recruiting, people operations, and legal, privacy and compliance."
+  ]
+];
 
 export default function Careers() {
   const { t } = useTranslation();
+  const copy = (key, fallback) => t(`careers.talentNetwork.${key}`, fallback);
 
   return (
     <Container size="md" py="xl">
-      {/* Title */}
-      <Title
-        order={2}
-        mb="sm"
-        aria-label={t('careers.title', 'Careers')}
-      >
-        {t('careers.title', 'Careers')}
-      </Title>
+      <Stack gap="xl">
+        <Stack gap="sm">
+          <Title order={1}>{t('careers.title', 'Careers')}</Title>
+          <Title order={2}>{copy('headline', 'Help build Chatforia')}</Title>
+          <Text c="dimmed">
+            {copy('intro', 'Chatforia connects people across languages through messaging and calling on web, iOS, and Android. We’re a founder-led company building with care for privacy, security, and the people using our products.')}
+          </Text>
+          <Text>
+            {copy('status', 'We’re accepting résumés for future employment and contract opportunities. The areas below represent potential future needs, not current vacancies. Hiring will depend on business priorities, and timelines have not been set.')}
+          </Text>
+          <Button component="a" href="mailto:careers@chatforia.com" size="md" style={{ alignSelf: 'flex-start' }}>
+            {copy('introduceCta', 'Introduce yourself')}
+          </Button>
+        </Stack>
 
-      {/* Intro paragraph */}
-      <Text
-        c="dimmed"
-        mb="lg"
-        aria-label={t(
-          'careers.intro',
-          'We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.'
-        )}
-      >
-        {t(
-          'careers.intro',
-          'We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.'
-        )}
-      </Text>
+        <Stack gap="sm">
+          <Title order={2}>{copy('workingTitle', 'How we work')}</Title>
+          <Text c="dimmed">
+            {copy('workingBody', 'AI-assisted work is central to how we build. We use tools such as ChatGPT to help with development, testing, research, and documentation, while taking responsibility for the results. We value sound judgment, clear communication, ownership, and collaboration. Privacy, security, and real-world testing guide what we ship.')}
+          </Text>
+        </Stack>
 
-      <Stack gap="xs" mb="lg">
-        {/* Open founding roles */}
-        <Text
-          aria-label={t(
-            'careers.openRoles',
-            'Open founding roles: Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).'
-          )}
-          dangerouslySetInnerHTML={{
-            __html: t(
-              'careers.openRoles',
-              '<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).'
-            ),
-          }}
-        />
+        <Stack gap="sm">
+          <Title order={2}>{copy('opportunitiesTitle', 'Future opportunities')}</Title>
+          <Text c="dimmed">
+            {copy('opportunitiesIntro', 'Explore the areas where you could contribute. Some needs may be combined into broader roles or supported through specialist contract projects.')}
+          </Text>
+          <Accordion multiple variant="separated">
+            {opportunityAreas.map(([id, label, description]) => (
+              <Accordion.Item key={id} value={id}>
+                <Accordion.Control>
+                  {copy(`areas.${id}.title`, label)}
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <Text>{copy(`areas.${id}.description`, description)}</Text>
+                </Accordion.Panel>
+              </Accordion.Item>
+            ))}
+          </Accordion>
+        </Stack>
 
-        {/* Future leadership opportunities */}
-        <Text
-          aria-label={t(
-            'careers.futureRoles',
-            'Future leadership opportunities (accepting interest): CTO (founding-level role — future hire), Engineering Manager (future leadership position).'
-          )}
-          dangerouslySetInnerHTML={{
-            __html: t(
-              'careers.futureRoles',
-              '<b>Future leadership opportunities (accepting interest):</b> CTO (founding-level role — future hire), Engineering Manager (future leadership position).'
-            ),
-          }}
-        />
+        <Stack gap="sm">
+          <Title order={2}>{copy('whyTitle', 'Why contribute to Chatforia?')}</Title>
+          <List spacing="xs">
+            <List.Item>{copy('whyFounder', 'Work directly with the founder on meaningful product decisions.')}</List.Item>
+            <List.Item>{copy('whyOwnership', 'Own improvements across messaging, translation, voice, video, and connectivity.')}</List.Item>
+            <List.Item>{copy('whyPractices', 'Help shape the product and how a small team works with AI responsibly.')}</List.Item>
+          </List>
+        </Stack>
 
-        {/* How to apply */}
-        <Text
-          aria-label={t(
-            'careers.apply',
-            'How to apply: Use the button below to email your resume, GitHub, and links.'
-          )}
-        >
-          {t(
-            'careers.apply',
-            'How to apply: Use the button below to email your resume, GitHub, and links.'
-          )}
-        </Text>
+        <Stack gap="sm">
+          <Title order={2}>{copy('applyTitle', 'Introduce yourself')}</Title>
+          <Text>
+            {copy('applyBody', 'Send your résumé or professional profile, the areas you’re interested in, and whether you’re seeking employment or contract work. Include relevant work links if available.')}
+          </Text>
+          <Text>
+            {copy('otherSpecialties', 'Don’t see your specialty? Tell us how you could contribute.')}
+          </Text>
+          <Text c="dimmed">
+            {copy('expectations', 'We’ll review expressions of interest as hiring needs develop and may contact you if a suitable opportunity arises.')}
+          </Text>
+          <Button component="a" href="mailto:careers@chatforia.com" size="md" style={{ alignSelf: 'flex-start' }}>
+            {copy('resumeCta', 'Send your résumé')}
+          </Button>
+        </Stack>
       </Stack>
-
-      {/* Why join now */}
-      <Text
-        fw={500}
-        aria-label={t('careers.whyNow', 'Why join now?')}
-        mb="xs"
-      >
-        {t('careers.whyNow', 'Why join now?')}
-      </Text>
-
-      <Text
-        c="dimmed"
-        mb="lg"
-        aria-label={t(
-          'careers.whyBullets',
-          '• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.'
-        )}
-        style={{ whiteSpace: 'pre-line' }}
-      >
-        {t(
-          'careers.whyBullets',
-          '• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales.'
-        )}
-      </Text>
-
-      {/* CTA button */}
-      <Button
-        mt="lg"
-        size="md"
-        component="a"
-        href="mailto:careers@chatforia.com"
-        aria-label={t('careers.emailCta', 'Email your resume')}
-      >
-        {t('careers.emailCta', 'Email your resume')}
-      </Button>
     </Container>
   );
 }
