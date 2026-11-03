@@ -8,6 +8,7 @@ const tests = readdirSync('server/security/__tests__')
   .filter((name) => name.endsWith('.test.js'))
   .map((name) => `security/__tests__/${name}`);
 tests.push(
+  'config/__tests__/sessionSecret.test.js',
   'middleware/__tests__/auth.test.js',
   'middleware/__tests__/cors.test.js',
   '__tests__/passwordReset.serviceAtomicity.test.js',

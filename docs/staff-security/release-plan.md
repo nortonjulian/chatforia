@@ -9,6 +9,11 @@ request to repeat passing local browser suites or fix unrelated launch work.
 PR [#293](https://github.com/nortonjulian/chatforia/pull/293) stays draft. No merge,
 deployment, production mutation, existing-database migration or spending occurred.
 
+The [ordered remediation proposal](remediation-plan.md) specifies actions,
+impacts, verification and rollback for each observed target blocker. Its first
+hard stop is the four unmatched baseline migration checksums; no ledger bypass
+or production mutation is proposed to hide them.
+
 **Authorized read-only inspection succeeded.** Existing keys authenticated root
 on both owner-confirmed Droplets. [Infrastructure inspection](infrastructure-inspection.md)
 now records actual PostgreSQL 18.6/defaultdb, privileged doadmin runtime/ownership,

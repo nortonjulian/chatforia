@@ -14,6 +14,7 @@ import session from 'express-session';
 
 import passport from './auth/passport.js';
 import { ESIM_ENABLED } from './config/esim.js';
+import { resolveSessionSecret } from './config/sessionSecret.js';
 import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
 import authMiddleware from './middleware/auth.js';
 import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
@@ -310,7 +311,11 @@ export function createApp() {
   app.use(
     session({
       store: sessionStore,
-      secret: process.env.SESSION_SECRET || 'change-me',
+      secret: resolveSessionSecret({
+        isProd,
+        secret: process.env.SESSION_SECRET,
+        jwtSecret: process.env.JWT_SECRET,
+      }),
       resave: false,
       saveUninitialized: false,
       cookie: {

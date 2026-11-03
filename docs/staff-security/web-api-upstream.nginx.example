@@ -1,0 +1,9 @@
+# REVIEW TEMPLATE ONLY; place within the existing web nginx location that
+# proxies API requests after confirming the active Cloudflare/origin routing.
+# Keep the existing proxy_pass, SNI, Host and forwarding headers.
+proxy_ssl_server_name on;
+proxy_ssl_name api.chatforia.com;
+proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+proxy_ssl_verify on;
+proxy_ssl_verify_depth 3;
+# nginx -t, then a fenced upstream TLS/HTTP smoke are required before reload.

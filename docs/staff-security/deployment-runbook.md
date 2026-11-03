@@ -5,6 +5,9 @@ configuration/history and remaining evidence gaps.** Authorized read-only SSH,
 catalog and configuration inspection is complete to the available account-access
 boundary. No target has been modified, restarted or migrated.
 See [release-plan.md](release-plan.md) for the narrowly scoped remaining gates.
+The ordered target-specific actions, impact, verification and rollback for each
+observed blocker are in [remediation-plan.md](remediation-plan.md). Resolve its
+Priority 0 migration provenance stop before scheduling this procedure.
 Run commands below only after separate authorization for the exact environment.
 They are instructions, not authorization. Never run the QA fixture bootstrap on
 an existing database.
@@ -138,6 +141,17 @@ requires a separately reviewed ownership/ACL transition; do not grant superuser
 or use REASSIGN OWNED/CASCADE as a shortcut. PostgreSQL 16 grantor dependencies
 must survive; keep the migration executor offline rather than blindly revoking
 membership that authored grants.
+
+The prepared [production role script](../../server/scripts/staff-production-prerequisite-roles.sql)
+is a guarded, atomic no-password role creation template for the inspected
+`defaultdb`; it creates no grants, schema or extension. Use only after the four
+baseline checksum mismatches are independently resolved and a separate DBA
+approves its exact target/permissions. The DBA must separately give only the
+migration executor scoped SET membership in the owner role and then run the
+schema bootstrap. The local static guard test passed; its fresh PG18 execution
+test is pending because macOS could not allocate a new shared-memory segment
+for `initdb` while the existing preview cluster was preserved. This does not
+establish DigitalOcean managed-role compatibility.
 
 If pgcrypto already exists outside `staff_security`, **stop before migrations**.
 `CREATE EXTENSION IF NOT EXISTS ... WITH SCHEMA` does not relocate it. Do not

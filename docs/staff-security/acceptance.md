@@ -2,6 +2,15 @@
 
 ## Deployment-readiness checkpoint — 2026-11-03
 
+The subsequent [remediation proposal](remediation-plan.md) adds a production
+session-secret startup guard, prepared role/HTTPS templates and an offline
+migration-provenance tool. Four recorded hashes remain unmatched in reachable Git
+history and 263 local migration-file copies. Local target role SQL execution is
+still pending: macOS refused a new PostgreSQL 18 cluster at `initdb` because
+shared memory could not be allocated; the existing synthetic preview was left
+running. The static role guard and focused session-secret/provenance tests pass.
+This tooling does not authorize a production change or waive strict preflight.
+
 Authorized [read-only infrastructure inspection](infrastructure-inspection.md)
 now includes successful root SSH to both owner-confirmed Droplets and catalog
 queries from the API host using its existing connection. **NO-GO for deployment**:

@@ -51,6 +51,12 @@ for (const { name, sha256 } of deployment.migrations) {
 assert.match(config, /^STAFF_SECURITY_ENABLED=false$/m);
 assert.match(config, /^STAFF_DASHBOARD_ENABLED=false$/m);
 assert.match(config, /^STAFF_DASHBOARD_USER_IDS=$/m);
+assert.match(config, /SESSION_SECRET/);
+execFileSync(process.execPath, [
+  '--test',
+  'server/scripts/staff-migration-provenance.test.mjs',
+  'server/scripts/staff-production-prerequisite-roles.static.test.mjs',
+], { stdio: 'inherit' });
 console.log(
   'PASS: All 18 deployment migration checksums, original four checksums and disabled rollout template'
 );
