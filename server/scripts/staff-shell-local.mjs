@@ -10,6 +10,9 @@ const child = spawn(
       LC_ALL: 'C',
       LANG: 'C',
       NODE_ENV: 'development',
+      STAFF_SHELL_CHECK: process.argv.includes('--helper-check')
+        ? 'helper'
+        : 'full',
       DOTENV_CONFIG_PATH: '/dev/null',
       JEST_WORKER_ID: 'synthetic-shell',
       STRIPE_SECRET_KEY: 'sk_test_offline_synthetic_only',

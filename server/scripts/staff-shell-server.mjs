@@ -11,6 +11,7 @@ import { createServer } from 'vite';
 import react from '@vitejs/plugin-react';
 import { freshCluster, artifacts } from './staff-fresh-postgres.mjs';
 import { sqlStatements } from './staff-qa-sql.mjs';
+import { codeSnapshot, helperHtml } from './staff-shell-helper.mjs';
 
 if (
   process.env.DOTENV_CONFIG_PATH !== '/dev/null' ||
@@ -166,18 +167,11 @@ try {
         `window.__API_URL__=${JSON.stringify(apiUrl)};window.__WS_URL__=${JSON.stringify(apiUrl)};`
       )
   );
+  web.get(helper + '/codes', (_req, res) =>
+    res.json(codeSnapshot(accounts, secrets))
+  );
   web.get(helper, (_req, res) =>
-    res.type('html').send(
-      `<html><head><meta http-equiv="refresh" content="10"></head><body><h1>Synthetic local accounts only</h1><p>Password for all accounts: <code>${password}</code></p>${accounts
-        .filter((a) => a.id !== 1)
-        .map(
-          (a) =>
-            `<p>${a.username}: current MFA code <code>${speakeasy.totp({ secret: secrets.get(a.username), encoding: 'base32' })}</code></p>`
-        )
-        .join(
-          ''
-        )}<p>Codes refresh every 10 seconds; use within their 30 second window.</p><a href="/">Open actual application</a><p>Admin: /admin/users. Support: /staff. User is the denied-access account.</p></body></html>`
-    )
+    res.type('html').send(helperHtml(password, helper + '/codes'))
   );
   web.use(async (req, res, next) => {
     if (
@@ -230,8 +224,13 @@ try {
   process.on('SIGTERM', stop);
   setTimeout(stop, 4 * 3600000);
   try {
-    const { browserQa } = await import('./staff-shell-browser-qa.mjs');
-    await browserQa({ url, apiUrl, password, secrets, artifacts, admin });
+    if (process.env.STAFF_SHELL_CHECK === 'helper') {
+      const { helperQa } = await import('./staff-shell-helper-qa.mjs');
+      await helperQa({ url, apiUrl, helperUrl: url + helper, artifacts });
+    } else {
+      const { browserQa } = await import('./staff-shell-browser-qa.mjs');
+      await browserQa({ url, apiUrl, password, secrets, artifacts, admin });
+    }
   } catch (error) {
     console.error('SHELL QA FAILED:', error.message);
   }
