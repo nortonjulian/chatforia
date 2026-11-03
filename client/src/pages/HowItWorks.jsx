@@ -17,8 +17,8 @@ export default function HowItWorks() {
       <h2>{t("howItWorks.step1Title", "1. Create an Account")}</h2>
       <p>
         {t(
-          "howItWorks.step1Desc",
-          "Sign up using your email or username to create your Chatforia account."
+          "howItWorks.step1DescAudit20261103",
+          "Select Create account and follow the registration and verification steps. Use the same account when signing in on another supported device."
         )}
       </p>
 
@@ -41,8 +41,8 @@ export default function HowItWorks() {
       <h2>{t("howItWorks.step4Title", "4. Global Communication")}</h2>
       <p>
         {t(
-          "howItWorks.step4Desc",
-          "Built-in translation helps users communicate across different languages."
+          "howItWorks.step4DescAudit20261103",
+          "Optional translation helps you communicate across languages by sending message text to a translation provider. Review important translations for accuracy. Strict end-to-end encryption mode disables translation and AI features."
         )}
       </p>
 
