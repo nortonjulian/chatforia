@@ -369,6 +369,14 @@ function AuthedLayout() {
 }
 
 const PUBLIC_READING_PAGES = {
+  '/privacy': PrivacyPolicy,
+  '/legal/terms': TermsOfService,
+  '/refund-policy': RefundPolicy,
+  '/legal/sms': SmsPolicy,
+  '/legal/open-source': OpenSourceLicenses,
+  '/legal/do-not-sell': DoNotSellMyInfo,
+  '/legal/cookies': CookieSettings,
+
   '/about': AboutChatforia,
   '/careers': Careers,
   '/press': Press,
@@ -467,14 +475,6 @@ export default function AppRoutes() {
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
 
-
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/legal/terms" element={<TermsOfService />} />
-          <Route path="/refund-policy" element={<RefundPolicy />} />
-          <Route path="/legal/sms" element={<SmsPolicy />} />
-          <Route path="/legal/open-source" element={<OpenSourceLicenses />} />
-          <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
-          <Route path="/legal/cookies" element={<CookieSettings />} />
           <Route path="/legal/account-deletion" element={<AccountDeletion />} />
           <Route path="/legal/consent" element={<SmsConsentPage />} />
           <Route path="/family/join/:token" element={<FamilyJoin />} />
@@ -514,7 +514,7 @@ export default function AppRoutes() {
 
       {/* Ensure /sms-consent exists for authenticated users as well */}
       <Route path="/legal/consent" element={<SmsConsentPage />} />
-      <Route path="/legal/open-source" element={<OpenSourceLicenses />} />
+
 
       <Route path="/" element={<AuthedLayout />}>
         <Route path="/pair-browser" element={<PairBrowserPage />} />
@@ -564,16 +564,11 @@ export default function AppRoutes() {
 
         {/* Public informational destinations must also work while signed in. */}
 
-        <Route path="privacy" element={<PrivacyPolicy />} />
-        <Route path="legal/terms" element={<TermsOfService />} />
-        <Route path="legal/sms" element={<SmsPolicy />} />
-        <Route path="legal/do-not-sell" element={<DoNotSellMyInfo />} />
-        <Route path="legal/cookies" element={<CookieSettings />} />
         <Route path="legal/account-deletion" element={<AccountDeletion />} />
 
 
         <Route path="join/:code" element={<JoinInvitePage />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
+
 
         {/* ✅ SMS ROUTES
             IMPORTANT: SmsLayout is the thread view, not a router layout.
