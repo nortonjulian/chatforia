@@ -110,8 +110,13 @@ This is a hard stop; the remaining numbered actions are conditional.
 6. **Cut over credentials and sessions.** Move the API to a non-root process
    identity and restricted `chatforia_dev` connection, with verified database
    peer identity and approved CA/hostname. Remove/isolate privileged DB URLs
-   from all app-readable env backups and PM2 saved state; merely replacing one
-   URL is insufficient. Set independent strong `SESSION_SECRET` and
+   from all app-readable env backups and PM2 saved state; the observed root PM2
+   tree inherits doadmin and npm start overrides from `server/.env.production`.
+   Stop that process tree and use the prepared dedicated-user
+   [systemd template](chatforia-api-restricted.service.example) with a root-only
+   restricted runtime environment; do not reload root PM2. Prepare only the
+   three observed upload roots for the new UID. Set independent strong
+   `SESSION_SECRET` and
    `STAFF_ACCESS_SIGNING_SECRET`, matching the latter to the protected DB row.
    Preserve `APP_ENC_KEY` for existing MFA. Enable `STAFF_SECURITY_ENABLED=true`
    and keep dashboard false. The branch now refuses production startup without

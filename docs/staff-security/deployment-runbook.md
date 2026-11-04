@@ -142,16 +142,20 @@ or use REASSIGN OWNED/CASCADE as a shortcut. PostgreSQL 16 grantor dependencies
 must survive; keep the migration executor offline rather than blindly revoking
 membership that authored grants.
 
+The prepared production role script creates `chatforia_dev` with `PASSWORD NULL`;
+the authorized DBA must provision its separate login secret through protected
+custody after creation, then verify a login as that role without displaying the
+URL or granting ownership, `SET` membership or elevated flags.
+
 The prepared [production role script](../../server/scripts/staff-production-prerequisite-roles.sql)
 is a guarded, atomic no-password role creation template for the inspected
 `defaultdb`; it creates no grants, schema or extension. Use only after the four
 baseline checksum mismatches are independently resolved and a separate DBA
 approves its exact target/permissions. The DBA must separately give only the
 migration executor scoped SET membership in the owner role and then run the
-schema bootstrap. The local static guard test passed; its fresh PG18 execution
-test is pending because macOS could not allocate a new shared-memory segment
-for `initdb` while the existing preview cluster was preserved. This does not
-establish DigitalOcean managed-role compatibility.
+schema bootstrap. The static guard and disposable PostgreSQL 18.6 role
+execution passed in CI 150. This does not establish DigitalOcean managed-role
+compatibility.
 
 If pgcrypto already exists outside `staff_security`, **stop before migrations**.
 `CREATE EXTENSION IF NOT EXISTS ... WITH SCHEMA` does not relocate it. Do not
@@ -216,18 +220,62 @@ invent users. Later grants/revocations use the signed protected service.
 
 ## 5. Start compatible runtime privately and verify
 
-Remove/isolate DBA credentials from every app/job environment source, saved PM2
-state and readable backup file under the approved custody/OS-access plan. Merely
-changing the active DATABASE_URL does not separate credentials from a root app.
-Load only the restricted
-runtime connection (correct TLS verification), shared production keys and Redis
-configuration. Set `NODE_ENV=production`, `STAFF_SECURITY_ENABLED=true`, and
-`STAFF_DASHBOARD_ENABLED=false`. The both-false example is a preparation template,
-**not a valid authentication configuration after migration**. Set the actual
-approved cookie/domain/origin/proxy settings; do not add local test origins.
+The [read-only credential inspection](evidence/database-credential-cutover-inspection.json)
+found **one** root-owned PM2 API process tree (npm, shell and Node children, all
+inheriting `doadmin`), not a separate running database worker. The active
+`npm start` script sets `DOTENV_CONFIG_PATH=.env.production` and
+`DOTENV_CONFIG_OVERRIDE=true`, so `server/.env.production` is the effective
+Node credential source; `/root/.pm2/dump.pm2` also saves a `doadmin` URL.
+`server/.env`, repository-root `.env` and a root-owned production env backup
+also contain that role. The in-process cleanup, expiry, number-lifecycle and
+optional Google Play jobs share this runtime environment. Root crontab has no
+active entries; the disabled API systemd unit is configured to run as root
+from `server/.env`. This is a bounded snapshot, not proof against future/manual
+one-shot jobs.
+
+**Approved cutover would replace root PM2, not reload it.** Prepare a dedicated
+`chatforia-api` OS user/group and the reviewed
+[systemd unit template](chatforia-api-restricted.service.example). The template
+launches `/usr/bin/node` directly from the server directory, avoiding npm's
+`.env.production` override. Stage `/etc/chatforia/api-runtime.env` as root-owned
+0600 systemd `EnvironmentFile`; it contains the **restricted** `chatforia_dev`
+`DATABASE_URL` with verified TLS peer identity, existing compatible runtime
+keys/Redis/provider settings, `STAFF_SECURITY_ENABLED=true`, and
+`STAFF_DASHBOARD_ENABLED=false`, plus the verified
+`STAFF_EXPECTED_DATABASE=defaultdb`. Do not copy the privileged URL or set
+`DOTENV_CONFIG_PATH`/`DOTENV_CONFIG_OVERRIDE` in that unit. The both-false
+example is a preparation template, **not** valid post-migration auth config.
+The migration reconciliation ID must be absent from runtime configuration.
+Keep DBA/migration credentials in separate custody. The new app identity must
+be unable to read root PM2 state, either `.env`, `.env.production` or its backup.
+Do not print environment values while verifying this boundary.
+
+The existing checkout and `server` directories are root-owned 0755 and can be
+read by a dedicated user. The observed project `uploads` and `server/uploads`
+directories are root-owned 0755; `server/tmp_uploads` is absent. Preserve the
+three existing upload path defaults and contents, create the missing temp root,
+and grant the dedicated user only the required write/read access to those
+trees. Check existing file readability and avatar/local-media write/delete
+through the private API without listing customer filenames or rewriting the
+whole checkout. Do not blanket-chown source, env backups or migrations.
+
+While traffic remains fenced, stop the old root PM2 tree and verify its listener
+and all four inherited `doadmin` process environments have exited. Disable its
+saved startup path so reboot cannot revive it; retain any privileged PM2/env
+copies only in root/DBA custody outside the app's effective access. Install but
+do not start the dedicated-user unit after the DBA-only migrations and key
+bootstrap. Confirm the dedicated UID cannot read old privileged sources.
+Run the read-only runtime preflight under that UID with the same
+systemd `WorkingDirectory` and `EnvironmentFile`; it must pass before the
+listener is admitted. Verify the reviewed unit with `systemd-analyze verify`
+before starting it. No root PM2 process may coexist with the new listener.
 
 ```sh
-node server/scripts/staff-deployment-preflight.mjs --runtime
+systemd-run --unit=chatforia-staff-runtime-check --wait --collect --pipe \
+  -p User=chatforia-api -p Group=chatforia-api \
+  -p WorkingDirectory=/var/www/chatforia-api/server \
+  -p EnvironmentFile=/etc/chatforia/api-runtime.env \
+  /usr/bin/node /var/www/chatforia-api/server/scripts/staff-deployment-preflight.mjs --runtime
 ```
 
 This transactionally read-only command requires security enabled and verifies
@@ -240,6 +288,29 @@ coordinate background jobs rather than enabling duplicate writers. Resolve the
 observed enabled-but-inactive PM2 systemd unit in the approved process plan and
 verify the compatible process recovery path; do not assume a running daemon
 proves reboot recovery. No such restart/rollback has been tested on the target.
+Verify the new Node process UID, effective `DATABASE_URL` **username only**,
+`SELECT current_user = 'chatforia_dev'`, role flags/memberships and verified-host
+database TLS before any public admission.
+
+The scheduled jobs start inside the same Node process, not in a separate
+credential context. CI 150 covers the role/bootstrap and schema. The added
+PostgreSQL 18 job probe must pass before cutover; it exercises ordinary token
+cleanup and representative cleanup/expiry/number-table operations under
+`chatforia_dev`.
+
+The cleanup predicates exclude ADMIN, staff-assigned and founder accounts;
+the database trigger still blocks protected-token DML if protection changes
+concurrently. In the fenced target window, confirm the immediate purge and
+expiry ticks have no permission failures, inspect only sanitized job status,
+and require the first scheduled hourly/daily runs to be monitored before
+declaring the job cutover stable. Never run a live provider job merely as a
+test. A failed DB operation, unexpected `doadmin` connection, protected-token
+deletion, upload failure or missing job heartbeat is a stop condition: keep
+ingress fenced, stop the new unit, preserve logs/ledger and repair under review.
+After migrations, do not restore root PM2, the old privileged URL or pre-PR
+code as a shortcut. Reopen traffic only after private API auth/MFA and ordinary
+write/upload smoke plus the restricted-role/job checks pass; daily provider
+effects remain under monitored operational observation.
 
 Verify deployed HTTPS Secure/HttpOnly/SameSite/domain cookie issuance/clearing,
 trusted proxy behavior, Google password/MFA path, pre-MFA denial, current staff

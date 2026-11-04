@@ -2,6 +2,16 @@
 
 ## Deployment-readiness checkpoint — 2026-11-03
 
+The subsequent [read-only credential inspection](evidence/database-credential-cutover-inspection.json)
+found one root PM2 API process tree with four processes inheriting `doadmin`;
+Node also loads `server/.env.production` with dotenv override. The API's
+scheduled jobs share that process credential. No separate running database
+worker or active root crontab entry was observed. The prepared
+[cutover procedure](deployment-runbook.md) requires a dedicated non-root unit,
+restricted runtime URL and upload-path permissions, while leaving production
+unchanged. Focused cron cleanup checks are being added because bulk cleanup
+must skip protected-account tokens under the restricted role.
+
 The subsequent [remediation proposal](remediation-plan.md) adds a production
 session-secret startup guard, prepared role/HTTPS templates and an offline
 migration-provenance tool. Four recorded hashes remain unmatched in reachable Git

@@ -13,6 +13,13 @@ The [ordered remediation proposal](remediation-plan.md) specifies actions,
 impacts, verification and rollback for each observed target blocker. Its first
 hard stop is the four unmatched baseline migration checksums; no ledger bypass
 or production mutation is proposed to hide them.
+The [credential cutover inspection](evidence/database-credential-cutover-inspection.json)
+pins the live root PM2/API environment sources: both npm and Node inherit
+`doadmin`, production dotenv overrides from `server/.env.production`, and
+scheduled jobs run in the same API process. No separate running database worker
+was observed. The [runbook](deployment-runbook.md) now uses a dedicated non-root
+service, restricted systemd environment and narrow upload access; root PM2
+reload is not an acceptable credential cutover.
 The [read-only provenance/schema follow-up](migration-reconciliation.md) searched
 retained release directories, archives and available CI artifacts. No original
 applied SQL was recovered. Additional catalog comparisons passed but cannot

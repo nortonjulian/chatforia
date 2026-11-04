@@ -174,6 +174,18 @@ The approved cutover must keep DBA/recovery credentials outside the application'
 effective access, including backup env files and saved process state. The OS
 identity/access boundary needs an explicit plan; file mode alone is not proof.
 
+A later [credential-source inspection](evidence/database-credential-cutover-inspection.json)
+confirmed that the root PM2 API's npm, shell and Node children all inherit a
+`doadmin` URL. Node startup also loads `server/.env.production` with dotenv
+override enabled. Root-owned 0600 copies exist in both `.env` files, the
+production env backup and `/root/.pm2/dump.pm2`. No separate running process
+with a database URL or active root crontab entry was observed. Scheduled jobs
+start inside the API process and use its Prisma environment. The inactive
+systemd unit still names root and `server/.env`; it is not a non-root cutover
+as configured. Both observed upload roots are root-owned 0755 and the third
+default temp root is absent, so a new app UID needs narrowly prepared write
+access. No credential value or customer file was inspected.
+
 No direct git-pull/deployment polling was found in the inspected root crontabs,
 system cron locations, systemd unit files or timer inventory. This bounded
 inspection cannot rule out external automation. No deployment was dispatched.
