@@ -20,6 +20,11 @@ scheduled jobs run in the same API process. No separate running database worker
 was observed. The [runbook](deployment-runbook.md) now uses a dedicated non-root
 service, restricted systemd environment and narrow upload access; root PM2
 reload is not an acceptable credential cutover.
+The focused restricted-role cron probe passed in isolated
+[CI 151](https://github.com/nortonjulian/chatforia/actions/runs/41769857115);
+protected tokens remained denied. The branch's legacy backend workflow now
+fails closed once the dedicated API service is enabled or active. Actual
+non-root startup, provider jobs and upload access remain approved-window checks.
 The [read-only provenance/schema follow-up](migration-reconciliation.md) searched
 retained release directories, archives and available CI artifacts. No original
 applied SQL was recovered. Additional catalog comparisons passed but cannot

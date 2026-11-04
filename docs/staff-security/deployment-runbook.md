@@ -242,8 +242,10 @@ launches `/usr/bin/node` directly from the server directory, avoiding npm's
 `DATABASE_URL` with verified TLS peer identity, existing compatible runtime
 keys/Redis/provider settings, `STAFF_SECURITY_ENABLED=true`, and
 `STAFF_DASHBOARD_ENABLED=false`, plus the verified
-`STAFF_EXPECTED_DATABASE=defaultdb`. Do not copy the privileged URL or set
-`DOTENV_CONFIG_PATH`/`DOTENV_CONFIG_OVERRIDE` in that unit. The both-false
+`STAFF_EXPECTED_DATABASE=defaultdb`. Do not copy the privileged URL. The unit
+sets `DOTENV_CONFIG_PATH=/dev/null` so the app's dotenv import cannot load
+legacy `.env`; omit both `DOTENV_CONFIG_PATH` and `DOTENV_CONFIG_OVERRIDE`
+from the EnvironmentFile, which otherwise overrides the unit setting. The both-false
 example is a preparation template, **not** valid post-migration auth config.
 The migration reconciliation ID must be absent from runtime configuration.
 Keep DBA/migration credentials in separate custody. The new app identity must
@@ -265,6 +267,10 @@ saved startup path so reboot cannot revive it; retain any privileged PM2/env
 copies only in root/DBA custody outside the app's effective access. Install but
 do not start the dedicated-user unit after the DBA-only migrations and key
 bootstrap. Confirm the dedicated UID cannot read old privileged sources.
+The legacy manual backend workflow now stops before fetching/resetting code or
+running migrations whenever `chatforia-api.service` is enabled or active;
+enable the new unit as part of the approved switch and do not dispatch that
+workflow for this release.
 Run the read-only runtime preflight under that UID with the same
 systemd `WorkingDirectory` and `EnvironmentFile`; it must pass before the
 listener is admitted. Verify the reviewed unit with `systemd-analyze verify`
@@ -293,10 +299,10 @@ Verify the new Node process UID, effective `DATABASE_URL` **username only**,
 database TLS before any public admission.
 
 The scheduled jobs start inside the same Node process, not in a separate
-credential context. CI 150 covers the role/bootstrap and schema. The added
-PostgreSQL 18 job probe must pass before cutover; it exercises ordinary token
-cleanup and representative cleanup/expiry/number-table operations under
-`chatforia_dev`.
+credential context. [CI 151](https://github.com/nortonjulian/chatforia/actions/runs/41769857115)
+passed the PostgreSQL 18 role/bootstrap, schema and focused job probe. It
+exercised ordinary token cleanup and representative cleanup/expiry/number-table
+operations under `chatforia_dev`; ADMIN, staff and founder tokens stayed denied.
 
 The cleanup predicates exclude ADMIN, staff-assigned and founder accounts;
 the database trigger still blocks protected-token DML if protection changes

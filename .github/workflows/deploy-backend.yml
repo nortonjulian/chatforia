@@ -19,6 +19,13 @@ jobs:
         run: |
           ssh ${{ secrets.API_DO_USER }}@${{ secrets.API_DO_HOST }} << 'EOF'
             set -e
+            # After the approved restricted-runtime cutover, this legacy PM2
+            # workflow must not reset code, migrate, or revive the old process.
+            if systemctl is-enabled --quiet chatforia-api.service || \
+               systemctl is-active --quiet chatforia-api.service; then
+              echo "STOP: dedicated API service requires the reviewed deployment procedure."
+              exit 1
+            fi
             cd /var/www/chatforia-api
 
             git fetch origin
