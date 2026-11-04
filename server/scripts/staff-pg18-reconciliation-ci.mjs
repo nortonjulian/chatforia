@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { PrismaClient } from '@prisma/client';
+import {
+  deleteExpiredOrdinaryResetTokens,
+  deleteOldUsedOrdinaryResetTokens,
+} from '../cron/ordinaryResetTokenCleanup.js';
 import { runPreflight } from './staff-deployment-preflight.mjs';
 
 // Runs only inside the public repository's standard CI job, against the job's
@@ -167,6 +171,56 @@ ROLLBACK;`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${staffChecksum} WHERE migration_name=${staffName}`;
   console.log('PASS: all new migrations apply on isolated PostgreSQL 18 and exact new checksums remain mandatory');
+
+  // The live cleanup timers share the API's DATABASE_URL. Verify their token
+  // cleanup shape under the restricted role without running provider jobs.
+  const runtimePassword = randomBytes(24).toString('hex');
+  sql(`ALTER ROLE chatforia_dev PASSWORD '${runtimePassword}'`);
+  const runtimeTarget = new URL(url);
+  runtimeTarget.username = 'chatforia_dev';
+  runtimeTarget.password = runtimePassword;
+  const runtime = new PrismaClient({ log: [], datasources: { db: { url: runtimeTarget.toString() } } });
+  try {
+    const [identity] = await runtime.$queryRaw`SELECT current_user AS name`;
+    assert.equal(identity.name, 'chatforia_dev');
+    await db.user.createMany({ data: [
+      { id: 900001, username: 'qa_cron_ordinary', passwordHash: 'synthetic-unusable' },
+      { id: 900002, username: 'qa_cron_admin', passwordHash: 'synthetic-unusable' },
+      { id: 900003, username: 'qa_cron_staff', passwordHash: 'synthetic-unusable' },
+      { id: 900004, username: 'qa_cron_founder', passwordHash: 'synthetic-unusable' },
+    ] });
+    const expired = new Date(Date.now() - 86_400_000);
+    await db.passwordResetToken.createMany({ data: [
+      { userId: 900001, tokenHash: 'a'.repeat(64), expiresAt: expired },
+      { userId: 900002, tokenHash: 'b'.repeat(64), expiresAt: expired },
+      { userId: 900001, tokenHash: 'c'.repeat(64), expiresAt: new Date(Date.now() + 86_400_000), usedAt: expired },
+      { userId: 900002, tokenHash: 'd'.repeat(64), expiresAt: new Date(Date.now() + 86_400_000), usedAt: expired },
+      { userId: 900003, tokenHash: 'e'.repeat(64), expiresAt: expired },
+      { userId: 900003, tokenHash: 'f'.repeat(64), expiresAt: new Date(Date.now() + 86_400_000), usedAt: expired },
+      { userId: 900004, tokenHash: '1'.repeat(64), expiresAt: expired },
+      { userId: 900004, tokenHash: '2'.repeat(64), expiresAt: new Date(Date.now() + 86_400_000), usedAt: expired },
+    ] });
+    await db.user.update({ where: { id: 900002 }, data: { role: 'ADMIN' } });
+    await db.staffAssignment.create({ data: { userId: 900003, profile: 'SUPPORT', active: true, grantedById: 900001 } });
+    await db.founderOwnership.create({ data: { id: 1, userId: 900004, verificationRef: 'synthetic-ci-only' } });
+    assert.equal((await deleteExpiredOrdinaryResetTokens(runtime, new Date())).count, 1);
+    assert.equal((await deleteOldUsedOrdinaryResetTokens(runtime, new Date())).count, 1);
+    assert.equal(await db.passwordResetToken.count({ where: { userId: 900001 } }), 0);
+    for (const id of [900002, 900003, 900004]) {
+      assert.equal(await db.passwordResetToken.count({ where: { userId: id } }), 2);
+      await assert.rejects(runtime.passwordResetToken.deleteMany({ where: { userId: id } }));
+    }
+    await runtime.provisionLink.deleteMany({ where: { expiresAt: { lt: expired } } });
+    await runtime.message.findMany({ where: { expiresAt: { lt: expired } }, take: 1 });
+    await runtime.message.updateMany({ where: { id: -1 }, data: { deletedForAll: true } });
+    await runtime.message.deleteMany({ where: { expiresAt: { lt: expired }, deletedForAll: true } });
+    await runtime.status.deleteMany({ where: { expiresAt: { lt: expired } } });
+    await runtime.phoneNumber.findMany({ take: 1 });
+    await runtime.phoneNumber.updateMany({ where: { id: -1 }, data: { status: 'ASSIGNED' } });
+    console.log('PASS: restricted runtime completes ordinary cleanup/job DB operations; admin, staff and founder tokens stay denied');
+  } finally {
+    await runtime.$disconnect();
+  }
 } finally {
   await db.$disconnect();
 }

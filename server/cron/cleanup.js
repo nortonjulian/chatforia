@@ -1,5 +1,7 @@
 import cron from 'node-cron';
+
 import prisma from '../utils/prismaClient.js';
+import { deleteExpiredOrdinaryResetTokens } from './ordinaryResetTokenCleanup.js';
 
 const tasks = [];
 
@@ -31,9 +33,7 @@ export function startCleanupJobs() {
 
       // --- Password reset tokens: expire by time ---
       try {
-        const res = await prisma.passwordResetToken?.deleteMany?.({
-          where: { expiresAt: { lt: now } },
-        });
+        const res = await deleteExpiredOrdinaryResetTokens(prisma, now);
         if (res?.count) {
           console.log(`🧹 Deleted ${res.count} expired PasswordResetTokens`);
         }

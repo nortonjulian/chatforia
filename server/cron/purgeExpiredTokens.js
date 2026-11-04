@@ -1,5 +1,10 @@
 import crypto from 'node:crypto';
+
 import prisma from '../utils/prismaClient.js';
+import {
+  deleteExpiredOrdinaryResetTokens,
+  deleteOldUsedOrdinaryResetTokens,
+} from './ordinaryResetTokenCleanup.js';
 
 const TTL_MINUTES = Number(process.env.PASSWORD_RESET_TOKEN_TTL_MINUTES || 30);
 
@@ -55,6 +60,6 @@ export async function consumeResetToken(plaintextToken) {
 /** Cron helper: delete expired + old used tokens */
 export async function purgeResetTokens(days = 7) {
   const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
-  await prisma.passwordResetToken.deleteMany({ where: { expiresAt: { lt: new Date() } } });
-  await prisma.passwordResetToken.deleteMany({ where: { usedAt: { not: null }, usedAt: { lt: cutoff } } });
+  await deleteExpiredOrdinaryResetTokens(prisma, new Date());
+  await deleteOldUsedOrdinaryResetTokens(prisma, cutoff);
 }
