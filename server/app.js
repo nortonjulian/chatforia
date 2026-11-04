@@ -1,147 +1,39 @@
 import 'dotenv/config';
 
-import express from 'express';
-import compression from 'compression';
-import cookieParser from 'cookie-parser';
-import rateLimit from 'express-rate-limit';
-
-// import listEndpoints from 'express-list-endpoints';
 import path from 'path';
-import { mountPublicAvatarFiles } from './middleware/publicUploadAssets.js';
 import { fileURLToPath } from 'url';
 
+import compression from 'compression';
+import { RedisStore } from 'connect-redis';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
+import rateLimit from 'express-rate-limit';
+// import listEndpoints from 'express-list-endpoints';
+import session from 'express-session';
+
+import passport from './auth/passport.js';
+import { ESIM_ENABLED } from './config/esim.js';
+import { resolveSessionSecret } from './config/sessionSecret.js';
+import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
 import authMiddleware from './middleware/auth.js';
+import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
 import {
   createCorsForbiddenError,
+  appAllowedOrigins,
 } from './middleware/cors.js';
-
-import translateRoutes from "./routes/translate.js";
-
-import voiceClientRouter from './routes/voiceClient.js';
-
-import prisma from './utils/prismaClient.js'; // add near the top of app.js with other imports
-
-// SAFE Sentry wrappers (no-op when DSN is missing/invalid)
-import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
-
-import adminVoiceLogsRouter from './routes/adminVoiceLogs.js';
-
-// Request ID + logging
-import { requestId } from './middleware/requestId.js';
-import logger from './utils/logger.js';
-import { createRequestLoggingMiddleware } from './middleware/requestLogging.js';
-
-import smsDevRouter from './routes/smsDev.js';
-import smsDevMock from './routes/smsDevMock.js';
-import smsDevInbound from './routes/smsDevInbound.js';
-
-// Deep health
-import healthzRouter from './routes/healthz.js';
-
-import supportRouter from './routes/support.js';
-import adsRouter from './routes/ads.js';
-
-// Routers / middleware
-import premiumRouter from './routes/premium.js';
-import backupsRouter from './routes/backups.js';
-import smsWebhooks from './routes/smsWebhooks.js';
-import devicesRouter from './routes/devices.js';
-import authRouter from './routes/auth.js';
-import usersRouter from './routes/users.js';
-import messagesRouter from './routes/messages.js';
-import callsRouter from './routes/calls.js';
-import badgeStateRouter from './routes/badgeState.js';
-import iceRouter from './routes/ice.js';
-import roomsRouter from './routes/rooms.js';
-import chatroomsRouter from './routes/chatrooms.js';
-import followsRouter from './routes/follows.js';
-import randomChatsRouter from './routes/randomChats.js';
-import contactRoutes from './routes/contacts.js';
-import invitesRouter from './routes/invites.js';
-import groupInvitesRouter from './routes/groupInvites.js';
-import mediaRouter from './routes/media.js';
-import billingRouter from './routes/billing.js';
-import billingWebhook from './routes/billingWebhook.js';
-import googlePlayRtdnRouter from './routes/googlePlayRtdn.js';
-import featuresRouter from './routes/features.js';
-import peopleInvitesRouter from "./routes/peopleInvites.js";
-import contactsImportRouter from './routes/contactsImport.js';
-import uploadsRouter from './routes/uploads.js';
-import filesRouter from './routes/files.js';
-import privateMediaRouter from './routes/privateMedia.js';
-import smsRouter from './routes/sms.js';
-import searchPeopleRouter from './routes/search.people.js';
-import voiceRouter from './routes/voice.js';
-import settingsForwardingRouter from './routes/settings.forwarding.js';
-import calendarRouter from './routes/calendar.js';
-import shareEventRouter from './routes/shareEvent.js';
-import eventLinksRouter from './routes/eventLinks.js';
-import a11yRouter from './routes/a11y.js';
-import translationsRouter from './routes/translations.js';
-import languagesRouter from './routes/languages.js';
-import numbersRouter from './routes/numbers.js';
-import voiceWebhooks from './routes/voiceWebhooks.js';
-import videoTokens from './routes/videoTokens.js';
-import connectivityRouter from './routes/connectivity.js';
-import esimRouter from './routes/esim.js';
-import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
-import pricingRouter from './routes/pricing.js';
-
-import stickersRouter from './routes/stickers.js';
-
-
-
-import appleBillingWebhook from './routes/appleBillingWebhook.js';
-
-import smsConsentRouter from './routes/smsConsent.js';
-
-import conversationsRouter from './routes/conversations.js';
-
-import reportsRouter from './routes/reports.js';
-import blocksRouter from './routes/blocks.js';
-import adminReportsRouter from './routes/adminReports.js';
-
-import webhooksTwilio from './routes/webhooksTwilio.js';
-import twilioRegulatoryWebhook from './routes/twilioRegulatoryWebhook.js';
-
-import familyRouter from './routes/family.js';
-import wirelessRouter from './routes/wireless.js';
-
-import voicemailRouter from './routes/voicemail.js';
-import voicemailGreetingRouter from './routes/voicemailGreeting.js';
-
-import portingRouter from './routes/porting.js';
-import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
-
-import aiRoutes from './routes/ai.js'
-import aiPowerRoutes from './routes/ai.power.js';
-
-import adminSupportRouter from './routes/adminSupport.js';
-import adminUsersReadOnlyRouter from './routes/adminUsersReadOnly.js';
-import adminEsimReplacementsRouter from './routes/adminEsimReplacements.js';
-
-// 🔒 auth gates
-import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
-// ✅ enforcement gates
+import { csp } from './middleware/csp.js';
+import { buildCsrf, setCsrfCookie, csrfOnlyForCookieAuth } from './middleware/csrf.js';
 import {
   requireEmailVerified,
   requirePhoneVerified,
   requireStaff2FA,
   requirePremium,
 } from './middleware/enforcement.js';
-
-// ✅ auth sub-routers
-import { router as phoneVerification } from './routes/auth/phoneVerification.js';
-import { router as mfaTotp } from './routes/auth/mfaTotp.js';
-
-// 🌍 region inference (for phone parsing defaults, etc.)
-import { inferRegion } from './middleware/region.js';
-
-// Errors
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
-
-// CSRF + Rate limiters
-import { buildCsrf, setCsrfCookie } from './middleware/csrf.js';
+import { hppGuard } from './middleware/hpp.js';
+import { httpsRedirect } from './middleware/httpsRedirect.js';
+import { mountPublicAvatarFiles } from './middleware/publicUploadAssets.js';
 import {
   limiterLogin,
   limiterRegister,
@@ -151,42 +43,126 @@ import {
   limiterMedia,
   limiterGenericMutations,
 } from './middleware/rateLimits.js';
+import { inferRegion } from './middleware/region.js';
+import { requestId } from './middleware/requestId.js';
+import { createRequestLoggingMiddleware } from './middleware/requestLogging.js';
+import { secureHeaders } from './middleware/secureHeaders.js';
+import a11yRouter from './routes/a11y.js';
+import adminEsimReplacementsRouter from './routes/adminEsimReplacements.js';
+import adminReportsRouter from './routes/adminReports.js';
+import adminSupportRouter from './routes/adminSupport.js';
+import adminUserDetailsRouter from './routes/adminUserDetails.js';
+import adminUsersReadOnlyRouter from './routes/adminUsersReadOnly.js';
+import adminVoiceLogsRouter from './routes/adminVoiceLogs.js';
+import adsRouter from './routes/ads.js';
+import aiRoutes from './routes/ai.js'
+import aiPowerRoutes from './routes/ai.power.js';
+import phoneRoutes from './routes/api/phone.js';
+import appleBillingWebhook from './routes/appleBillingWebhook.js';
+import { router as mfaTotp } from './routes/auth/mfaTotp.js';
+import { router as phoneVerification } from './routes/auth/phoneVerification.js';
+import authRouter from './routes/auth.js';
+import backupsRouter from './routes/backups.js';
+import badgeStateRouter from './routes/badgeState.js';
+import billingRouter from './routes/billing.js';
+import billingWebhook from './routes/billingWebhook.js';
+import blocksRouter from './routes/blocks.js';
+import calendarRouter from './routes/calendar.js';
+import callsRouter from './routes/calls.js';
+import chatroomsRouter from './routes/chatrooms.js';
+import connectivityRouter from './routes/connectivity.js';
+import contactRoutes from './routes/contacts.js';
+import contactsImportRouter from './routes/contactsImport.js';
+import conversationsRouter from './routes/conversations.js';
+import devicesRouter from './routes/devices.js';
+import esimRouter from './routes/esim.js';
+import eventLinksRouter from './routes/eventLinks.js';
+import familyRouter from './routes/family.js';
+import featuresRouter from './routes/features.js';
+import filesRouter from './routes/files.js';
+import followsRouter from './routes/follows.js';
+import googlePlayRtdnRouter from './routes/googlePlayRtdn.js';
+import groupInvitesRouter from './routes/groupInvites.js';
+import healthzRouter from './routes/healthz.js';
+import iceRouter from './routes/ice.js';
+import invitesRouter from './routes/invites.js';
+import languagesRouter from './routes/languages.js';
+import mediaRouter from './routes/media.js';
+import messagesRouter from './routes/messages.js';
+import numbersRouter from './routes/numbers.js';
+import oauthMobileRouter from './routes/oauth.mobile.js';
+import oauthRouter from './routes/oauth.routes.js';
+import peopleInvitesRouter from "./routes/peopleInvites.js";
+import portingRouter from './routes/porting.js';
+import premiumRouter from './routes/premium.js';
+import pricingRouter from './routes/pricing.js';
+import privateMediaRouter from './routes/privateMedia.js';
+import randomChatsRouter from './routes/randomChats.js';
+import reportsRouter from './routes/reports.js';
+import roomsRouter from './routes/rooms.js';
+import searchPeopleRouter from './routes/search.people.js';
+import settingsForwardingRouter from './routes/settings.forwarding.js';
+import shareEventRouter from './routes/shareEvent.js';
+import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
+import smsRouter from './routes/sms.js';
+import smsConsentRouter from './routes/smsConsent.js';
+import smsDevRouter from './routes/smsDev.js';
+import smsDevInbound from './routes/smsDevInbound.js';
+import smsDevMock from './routes/smsDevMock.js';
+import smsWebhooks from './routes/smsWebhooks.js';
+import staffRouter from './routes/staff.js';
+import stickersRouter from './routes/stickers.js';
+import supportRouter from './routes/support.js';
+import translateRoutes from "./routes/translate.js";
+import translationsRouter from './routes/translations.js';
+import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
+import twilioRegulatoryWebhook from './routes/twilioRegulatoryWebhook.js';
+import uploadsRouter from './routes/uploads.js';
+import usersRouter from './routes/users.js';
+import videoRouter from './routes/video.js';
+import videoTokens from './routes/videoTokens.js';
+import voiceRouter from './routes/voice.js';
+import voiceClientRouter from './routes/voiceClient.js';
+
+// SAFE Sentry wrappers (no-op when DSN is missing/invalid)
+
+// Request ID + logging
+
+// Deep health
+
+// Routers / middleware
+import voicemailRouter from './routes/voicemail.js';
+import voicemailGreetingRouter from './routes/voicemailGreeting.js';
+import voiceWebhooks from './routes/voiceWebhooks.js';
+import webhooksTwilio from './routes/webhooksTwilio.js';
+import wirelessRouter from './routes/wireless.js';
+import logger from './utils/logger.js';
+import prisma from './utils/prismaClient.js'; // add near the top of app.js with other imports
+
+// 🔒 auth gates
+// ✅ enforcement gates
+
+// ✅ auth sub-routers
+
+// 🌍 region inference (for phone parsing defaults, etc.)
+
+// Errors
+
+// CSRF + Rate limiters
 
 // Security middlewares
-import cors from 'cors';
-import { secureHeaders } from './middleware/secureHeaders.js';
-import { csp } from './middleware/csp.js';
-import { hppGuard } from './middleware/hpp.js';
-import { httpsRedirect } from './middleware/httpsRedirect.js';
+
 
 // Session + passport + oauth routes
-import session from 'express-session';
-import { RedisStore } from 'connect-redis';
+
 import { redisKv, ensureRedis } from './utils/redisClient.js';
-import passport from './auth/passport.js';
-import oauthRouter from './routes/oauth.routes.js';
-import oauthMobileRouter from './routes/oauth.mobile.js';
-
 import twilioStatusWebhook from './webhooks/status.js';
-
-import phoneRoutes from './routes/api/phone.js';
-import videoRouter from './routes/video.js';
 
 
 // eSIM feature flag
-import { ESIM_ENABLED } from './config/esim.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-function csrfOnlyForCookieAuth(csrfMw) {
-  return (req, res, next) => {
-    const auth = req.headers.authorization;
-    const hasBearer = typeof auth === 'string' && auth.startsWith('Bearer ');
-    if (hasBearer) return next();           // ✅ iOS / API clients
-    return csrfMw(req, res, next);          // ✅ browser cookie/session
-  };
-}
 
 export function createApp() {
   const app = express();
@@ -209,13 +185,7 @@ export function createApp() {
   /* Early security */
   app.use(httpsRedirect());
 
-  const allowedOrigins = [
-    'https://chatforia.com',
-    'https://www.chatforia.com',
-    'https://api.chatforia.com',
-    'http://localhost:5173',
-    'https://appleid.apple.com',
-  ];
+  const allowedOrigins = appAllowedOrigins({ isProd });
 
   function normalizeOrigin(origin) {
     if (!origin) return origin;
@@ -341,7 +311,11 @@ export function createApp() {
   app.use(
     session({
       store: sessionStore,
-      secret: process.env.SESSION_SECRET || 'change-me',
+      secret: resolveSessionSecret({
+        isProd,
+        secret: process.env.SESSION_SECRET,
+        jwtSecret: process.env.JWT_SECRET,
+      }),
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -410,6 +384,8 @@ export function createApp() {
 
   app.use('/admin/support', adminSupportRouter);
   app.use('/admin/users', adminUsersReadOnlyRouter);
+  app.use('/admin/users', adminUserDetailsRouter);
+  app.use('/staff', staffRouter);
   app.use(
     '/admin/esim-replacements',
     adminEsimReplacementsRouter

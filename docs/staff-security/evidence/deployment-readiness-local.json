@@ -1,0 +1,31 @@
+{
+  "syntheticOnly": true,
+  "checks": [
+    "missing bootstrap roles/schema fail before migrations",
+    "populated 141-migration baseline passes read-only prerequisites as non-superuser",
+    "baseline migration checksum drift blocks upgrade",
+    "wrong expected database fails closed",
+    "pre-existing pgcrypto in public is detected before any staff migration",
+    "runtime object ownership is rejected",
+    "runtime SET ROLE membership is rejected even with NOINHERIT",
+    "all 18 staff migrations upgrade populated baseline without changing existing users",
+    "post-migration gate requires security enabled and matching independent signing key",
+    "existing administrator protection and ordinary writes survive upgrade",
+    "canary and dashboard-disabled containment configurations both retain security readiness"
+  ],
+  "total": 11,
+  "clusterStopped": true,
+  "baselineMigrations": 141,
+  "addedMigrations": 18,
+  "totalMigrations": 159,
+  "browserQaRepeated": false,
+  "existingDatabaseUsed": false,
+  "verifiedAt": "2026-11-03T19:34:50.959671+00:00",
+  "applicationCheckpoint": "9974f507a7c0da7c8cdbdea13893dd2c7cd8ddfc",
+  "reusedCi": "https://github.com/nortonjulian/chatforia/actions/runs/41701102110",
+  "limits": [
+    "Local PostgreSQL is not DigitalOcean managed-service certification.",
+    "Containment configuration is not a deployed process/image rollback.",
+    "No production, hosted HTTPS, human recovery or actual secret-store checks performed."
+  ]
+}

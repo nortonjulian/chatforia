@@ -1,19 +1,20 @@
 import 'dotenv/config';
 import http from 'http';
+
 import csurf from 'csurf';
+
 import { createApp } from './app.js';
-import { initSocket } from './socket.js';
+import { ENV } from './config/env.js';
+import validateEnv from './config/validateEnv.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
 import { initCrons, stopCrons } from './cron/index.js';
 import { scheduleExpireJob } from './jobs/expireMessagesJob.js';
-import { setSocketIo, setHelpers } from './services/socketBus.js';
-import prisma from './utils/prismaClient.js';
-
 import { startNumberLifecycleJob } from './jobs/numberLifecycle.js';
-
-import validateEnv from './config/validateEnv.js';
-import { ENV } from './config/env.js';
+import { assertStaffRuntimeReady } from './security/staffRuntimeReadiness.js';
+import { setSocketIo, setHelpers } from './services/socketBus.js';
+import { initSocket } from './socket.js';
 import logger from './utils/logger.js';
+import prisma from './utils/prismaClient.js';
 
 
 /**
@@ -56,6 +57,8 @@ if (ENV.IS_TEST) {
   // or call makeApp() if it wants an isolated instance.
   logger.info({ env: ENV.NODE_ENV }, 'Loaded server in test mode (no listener)');
 } else {
+  // Check privilege boundaries before creating listeners or background jobs.
+  await assertStaffRuntimeReady(prisma);
   // ---- REAL RUNTIME (dev/prod) ----
   const app = makeApp();
   const server = http.createServer(app);

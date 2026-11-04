@@ -1,0 +1,35 @@
+{
+  "checkedAtUtc": "2026-11-03T22:41:51Z",
+  "target": "verified chatforia-api-01 runtime connection to managed defaultdb; PostgreSQL 18.6",
+  "method": "BEGIN READ ONLY, transaction_read_only=on, 10-second statement timeout, boolean aggregate predicates only; no row identifiers, values, credentials, or tokens returned",
+  "scope": "current-state necessary invariants; not historical migration equivalence, external-provider reconciliation, or a full data audit",
+  "results": {
+    "20260726034500_add_wireless_refund_audit": {
+      "refundAmountsNonnegative": true,
+      "requiredDefaultsNonNull": true
+    },
+    "20260806030000_add_pstn_reporting_and_blocking": {
+      "reportTypesExpectedAppOrPstn": true,
+      "reportTypesNonNull": true,
+      "smsLinksValid": true,
+      "blockedNumberUserLinksValid": true
+    },
+    "20260807010000_add_sandbox_apns_tokens": {
+      "apnsSandboxTokensUniqueWhenPresent": true,
+      "voipSandboxTokensUniqueWhenPresent": true
+    },
+    "20261013_add_esim_replacement_audit": {
+      "statusesInApplicationSet": true,
+      "balancesNonnegative": true,
+      "purchaseOwnerMatches": true,
+      "oldSubscriberOwnerMatches": true,
+      "newSubscriberOwnerMatches": true
+    }
+  },
+  "limitations": [
+    "No customer row counts or values were returned; checks can pass vacuously for empty tables.",
+    "Matching current rows and validated constraints cannot prove any historical backfill, reclassification, token transfer, or imported replacement audit ran.",
+    "Provider, payment, historical snapshot, and audit-log reconciliation was not performed under this bounded read-only check."
+  ],
+  "productionChanged": false
+}

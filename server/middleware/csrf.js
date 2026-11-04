@@ -2,6 +2,16 @@ import csurf from 'csurf';
 
 const NOOP = (_req, _res, next) => next();
 
+// Authentication prefers the session cookie. A Bearer header must not disable
+// CSRF when that cookie is the credential which will authorize the request.
+export function csrfOnlyForCookieAuth(csrfMw) {
+  return (req, res, next) => {
+    const cookieToken = req.cookies?.[process.env.JWT_COOKIE_NAME || 'foria_jwt'];
+    const hasBearer = /^Bearer\s+\S+\s*$/i.test(req.headers.authorization || '');
+    return hasBearer && !cookieToken ? next() : csrfMw(req, res, next);
+  };
+}
+
 export function buildCsrf({ isProd = process.env.NODE_ENV === 'production', cookieDomain } = {}) {
   if (process.env.NODE_ENV === 'test') return NOOP;
 
@@ -19,7 +29,6 @@ export function buildCsrf({ isProd = process.env.NODE_ENV === 'production', cook
       req.headers?.['x-xsrf-token'] ||
       req.body?._csrf ||
       req.query?._csrf ||
-      req.cookies?.['XSRF-TOKEN'] ||
       '',
   });
 }
@@ -60,7 +69,6 @@ const csrfDefault =
           req.headers?.['x-xsrf-token'] ||
           req.body?._csrf ||
           req.query?._csrf ||
-          req.cookies?.['XSRF-TOKEN'] ||
           '',
       });
 

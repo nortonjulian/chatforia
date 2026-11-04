@@ -169,7 +169,16 @@ describe('purgeExpiredTokens helpers', () => {
       // First delete: expiresAt < now
       const call1 = prismaMock.passwordResetToken.deleteMany.mock.calls[0][0];
       expect(call1).toEqual({
-        where: { expiresAt: { lt: expect.any(Date) } },
+        where: {
+          expiresAt: { lt: expect.any(Date) },
+          user: {
+            is: {
+              role: { not: 'ADMIN' },
+              staffAssignment: { is: null },
+              founderOwnership: { is: null },
+            },
+          },
+        },
       });
       const nowArg = call1.where.expiresAt.lt.valueOf();
       expect(nowArg).toBeGreaterThanOrEqual(before - 50);
@@ -178,7 +187,16 @@ describe('purgeExpiredTokens helpers', () => {
       // Second delete: usedAt < cutoff
       const call2 = prismaMock.passwordResetToken.deleteMany.mock.calls[1][0];
       expect(call2).toEqual({
-        where: { usedAt: { lt: expect.any(Date) } },
+        where: {
+          usedAt: { not: null, lt: expect.any(Date) },
+          user: {
+            is: {
+              role: { not: 'ADMIN' },
+              staffAssignment: { is: null },
+              founderOwnership: { is: null },
+            },
+          },
+        },
       });
 
       const cutoffArg = call2.where.usedAt.lt.valueOf();

@@ -22,7 +22,13 @@
     "coverage": "npm run -w server coverage",
     "test:e2e": "playwright test",
     "test:all": "npm run test && npm run test:e2e",
-    "postinstall": "npm run -w server prisma:generate || true"
+    "postinstall": "npm run -w server prisma:generate || true",
+    "test:staff-security": "node server/scripts/run-staff-security-qa.mjs",
+    "verify:staff-release": "node server/scripts/verify-staff-release.mjs",
+    "lint:staff-security": "eslint server/security server/routes/staff.js server/routes/adminUserDetails.js server/routes/adminUsersReadOnly.js server/scripts/*staff*.mjs client/src/pages/StaffDashboard.jsx client/src/pages/UsersAdminPage.jsx client/src/components/admin client/src/pages/__tests__/StaffDashboard.test.jsx --max-warnings=0",
+    "test:staff-unit": "node server/scripts/test-staff-unit.mjs",
+    "qa:staff-local": "node server/scripts/staff-local-rehearsal.mjs",
+    "audit:staff-lint": "node server/scripts/audit-staff-lint.mjs"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
@@ -36,6 +42,9 @@
     "babel-jest": "^29.7.0",
     "baseline-browser-mapping": "^2.10.0",
     "eslint": "^9.33.0",
+    "eslint-import-resolver-node": "^0.3.10",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-refresh": "^0.4.20",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^30.0.5",

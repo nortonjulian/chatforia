@@ -36,24 +36,34 @@ export async function createResetToken(userId, ttlMinutes = TTL_MINUTES) {
  * - marks usedAt
  * - returns the userId
  */
-export async function consumeResetToken(plaintextToken) {
+export async function consumeResetToken(plaintextToken, db = prisma) {
   const tokenHash = hashToken(plaintextToken);
 
-  const rec = await prisma.passwordResetToken.findFirst({
+  const rec = await db.passwordResetToken.findFirst({
     where: { tokenHash },
     select: { id: true, userId: true, expiresAt: true, usedAt: true },
   });
 
   if (!rec) return { ok: false, reason: 'invalid' };
   if (rec.usedAt) return { ok: false, reason: 'used' };
-  if (rec.expiresAt && rec.expiresAt.getTime() < Date.now()) {
+
+  const now = new Date();
+  if (rec.expiresAt && rec.expiresAt.getTime() <= now.getTime()) {
     return { ok: false, reason: 'expired' };
   }
 
-  await prisma.passwordResetToken.update({
-    where: { id: rec.id },
-    data: { usedAt: new Date() },
+  const claimed = await db.passwordResetToken.updateMany({
+    where: {
+      id: rec.id,
+      usedAt: null,
+      expiresAt: { gt: now },
+    },
+    data: { usedAt: now },
   });
+
+  if (claimed.count !== 1) {
+    return { ok: false, reason: 'used' };
+  }
 
   return { ok: true, userId: rec.userId };
 }

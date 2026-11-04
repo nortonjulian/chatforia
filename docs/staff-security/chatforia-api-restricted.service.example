@@ -1,0 +1,30 @@
+# PREPARATION TEMPLATE ONLY. Do not install/enable before the approved cutover.
+# The dedicated account and three upload roots must be prepared and checked.
+[Unit]
+Description=Chatforia API with restricted database runtime
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=chatforia-api
+Group=chatforia-api
+WorkingDirectory=/var/www/chatforia-api/server
+# systemd reads this root-owned 0600 file and injects runtime values. It must
+# contain a chatforia_dev database URL and the required runtime settings;
+# DBA credentials and DOTENV_CONFIG_PATH/OVERRIDE belong elsewhere.
+EnvironmentFile=/etc/chatforia/api-runtime.env
+Environment=NODE_ENV=production
+# index.js imports dotenv/config. Point it at an empty file so it cannot load
+# the legacy server/.env, even if that file's permissions change later.
+Environment=DOTENV_CONFIG_PATH=/dev/null
+# Direct Node launch avoids npm start's .env.production override and root PM2.
+ExecStart=/usr/bin/node /var/www/chatforia-api/server/bootstrap.js
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=true
+ProtectHome=true
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

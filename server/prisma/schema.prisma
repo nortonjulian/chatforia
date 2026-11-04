@@ -323,6 +323,10 @@ model User {
   contactsOwned              Contact[]                 @relation("ContactsOwned")
   contactsSaved              Contact[]                 @relation("ContactsSaved")
   auditLogs                  AuditLog[]                @relation("AuditActor")
+  staffAssignment            StaffAssignment?         @relation("StaffAssignmentSubject")
+  founderOwnership           FounderOwnership?        @relation("FounderOwnershipAccount")
+  staffAssignmentsGranted    StaffAssignment[]        @relation("StaffAssignmentGrantor")
+  staffAssignmentsRevoked    StaffAssignment[]        @relation("StaffAssignmentRevoker")
   messageKeys                MessageKey[]
   messageDeletions           MessageDeletion[]
   devices                    Device[]
@@ -1240,6 +1244,63 @@ model Report {
   @@index([priority, createdAt])
   @@index([severityScore, createdAt])
   @@index([autoHidden, createdAt])
+}
+
+
+// Staff access is separate from the global User.role.
+// A profile grants no authority without active, server-verified assignment.
+
+// Protected company ownership identity.
+// Ownership is established through an authorized infrastructure process,
+// never through ordinary staff delegation or username matching.
+model FounderOwnership {
+  id                 Int      @id
+  userId             Int      @unique
+  establishedAt      DateTime @default(now())
+  verificationRef    String
+
+  user User @relation("FounderOwnershipAccount", fields: [userId], references: [id], onDelete: Restrict)
+}
+
+model StaffAssignment {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @unique
+  profile     String
+  active      Boolean   @default(false)
+  grantedById Int
+  grantedAt   DateTime  @default(now())
+  revokedById Int?
+  revokedAt   DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  user User @relation("StaffAssignmentSubject", fields: [userId], references: [id], onDelete: Restrict)
+
+  grantedBy User @relation("StaffAssignmentGrantor", fields: [grantedById], references: [id], onDelete: Restrict)
+
+  revokedBy User? @relation("StaffAssignmentRevoker", fields: [revokedById], references: [id], onDelete: Restrict)
+
+  @@index([profile, active])
+  @@index([grantedById])
+  @@index([revokedById])
+}
+
+
+// Append-only staff-access history.
+// Actor and subject IDs are retained independently of User deletion.
+model StaffAccessEvent {
+  id              Int      @id @default(autoincrement())
+  actorUserId     Int
+  subjectUserId   Int
+  action          String
+  previousProfile String?
+  newProfile      String?
+  reason          String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+
+  @@index([subjectUserId, createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([action, createdAt])
 }
 
 model AuditLog {

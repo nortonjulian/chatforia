@@ -1,0 +1,49 @@
+{
+  "observedAt": "2026-11-03T18:56:43.095Z",
+  "provider": "Google: real human browser authentication and server callback",
+  "environment": "Fresh isolated local PostgreSQL and authenticated loopback Redis; test application keys",
+  "checks": {
+    "realGoogle": true,
+    "syntheticOnly": true,
+    "preMfaDenied": true,
+    "postMfaSupport": true,
+    "adminDenied": true,
+    "logoutDenied": true,
+    "completed": true
+  },
+  "httpOutcomes": {
+    "beforeMfa": {
+      "staff": 401,
+      "admin": 401
+    },
+    "afterMfa": {
+      "staff": 200,
+      "profile": "SUPPORT",
+      "admin": 403
+    },
+    "afterObservedApplicationLogout": {
+      "staff": 401,
+      "admin": 401,
+      "session": 401
+    }
+  },
+  "successfulBrowserMfa": {
+    "method": "POST",
+    "path": "/auth/2fa/login",
+    "status": 200,
+    "originIsApi": true,
+    "pendingCookiePresent": true,
+    "csrfSecretCookiePresent": true,
+    "csrfHeaderPresent": true,
+    "csrfHeaderValid": true,
+    "csrfMiddlewareReached": true,
+    "browserMfaRequested": true,
+    "pendingMatchesBody": true
+  },
+  "verificationSource": "Observer validates a signed current unused challenge for pre-MFA denial, current authenticated fixture/profile after MFA, and observed POST logout plus all three 401 responses; redacted request metadata independently confirms successful MFA cookie/CSRF checks.",
+  "scopeLimits": [
+    "Local HTTP is not deployed HTTPS/domain/proxy validation.",
+    "Local PostgreSQL/Redis is not DigitalOcean managed-service validation.",
+    "Apple OAuth and live operational recovery/secret-store processes remain unverified."
+  ]
+}

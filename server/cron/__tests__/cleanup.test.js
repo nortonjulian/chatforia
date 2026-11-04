@@ -92,12 +92,21 @@ describe('cron/cleanup', () => {
 
     // PasswordResetTokens: expiresAt<now
     expect(prismaMock.passwordResetToken.deleteMany).toHaveBeenCalledWith({
-      where: { expiresAt: anyDateLT() },
+      where: {
+        expiresAt: anyDateLT(),
+        user: {
+          is: {
+            role: { not: 'ADMIN' },
+            staffAssignment: { is: null },
+            founderOwnership: { is: null },
+          },
+        },
+      },
     });
 
     // Messages: expiresAt<now
     expect(prismaMock.message.deleteMany).toHaveBeenCalledWith({
-      where: { expiresAt: anyDateLT() },
+      where: { expiresAt: anyDateLT(), deletedForAll: true },
     });
 
     // Statuses: expiresAt<now

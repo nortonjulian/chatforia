@@ -1,0 +1,30 @@
+{
+  "syntheticOnly": true,
+  "postgresVersion": "18.3 (Homebrew)",
+  "checks": [
+    "missing bootstrap roles/schema fail before migrations",
+    "populated 141-migration baseline passes read-only prerequisites as non-superuser",
+    "baseline migration checksum drift blocks upgrade",
+    "wrong expected database fails closed",
+    "pre-existing pgcrypto in public is detected before any staff migration",
+    "runtime object ownership is rejected",
+    "runtime SET ROLE membership is rejected even with NOINHERIT",
+    "all 18 staff migrations upgrade populated baseline without changing existing users",
+    "post-migration gate requires security enabled and matching independent signing key",
+    "existing administrator protection and ordinary writes survive upgrade",
+    "canary and dashboard-disabled containment configurations both retain security readiness"
+  ],
+  "total": 11,
+  "clusterStopped": true,
+  "baselineMigrations": 141,
+  "addedMigrations": 18,
+  "totalMigrations": 159,
+  "browserQaRepeated": false,
+  "existingDatabaseUsed": false,
+  "recordedAt": "2026-11-03T20:29:14.277000+00:00",
+  "purpose": "New engine-major verification prompted by owner-reported PostgreSQL 18 target; no browser QA repeated",
+  "limits": [
+    "Fresh local PostgreSQL 18 is not certification of DigitalOcean role privileges or extension ownership.",
+    "No existing database, backup, customer records or production credential was used."
+  ]
+}

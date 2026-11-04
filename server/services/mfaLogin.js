@@ -1,6 +1,8 @@
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import speakeasy from 'speakeasy';
+
+import { mfaLoginWrite } from '../security/mfaLoginWrite.js';
 import prisma from '../utils/prismaClient.js';
 import { open } from '../utils/secretBox.js';
 
@@ -17,15 +19,17 @@ export async function lockMfaUser(tx, userId) {
 }
 
 // Challenge records also track failed attempts. No migration or Redis dependency.
-export async function createMfaChallenge(account, nextUrl = null) {
+export async function createMfaChallenge(account, nextUrl = null, db = prisma) {
   const jti = crypto.randomBytes(32).toString('hex');
-  return prisma.$transaction(async (tx) => {
+  return db.$transaction(async (tx) => {
     const user = await lockMfaUser(tx, Number(account.id));
     if (!user?.twoFactorEnabled || !user.totpSecretEnc) throw new Error('MFA account unavailable');
     const token = jwt.sign({ sub: String(user.id), typ: 'mfa', jti,
       tokenVersion: user.tokenVersion ?? 0, secretHash: digest(user.totpSecretEnc), nextUrl },
     secret, { algorithm: 'HS256', expiresIn: '5m' });
-    await tx.verificationToken.create({ data: {
+    if (process.env.STAFF_SECURITY_ENABLED === 'true') {
+      await mfaLoginWrite(tx, user, 'CREATE', { tokenHash: digest(jti) });
+    } else await tx.verificationToken.create({ data: {
       userId: user.id, type: 'mfa_login:0', tokenHash: digest(jti),
       expiresAt: new Date(Date.now() + 5 * 60 * 1000),
     } });
@@ -33,7 +37,7 @@ export async function createMfaChallenge(account, nextUrl = null) {
   });
 }
 
-export async function completeMfaChallenge(token, suppliedCode) {
+export async function completeMfaChallenge(token, suppliedCode, db = prisma) {
   const invalid = { ok: false, status: 401, error: 'Invalid or expired MFA challenge' };
   let claims;
   try {
@@ -45,7 +49,7 @@ export async function completeMfaChallenge(token, suppliedCode) {
   if (typeof suppliedCode !== 'string' || suppliedCode.length > 64 || !suppliedCode.trim()) {
     return { ok: false, status: 400, error: 'Enter a verification code' };
   }
-  return prisma.$transaction(async (tx) => {
+  return db.$transaction(async (tx) => {
     const user = await lockMfaUser(tx, Number(claims.sub));
     if (!user?.twoFactorEnabled || !user.totpSecretEnc ||
         (user.tokenVersion ?? 0) !== claims.tokenVersion || digest(user.totpSecretEnc) !== claims.secretHash) return invalid;
@@ -60,13 +64,17 @@ export async function completeMfaChallenge(token, suppliedCode) {
     let accepted = /^\d{6}$/.test(code) && speakeasy.totp.verify({
       secret: open(user.totpSecretEnc), encoding: 'base32', token: code, window: 1,
     });
+    let recoveryId = null;
     if (!accepted) {
       // Match canonical new hashes and exact legacy printed-code hashes.
       const hashes = [...new Set([recoveryCodeHash(code), digest(code.toUpperCase())])];
       const recovery = await tx.twoFactorRecoveryCode.findFirst({
         where: { userId: user.id, codeHash: { in: hashes }, usedAt: null },
       });
-      if (recovery) {
+      if (recovery && process.env.STAFF_SECURITY_ENABLED === 'true') {
+        recoveryId = recovery.id;
+        accepted = true;
+      } else if (recovery) {
         const claimed = await tx.twoFactorRecoveryCode.updateMany({
           where: { id: recovery.id, userId: user.id, usedAt: null }, data: { usedAt: new Date() },
         });
@@ -74,11 +82,17 @@ export async function completeMfaChallenge(token, suppliedCode) {
       }
     }
     if (!accepted) {
-      await tx.verificationToken.update({ where: { id: record.id }, data: {
+      if (process.env.STAFF_SECURITY_ENABLED === 'true') {
+        await mfaLoginWrite(tx, user, 'FAIL', { tokenHash: digest(claims.jti), recordId: record.id });
+      } else await tx.verificationToken.update({ where: { id: record.id }, data: {
         type: `mfa_login:${attempts + 1}`, ...(attempts + 1 >= 5 ? { usedAt: new Date() } : {}),
       } });
       return { ok: false, status: attempts + 1 >= 5 ? 429 : 400,
         error: attempts + 1 >= 5 ? 'Too many attempts. Start sign-in again.' : 'Invalid verification code' };
+    }
+    if (process.env.STAFF_SECURITY_ENABLED === 'true') {
+      await mfaLoginWrite(tx, user, 'COMPLETE', { tokenHash: digest(claims.jti), recordId: record.id, recoveryId });
+      return { ok: true, user, nextUrl: claims.nextUrl ?? null };
     }
     const consumed = await tx.verificationToken.updateMany({
       where: { id: record.id, usedAt: null, expiresAt: { gt: new Date() } }, data: { usedAt: new Date() },

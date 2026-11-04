@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'node:url';
+
 import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
 import globals from 'globals';
@@ -15,6 +17,7 @@ export default defineConfig([
     'dist',
     'build',
     'coverage',
+    '**/coverage/**',
     'node_modules',
     'client/dist',
     'server/uploads',
@@ -27,9 +30,9 @@ export default defineConfig([
     files: ['**/*.{js,jsx}'],
     extends: [
       js.configs.recommended,
-      react.configs.recommended,
+      react.configs.flat.recommended,
       reactHooks.configs['recommended-latest'],
-      jsxA11y.configs.recommended,
+      jsxA11y.flatConfigs.recommended,
       importPlugin.flatConfigs.recommended,
       reactRefresh.configs.vite,
       prettierConfig,
@@ -42,16 +45,10 @@ export default defineConfig([
         ...globals.browser,
       },
     },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      'jsx-a11y': jsxA11y,
-      import: importPlugin,
-    },
     settings: {
       react: { version: 'detect' },
       'import/resolver': {
+        [fileURLToPath(new URL('./config/eslint-client-alias.cjs', import.meta.url))]: {},
         node: { extensions: ['.js', '.jsx'] },
       },
     },
@@ -84,6 +81,14 @@ export default defineConfig([
     },
   },
 
+  // Staff QA/release scripts are Node ESM, including the new local rehearsals.
+  {
+    files: ['server/scripts/*staff*.mjs', 'config/eslint-client-alias.cjs'],
+    extends: [js.configs.recommended],
+    languageOptions: { globals: { ...globals.node } },
+    rules: { 'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }] },
+  },
+
   // Server-side overrides
   {
     files: ['server/**/*.js'],
@@ -107,7 +112,7 @@ export default defineConfig([
 
   // Tests (Jest + Node)
   {
-    files: ['**/__tests__/**/*.js', '**/*.test.js', '**/*.spec.js'],
+    files: ['**/__tests__/**/*.{js,jsx}', '**/*.test.{js,jsx}', '**/*.spec.{js,jsx}'],
     languageOptions: {
       globals: { ...globals.jest, ...globals.node },
     },

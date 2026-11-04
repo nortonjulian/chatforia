@@ -108,6 +108,8 @@ function setJwtCookie(res, token) {
 }
 
 function clearAllAuthCookies(res) {
+  // Match the configured cookie's issuing scope before clearing legacy aliases.
+  res.clearCookie(getCookieName(), getCookieBase());
   const names = ['foria_jwt', 'cf_session'];
 
   const domains = [
@@ -531,6 +533,7 @@ router.get(
       plan: req.user.plan,
       tokenVersion: req.user.tokenVersion ?? 0,
       typ: 'short',
+      mfaVerified: req.auth?.mfaVerified === true,
     };
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '10m' });

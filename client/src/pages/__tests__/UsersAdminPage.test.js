@@ -1,3 +1,5 @@
+jest.unmock('@mantine/core');
+import { MantineProvider } from '@mantine/core';
 // --- Mock axios client FIRST to avoid parsing import.meta in the real file ---
 const mockGet = jest.fn();
 const mockPost = jest.fn();
@@ -18,7 +20,12 @@ jest.mock('@/context/UserContext', () => ({
 }));
 
 // --- Now import test utils and SUT ---
-import { render, screen, waitFor } from '../../__tests__/test-utils.js';
+import {
+  render as rtlRender,
+  screen,
+  waitFor,
+  fireEvent,
+} from '../../__tests__/test-utils.js';
 import UsersAdminPage from '@/pages/UsersAdminPage.js';
 
 describe('UsersAdminPage', () => {
@@ -29,7 +36,9 @@ describe('UsersAdminPage', () => {
 
   test('admin loads user list', async () => {
     const admin = { id: 1, username: 'root', role: 'ADMIN', plan: 'PREMIUM' };
-    mockGet.mockResolvedValueOnce({ data: { users: [{ id: 10, username: 'alice' }] } });
+    mockGet.mockResolvedValueOnce({
+      data: { users: [{ id: 10, username: 'alice' }] },
+    });
 
     mockCurrentUser = admin;
     render(<UsersAdminPage />);
@@ -59,7 +68,7 @@ describe('UsersAdminPage', () => {
     render(<UsersAdminPage />);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Your session is not authorized to view users.'
+      'You do not have permission to perform this action.'
     );
 
     expect(screen.queryByText('No users found.')).not.toBeInTheDocument();
@@ -103,4 +112,58 @@ describe('UsersAdminPage', () => {
     expect(blocked).toBeTruthy();
     expect(mockGet).not.toHaveBeenCalled();
   });
+});
+
+function render(ui) {
+  return rtlRender(<MantineProvider>{ui}</MantineProvider>);
+}
+
+test('Edit follows authoritative detail permissions even when the displayed role is USER', async () => {
+  mockCurrentUser = { id: 1, role: 'ADMIN' };
+  mockGet
+    .mockResolvedValueOnce({
+      data: { items: [{ id: 3, username: 'protected-staff', role: 'USER' }] },
+    })
+    .mockResolvedValueOnce({
+      data: {
+        user: { id: 3, username: 'protected-staff', role: 'USER' },
+        editableFields: [],
+        version: 'a'.repeat(64),
+      },
+    });
+  render(<UsersAdminPage />);
+  const edit = await screen.findByRole('button', { name: 'Edit', exact: true });
+  expect(edit).toBeDisabled();
+  fireEvent.click(screen.getByRole('button', { name: 'View', exact: true }));
+  await screen.findByRole('dialog');
+  await waitFor(() => expect(edit).toBeDisabled());
+  fireEvent.click(screen.getByRole('button', { name: 'Close', exact: true }));
+  expect(edit).toBeDisabled();
+});
+
+test('initial Edit buttons fail closed and follow listing permissions, not USER role', async () => {
+  mockGet.mockReset();
+  mockCurrentUser = { id: 1, role: 'ADMIN' };
+  mockGet.mockResolvedValueOnce({
+    data: {
+      items: [
+        {
+          id: 2,
+          username: 'ordinary',
+          role: 'USER',
+          editableFields: ['displayName'],
+        },
+        { id: 3, username: 'protected', role: 'USER', editableFields: [] },
+        { id: 4, username: 'unknown', role: 'USER' },
+      ],
+    },
+  });
+  render(<UsersAdminPage />);
+  await screen.findByText('ordinary');
+  const editFor = (id) =>
+    document.querySelector(`[data-user-id="${id}"] button:last-child`);
+  expect(editFor(2)).not.toBeDisabled();
+  expect(editFor(3)).toBeDisabled();
+  expect(editFor(4)).toBeDisabled();
+  expect(mockGet).toHaveBeenCalledTimes(1);
 });
