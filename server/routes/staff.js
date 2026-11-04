@@ -1,9 +1,8 @@
 import express from 'express';
 
-import { changeFounderStaffAccess, hasFounderStaffSession } from '../security/founderStaffManagement.js';
-
 import { requireAuth } from '../middleware/auth.js';
 import { readUserDetails, UserDetailsError } from '../security/adminUserDetails.js';
+import { changeFounderStaffAccess, hasFounderStaffSession } from '../security/founderStaffManagement.js';
 import { createRequireStaffPermission } from '../security/requireStaffPermission.js';
 import { isEligibleStaffActor } from '../security/staffAccountEligibility.js';
 import { lookupStaffAssignment } from '../security/staffAssignmentLookup.js';

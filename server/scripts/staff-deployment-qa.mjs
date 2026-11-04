@@ -279,7 +279,7 @@ writeFileSync(
       total: checks.length,
       clusterStopped: true,
       baselineMigrations: 141,
-      addedMigrations: staffNames.size,
+      addedMigrations: 19,
       totalMigrations: 160,
       browserQaRepeated: false,
       existingDatabaseUsed: false,
