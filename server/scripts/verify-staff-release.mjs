@@ -12,6 +12,7 @@ const expected = [
   '20261102091000_runtime_role_permissions',
   '20261102092000_protected_credential_recovery',
   '20261102093000_protected_mfa_login',
+  '20261102094000_founder_staff_management',
 ];
 assert.equal(manifest.version, 1);
 assert.deepEqual(
@@ -34,7 +35,7 @@ assert.equal(deployment.version, 1);
 const deploymentNames = readdirSync('server/prisma/migrations')
   .filter((name) => name.startsWith('20261102'))
   .sort();
-assert.equal(deploymentNames.length, 18);
+assert.equal(deploymentNames.length, 19);
 assert.deepEqual(
   deployment.migrations.map(({ name }) => name),
   deploymentNames
@@ -58,7 +59,7 @@ execFileSync(process.execPath, [
   'server/scripts/staff-production-prerequisite-roles.static.test.mjs',
 ], { stdio: 'inherit' });
 console.log(
-  'PASS: All 18 deployment migration checksums, original four checksums and disabled rollout template'
+  'PASS: All 19 deployment migration checksums, original four checksums and disabled rollout template'
 );
 console.log(
   'Local revision:',

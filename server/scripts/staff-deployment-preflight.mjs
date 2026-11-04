@@ -70,7 +70,7 @@ async function assertMigrationHistory(db, env, mode, database, options) {
     WHERE rolled_back_at IS NULL ORDER BY migration_name
   `;
   if (
-    expected.length !== (mode === '--after-migrations' ? 159 : 141) ||
+    expected.length !== (mode === '--after-migrations' ? 160 : 141) ||
     rows.length !== expected.length ||
     rows.some(
       (row, index) => {

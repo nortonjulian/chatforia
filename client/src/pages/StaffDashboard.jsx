@@ -87,7 +87,8 @@ export default function StaffDashboard() {
     setError('');
     setMessage('');
     try {
-      await axiosClient.post(`/staff/assignments/${target}/${action}`, {
+      const prefix = session.profile === 'FOUNDER' ? '/staff/founder' : '/staff';
+      await axiosClient.post(`${prefix}/assignments/${target}/${action}`, {
         profile,
         reason,
       });

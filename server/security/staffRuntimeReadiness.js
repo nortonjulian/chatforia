@@ -63,6 +63,8 @@ export async function assertStaffRuntimeReady(db, env = process.env) {
       AND has_function_privilege(current_user, 'staff_security.mfa_login_write(text,text)', 'EXECUTE')
       AND has_function_privilege(current_user, 'staff_security.grant_or_change_staff_access(text,text)', 'EXECUTE')
       AND has_function_privilege(current_user, 'staff_security.revoke_staff_access(text,text)', 'EXECUTE')
+      AND has_function_privilege(current_user, 'staff_security.founder_grant_or_change_staff_access(text,text)', 'EXECUTE')
+      AND has_function_privilege(current_user, 'staff_security.founder_revoke_staff_access(text,text)', 'EXECUTE')
       AND NOT EXISTS (
         SELECT FROM (VALUES
           ('User', 'protect_staff_user_identity_insert'),

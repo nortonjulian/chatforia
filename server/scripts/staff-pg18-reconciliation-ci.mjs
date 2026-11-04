@@ -202,7 +202,60 @@ ROLLBACK;`;
     ] });
     await db.user.update({ where: { id: 900002 }, data: { role: 'ADMIN' } });
     await db.staffAssignment.create({ data: { userId: 900003, profile: 'SUPPORT', active: true, grantedById: 900001 } });
+    const enrolled = { emailVerifiedAt: new Date(), twoFactorEnabled: true,
+      twoFactorEnrolledAt: new Date(), totpSecretEnc: 'synthetic-fixture-only' };
+    await db.user.update({ where: { id: 900004 }, data: { ...enrolled, role: 'ADMIN' } });
+    await db.user.create({ data: { id: 900005, username: 'qa_founder_target',
+      passwordHash: 'synthetic-unusable', ...enrolled } });
     await db.founderOwnership.create({ data: { id: 1, userId: 900004, verificationRef: 'synthetic-ci-only' } });
+    // Exercise the HTTP mutation route against the restricted database role.
+    // The injected session represents the output of authentication middleware.
+    const { default: express } = await import('express');
+    const { default: request } = await import('supertest');
+    const { createStaffRouter } = await import('../routes/staff.js');
+    const { createStaffAuthorizationAssertion } = await import('../security/staffAuthorizationAssertion.js');
+    process.env.STAFF_ACCESS_SIGNING_SECRET = randomBytes(32).toString('hex');
+    await db.$executeRaw`INSERT INTO staff_security.assertion_secrets(id,key_version,verification_secret)
+      VALUES (1,1,convert_to(${process.env.STAFF_ACCESS_SIGNING_SECRET},'UTF8'))`;
+    process.env.STAFF_SECURITY_ENABLED = 'true';
+    process.env.STAFF_DASHBOARD_ENABLED = 'true';
+    process.env.STAFF_DASHBOARD_USER_IDS = '900004,900003';
+    const founder = await db.user.findUniqueOrThrow({ where: { id: 900004 } });
+    const auth = { tokenVersion: founder.tokenVersion, mfaVerified: true };
+    const app = express();
+    app.use(express.json(), createStaffRouter({ db: runtime, authenticate(req, _res, next) {
+      req.user = founder;
+      req.auth = auth;
+      next();
+    } }));
+    await request(app).get('/session').expect(200);
+    const targetId = 900005;
+    const before = await db.user.findUniqueOrThrow({ where: { id: targetId } });
+    for (const [index, [action, profile]] of [
+      ['grant', 'CTO'], ['grant', 'ACCESS_ADMIN'], ['revoke', 'ACCESS_ADMIN'],
+    ].entries()) {
+      const response = await request(app).post(`/founder/assignments/${targetId}/${action}`)
+        .send({ profile, reason: 'Synthetic founder acceptance' }).expect(200);
+      assert.equal(response.body.sessionsRevoked, true);
+      const assignment = await db.staffAssignment.findUniqueOrThrow({ where: { userId: targetId } });
+      assert.equal(assignment.profile, profile);
+      assert.equal(assignment.active, action !== 'revoke');
+      const targetUser = await db.user.findUniqueOrThrow({ where: { id: targetId } });
+      assert.equal(targetUser.tokenVersion, before.tokenVersion + index + 1);
+      assert.equal(await db.staffAccessEvent.count({ where: { actorUserId: founder.id, subjectUserId: targetId } }), index + 1);
+      assert.equal(await db.auditLog.count({ where: { actorId: founder.id, resource: 'staff_assignment', resourceId: String(targetId) } }), index + 1);
+    }
+    await request(app).post('/founder/assignments/900004/revoke').expect(403);
+    const signed = (actorUserId, targetUserId) => createStaffAuthorizationAssertion({
+      actorUserId, targetUserId, targetProfile: 'CTO', tokenVersion: 0, mfaVerified: true,
+      action: 'STAFF_ACCESS_GRANT_OR_CHANGE',
+    });
+    assert.throws(() => signed(900003, 900003));
+    for (const [actor, subject] of [[900003, targetId], [900003, founder.id]]) {
+      await assert.rejects(runtime.$queryRaw`SELECT staff_security.founder_grant_or_change_staff_access(
+        ${signed(actor, subject)}::text, 'Synthetic forged authority'::text)`);
+    }
+    assert.equal((await db.founderOwnership.findUniqueOrThrow({ where: { id: 1 } })).userId, founder.id);
     assert.equal((await deleteExpiredOrdinaryResetTokens(runtime, new Date())).count, 1);
     assert.equal((await deleteOldUsedOrdinaryResetTokens(runtime, new Date())).count, 1);
     assert.equal(await db.passwordResetToken.count({ where: { userId: 900001 } }), 0);

@@ -1,5 +1,7 @@
 import express from 'express';
 
+import { changeFounderStaffAccess, hasFounderStaffSession } from '../security/founderStaffManagement.js';
+
 import { requireAuth } from '../middleware/auth.js';
 import { readUserDetails, UserDetailsError } from '../security/adminUserDetails.js';
 import { createRequireStaffPermission } from '../security/requireStaffPermission.js';
@@ -57,6 +59,13 @@ export function createStaffRouter({
     safe(async (req, res) => {
       if (!req.user?.twoFactorEnabled || req.auth?.mfaVerified !== true)
         return res.sendStatus(403);
+      if (await hasFounderStaffSession(db, req.user, req.auth)) {
+        return res.json({
+          profile: 'FOUNDER',
+          permissions: ['staff.read', 'staff.assign'],
+          delegatableProfiles: Object.keys(STAFF_PROFILES),
+        });
+      }
       const assignment = await lookupStaffAssignment(req.user.id, db);
       if (!assignment) return res.sendStatus(403);
       res.json({
@@ -71,10 +80,18 @@ export function createStaffRouter({
       });
     })
   );
+  const assignmentsRead = async (req, res, next) => {
+    try {
+      if (await hasFounderStaffSession(db, req.user, req.auth)) return next();
+    } catch {
+      return res.sendStatus(503);
+    }
+    return permit('staff.read')(req, res, next);
+  };
   function listing(path, permission, model, select) {
     router.get(
       path,
-      permit(permission),
+      permission === 'staff.read' ? assignmentsRead : permit(permission),
       safe(async (req, res) => {
         const take = Number(req.query.take ?? 50),
           skip = Number(req.query.skip ?? 0);
@@ -180,6 +197,20 @@ export function createStaffRouter({
     })
   );
   for (const action of ['grant', 'revoke']) {
+    router.post(
+      `/founder/assignments/:userId/${action}`,
+      safe(async (req, res) => {
+        if (!await hasFounderStaffSession(db, req.user, req.auth)) return res.sendStatus(403);
+        const target = Number(req.params.userId);
+        if (target === req.user.id) return res.sendStatus(403);
+        const { profile, reason } = req.body || {};
+        if (!validId(target) || !validReason(reason) ||
+            (action === 'grant' && !Object.hasOwn(STAFF_PROFILES, profile))) {
+          return res.sendStatus(400);
+        }
+        res.json(await changeFounderStaffAccess(db, req.user, req.auth, target, action, profile, reason.trim()));
+      })
+    );
     router.post(
       `/assignments/:userId/${action}`,
       permit('staff.assign'),

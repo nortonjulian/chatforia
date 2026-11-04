@@ -201,13 +201,13 @@ try {
   );
   const [history] =
     await executor.$queryRaw`SELECT count(*)::integer AS count FROM public._prisma_migrations WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL`;
-  assert.equal(history.count, 159);
+  assert.equal(history.count, 160);
   await assert.rejects(
     runPreflight(executor, env, '--before-migrations'),
     /Migration history/
   );
   pass(
-    'all 18 staff migrations upgrade populated baseline without changing existing users'
+    'all 19 staff migrations upgrade populated baseline without changing existing users'
   );
   const runtime = client('chatforia_dev');
   await assert.rejects(
@@ -279,8 +279,8 @@ writeFileSync(
       total: checks.length,
       clusterStopped: true,
       baselineMigrations: 141,
-      addedMigrations: 18,
-      totalMigrations: 159,
+      addedMigrations: staffNames.size,
+      totalMigrations: 160,
       browserQaRepeated: false,
       existingDatabaseUsed: false,
     },

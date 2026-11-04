@@ -19,6 +19,7 @@ beforeEach(() => {
     auth: { mfaVerified: true, tokenVersion: 4 },
   };
   db = {
+    founderOwnership: { findUnique: jest.fn(async () => ({ id: 1, userId: 42, user: { id: 42, isBanned: false, deletedAt: null } })) },
     staffAssignment: {
       findUnique: jest.fn(async () => assignment),
       findMany: jest.fn(async () => []),
@@ -213,4 +214,25 @@ test('staff without users.read cannot open user details', async () => {
   db.user.findUnique = jest.fn();
   expect((await request(app).get('/staff/users/42')).status).toBe(403);
   expect(db.user.findUnique).not.toHaveBeenCalled();
+});
+
+test('founder without staff assignment can open staff management after MFA', async () => {
+  assignment = null;
+  session.user.id = 42;
+  const response = await request(app).get('/staff/session');
+  expect(response.body.profile).toBe('FOUNDER');
+  expect(response.body.delegatableProfiles).toEqual(expect.arrayContaining(['CTO', 'ACCESS_ADMIN']));
+  expect((await request(app).get('/staff/assignments')).status).toBe(200);
+  expect((await request(app).post('/staff/founder/assignments/42/revoke')).status).toBe(403);
+  session.auth.mfaVerified = false;
+  expect((await request(app).get('/staff/session')).status).toBe(403);
+  expect((await request(app).post('/staff/founder/assignments/17/grant')).status).toBe(403);
+});
+
+test('delegate cannot invoke founder endpoints with forged ownership', async () => {
+  for (const action of ['grant', 'revoke']) {
+    const response = await request(app).post(`/staff/founder/assignments/16/${action}`)
+      .send({ actorUserId: 42, profile: 'CTO', reason: 'Forged ownership' });
+    expect(response.status).toBe(403);
+  }
 });

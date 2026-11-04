@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 const manifestPath = 'server/security/staffMigrationReconciliation.v1.json';
-const manifestSha256 = '7f61bfb28b107d2bc6f61adfac0f0c2b2b4deec31089f69ae5ef3e52a212976a';
+const manifestSha256 = 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5';
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
 export class ReconciliationError extends Error {}
@@ -15,7 +15,7 @@ export function loadReconciliationManifest(options = {}) {
   if (
     manifest.id !== 'chatforia-defaultdb-four-hash-20261103-v1' ||
     manifest.baselineCount !== 141 ||
-    manifest.afterStaffCount !== 159 ||
+    manifest.afterStaffCount !== 160 ||
     Object.keys(manifest.exceptions).length !== 4
   )
     throw new ReconciliationError('Reconciliation manifest shape changed');
