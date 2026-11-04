@@ -126,8 +126,8 @@ jobs:
             __tests__/groupRiaClaim.db.integration.test.js \
             __tests__/groupRiaPositive.http.integration.test.js
 
-      - name: Verify website Room settings
-        run: npm run -w client test -- --runInBand RoomSettingsModal.test.js
+      - name: Verify website Room settings and staff dashboard
+        run: npm run -w client test -- --runInBand RoomSettingsModal.test.js StaffDashboard.test.jsx
 
       - name: Build production website using Node 22 (no deploy)
         env:

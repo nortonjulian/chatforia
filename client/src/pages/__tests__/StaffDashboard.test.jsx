@@ -44,15 +44,19 @@ test('shows only server-authorized sections', async () => {
   ).not.toBeInTheDocument();
   expect(screen.queryByText('Manage staff access')).not.toBeInTheDocument();
 });
-test('submits a reason and target without client authentication claims', async () => {
+test.each([
+  ['ACCESS_ADMIN', 'SUPPORT', '/staff'],
+  ['FOUNDER', 'CTO', '/staff/founder'],
+  ['FOUNDER', 'ACCESS_ADMIN', '/staff/founder'],
+])('%s submits a reason and target without client authentication claims (%s)', async (actorProfile, targetProfile, prefix) => {
   axiosClient.get.mockImplementation((path) =>
     Promise.resolve({
       data:
         path === '/staff/session'
           ? {
-              profile: 'ACCESS_ADMIN',
+              profile: actorProfile,
               permissions: ['staff.read', 'staff.assign'],
-              delegatableProfiles: ['SUPPORT'],
+              delegatableProfiles: [targetProfile],
             }
           : { items: [], total: 0 },
     })
@@ -71,8 +75,8 @@ test('submits a reason and target without client authentication claims', async (
   );
   await waitFor(() =>
     expect(axiosClient.post).toHaveBeenCalledWith(
-      '/staff/assignments/16/grant',
-      { profile: 'SUPPORT', reason: 'Approved access change' }
+      `${prefix}/assignments/16/grant`,
+      { profile: targetProfile, reason: 'Approved access change' }
     )
   );
   expect(await screen.findByRole('status')).toHaveTextContent('Access updated');
@@ -108,15 +112,19 @@ test('support resolves reports with a required reason', async () => {
   );
 });
 
-test('revocation submits the chosen target and reason', async () => {
+test.each([
+  ['ACCESS_ADMIN', 'SUPPORT', '/staff'],
+  ['FOUNDER', 'CTO', '/staff/founder'],
+  ['FOUNDER', 'ACCESS_ADMIN', '/staff/founder'],
+])('%s revocation submits the chosen target and reason (%s)', async (actorProfile, targetProfile, prefix) => {
   axiosClient.get.mockImplementation((path) =>
     Promise.resolve({
       data:
         path === '/staff/session'
           ? {
-              profile: 'ACCESS_ADMIN',
+              profile: actorProfile,
               permissions: ['staff.read', 'staff.assign'],
-              delegatableProfiles: ['SUPPORT'],
+              delegatableProfiles: [targetProfile],
             }
           : { items: [], total: 0 },
     })
@@ -133,8 +141,8 @@ test('revocation submits the chosen target and reason', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Revoke access' }));
   await waitFor(() =>
     expect(axiosClient.post).toHaveBeenCalledWith(
-      '/staff/assignments/16/revoke',
-      { profile: 'SUPPORT', reason: 'Verified access revocation' }
+      `${prefix}/assignments/16/revoke`,
+      { profile: targetProfile, reason: 'Verified access revocation' }
     )
   );
 });
