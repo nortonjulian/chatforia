@@ -1,0 +1,26 @@
+name: Prisma migration history
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  migration-history:
+    name: Append-only Prisma migrations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Reject changes to SQL already on main
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          MERGE_SHA: ${{ github.sha }}
+        run: |
+          # Compare the proposed merge tree with its base, including base-only history.
+          # Disabling rename detection exposes moved files as deletions.
+          git diff --exit-code --name-status --no-renames --diff-filter=a "$BASE_SHA" "$MERGE_SHA" -- ':(glob)server/prisma/migrations/**/migration.sql'
