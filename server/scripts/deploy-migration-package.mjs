@@ -51,7 +51,17 @@ export function assertChecks(checks, before, after) {
 export async function deployPackage(options) {
   const bundle = readPackage(options.package, options.sha256);
   const files = verifyPackage(bundle);
-  const url = new URL(process.env.DATABASE_URL);
+  let url;
+  try { url = new URL(process.env.DATABASE_URL); } catch { throw new Error('Invalid DATABASE_URL'); }
+  if (new Set(url.searchParams.keys()).size !== [...url.searchParams.keys()].length) {
+    throw new Error('Duplicate connection parameters are not allowed');
+  }
+  const schema = files.get('server/prisma/schema.prisma').toString();
+  const datasource = schema.match(/datasource\s+db\s*\{([^}]+)\}/)?.[1].replace(/\s/g, '');
+  if (datasource !== 'provider="postgresql"url=env("DATABASE_URL")' ||
+      (schema.match(/datasource\s+/g) || []).length !== 1) {
+    throw new Error('Package datasource requires separate review');
+  }
   if (url.hostname !== options.host || decodeURIComponent(url.pathname.slice(1)) !== options.database ||
       !['postgres:', 'postgresql:'].includes(url.protocol)) throw new Error('Database target mismatch');
   if (url.searchParams.has('schema') && url.searchParams.get('schema') !== 'public') {

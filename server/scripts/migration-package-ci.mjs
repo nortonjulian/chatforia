@@ -55,6 +55,11 @@ try {
   const packagePath = join(work, 'package.json'); writeFileSync(packagePath, bytes);
   const archive = join(work, 'archive'); mkdirSync(archive);
   const options = { package: packagePath, sha256: digest(bytes), host: '127.0.0.1', database: 'package_release_test', archive };
+  process.env.DATABASE_URL = 'invalid://secret password';
+  await assert.rejects(deployPackage(options), (error) => error.message === 'Invalid DATABASE_URL');
+  process.env.DATABASE_URL = `${url.toString()}&sslaccept=accept_invalid_certs`;
+  await assert.rejects(deployPackage(options), /Duplicate connection parameters/);
+  process.env.DATABASE_URL = url.toString();
   await deployPackage(options);
   assert.equal((await db.$queryRawUnsafe('SELECT count(*)::integer AS count FROM _prisma_migrations'))[0].count, 0);
   // A dirty checkout cannot substitute SQL for packaged bytes.
