@@ -1,5 +1,14 @@
 # Staff security release plan — PR #293
 
+**Current operational status:** [production-change-plan.md](production-change-plan.md)
+supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
+the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
+historical uncertainty for review only; production exception activation remains blocked.
+A basic hosted restore readability check passed, not exhaustive integrity or measured
+RPO/RTO. The archived review package is verified locally; a final activation release
+will require a new archive. No production cutover or Stage 6 admission is authorized.
+
+
 ## Decision and scope
 
 **GO for review of the implementation; NO-GO for deployment today.** The remaining
