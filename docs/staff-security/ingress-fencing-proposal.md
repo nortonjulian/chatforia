@@ -74,12 +74,42 @@ The independent web fetcher repeatedly reported `www` HTTP 521, while direct
 TLS-verified checks through all four locally DNS-advertised Cloudflare addresses
 and a direct known-origin diagnostic returned 200. Nginx was active and its
 configuration parsed, but the failing fetcher exposed no Cloudflare Ray ID or
-response headers. Do not infer a cause or call this globally resolved. Review
-the affected edge/zone evidence or obtain a reproducible external probe before
+response headers. The owner additionally reported that `https://www.chatforia.com/`
+loaded over cellular at 10:25 PM Denver time on November 4 (05:25 UTC November 5).
+Web-origin access logs for 04:20–05:40 UTC had 152 responses with status 200,
+16 with 301, five with 400 and no 5xx; the error log had no entries. In the
+05:20–05:31 UTC interval, there were 91 responses with 200 and two with 301.
+These aggregates cannot identify the owner's request or the failing fetcher;
+a Cloudflare-generated 521 might not reach the origin. Do not infer a cause or
+call this globally resolved. Review the affected edge/zone evidence or obtain
+a reproducible external probe before
 approving a tighter web origin rule; abort an approved change on any new 521.
 [Cloudflare describes genuine 521 responses](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-521/)
 as origin connection refusals; this fetcher's error lacks the metadata needed
 to attribute it to a particular Cloudflare edge or origin rule.
+
+The web and API are separate hosts, and only the API currently has a cloud
+firewall attached. This unresolved
+`www` symptom does not by itself prevent a separately approved **API-only**
+firewall edit. The API baseline is still the owner's control-panel report:
+`chatforia-api-firewall` attached, inbound TCP 22/80/443 open to both IP
+families, no TCP 5002 inbound rule, and broad outbound TCP/UDP/ICMP. No current
+DigitalOcean control-plane rule read was available; obtain a fresh screenshot
+or read-only API response showing the rules and attachment before editing.
+
+The deployed API process is online in PM2 and runs the package's production
+`start` script, which loads `server/.env.production`. A read-only classification
+of its configured URL fields found HTTPS `api.chatforia.com` for Google and
+Apple callbacks and Twilio voice/base webhook URLs. The deployed code accepts
+`/auth/google/callback`, `/auth/apple/callback`, `/billing/webhook`, Twilio SMS
+under `/webhooks/sms` and `/api/webhooks/sms`, Twilio voice under
+`/webhooks/voice` and `/api/webhooks/voice`, other Twilio/porting routes under
+`/webhooks`, and a conditional eSIM webhook under `/esim/webhooks/oneglobal`.
+This establishes application routes and selected configured hostnames, not the
+destinations saved in Google, Apple, Stripe, Twilio or eSIM provider consoles.
+Confirm that every active external callback points to a Cloudflare-proxied
+hostname before narrowing API 80/443; a raw API IP or unproxied hostname would
+be cut off. Avoid printing credentials or full callback URLs in review evidence.
 
 According to [DigitalOcean's firewall limits](https://docs.digitalocean.com/products/networking/firewalls/details/limits/),
 cloud firewalls are stateful and currently available without an additional

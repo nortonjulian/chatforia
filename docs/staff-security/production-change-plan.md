@@ -57,8 +57,12 @@ implemented control and must not be confused with release sign-off recommendatio
   read-only Admin Users list but lacks the new View/Edit detail handler; live
   View would lack a route and Edit stays disabled without `editableFields`.
   Repeated `www` 521s from one web fetcher conflict with direct 200s through
-  the four locally DNS-advertised edge addresses; the source of that failure
-  remains unknown before tighter origin ingress.
+  the four locally DNS-advertised edge addresses. The owner also reported a
+  successful cellular load at 10:25 PM Denver time on November 4; web-origin
+  logs around that time show no 5xx or nginx errors. The source of the fetcher
+  failure remains unknown. The separate API firewall can be reviewed on its own,
+  subject to fresh rule/attachment and provider-callback destination evidence;
+  see the [API-only ingress assessment](ingress-fencing-proposal.md).
 - The separately authorized website nginx change is active: configuration parses,
   `/api/` uses `https://api.chatforia.com`, and upstream certificate verification,
   SNI and a trusted CA are configured. API nginx forwards to `127.0.0.1:5002`.

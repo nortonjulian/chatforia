@@ -29,10 +29,25 @@
     "unauthenticatedAdminUsers": 401,
     "deployedApiCheckoutSha": "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70"
   },
+  "www521FollowUp": {
+    "ownerReportedCellularPass": "https://www.chatforia.com/ loaded over cellular at 2026-11-04 22:25 America/Denver (2026-11-05 05:25 UTC); owner-reported, not independently instrumented",
+    "webOriginAccessWindowUtc": "2026-11-05 04:20-05:40: 152 HTTP 200, 16 HTTP 301, five HTTP 400, zero 5xx",
+    "webOriginAccessNearOwnerPassUtc": "2026-11-05 05:20-05:31: 91 HTTP 200, two HTTP 301",
+    "webOriginNginxErrorWindowUtc": "zero entries in 2026-11-05 04:20-05:40",
+    "interpretation": "Origin logs and the owner cellular pass support reachability but cannot identify the failing fetcher's source or Cloudflare edge. A Cloudflare-generated 521 might not reach the origin; no Ray ID or failing response headers were available. Cause remains unproven. No visitor IP, request path, or customer data was captured in this evidence."
+  },
   "authorizationScope": "Local CI, synthetic browser, owner-reported Safari/Firefox, and real Google/local MFA evidence cover intended authorization. Live staff/session 404 plus the older API checkout do not establish production staff authorization or dashboard activation.",
   "deployedApiRouteReview": "At b0ec6fd0 the API mounts only a read-only /admin/users list guarded by current ADMIN role and MFA; it has no /staff router or /admin/users/:id View/Edit router. The newly deployed client would show View for an admin but its detail request lacks a live handler; Edit stays disabled because the old list supplies no editableFields. This is a source-based compatibility inference, not a live authenticated browser test.",
   "cloudflareRanges": "Official 15 IPv4 and seven IPv6 source ranges matched the ingress proposal when checked; refresh before an approved rule edit",
   "operatorSource": "Current API-visible address verified; exact personal source address kept in private owner review, not this repository evidence",
   "digitalOceanFirewallBaseline": "Owner-reported: API attached firewall permits all-source TCP 22/80/443 and no TCP 5002; web has no attached cloud firewall. No DigitalOcean control-plane read was available during this follow-up; refresh rule and attachment snapshots before an approved edit.",
+  "apiOnlyIngressReadiness": {
+    "independence": "The API firewall is attached to a separate Droplet; the unexplained www 521 does not itself block an API-only edit. Web firewall remains a separate decision.",
+    "operatorSource": "A fresh key-based API SSH session confirmed the same single operator IPv4 address; exact personal /32 is shared only in private owner review. No operator IPv6 source was established.",
+    "deployedProcess": "PM2 chatforia-api is online and starts npm with the start argument; the deployed package start script loads server/.env.production with DOTENV_CONFIG_OVERRIDE=true.",
+    "configuredCallbackHostClasses": "GOOGLE_CALLBACK_URL, APPLE_CALLBACK_URL, TWILIO_VOICE_WEBHOOK_URL and TWILIO_WEBHOOK_BASE_URL in server/.env.production use HTTPS api.chatforia.com; no values, paths, query strings, or credentials were recorded.",
+    "applicationRoutes": "Deployed app mounts Google and Apple callbacks under /auth; Stripe /billing/webhook; SMS under /webhooks/sms and /api/webhooks/sms; voice under /webhooks/voice and /api/webhooks/voice; additional Twilio and porting webhooks under /webhooks; conditional eSIM webhook under /esim/webhooks/oneglobal. These are code routes, not verification of external provider-console destinations.",
+    "remainingEvidence": "Fresh DigitalOcean control-plane rules/attachment snapshot and externally configured provider callback destination hostnames are unavailable from current read-only access; confirm before editing API 80/443 sources. Recheck the operator /32 and Cloudflare CIDRs at the change window."
+  },
   "firewallChanges": "none"
 }
