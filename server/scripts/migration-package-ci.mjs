@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { PrismaClient } from '@prisma/client';
 
 import { buildPackage, digest } from './migration-package.mjs';
-import { deployPackage } from './deploy-migration-package.mjs';
+import { aggregateChecks, deployPackage } from './deploy-migration-package.mjs';
 
 // This integration probe accepts only the disposable GitHub service container.
 assert.equal(process.env.GITHUB_ACTIONS, 'true');
@@ -64,6 +64,8 @@ try {
     .find((value) => value.status === 'verified');
   assert.equal(receipt.afterHistory.length, 1);
   assert.equal(receipt.afterChecks.tables[0].total, '1');
+  assert.equal((await db.$queryRawUnsafe('SELECT count(*)::integer AS count FROM "PackageFixture"'))[0].count, 1);
+  await assert.rejects(aggregateChecks(db, [['write', { sql: 'DELETE FROM "PackageFixture"' }]]));
   assert.equal((await db.$queryRawUnsafe('SELECT count(*)::integer AS count FROM "PackageFixture"'))[0].count, 1);
   await db.$executeRawUnsafe("UPDATE _prisma_migrations SET checksum=repeat('a',64)");
   await assert.rejects(deployPackage({ ...options, execute: true }));

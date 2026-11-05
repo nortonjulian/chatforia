@@ -54,6 +54,9 @@ export async function deployPackage(options) {
   const url = new URL(process.env.DATABASE_URL);
   if (url.hostname !== options.host || decodeURIComponent(url.pathname.slice(1)) !== options.database ||
       !['postgres:', 'postgresql:'].includes(url.protocol)) throw new Error('Database target mismatch');
+  if (url.searchParams.has('schema') && url.searchParams.get('schema') !== 'public') {
+    throw new Error('Only the reviewed public migration ledger is supported');
+  }
   if (url.searchParams.get('sslmode') !== 'require' || url.searchParams.get('sslaccept') !== 'strict' ||
       url.searchParams.has('host')) throw new Error('Certificate and hostname verification required');
   for (const name of ['sslcert', 'sslrootcert']) {
