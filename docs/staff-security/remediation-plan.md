@@ -1,5 +1,14 @@
 # PR #293 target remediation proposal — prepared only
 
+**Current operational status:** [production-change-plan.md](production-change-plan.md)
+supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
+the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
+historical uncertainty for review only; production exception activation remains blocked.
+A basic hosted restore readability check passed, not exhaustive integrity or measured
+RPO/RTO. The archived review package is verified locally; a final activation release
+will require a new archive. No production cutover or Stage 6 admission is authorized.
+
+
 Decision: **NO-GO for production cutover.** This plan uses the authorized
 [read-only target inventory](infrastructure-inspection.md). Nothing below has
 been executed on the Droplets or managed database. The existing seven-day PITR
