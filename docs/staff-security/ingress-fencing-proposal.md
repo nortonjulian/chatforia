@@ -64,7 +64,9 @@ authentication disabled; this does not itself prove a root password can log in.
 The proposed public web SSH rule is **not acceptable until** password
 authentication is disabled and root is limited to public keys.
 Prepare a reviewed `sshd_config.d` change with `PasswordAuthentication no`,
-`KbdInteractiveAuthentication no` and `PermitRootLogin prohibit-password`.
+`KbdInteractiveAuthentication no`, `AuthenticationMethods publickey` and
+`PermitRootLogin prohibit-password`; the exact diff and rollback are in the
+[SSH hardening proposal](ssh-hardening-change.md).
 Before reload, keep an established operator session and console recovery, run
 `sshd -t` and check effective `sshd -T`; after reload, prove a fresh operator
 key login and a no-op GitHub Actions key login. Revert from the held session if

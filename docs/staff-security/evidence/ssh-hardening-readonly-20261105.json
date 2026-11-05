@@ -1,0 +1,44 @@
+{
+  "observedAtUtc": "2026-11-05T03:13:21Z",
+  "scope": "Read-only SSH configuration, current-session policy, public-key login and password-status checks; no key material, password hash or password value copied",
+  "hosts": {
+    "chatforia-web-01": {
+      "sshdConfigInclude": "/etc/ssh/sshd_config line 12 includes /etc/ssh/sshd_config.d/*.conf",
+      "firstPasswordDirective": "/etc/ssh/sshd_config.d/50-cloud-init.conf line 1: yes",
+      "laterPasswordDirective": "/etc/ssh/sshd_config.d/60-cloudimg-settings.conf line 1: no",
+      "rootLoginDirective": "/etc/ssh/sshd_config line 42: yes",
+      "matchBlocksFoundInIncludedFiles": false,
+      "currentRootSessionEffective": {
+        "pubkeyAuthentication": "yes",
+        "passwordAuthentication": "yes",
+        "kbdInteractiveAuthentication": "no",
+        "authenticationMethods": "any",
+        "permitRootLogin": "yes"
+      },
+      "rootPasswordStatusCode": "P (password set; knowledge and console login unverified)",
+      "freshForcedPublicKeyLogin": "passed",
+      "sshService": "active",
+      "proposedStdinOnlyParse": "passed: publickey yes, password no, keyboard-interactive no, authentication methods publickey, root login without-password"
+    },
+    "chatforia-api-01": {
+      "sshdConfigInclude": "/etc/ssh/sshd_config line 12 includes /etc/ssh/sshd_config.d/*.conf",
+      "firstPasswordDirective": "/etc/ssh/sshd_config.d/50-cloud-init.conf line 1: yes",
+      "laterPasswordDirective": "/etc/ssh/sshd_config.d/60-cloudimg-settings.conf line 1: no",
+      "rootLoginDirective": "/etc/ssh/sshd_config line 42: yes",
+      "matchBlocksFoundInIncludedFiles": false,
+      "currentRootSessionEffective": {
+        "pubkeyAuthentication": "yes",
+        "passwordAuthentication": "yes",
+        "kbdInteractiveAuthentication": "no",
+        "authenticationMethods": "any",
+        "permitRootLogin": "yes"
+      },
+      "rootPasswordStatusCode": "P (password set; knowledge and console login unverified)",
+      "freshForcedPublicKeyLogin": "passed",
+      "sshService": "active",
+      "proposedStdinOnlyParse": "passed: publickey yes, password no, keyboard-interactive no, authentication methods publickey, root login without-password"
+    }
+  },
+  "digitalOceanRecoveryConsole": "Out-of-band recovery path documented by provider; owner account launch and password login not yet verified",
+  "githubActionsSecretKey": "Not read or compared; current frontend workflow uses an SSH key, so a no-op Actions login remains required after any approved reload"
+}

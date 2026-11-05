@@ -83,6 +83,8 @@ Use [deployment-runbook.md](deployment-runbook.md) for detailed technical proced
 [the service template](chatforia-api-restricted.service.example) for process configuration.
 [Ingress and temporary fencing](ingress-fencing-proposal.md) are separate
 proposed production changes with their own approval and stop conditions.
+The [exact SSH hardening diff](ssh-hardening-change.md) preserves public-key
+access and requires a tested out-of-band console recovery path before reload.
 Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval
