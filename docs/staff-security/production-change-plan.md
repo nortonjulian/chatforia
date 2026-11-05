@@ -1,0 +1,151 @@
+# Stage 5 production change plan — preparation only
+
+## Decision and authority
+
+Prepared November 5, 2026 UTC following the owner's instruction to continue Stage 5.
+No production execution is authorized by this document. Stage 6 admission has not begun.
+Julian Norton is the release operator and stop authority identified in the conversation.
+Separate DBA/security sign-offs are recommendations, not a newly imposed company policy.
+A separate privileged database connection is a technical requirement; it does not by
+itself require hiring a separate DBA. Recovery issuer/executor separation is an
+implemented control and must not be confused with release sign-off recommendations.
+
+## Verified checkpoint
+
+- PR #293 merged the staff-security implementation, including founder management.
+- PR #300 merged at `6a5f06d58c4414b7a0f584eeaede3118d3e9066b`.
+  Its reviewed head passed both CI workflows, including PostgreSQL 18 rehearsal.
+- Owner showed and saved an active Protect main ruleset targeting main with an
+  empty bypass list, required pull requests, blocked force pushes/deletions,
+  linear history, and required up-to-date Append-only Prisma migrations checks.
+  Settings evidence is owner-provided screenshots/report, not an API export.
+- Archive migration release #1 succeeded. The owner downloaded the release assets,
+  obtained `migration-package.json: OK`, and confirmed the full merged commit and
+  168 packaged files. The archive includes 160 SQL migrations (141 baseline plus
+  19 staff migrations), schema, migration lockfile, dependency lockfile, aggregate
+  check plan, exception manifest and its three evidence files.
+- Local archive location is now
+  `$HOME/Desktop/Chatforia-Deployment-Records`, not the earlier home-directory path.
+  Time Machine inclusion was checked at the earlier path. The backup destination
+  failed to mount, and a recent completed backup remains unverified. The owner
+  explicitly deferred that check while continuing preparation. Recheck inclusion
+  at the current path and complete a backup before relying on it for recovery.
+- The owner accepted historical-data uncertainty for the four documented pairs
+  and authorized preparing the exception for review. See
+  [the exact acceptance record](migration-exception-review.md).
+- Basic hosted restore readability passed: 141 completed migrations and the known
+  QA account were found read-only. The temporary cluster was deleted by the owner.
+  This does not establish all-record integrity, recovery time, or a fresh backup
+  for the eventual change window.
+- The single refund record matched the exact Stripe test payment ID, amount and
+  timestamps; no eSIM replacement rows were present. Historical SQL remains unavailable.
+
+The current archived package is a preserved review checkpoint. Its manifest is still
+`proposed-not-authorized-for-production`. It is NOT the final executable production
+package for the drifted target. A later reviewed activation commit changes the manifest
+bytes and both checksum pins, so it must receive a new archive and independent digest.
+Do not modify this downloaded archive, reuse its checksum for another package, or
+rewrite the database migration ledger.
+
+## Fixed target and intended changes
+
+| Item | Target / intended state |
+| --- | --- |
+| API host | Existing chatforia-api-01; checkout /var/www/chatforia-api |
+| Database | chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com:25060/defaultdb |
+| Observed engine/history | PostgreSQL 18.6; 141 baseline migrations, four documented mismatches; refresh before window |
+| Runtime DB role | chatforia_dev, restricted, no ownership or privileged memberships |
+| Security owner | chatforia_staff_owner, NOLOGIN |
+| Recovery roles | Separate chatforia_recovery_issuer and chatforia_recovery_executor, NOLOGIN |
+| Runtime OS identity | chatforia-api user/group; systemd replaces root PM2 |
+| Runtime configuration | /etc/chatforia/api-runtime.env, root-owned 0600; restricted connection only |
+| Security flags after migration | STAFF_SECURITY_ENABLED=true; STAFF_DASHBOARD_ENABLED=false until separate admission |
+| Migration count after upgrade | 160 completed; all 19 new SQL checksums exact; only four pinned historical pairs allowed |
+
+Use [deployment-runbook.md](deployment-runbook.md) for detailed technical procedure,
+[the package procedure](migration-release-packages.md) for migration execution, and
+[the service template](chatforia-api-restricted.service.example) for process configuration.
+Never dispatch the legacy backend deployment workflow.
+
+## Preparation order, before requesting execution approval
+
+1. **Resolve routing facts read-only.** Identify the actual frontend origin, API
+   upstream hostname/port, Cloudflare TLS mode, and DigitalOcean firewall attachments
+   and source rules. Confirm provider callback/health routes and how maintenance
+   fencing will preserve operator access. Do not reload nginx, alter DNS or change
+   firewall rules during this inspection. This determines the exact transport/fence plan.
+2. **Confirm identities and custody.** Privately verify the founder's account ID,
+   email verification, MFA enrollment and already-linked sign-in provider. Do not
+   infer ownership from email/name alone. Name actual initial staff/canary accounts,
+   or explicitly start with founder only; do not invent a CTO or Access Admin.
+   Confirm retrieval of existing APP_ENC_KEY/JWT/OAuth material independently of the
+   API host and lost-device recovery. Do not paste keys, passwords or customer data.
+   Record how distinct recovery issuer/executor login authority will be operated.
+3. **Complete the change-window recovery record.** Select date/time/timezone and
+   acceptable interruption; refresh managed backup health and available restore
+   points, identify a usable independent restore destination, and plan the consistent
+   encrypted export/role metadata capture. Do not recreate a paid restore cluster
+   without separate authorization. Finish receipt-folder backup validation before
+   approving execution; preparation may continue meanwhile.
+4. **Prepare the activation release for a separate decision.** Only under explicit
+   exception-activation authorization, change manifest status and both pins through
+   review and tests. Existing CI deliberately expects the proposed state; update tests
+   to preserve default-off, target/pair checks and no production use in CI. Obtain
+   the separate merge decision, then create and verify a NEW archive for that merged
+   commit. Archive application artifacts and the compatible recovery backend at
+   the same reviewed revision. The current 6a5f06d archive is retained as evidence.
+5. **Present a final approval record.** Fill every field below with verified values.
+   No blank field, placeholder, old checkpoint, or passing CI substitutes for authorization.
+
+## Execution sequence — only during the separately approved window
+
+| Order | Action and expected result | Stop condition |
+| --- | --- | --- |
+| 1 | Fence public auth/write ingress, drain requests, stop every API/background writer and verify no conflicting migration process; retain operator access. | Any unidentified writer, unverified route or inability to maintain the fence. |
+| 2 | Capture/verify consistent recovery point, encrypted logical export, password-free ownership/role metadata, and recoverable key versions. Record timestamps and digests in private custody. | Unreadable backup/export, unavailable restore destination or missing key. |
+| 3 | Through the separate privileged connection, execute guarded staff-production-prerequisite-roles.sql; provision runtime password privately, grant only migration executor scoped SET authority, then staff-access-bootstrap-role.sql. | Existing unsafe role/schema, unexpected target, provider permission/extension limitation. No CASCADE or blanket ownership reassignment. |
+| 4 | Verify exact final package/digest and strict TLS. Run deploy-migration-package.mjs WITHOUT --execute from the reviewed checkout, using the independent private receipt archive and approved exception ID only in migration context. | Wrong host/database/port, any unexpected ledger entry, fifth mismatch, changed pair/file/evidence, invalid role/schema, failed catalog/data predicate or missing archive. |
+| 5 | Run the SAME package/digest through the runner WITH --execute. Require a verified receipt, all 160 migrations complete, all 19 new hashes exact, unchanged user-count check and successful catalog/data predicates. | Any failure or partial migration. Do not retry blindly, edit the ledger, run migrate resolve or switch SQL. |
+| 6 | Provision independent session/staff signing secrets through protected custody; preserve existing compatible encryption/JWT/provider keys. Initialize verified founder ownership with atomic audit/session invalidation under the reviewed bootstrap procedure. | Missing verified identity, inconsistent signing-key bytes/version, missing audit, or unapproved initial assignment. |
+| 7 | Install reviewed non-root service and restricted environment, narrow upload permissions, isolate old privileged env/PM2 state, disable old startup path. Validate unit and effective access; run runtime preflight before admitting listener. | Any doadmin app/job connection, old root listener, readable privileged secret, unsafe membership/ownership, upload failure or readiness failure. |
+| 8 | Apply approved proxy/firewall/TLS changes and matching frontend artifact. Test private sign-in/MFA, pre-MFA denial, founder/delegate/admin boundaries, permitted audited change, ordinary write/upload, CSRF, logout and scheduled DB-job health. | Unauthorized access, missing audit, session/revocation failure, TLS/cookie/proxy failure, 5xx spike or failed job. Never trigger paid provider actions just to test. |
+| 9 | Verify compatible process restart/recovery, one intended listener and restricted credentials after restart. Record baseline errors/latency and actual alert receipt. Keep dashboard off pending admission. | Process revives old code/credentials, missing alert path or unsafe recovery. |
+| 10 | Request/execute separately authorized named-cohort admission (Stage 6), observe and expand only after acceptance criteria pass. | Any security failure; error rate >1% or staff API p95 >2x measured baseline for five minutes stops expansion. |
+
+Scheduled hourly/daily jobs need observation at their normal cadence before declaring
+the job cutover stable. API startup alone does not prove all provider jobs work.
+
+The migration runner's advisory lock serializes its own invocations; operator fencing
+must also exclude other migration tools. The 19 files are not one atomic transaction.
+Receipts preserve actual historical hashes; normalization is comparison-only.
+
+## Containment and recovery
+
+Before any migration begins, an aborted window may restore the prior process/config
+after reviewing any already-created role/schema dependencies and ordinary smoke checks.
+Once migration begins, keep traffic fenced and inspect partial ledger/DDL. Do not restart
+the pre-PR backend, restore root PM2/doadmin runtime, set security=false, or delete audits
+or replay state. Use the reviewed compatible backend and repair forward.
+Dashboard=false is limited containment and does not close global Admin APIs.
+A database restore is a separate incident decision into an independent target and must
+follow [older-snapshot-recovery.md](older-snapshot-recovery.md), reconciling post-backup
+revocations, token floors, consumed assertions/approvals and audits before reopening.
+
+## Final execution approval record — presently incomplete
+
+- Final activation commit, package SHA-256 and release URL: pending.
+- Application/frontend/recovery artifact digests: pending.
+- Approved window and acceptable interruption: pending.
+- Live routing/firewall/TLS plan and verified fencing path: pending.
+- Fresh backup/export time points, digests, restore destination and retrieval check: pending.
+- Receipt archive backup at current Desktop path: pending.
+- Verified founder/canary IDs and approved initial grants: pending private verification.
+- Recovery operator identities and independent key retrieval: confirm privately.
+- Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
+- Explicit permission for roles/schema, exception activation, migrations, keys/bootstrap,
+  process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.
+- Explicit Stage 6 cohort admission: NOT GRANTED.
+
+The immediate next owner-assisted step is read-only inspection of the DigitalOcean
+firewall attached to chatforia-api-01, followed by actual frontend/API origin routing.
+No production command is required to review those console settings.
