@@ -49,8 +49,12 @@ implemented control and must not be confused with release sign-off recommendatio
   server's `/api/` location would leave the primary API path open.
   The owner reported an HTTP 404 proxy probe, which confirms a response for that
   path but not authenticated app behavior. The API listener binds `*:5002` and
-  host UFW is inactive. Cloud firewall attachments/rules and Cloudflare TLS mode
-  remain unverified; see the [sanitized inspection](evidence/stage5-routing-backup-readonly-20261105.json).
+  host UFW is inactive. The owner subsequently supplied firewall attachments,
+  rules and proxied DNS/Full (strict) mode. Both global SSH configurations report
+  `PasswordAuthentication yes` and `PermitRootLogin yes`; the API has an active
+  nginx/Certbot renewal path on TCP 80. See the
+  [sanitized evidence](evidence/stage5-routing-backup-readonly-20261105.json)
+  and [exact ingress/fence proposal](ingress-fencing-proposal.md).
 
 The current archived package is a preserved review checkpoint. Its manifest is still
 `proposed-not-authorized-for-production`. It is NOT the final executable production
@@ -77,19 +81,18 @@ rewrite the database migration ledger.
 Use [deployment-runbook.md](deployment-runbook.md) for detailed technical procedure,
 [the package procedure](migration-release-packages.md) for migration execution, and
 [the service template](chatforia-api-restricted.service.example) for process configuration.
+[Ingress and temporary fencing](ingress-fencing-proposal.md) are separate
+proposed production changes with their own approval and stop conditions.
 Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval
 
-1. **Finish ingress/fence facts read-only.** The browser's direct API origin,
-   web `/api/` proxy and API loopback upstream are verified above. Inspect the
-   DigitalOcean firewall attached
-   to `chatforia-api-01`, especially inbound 5002/443/22 sources and outbound rules,
-   and Cloudflare SSL/TLS encryption mode and origin policy. The listener is bound
-   to all interfaces with UFW inactive, so a timed-out external probe alone cannot
-   establish the intended ingress boundary. Confirm provider callback/health routes
-   and how maintenance fencing will preserve operator access. Do not alter nginx,
-   DNS or firewall rules during this inspection.
+1. **Decide the prepared ingress/fence rules.** The owner supplied the DigitalOcean
+   firewall and Cloudflare facts; browser, web proxy and API loopback routes are
+   verified. Review the [proposed rules](ingress-fencing-proposal.md), especially
+   key-only SSH for both hosts, standard GitHub Actions runner access to web TCP 22,
+   the operator source for private API HTTPS, provider callback retry tolerance and
+   the API Certbot HTTP-01 path. These are decisions, not permission to edit rules.
 2. **Confirm identities and custody.** Privately verify the founder's account ID,
    email verification, MFA enrollment and already-linked sign-in provider. Do not
    infer ownership from email/name alone. Name actual initial staff/canary accounts,
@@ -117,7 +120,7 @@ Never dispatch the legacy backend deployment workflow.
 
 | Order | Action and expected result | Stop condition |
 | --- | --- | --- |
-| 1 | Fence public auth/write ingress, drain requests, stop every API/background writer and verify no conflicting migration process; retain operator access. | Any unidentified writer, unverified route or inability to maintain the fence. |
+| 1 | Apply the separately approved [temporary API ingress fence](ingress-fencing-proposal.md), drain requests, stop every API/background writer and verify no conflicting migration process; retain operator access and TCP 80 for ACME. | Any unidentified writer, unverified route, certificate-renewal conflict or inability to maintain the fence. |
 | 2 | Capture/verify consistent recovery point, encrypted logical export, password-free ownership/role metadata, and recoverable key versions. Record timestamps and digests in private custody. | Unreadable backup/export, unavailable restore destination or missing key. |
 | 3 | Through the separate privileged connection, execute guarded staff-production-prerequisite-roles.sql; provision runtime password privately, grant only migration executor scoped SET authority, then staff-access-bootstrap-role.sql. | Existing unsafe role/schema, unexpected target, provider permission/extension limitation. No CASCADE or blanket ownership reassignment. |
 | 4 | Verify exact final package/digest and strict TLS. Run deploy-migration-package.mjs WITHOUT --execute from the reviewed checkout, using the independent private receipt archive and approved exception ID only in migration context. | Wrong host/database/port, any unexpected ledger entry, fifth mismatch, changed pair/file/evidence, invalid role/schema, failed catalog/data predicate or missing archive. |
@@ -152,8 +155,9 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Final activation commit, package SHA-256 and release URL: pending.
 - Application/frontend/recovery artifact digests: pending.
 - Approved window and acceptable interruption: pending.
-- Web/API proxy route and web upstream TLS verification: observed as above; DigitalOcean
-  cloud firewall, Cloudflare mode and a verified fencing path: pending.
+- Web/API proxy route, web upstream TLS, owner-provided DigitalOcean firewall
+  attachments/rules and Cloudflare Full (strict): recorded. Exact operator source,
+  key-only SSH decision and approved/tested [ingress/fence rules](ingress-fencing-proposal.md): pending.
 - Fresh backup/export time points, digests, restore destination and retrieval check: pending.
 - Time Machine includes the current package directory; independent completed
   package/receipt backup at that path: pending.
@@ -164,9 +168,6 @@ revocations, token floors, consumed assertions/approvals and audits before reope
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.
 - Explicit Stage 6 cohort admission: NOT GRANTED.
 
-The immediate next owner-assisted evidence is the DigitalOcean **Networking →
-Firewalls** detail for the firewall attached to `chatforia-api-01` (attachment,
-inbound 5002/443/22 sources and outbound rules), and Cloudflare **SSL/TLS →
-Overview** encryption mode/origin policy for `chatforia.com`. The web/API route
-itself is verified above. Redacted screenshots or rule metadata suffice; no
-production command or firewall change is required for this review.
+The remaining network decisions are grouped in
+[ingress-fencing-proposal.md](ingress-fencing-proposal.md). Do not repeat the
+owner-provided firewall/Cloudflare inspection; no rule or SSH change was applied.

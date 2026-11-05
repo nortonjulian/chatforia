@@ -7,6 +7,8 @@ historical uncertainty for review only; production exception activation remains 
 A basic hosted restore readability check passed, not exhaustive integrity or measured
 RPO/RTO. The archived review package is verified locally; a final activation release
 will require a new archive. No production cutover or Stage 6 admission is authorized.
+The owner-provided firewall/Cloudflare evidence, read-only SSH/certificate findings
+and proposed network fence are in [ingress-fencing-proposal.md](ingress-fencing-proposal.md).
 
 
 Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
