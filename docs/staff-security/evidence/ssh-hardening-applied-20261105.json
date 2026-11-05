@@ -1,0 +1,35 @@
+{
+  "change": "Owner-approved key-only SSH configuration on chatforia-web-01, then chatforia-api-01",
+  "observedWindowUtc": "2026-11-05T03:49:00Z/2026-11-05T04:03:31Z",
+  "approvedTemplateSha256": "4022cde8691849e903f7333a958f70ae805b29b66838c33951f02ddf72363581",
+  "installedPath": "/etc/ssh/sshd_config.d/00-chatforia-key-only.conf",
+  "installedOwnerAndMode": "root:root 0644",
+  "hostsInOrder": [
+    {
+      "host": "chatforia-web-01",
+      "baselineMetadataSha256": "276b27e59f9885c19f2be450e0f9d08cef37dd78f1041cf4b833f9e0360fc9c7",
+      "heldSessionDuringReload": true,
+      "preReloadSyntaxAndEffectivePolicy": "passed",
+      "sshServiceReloadedAndActive": true,
+      "postReloadSyntaxAndEffectivePolicy": "passed: publickey yes; password no; keyboard-interactive no; authentication methods publickey; root login without-password",
+      "freshLocalDeploymentLabeledKeyNoOp": "passed as root with independently pinned host key",
+      "freshSeparateOperatorKeyIdentityCheck": "passed: ControlMaster=no, ControlPath=none, ControlPersist=no; hostname=chatforia-web-01; whoami=root; key=local chatforia_deploy",
+      "passwordOnlyNegotiation": "denied; server offered publickey only; no credentials submitted"
+    },
+    {
+      "host": "chatforia-api-01",
+      "baselineMetadataSha256": "276b27e59f9885c19f2be450e0f9d08cef37dd78f1041cf4b833f9e0360fc9c7",
+      "heldSessionDuringReload": true,
+      "preReloadSyntaxAndEffectivePolicy": "passed",
+      "sshServiceReloadedAndActive": true,
+      "postReloadSyntaxAndEffectivePolicy": "passed: publickey yes; password no; keyboard-interactive no; authentication methods publickey; root login without-password",
+      "freshLocalDeploymentLabeledKeyNoOp": "passed as root with independently pinned host key",
+      "passwordOnlyNegotiation": "denied; server offered publickey only; no credentials submitted",
+      "apiLoopbackHealth": "HTTP 200 with expected Host and X-Forwarded-Proto headers"
+    }
+  ],
+  "ownerReportedRecoveryConsole": "root login passed on both Droplets before approval; no password shared",
+  "githubActionsSecretKey": "not inspected or exercised from GitHub Actions; local deployment-labeled keys passed no-op login",
+  "rollback": "not needed",
+  "unchanged": "firewalls, ports, authorized_keys, host keys, root passwords, application processes and deployment"
+}

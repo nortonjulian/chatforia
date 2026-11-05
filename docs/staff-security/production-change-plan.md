@@ -56,7 +56,8 @@ implemented control and must not be confused with release sign-off recommendatio
   The owner reported an HTTP 404 proxy probe, which confirms a response for that
   path but not authenticated app behavior. The API listener binds `*:5002` and
   host UFW is inactive. The owner subsequently supplied firewall attachments,
-  rules and proxied DNS/Full (strict) mode. Both global SSH configurations report
+  rules and proxied DNS/Full (strict) mode. Before the separately approved
+  key-only SSH change, both global configurations reported
   `PasswordAuthentication yes` and `PermitRootLogin yes`; the API has an active
   nginx/Certbot renewal path on TCP 80. See the
   [sanitized evidence](evidence/stage5-routing-backup-readonly-20261105.json)
@@ -89,9 +90,11 @@ Use [deployment-runbook.md](deployment-runbook.md) for detailed technical proced
 [the service template](chatforia-api-restricted.service.example) for process configuration.
 [Ingress and temporary fencing](ingress-fencing-proposal.md) are separate
 proposed production changes with their own approval and stop conditions.
-The [exact SSH hardening diff](ssh-hardening-change.md) preserves public-key
-access. The owner reported successful out-of-band Recovery Console root login
-on both Droplets; reconfirm access before any approved reload.
+The [exact SSH hardening diff](ssh-hardening-change.md) is now applied on both
+Droplets. Public-key root login and fresh local deployment-labeled key no-op
+checks passed; password authentication is disabled. The owner reported successful
+out-of-band Recovery Console root login on both Droplets. The GitHub Actions
+secret key still requires a no-op runner check before relying on the workflow.
 Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval
@@ -99,7 +102,7 @@ Never dispatch the legacy backend deployment workflow.
 1. **Decide the prepared ingress/fence rules.** The owner supplied the DigitalOcean
    firewall and Cloudflare facts; browser, web proxy and API loopback routes are
    verified. Review the [proposed rules](ingress-fencing-proposal.md), especially
-   key-only SSH for both hosts, standard GitHub Actions runner access to web TCP 22,
+   the completed key-only SSH change, standard GitHub Actions runner access to web TCP 22,
    the operator source for private API HTTPS, provider callback retry tolerance and
    the API Certbot HTTP-01 path. These are decisions, not permission to edit rules.
 2. **Confirm identities and custody.** Privately verify the founder's account ID,
@@ -166,7 +169,8 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Approved window and acceptable interruption: pending.
 - Web/API proxy route, web upstream TLS, owner-provided DigitalOcean firewall
   attachments/rules and Cloudflare Full (strict): recorded. Exact operator source,
-  key-only SSH decision and approved/tested [ingress/fence rules](ingress-fencing-proposal.md): pending.
+  key-only SSH: applied and locally verified. Exact operator source and
+  approved/tested [ingress/fence rules](ingress-fencing-proposal.md): pending.
 - Fresh backup/export time points, digests, restore destination and retrieval check: pending.
 - Time Machine includes the current package directory; independent completed
   package/receipt backup at that path: pending.
@@ -179,4 +183,6 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 
 The remaining network decisions are grouped in
 [ingress-fencing-proposal.md](ingress-fencing-proposal.md). Do not repeat the
-owner-provided firewall/Cloudflare inspection; no rule or SSH change was applied.
+owner-provided firewall/Cloudflare inspection; no firewall rule was changed.
+The separately approved SSH-only change is recorded in
+[execution evidence](evidence/ssh-hardening-applied-20261105.json).

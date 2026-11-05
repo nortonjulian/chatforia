@@ -1,4 +1,21 @@
-# SSH key-only change — proposed for both Droplets, not applied
+# SSH key-only change — applied to both Droplets
+
+The owner approved this exact change after reporting successful Recovery Console
+root logins on both hosts. On November 5, 2026 UTC, it was applied to
+`chatforia-web-01` first, then `chatforia-api-01`. The installed files are
+root-owned `0644` and match the prepared template SHA-256
+`4022cde8691849e903f7333a958f70ae805b29b66838c33951f02ddf72363581`.
+On each host a held SSH session survived the reload, pre/post `sshd -t` and
+effective-policy checks passed, a fresh no-op root login with the available
+local deployment-labeled key succeeded, and password-only negotiation was
+denied with only `publickey` offered. The API loopback health check returned
+HTTP 200 after its reload. See the [sanitized execution evidence](evidence/ssh-hardening-applied-20261105.json).
+The web operator key was also tested in a separate post-reload connection with
+SSH connection reuse disabled; `hostname` returned `chatforia-web-01` and
+`whoami` returned `root`.
+The GitHub Actions secret key itself was not inspected or exercised from a
+runner; the local key checks do not prove that the stored Actions secret matches.
+No firewall, port, application process or deployment changed. Rollback was not needed.
 
 ## Evidence and scope
 
@@ -49,10 +66,10 @@ drop-in. A stdin-only `sshd -T -f /dev/stdin -C` dry parse on **both current
 hosts** returned public-key authentication `yes`, password and keyboard
 interactive `no`, authentication methods `publickey`, and root login
 `without-password` (the server's normalized alias for `prohibit-password`).
-That parse changed no file or daemon. A post-install effective check remains
-mandatory because cloud-init or another include could change before approval.
+That parse changed no file or daemon. The post-install effective check passed
+on both hosts; rerun it after any future SSH configuration change.
 
-## Approval-window validation, one host at a time
+## Approval-window validation, one host at a time — completed for this change
 
 1. **Recovery prerequisite (owner-reported pass today):** Before the approved
    reload, owner reconfirms access by opening each
@@ -131,5 +148,5 @@ sshd -t
 systemctl reload ssh.service
 ```
 
-The proposed SSH change is distinct from the separately approved firewall,
+The applied SSH change is distinct from the still-unapproved firewall,
 migration exception, migration and credential cutover decisions.
