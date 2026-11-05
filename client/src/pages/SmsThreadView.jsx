@@ -120,6 +120,28 @@ export default function SmsThreadView({ currentUserId, currentUser }) {
     try {
       const res = await axiosClient.get(`/sms/threads/${threadId}`);
       setThread(res.data);
+
+      // An SMS fetch is not a read acknowledgment. Only acknowledge inbound
+      // messages while this conversation is actually visible to the user.
+      if (document.visibilityState === 'visible' && res.data?.messages?.length) {
+        const visibleInbound = res.data.messages
+          .filter((message) => message.direction === 'in')
+          .reduce((latest, message) => {
+            if (!latest || new Date(message.createdAt) > new Date(latest.createdAt)) {
+              return message;
+            }
+            return latest;
+          }, null);
+        if (visibleInbound?.id) {
+          try {
+            await axiosClient.post(`/sms/threads/${threadId}/read`, {
+              messageId: visibleInbound.id,
+            });
+          } catch {
+            // Keep the SMS visible; retry on next foreground refresh.
+          }
+        }
+      }
     } catch {
       setThread(null);
     } finally {
