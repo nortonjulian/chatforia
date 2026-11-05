@@ -1,5 +1,13 @@
 # PR #293 deployment procedure — prepared, not executed
 
+Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
+The owner accepted the four-migration historical uncertainty and authorized preparation
+for review; see [the acceptance record](migration-exception-review.md). PR #300 integrates
+the pinned exception into package validation, but the manifest remains unapproved for
+production. Separate merge and production activation decisions remain required.
+Treat migration commands below as sequencing context; use the package runner for
+actual execution after those gates are resolved.
+
 Decision: **GO for code review; NO-GO for deployment with the current target
 configuration/history and remaining evidence gaps.** Authorized read-only SSH,
 catalog and configuration inspection is complete to the available account-access

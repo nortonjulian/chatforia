@@ -1,0 +1,43 @@
+name: Archive migration release
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: Full reviewed commit SHA on main
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build package from reviewed Git objects
+        env:
+          RELEASE_COMMIT: ${{ inputs.commit }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          git merge-base --is-ancestor "$RELEASE_COMMIT" origin/main
+          node server/scripts/migration-package.mjs "$RELEASE_COMMIT" migration-package.json
+          sha256sum migration-package.json > migration-package.sha256
+      - name: Retain exact migration package as release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_COMMIT: ${{ inputs.commit }}
+        run: |
+          set -euo pipefail
+          gh release create "migrations-$RELEASE_COMMIT" \
+            --target "$RELEASE_COMMIT" --title "Migration package $RELEASE_COMMIT" \
+            --notes "Reviewed SQL, schema, lockfile and aggregate check plan. Deployment requires separate approval." \
+            migration-package.json migration-package.sha256

@@ -9,6 +9,8 @@ import {
   deleteExpiredOrdinaryResetTokens,
   deleteOldUsedOrdinaryResetTokens,
 } from '../cron/ordinaryResetTokenCleanup.js';
+import { buildPackage, checkReconciledHistory } from './migration-package.mjs';
+import { ledger } from './deploy-migration-package.mjs';
 import { runPreflight } from './staff-deployment-preflight.mjs';
 
 // Runs only inside the public repository's standard CI job, against the job's
@@ -94,6 +96,8 @@ ROLLBACK;`;
   console.log('PASS: strict preflight rejects all four recorded target checksum mismatches');
 
   const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
+  const releasePackage = buildPackage('HEAD');
+  assert.equal(checkReconciledHistory(releasePackage, await ledger(db), manifest.target).length, 19);
   const reconciledEnv = {
     STAFF_EXPECTED_DATABASE: database,
     STAFF_MIGRATION_RECONCILIATION_ID: manifest.id,
@@ -165,6 +169,8 @@ ROLLBACK;`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations'), /not approved for production/);
   await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--after-migrations'), /Migration history differs/);
   assert.equal((await runPreflight(db, reconciledEnv, '--after-migrations', isolated)).reconciliationId, manifest.id);
+  assert.deepEqual(checkReconciledHistory(releasePackage, await ledger(db), manifest.target, true), []);
+  console.log('PASS: archived package verifies real PostgreSQL ledger before and after the four-pair exception');
   const staffName = readdirSync('server/prisma/migrations').find((name) => name.startsWith('20261102'));
   const staffChecksum = sha(readFileSync(`server/prisma/migrations/${staffName}/migration.sql`));
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'b'.repeat(64)} WHERE migration_name=${staffName}`;
