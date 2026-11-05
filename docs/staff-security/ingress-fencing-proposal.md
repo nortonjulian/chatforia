@@ -99,14 +99,21 @@ or read-only API response showing the rules and attachment before editing.
 
 The deployed API process is online in PM2 and runs the package's production
 `start` script, which loads `server/.env.production`. A read-only classification
-of its configured URL fields found HTTPS `api.chatforia.com` for Google and
-Apple callbacks and Twilio voice/base webhook URLs. The deployed code accepts
+of its configured URL fields found that Google and Apple use HTTPS
+`api.chatforia.com` with paths matching their deployed callbacks. The Twilio
+voice URL uses the same HTTPS origin, while the Twilio webhook base adds `/api`.
+The deployed code accepts
 `/auth/google/callback`, `/auth/apple/callback`, `/billing/webhook`, Twilio SMS
 under `/webhooks/sms` and `/api/webhooks/sms`, Twilio voice under
 `/webhooks/voice` and `/api/webhooks/voice`, other Twilio/porting routes under
 `/webhooks`, and a conditional eSIM webhook under `/esim/webhooks/oneglobal`.
 This establishes application routes and selected configured hostnames, not the
 destinations saved in Google, Apple, Stripe, Twilio or eSIM provider consoles.
+There is also an existing routing mismatch: deployed code constructs a Twilio
+regulatory status callback by appending `/webhooks/twilio/regulatory-status` to
+the `/api` webhook base, but mounts that handler only without `/api`. API nginx
+passes paths through unchanged. This mismatch is independent of the proposed
+firewall and merits separate review before relying on regulatory callbacks.
 Confirm that every active external callback points to a Cloudflare-proxied
 hostname before narrowing API 80/443; a raw API IP or unproxied hostname would
 be cut off. Avoid printing credentials or full callback URLs in review evidence.
