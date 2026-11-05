@@ -8,6 +8,13 @@ checks. The owner confirmed all three DNS names are proxied and Cloudflare uses
 Full (strict). The website's verified upstream certificate check stays enabled;
 the reported 404 probe shows an HTTP response, not authenticated app readiness.
 
+[Read-only follow-up](evidence/frontend-deploy-and-ingress-readonly-20261105.json)
+records that frontend workflow run #623 was an actual successful deployment from
+`main`, not a connection-only check. It exercised the stored runner SSH key after
+key-only hardening, synchronized the frontend, and successfully ran the nginx
+reload command. The API checkout remains older; live `/staff/session` returns
+404. Local authorization/browser evidence does not certify a live staff rollout.
+
 ## Permanent origin ingress
 
 At the approved window, obtain the current IPv4 and IPv6 source sets from
@@ -27,10 +34,19 @@ IPv6: 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32
       2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
 ```
 
+A second read-only check on November 5 matched all 22 official ranges above.
+Refresh them again at the approved change window; this check does not approve
+the rule edit.
+
 | Target | Proposed inbound rules | Outbound / verification |
 | --- | --- | --- |
 | Existing `chatforia-api-firewall` on `chatforia-api-01` | Replace all-source TCP 80 and 443 allows with separate TCP 80 and TCP 443 allows from the 22 Cloudflare CIDRs. Keep **no** inbound 5002 rule. Narrow TCP 22 to verified operator egress `/32` and/or `/128` after its source and recovery path are approved; the backend GitHub Actions workflow is blocked before SSH. | Keep current broad TCP/UDP/ICMP outbound rules during this release so managed DB, Redis, OAuth, provider calls, DNS, ACME and package access are not unexpectedly cut off. Confirm the only attached firewall and test both IP families. |
 | New DigitalOcean firewall attached only to `chatforia-web-01` | Separate TCP 80 and TCP 443 allows from the same 22 Cloudflare CIDRs. For the existing standard GitHub-hosted frontend SSH workflow, retain TCP 22 from all IPv4/IPv6 **only with approved key-only SSH hardening**. No other inbound rule. | Explicitly allow current outbound TCP/UDP/ICMP behavior; an empty outbound rule set would block egress. Test proxied web/API paths, direct-origin rejection, and a no-op Actions SSH connection before relying on the rule. |
+
+The API operator SSH source was observed as one IPv4 address in a fresh
+key-based connection. The exact `/32` is shared in the private owner review;
+verify it again immediately before a rule edit and do not broaden it to a
+residential `/24` by inference. No operator IPv6 source was established.
 
 For an approved permanent edit, save the old rule sets and keep a tested SSH
 session plus DigitalOcean console recovery. Add the Cloudflare source rules
@@ -42,6 +58,28 @@ trigger paid provider actions as a test. If a path fails, restore the API's
 prior allows or detach the new web firewall immediately; preserve the active
 SSH session.
 Do not change outbound policy as part of this release.
+
+**Exact permanent-rule reversal:** For API, restore the captured original
+all-source TCP 22/80/443 allow rules in `chatforia-api-firewall` before removing
+the new Cloudflare/operator-source allows; preserve all prior outbound and
+unrelated rules. Verify public HTTPS and fresh operator SSH after restoration.
+For web, detach only the newly attached firewall, returning to the observed
+no-cloud-firewall baseline; do not delete the rule snapshot until recovery is
+verified. If a control-plane edit or SSH path fails, use the verified
+DigitalOcean control panel to restore cloud rules; Recovery Console preserves
+host access but cannot itself edit the DigitalOcean firewall. Stop further
+network edits.
+
+The independent web fetcher repeatedly reported `www` HTTP 521, while direct
+TLS-verified checks through all four locally DNS-advertised Cloudflare addresses
+and a direct known-origin diagnostic returned 200. Nginx was active and its
+configuration parsed, but the failing fetcher exposed no Cloudflare Ray ID or
+response headers. Do not infer a cause or call this globally resolved. Review
+the affected edge/zone evidence or obtain a reproducible external probe before
+approving a tighter web origin rule; abort an approved change on any new 521.
+[Cloudflare describes genuine 521 responses](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-521/)
+as origin connection refusals; this fetcher's error lacks the metadata needed
+to attribute it to a particular Cloudflare edge or origin rule.
 
 According to [DigitalOcean's firewall limits](https://docs.digitalocean.com/products/networking/firewalls/details/limits/),
 cloud firewalls are stateful and currently available without an additional
@@ -62,8 +100,10 @@ The separately approved [SSH key-only change](ssh-hardening-change.md) is now
 applied on both hosts. Effective `sshd -T` reports `PasswordAuthentication no`,
 `KbdInteractiveAuthentication no`, `AuthenticationMethods publickey` and
 `PermitRootLogin without-password`; fresh no-op logins with locally available
-deployment-labeled keys passed. The GitHub Actions secret itself was not
-exercised from a runner. Do not turn off root key login until a separate
+deployment-labeled keys passed. Frontend run #623 then exercised the stored
+Actions key successfully from a hosted runner, but used the old deployment
+workflow's unpinned `ssh-keyscan` host trust. PR #301's pinned connection-only
+mode remains unrun. Do not turn off root key login until a separate
 non-root path is verified.
 
 `.github/workflows/deploy.yml` uses a standard `ubuntu-latest` runner to SSH

@@ -47,6 +47,18 @@ implemented control and must not be confused with release sign-off recommendatio
   forwarded-HTTPS path, 420 MiB available RAM and no OOM kill recorded in the
   available kernel/systemd-oomd/syslog records for the prior 24 hours. This is
   a current-state check, not a capacity test or authorization to cut over.
+- [Frontend run #623](evidence/frontend-deploy-and-ingress-readonly-20261105.json)
+  deployed `main` commit `6a5f06d5` after SSH hardening. The stored Actions key
+  reached the web host, rsync completed and nginx reload succeeded. The public
+  page now references the synchronized JS/CSS assets. This was a frontend
+  deployment, not PR #301's pinned `verify_ssh` mode or an API/staff cutover.
+  The API checkout remains `b0ec6fd0`; unauthenticated `/staff/session` returns
+  404 and `/admin/users` returns 401. That older API mounts an MFA-guarded
+  read-only Admin Users list but lacks the new View/Edit detail handler; live
+  View would lack a route and Edit stays disabled without `editableFields`.
+  Repeated `www` 521s from one web fetcher conflict with direct 200s through
+  the four locally DNS-advertised edge addresses; the source of that failure
+  remains unknown before tighter origin ingress.
 - The separately authorized website nginx change is active: configuration parses,
   `/api/` uses `https://api.chatforia.com`, and upstream certificate verification,
   SNI and a trusted CA are configured. API nginx forwards to `127.0.0.1:5002`.
@@ -93,8 +105,9 @@ proposed production changes with their own approval and stop conditions.
 The [exact SSH hardening diff](ssh-hardening-change.md) is now applied on both
 Droplets. Public-key root login and fresh local deployment-labeled key no-op
 checks passed; password authentication is disabled. The owner reported successful
-out-of-band Recovery Console root login on both Droplets. The GitHub Actions
-secret key still requires a no-op runner check before relying on the workflow.
+out-of-band Recovery Console root login on both Droplets. Frontend run #623
+also proved runner SSH access using the stored key; the pinned connection-only
+mode is prepared but unrun, and the deployed workflow's host trust is unpinned.
 Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval

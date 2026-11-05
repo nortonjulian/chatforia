@@ -1,0 +1,38 @@
+{
+  "observedAtUtc": "2026-11-05T05:16:25Z",
+  "scope": "Read-only GitHub run, public HTTPS/DNS, and host-status inspection; this inspection dispatched no workflow and changed no production setting",
+  "frontendRun623": {
+    "url": "https://github.com/nortonjulian/chatforia/actions/runs/41967828478",
+    "event": "workflow_dispatch",
+    "branch": "main",
+    "headSha": "6a5f06d58c4414b7a0f584eeaede3118d3e9066b",
+    "job": "deploy: success; not verify_ssh",
+    "storedKeyEvidence": "Setup SSH wrote the masked DO_SSH_KEY secret to the runner key file; subsequent rsync and separate SSH/nginx step succeeded after key-only SSH hardening. Authentication method is inferred from successful commands and server policy; no SSH debug trace was logged.",
+    "fileSync": "rsync --delete succeeded; six stale hashed assets deleted; new index-HLeRuybA.js and index-BruheAmp.css appear in both the run log and current public HTML",
+    "nginxReload": "remote systemctl reload nginx command present; step completed successfully",
+    "hostKeyLimit": "main deployment workflow used ssh-keyscan without an independent host pin; PR #301 verify_ssh mode with pinned fingerprint was not dispatched"
+  },
+  "previousSuccessfulFrontendRun622": {
+    "url": "https://github.com/nortonjulian/chatforia/actions/runs/41576606095",
+    "headSha": "5a110738355d5d38aa9a9cf9826b511b0d7d6cec",
+    "delta": "Two main commits: merged staff-access PR #293 added the staff dashboard/Users frontend; merged migration-package PR #300 changed no client source files"
+  },
+  "publicReadOnlyChecks": {
+    "apexHttps": "200 with valid public TLS",
+    "wwwHttps": "200 with valid public TLS over both DNS-advertised IPv4 and both IPv6 Cloudflare addresses",
+    "wwwDirectOriginDiagnostic": "200 at known web Droplet IP using www SNI; certificate verification intentionally omitted only for this origin diagnostic",
+    "webOriginNginx": "active, listening on TCP 80 and 443, syntax pass, zero nginx.service error journal entries in the preceding hour",
+    "wwwOtherFetcher": "repeated 521; no response headers, Ray ID, or source location exposed; cause not established",
+    "publicJavascriptAndCss": "200 for both index assets referenced by current HTML",
+    "apiHealth": "200 with ok=true",
+    "unauthenticatedStaffSession": 404,
+    "unauthenticatedAdminUsers": 401,
+    "deployedApiCheckoutSha": "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70"
+  },
+  "authorizationScope": "Local CI, synthetic browser, owner-reported Safari/Firefox, and real Google/local MFA evidence cover intended authorization. Live staff/session 404 plus the older API checkout do not establish production staff authorization or dashboard activation.",
+  "deployedApiRouteReview": "At b0ec6fd0 the API mounts only a read-only /admin/users list guarded by current ADMIN role and MFA; it has no /staff router or /admin/users/:id View/Edit router. The newly deployed client would show View for an admin but its detail request lacks a live handler; Edit stays disabled because the old list supplies no editableFields. This is a source-based compatibility inference, not a live authenticated browser test.",
+  "cloudflareRanges": "Official 15 IPv4 and seven IPv6 source ranges matched the ingress proposal when checked; refresh before an approved rule edit",
+  "operatorSource": "Current API-visible address verified; exact personal source address kept in private owner review, not this repository evidence",
+  "digitalOceanFirewallBaseline": "Owner-reported: API attached firewall permits all-source TCP 22/80/443 and no TCP 5002; web has no attached cloud firewall. No DigitalOcean control-plane read was available during this follow-up; refresh rule and attachment snapshots before an approved edit.",
+  "firewallChanges": "none"
+}
