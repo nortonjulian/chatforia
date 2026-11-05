@@ -44,6 +44,9 @@ implemented control and must not be confused with release sign-off recommendatio
 - The separately authorized website nginx change is active: configuration parses,
   `/api/` uses `https://api.chatforia.com`, and upstream certificate verification,
   SNI and a trusted CA are configured. API nginx forwards to `127.0.0.1:5002`.
+  The active frontend loads `env.js` with `__API_URL__=https://api.chatforia.com`,
+  so normal browser API calls go directly to that origin; fencing only the web
+  server's `/api/` location would leave the primary API path open.
   The owner reported an HTTP 404 proxy probe, which confirms a response for that
   path but not authenticated app behavior. The API listener binds `*:5002` and
   host UFW is inactive. Cloud firewall attachments/rules and Cloudflare TLS mode
@@ -78,8 +81,9 @@ Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval
 
-1. **Finish ingress/fence facts read-only.** The web-to-API HTTPS origin and API
-   loopback upstream are verified above. Inspect the DigitalOcean firewall attached
+1. **Finish ingress/fence facts read-only.** The browser's direct API origin,
+   web `/api/` proxy and API loopback upstream are verified above. Inspect the
+   DigitalOcean firewall attached
    to `chatforia-api-01`, especially inbound 5002/443/22 sources and outbound rules,
    and Cloudflare SSL/TLS encryption mode and origin policy. The listener is bound
    to all interfaces with UFW inactive, so a timed-out external probe alone cannot
