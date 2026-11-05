@@ -1,5 +1,14 @@
 # PR #293 deployment procedure — prepared, not executed
 
+**Current operational status:** [production-change-plan.md](production-change-plan.md)
+supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
+the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
+historical uncertainty for review only; production exception activation remains blocked.
+A basic hosted restore readability check passed, not exhaustive integrity or measured
+RPO/RTO. The archived review package is verified locally; a final activation release
+will require a new archive. No production cutover or Stage 6 admission is authorized.
+
+
 Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
 The owner accepted the four-migration historical uncertainty and authorized preparation
 for review; see [the acceptance record](migration-exception-review.md). PR #300 integrates
@@ -42,17 +51,17 @@ workflow limitations, not permission to change a server. Use the controlled,
 SHA-pinned procedure below under a future approval, or separately implement an
 equivalent approved deployment workflow. No live workflow was broadened here.
 
-The branch adds **18** migrations to the **141** pre-PR migrations, not only the
+The branch adds **19** migrations to the **141** pre-PR migrations, not only the
 last four. [deployment-migrations.json](deployment-migrations.json) records all
-18 ordered hashes. The original four hashes in migration-manifest.json remain
+19 ordered hashes. The original four hashes in migration-manifest.json remain
 unchanged. `npm run verify:staff-release` checks both manifests. The new populated
 upgrade rehearsal applies 141, seeds synthetic ordinary/admin users, then applies
-18 under a non-superuser executor. It verifies preservation and effective
+19 under a non-superuser executor. It verifies preservation and effective
 post-upgrade restrictions. It does not certify DigitalOcean permissions or timing.
 
 ## 1. Select and prepare the release without touching the target
 
-Record the reviewed full commit SHA, final successful PR check URL, all 18 SQL
+Record the reviewed full commit SHA, final successful PR check URL, all 19 SQL
 hashes, release/incident owners and change window. Build a separate release
 directory/artifact from that SHA using Node 22 and the committed lockfile:
 
@@ -110,8 +119,9 @@ password-free role/ownership/grantor metadata, with encrypted restricted custody
 digests, time point, retention, restore destination and measured RPO/RTO. Preserve
 JWT/session, staff assertion and existing MFA encryption key versions separately
 in the actual secret store. Verify independent access to that recovery material.
-Local restore/reconciliation already passed; provider restore success and
-independent key custody have not. Owner-reported PITR/latest-transaction recovery
+Local restore/reconciliation and a basic hosted restore readability check passed.
+Refresh backup health for the actual window; independently usable key custody still
+requires confirmation. Owner-reported PITR/latest-transaction recovery
 offers seven days into a new cluster. Same-host root-owned 0600 key copies match
 but are not independent recovery. A second database on production chatforia-db is not an
 isolated rehearsal because roles are cluster-wide. No paid fallback is authorized.
@@ -182,7 +192,7 @@ node node_modules/prisma/build/index.js migrate status --schema=server/prisma/sc
 The first command is transactionally read-only: it verifies the role/schema/
 pgcrypto prerequisites and exact checksums of all 141 completed baseline
 migrations. It rejects wrong identity, failed/partial/extra staff history and
-unsafe ownership. `migrate status` should report exactly the reviewed 18 pending
+unsafe ownership. `migrate status` should report exactly the reviewed 19 pending
 migrations (pending status may be nonzero); inspect the set, not just its exit
 code. No preflight success authorizes migration. Do not use the initial-release
 preflight on an already-upgraded database and interpret its rejection as drift.
@@ -196,9 +206,9 @@ node node_modules/prisma/build/index.js migrate deploy --schema=server/prisma/sc
 node node_modules/prisma/build/index.js migrate status --schema=server/prisma/schema.prisma
 ```
 
-Require all 159 migrations finished and the exact reviewed checksums; preserve
+Require all 160 migrations finished and the exact reviewed checksums; preserve
 sanitized execution records. On any failure leave traffic closed. Prisma SQL
-files are not an atomic 18-file transaction: inspect partial DDL/ledger before
+files are not an atomic 19-file transaction: inspect partial DDL/ledger before
 any repair; never automatically mark a failed migration resolved or retry a
 different SQL file under the same name.
 
@@ -275,8 +285,8 @@ saved startup path so reboot cannot revive it; retain any privileged PM2/env
 copies only in root/DBA custody outside the app's effective access. Install but
 do not start the dedicated-user unit after the DBA-only migrations and key
 bootstrap. Confirm the dedicated UID cannot read old privileged sources.
-The legacy manual backend workflow now stops before fetching/resetting code or
-running migrations whenever `chatforia-api.service` is enabled or active;
+PR #300 makes the legacy manual backend workflow stop unconditionally before SSH;
+its earlier service-state guard is historical context;
 enable the new unit as part of the approved switch and do not dispatch that
 workflow for this release.
 Run the read-only runtime preflight under that UID with the same
