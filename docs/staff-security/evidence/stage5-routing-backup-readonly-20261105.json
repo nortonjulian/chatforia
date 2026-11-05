@@ -1,0 +1,42 @@
+{
+  "observedAtUtc": "2026-11-05T02:37:34Z",
+  "scope": "Read-only host configuration and local backup inventory; no production change or secret/customer value collected",
+  "webNginx": {
+    "configurationParses": true,
+    "configurationSha256": "79836d15f75314720dd15a6f1edbe240eb671e4e6f18a10ae0181bfcd67f61e3",
+    "serverNames": ["chatforia.com", "www.chatforia.com"],
+    "apiLocation": "/api/",
+    "apiOrigin": "https://api.chatforia.com",
+    "upstreamCertificateVerification": "on",
+    "upstreamSni": "on",
+    "upstreamTlsName": "api.chatforia.com",
+    "trustedCaConfigured": true
+  },
+  "apiNginxAndHost": {
+    "configurationParses": true,
+    "configurationSha256": "3ae75467bc6cbc2238feaa91c972c352d0cb2e2f24297b3ff4c7b9d0620f1fbf",
+    "publicOrigin": "api.chatforia.com",
+    "applicationUpstream": "http://127.0.0.1:5002",
+    "applicationListen": "*:5002",
+    "hostUfw": "inactive"
+  },
+  "proxyProbe": {
+    "source": "owner-reported separately authorized change",
+    "status": 404,
+    "interpretation": "The requested path reached an HTTP response through the verified proxy; this is not an authenticated application smoke test"
+  },
+  "localArchive": {
+    "directory": "~/Desktop/Chatforia-Deployment-Records",
+    "presentFiles": ["migration-package.json", "migration-package.sha256"],
+    "timeMachineInclusion": "Included at current directory",
+    "timeMachineDestination": "Macintosh HD (Local)",
+    "timeMachineListBackups": "No machine directory found for host",
+    "physicalExternalBackupDiskAttached": false,
+    "independentCompletedBackupVerified": false
+  },
+  "notObservableFromThisAccess": [
+    "DigitalOcean cloud firewall attachments and source/port rules",
+    "Cloudflare SSL/TLS encryption mode and origin policy",
+    "Independent recovery-key retrieval and change-window backup health"
+  ]
+}

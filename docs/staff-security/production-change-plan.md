@@ -26,10 +26,12 @@ implemented control and must not be confused with release sign-off recommendatio
   check plan, exception manifest and its three evidence files.
 - Local archive location is now
   `$HOME/Desktop/Chatforia-Deployment-Records`, not the earlier home-directory path.
-  Time Machine inclusion was checked at the earlier path. The backup destination
-  failed to mount, and a recent completed backup remains unverified. The owner
-  explicitly deferred that check while continuing preparation. Recheck inclusion
-  at the current path and complete a backup before relying on it for recovery.
+  [Read-only follow-up](evidence/stage5-routing-backup-readonly-20261105.json)
+  confirms the current directory is included in Time Machine and contains the
+  review package and checksum. Time Machine lists only `Macintosh HD (Local)` as
+  its destination, reports no machine backup for this host, and no physical
+  external backup disk is attached. An independent completed backup remains
+  unverified; the owner deferred it while preparation continues.
 - The owner accepted historical-data uncertainty for the four documented pairs
   and authorized preparing the exception for review. See
   [the exact acceptance record](migration-exception-review.md).
@@ -39,6 +41,13 @@ implemented control and must not be confused with release sign-off recommendatio
   for the eventual change window.
 - The single refund record matched the exact Stripe test payment ID, amount and
   timestamps; no eSIM replacement rows were present. Historical SQL remains unavailable.
+- The separately authorized website nginx change is active: configuration parses,
+  `/api/` uses `https://api.chatforia.com`, and upstream certificate verification,
+  SNI and a trusted CA are configured. API nginx forwards to `127.0.0.1:5002`.
+  The owner reported an HTTP 404 proxy probe, which confirms a response for that
+  path but not authenticated app behavior. The API listener binds `*:5002` and
+  host UFW is inactive. Cloud firewall attachments/rules and Cloudflare TLS mode
+  remain unverified; see the [sanitized inspection](evidence/stage5-routing-backup-readonly-20261105.json).
 
 The current archived package is a preserved review checkpoint. Its manifest is still
 `proposed-not-authorized-for-production`. It is NOT the final executable production
@@ -69,11 +78,14 @@ Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval
 
-1. **Resolve routing facts read-only.** Identify the actual frontend origin, API
-   upstream hostname/port, Cloudflare TLS mode, and DigitalOcean firewall attachments
-   and source rules. Confirm provider callback/health routes and how maintenance
-   fencing will preserve operator access. Do not reload nginx, alter DNS or change
-   firewall rules during this inspection. This determines the exact transport/fence plan.
+1. **Finish ingress/fence facts read-only.** The web-to-API HTTPS origin and API
+   loopback upstream are verified above. Inspect the DigitalOcean firewall attached
+   to `chatforia-api-01`, especially inbound 5002/443/22 sources and outbound rules,
+   and Cloudflare SSL/TLS encryption mode and origin policy. The listener is bound
+   to all interfaces with UFW inactive, so a timed-out external probe alone cannot
+   establish the intended ingress boundary. Confirm provider callback/health routes
+   and how maintenance fencing will preserve operator access. Do not alter nginx,
+   DNS or firewall rules during this inspection.
 2. **Confirm identities and custody.** Privately verify the founder's account ID,
    email verification, MFA enrollment and already-linked sign-in provider. Do not
    infer ownership from email/name alone. Name actual initial staff/canary accounts,
@@ -108,7 +120,7 @@ Never dispatch the legacy backend deployment workflow.
 | 5 | Run the SAME package/digest through the runner WITH --execute. Require a verified receipt, all 160 migrations complete, all 19 new hashes exact, unchanged user-count check and successful catalog/data predicates. | Any failure or partial migration. Do not retry blindly, edit the ledger, run migrate resolve or switch SQL. |
 | 6 | Provision independent session/staff signing secrets through protected custody; preserve existing compatible encryption/JWT/provider keys. Initialize verified founder ownership with atomic audit/session invalidation under the reviewed bootstrap procedure. | Missing verified identity, inconsistent signing-key bytes/version, missing audit, or unapproved initial assignment. |
 | 7 | Install reviewed non-root service and restricted environment, narrow upload permissions, isolate old privileged env/PM2 state, disable old startup path. Validate unit and effective access; run runtime preflight before admitting listener. | Any doadmin app/job connection, old root listener, readable privileged secret, unsafe membership/ownership, upload failure or readiness failure. |
-| 8 | Apply approved proxy/firewall/TLS changes and matching frontend artifact. Test private sign-in/MFA, pre-MFA denial, founder/delegate/admin boundaries, permitted audited change, ordinary write/upload, CSRF, logout and scheduled DB-job health. | Unauthorized access, missing audit, session/revocation failure, TLS/cookie/proxy failure, 5xx spike or failed job. Never trigger paid provider actions just to test. |
+| 8 | Retain the already applied website upstream-certificate verification. Apply only separately approved remaining proxy/firewall changes and the matching frontend artifact. Test private sign-in/MFA, pre-MFA denial, founder/delegate/admin boundaries, permitted audited change, ordinary write/upload, CSRF, logout and scheduled DB-job health. | Unauthorized access, missing audit, session/revocation failure, TLS/cookie/proxy failure, 5xx spike or failed job. Never trigger paid provider actions just to test. |
 | 9 | Verify compatible process restart/recovery, one intended listener and restricted credentials after restart. Record baseline errors/latency and actual alert receipt. Keep dashboard off pending admission. | Process revives old code/credentials, missing alert path or unsafe recovery. |
 | 10 | Request/execute separately authorized named-cohort admission (Stage 6), observe and expand only after acceptance criteria pass. | Any security failure; error rate >1% or staff API p95 >2x measured baseline for five minutes stops expansion. |
 
@@ -136,9 +148,11 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Final activation commit, package SHA-256 and release URL: pending.
 - Application/frontend/recovery artifact digests: pending.
 - Approved window and acceptable interruption: pending.
-- Live routing/firewall/TLS plan and verified fencing path: pending.
+- Web/API proxy route and web upstream TLS verification: observed as above; DigitalOcean
+  cloud firewall, Cloudflare mode and a verified fencing path: pending.
 - Fresh backup/export time points, digests, restore destination and retrieval check: pending.
-- Receipt archive backup at current Desktop path: pending.
+- Time Machine includes the current package directory; independent completed
+  package/receipt backup at that path: pending.
 - Verified founder/canary IDs and approved initial grants: pending private verification.
 - Recovery operator identities and independent key retrieval: confirm privately.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
@@ -146,6 +160,9 @@ revocations, token floors, consumed assertions/approvals and audits before reope
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.
 - Explicit Stage 6 cohort admission: NOT GRANTED.
 
-The immediate next owner-assisted step is read-only inspection of the DigitalOcean
-firewall attached to chatforia-api-01, followed by actual frontend/API origin routing.
-No production command is required to review those console settings.
+The immediate next owner-assisted evidence is the DigitalOcean **Networking →
+Firewalls** detail for the firewall attached to `chatforia-api-01` (attachment,
+inbound 5002/443/22 sources and outbound rules), and Cloudflare **SSL/TLS →
+Overview** encryption mode/origin policy for `chatforia.com`. The web/API route
+itself is verified above. Redacted screenshots or rule metadata suffice; no
+production command or firewall change is required for this review.
