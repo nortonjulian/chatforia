@@ -1,5 +1,12 @@
 # Four baseline migrations: evidence for reviewed reconciliation
 
+Current decision (November 4 owner local date / November 5 UTC): the owner accepted
+remaining historical-data uncertainty and authorized preparing the exception for
+review only. See [the scoped acceptance and evidence record](migration-exception-review.md).
+The original SQL remains unavailable. The manifest is still proposed and production
+activation, merge, and deployment remain unauthorized. Earlier investigation and
+proposal wording below is retained as historical context.
+
 The strict deployment preflight **continues to reject** the target baseline.
 This report describes authorized read-only evidence only. No migration, ledger
 entry, production file, service or database setting was changed. Hash pairs are

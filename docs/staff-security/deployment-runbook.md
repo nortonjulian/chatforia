@@ -1,8 +1,10 @@
 # PR #293 deployment procedure — prepared, not executed
 
 Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
-The strict package runner currently blocks the four historical mismatches. Their
-owner acceptance and reviewed integration remain prerequisites for this target.
+The owner accepted the four-migration historical uncertainty and authorized preparation
+for review; see [the acceptance record](migration-exception-review.md). PR #300 integrates
+the pinned exception into package validation, but the manifest remains unapproved for
+production. Separate merge and production activation decisions remain required.
 Treat migration commands below as sequencing context; use the package runner for
 actual execution after those gates are resolved.
 
