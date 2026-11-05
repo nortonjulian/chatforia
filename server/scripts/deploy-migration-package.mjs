@@ -8,7 +8,7 @@ import { dirname, join, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { checkHistory, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
+import { checkHistory, checkReconciledHistory, reconciliationPaths, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
 
 function persist(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
@@ -73,9 +73,24 @@ export async function deployPackage(options) {
     const certificate = url.searchParams.get(name);
     if (certificate && !isAbsolute(certificate)) throw new Error('Use an absolute CA certificate path');
   }
-  if (process.env.DIRECT_URL || process.env.SHADOW_DATABASE_URL || process.env.STAFF_MIGRATION_RECONCILIATION_ID) {
-    throw new Error('Alternate URLs and historical exceptions require a separately reviewed deployment path');
+  if (process.env.DIRECT_URL || process.env.SHADOW_DATABASE_URL) {
+    throw new Error('Alternate URLs require a separately reviewed deployment path');
   }
+  let reconciliation = null;
+  if (process.env.STAFF_MIGRATION_RECONCILIATION_ID) {
+    const { assertReconciliationRequested } = await import('../security/staffMigrationReconciliation.js');
+    // No isolated-test bypass here. Risk acceptance alone cannot open this gate.
+    reconciliation = assertReconciliationRequested(process.env, options.database);
+    for (const path of reconciliationPaths) {
+      if (!files.has(path) || digest(files.get(path)) !== digest(readFileSync(path))) {
+        throw new Error('Archived reconciliation evidence differs from reviewed checkout');
+      }
+    }
+  }
+  const historyCheck = (rows, complete = false) => reconciliation
+    ? checkReconciledHistory(bundle, rows, { hostname: url.hostname,
+      database: options.database, port: url.port }, complete)
+    : checkHistory(bundle, rows, complete);
   const archive = realpathSync(options.archive);
   const checkout = realpathSync(resolve(dirname(fileURLToPath(import.meta.url)), '../..'));
   const archiveRelative = relative(checkout, archive);
@@ -86,7 +101,10 @@ export async function deployPackage(options) {
   const receiptDirectory = join(archive, `${bundle.commit}-${randomUUID()}`);
   mkdirSync(receiptDirectory, { mode: 0o700 });
   const receipt = { version: 1, commit: bundle.commit, packageSha256: options.sha256,
-    target: { host: options.host, database: options.database }, startedAt: new Date().toISOString() };
+    target: { host: options.host, database: options.database, port: Number(url.port || 5432) },
+    reconciliation: reconciliation ? { id: reconciliation.id,
+      manifestSha256: digest(files.get(reconciliationPaths[0])), exceptions: reconciliation.exceptions } : null,
+    startedAt: new Date().toISOString() };
   persist(join(receiptDirectory, 'started.json'), receipt);
   const archivedPackage = join(receiptDirectory, 'package.json');
   copyFileSync(options.package, archivedPackage);
@@ -115,18 +133,23 @@ export async function deployPackage(options) {
       const [identity] = await db.$queryRawUnsafe('SELECT current_database() AS name');
       assert.equal(identity.name, options.database, 'Connected database differs from approved target');
       receipt.beforeHistory = await ledger(db);
-      const pending = checkHistory(bundle, receipt.beforeHistory);
+      const pending = historyCheck(receipt.beforeHistory);
       receipt.pending = pending;
       const checks = checksForPending(files, pending);
       receipt.beforeChecks = await aggregateChecks(db, checks);
       assertChecks(checks, receipt.beforeChecks);
       persist(join(receiptDirectory, 'before.json'), receipt);
+      if (reconciliation) {
+        const { runPreflight } = await import('./staff-deployment-preflight.mjs');
+        await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--before-migrations',
+          { migrationRoot: join(work, 'server/prisma/migrations') });
+      }
       if (!options.execute) {
         receipt.status = 'preflight-only';
         return;
       }
       // Require the existing staff prerequisites in addition to the generic ledger check.
-      if (pending.some((name) => name.startsWith('20261102'))) {
+      if (!reconciliation && pending.some((name) => name.startsWith('20261102'))) {
         const { runPreflight } = await import('./staff-deployment-preflight.mjs');
         await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--before-migrations',
           { migrationRoot: join(work, 'server/prisma/migrations') });
@@ -139,7 +162,12 @@ export async function deployPackage(options) {
       receipt.migrationExitCode = result.status;
       receipt.afterHistory = await ledger(db);
       if (result.error || result.status !== 0) throw new Error('Migration command failed; inspect private server diagnostics');
-      checkHistory(bundle, receipt.afterHistory, true);
+      historyCheck(receipt.afterHistory, true);
+      if (reconciliation) {
+        const { runPreflight } = await import('./staff-deployment-preflight.mjs');
+        await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--after-migrations',
+          { migrationRoot: join(work, 'server/prisma/migrations') });
+      }
       receipt.afterChecks = await aggregateChecks(db, checks);
       assertChecks(checks, receipt.beforeChecks, receipt.afterChecks);
       receipt.status = 'verified';

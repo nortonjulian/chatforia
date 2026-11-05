@@ -55,10 +55,22 @@ every pending migration. After separate production approval, repeat with
 `--execute`. It repeats all preflight checks and executes the installed, version-
 checked Prisma CLI against the schema and SQL extracted from the archived package.
 The existing staff prerequisite preflight also runs when staff migrations are pending.
-Historical checksum exceptions are deliberately unsupported by this strict runner.
-The current four mismatches therefore block this entry point. Integrating the
-existing target-bound exception requires the owner's risk decision and a separately
-reviewed change; never edit the migration ledger to pass this check.
+The four-pair exception is integrated for review but remains blocked by the existing
+production-approval gate. Owner acceptance of historical uncertainty is recorded in
+`migration-exception-review.md`; it does not authorize production execution.
+Without STAFF_MIGRATION_RECONCILIATION_ID, exact checksum matching remains the default.
+With that ID, the runner requires the pinned manifest to have separate production
+approval, archives the manifest and three evidence files, checks the exact target
+including port, and verifies all four pairs plus every other migration normally.
+The production CLI cannot use the isolated CI bypass. Before and after checks also
+run the existing read-only catalog and data predicates. Receipts preserve the actual
+historical ledger and identify the exception; no ledger checksum is rewritten.
+
+The manifest remains `proposed-not-authorized-for-production`. A future separately
+approved activation must update the manifest status and both digest pins in
+staffMigrationReconciliation.js and migration-package.mjs through review and tests.
+Do not set the production exception environment variable as part of preparing this PR.
+Never edit the migration ledger to pass a check.
 
 Each attempt gets a unique private archive directory with started.json, package.json,
 before.json when preflight passes, and receipt.json. Receipts contain target, commit,
@@ -66,7 +78,8 @@ package digest, migration names/checksums, aggregate results, status and timesta
 The database URL, credentials and raw Prisma logs are excluded. A failed migration
 captures the remaining ledger if reachable. A crash may leave only started.json or
 before.json: treat that attempt as incomplete and inspect the database before retry.
-Verified receipts require all package migrations present with exact checksums and
+Verified receipts require all package migrations present with exact checksums (or
+only the four explicitly approved historical pairs when activated) and
 successful after predicates. A post-check failure stops the process; it does not
 reverse committed SQL. Follow the compatible recovery runbook.
 

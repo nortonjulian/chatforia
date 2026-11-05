@@ -78,3 +78,61 @@ test('aggregate queries execute inside a read-only transaction and detect change
   assertChecks(checks, result, result);
   assert.throws(() => assertChecks(checks, result, { users: [{ count: '4' }] }));
 });
+
+test('pinned reconciliation accepts only the exact four pairs and target, before and after', async () => {
+  const { checkReconciledHistory, reconciliationPaths } = await import('./migration-package.mjs');
+  const file = (path, bytes) => ({ path, sha256: digest(bytes), content: Buffer.from(bytes).toString('base64') });
+  const bundle = { version: 1, commit: 'a'.repeat(40), files: [
+    file('server/prisma/schema.prisma', 'schema'),
+    file('server/prisma/migrations/migration_lock.toml', 'provider="postgresql"'),
+    file('server/prisma/deployment-checks.json', '{"version":1}'),
+    file('package-lock.json', '{}'),
+    ...reconciliationPaths.map((path) => file(path, readFileSync(path))),
+  ] };
+  const manifest = JSON.parse(readFileSync(reconciliationPaths[0]));
+  const rows = [];
+  for (const [name, pair] of Object.entries(manifest.exceptions)) {
+    const path = `server/prisma/migrations/${name}/migration.sql`;
+    bundle.files.push(file(path, readFileSync(path)));
+    rows.push({ migration_name: name, checksum: pair.recordedChecksum, finished_at: 'now', rolled_back_at: null });
+  }
+  for (let i = 0; i < 137; i++) {
+    const name = `20260101_fixture_${i}`;
+    bundle.files.push(file(`server/prisma/migrations/${name}/migration.sql`, 'SELECT 1;'));
+    rows.push({ migration_name: name, checksum: digest('SELECT 1;'), finished_at: 'now', rolled_back_at: null });
+  }
+  const after = structuredClone(rows);
+  for (let i = 0; i < 19; i++) {
+    const name = `20261102_fixture_${i}`;
+    bundle.files.push(file(`server/prisma/migrations/${name}/migration.sql`, 'SELECT 2;'));
+    after.push({ migration_name: name, checksum: digest('SELECT 2;'), finished_at: 'now', rolled_back_at: null });
+  }
+  const original = JSON.stringify(rows);
+  assert.equal(checkReconciledHistory(bundle, rows, manifest.target).length, 19);
+  assert.deepEqual(checkReconciledHistory(bundle, after, manifest.target, true), []);
+  assert.equal(JSON.stringify(rows), original, 'checker must not change recorded checksums');
+  assert.throws(() => checkHistory(bundle, rows), /mismatch/, 'strict default still rejects the four');
+  for (const patch of [{ hostname: 'other' }, { database: 'other' }, { port: 5432 }]) {
+    assert.throws(() => checkReconciledHistory(bundle, rows, { ...manifest.target, ...patch }));
+  }
+  for (const index of [0, 4]) { // changed allowed pair and fifth mismatch
+    const bad = structuredClone(rows); bad[index].checksum = 'f'.repeat(64);
+    assert.throws(() => checkReconciledHistory(bundle, bad, manifest.target));
+  }
+  for (const patch of [{ finished_at: null }, { rolled_back_at: 'now' }, { migration_name: 'unknown' }]) {
+    const bad = structuredClone(rows); Object.assign(bad[0], patch);
+    assert.throws(() => checkReconciledHistory(bundle, bad, manifest.target));
+  }
+  assert.throws(() => checkReconciledHistory(bundle, rows.slice(1), manifest.target));
+  assert.throws(() => checkReconciledHistory(bundle, [...rows, rows[0]], manifest.target));
+  const duplicate = structuredClone(rows); duplicate[5] = duplicate[4];
+  assert.throws(() => checkReconciledHistory(bundle, duplicate, manifest.target));
+  assert.throws(() => checkReconciledHistory(bundle, after.slice(1), manifest.target, true));
+  for (const path of [reconciliationPaths[0], reconciliationPaths[1],
+    `server/prisma/migrations/${rows[0].migration_name}/migration.sql`]) {
+    const bad = structuredClone(bundle);
+    const index = bad.files.findIndex((f) => f.path === path);
+    bad.files[index] = file(path, 'changed'); // even with a recomputed per-file digest
+    assert.throws(() => checkReconciledHistory(bad, rows, manifest.target));
+  }
+});
