@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Require archived migration deployment
+        run: |
+          echo "Use the reviewed migration package and receipt procedure in docs/staff-security/migration-release-packages.md."
+          exit 1
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh

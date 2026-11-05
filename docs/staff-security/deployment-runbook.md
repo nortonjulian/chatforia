@@ -1,5 +1,11 @@
 # PR #293 deployment procedure — prepared, not executed
 
+Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
+The strict package runner currently blocks the four historical mismatches. Their
+owner acceptance and reviewed integration remain prerequisites for this target.
+Treat migration commands below as sequencing context; use the package runner for
+actual execution after those gates are resolved.
+
 Decision: **GO for code review; NO-GO for deployment with the current target
 configuration/history and remaining evidence gaps.** Authorized read-only SSH,
 catalog and configuration inspection is complete to the available account-access

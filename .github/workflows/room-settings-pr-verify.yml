@@ -108,6 +108,11 @@ jobs:
           CI_POSTGRES18_CONTAINER: ${{ job.services.postgres18.id }}
         run: node server/scripts/staff-pg18-reconciliation-ci.mjs
 
+      - name: Verify archived migration execution and receipts on PostgreSQL 18
+        env:
+          CI_POSTGRES18_CONTAINER: ${{ job.services.postgres18.id }}
+        run: node server/scripts/migration-package-ci.mjs
+
       - name: Verify room routes, authorization, and real HTTP/DB behavior
         env:
           NODE_ENV: test

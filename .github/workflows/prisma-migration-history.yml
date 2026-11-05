@@ -24,3 +24,11 @@ jobs:
           # Compare the proposed merge tree with its base, including base-only history.
           # Disabling rename detection exposes moved files as deletions.
           git diff --exit-code --name-status --no-renames --diff-filter=a "$BASE_SHA" "$MERGE_SHA" -- ':(glob)server/prisma/migrations/**/migration.sql'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify release packaging and evidence checks
+        run: node --test server/scripts/migration-package.test.mjs
+      - name: Build proposed package from committed bytes
+        run: node server/scripts/migration-package.mjs HEAD /tmp/migration-package.json
