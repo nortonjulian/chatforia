@@ -143,9 +143,10 @@ plan. Do not restart the old privileged PM2 application after migrations.
    preserve the current GitHub-hosted frontend workflow; alternatively choose
    a fixed-egress deployment method and narrow TCP 22 first. Confirm the
    workflow's SSH destination is the direct web Droplet, not a proxied hostname.
-2. Provide the operator source CIDR(s) and console recovery path for API SSH and
-   private HTTPS smoke. Confirm provider callback/webhook retry tolerance and
-   the exact maintenance window.
+2. Provide the operator source CIDR(s) for API SSH and private HTTPS smoke.
+   The owner reported successful Recovery Console root login on both Droplets;
+   reconfirm it before any SSH/firewall change. Confirm provider callback/webhook
+   retry tolerance and the exact maintenance window.
 3. Separately approve the web firewall attachment, API rule edits, SSH hardening,
    active API certificate dry-run, and the temporary migration fence. None is
    authorized by this proposal. Exception activation, migrations, deployment

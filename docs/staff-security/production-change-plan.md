@@ -41,6 +41,12 @@ implemented control and must not be confused with release sign-off recommendatio
   for the eventual change window.
 - The single refund record matched the exact Stripe test payment ID, amount and
   timestamps; no eSIM replacement rows were present. Historical SQL remains unavailable.
+- The owner reports successful DigitalOcean Recovery Console root login on both
+  Droplets. A [read-only API memory/OOM snapshot](evidence/api-memory-oom-readonly-20261105.json)
+  found `chatforia-api` online in PM2, loopback health `200` through the normal
+  forwarded-HTTPS path, 420 MiB available RAM and no OOM kill recorded in the
+  available kernel/systemd-oomd/syslog records for the prior 24 hours. This is
+  a current-state check, not a capacity test or authorization to cut over.
 - The separately authorized website nginx change is active: configuration parses,
   `/api/` uses `https://api.chatforia.com`, and upstream certificate verification,
   SNI and a trusted CA are configured. API nginx forwards to `127.0.0.1:5002`.
@@ -84,7 +90,8 @@ Use [deployment-runbook.md](deployment-runbook.md) for detailed technical proced
 [Ingress and temporary fencing](ingress-fencing-proposal.md) are separate
 proposed production changes with their own approval and stop conditions.
 The [exact SSH hardening diff](ssh-hardening-change.md) preserves public-key
-access and requires a tested out-of-band console recovery path before reload.
+access. The owner reported successful out-of-band Recovery Console root login
+on both Droplets; reconfirm access before any approved reload.
 Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval

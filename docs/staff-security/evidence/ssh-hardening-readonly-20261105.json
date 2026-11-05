@@ -15,7 +15,8 @@
         "authenticationMethods": "any",
         "permitRootLogin": "yes"
       },
-      "rootPasswordStatusCode": "P (password set; knowledge and console login unverified)",
+      "rootPasswordStatusCode": "P (password set)",
+      "ownerReportedRecoveryConsoleRootLogin": "passed on 2026-11-04 America/Denver; password not shared",
       "freshForcedPublicKeyLogin": "passed",
       "sshService": "active",
       "proposedStdinOnlyParse": "passed: publickey yes, password no, keyboard-interactive no, authentication methods publickey, root login without-password"
@@ -33,12 +34,13 @@
         "authenticationMethods": "any",
         "permitRootLogin": "yes"
       },
-      "rootPasswordStatusCode": "P (password set; knowledge and console login unverified)",
+      "rootPasswordStatusCode": "P (password set)",
+      "ownerReportedRecoveryConsoleRootLogin": "passed on 2026-11-04 America/Denver; password not shared",
       "freshForcedPublicKeyLogin": "passed",
       "sshService": "active",
       "proposedStdinOnlyParse": "passed: publickey yes, password no, keyboard-interactive no, authentication methods publickey, root login without-password"
     }
   },
-  "digitalOceanRecoveryConsole": "Out-of-band recovery path documented by provider; owner account launch and password login not yet verified",
+  "digitalOceanRecoveryConsole": "Owner reports successful root login on both Droplets; not independently observed over SSH",
   "githubActionsSecretKey": "Not read or compared; current frontend workflow uses an SSH key, so a no-op Actions login remains required after any approved reload"
 }

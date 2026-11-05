@@ -12,8 +12,9 @@ views report password authentication and root login enabled, public-key
 authentication enabled, keyboard-interactive disabled and
 `AuthenticationMethods any`. Both hosts accepted a fresh forced-public-key
 operator login, and `ssh.service` is active. Root password status is `P` on
-both hosts; this does **not** prove the owner can use the password in the
-DigitalOcean Recovery Console. No key material, password hashes or password
+both hosts. The owner separately reports successful Recovery Console root
+login on **both** Droplets on November 4 (America/Denver); this was not
+independently observed over SSH. No key material, password hashes or password
 values were printed or copied.
 
 The current frontend GitHub Actions workflow uses an SSH private-key secret on
@@ -53,7 +54,8 @@ mandatory because cloud-init or another include could change before approval.
 
 ## Approval-window validation, one host at a time
 
-1. **Recovery prerequisite:** With no SSH change in progress, owner opens each
+1. **Recovery prerequisite (owner-reported pass today):** Before the approved
+   reload, owner reconfirms access by opening each
    Droplet's DigitalOcean **Settings → Recovery console**, confirms the login
    prompt and logs in with an existing owner-held root/sudo password. Do not
    send or record the password. [DigitalOcean says](https://docs.digitalocean.com/products/droplets/how-to/recovery/recovery-console/)
