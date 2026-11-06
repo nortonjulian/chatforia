@@ -95,17 +95,21 @@ The exact proposed **web-only** firewall has these Allow rules:
 | Outbound | All TCP ports | All IPv4 and All IPv6 |
 | Outbound | All UDP ports | All IPv4 and All IPv6 |
 
-No other inbound or deny rule, Droplet attachment, or tag attachment is proposed.
+No other inbound or deny rule, tag attachment, or non-web Droplet attachment is proposed.
 
 The owner refreshed the Droplet's **Networking → Firewalls** view and confirmed
-that no firewall is assigned. Under a separate approval, create a complete
-firewall with the six rules in the table,
-leave **Apply to Droplets** blank, review it, then attach it only to
-`chatforia-web-01`. Keep a tested SSH session open. After attachment,
+that no firewall was assigned. The owner then separately approved creation of
+an unattached six-rule firewall. Saved edit-dialog values were checked against
+the table and all 22 current Cloudflare CIDRs: no missing, extra or all-source
+HTTP/HTTPS entry; no extra or Deny rule; SSH and outbound values match. The
+firewall still protects **zero** Droplets. Attachment to `chatforia-web-01`
+needs separate owner approval and explicit acceptance of the bounded 521 risk
+below. At an approved attachment window, keep a tested SSH session open,
+attach this firewall only to `chatforia-web-01`, then
 verify a new operator key login, a connection-only GitHub Actions SSH run,
 proxied apex/www IPv4 and IPv6, the HTTP redirect and `/api/` proxy, and
 direct-origin 80/443 rejection. On a regression, detach only the new firewall
-and verify recovery. No web firewall was created or attached in preparation.
+and verify recovery. No web firewall attachment has occurred.
 
 The API operator SSH source was observed as one IPv4 address in a fresh
 key-based connection. The exact `/32` is shared in the private owner review;
@@ -114,8 +118,8 @@ residential `/24` by inference. No operator IPv6 source was established.
 
 The approved API edit saved the old rule set and kept a tested SSH session
 while Cloudflare source rules were added before the all-source HTTP(S) allows
-were removed. For a future web edit, build the web firewall
-with SSH and outbound rules **before** attaching it. Test proxied IPv4/IPv6
+were removed. The unattached web firewall has its SSH and outbound rules
+in place before any attachment. Test proxied IPv4/IPv6
 HTTPS and HTTP redirects, normal browser API calls, configured provider
 callback URLs, passive delivery status and direct-origin rejection. Do not
 trigger paid provider actions as a test. If a path fails, restore the API's
