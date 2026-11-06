@@ -7,7 +7,9 @@
     "twilioA2pMessagingServiceInboundUrl": "https://api.chatforia.com/api/webhooks/sms/twilio",
     "twilioA2pMessagingServiceFallback": "blank",
     "twilioA2pMessagingServiceDeliveryStatusCallback": "blank",
-    "digitalOceanFirewallAttachment": "chatforia-api-firewall attached only to chatforia-api-01; attachment verified by owner, not by this read-only provider query"
+    "digitalOceanFirewallAttachment": "chatforia-api-firewall attached only to chatforia-api-01; attachment verified by owner, not by this read-only provider query",
+    "googlePlayPushEndpoint": "https://api.chatforia.com/billing/google-play/rtdn; owner-verified provider push setting",
+    "appStoreServerNotifications": "Production and Sandbox Server Notification URLs both unconfigured in App Store Connect; owner-verified. Notification setup remains separate launch-readiness work."
   },
   "twilioReadOnlyMetadata": {
     "inboundVoiceApplication": "Voice request URL matches https://api.chatforia.com/api/webhooks/voice/inbound; fallback and application status callback blank",
@@ -27,15 +29,16 @@
     "stripe": "Live Stripe API lists one enabled webhook endpoint at https://api.chatforia.com/billing/webhook; no other enabled endpoint was returned",
     "googleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/google/callback; prior live company Google sign-in evidence was reused",
     "appleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/apple/callback; provider-console registration was not read",
-    "googlePlayRtdn": "Configured OIDC audience matches HTTPS api.chatforia.com/billing/google-play/rtdn and service-account identity is configured; actual Pub/Sub push subscription destination was not read",
+    "googlePlayRtdn": "Owner verified provider push endpoint https://api.chatforia.com/billing/google-play/rtdn; configured OIDC audience matches that deployed route and service-account identity is configured",
     "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; provider-side webhook subscription state remains unverified.",
-    "porting": "Deployed Twilio porting receiver exists at /webhooks/twilio/porting; code does not submit a callback URL. Whether any external porting event destination is configured remains unverified."
+    "porting": "The configured Twilio account is the parent account and a read-only account list found zero subaccounts. Read-only GET of Twilio's documented Porting Webhook configuration returned HTTP 404 with Twilio 20404 (resource not found), so no port-in or port-out target URL is configured through that resource. Deployed code only stores a local port request and exposes /webhooks/twilio/porting; it neither creates a Twilio port order nor registers a callback. This does not certify a working future porting flow."
   },
   "remainingExternalDestinationChecks": [
-    "Google Cloud Pub/Sub push subscription endpoint for Google Play RTDN: verify HTTPS api.chatforia.com/billing/google-play/rtdn or confirm the subscription is disabled",
-    "Apple App Store Server Notifications URL: verify HTTPS api.chatforia.com/billing/apple/notifications or confirm notifications are disabled",
-    "Telna account outbound event-webhook subscription: confirm whether it is enabled. If enabled, identify the destination and subscribed event types; if disabled, no Telna callback destination is required for the deployed pull-based usage/balance flow",
-    "Twilio porting event destination: verify a proxied api.chatforia.com/webhooks/twilio/porting URL if porting callbacks are configured, or confirm none are configured"
+    "Telna account outbound event-webhook subscription: confirm whether it is enabled. If enabled, identify the destination and subscribed event types; if disabled, no Telna callback destination is required for the deployed pull-based usage/balance flow"
+  ],
+  "launchReadinessItems": [
+    "Configure and verify App Store Server Notification URLs for Production and Sandbox before enabling that Apple billing notification flow; both are currently unconfigured",
+    "Implement and validate Twilio porting submission, callback registration/handling and provider payload compatibility before relying on porting events; current Porting Webhook resource is absent"
   ],
   "telnaUsageTrace": {
     "deployedRevision": "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70",

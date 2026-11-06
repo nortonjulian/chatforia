@@ -136,18 +136,26 @@ current snapshot, without testing live provider delivery. The pre-existing
 Twilio regulatory callback route mismatch above remains a separate correctness
 issue; its destination host is proxied.
 
-The remaining external destinations to verify or explicitly establish as
-disabled are: Google Cloud Pub/Sub's push endpoint for Google Play RTDN
-(`/billing/google-play/rtdn`), Apple's App Store Server Notifications URL
-(`/billing/apple/notifications`), whether the Telna account has any enabled
-outbound event-webhook subscription (and its destination/event types if it
-does), and Twilio porting events if that
-receiver is configured (`/webhooks/twilio/porting`). The configured Google Play
-OIDC audience and Google/Apple sign-in callback URLs match proxied API routes,
-but they do not prove these separate provider-side push destinations. Obtain
-their destination hostnames or a disabled/no-callback confirmation before
-approving API 80/443 source restriction. Do not repeat the completed Twilio
-voice/SMS or Stripe metadata checks unless configuration changes.
+The owner verified Google Play's actual push endpoint as
+`https://api.chatforia.com/billing/google-play/rtdn`, matching the configured
+OIDC audience and deployed handler. App Store Connect has **neither Production
+nor Sandbox Server Notification URL configured**. Adding and verifying those
+Apple URLs remains a separate launch-readiness task before enabling that
+billing-notification flow; their absence is not an API firewall destination
+blocker. Read-only GET of Twilio's documented Porting Webhook configuration on
+the configured **parent** account returned 404 / Twilio 20404 (resource not
+found); a read-only account list found zero subaccounts. There is no current
+port-in or port-out destination through that
+resource. The deployed porting code stores requests locally and has a receiver,
+but neither registers a webhook nor submits Twilio port orders. Functional
+porting is separate launch work, not a current firewall callback gate.
+
+The remaining provider-destination question is whether the Telna account has
+an enabled outbound event-webhook subscription; if so, obtain its destination
+and subscribed event types. If none, Telna has no inbound callback needed for
+the deployed pull-based usage flow. Recheck provider settings if they change;
+do not repeat completed Twilio voice/SMS, Stripe or Google Play checks without
+a concrete reason.
 
 The deployed Telna **usage and remaining-data** flow does not require an
 incoming callback. Opening Wireless triggers authenticated
