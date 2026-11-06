@@ -47,6 +47,7 @@ import { inferRegion } from './middleware/region.js';
 import { requestId } from './middleware/requestId.js';
 import { createRequestLoggingMiddleware } from './middleware/requestLogging.js';
 import { secureHeaders } from './middleware/secureHeaders.js';
+import { installTwilioCallbackGuards } from './middleware/twilioSignature.js';
 import a11yRouter from './routes/a11y.js';
 import adminEsimReplacementsRouter from './routes/adminEsimReplacements.js';
 import adminReportsRouter from './routes/adminReports.js';
@@ -232,6 +233,10 @@ export function createApp() {
   app.use(requestId());
   app.use(express.json({ limit: '1mb' }));
   app.use(express.urlencoded({ extended: true, limit: '512kb' }));
+
+  // Authenticate provider callbacks before any voice/SMS router can write state,
+  // send notifications, or return TwiML. Both public path aliases are covered.
+  installTwilioCallbackGuards(app);
 
   // 🌍 Make region available to all downstream routes (uses Accept-Language)
   app.use(inferRegion);

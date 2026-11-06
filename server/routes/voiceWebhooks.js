@@ -150,30 +150,46 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
     const user = phoneNumber.assignedUser;
 
     let callRecord = null;
+    let createdCall = false;
 
     try {
-      callRecord = await prisma.call.create({
-        data: {
-          callerId: user.id,
-          calleeId: null,
-          mode: 'AUDIO',
-          status: 'RINGING',
-          externalPhone: fromNumber,
-          twilioCallSid: callSid || null,
-          fromLabel: fromNumber || null,
-          toLabel: toNumber || null,
-        },
-        select: {
-          id: true,
-          createdAt: true,
-          twilioCallSid: true,
-        },
-      });
+      const select = { id: true, createdAt: true, twilioCallSid: true };
+      if (callSid) {
+        callRecord = await prisma.call.findUnique({
+          where: { twilioCallSid: callSid },
+          select,
+        });
+      }
+      if (!callRecord) {
+        try {
+          callRecord = await prisma.call.create({
+            data: {
+              callerId: user.id,
+              calleeId: null,
+              mode: 'AUDIO',
+              status: 'RINGING',
+              externalPhone: fromNumber,
+              twilioCallSid: callSid || null,
+              fromLabel: fromNumber || null,
+              toLabel: toNumber || null,
+            },
+            select,
+          });
+          createdCall = true;
+        } catch (err) {
+          // Concurrent retries race on Call.twilioCallSid's unique constraint.
+          if (err?.code !== 'P2002' || !callSid) throw err;
+          callRecord = await prisma.call.findUnique({
+            where: { twilioCallSid: callSid },
+            select,
+          });
+        }
+      }
     } catch (err) {
       console.error('[Twilio Voice inbound] failed to create Call row', err);
     }
 
-    if (callRecord?.id) {
+    if (createdCall && callRecord?.id) {
       emitToUser(user.id, 'call:incoming', {
         callId: callRecord.id,
         mode: 'AUDIO',
@@ -885,6 +901,7 @@ router.post('/transcription', async (req, res) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN || '';
   const baseUrl = (
     process.env.TWILIO_VOICE_WEBHOOK_URL ||
+    process.env.TWILIO_WEBHOOK_BASE_URL ||
     process.env.APP_API_ORIGIN ||
     ''
   ).replace(/\/+$/, '');
@@ -1091,6 +1108,7 @@ router.post('/client', async (req, res) => {
 
         const captionBaseUrl = (
           process.env.TWILIO_VOICE_WEBHOOK_URL ||
+          process.env.TWILIO_WEBHOOK_BASE_URL ||
           process.env.APP_API_ORIGIN ||
           ''
         ).replace(/\/+$/, '');

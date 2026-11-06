@@ -145,6 +145,9 @@ router.post(
               });
 
             if (existing) {
+              if (MessageSid && existing.inboundMessageId === MessageSid) {
+                return emptyTwilioResponse(res);
+              }
               await prisma.smsOptOut.update({
                 where: {
                   id: existing.id,

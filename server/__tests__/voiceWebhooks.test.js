@@ -164,6 +164,7 @@ const prisma = {
 
   call: {
     create: jest.fn(),
+    findUnique: jest.fn(),
     findFirst: jest.fn(),
     update: jest.fn(),
     updateMany: jest.fn(),
@@ -516,6 +517,67 @@ describe('POST /webhooks/voice/inbound', () => {
       [{ name: 'backendCallId', value: '884' }],
       [{ name: 'backendCallId', value: '884' }],
     ]);
+  });
+
+  it('reuses a CallSid on retry without another call row, socket event or push', async () => {
+    const phoneNumber = {
+      id: 500,
+      e164: '+15550009999',
+      assignedUserId: 65,
+      assignedUser: { id: 65 },
+    };
+    const call = {
+      id: 884,
+      createdAt: new Date('2026-09-25T00:00:00.000Z'),
+      twilioCallSid: 'CA-retry',
+    };
+    prisma.phoneNumber.findUnique.mockResolvedValue(phoneNumber);
+    prisma.call.findUnique.mockResolvedValueOnce(null).mockResolvedValueOnce(call);
+    prisma.call.create.mockResolvedValueOnce(call);
+    getVoiceDialDestinations.mockResolvedValue([{ identity: 'user:65' }]);
+
+    const app = createApp();
+    const post = () => request(app).post('/webhooks/voice/inbound')
+      .type('form').send({
+        To: '+15550009999',
+        From: '+15550001111',
+        CallSid: 'CA-retry',
+      });
+    const first = await post();
+    const retry = await post();
+
+    expect(first.statusCode).toBe(200);
+    expect(retry.statusCode).toBe(200);
+    expect(JSON.parse(first.text)).toEqual(JSON.parse(retry.text));
+    expect(prisma.call.create).toHaveBeenCalledTimes(1);
+    expect(emitToUser).toHaveBeenCalledTimes(1);
+    expect(sendIncomingForwardedCallPush).toHaveBeenCalledTimes(1);
+  });
+
+  it('recovers a concurrent CallSid insert without sending duplicate notifications', async () => {
+    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
+      id: 500,
+      e164: '+15550009999',
+      assignedUserId: 65,
+      assignedUser: { id: 65 },
+    });
+    prisma.call.findUnique.mockResolvedValueOnce(null).mockResolvedValueOnce({
+      id: 885,
+      createdAt: new Date('2026-09-25T00:00:00.000Z'),
+      twilioCallSid: 'CA-race',
+    });
+    prisma.call.create.mockRejectedValueOnce({ code: 'P2002' });
+    getVoiceDialDestinations.mockResolvedValueOnce([{ identity: 'user:65' }]);
+
+    const response = await request(createApp()).post('/webhooks/voice/inbound')
+      .type('form').send({
+        To: '+15550009999',
+        From: '+15550001111',
+        CallSid: 'CA-race',
+      });
+    expect(response.statusCode).toBe(200);
+    expect(emitToUser).not.toHaveBeenCalled();
+    expect(sendIncomingForwardedCallPush).not.toHaveBeenCalled();
   });
 
   it('offers voicemail after an inbound PSTN call is declined, without forwarding', async () => {
