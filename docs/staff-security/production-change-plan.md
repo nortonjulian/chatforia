@@ -63,10 +63,13 @@ implemented control and must not be confused with release sign-off recommendatio
   the four locally DNS-advertised edge addresses. The owner also reported a
   successful cellular load at 10:25 PM Denver time on November 4; web-origin
   logs around that time show no 5xx or nginx errors. The source of the fetcher
-  failure remains unknown. The separate API firewall can be reviewed on its own,
-  subject to a fresh rule snapshot and the reviewed, functioning
-  provider-callback destinations. The Telna account-level webhook setting is
-  unknown, but no deployed usage/balance feature requires an incoming event;
+  failure remains unknown. The separately approved
+  [API-only firewall edit](evidence/api-firewall-applied-20261105.json) is now
+  applied: operator-only SSH, Cloudflare-only HTTP/HTTPS, unchanged outbound,
+  fresh SSH and dual-stack proxied health, direct-origin rejection, callback
+  routing probes and the active API Certbot dry run all passed. The Telna
+  account-level webhook setting is unknown, but no deployed usage/balance
+  feature requires an incoming event;
   that limited residual risk is documented without making Telna support a
   blanket firewall approval prerequisite;
   see the [API-only ingress assessment](ingress-fencing-proposal.md).

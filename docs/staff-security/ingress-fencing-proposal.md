@@ -1,7 +1,9 @@
-# Stage 5 ingress and maintenance fence — proposed, not applied
+# Stage 5 ingress and maintenance fence — API rule applied; web/fence pending
 
-This is a target-specific rule proposal for a separately approved change. It
-does not authorize firewall, SSH, certificate, migration or process changes.
+The API-only permanent rule was separately approved and applied on November 5,
+2026 (America/Denver). The web firewall and temporary migration fence remain
+proposals and need separate approval. This document records the reviewed rules,
+verification and reversal; it does not authorize another network or process edit.
 The [sanitized evidence](evidence/stage5-routing-backup-readonly-20261105.json)
 distinguishes owner-provided DigitalOcean/Cloudflare facts from read-only host
 checks. The owner confirmed all three DNS names are proxied and Cloudflare uses
@@ -15,14 +17,38 @@ key-only hardening, synchronized the frontend, and successfully ran the nginx
 reload command. The API checkout remains older; live `/staff/session` returns
 404. Local authorization/browser evidence does not certify a live staff rollout.
 
+## API-only execution result
+
+The owner transcribed the refreshed pre-edit DigitalOcean rule set and confirmed
+`chatforia-api-firewall` attached only to `chatforia-api-01`: all-source Allow
+TCP 22/80/443, no other inbound rules, and broad ICMP/TCP/UDP outbound. The
+owner added restricted allows before removing each broad rule, confirming the
+SSH, HTTP and HTTPS changes individually. The final owner-reported inbound set
+is operator-only TCP 22 and the 22 Cloudflare CIDRs on TCP 80 and 443; outbound
+and the API-only attachment stayed unchanged. The exact operator `/32` is in
+private owner communication, not this repository.
+
+Fresh key-only SSH passed after the broad SSH rule was removed and under the
+final rules. Proxied `/health` returned 200 over IPv4 and IPv6; direct-origin
+TCP 80 and 443 timed out from the operator source. Empty, non-credentialed
+Twilio voice/SMS, Stripe and Google Play callback probes reached their
+deployed handlers and followed the expected invalid-input or unauthorized
+paths. These probes do not establish real provider delivery. The active
+`api.chatforia.com` Certbot staging dry run passed under the final rules;
+nginx remained active and both proxied health probes returned 200 afterward.
+The held SSH session was closed after verification. No rollback was needed.
+See [sanitized execution evidence](evidence/api-firewall-applied-20261105.json).
+The deployed Twilio voice and SMS handlers do not validate request signatures;
+empty unsigned probes returned TwiML. This pre-existing provider-authenticity
+issue is separate from the successful ingress edit and needs a reviewed fix.
+
 ## Permanent origin ingress
 
-At the approved window, obtain the current IPv4 and IPv6 source sets from
+At the approved API window, the current IPv4 and IPv6 source sets from
 [Cloudflare's IPv4 list](https://www.cloudflare.com/ips-v4) and
-[IPv6 list](https://www.cloudflare.com/ips-v6), compare them with the snapshot
-below, and stop for review if they differ. The November 5 snapshot has 15 IPv4
-and 7 IPv6 ranges. Use **all 22 CIDRs as sources in each HTTP/HTTPS rule**, not
-Cloudflare's DNS A/AAAA answers or the visitor address. DigitalOcean permits
+[IPv6 list](https://www.cloudflare.com/ips-v6) matched the snapshot below:
+15 IPv4 and 7 IPv6 ranges. Use **all 22 CIDRs as sources in each HTTP/HTTPS
+rule**, not Cloudflare's DNS A/AAAA answers or the visitor address. DigitalOcean permits
 multiple source CIDRs per rule and blocks unmatched inbound traffic by default.
 
 ```text
@@ -35,22 +61,21 @@ IPv6: 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32
 ```
 
 A second read-only check on November 5 matched all 22 official ranges above.
-Refresh them again at the approved change window; this check does not approve
-the rule edit.
+Refresh them before any future edit and stop for review if they differ.
 
-| Target | Proposed inbound rules | Outbound / verification |
+| Target | Applied or proposed inbound rules | Outbound / verification |
 | --- | --- | --- |
-| Existing `chatforia-api-firewall` on `chatforia-api-01` | Replace all-source TCP 80 and 443 allows with separate TCP 80 and TCP 443 allows from the 22 Cloudflare CIDRs. Keep **no** inbound 5002 rule. Narrow TCP 22 to verified operator egress `/32` and/or `/128` after its source and recovery path are approved; the backend GitHub Actions workflow is blocked before SSH. | Keep current broad TCP/UDP/ICMP outbound rules during this release so managed DB, Redis, OAuth, provider calls, DNS, ACME and package access are not unexpectedly cut off. Confirm the only attached firewall and test both IP families. |
-| New DigitalOcean firewall attached only to `chatforia-web-01` | Separate TCP 80 and TCP 443 allows from the same 22 Cloudflare CIDRs. For the existing standard GitHub-hosted frontend SSH workflow, retain TCP 22 from all IPv4/IPv6 **only with approved key-only SSH hardening**. No other inbound rule. | Explicitly allow current outbound TCP/UDP/ICMP behavior; an empty outbound rule set would block egress. Test proxied web/API paths, direct-origin rejection, and a no-op Actions SSH connection before relying on the rule. |
+| Existing `chatforia-api-firewall` on `chatforia-api-01` | **Applied:** Allow TCP 80 and 443 from the 22 Cloudflare CIDRs; allow TCP 22 from the privately verified operator IPv4 `/32`. Removed all-source TCP 22/80/443 allows. No inbound 5002 rule was added. The backend GitHub Actions workflow is blocked before SSH. | Broad TCP/UDP/ICMP outbound rules were retained. The owner confirmed the sole API Droplet attachment; fresh SSH, both proxied IP families, direct-origin rejection and Certbot dry run passed. |
+| Proposed new DigitalOcean firewall for `chatforia-web-01` | Separate TCP 80 and TCP 443 allows from the same 22 Cloudflare CIDRs. For the existing standard GitHub-hosted frontend SSH workflow, retain TCP 22 from all IPv4/IPv6 **only with approved key-only SSH hardening**. No other inbound rule. | Explicitly allow current outbound TCP/UDP/ICMP behavior; an empty outbound rule set would block egress. Test proxied web/API paths, direct-origin rejection, and a no-op Actions SSH connection before relying on the rule. |
 
 The API operator SSH source was observed as one IPv4 address in a fresh
 key-based connection. The exact `/32` is shared in the private owner review;
 verify it again immediately before a rule edit and do not broaden it to a
 residential `/24` by inference. No operator IPv6 source was established.
 
-For an approved permanent edit, save the old rule sets and keep a tested SSH
-session plus DigitalOcean console recovery. Add the Cloudflare source rules
-before removing the API's all-source HTTP(S) allows. Build the web firewall
+The approved API edit saved the old rule set and kept a tested SSH session
+while Cloudflare source rules were added before the all-source HTTP(S) allows
+were removed. For a future web edit, build the web firewall
 with SSH and outbound rules **before** attaching it. Test proxied IPv4/IPv6
 HTTPS and HTTP redirects, normal browser API calls, configured provider
 callback URLs, passive delivery status and direct-origin rejection. Do not
@@ -88,15 +113,13 @@ approving a tighter web origin rule; abort an approved change on any new 521.
 as origin connection refusals; this fetcher's error lacks the metadata needed
 to attribute it to a particular Cloudflare edge or origin rule.
 
-The web and API are separate hosts, and only the API currently has a cloud
-firewall attached. This unresolved
-`www` symptom does not by itself prevent a separately approved **API-only**
-firewall edit. The owner reconfirmed `chatforia-api-firewall` attaches **only**
-to `chatforia-api-01`. The rule baseline remains the owner's earlier
-control-panel report: inbound TCP 22/80/443 open to both IP
-families, no TCP 5002 inbound rule, and broad outbound TCP/UDP/ICMP. No current
-DigitalOcean control-plane rule read was available; obtain a fresh screenshot
-or read-only API response showing the rules and attachment before editing.
+The web and API are separate hosts, and only the API has a cloud firewall
+attached. This unresolved `www` symptom did not prevent the separately
+approved API-only edit. The owner provided a fresh pre-edit console
+transcription confirming the all-source TCP 22/80/443 baseline, no other
+inbound rule and broad outbound TCP/UDP/ICMP; the owner also confirmed the sole
+attachment. The assistant had no independent DigitalOcean control-plane
+readback. Preserve the owner's pre-edit snapshot for the reversal above.
 
 The deployed API process is online in PM2 and runs the package's production
 `start` script, which loads `server/.env.production`. A read-only classification
@@ -197,10 +220,9 @@ so a firewall edit alone cannot fence an active API writer.
 Recheck attachments and source lists before every approved rule edit. The API
 process currently listens on `*:5002`; the absence of a cloud inbound rule is
 the observed network boundary for that port. Binding to loopback is a separate
-hardening change, not assumed here. Before applying Cloudflare-only HTTPS,
-confirm the known functioning provider callbacks listed above still use
-proxied hostnames. The unknown Telna account setting is handled as the explicit
-residual risk described above.
+hardening change, not assumed here. The known functioning provider callbacks
+listed above used proxied hostnames at the API edit. The unknown Telna account
+setting remains the explicit residual risk described above.
 
 ## SSH and GitHub Actions decision
 
@@ -235,10 +257,11 @@ for `api.chatforia.com` expires January 25, 2027. Its enabled/active Certbot
 timer uses the nginx authenticator, which uses
 [HTTP-01 on TCP 80](https://eff-certbot.readthedocs.io/en/stable/using.html). Keep API TCP
 80 reachable from Cloudflare's full source set, including during a short API
-HTTPS maintenance fence. After any approved permanent allowlist change, run a
-separately approved **active-lineage-only** Certbot dry-run and confirm the
-challenge reaches the origin through the proxied hostname before calling
-renewal safe. Do not alter the verified website nginx upstream TLS settings.
+HTTPS maintenance fence. The owner authorized an **active-lineage-only**
+Certbot dry run after the permanent API allowlist change; it passed with exit 0
+under the final TCP 80/443 rules. This verifies the current staging challenge
+route, not a future production renewal or the separate expired lineage. Do not
+alter the verified website nginx upstream TLS settings.
 
 The API host also has an expired `chatforia.com` Certbot renewal lineage dated
 April 1, 2026 that active nginx does not reference. Its disposition needs a
@@ -280,15 +303,11 @@ plan. Do not restart the old privileged PM2 application after migrations.
 
 ## Separate network decisions
 
-1. **API-only permanent ingress:** Before a separately approved edit, capture a
-   fresh DigitalOcean rule/attachment snapshot, recheck the operator `/32`,
-   Cloudflare CIDRs and Recovery Console path, then add and test replacement
-   API allows before removing broad rules. The current owner-provided snapshot
-   and exact proposal are above. No Telna support response or web firewall
-   decision is required for this API-only approval; the unknown Telna event
-   subscription is an explicit residual risk. Preserve outbound rules and no
-   TCP 5002 allow. Use the recorded API reversal on any regression. An active
-   API certificate renewal dry-run remains a separately reviewed action.
+1. **API-only permanent ingress:** Applied and verified under separate owner
+   approval as recorded above. Preserve the pre-edit rule snapshot and use the
+   exact reversal on any regression. The Telna account event subscription is
+   still unknown, but no functioning deployed flow depends on it. Do not infer
+   another firewall edit from this completed approval.
 2. **Web firewall:** Approve or reject the key-only **public web SSH** rule
    needed to preserve the current GitHub-hosted frontend workflow; alternatively
    choose a fixed-egress deployment method and narrow TCP 22 first. This does

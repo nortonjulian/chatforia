@@ -62,10 +62,13 @@ same-host copies, but independent recovery custody is unverified. No configured
 SESSION_SECRET was found and deployed session code has a literal fallback;
 the new staff signing key is absent. The separately approved web upstream
 certificate-verification and key-only SSH changes are now active. The owner
-reported Cloudflare Full (strict) and current firewall attachment/rule baseline;
-approved API ingress, full hosted restore integrity and process rollback remain
-unverified. The missing SSH mapping was resolved, but the remaining production
-changes still require separate approval.
+reported Cloudflare Full (strict). The separately approved
+[API-only firewall edit](evidence/api-firewall-applied-20261105.json) is active;
+fresh SSH, dual-stack proxied API health, direct-origin rejection, callback
+routing probes and the active API certificate dry run passed. Full hosted
+restore integrity and process rollback remain unverified. The missing SSH
+mapping was resolved, but the remaining production changes still require
+separate approval.
 
 Owner-reported console evidence now establishes PostgreSQL 18, primary-only SFO2,
 chatforia-api-01 as the sole Network Access entry, doadmin as the visible user,
