@@ -28,14 +28,25 @@
     "googleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/google/callback; prior live company Google sign-in evidence was reused",
     "appleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/apple/callback; provider-console registration was not read",
     "googlePlayRtdn": "Configured OIDC audience matches HTTPS api.chatforia.com/billing/google-play/rtdn and service-account identity is configured; actual Pub/Sub push subscription destination was not read",
-    "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; any provider-side destination remains unverified.",
+    "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; provider-side webhook subscription state remains unverified.",
     "porting": "Deployed Twilio porting receiver exists at /webhooks/twilio/porting; code does not submit a callback URL. Whether any external porting event destination is configured remains unverified."
   },
   "remainingExternalDestinationChecks": [
     "Google Cloud Pub/Sub push subscription endpoint for Google Play RTDN: verify HTTPS api.chatforia.com/billing/google-play/rtdn or confirm the subscription is disabled",
     "Apple App Store Server Notifications URL: verify HTTPS api.chatforia.com/billing/apple/notifications or confirm notifications are disabled",
-    "Telna/eSIM provider notification destination: verify a proxied api.chatforia.com route that the deployed server actually accepts, or confirm no callback is configured",
+    "Telna account outbound event-webhook subscription: confirm whether it is enabled. If enabled, identify the destination and subscribed event types; if disabled, no Telna callback destination is required for the deployed pull-based usage/balance flow",
     "Twilio porting event destination: verify a proxied api.chatforia.com/webhooks/twilio/porting URL if porting callbacks are configured, or confirm none are configured"
   ],
+  "telnaUsageTrace": {
+    "deployedRevision": "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70",
+    "clientRefresh": "WirelessDashboard fetches GET /api/wireless/status when mounted or when currentUser changes; it has no interval timer. EsimActivatePage checks activation once for a loaded PROVISIONING subscriber and also offers a manual check; it does not continuously poll Telna.",
+    "serverRefresh": "Authenticated GET /api/wireless/status reads up to 10 recent unexpired packs with positive local balance and, for each real providerPurchaseId, calls fetchEsimUsage. A missing or mock package ID keeps cached balance. Provider failures also keep cached balance. A replacement request makes an additional authoritative usage read before transferring entitlement.",
+    "telnaUsageRequest": "Outbound Bearer-authenticated GET /v2.1/pcr/packages/{package_id} to configured TELNA_API_BASE. Package ID comes from providerPurchaseId, not ICCID/profile ID. data_usage_remaining bytes become remaining MB; expiry and ACTIVE/NOT_ACTIVE package status are returned. Telna does not provide total/used MB in this adapter.",
+    "balanceSafety": "The status path persists a refreshed remaining balance only as a decrease, retains local plan total, and translates replacement-package capacity against the customer's transferred entitlement. It selects a provider ACTIVE pack and separately shows NOT_ACTIVE queued top-ups. The client displays the returned local/verified balance.",
+    "activationRequest": "For transitional eSIM activation, the API makes an outbound GET /v2.1/esim-rsp/euicc-profiles/{iccid}; ENABLED is required before marking active. This is separate from data-usage balance.",
+    "timersAndWebhooks": "No server timer, cron, provider callback registration, or Telna webhook subscription call appears in deployed usage call sites. /esim/webhooks/oneglobal only logs and returns 200 without changing usage or subscriber state. /api/wireless/webhooks/:provider is behind requireAuth and its provider normalizer is a stub; it is not an operational external Telna usage webhook. TELNA_WEBHOOK_SECRET is not configured.",
+    "reusedValidation": "Merged PR #145 reports a real Local 3 GB purchase, installed Telna eSIM with cellular data, usage accounting verified against Chatforia, repeat purchase on the same ICCID, and active/queued package behavior. Existing telnaEsim and wireless tests assert package-ID GET, byte-to-MB conversion, ACTIVE selection and non-increasing customer entitlement; they were inspected, not rerun.",
+    "firewallConclusion": "Usage/balance refresh depends on API outbound HTTPS to Telna, not inbound Telna traffic. API inbound Cloudflare-only rules do not block this pull flow if existing outbound access is retained. An actual Telna-initiated event would depend on inbound rules only if the account has an enabled webhook subscription; its state and destination must be confirmed with Telna."
+  },
   "firewallChanges": "none"
 }

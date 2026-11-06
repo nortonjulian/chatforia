@@ -139,14 +139,42 @@ issue; its destination host is proxied.
 The remaining external destinations to verify or explicitly establish as
 disabled are: Google Cloud Pub/Sub's push endpoint for Google Play RTDN
 (`/billing/google-play/rtdn`), Apple's App Store Server Notifications URL
-(`/billing/apple/notifications`), Telna/eSIM provider notifications (the eSIM
-feature and Telna API key are configured), and Twilio porting events if that
+(`/billing/apple/notifications`), whether the Telna account has any enabled
+outbound event-webhook subscription (and its destination/event types if it
+does), and Twilio porting events if that
 receiver is configured (`/webhooks/twilio/porting`). The configured Google Play
 OIDC audience and Google/Apple sign-in callback URLs match proxied API routes,
 but they do not prove these separate provider-side push destinations. Obtain
 their destination hostnames or a disabled/no-callback confirmation before
 approving API 80/443 source restriction. Do not repeat the completed Twilio
 voice/SMS or Stripe metadata checks unless configuration changes.
+
+The deployed Telna **usage and remaining-data** flow does not require an
+incoming callback. Opening Wireless triggers authenticated
+`GET /api/wireless/status`; the API makes outbound
+`GET /v2.1/pcr/packages/{package_id}` requests for recent purchased packages,
+converts Telna's remaining bytes to MB, and persists only a decrease in the
+customer's balance. It uses package status to separate ACTIVE usage from queued
+NOT_ACTIVE top-ups. There is no timed usage poll or Telna callback registration
+in the deployed call sites. The eSIM activation page performs a separate
+one-time/manual outbound eUICC status lookup. The `/esim/webhooks/oneglobal`
+handler only acknowledges a request without updating usage, while the generic
+`/api/wireless/webhooks/:provider` route is authentication-gated and uses a
+stub normalizer. The Telna webhook secret is unset. Merged
+[eSIM PR #145](https://github.com/nortonjulian/chatforia/pull/145) already records
+a successful real purchase, install, cellular usage accounting and active/queued
+top-up checks; existing focused tests cover package-ID usage reads and the
+balance cap. No test or provider transaction was repeated here.
+
+Therefore the planned API **inbound** Cloudflare-only rule does not interrupt
+the deployed Telna pull flow when outbound access remains unchanged. The
+specific account question is whether Telna has an enabled outbound event
+webhook/subscription for Chatforia. If none, remove Telna from the API firewall
+destination gate. If enabled, verify its HTTPS destination and event types;
+an existing handler's presence alone does not establish a working Telna
+callback. Telna's public [Connect Flex webhook setup](https://flex-developer.telna.com/reference/setting-up-webhooks)
+describes opt-in event subscriptions, but does not establish that this Connect
+v2.1 account uses one.
 
 According to [DigitalOcean's firewall limits](https://docs.digitalocean.com/products/networking/firewalls/details/limits/),
 cloud firewalls are stateful and currently available without an additional
