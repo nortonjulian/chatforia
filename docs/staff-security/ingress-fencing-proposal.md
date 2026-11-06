@@ -97,9 +97,9 @@ The exact proposed **web-only** firewall has these Allow rules:
 
 No other inbound or deny rule, Droplet attachment, or tag attachment is proposed.
 
-Before any web attachment, capture the Droplet's current **Networking →
-Firewalls** view to confirm no cloud firewall or tag-based attachment. Under a
-separate approval, create a complete firewall with the six rules in the table,
+The owner refreshed the Droplet's **Networking → Firewalls** view and confirmed
+that no firewall is assigned. Under a separate approval, create a complete
+firewall with the six rules in the table,
 leave **Apply to Droplets** blank, review it, then attach it only to
 `chatforia-web-01`. Keep a tested SSH session open. After attachment,
 verify a new operator key login, a connection-only GitHub Actions SSH run,
@@ -156,6 +156,14 @@ while fresh local proxied www checks returned 200 over IPv4 and IPv6 and a
 direct-origin diagnostic returned 200. Obtain a Cloudflare edge error/Ray or
 zone-level 521 count for the relevant window, or explicitly disposition this
 unresolved observation with rollback monitoring, before attaching a web firewall.
+The next read-only console check is Cloudflare's `chatforia.com` zone **HTTP
+Traffic**: filter Host to `www.chatforia.com` and Edge status code to `521`
+around November 6, 2026 03:30–03:45 UTC. A matching edge count is evidence of
+a real origin-connectivity problem to resolve before attachment. A zero count
+is weaker evidence because Cloudflare Error Analytics can sample traffic; it
+does not by itself prove the independent fetcher's 521 was harmless. If the
+cause remains unavailable, the owner must explicitly accept that uncertainty
+with immediate post-attachment monitoring and detach rollback before approval.
 
 The web and API are separate hosts, and only the API has a cloud firewall
 attached. This unresolved `www` symptom did not prevent the separately
