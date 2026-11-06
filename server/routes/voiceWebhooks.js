@@ -483,7 +483,7 @@ router.post('/inbound-app-complete', async (req, res) => {
         maxLength: 120,
         playBeep: true,
         trim: 'trim-silence',
-        timeout: 5,
+        timeout: 12,
         action:
           `/webhooks/voice/voicemail/complete?` +
           recordingParams.toString(),
@@ -857,7 +857,7 @@ router.post('/app-call-complete', async (req, res) => {
     twiml.record({
       playBeep: true,
       maxLength: 120,
-      timeout: 5,
+      timeout: 12,
       trim: 'trim-silence',
       action:
         `/webhooks/voice/voicemail/complete?` +
