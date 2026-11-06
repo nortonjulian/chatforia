@@ -54,7 +54,14 @@ implemented control and must not be confused with release sign-off recommendatio
   deployed `main` commit `6a5f06d5` after SSH hardening. The stored Actions key
   reached the web host, rsync completed and nginx reload succeeded. The public
   page now references the synchronized JS/CSS assets. This was a frontend
-  deployment, not PR #301's pinned `verify_ssh` mode or an API/staff cutover.
+  deployment, not an API/staff cutover. After the separately approved web
+  firewall attachment, [run #624](evidence/web-firewall-applied-20261106.json)
+  at PR #301 commit `fa181dde` passed the pinned-host `verify_ssh` job using
+  the stored runner key; its deploy job was skipped. A fresh operator key login,
+  proxied apex/`www` IPv4 and IPv6, dynamic page and assets, routing, service
+  health and direct-origin rejection also passed. The owner confirmed the web
+  firewall attached only to `chatforia-web-01`; the held SSH session was closed
+  after verification. No rollback was needed.
   The API checkout remains `b0ec6fd0`; unauthenticated `/staff/session` returns
   404 and `/admin/users` returns 401. That older API mounts an MFA-guarded
   read-only Admin Users list but lacks the new View/Edit detail handler; live
@@ -64,10 +71,11 @@ implemented control and must not be confused with release sign-off recommendatio
   successful cellular load at 10:25 PM Denver time on November 4; web-origin
   logs around that time show no 5xx or nginx errors. The source of the fetcher
   failure remains unknown; the independent fetcher still returned 521 during
-  the latest [web firewall preparation](evidence/web-firewall-preparation-20261105.json)
-  while local IPv4/IPv6 and direct-origin checks passed. Review Cloudflare edge
-  evidence or explicitly disposition that observation before attaching a web
-  firewall. The separately approved
+  [web firewall preparation](evidence/web-firewall-preparation-20261105.json)
+  while local IPv4/IPv6 and direct-origin checks passed. The owner explicitly
+  accepted this bounded uncertainty for web-only attachment with immediate
+  detach rollback on a required-check failure. The post-attachment checks passed,
+  but do not prove every Cloudflare edge is healthy. The separately approved
   [API-only firewall edit](evidence/api-firewall-applied-20261105.json) is now
   applied: operator-only SSH, Cloudflare-only HTTP/HTTPS, unchanged outbound,
   fresh SSH and dual-stack proxied health, direct-origin rejection, callback
@@ -125,7 +133,9 @@ Droplets. Public-key root login and fresh local deployment-labeled key no-op
 checks passed; password authentication is disabled. The owner reported successful
 out-of-band Recovery Console root login on both Droplets. Frontend run #623
 also proved runner SSH access using the stored key; the pinned connection-only
-mode is prepared but unrun, and the deployed workflow's host trust is unpinned.
+mode passed in run #624 after web firewall attachment. The current `main`
+deployment workflow's host trust remains unpinned until the reviewed branch
+change is merged.
 Never dispatch the legacy backend deployment workflow.
 
 ## Preparation order, before requesting execution approval
@@ -200,8 +210,9 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Approved window and acceptable interruption: pending.
 - Web/API proxy route, web upstream TLS, owner-provided DigitalOcean firewall
   attachments/rules and Cloudflare Full (strict): recorded. Exact operator source,
-  key-only SSH: applied and locally verified. Exact operator source and
-  approved/tested [ingress/fence rules](ingress-fencing-proposal.md): pending.
+  key-only SSH and permanent web/API ingress rules: applied and verified as
+  [recorded here](ingress-fencing-proposal.md). The temporary migration fence
+  remains proposed and requires separate approval.
 - Fresh backup/export time points, digests, restore destination and retrieval check: pending.
 - Current review package and checksum match retained GitHub Release assets.
   Separate private backup of the final package and future private receipts:
@@ -213,8 +224,9 @@ revocations, token floors, consumed assertions/approvals and audits before reope
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.
 - Explicit Stage 6 cohort admission: NOT GRANTED.
 
-The remaining network decisions are grouped in
+The remaining temporary-fence decision is documented in
 [ingress-fencing-proposal.md](ingress-fencing-proposal.md). Do not repeat the
-owner-provided firewall/Cloudflare inspection; no firewall rule was changed.
+owner-provided firewall/Cloudflare inspection. The permanent API rule edits and
+web-only firewall attachment have already been executed under separate approvals.
 The separately approved SSH-only change is recorded in
 [execution evidence](evidence/ssh-hardening-applied-20261105.json).

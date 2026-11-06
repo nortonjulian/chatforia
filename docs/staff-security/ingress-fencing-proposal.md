@@ -1,8 +1,9 @@
-# Stage 5 ingress and maintenance fence — API rule applied; web/fence pending
+# Stage 5 ingress and maintenance fence — permanent rules applied; fence pending
 
 The API-only permanent rule was separately approved and applied on November 5,
-2026 (America/Denver). The web firewall and temporary migration fence remain
-proposals and need separate approval. This document records the reviewed rules,
+2026 (America/Denver). The web-only firewall was separately approved and attached
+on November 6 UTC. The temporary migration fence remains a proposal requiring
+separate approval. This document records the reviewed rules,
 verification and reversal; it does not authorize another network or process edit.
 The [sanitized evidence](evidence/stage5-routing-backup-readonly-20261105.json)
 distinguishes owner-provided DigitalOcean/Cloudflare facts from read-only host
@@ -42,6 +43,28 @@ The deployed Twilio voice and SMS handlers do not validate request signatures;
 empty unsigned probes returned TwiML. This pre-existing provider-authenticity
 issue is separate from the successful ingress edit and needs a reviewed fix.
 
+## Web-only execution result
+
+The owner approved attachment of the reviewed six-rule
+`chatforia-web-firewall` only to `chatforia-web-01`, accepting the bounded,
+unexplained `www` 521 observation with immediate detach rollback if a required
+check failed. The owner confirmed that sole attachment. The assistant had no
+independent DigitalOcean control-plane readback. A tested SSH session remained
+open during the change. After attachment, a new operator key login passed;
+proxied apex and `www` returned 200 over both IP families; a dynamic `www`
+request and the current JS/CSS assets returned 200. HTTP redirected to HTTPS,
+the web `/api/` proxy retained its known 404 response, and the separate API
+health endpoint returned 200. Direct-origin TCP 80 and 443 timed out from the
+operator source as intended. Nginx and SSH remained active.
+
+[Connection-only frontend workflow run #624](https://github.com/nortonjulian/chatforia/actions/runs/42170135396)
+used PR #301 commit `fa181dde1f72b1e1b6cee14ea7d899c1b014a038` after
+attachment. Its pinned-host `verify_ssh` job passed with a remote `true` using
+the stored runner key; the `deploy` job was skipped. No file synchronization,
+nginx reload or deployment occurred in that run. The held SSH session was
+closed after verification. No rollback was needed. See the
+[sanitized execution evidence](evidence/web-firewall-applied-20261106.json).
+
 ## Permanent origin ingress
 
 At the approved API window, the current IPv4 and IPv6 source sets from
@@ -66,7 +89,7 @@ Refresh them before any future edit and stop for review if they differ.
 | Target | Applied or proposed inbound rules | Outbound / verification |
 | --- | --- | --- |
 | Existing `chatforia-api-firewall` on `chatforia-api-01` | **Applied:** Allow TCP 80 and 443 from the 22 Cloudflare CIDRs; allow TCP 22 from the privately verified operator IPv4 `/32`. Removed all-source TCP 22/80/443 allows. No inbound 5002 rule was added. The backend GitHub Actions workflow is blocked before SSH. | Broad TCP/UDP/ICMP outbound rules were retained. The owner confirmed the sole API Droplet attachment; fresh SSH, both proxied IP families, direct-origin rejection and Certbot dry run passed. |
-| Proposed new DigitalOcean firewall for `chatforia-web-01` | Separate TCP 80 and TCP 443 allows from the same 22 Cloudflare CIDRs. For the existing standard GitHub-hosted frontend SSH workflow, retain TCP 22 from all IPv4/IPv6 **only with approved key-only SSH hardening**. No other inbound rule. | Explicitly allow current outbound TCP/UDP/ICMP behavior; an empty outbound rule set would block egress. Test proxied web/API paths, direct-origin rejection, and a no-op Actions SSH connection before relying on the rule. |
+| `chatforia-web-firewall` on `chatforia-web-01` | **Applied:** Separate TCP 80 and TCP 443 allows from the same 22 Cloudflare CIDRs; TCP 22 from all IPv4/IPv6 with verified key-only SSH hardening. No other inbound rule. | Broad TCP/UDP/ICMP outbound rules retained. The owner confirmed the sole web Droplet attachment; fresh operator and runner SSH, dual-stack proxied web, routing and direct-origin rejection passed. |
 
 The [fresh web preparation evidence](evidence/web-firewall-preparation-20261105.json)
 confirms a new key-only operator SSH login, effective public-key-only root SSH,
@@ -75,7 +98,8 @@ active nginx and SSH, UFW inactive, and nginx listening on TCP 80/443. Current
 SSH key, rsync and nginx reload; actual run #623 succeeded after SSH hardening.
 GitHub-hosted runner egress is dynamic, so all-source web TCP 22 with key-only
 sshd is required to preserve that existing $0 deploy path. PR #301's pinned
-connection-only `verify_ssh` mode is not on current `main` and has not run.
+connection-only `verify_ssh` mode passed in run #624 after attachment. That
+branch-only workflow mode is not yet on current `main`.
 
 The active web TLS certificate is a Cloudflare Origin CA apex/wildcard
 certificate expiring April 8, 2041. There is no local Certbot renewal lineage
@@ -84,7 +108,7 @@ current proxy traffic and HTTP redirects; they do not establish a future
 certificate-rotation procedure. Cloudflare edge certificate renewal is separate.
 Do not run an API-style Certbot dry run on the web host.
 
-The exact proposed **web-only** firewall has these Allow rules:
+The applied **web-only** firewall has these Allow rules:
 
 | Direction | Type and port | Sources or destinations |
 | --- | --- | --- |
@@ -95,21 +119,18 @@ The exact proposed **web-only** firewall has these Allow rules:
 | Outbound | All TCP ports | All IPv4 and All IPv6 |
 | Outbound | All UDP ports | All IPv4 and All IPv6 |
 
-No other inbound or deny rule, tag attachment, or non-web Droplet attachment is proposed.
+No other inbound or deny rule, tag attachment, or non-web Droplet attachment
+was included in the owner-confirmed saved configuration.
 
 The owner refreshed the Droplet's **Networking → Firewalls** view and confirmed
-that no firewall was assigned. The owner then separately approved creation of
-an unattached six-rule firewall. Saved edit-dialog values were checked against
-the table and all 22 current Cloudflare CIDRs: no missing, extra or all-source
-HTTP/HTTPS entry; no extra or Deny rule; SSH and outbound values match. The
-firewall still protects **zero** Droplets. Attachment to `chatforia-web-01`
-needs separate owner approval and explicit acceptance of the bounded 521 risk
-below. At an approved attachment window, keep a tested SSH session open,
-attach this firewall only to `chatforia-web-01`, then
-verify a new operator key login, a connection-only GitHub Actions SSH run,
-proxied apex/www IPv4 and IPv6, the HTTP redirect and `/api/` proxy, and
-direct-origin 80/443 rejection. On a regression, detach only the new firewall
-and verify recovery. No web firewall attachment has occurred.
+that no firewall was assigned before the change. The owner then separately
+approved creation of an unattached six-rule firewall. Saved edit-dialog values
+were checked against the table and all 22 current Cloudflare CIDRs: no missing,
+extra or all-source HTTP/HTTPS entry; no extra or Deny rule; SSH and outbound
+values matched. Under separate approval the owner attached it only to
+`chatforia-web-01`. All required post-attachment checks passed as recorded
+above. For a future ingress regression, detach only this firewall and verify
+recovery.
 
 The API operator SSH source was observed as one IPv4 address in a fresh
 key-based connection. The exact `/32` is shared in the private owner review;
@@ -118,8 +139,8 @@ residential `/24` by inference. No operator IPv6 source was established.
 
 The approved API edit saved the old rule set and kept a tested SSH session
 while Cloudflare source rules were added before the all-source HTTP(S) allows
-were removed. The unattached web firewall has its SSH and outbound rules
-in place before any attachment. Test proxied IPv4/IPv6
+were removed. The web firewall had its SSH and outbound rules in place before
+attachment. For a future edit, test proxied IPv4/IPv6
 HTTPS and HTTP redirects, normal browser API calls, configured provider
 callback URLs, passive delivery status and direct-origin rejection. Do not
 trigger paid provider actions as a test. If a path fails, restore the API's
@@ -150,8 +171,8 @@ Web-origin access logs for 04:20–05:40 UTC had 152 responses with status 200,
 These aggregates cannot identify the owner's request or the failing fetcher;
 a Cloudflare-generated 521 might not reach the origin. Do not infer a cause or
 call this globally resolved. Review the affected edge/zone evidence or obtain
-a reproducible external probe before
-approving a tighter web origin rule; abort an approved change on any new 521.
+a reproducible external probe when investigating a new failure; abort a future
+rule change on a reproducible new 521.
 [Cloudflare describes genuine 521 responses](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-521/)
 as origin connection refusals; this fetcher's error lacks the metadata needed
 to attribute it to a particular Cloudflare edge or origin rule.
@@ -163,14 +184,14 @@ The owner checked Cloudflare's `chatforia.com` zone **HTTP Traffic** with Host
 `www.chatforia.com` and Edge status code `521` for November 6, 2026
 03:30–03:45 UTC and reported **zero matching requests**. Cloudflare Error
 Analytics can sample traffic, so this is supporting evidence only; the
-independent fetcher's 521 remains unexplained. The remaining decision is
-whether to accept that bounded uncertainty with immediate post-attachment
-monitoring and detach rollback before authorizing a web-only attachment. The
-zero count does not authorize a rule edit.
+independent fetcher's 521 remains unexplained. The owner subsequently accepted
+that bounded uncertainty with immediate post-attachment checks and detach
+rollback, and separately authorized web-only attachment. The zero count did
+not itself authorize a rule edit.
 
-The web and API are separate hosts, and only the API has a cloud firewall
+The web and API are separate hosts, each now with its own cloud firewall
 attached. This unresolved `www` symptom did not prevent the separately
-approved API-only edit. The owner provided a fresh pre-edit console
+approved API-only or web-only edit. The owner provided a fresh pre-edit console
 transcription confirming the all-source TCP 22/80/443 baseline, no other
 inbound rule and broad outbound TCP/UDP/ICMP; the owner also confirmed the sole
 attachment. The assistant had no independent DigitalOcean control-plane
@@ -288,7 +309,8 @@ applied on both hosts. Effective `sshd -T` reports `PasswordAuthentication no`,
 deployment-labeled keys passed. Frontend run #623 then exercised the stored
 Actions key successfully from a hosted runner, but used the old deployment
 workflow's unpinned `ssh-keyscan` host trust. PR #301's pinned connection-only
-mode remains unrun. Do not turn off root key login until a separate
+mode then passed in run #624 after web firewall attachment; its deploy job was
+skipped. Do not turn off root key login until a separate
 non-root path is verified.
 
 `.github/workflows/deploy.yml` uses a standard `ubuntu-latest` runner to SSH
@@ -300,8 +322,10 @@ different, approved deploy transport with fixed egress (for example, operator
 SSH from a known source); do not guess a GitHub runner range. The legacy backend
 workflow stops before SSH and is not the Stage 5 deployment path. Neither
 legacy deployment workflow may be dispatched for the staff cutover. The web
-workflow currently obtains its host key with `ssh-keyscan`; pin a separately
-verified host key before it is next trusted for deployment.
+workflow on `main` currently obtains its host key with `ssh-keyscan`; PR #301
+contains the reviewed fingerprint pin, but it is not yet merged into `main`.
+Do not dispatch a deployment until the trusted-host change is in the reviewed
+deployment revision.
 
 ## Certificate renewal
 
