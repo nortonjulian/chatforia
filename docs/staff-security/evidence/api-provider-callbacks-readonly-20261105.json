@@ -1,0 +1,41 @@
+{
+  "scope": "Owner-provided console settings, deployed b0ec6fd0 source/configuration, and read-only Twilio/Stripe configuration metadata; no production configuration was changed and no provider event was sent",
+  "ownerVerified": {
+    "twilioVoiceRequestUrl": "https://api.chatforia.com/api/webhooks/voice/inbound",
+    "twilioVoiceConsoleStatusCallback": "blank",
+    "twilioA2pMessagingServiceInboundMethod": "POST",
+    "twilioA2pMessagingServiceInboundUrl": "https://api.chatforia.com/api/webhooks/sms/twilio",
+    "twilioA2pMessagingServiceFallback": "blank",
+    "twilioA2pMessagingServiceDeliveryStatusCallback": "blank",
+    "digitalOceanFirewallAttachment": "chatforia-api-firewall attached only to chatforia-api-01; attachment verified by owner, not by this read-only provider query"
+  },
+  "twilioReadOnlyMetadata": {
+    "inboundVoiceApplication": "Voice request URL matches https://api.chatforia.com/api/webhooks/voice/inbound; fallback and application status callback blank",
+    "clientVoiceApplication": "Different application with an HTTPS api.chatforia.com voice URL; path not printed or checked for application behavior; fallback and status callback blank",
+    "messagingService": "Inbound URL matches https://api.chatforia.com/api/webhooks/sms/twilio; fallback and status callback blank; useInboundWebhookOnNumber=false",
+    "incomingNumberAggregate": "29 numbers inspected without printing numbers or SIDs. 27 use the verified inbound Voice Application. Of the two without it, one points to https://api.chatforia.com/webhooks/voice/inbound and one has no voice URL. 28 are in the verified Messaging Service; the remaining number has no SMS or SMS fallback URL. Off-proxy URLs stored on some numbers are overridden by their assigned Voice Application or Messaging Service.",
+    "effectiveDestinationConclusion": "No effective off-proxy inbound Twilio voice or SMS destination was found in this snapshot; future number/application/service changes require rechecking before the firewall edit. No live call or message was generated."
+  },
+  "deployedDynamicCallbacks": {
+    "smsStatus": "TWILIO_STATUS_CALLBACK_URL unset; sendSms does not add a per-message status callback",
+    "voiceStatus": "TWILIO_VOICE_STATUS_CALLBACK_URL unset; voiceBridge does not add the optional call-status callback",
+    "voiceFlow": "voiceBridge creates an absolute HTTPS api.chatforia.com leg-A URL; live-caption callback uses the same origin; TwiML supplies relative action/progress/recording paths under /webhooks/voice",
+    "newNumberProvisioning": "Code constructs /api/webhooks/sms/twilio and /api/webhooks/voice/inbound from the configured HTTPS api.chatforia.com/api base, but selects the configured inbound Voice Application when available",
+    "regulatoryStatus": "Code constructs HTTPS api.chatforia.com/api/webhooks/twilio/regulatory-status, while the deployed handler is mounted only at /webhooks/twilio/regulatory-status and API nginx passes the prefix unchanged. Host is compatible with Cloudflare-only ingress, but route correctness remains an existing separate issue. Cloudflare path rewrites were not inspected."
+  },
+  "otherReadOnlyMetadata": {
+    "stripe": "Live Stripe API lists one enabled webhook endpoint at https://api.chatforia.com/billing/webhook; no other enabled endpoint was returned",
+    "googleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/google/callback; prior live company Google sign-in evidence was reused",
+    "appleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/apple/callback; provider-console registration was not read",
+    "googlePlayRtdn": "Configured OIDC audience matches HTTPS api.chatforia.com/billing/google-play/rtdn and service-account identity is configured; actual Pub/Sub push subscription destination was not read",
+    "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; any provider-side destination remains unverified.",
+    "porting": "Deployed Twilio porting receiver exists at /webhooks/twilio/porting; code does not submit a callback URL. Whether any external porting event destination is configured remains unverified."
+  },
+  "remainingExternalDestinationChecks": [
+    "Google Cloud Pub/Sub push subscription endpoint for Google Play RTDN: verify HTTPS api.chatforia.com/billing/google-play/rtdn or confirm the subscription is disabled",
+    "Apple App Store Server Notifications URL: verify HTTPS api.chatforia.com/billing/apple/notifications or confirm notifications are disabled",
+    "Telna/eSIM provider notification destination: verify a proxied api.chatforia.com route that the deployed server actually accepts, or confirm no callback is configured",
+    "Twilio porting event destination: verify a proxied api.chatforia.com/webhooks/twilio/porting URL if porting callbacks are configured, or confirm none are configured"
+  ],
+  "firewallChanges": "none"
+}

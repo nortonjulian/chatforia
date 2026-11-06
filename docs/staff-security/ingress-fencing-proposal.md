@@ -91,8 +91,9 @@ to attribute it to a particular Cloudflare edge or origin rule.
 The web and API are separate hosts, and only the API currently has a cloud
 firewall attached. This unresolved
 `www` symptom does not by itself prevent a separately approved **API-only**
-firewall edit. The API baseline is still the owner's control-panel report:
-`chatforia-api-firewall` attached, inbound TCP 22/80/443 open to both IP
+firewall edit. The owner reconfirmed `chatforia-api-firewall` attaches **only**
+to `chatforia-api-01`. The rule baseline remains the owner's earlier
+control-panel report: inbound TCP 22/80/443 open to both IP
 families, no TCP 5002 inbound rule, and broad outbound TCP/UDP/ICMP. No current
 DigitalOcean control-plane rule read was available; obtain a fresh screenshot
 or read-only API response showing the rules and attachment before editing.
@@ -117,6 +118,35 @@ firewall and merits separate review before relying on regulatory callbacks.
 Confirm that every active external callback points to a Cloudflare-proxied
 hostname before narrowing API 80/443; a raw API IP or unproxied hostname would
 be cut off. Avoid printing credentials or full callback URLs in review evidence.
+
+The [provider callback follow-up](evidence/api-provider-callbacks-readonly-20261105.json)
+records the owner's Twilio Console checks and read-only provider metadata. The
+Voice Application used by current inbound numbers points to
+`https://api.chatforia.com/api/webhooks/voice/inbound`; its fallback and status
+callback are blank. The Low Volume Mixed A2P Messaging Service posts inbound
+SMS to `https://api.chatforia.com/api/webhooks/sms/twilio`; its fallback and
+delivery-status callback are blank, and number-level inbound override is off.
+All effective current inbound Twilio voice/SMS destinations in the configured
+account are proxied API routes or blank. Optional per-message and per-call
+status callback environment fields are unset; code-generated voice/TwiML
+callbacks use the configured API origin or relative `/webhooks/voice` paths.
+Live Stripe metadata has one enabled webhook at `https://api.chatforia.com/billing/webhook`.
+These findings close Twilio voice/SMS and Stripe **destination** checks for the
+current snapshot, without testing live provider delivery. The pre-existing
+Twilio regulatory callback route mismatch above remains a separate correctness
+issue; its destination host is proxied.
+
+The remaining external destinations to verify or explicitly establish as
+disabled are: Google Cloud Pub/Sub's push endpoint for Google Play RTDN
+(`/billing/google-play/rtdn`), Apple's App Store Server Notifications URL
+(`/billing/apple/notifications`), Telna/eSIM provider notifications (the eSIM
+feature and Telna API key are configured), and Twilio porting events if that
+receiver is configured (`/webhooks/twilio/porting`). The configured Google Play
+OIDC audience and Google/Apple sign-in callback URLs match proxied API routes,
+but they do not prove these separate provider-side push destinations. Obtain
+their destination hostnames or a disabled/no-callback confirmation before
+approving API 80/443 source restriction. Do not repeat the completed Twilio
+voice/SMS or Stripe metadata checks unless configuration changes.
 
 According to [DigitalOcean's firewall limits](https://docs.digitalocean.com/products/networking/firewalls/details/limits/),
 cloud firewalls are stateful and currently available without an additional
