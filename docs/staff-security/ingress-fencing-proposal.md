@@ -153,17 +153,16 @@ as origin connection refusals; this fetcher's error lacks the metadata needed
 to attribute it to a particular Cloudflare edge or origin rule.
 The same independent fetcher still returned 521 during the latest preparation,
 while fresh local proxied www checks returned 200 over IPv4 and IPv6 and a
-direct-origin diagnostic returned 200. Obtain a Cloudflare edge error/Ray or
-zone-level 521 count for the relevant window, or explicitly disposition this
-unresolved observation with rollback monitoring, before attaching a web firewall.
-The next read-only console check is Cloudflare's `chatforia.com` zone **HTTP
-Traffic**: filter Host to `www.chatforia.com` and Edge status code to `521`
-around November 6, 2026 03:30–03:45 UTC. A matching edge count is evidence of
-a real origin-connectivity problem to resolve before attachment. A zero count
-is weaker evidence because Cloudflare Error Analytics can sample traffic; it
-does not by itself prove the independent fetcher's 521 was harmless. If the
-cause remains unavailable, the owner must explicitly accept that uncertainty
-with immediate post-attachment monitoring and detach rollback before approval.
+direct-origin diagnostic returned 200. This prompted the owner to check the
+zone-level 521 count for the relevant window before any web attachment.
+The owner checked Cloudflare's `chatforia.com` zone **HTTP Traffic** with Host
+`www.chatforia.com` and Edge status code `521` for November 6, 2026
+03:30–03:45 UTC and reported **zero matching requests**. Cloudflare Error
+Analytics can sample traffic, so this is supporting evidence only; the
+independent fetcher's 521 remains unexplained. The remaining decision is
+whether to accept that bounded uncertainty with immediate post-attachment
+monitoring and detach rollback before authorizing a web-only attachment. The
+zero count does not authorize a rule edit.
 
 The web and API are separate hosts, and only the API has a cloud firewall
 attached. This unresolved `www` symptom did not prevent the separately

@@ -36,12 +36,13 @@
     "latestOwnerProvided": "No cloud firewall attached to chatforia-web-01; UFW inactive",
     "freshControlPlaneReadback": "Owner confirmed at 2026-11-06T04:57Z that the chatforia-web-01 Droplet Networking view says no firewall is assigned. The assistant still has no DigitalOcean control-plane access; no firewall was created or attached."
   },
+  "cloudflareAnalyticsOwnerReport": "At 2026-11-06T05:08Z the owner reported zero HTTP Traffic requests matching Host=www.chatforia.com and Edge status code=521 in the selected 2026-11-06 03:30-03:45 UTC window. This records no matching event in the sampled analytics view; it does not prove the independent fetcher's 521 never occurred or explain its cause.",
   "officialCloudflareCidrs": "15 IPv4 plus seven IPv6 source ranges matched the existing ingress-fencing proposal at this preparation checkpoint; refresh immediately before any separately approved attachment",
   "proposedWebRules": {
     "inbound": "Allow TCP 22 from All IPv4 and All IPv6 for standard GitHub-hosted runners and operator public-key access; allow TCP 80 and TCP 443 from all 22 official Cloudflare CIDRs; no other inbound rule or tag attachment",
     "outbound": "Allow ICMP, all TCP ports and all UDP ports to All IPv4 and All IPv6, matching the currently unfenced egress behavior",
     "attachment": "Create complete firewall without a Droplet attachment, review every rule, then under separate approval attach only chatforia-web-01; no production attachment is authorized by preparation"
   },
-  "approvalHold": "The fresh DigitalOcean no-firewall attachment check passed. Investigate or explicitly disposition the independently observed www 521 before tightening the web origin. Next read-only owner step: Cloudflare chatforia.com zone HTTP Traffic, filter Host=www.chatforia.com and Edge status code=521 around 2026-11-06 03:30-03:45 UTC; report count and timing/data center if available. Free-plan error analytics may sample traffic, so zero observed events is supporting evidence, not proof of zero failures. API firewall change is already complete and separate.",
+  "approvalHold": "The fresh DigitalOcean no-firewall attachment check passed, and the owner-reported Cloudflare 521 filter returned zero matches in the selected window. Because error analytics can sample traffic, the independent fetcher's 521 remains unexplained. Before any web attachment the owner must explicitly accept this bounded residual uncertainty with immediate post-attachment monitoring and detach rollback, and separately approve creation/attachment of the reviewed web-only firewall. Refresh Cloudflare CIDRs at execution. API firewall change is already complete and separate.",
   "rollback": "Detach only the newly attached web firewall, returning to the owner-reported no-cloud-firewall baseline; retain the rule snapshot and verify fresh operator SSH, public web IPv4/IPv6 and direct-origin reachability before closing the incident"
 }
