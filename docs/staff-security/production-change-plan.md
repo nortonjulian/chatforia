@@ -28,17 +28,20 @@ implemented control and must not be confused with release sign-off recommendatio
   `$HOME/Desktop/Chatforia-Deployment-Records`, not the earlier home-directory path.
   [Read-only follow-up](evidence/stage5-routing-backup-readonly-20261105.json)
   confirms the current directory is included in Time Machine and contains the
-  review package and checksum. Time Machine lists only `Macintosh HD (Local)` as
-  its destination, reports no machine backup for this host, and no physical
-  external backup disk is attached. An independent completed backup remains
+  review package and checksum. A [fresh read-only digest comparison](evidence/stage5-backup-readiness-followup-20261105.json)
+  confirmed both local files match the retained GitHub Release asset digests;
+  `shasum -c` passed. The Release is an independent copy of this **review**
+  package. Time Machine still lists only `Macintosh HD (Local)` and no completed
+  machine backup; no external physical disk is attached. A separate durable
+  private backup of the eventual final package **and receipts** remains
   unverified; the owner deferred it while preparation continues.
 - The owner accepted historical-data uncertainty for the four documented pairs
   and authorized preparing the exception for review. See
   [the exact acceptance record](migration-exception-review.md).
 - Basic hosted restore readability passed: 141 completed migrations and the known
   QA account were found read-only. The temporary cluster was deleted by the owner.
-  This does not establish all-record integrity, recovery time, or a fresh backup
-  for the eventual change window.
+  This is a real but bounded restore success, not all-record integrity, measured
+  recovery time, key retrieval, or a fresh backup for the eventual change window.
 - The single refund record matched the exact Stripe test payment ID, amount and
   timestamps; no eSIM replacement rows were present. Historical SQL remains unavailable.
 - The owner reports successful DigitalOcean Recovery Console root login on both
@@ -61,7 +64,11 @@ implemented control and must not be confused with release sign-off recommendatio
   successful cellular load at 10:25 PM Denver time on November 4; web-origin
   logs around that time show no 5xx or nginx errors. The source of the fetcher
   failure remains unknown. The separate API firewall can be reviewed on its own,
-  subject to fresh rule/attachment and provider-callback destination evidence;
+  subject to a fresh rule snapshot and the reviewed, functioning
+  provider-callback destinations. The Telna account-level webhook setting is
+  unknown, but no deployed usage/balance feature requires an incoming event;
+  that limited residual risk is documented without making Telna support a
+  blanket firewall approval prerequisite;
   see the [API-only ingress assessment](ingress-fencing-proposal.md).
 - The separately authorized website nginx change is active: configuration parses,
   `/api/` uses `https://api.chatforia.com`, and upstream certificate verification,
@@ -120,7 +127,7 @@ Never dispatch the legacy backend deployment workflow.
    firewall and Cloudflare facts; browser, web proxy and API loopback routes are
    verified. Review the [proposed rules](ingress-fencing-proposal.md), especially
    the completed key-only SSH change, standard GitHub Actions runner access to web TCP 22,
-   the operator source for private API HTTPS, provider callback retry tolerance and
+   the operator source for private API HTTPS, known provider callback behavior and
    the API Certbot HTTP-01 path. These are decisions, not permission to edit rules.
 2. **Confirm identities and custody.** Privately verify the founder's account ID,
    email verification, MFA enrollment and already-linked sign-in provider. Do not
@@ -189,8 +196,9 @@ revocations, token floors, consumed assertions/approvals and audits before reope
   key-only SSH: applied and locally verified. Exact operator source and
   approved/tested [ingress/fence rules](ingress-fencing-proposal.md): pending.
 - Fresh backup/export time points, digests, restore destination and retrieval check: pending.
-- Time Machine includes the current package directory; independent completed
-  package/receipt backup at that path: pending.
+- Current review package and checksum match retained GitHub Release assets.
+  Separate private backup of the final package and future private receipts:
+  pending; local Time Machine has no completed machine backup.
 - Verified founder/canary IDs and approved initial grants: pending private verification.
 - Recovery operator identities and independent key retrieval: confirm privately.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.

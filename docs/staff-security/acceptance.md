@@ -60,16 +60,20 @@ QA repetition was performed. See [sanitized evidence](evidence/live-infrastructu
 Inspected secret files are root-owned 0600 and existing MFA/JWT keys match
 same-host copies, but independent recovery custody is unverified. No configured
 SESSION_SECRET was found and deployed session code has a literal fallback;
-the new staff signing key is absent. The web proxy disables upstream certificate
-verification. Actual cloud firewall/Cloudflare policy, provider restore success
-and process rollback remain unverified. These findings now replace the previous
-missing-SSH-mapping gate; a safe, separately approved remediation is required.
+the new staff signing key is absent. The separately approved web upstream
+certificate-verification and key-only SSH changes are now active. The owner
+reported Cloudflare Full (strict) and current firewall attachment/rule baseline;
+approved API ingress, full hosted restore integrity and process rollback remain
+unverified. The missing SSH mapping was resolved, but the remaining production
+changes still require separate approval.
 
 Owner-reported console evidence now establishes PostgreSQL 18, primary-only SFO2,
 chatforia-api-01 as the sole Network Access entry, doadmin as the visible user,
 defaultdb plus two existing voicemail/wireless test databases, and seven-day
-latest-transaction/PITR options into a new cluster. Restore success remains
-unverified; SQL role/ownership/pgcrypto metadata is now inspected. The test databases
+latest-transaction/PITR options into a new cluster. A later owner-reported
+hosted restore passed a bounded read-only check of 141 completed migrations and
+the known QA account; full integrity and measured recovery time remain unverified.
+SQL role/ownership/pgcrypto metadata is now inspected. The test databases
 share production's role namespace; they are not isolated staging resources.
 A new fresh PostgreSQL 18.3 synthetic upgrade passes **11/11 checks**; the
 read-only preflight now explicitly supports tested majors 16 and 18. No security

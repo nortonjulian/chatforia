@@ -30,11 +30,13 @@
     "googleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/google/callback; prior live company Google sign-in evidence was reused",
     "appleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/apple/callback; provider-console registration was not read",
     "googlePlayRtdn": "Owner verified provider push endpoint https://api.chatforia.com/billing/google-play/rtdn; configured OIDC audience matches that deployed route and service-account identity is configured",
-    "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; provider-side webhook subscription state remains unverified.",
+    "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; provider-side webhook subscription state remains unknown. No functioning deployed eSIM usage, balance or activation feature consumes an inbound Telna event.",
     "porting": "The configured Twilio account is the parent account and a read-only account list found zero subaccounts. Read-only GET of Twilio's documented Porting Webhook configuration returned HTTP 404 with Twilio 20404 (resource not found), so no port-in or port-out target URL is configured through that resource. Deployed code only stores a local port request and exposes /webhooks/twilio/porting; it neither creates a Twilio port order nor registers a callback. This does not certify a working future porting flow."
   },
-  "remainingExternalDestinationChecks": [
-    "Telna account outbound event-webhook subscription: confirm whether it is enabled. If enabled, identify the destination and subscribed event types; if disabled, no Telna callback destination is required for the deployed pull-based usage/balance flow"
+  "remainingExternalDestinationChecks": [],
+  "unknownAccountSettingsAndResidualRisk": [
+    "Telna account outbound event-webhook subscription state, destination and event types are unknown. The deployed usage/balance/activation flows do not depend on incoming Telna events, so Telna support confirmation is not a prerequisite to approve the API inbound firewall edit.",
+    "If an undiscovered Telna event subscription targets the raw API IP or an unproxied hostname, the proposed Cloudflare-only inbound rule would stop that delivery. Existing deployed webhook-shaped handlers do not process Telna usage updates; separately investigate any unexpected operational dependence and use the captured firewall rollback if it proves material."
   ],
   "launchReadinessItems": [
     "Configure and verify App Store Server Notification URLs for Production and Sandbox before enabling that Apple billing notification flow; both are currently unconfigured",
@@ -49,7 +51,7 @@
     "activationRequest": "For transitional eSIM activation, the API makes an outbound GET /v2.1/esim-rsp/euicc-profiles/{iccid}; ENABLED is required before marking active. This is separate from data-usage balance.",
     "timersAndWebhooks": "No server timer, cron, provider callback registration, or Telna webhook subscription call appears in deployed usage call sites. /esim/webhooks/oneglobal only logs and returns 200 without changing usage or subscriber state. /api/wireless/webhooks/:provider is behind requireAuth and its provider normalizer is a stub; it is not an operational external Telna usage webhook. TELNA_WEBHOOK_SECRET is not configured.",
     "reusedValidation": "Merged PR #145 reports a real Local 3 GB purchase, installed Telna eSIM with cellular data, usage accounting verified against Chatforia, repeat purchase on the same ICCID, and active/queued package behavior. Existing telnaEsim and wireless tests assert package-ID GET, byte-to-MB conversion, ACTIVE selection and non-increasing customer entitlement; they were inspected, not rerun.",
-    "firewallConclusion": "Usage/balance refresh depends on API outbound HTTPS to Telna, not inbound Telna traffic. API inbound Cloudflare-only rules do not block this pull flow if existing outbound access is retained. An actual Telna-initiated event would depend on inbound rules only if the account has an enabled webhook subscription; its state and destination must be confirmed with Telna."
+    "firewallConclusion": "Usage/balance refresh depends on API outbound HTTPS to Telna, not inbound Telna traffic. API inbound Cloudflare-only rules do not block this pull flow if existing outbound access is retained. No functioning feature in the deployed trace requires a Telna-initiated event. Subscription state remains unknown and is a documented residual risk, not a blanket Telna-support prerequisite for API firewall approval."
   },
   "firewallChanges": "none"
 }

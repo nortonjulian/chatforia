@@ -150,12 +150,17 @@ resource. The deployed porting code stores requests locally and has a receiver,
 but neither registers a webhook nor submits Twilio port orders. Functional
 porting is separate launch work, not a current firewall callback gate.
 
-The remaining provider-destination question is whether the Telna account has
-an enabled outbound event-webhook subscription; if so, obtain its destination
-and subscribed event types. If none, Telna has no inbound callback needed for
-the deployed pull-based usage flow. Recheck provider settings if they change;
-do not repeat completed Twilio voice/SMS, Stripe or Google Play checks without
-a concrete reason.
+No remaining **functioning deployed provider feature** has an unverified
+inbound destination that must be resolved before reviewing the API firewall
+edit. Telna's account-level event-webhook subscription state and destination
+remain unknown; the deployed usage, balance and activation paths do not consume
+incoming Telna events. Do not require a Telna support response as a blanket
+firewall prerequisite. If an undiscovered subscription targets the raw API IP
+or an unproxied hostname, Cloudflare-only ingress would interrupt that event
+delivery. That is a documented residual risk for the approval decision; it
+does not make the unused webhook-shaped handlers operational. Recheck provider
+settings if they change; do not repeat completed Twilio voice/SMS, Stripe or
+Google Play checks without a concrete reason.
 
 The deployed Telna **usage and remaining-data** flow does not require an
 incoming callback. Opening Wireless triggers authenticated
@@ -175,14 +180,13 @@ top-up checks; existing focused tests cover package-ID usage reads and the
 balance cap. No test or provider transaction was repeated here.
 
 Therefore the planned API **inbound** Cloudflare-only rule does not interrupt
-the deployed Telna pull flow when outbound access remains unchanged. The
-specific account question is whether Telna has an enabled outbound event
-webhook/subscription for Chatforia. If none, remove Telna from the API firewall
-destination gate. If enabled, verify its HTTPS destination and event types;
-an existing handler's presence alone does not establish a working Telna
-callback. Telna's public [Connect Flex webhook setup](https://flex-developer.telna.com/reference/setting-up-webhooks)
+the deployed Telna pull flow when outbound access remains unchanged. Telna's
+public [Connect Flex webhook setup](https://flex-developer.telna.com/reference/setting-up-webhooks)
 describes opt-in event subscriptions, but does not establish that this Connect
-v2.1 account uses one.
+v2.1 account uses one. After a separately approved API edit, watch for any
+unexpected event-delivery failure and restore the captured all-source rules if
+it reveals a material dependency. Telna account confirmation remains useful
+follow-up, not a condition of the API-only approval.
 
 According to [DigitalOcean's firewall limits](https://docs.digitalocean.com/products/networking/firewalls/details/limits/),
 cloud firewalls are stateful and currently available without an additional
@@ -194,8 +198,9 @@ Recheck attachments and source lists before every approved rule edit. The API
 process currently listens on `*:5002`; the absence of a cloud inbound rule is
 the observed network boundary for that port. Binding to loopback is a separate
 hardening change, not assumed here. Before applying Cloudflare-only HTTPS,
-confirm each externally configured provider callback/webhook uses a proxied
-hostname rather than the raw origin IP or another unproxied name.
+confirm the known functioning provider callbacks listed above still use
+proxied hostnames. The unknown Telna account setting is handled as the explicit
+residual risk described above.
 
 ## SSH and GitHub Actions decision
 
@@ -273,19 +278,24 @@ alerts. On any security, availability or renewal regression, reapply the fence,
 stop the new runtime and preserve logs/receipts; follow the reviewed recovery
 plan. Do not restart the old privileged PM2 application after migrations.
 
-## Decisions needed before any network change
+## Separate network decisions
 
-1. Approve or reject the temporary key-only **public web SSH** rule needed to
-   preserve the current GitHub-hosted frontend workflow; alternatively choose
-   a fixed-egress deployment method and narrow TCP 22 first. Confirm the
-   workflow's SSH destination is the direct web Droplet, not a proxied hostname.
-2. Provide the operator source CIDR(s) for API SSH and private HTTPS smoke.
-   The owner reported successful Recovery Console root login on both Droplets;
-   reconfirm it before any firewall change. Confirm provider callback/webhook
-   retry tolerance and the exact maintenance window.
-3. Separately approve the web firewall attachment, API rule edits,
-   active API certificate dry-run, and the temporary migration fence. None is
-   authorized by this proposal. Exception activation, migrations, deployment
-   and cutover retain their own approval gates.
+1. **API-only permanent ingress:** Before a separately approved edit, capture a
+   fresh DigitalOcean rule/attachment snapshot, recheck the operator `/32`,
+   Cloudflare CIDRs and Recovery Console path, then add and test replacement
+   API allows before removing broad rules. The current owner-provided snapshot
+   and exact proposal are above. No Telna support response or web firewall
+   decision is required for this API-only approval; the unknown Telna event
+   subscription is an explicit residual risk. Preserve outbound rules and no
+   TCP 5002 allow. Use the recorded API reversal on any regression. An active
+   API certificate renewal dry-run remains a separately reviewed action.
+2. **Web firewall:** Approve or reject the key-only **public web SSH** rule
+   needed to preserve the current GitHub-hosted frontend workflow; alternatively
+   choose a fixed-egress deployment method and narrow TCP 22 first. This does
+   not gate the API-only rule change.
+3. **Temporary migration fence:** Set an approved window and provider
+   callback/retry tolerance; confirm the operator's private HTTPS path. This is
+   separate from permanent API ingress. Exception activation, migrations,
+   deployment and cutover retain their own approval gates.
 4. Review the expired, unused API-host `chatforia.com` renewal lineage before
    relying on the unattended Certbot timer; do not remove it without approval.
