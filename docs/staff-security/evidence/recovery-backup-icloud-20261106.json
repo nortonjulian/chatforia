@@ -1,0 +1,25 @@
+{
+  "observedAtUtc": "2026-11-06T06:43:12Z",
+  "scope": "Owner-approved local encrypted backup of the proposed release candidate into an existing iCloud Drive account; no production database, migration, deployment, key-value disclosure or paid resource",
+  "source": {
+    "candidateCommit": "ff1276c1b3fc096b5d28bf1c078070704d704d27",
+    "packageSha256": "962ee6f11f1024a163a03f4c54e0c3ba8a21859ef3b0b46f7007c808c771be2f",
+    "manifestStatus": "proposed-not-authorized-for-production",
+    "finalActivationPackage": false
+  },
+  "encryptedImage": {
+    "format": "macOS UDZO disk image with AES-256 encryption",
+    "bytes": 855552,
+    "sha256": "d26e148a940b5bebea6351d8a864131a97c4b92fd98e03f2ffaaf548ddc9e04e",
+    "contents": "Candidate package JSON and matching SHA-256 file only; passphrase is outside the image and iCloud folder",
+    "localVerification": "hdiutil verification passed; read-only mount showed both expected files, package checksum passed, and both files matched the source byte-for-byte; image was detached afterward"
+  },
+  "icloudDrive": {
+    "ownerReported": "Sync this Mac enabled, approximately 10.3 GB available, Advanced Data Protection off. Owner confirmed the Mac and iCloud.com use the same Apple Account, but the new folder remained absent on iCloud.com after refresh.",
+    "localCopy": "Private 0700 folder with 0600 encrypted image and checksum sidecar; copied image matched the source byte-for-byte and its SHA-256 sidecar passed",
+    "fileProvider": "Target folder, image and checksum each reported isUploaded=1, isUploading=0, isSyncPaused=0, isExcludedFromSync=0 and isShared=0",
+    "cloudReadback": "Owner reported manually uploading only the encrypted image and checksum through iCloud.com, then downloading both. A separate copy was identified in the iCloud Drive root with different file identities from the original subfolder copy. Its image checksum passed and both downloaded files matched the local source byte-for-byte. The encrypted image passed hdiutil verification, mounted read-only using the retained passphrase, contained only the expected package and checksum, and the package checksum plus all 168 embedded file checks passed. The image was detached afterward. Safari download-history access was denied by macOS, so the web upload/download route is owner-reported rather than independently observed in browser logs."
+  },
+  "passphraseCustody": "Random passphrase generated locally, never printed in tool output or GitHub. Owner reported storing it in a password manager and confirming retrieval. The owner-only temporary passphrase file remains intact under the owner's instruction; no deletion was performed.",
+  "assessment": "The encrypted review-candidate backup passed owner-reported web retrieval, checksum, decryption and full package verification. It is a recoverable copy of the proposed candidate only. The final activation package and future private migration receipts require a new encrypted backup and independent read-back after their creation."
+}

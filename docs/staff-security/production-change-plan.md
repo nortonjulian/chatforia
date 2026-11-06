@@ -118,8 +118,14 @@ commit field and digest, and its reconciliation status remains proposed. It is
 **not** an executable final release for the drifted production target. The
 runner's PostgreSQL 18 synthetic receipt-generation step passed in PR CI run
 #174. Real preflight/execute receipts require an authorized target attempt and
-cannot be manufactured now. The temporary candidate is not the missing private
-durable backup.
+cannot be manufactured now. The candidate has an
+[AES-256 encrypted iCloud Drive backup](evidence/recovery-backup-icloud-20261106.json):
+the owner reported web upload/download, and the separate returned copy passed
+image checksum, decryption and full package verification. The owner reported
+storing and retrieving the image passphrase independently in a password manager.
+The original temporary image and passphrase remain intact. This verifies a
+backup of the **proposed candidate**, not the still-missing backup of the final
+activation package and future private receipts.
 
 The owner-controlled recovery record must be kept outside GitHub and the API
 host. Before bootstrap, privately verify the exact immutable founder User ID,

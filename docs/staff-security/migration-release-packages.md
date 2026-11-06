@@ -78,7 +78,10 @@ Its 168 embedded files, including all 160 migrations, match the retained review
 archive byte-for-byte. Its manifest is still proposed, so this candidate is
 **not** a final production release or a substitute for a new archive from the
 reviewed activation commit on `main`. Its owner-only `/private/tmp` directory is
-temporary and is not a durable independent backup.
+temporary. An [encrypted iCloud Drive copy of this candidate](evidence/recovery-backup-icloud-20261106.json)
+passed an owner-reported web read-back, image checksum, decryption and full
+package verification; the final activation package and its private receipts
+will still need their own backup and read-back.
 
 Each attempt gets a unique private archive directory with started.json, package.json,
 before.json when preflight passes, and receipt.json. Receipts contain target, commit,
