@@ -81,13 +81,24 @@ export async function sendVoicemailForwardEmail({
   `;
 
   try {
-    await sendMail({
+    const result = await sendMail({
       to: toEmail,
       subject,
       text,
       html,
     });
-    logger?.info?.({ toEmail }, 'Voicemail forward email sent');
+
+    // sendMail reports provider rejection as { success: false } rather
+    // than throwing. Do not mark a failed submission as sent.
+    if (result?.success !== true) {
+      logger?.error?.(
+        { err: result?.error ?? new Error('Email provider did not confirm submission'), toEmail },
+        'Failed to send voicemail forward email'
+      );
+      return;
+    }
+
+    logger?.info?.({ toEmail }, 'Voicemail forward email accepted by provider');
   } catch (err) {
     logger?.error?.({ err, toEmail }, 'Failed to send voicemail forward email');
   }
