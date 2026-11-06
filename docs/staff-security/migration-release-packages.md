@@ -72,6 +72,14 @@ staffMigrationReconciliation.js and migration-package.mjs through review and tes
 Do not set the production exception environment variable as part of preparing this PR.
 Never edit the migration ledger to pass a check.
 
+The [November 6 local candidate](evidence/recovery-package-local-20261106.json)
+was built from committed Git objects and passed package and checksum verification.
+Its 168 embedded files, including all 160 migrations, match the retained review
+archive byte-for-byte. Its manifest is still proposed, so this candidate is
+**not** a final production release or a substitute for a new archive from the
+reviewed activation commit on `main`. Its owner-only `/private/tmp` directory is
+temporary and is not a durable independent backup.
+
 Each attempt gets a unique private archive directory with started.json, package.json,
 before.json when preflight passes, and receipt.json. Receipts contain target, commit,
 package digest, migration names/checksums, aggregate results, status and timestamps.
@@ -89,3 +97,22 @@ Keep traffic fenced until receipt verification and application smoke tests pass.
 The legacy backend workflow is blocked to prevent its checkout-based migration
 command from bypassing this process. API installation/restart and credential cutover
 remain separately reviewed operations in the deployment runbook.
+
+## Private custody of final package and receipts
+
+No real target receipt exists before an authorized preflight. Do not create a
+placeholder receipt that appears to certify production. The isolated PostgreSQL
+18 receipt-generation step passed in [PR verification run #174](https://github.com/nortonjulian/chatforia/actions/runs/42170718022);
+that is a synthetic test, not target evidence.
+
+For the final activation release, retain the package JSON and checksum from the
+new GitHub Release plus each complete private attempt directory produced by the
+runner. Keep the runner's `started.json`, archived `package.json`, `before.json`
+when present, and `receipt.json` together. Preserve failed and incomplete
+attempts too. Copy the whole set to an independently durable, access-controlled
+private location outside the checkout and API host. Verify a **read-back** copy
+against locally recorded SHA-256 digests for every file and confirm directory/
+file permissions remain owner-only. Keep any database aggregates and target
+metadata in that private store; public review records should contain only the
+package SHA, receipt status, timestamps and a redacted backup-verification result.
+Do not put credentials, key values, customer rows or private receipts in GitHub.

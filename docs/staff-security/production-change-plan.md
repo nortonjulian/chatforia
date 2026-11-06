@@ -108,6 +108,38 @@ bytes and both checksum pins, so it must receive a new archive and independent d
 Do not modify this downloaded archive, reuse its checksum for another package, or
 rewrite the database migration ledger.
 
+## Recovery-readiness checkpoint — November 6 UTC
+
+The [local release candidate](evidence/recovery-package-local-20261106.json) was
+built from committed Git objects at `ff1276c1` in an owner-only temporary
+directory. Its package and checksum verified; all 168 embedded file hashes,
+including 160 migrations, match the retained review archive. It has a different
+commit field and digest, and its reconciliation status remains proposed. It is
+**not** an executable final release for the drifted production target. The
+runner's PostgreSQL 18 synthetic receipt-generation step passed in PR CI run
+#174. Real preflight/execute receipts require an authorized target attempt and
+cannot be manufactured now. The temporary candidate is not the missing private
+durable backup.
+
+The owner-controlled recovery record must be kept outside GitHub and the API
+host. Before bootstrap, privately verify the exact immutable founder User ID,
+email verification, MFA enrollment and linked provider against the intended
+human account; record the approved initial grant or founder-only start. Name two
+distinct human recovery operators with distinct authenticated logins, and
+verify the future issuer/executor role memberships cannot overlap directly or
+transitively. This is identity preparation, not permission to grant roles.
+
+Independently retrieve the existing encryption, JWT and required OAuth material
+from off-host custody and confirm it matches the running versions without
+printing values, hashes or tokens in public evidence. Record custodian, retrieval
+date and a redacted match result privately. New session/staff signing keys need
+separate protected custody only in the approved cutover; never generate them in
+this preparation document. Choose an independently durable private storage
+location for the **final** activation package, its checksum and every future
+receipt attempt directory. Prove a read-back copy with SHA-256 verification and
+owner-only access; local Time Machine currently has no completed machine backup.
+See [package and receipt custody](migration-release-packages.md).
+
 ## Fixed target and intended changes
 
 | Item | Target / intended state |
