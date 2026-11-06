@@ -63,7 +63,11 @@ implemented control and must not be confused with release sign-off recommendatio
   the four locally DNS-advertised edge addresses. The owner also reported a
   successful cellular load at 10:25 PM Denver time on November 4; web-origin
   logs around that time show no 5xx or nginx errors. The source of the fetcher
-  failure remains unknown. The separately approved
+  failure remains unknown; the independent fetcher still returned 521 during
+  the latest [web firewall preparation](evidence/web-firewall-preparation-20261105.json)
+  while local IPv4/IPv6 and direct-origin checks passed. Review Cloudflare edge
+  evidence or explicitly disposition that observation before attaching a web
+  firewall. The separately approved
   [API-only firewall edit](evidence/api-firewall-applied-20261105.json) is now
   applied: operator-only SSH, Cloudflare-only HTTP/HTTPS, unchanged outbound,
   fresh SSH and dual-stack proxied health, direct-origin rejection, callback

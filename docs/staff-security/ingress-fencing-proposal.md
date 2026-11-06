@@ -68,6 +68,45 @@ Refresh them before any future edit and stop for review if they differ.
 | Existing `chatforia-api-firewall` on `chatforia-api-01` | **Applied:** Allow TCP 80 and 443 from the 22 Cloudflare CIDRs; allow TCP 22 from the privately verified operator IPv4 `/32`. Removed all-source TCP 22/80/443 allows. No inbound 5002 rule was added. The backend GitHub Actions workflow is blocked before SSH. | Broad TCP/UDP/ICMP outbound rules were retained. The owner confirmed the sole API Droplet attachment; fresh SSH, both proxied IP families, direct-origin rejection and Certbot dry run passed. |
 | Proposed new DigitalOcean firewall for `chatforia-web-01` | Separate TCP 80 and TCP 443 allows from the same 22 Cloudflare CIDRs. For the existing standard GitHub-hosted frontend SSH workflow, retain TCP 22 from all IPv4/IPv6 **only with approved key-only SSH hardening**. No other inbound rule. | Explicitly allow current outbound TCP/UDP/ICMP behavior; an empty outbound rule set would block egress. Test proxied web/API paths, direct-origin rejection, and a no-op Actions SSH connection before relying on the rule. |
 
+The [fresh web preparation evidence](evidence/web-firewall-preparation-20261105.json)
+confirms a new key-only operator SSH login, effective public-key-only root SSH,
+active nginx and SSH, UFW inactive, and nginx listening on TCP 80/443. Current
+`main` uses a manual standard `ubuntu-latest` frontend workflow with the stored
+SSH key, rsync and nginx reload; actual run #623 succeeded after SSH hardening.
+GitHub-hosted runner egress is dynamic, so all-source web TCP 22 with key-only
+sshd is required to preserve that existing $0 deploy path. PR #301's pinned
+connection-only `verify_ssh` mode is not on current `main` and has not run.
+
+The active web TLS certificate is a Cloudflare Origin CA apex/wildcard
+certificate expiring April 8, 2041. There is no local Certbot renewal lineage
+or timer on this host. The proposed Cloudflare-sourced TCP 80/443 rules preserve
+current proxy traffic and HTTP redirects; they do not establish a future
+certificate-rotation procedure. Cloudflare edge certificate renewal is separate.
+Do not run an API-style Certbot dry run on the web host.
+
+The exact proposed **web-only** firewall has these Allow rules:
+
+| Direction | Type and port | Sources or destinations |
+| --- | --- | --- |
+| Inbound | SSH, TCP 22 | All IPv4 and All IPv6; sshd accepts public keys only |
+| Inbound | HTTP, TCP 80 | All 22 Cloudflare CIDRs listed above |
+| Inbound | HTTPS, TCP 443 | All 22 Cloudflare CIDRs listed above |
+| Outbound | ICMP | All IPv4 and All IPv6 |
+| Outbound | All TCP ports | All IPv4 and All IPv6 |
+| Outbound | All UDP ports | All IPv4 and All IPv6 |
+
+No other inbound or deny rule, Droplet attachment, or tag attachment is proposed.
+
+Before any web attachment, capture the Droplet's current **Networking →
+Firewalls** view to confirm no cloud firewall or tag-based attachment. Under a
+separate approval, create a complete firewall with the six rules in the table,
+leave **Apply to Droplets** blank, review it, then attach it only to
+`chatforia-web-01`. Keep a tested SSH session open. After attachment,
+verify a new operator key login, a connection-only GitHub Actions SSH run,
+proxied apex/www IPv4 and IPv6, the HTTP redirect and `/api/` proxy, and
+direct-origin 80/443 rejection. On a regression, detach only the new firewall
+and verify recovery. No web firewall was created or attached in preparation.
+
 The API operator SSH source was observed as one IPv4 address in a fresh
 key-based connection. The exact `/32` is shared in the private owner review;
 verify it again immediately before a rule edit and do not broaden it to a
@@ -112,6 +151,11 @@ approving a tighter web origin rule; abort an approved change on any new 521.
 [Cloudflare describes genuine 521 responses](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-521/)
 as origin connection refusals; this fetcher's error lacks the metadata needed
 to attribute it to a particular Cloudflare edge or origin rule.
+The same independent fetcher still returned 521 during the latest preparation,
+while fresh local proxied www checks returned 200 over IPv4 and IPv6 and a
+direct-origin diagnostic returned 200. Obtain a Cloudflare edge error/Ray or
+zone-level 521 count for the relevant window, or explicitly disposition this
+unresolved observation with rollback monitoring, before attaching a web firewall.
 
 The web and API are separate hosts, and only the API has a cloud firewall
 attached. This unresolved `www` symptom did not prevent the separately

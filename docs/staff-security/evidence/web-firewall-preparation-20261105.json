@@ -1,0 +1,47 @@
+{
+  "observedAtUtc": "2026-11-06T03:42:25Z",
+  "scope": "Read-only web host, current main deployment workflow, official network ranges and public reachability; no firewall, SSH, nginx, certificate, workflow or application change",
+  "host": "chatforia-web-01",
+  "operatorSsh": {
+    "freshKeyOnlyLogin": "passed; hostname returned chatforia-web-01",
+    "effectivePolicy": "publickey yes, password no, keyboard-interactive no, authentication methods publickey, root login without-password",
+    "sshService": "active",
+    "listen": "TCP 22 on IPv4 and IPv6",
+    "recoveryConsole": "Owner-reported root login previously passed on this Droplet and is recorded in PR #301; no subsequent root password or SSH configuration change was found during this preparation"
+  },
+  "webAndCertificate": {
+    "nginxService": "active",
+    "ufw": "inactive",
+    "listeners": "nginx TCP 80 and 443 on IPv4; Cloudflare presents IPv4 and IPv6 edge addresses to visitors",
+    "http": "chatforia.com and www.chatforia.com redirect to HTTPS www.chatforia.com",
+    "https": "www.chatforia.com serves the static site and proxies /api/ to the HTTPS API origin with the previously approved certificate verification enabled",
+    "originCertificate": "Cloudflare Origin CA certificate with apex and wildcard DNS names, valid from 2026-04-12 to 2041-04-08; private key not read",
+    "localCertbot": "No /etc/letsencrypt/renewal directory or Certbot/ACME timer was found on the web host; current origin certificate renewal is not an HTTP-01 process on this Droplet",
+    "cloudflare": "Owner previously confirmed chatforia.com and www.chatforia.com proxied with Full (strict); Cloudflare edge certificate management is separate"
+  },
+  "githubActions": {
+    "currentMainWorkflow": "deploy.yml is manual workflow_dispatch on a standard ubuntu-latest runner; deploy job installs the stored SSH key, rsyncs to the web Droplet, then runs a separate SSH command that restores env.js and reloads nginx",
+    "postSshHardeningEvidence": "Actual frontend deployment run #623 succeeded after key-only SSH hardening, proving stored runner key access at that time",
+    "pr301VerifyMode": "Branch-only pinned-host verify_ssh job is prepared but was not dispatched; it is not on current main",
+    "runnerEgress": "GitHub-hosted standard runner IPs are dynamic; retaining all-source TCP 22 with key-only sshd preserves the existing deployment path without a paid fixed-egress runner"
+  },
+  "reachability": {
+    "proxiedWwwIpv4": "HTTP 200",
+    "proxiedWwwIpv6": "HTTP 200",
+    "proxiedApexIpv4": "HTTP 200 after redirects",
+    "directOriginWww": "HTTP 200 before a web firewall; TLS verification was intentionally disabled for this diagnostic because the origin uses a Cloudflare Origin CA certificate",
+    "independentFetcherWww": "HTTP 521 with no response headers, Ray ID or source location exposed; this conflicts with local IPv4/IPv6 passes and the owner's earlier cellular pass. Cause remains unknown."
+  },
+  "digitalOceanFirewall": {
+    "latestOwnerProvided": "No cloud firewall attached to chatforia-web-01; UFW inactive",
+    "freshControlPlaneReadback": "unavailable from assistant access; owner must confirm current attachment before creating or attaching a new rule set"
+  },
+  "officialCloudflareCidrs": "15 IPv4 plus seven IPv6 source ranges matched the existing ingress-fencing proposal at this preparation checkpoint; refresh immediately before any separately approved attachment",
+  "proposedWebRules": {
+    "inbound": "Allow TCP 22 from All IPv4 and All IPv6 for standard GitHub-hosted runners and operator public-key access; allow TCP 80 and TCP 443 from all 22 official Cloudflare CIDRs; no other inbound rule or tag attachment",
+    "outbound": "Allow ICMP, all TCP ports and all UDP ports to All IPv4 and All IPv6, matching the currently unfenced egress behavior",
+    "attachment": "Create complete firewall without a Droplet attachment, review every rule, then under separate approval attach only chatforia-web-01; no production attachment is authorized by preparation"
+  },
+  "approvalHold": "Investigate or explicitly disposition the independently observed www 521 before tightening the web origin; capture a fresh DigitalOcean attachment/rule view and Cloudflare edge evidence. API firewall change is already complete and separate.",
+  "rollback": "Detach only the newly attached web firewall, returning to the owner-reported no-cloud-firewall baseline; retain the rule snapshot and verify fresh operator SSH, public web IPv4/IPv6 and direct-origin reachability before closing the incident"
+}
