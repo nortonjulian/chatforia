@@ -208,6 +208,8 @@ test('archived v1 release remains exact; v2 accepts only the 161-file consent re
     before.slice(1),
     [...before, before[0]],
     [...before, { migration_name: '99999999_extra', checksum: '0'.repeat(64), finished_at: 'now', rolled_back_at: null }],
+    before.filter((entry) => entry.id !== historical[0].id),
+    [...before, historical[0]],
     before.map((entry) => entry.migration_name === 'old_failed_1'
       ? { ...entry, finished_at: 'now' } : entry),
   ]) assert.throws(() => checkReconciledHistory(current, bad, spec.manifest.target));

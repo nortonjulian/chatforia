@@ -60,16 +60,23 @@ QA repetition was performed. See [sanitized evidence](evidence/live-infrastructu
 Inspected secret files are root-owned 0600 and existing MFA/JWT keys match
 same-host copies, but independent recovery custody is unverified. No configured
 SESSION_SECRET was found and deployed session code has a literal fallback;
-the new staff signing key is absent. The web proxy disables upstream certificate
-verification. Actual cloud firewall/Cloudflare policy, provider restore success
-and process rollback remain unverified. These findings now replace the previous
-missing-SSH-mapping gate; a safe, separately approved remediation is required.
+the new staff signing key is absent. The separately approved web upstream
+certificate-verification and key-only SSH changes are now active. The owner
+reported Cloudflare Full (strict). The separately approved
+[API-only firewall edit](evidence/api-firewall-applied-20261105.json) is active;
+fresh SSH, dual-stack proxied API health, direct-origin rejection, callback
+routing probes and the active API certificate dry run passed. Full hosted
+restore integrity and process rollback remain unverified. The missing SSH
+mapping was resolved, but the remaining production changes still require
+separate approval.
 
 Owner-reported console evidence now establishes PostgreSQL 18, primary-only SFO2,
 chatforia-api-01 as the sole Network Access entry, doadmin as the visible user,
 defaultdb plus two existing voicemail/wireless test databases, and seven-day
-latest-transaction/PITR options into a new cluster. Restore success remains
-unverified; SQL role/ownership/pgcrypto metadata is now inspected. The test databases
+latest-transaction/PITR options into a new cluster. A later owner-reported
+hosted restore passed a bounded read-only check of 141 completed migrations and
+the known QA account; full integrity and measured recovery time remain unverified.
+SQL role/ownership/pgcrypto metadata is now inspected. The test databases
 share production's role namespace; they are not isolated staging resources.
 A new fresh PostgreSQL 18.3 synthetic upgrade passes **11/11 checks**; the
 read-only preflight now explicitly supports tested majors 16 and 18. No security
@@ -294,7 +301,7 @@ paid integrations are used. Reports: `/tmp/chatforia-staff-offline-auth-report.j
 and `/tmp/chatforia-staff-older-snapshot-report.json`.
 
 Full browser-shell/UserContext, real OAuth console, Safari/Firefox/device,
-independent-human recovery, actual secret-store and operational checks remain
+sole-owner recovery credential custody, actual secret-store and operational checks remain
 human/access gates and need not inherently cost money. Actual DigitalOcean
 managed-role/extension, provider backup/PITR and hosted proxy/network gates remain
 unverified: no dedicated zero-cost provider sandbox has been identified. A new
@@ -354,7 +361,7 @@ performed.
 
 | Stage                                 | Result                                                                      | Evidence                                                                                                                                                                                                                                                                                                                                        |
 | ------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2 — protected authentication/recovery | Complete locally                                                            | Signed MFA challenge/attempt/completion writes; single-use backup codes; independent operator recovery bound to target, action and exact replacement value; session invalidation; mandatory recovery audit; verified MFA retained in short API tokens.                                                                                          |
+| 2 — protected authentication/recovery | Complete locally                                                            | Signed MFA challenge/attempt/completion writes; single-use backup codes; distinct database-login recovery bound to target, action and exact replacement value; session invalidation; mandatory recovery audit; verified MFA retained in short API tokens. One owner controlling both logins is not two-person approval. |
 | 2 — runtime database compatibility    | Complete locally                                                            | All four pending definitions execute together only within a rolled-back Prisma transaction; ordinary user CRUD, reset-token writes and MFA remain compatible; runtime role cannot write protected credentials/assignments/audits or create ADMIN users.                                                                                         |
 | 2 — integrated acceptance             | Complete locally                                                            | Existing 8-group/185-test checkpoint independently reproduced; expanded suite passes 9 groups, 242 Jest tests and 39 integrated checks.                                                                                                                                                                                                         |
 | 3 — adversarial QA                    | Complete within isolated scope                                              | Missing/tampered/non-MFA JWTs; revocation/session loss; signed assertion/challenge/backup-code/approval replay; expired and retargeted recovery; direct SQL rejection; forced audit failure rollback; real competing database lock transactions and service retry tests.                                                                        |

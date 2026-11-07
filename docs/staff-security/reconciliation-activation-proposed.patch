@@ -1,0 +1,36 @@
+--- a/server/security/staffMigrationReconciliation.v1.json
++++ b/server/security/staffMigrationReconciliation.v1.json
+@@ -3 +3 @@
+-  "status": "proposed-not-authorized-for-production",
++  "status": "approved-for-production",
+--- a/server/security/staffMigrationReconciliation.js
++++ b/server/security/staffMigrationReconciliation.js
+@@ -5 +5 @@
+-const manifestSha256 = 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5';
++const manifestSha256 = '735ea2b62888a016de83bc5ac4b2acb34a455bae51310d8025e0923ebc153256';
+@@ -33,2 +33,2 @@
+-  // This commit implements and exercises the mechanism only. The CLI supplies
+-  // no test option; changing the reviewed manifest/status is a separate release.
++  // The reviewed digest, explicit ID and pinned target gate production use.
++  // The isolated proposed-state bypass is unavailable to the package CLI.
+--- a/server/scripts/migration-package.mjs
++++ b/server/scripts/migration-package.mjs
+@@ -14 +14 @@
+-const reconciliationDigest = 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5';
++const reconciliationDigest = '735ea2b62888a016de83bc5ac4b2acb34a455bae51310d8025e0923ebc153256';
+@@ -91 +91 @@
+-// catalog/data preflight. The pinned manifest remains unapproved for production.
++// catalog/data preflight. This pure checker grants no production authority.
+--- a/server/scripts/staff-pg18-reconciliation-ci.mjs
++++ b/server/scripts/staff-pg18-reconciliation-ci.mjs
+@@ -136,0 +137 @@
++  assert.equal(manifest.status, 'approved-for-production');
+@@ -146,2 +147 @@
+-  const isolated = { allowProposedForIsolatedTest: true, migrationRoot: join(prismaDir, 'migrations') };
+-  await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations'), /not approved for production/);
++  const isolated = { migrationRoot: join(prismaDir, 'migrations') };
+@@ -149 +149 @@
+-  console.log('PASS: proposed exception is CI-only and accepts exactly the four documented target pairs');
++  console.log('PASS: activated exception accepts only four documented pairs on disposable PostgreSQL 18');
+@@ -207 +206,0 @@
+-  await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations'), /not approved for production/);

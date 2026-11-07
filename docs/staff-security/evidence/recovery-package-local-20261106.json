@@ -1,0 +1,26 @@
+{
+  "observedAtUtc": "2026-11-06T06:00:32Z",
+  "scope": "Local release-candidate packaging and receipt-readiness review only; no production database access, migration, exception activation, deployment, credential retrieval or backup creation",
+  "candidate": {
+    "commit": "ff1276c1b3fc096b5d28bf1c078070704d704d27",
+    "sha256": "962ee6f11f1024a163a03f4c54e0c3ba8a21859ef3b0b46f7007c808c771be2f",
+    "bytes": 2177458,
+    "packagedFiles": 168,
+    "migrations": 160,
+    "reconciliationFilesPresent": true,
+    "checksumVerification": "shasum -a 256 -c migration-package.candidate.sha256 passed",
+    "packageVerification": "readPackage verified the package digest and every embedded file checksum",
+    "comparisonToArchivedReviewPackage": "All 168 embedded file paths and SHA-256 values matched the retained review package from main commit 6a5f06d58c4414b7a0f584eeaede3118d3e9066b; the package commit metadata differs",
+    "localStorage": "Owner-only 0700 directory and 0600 package/checksum files under /private/tmp; temporary, not an independent durable backup",
+    "manifestStatus": "proposed-not-authorized-for-production",
+    "productionUsable": false
+  },
+  "receiptReadiness": {
+    "ciEvidence": "https://github.com/nortonjulian/chatforia/actions/runs/42170718022",
+    "ciStep": "Verify archived migration execution and receipts on PostgreSQL 18: success",
+    "productionReceipts": "Not created; the runner creates started.json, package.json, before.json when preflight passes, and receipt.json per attempt only when authorized against the target",
+    "privateCustody": "A separate durable private copy of the final package and future preflight/execute receipt directories remains unverified"
+  },
+  "finalReleaseBoundary": "A final production package requires a separately reviewed and approved activation change to the reconciliation manifest status and both digest pins, a reviewed commit on main, a new Archive migration release run for that exact main SHA, and independent checksum/copy verification. The current candidate must not be used for production.",
+  "remainingPrivateEvidence": "Founder and recovery-operator identities, independent retrieval of existing recovery keys, final package/receipt backup, and change-window restore point remain pending owner-controlled verification; record only redacted pass/fail metadata in public documentation."
+}

@@ -1,0 +1,45 @@
+{
+  "observedAtUtc": "2026-11-06T02:29:07Z",
+  "scope": "Read-only local archive, GitHub Release metadata, Time Machine and external-disk inventory, plus existing key/restore evidence. No production data, secret value, restore, backup creation or production setting was changed.",
+  "reviewPackage": {
+    "localDirectory": "~/Desktop/Chatforia-Deployment-Records",
+    "directoryMode": "0700",
+    "packageFile": "migration-package.json",
+    "packageBytes": 2177458,
+    "packageSha256": "7dfcc07c0d254b16053e79b4eb67a325d39c05a92ddbbb4c431c497a0c532db6",
+    "checksumFile": "migration-package.sha256",
+    "checksumSha256": "fb4f0cbe72125b8f2d28500ec5bf14d8d7339cb7926ee09ae78a05db413f5126",
+    "checksumVerification": "shasum -a 256 -c migration-package.sha256: migration-package.json OK",
+    "packageCommit": "6a5f06d58c4414b7a0f584eeaede3118d3e9066b",
+    "packagedFileCount": 168,
+    "retainedGitHubRelease": "https://github.com/nortonjulian/chatforia/releases/tag/migrations-6a5f06d58c4414b7a0f584eeaede3118d3e9066b",
+    "remoteAssets": "Both uploaded GitHub Release assets have the same byte counts/digests as the local package and checksum files. This is an independent copy of the review package, not a backup of future private deployment receipts.",
+    "notFinalActivationPackage": "Manifest remains proposed-not-authorized-for-production; final approved activation changes package bytes and requires a new release and digest."
+  },
+  "independentBackup": {
+    "timeMachineDestination": "Macintosh HD (Local) only",
+    "completedMachineBackup": "tmutil listbackups returned No machine directory found for host",
+    "attachedExternalPhysicalDisk": "none shown by diskutil list external physical",
+    "separatePrivateArchiveAndReceiptCopyVerified": false,
+    "assessment": "GitHub Release preserves this review package independently of API and operator hosts; no separate durable private copy of final package plus preflight/execute receipts is verified. Local Time Machine destination is not an independent completed backup."
+  },
+  "recoveryKeyEvidence": {
+    "existingReadOnlyInspection": "APP_ENC_KEY present with 32 decoded bytes; JWT key present; inspected files root-owned 0600 and same-host copies matched. SESSION_SECRET absent with deployed literal fallback and new staff signing key absent.",
+    "independentOffHostRetrievalVerified": false,
+    "secretValuesOrHashesRecorded": false,
+    "assessment": "No independent vault/key retrieval demonstration exists. Preserve existing APP_ENC_KEY and JWT/OAuth material; provision and independently retain new session/staff signing keys only under separately approved change."
+  },
+  "databaseRestoreEvidence": {
+    "managedOptions": "Owner-reported latest-transaction and point-in-time recovery up to seven days into a new DigitalOcean cluster",
+    "hostedBasicReadability": "Owner-reported separate hosted restore allowed read-only confirmation of 141 completed baseline migrations and a known QA account; temporary cluster was deleted by owner",
+    "syntheticLocalRehearsal": "Previously completed 26/26 browser/restore checks with 14/14 critical dataset fingerprints, restored MFA, token writes and older-snapshot reconciliation; not rerun",
+    "fullHostedIntegrityVerified": false,
+    "changeWindowBackupPointAndMeasuredRpoRtoVerified": false,
+    "assessment": "A hosted restore succeeded at a basic readability level, correcting older statements that no restore succeeded. It does not establish full application/security integrity, selected change-window recovery point, RPO/RTO or key compatibility."
+  },
+  "remainingOwnerControlledItems": [
+    "Identify and verify a separate durable private backup location for the final activation package and private preflight/execute receipts; the current GitHub Release review copy and local Time Machine status do not cover receipts",
+    "Demonstrate independent retrieval of existing APP_ENC_KEY, JWT and needed OAuth material and identify custody for new SESSION_SECRET and staff signing key without disclosing values",
+    "At the separately approved change window, record current managed backup health/recovery point and approve any paid independent restore target needed for a bounded integrity/RPO/RTO rehearsal"
+  ]
+}

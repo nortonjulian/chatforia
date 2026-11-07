@@ -42,6 +42,44 @@ assert.equal(sql(`SELECT count(*) = 4 AND bool_and(
   rolcanlogin = (rolname = 'chatforia_dev'))
   FROM pg_roles WHERE rolname IN
   ('chatforia_dev','chatforia_staff_owner','chatforia_recovery_issuer','chatforia_recovery_executor')`).trim(), 't');
+const recoveryLoginSql = readFileSync('server/scripts/staff-recovery-operator-logins.sql', 'utf8');
+sql('GRANT chatforia_recovery_executor TO chatforia_recovery_issuer WITH SET TRUE, INHERIT FALSE, ADMIN FALSE');
+assert.throws(() => sql(recoveryLoginSql));
+sql('REVOKE chatforia_recovery_executor FROM chatforia_recovery_issuer');
+sql(recoveryLoginSql);
+assert.throws(() => sql(recoveryLoginSql));
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolcanlogin AND NOT
+  (rolinherit OR rolsuper OR rolcreatedb OR rolcreaterole OR rolreplication OR rolbypassrls))
+  FROM pg_roles WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolpassword IS NULL)
+  FROM pg_authid WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT pg_has_role('chatforia_recovery_issuer_login',
+  'chatforia_recovery_issuer', 'SET') AND
+  pg_has_role('chatforia_recovery_executor_login',
+  'chatforia_recovery_executor', 'SET') AND
+  NOT pg_has_role('chatforia_recovery_issuer_login',
+  'chatforia_recovery_executor', 'MEMBER') AND
+  NOT pg_has_role('chatforia_recovery_executor_login',
+  'chatforia_recovery_issuer', 'MEMBER') AND
+  NOT pg_has_role('chatforia_dev',
+  'chatforia_recovery_issuer', 'MEMBER') AND
+  NOT pg_has_role('chatforia_dev',
+  'chatforia_recovery_executor', 'MEMBER')`).trim(), 't');
+assert.equal(sql(`SET SESSION AUTHORIZATION chatforia_recovery_issuer_login;
+  SET ROLE chatforia_recovery_issuer;
+  SELECT session_user = 'chatforia_recovery_issuer_login' AND
+    current_user = 'chatforia_recovery_issuer'`).trim(), 't');
+assert.throws(() => sql(`SET SESSION AUTHORIZATION chatforia_recovery_issuer_login;
+  SET ROLE chatforia_recovery_executor`));
+assert.equal(sql(`SET SESSION AUTHORIZATION chatforia_recovery_executor_login;
+  SET ROLE chatforia_recovery_executor;
+  SELECT session_user = 'chatforia_recovery_executor_login' AND
+    current_user = 'chatforia_recovery_executor'`).trim(), 't');
+assert.throws(() => sql(`SET SESSION AUTHORIZATION chatforia_recovery_executor_login;
+  SET ROLE chatforia_recovery_issuer`));
+console.log('PASS: PostgreSQL 18.6 prepared recovery logins retain separate session identities and exclusive roles');
 sql('GRANT chatforia_staff_owner TO chatforia WITH SET TRUE, INHERIT FALSE, ADMIN FALSE;');
 sql(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8'));
 
@@ -165,22 +203,23 @@ ROLLBACK;`;
 
   const stableName = names.find((name) => !manifest.exceptions[name]);
   const stableChecksum = sha(readFileSync(`server/prisma/migrations/${stableName}/migration.sql`));
-  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'f'.repeat(64)} WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
+  const [stableActive] = await db.$queryRaw`SELECT id, finished_at FROM public._prisma_migrations
+    WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'f'.repeat(64)} WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${stableChecksum} WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${stableChecksum} WHERE id=${stableActive.id}`;
 
-  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=now() WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=now() WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=NULL WHERE migration_name=${stableName} AND rolled_back_at IS NOT NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=NULL WHERE id=${stableActive.id}`;
 
   await db.$executeRaw`INSERT INTO public._prisma_migrations(id, checksum, migration_name, started_at, finished_at, applied_steps_count) VALUES ('00000000-0000-0000-0000-000000000001', ${'a'.repeat(64)}, '99999999_extra_synthetic', now(), now(), 1)`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`DELETE FROM public._prisma_migrations WHERE migration_name='99999999_extra_synthetic'`;
 
-  const [finished] = await db.$queryRaw`SELECT finished_at FROM public._prisma_migrations WHERE migration_name=${stableName}`;
-  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=NULL WHERE migration_name=${stableName}`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=NULL WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=${finished.finished_at} WHERE migration_name=${stableName}`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=${stableActive.finished_at} WHERE id=${stableActive.id}`;
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
   console.log('PASS: wrong target/ID/manifest, changed files/ledger, missing/extra/unfinished and fifth mismatch fail closed');
 
@@ -227,6 +266,20 @@ ROLLBACK;`;
     consentManifest.id);
   assert.deepEqual(checkReconciledHistory(fullPackage, await ledger(db), consentManifest.target, true), []);
   assert.deepEqual((await ledger(db)).filter((row) => row.rolled_back_at), historicalRollbacks);
+  const consentFile = join(consentDirectory, 'migration.sql');
+  const originalConsentSql = readFileSync(consentFile);
+  writeFileSync(consentFile, Buffer.concat([originalConsentSql, Buffer.from('\n-- isolated tamper\n')]));
+  await assert.rejects(runPreflight(db, consentEnv, '--after-migrations',
+    { ...isolatedConsent, migrationRoot: join(prismaDir, 'migrations') }), /Required exact migration file changed/);
+  writeFileSync(consentFile, originalConsentSql);
+  const changedPackage = structuredClone(fullPackage);
+  const consentEntry = changedPackage.files.find((file) =>
+    file.path === `server/prisma/migrations/${consentName}/migration.sql`);
+  consentEntry.content = Buffer.from('-- isolated tamper\n').toString('base64');
+  consentEntry.sha256 = sha(Buffer.from('-- isolated tamper\n'));
+  const verifiedLedger = await ledger(db);
+  assert.throws(() => checkReconciledHistory(changedPackage, verifiedLedger,
+    consentManifest.target, true), /Reconciliation release migration set changed/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'f'.repeat(64)} WHERE migration_name=${consentName}`;
   await assert.rejects(runPreflight(db, consentEnv, '--after-migrations',
     { ...isolatedConsent, migrationRoot: join(prismaDir, 'migrations') }), /Migration history/);
