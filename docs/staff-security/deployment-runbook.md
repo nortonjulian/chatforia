@@ -98,13 +98,15 @@ PG18.3 populated upgrade passes. All four prerequisite roles and staff_security
 are absent; pgcrypto 1.4 is available but not installed. Managed extension
 installation/ownership capability has not been exercised.
 
-**Stop on the known baseline drift before planning a migration window.** Four
-active migration checksums differ from current repository/deployed files; see
-the exact names and provenance investigation in the inspection record. A limited
-catalog comparison has no unexplained structural differences, but cannot certify
-the applied SQL. Recover trusted applied artifacts or obtain a separately reviewed
-reconciliation plan. Never edit `_prisma_migrations`, run `migrate resolve`, rewrite
-old SQL or relax preflight merely to turn the check green.
+**The known baseline drift remains a production stop until activation is approved.**
+Four active migration checksums differ from current repository/deployed files;
+see the exact names and provenance investigation in the inspection record. The
+original applied SQL could not be recovered. A limited catalog comparison has no
+unexplained structural differences, but cannot certify historical data effects.
+The target-bound four-pair reconciliation is prepared, tested and still inactive;
+its production use requires an explicit exception activation, new reviewed
+package and separate execution approval. Never edit `_prisma_migrations`, run
+`migrate resolve` or rewrite old SQL to turn the check green.
 
 Current runtime doadmin owns public objects and has CREATEROLE/CREATEDB/REPLICATION/
 BYPASSRLS. Prepare a distinct restricted runtime identity; keep privileged DBA
@@ -180,11 +182,14 @@ URL or granting ownership, `SET` membership or elevated flags.
 
 The prepared [production role script](../../server/scripts/staff-production-prerequisite-roles.sql)
 is a guarded, atomic no-password role creation template for the inspected
-`defaultdb`; it creates no grants, schema or extension. Use only after the four
-baseline checksum mismatches are independently resolved and a separate DBA
-approves its exact target/permissions. The DBA must separately give only the
-migration executor scoped SET membership in the owner role and then run the
-schema bootstrap. The static guard and disposable PostgreSQL 18.6 role
+`defaultdb`; it creates no grants, schema or extension. Use only after the
+four-pair target-bound reconciliation is separately approved for production,
+the final package is backed up and the change-window recovery gates pass.
+Exact-checksum validation remains the default; the original applied SQL is
+unavailable, so the four pairs have not been independently resolved. A privileged
+operator must approve the exact target/permissions, give only the migration
+executor scoped SET membership in the owner role, and then run the schema
+bootstrap. The static guard and disposable PostgreSQL 18.6 role
 execution passed in CI 150. This does not establish DigitalOcean managed-role
 compatibility.
 
@@ -203,31 +208,26 @@ dependency review and an isolated target-specific plan first.
 
 Load the approved DBA connection through protected process environment (no CLI
 passwords, shell tracing or dotenv dumps). Set `STAFF_EXPECTED_DATABASE` from the
-independently verified inventory. From the pinned release directory run:
-
-```sh
-node server/scripts/staff-deployment-preflight.mjs --before-migrations
-node node_modules/prisma/build/index.js migrate status --schema=server/prisma/schema.prisma
-```
-
-The first command is transactionally read-only: it verifies the role/schema/
-pgcrypto prerequisites and exact checksums of all 141 completed baseline
-migrations. It rejects wrong identity, failed/partial/extra staff history and
-unsafe ownership. `migrate status` should report exactly the reviewed 19 pending
-migrations (pending status may be nonzero); inspect the set, not just its exit
-code. No preflight success authorizes migration. Do not use the initial-release
-preflight on an already-upgraded database and interpret its rejection as drift.
+independently verified inventory. Run `deploy-migration-package.mjs` without
+`--execute` from the pinned release and independent receipt archive. The runner
+invokes the transactionally read-only role/schema/pgcrypto and ledger checks with
+the explicitly approved reconciliation ID. It rejects wrong identity,
+failed/partial/extra staff history, unsafe ownership, any fifth mismatch and
+every changed new SQL checksum. Inspect the expected 19 pending migrations and
+the archived preflight receipt. No preflight success authorizes migration. Do not
+use the initial-release preflight on an already-upgraded database and interpret
+its rejection as drift.
 
 ## 4. Apply the compatible unit, still fenced
 
-Only after every preceding gate and explicit migration approval:
+Only after every preceding gate and explicit migration approval, execute the
+exact reviewed archive with `deploy-migration-package.mjs --execute` as described
+in [migration-release-packages.md](migration-release-packages.md). Do not run a
+standalone `prisma migrate deploy` against the target: it would omit the pinned
+package, target-bound reconciliation and independent attempt receipts.
 
-```sh
-node node_modules/prisma/build/index.js migrate deploy --schema=server/prisma/schema.prisma
-node node_modules/prisma/build/index.js migrate status --schema=server/prisma/schema.prisma
-```
-
-Require all 160 migrations finished and the exact reviewed checksums; preserve
+Require all 160 migrations finished and the exact reviewed checksums, except
+the four separately approved historical ledger/file pairs; preserve
 sanitized execution records. On any failure leave traffic closed. Prisma SQL
 files are not an atomic 19-file transaction: inspect partial DDL/ledger before
 any repair; never automatically mark a failed migration resolved or retry a
@@ -246,7 +246,9 @@ signed with the existing fallback during the fenced cutover. JWT, session and
 staff keys must be different. JWT and staff keys must each be at least 32 bytes.
 
 Initialize founder ownership and the initial delegation authority only after
-independent human identity approval. In a reviewed DBA transaction acquire
+the owner's privately verified immutable User ID and an explicit bootstrap
+approval. This is sole-owner verification, not a second-person sign-off. In a
+reviewed privileged transaction acquire
 advisory lock `(73421,1)`, lock the named users in ascending ID order, verify the
 founder singleton is absent (otherwise compare/stop), insert its verified
 reference, and seed only the explicitly approved initial assignments. Use the

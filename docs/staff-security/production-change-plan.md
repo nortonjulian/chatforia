@@ -5,6 +5,8 @@
 Prepared November 5, 2026 UTC following the owner's instruction to continue Stage 5.
 No production execution is authorized by this document. Stage 6 admission has not begun.
 Julian Norton is the release operator and stop authority identified in the conversation.
+The current integrated decision, production action order and final-package backup
+timing are in the [November 6 Stage 5 GO/NO-GO review](stage5-go-no-go-review-20261106.md).
 Separate DBA/security sign-offs are recommendations, not a newly imposed company policy.
 A separate privileged database connection is a technical requirement; it does not by
 itself require hiring a separate DBA. Recovery issuer/executor separation is an
@@ -242,7 +244,7 @@ Never dispatch the legacy backend deployment workflow.
 | --- | --- | --- |
 | 1 | Apply the separately approved [temporary API ingress fence](ingress-fencing-proposal.md), drain requests, stop every API/background writer and verify no conflicting migration process; retain operator access and TCP 80 for ACME. | Any unidentified writer, unverified route, certificate-renewal conflict or inability to maintain the fence. |
 | 2 | Capture/verify consistent recovery point, encrypted logical export, password-free ownership/role metadata, and recoverable key versions. Record timestamps and digests in private custody. | Unreadable backup/export, unavailable restore destination or missing key. |
-| 3 | Through the separate privileged connection, execute guarded staff-production-prerequisite-roles.sql; provision runtime password privately, grant only migration executor scoped SET authority, then staff-access-bootstrap-role.sql. | Existing unsafe role/schema, unexpected target, provider permission/extension limitation. No CASCADE or blanket ownership reassignment. |
+| 3 | Through the separate privileged connection, execute guarded staff-production-prerequisite-roles.sql; provision runtime password privately, grant only migration executor scoped SET authority, then staff-access-bootstrap-role.sql. Under its own approval, execute staff-recovery-operator-logins.sql; provision two separate passwords privately, store and retrieve them from the selected independent locations, and verify distinct-session role isolation. | Existing unsafe role/schema, unexpected target, provider permission/extension limitation, cross-role membership or failed credential retrieval. No CASCADE or blanket ownership reassignment. |
 | 4 | Verify exact final package/digest and strict TLS. Run deploy-migration-package.mjs WITHOUT --execute from the reviewed checkout, using the independent private receipt archive and approved exception ID only in migration context. | Wrong host/database/port, any unexpected ledger entry, fifth mismatch, changed pair/file/evidence, invalid role/schema, failed catalog/data predicate or missing archive. |
 | 5 | Run the SAME package/digest through the runner WITH --execute. Require a verified receipt, all 160 migrations complete, all 19 new hashes exact, unchanged user-count check and successful catalog/data predicates. | Any failure or partial migration. Do not retry blindly, edit the ledger, run migrate resolve or switch SQL. |
 | 6 | Provision independent session/staff signing secrets through protected custody; preserve existing compatible encryption/JWT/provider keys. Initialize verified founder ownership with atomic audit/session invalidation under the reviewed bootstrap procedure. | Missing verified identity, inconsistent signing-key bytes/version, missing audit, or unapproved initial assignment. |
