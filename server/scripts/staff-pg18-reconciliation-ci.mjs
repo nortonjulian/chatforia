@@ -42,6 +42,44 @@ assert.equal(sql(`SELECT count(*) = 4 AND bool_and(
   rolcanlogin = (rolname = 'chatforia_dev'))
   FROM pg_roles WHERE rolname IN
   ('chatforia_dev','chatforia_staff_owner','chatforia_recovery_issuer','chatforia_recovery_executor')`).trim(), 't');
+const recoveryLoginSql = readFileSync('server/scripts/staff-recovery-operator-logins.sql', 'utf8');
+sql('GRANT chatforia_recovery_executor TO chatforia_recovery_issuer WITH SET TRUE, INHERIT FALSE, ADMIN FALSE');
+assert.throws(() => sql(recoveryLoginSql));
+sql('REVOKE chatforia_recovery_executor FROM chatforia_recovery_issuer');
+sql(recoveryLoginSql);
+assert.throws(() => sql(recoveryLoginSql));
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolcanlogin AND NOT
+  (rolinherit OR rolsuper OR rolcreatedb OR rolcreaterole OR rolreplication OR rolbypassrls))
+  FROM pg_roles WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolpassword IS NULL)
+  FROM pg_authid WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT pg_has_role('chatforia_recovery_issuer_login',
+  'chatforia_recovery_issuer', 'SET') AND
+  pg_has_role('chatforia_recovery_executor_login',
+  'chatforia_recovery_executor', 'SET') AND
+  NOT pg_has_role('chatforia_recovery_issuer_login',
+  'chatforia_recovery_executor', 'MEMBER') AND
+  NOT pg_has_role('chatforia_recovery_executor_login',
+  'chatforia_recovery_issuer', 'MEMBER') AND
+  NOT pg_has_role('chatforia_dev',
+  'chatforia_recovery_issuer', 'MEMBER') AND
+  NOT pg_has_role('chatforia_dev',
+  'chatforia_recovery_executor', 'MEMBER')`).trim(), 't');
+assert.equal(sql(`SET SESSION AUTHORIZATION chatforia_recovery_issuer_login;
+  SET ROLE chatforia_recovery_issuer;
+  SELECT session_user = 'chatforia_recovery_issuer_login' AND
+    current_user = 'chatforia_recovery_issuer'`).trim(), 't');
+assert.throws(() => sql(`SET SESSION AUTHORIZATION chatforia_recovery_issuer_login;
+  SET ROLE chatforia_recovery_executor`));
+assert.equal(sql(`SET SESSION AUTHORIZATION chatforia_recovery_executor_login;
+  SET ROLE chatforia_recovery_executor;
+  SELECT session_user = 'chatforia_recovery_executor_login' AND
+    current_user = 'chatforia_recovery_executor'`).trim(), 't');
+assert.throws(() => sql(`SET SESSION AUTHORIZATION chatforia_recovery_executor_login;
+  SET ROLE chatforia_recovery_issuer`));
+console.log('PASS: PostgreSQL 18.6 prepared recovery logins retain separate session identities and exclusive roles');
 sql('GRANT chatforia_staff_owner TO chatforia WITH SET TRUE, INHERIT FALSE, ADMIN FALSE;');
 sql(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8'));
 

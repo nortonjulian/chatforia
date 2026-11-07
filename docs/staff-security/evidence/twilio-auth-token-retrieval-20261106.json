@@ -1,0 +1,16 @@
+{
+  "observedAtUtc": "2026-11-07T02:39:42Z",
+  "scope": "Read-only verification that the existing production Twilio Auth Token is retrievable outside the API server; no token creation, rotation, production edit, provider API action, deployment or paid operation",
+  "productionSource": {
+    "host": "chatforia-api-01",
+    "path": "/var/www/chatforia-api/server/.env.production",
+    "metadata": "root-owned 0600; one TWILIO_AUTH_TOKEN and one TWILIO_ACCOUNT_SID assignment with expected formats; source predates the running PM2 API process",
+    "secretValueOrHashRecorded": false
+  },
+  "independentRetrieval": {
+    "source": "Twilio Console Account Info for the account selected by the deployed Account SID suffix; owner copied the current primary Auth Token",
+    "comparison": "A temporary owner-side helper compared the Console clipboard with a fresh read of the deployed source using constant-time exact comparison; pass/fail only was printed and the clipboard was cleared",
+    "result": "exact match passed"
+  },
+  "custodyDecision": "Twilio Console can reveal the matching existing primary token outside the API server. No additional Apple Passwords copy was created for this check; provider-account access remains a dependency. No credential value, hash or account SID was committed."
+}

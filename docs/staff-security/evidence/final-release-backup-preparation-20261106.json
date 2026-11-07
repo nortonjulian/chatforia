@@ -1,0 +1,18 @@
+{
+  "observedAtUtc": "2026-11-07T02:41:30Z",
+  "scope": "Preparation of the final staff migration release-package backup path only; no activation, new release, production preflight, migration, restore, credential disclosure or final backup claim",
+  "currentArtifactState": {
+    "reconciliationManifestStatus": "proposed-not-authorized-for-production",
+    "afterStaffMigrationCount": 160,
+    "approvedFinalActivationArtifactAvailable": false,
+    "productionAttemptReceiptsAvailable": false,
+    "conclusion": "A real final activation package and its later private receipts cannot be backed up yet"
+  },
+  "preparedDestination": {
+    "method": "New owner-only local staging directory, new AES-256 encrypted disk image, SHA-256 sidecar, private iCloud Drive web upload and separate download/read-only decryption verification",
+    "priorCandidateEvidence": "The earlier proposed-candidate encrypted image and checksum remain present in the owner-controlled iCloud Drive root; prior owner-reported web read-back, image checksum, decryption and package checks passed. These files are not the final release backup.",
+    "passphrase": "Final image passphrase custody and retrieval must be confirmed privately when that image is created; no passphrase was read or recorded for this preparation check"
+  },
+  "preparedGate": "After separate approval and review of the activation commit, create a new archive release from the exact approved main SHA; validate the package digest, commit, approved manifest and all embedded migration hashes; then create and verify a new encrypted off-host copy as documented in migration-release-packages.md. Back up each actual attempt directory separately after it exists.",
+  "status": "prepared-only; final backup incomplete"
+}

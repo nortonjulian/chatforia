@@ -1,5 +1,14 @@
 # PR #293 target remediation proposal — prepared only
 
+**Current operational status:** [production-change-plan.md](production-change-plan.md)
+supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
+the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
+historical uncertainty for review only; production exception activation remains blocked.
+A basic hosted restore readability check passed, not exhaustive integrity or measured
+RPO/RTO. The archived review package is verified locally; a final activation release
+will require a new archive. No production cutover or Stage 6 admission is authorized.
+
+
 Decision: **NO-GO for production cutover.** This plan uses the authorized
 [read-only target inventory](infrastructure-inspection.md). Nothing below has
 been executed on the Droplets or managed database. The existing seven-day PITR
@@ -57,15 +66,19 @@ This is a hard stop; the remaining numbered actions are conditional.
    staff assertion keys. Never print keys, paste them into tickets, or put DBA
    credentials on the application host. **Impact:** backup I/O and restricted
    custody work; no user-facing change until cutover. **Verify:** timestamps,
-   digests, retrieval by a second custodian and tested recovery procedure on an
-   approved isolated destination. **Rollback:** stop before mutation if retrieval
+   digests, independent off-host retrieval by the sole owner and a tested
+   recovery procedure on an approved isolated destination. **Rollback:** stop
+   before mutation if retrieval
    fails; retain existing keys/backup. A restore itself is a separately approved
    incident action, not an automatic rollback.
-2. **Human authority.** Record named release/incident owners, independent
-   recovery issuer and executor, verified founder and initial access-admin IDs,
-   canary account IDs and alert recipients. **Impact:** governance only until
-   approved bootstrap. **Verify:** no self-approval or shared recovery role;
-   current MFA and provider identity on protected accounts. **Rollback:** cancel
+2. **Human authority.** Record the sole release/incident owner, two distinct
+   restricted recovery database logins with separately stored credentials and
+   sessions, verified founder and initial access-admin IDs, canary account IDs
+   and alert recipients. The owner accepted the residual risk that one human
+   controls both steps; this is not two-person approval. **Impact:** governance
+   only until approved bootstrap. **Verify:** no same-login approval/execution,
+   shared recovery role or broad privilege; current MFA and provider identity
+   on protected accounts. **Rollback:** cancel
    proposed assignments before activation; after activation use the protected,
    audited revocation service and preserve audit/replay history.
 
@@ -167,8 +180,11 @@ This is a hard stop; the remaining numbered actions are conditional.
   usable restore destination; a real restore is unverified.
 - Cloud Firewall attachments/rules, Cloudflare SSL mode and hostname→origin
   routing, plus whether an already-paid dedicated isolated sandbox exists.
-- Independently recoverable key storage/custodians, verified founder/recovery
-  humans, canary IDs and incident/alert ownership.
+- Existing `APP_ENC_KEY` off-host custody passed exact Mac readback and
+  owner-reported iPhone retrieval/full visual match; independent JWT/OAuth
+  retrieval and the two separate sole-owner recovery credentials remain pending.
+  Canary IDs and incident/alert ownership are pending. Founder ID is privately
+  verified and owner-approved for future bootstrap only.
 
 The existing voicemail/wireless databases share production's role namespace and
 cannot be used for isolated role/migration rehearsal. No paid sandbox is assumed.

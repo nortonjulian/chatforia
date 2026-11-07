@@ -1,0 +1,32 @@
+{
+  "verifiedAtUtc": "2026-11-06T05:46:18Z",
+  "scope": "Separately approved attachment of the reviewed six-rule chatforia-web-firewall only to chatforia-web-01; no firewall rule edit, deployment, migration or service restart",
+  "controlPlaneEvidence": "The owner reported chatforia-web-firewall attached only to chatforia-web-01. The assistant had no independent DigitalOcean control-plane readback. Saved rule values and the prior zero-attachment state are recorded in web-firewall-preparation-20261105.json.",
+  "preAttachment": {
+    "operatorSsh": "Fresh key-only login without connection reuse passed; a separate tested SSH connection was held open throughout attachment and verification",
+    "publicWeb": "www and apex returned HTTPS 200 through Cloudflare over IPv4 and IPv6; /api/ returned the known 404 proxy baseline",
+    "directOrigin": "Before attachment, HTTP returned 301 and HTTPS returned 200 with direct-origin TLS verification disabled solely for this diagnostic because the origin uses a Cloudflare Origin CA certificate",
+    "services": "nginx and ssh active; effective sshd policy remained public-key-only"
+  },
+  "postAttachment": {
+    "operatorSsh": "Fresh key-only login without connection reuse returned chatforia-web-01",
+    "publicWeb": "www and apex returned HTTPS 200 through Cloudflare over IPv4 and IPv6; a unique-query www request returned HTTP/2 200 with Cloudflare dynamic-cache status; current JS and CSS assets returned 200",
+    "routing": "HTTP www redirected 301 to HTTPS; /api/ returned the same known 404 proxy baseline; the separate api.chatforia.com/health endpoint returned 200",
+    "directOrigin": "Operator-source direct TCP 80 and TCP 443 connections to the known web origin timed out, the expected rejection under Cloudflare-only HTTP/HTTPS rules",
+    "services": "nginx and ssh remained active",
+    "certificate": "The web origin uses a Cloudflare Origin CA certificate and has no local Certbot renewal lineage or timer; no API-style Certbot dry run applies to this host"
+  },
+  "githubActions": {
+    "run": "https://github.com/nortonjulian/chatforia/actions/runs/42170135396",
+    "runNumber": 624,
+    "headSha": "fa181dde1f72b1e1b6cee14ea7d899c1b014a038",
+    "event": "workflow_dispatch",
+    "branch": "docs/staff-production-change-plan-20261105",
+    "conclusion": "success",
+    "verifySshJob": "success; the stored key authenticated to the web host and ran only true over SSH after host-fingerprint validation",
+    "deployJob": "skipped; no rsync, nginx reload or deployment in this run"
+  },
+  "residualUncertainty": "An earlier independent fetcher reported unexplained www 521 responses, while owner cellular, local dual-stack and this post-attachment dynamic Cloudflare request passed. The owner explicitly accepted this bounded uncertainty with immediate detach rollback for a required-check failure; the checks in this record passed. This does not prove every Cloudflare edge is healthy.",
+  "rollback": "Not invoked. On a future ingress regression, detach only chatforia-web-firewall from chatforia-web-01 and verify fresh operator SSH and proxied web reachability.",
+  "heldSshSession": "Closed after run #624 and all required post-attachment checks were verified"
+}

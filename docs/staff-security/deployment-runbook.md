@@ -1,5 +1,16 @@
 # PR #293 deployment procedure — prepared, not executed
 
+**Current operational status:** [production-change-plan.md](production-change-plan.md)
+supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
+the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
+historical uncertainty for review only; production exception activation remains blocked.
+A basic hosted restore readability check passed, not exhaustive integrity or measured
+RPO/RTO. The archived review package is verified locally; a final activation release
+will require a new archive. No production cutover or Stage 6 admission is authorized.
+The owner-provided firewall/Cloudflare evidence, read-only SSH/certificate findings
+and proposed network fence are in [ingress-fencing-proposal.md](ingress-fencing-proposal.md).
+
+
 Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
 The owner accepted the four-migration historical uncertainty and authorized preparation
 for review; see [the acceptance record](migration-exception-review.md). PR #300 integrates
@@ -42,17 +53,17 @@ workflow limitations, not permission to change a server. Use the controlled,
 SHA-pinned procedure below under a future approval, or separately implement an
 equivalent approved deployment workflow. No live workflow was broadened here.
 
-The branch adds **18** migrations to the **141** pre-PR migrations, not only the
+The branch adds **19** migrations to the **141** pre-PR migrations, not only the
 last four. [deployment-migrations.json](deployment-migrations.json) records all
-18 ordered hashes. The original four hashes in migration-manifest.json remain
+19 ordered hashes. The original four hashes in migration-manifest.json remain
 unchanged. `npm run verify:staff-release` checks both manifests. The new populated
 upgrade rehearsal applies 141, seeds synthetic ordinary/admin users, then applies
-18 under a non-superuser executor. It verifies preservation and effective
+19 under a non-superuser executor. It verifies preservation and effective
 post-upgrade restrictions. It does not certify DigitalOcean permissions or timing.
 
 ## 1. Select and prepare the release without touching the target
 
-Record the reviewed full commit SHA, final successful PR check URL, all 18 SQL
+Record the reviewed full commit SHA, final successful PR check URL, all 19 SQL
 hashes, release/incident owners and change window. Build a separate release
 directory/artifact from that SHA using Node 22 and the committed lockfile:
 
@@ -87,13 +98,15 @@ PG18.3 populated upgrade passes. All four prerequisite roles and staff_security
 are absent; pgcrypto 1.4 is available but not installed. Managed extension
 installation/ownership capability has not been exercised.
 
-**Stop on the known baseline drift before planning a migration window.** Four
-active migration checksums differ from current repository/deployed files; see
-the exact names and provenance investigation in the inspection record. A limited
-catalog comparison has no unexplained structural differences, but cannot certify
-the applied SQL. Recover trusted applied artifacts or obtain a separately reviewed
-reconciliation plan. Never edit `_prisma_migrations`, run `migrate resolve`, rewrite
-old SQL or relax preflight merely to turn the check green.
+**The known baseline drift remains a production stop until activation is approved.**
+Four active migration checksums differ from current repository/deployed files;
+see the exact names and provenance investigation in the inspection record. The
+original applied SQL could not be recovered. A limited catalog comparison has no
+unexplained structural differences, but cannot certify historical data effects.
+The target-bound four-pair reconciliation is prepared, tested and still inactive;
+its production use requires an explicit exception activation, new reviewed
+package and separate execution approval. Never edit `_prisma_migrations`, run
+`migrate resolve` or rewrite old SQL to turn the check green.
 
 Current runtime doadmin owns public objects and has CREATEROLE/CREATEDB/REPLICATION/
 BYPASSRLS. Prepare a distinct restricted runtime identity; keep privileged DBA
@@ -110,15 +123,27 @@ password-free role/ownership/grantor metadata, with encrypted restricted custody
 digests, time point, retention, restore destination and measured RPO/RTO. Preserve
 JWT/session, staff assertion and existing MFA encryption key versions separately
 in the actual secret store. Verify independent access to that recovery material.
-Local restore/reconciliation already passed; provider restore success and
-independent key custody have not. Owner-reported PITR/latest-transaction recovery
-offers seven days into a new cluster. Same-host root-owned 0600 key copies match
-but are not independent recovery. A second database on production chatforia-db is not an
-isolated rehearsal because roles are cluster-wide. No paid fallback is authorized.
+Local restore/reconciliation and a basic hosted restore readability check passed.
+Refresh backup health for the actual window. Existing `APP_ENC_KEY` now has an
+[off-host Apple Passwords copy](evidence/app-enc-key-custody-20261106.json):
+exact Mac readback matched the production source, and the owner reported an
+iPhone full-value visual match. JWT/OAuth retrieval remains pending. This is
+same-owner Apple Passwords custody, not a separate human or provider.
+The [existing Twilio Auth Token](evidence/twilio-auth-token-retrieval-20261106.json)
+was independently retrieved from Twilio Console and exactly matched the deployed
+source; no additional copy or rotation was performed. Console-account access
+remains necessary to retrieve it again.
+Owner-reported PITR/latest-transaction recovery offers seven days into a new
+cluster. Same-host root-owned 0600 key copies match but alone are not independent
+recovery. A second database on production chatforia-db is not an isolated
+rehearsal because roles are cluster-wide. No paid fallback is authorized.
 
-Before the migration window, name separate recovery issuer/executor humans and
-their distinct login identities; neither may also be the runtime or security
-owner, and neither may hold both recovery memberships (including transitively).
+Before recovery activation, verify the owner's two distinct database login
+identities, separately stored credentials and separate sessions. Each login
+may hold only its corresponding recovery role, with no direct or transitive
+membership in the other, runtime or security-owner role. The owner accepted
+the residual single-person risk; this is credential separation, not two-person
+approval. Follow [sole-owner-recovery.md](sole-owner-recovery.md).
 Name verified founder, initial CTO/ACCESS_ADMIN and canary account IDs separately;
 global ADMIN is not a staff assignment. Check existing protected administrators
 have usable MFA and previously linked provider identities. Link providers and
@@ -140,7 +165,7 @@ verify these prerequisites without silently rewriting an unsafe existing role:
 | --- | --- |
 | `chatforia_dev` | LOGIN, NOINHERIT, NOSUPERUSER, NOCREATEDB, NOCREATEROLE, NOREPLICATION, NOBYPASSRLS; no object/schema ownership or privileged memberships |
 | `chatforia_staff_owner` | NOLOGIN plus all restrictions above; owns `staff_security`; only DBA has scoped SET authority for ownership transfer |
-| `chatforia_recovery_issuer`, `chatforia_recovery_executor` | Separate NOLOGIN restricted roles; only the corresponding independent operator receives membership |
+| `chatforia_recovery_issuer`, `chatforia_recovery_executor` | Separate NOLOGIN restricted roles; each proposed LOGIN principal may SET only its corresponding role |
 
 `server/scripts/staff-access-bootstrap-role.sql` is the reviewed owner/schema
 bootstrap, not a complete production role-provisioning script. The CI bootstrap
@@ -157,13 +182,24 @@ URL or granting ownership, `SET` membership or elevated flags.
 
 The prepared [production role script](../../server/scripts/staff-production-prerequisite-roles.sql)
 is a guarded, atomic no-password role creation template for the inspected
-`defaultdb`; it creates no grants, schema or extension. Use only after the four
-baseline checksum mismatches are independently resolved and a separate DBA
-approves its exact target/permissions. The DBA must separately give only the
-migration executor scoped SET membership in the owner role and then run the
-schema bootstrap. The static guard and disposable PostgreSQL 18.6 role
+`defaultdb`; it creates no grants, schema or extension. Use only after the
+four-pair target-bound reconciliation is separately approved for production,
+the final package is backed up and the change-window recovery gates pass.
+Exact-checksum validation remains the default; the original applied SQL is
+unavailable, so the four pairs have not been independently resolved. A privileged
+operator must approve the exact target/permissions, give only the migration
+executor scoped SET membership in the owner role, and then run the schema
+bootstrap. The static guard and disposable PostgreSQL 18.6 role
 execution passed in CI 150. This does not establish DigitalOcean managed-role
 compatibility.
+
+The separate [recovery-login template](../../server/scripts/staff-recovery-operator-logins.sql)
+is also prepared only. It creates password-free issuer/executor LOGIN principals
+with exclusive SET membership; credentials are provisioned privately only under
+separate approval after the base roles are reviewed. Its disposable PostgreSQL
+18 role-graph check does not prove DigitalOcean credential custody or grant
+compatibility. Do not use one DBA connection with `SET ROLE` for both recovery
+steps; the recovery function checks distinct `session_user` identities.
 
 If pgcrypto already exists outside `staff_security`, **stop before migrations**.
 `CREATE EXTENSION IF NOT EXISTS ... WITH SCHEMA` does not relocate it. Do not
@@ -172,33 +208,28 @@ dependency review and an isolated target-specific plan first.
 
 Load the approved DBA connection through protected process environment (no CLI
 passwords, shell tracing or dotenv dumps). Set `STAFF_EXPECTED_DATABASE` from the
-independently verified inventory. From the pinned release directory run:
-
-```sh
-node server/scripts/staff-deployment-preflight.mjs --before-migrations
-node node_modules/prisma/build/index.js migrate status --schema=server/prisma/schema.prisma
-```
-
-The first command is transactionally read-only: it verifies the role/schema/
-pgcrypto prerequisites and exact checksums of all 141 completed baseline
-migrations. It rejects wrong identity, failed/partial/extra staff history and
-unsafe ownership. `migrate status` should report exactly the reviewed 18 pending
-migrations (pending status may be nonzero); inspect the set, not just its exit
-code. No preflight success authorizes migration. Do not use the initial-release
-preflight on an already-upgraded database and interpret its rejection as drift.
+independently verified inventory. Run `deploy-migration-package.mjs` without
+`--execute` from the pinned release and independent receipt archive. The runner
+invokes the transactionally read-only role/schema/pgcrypto and ledger checks with
+the explicitly approved reconciliation ID. It rejects wrong identity,
+failed/partial/extra staff history, unsafe ownership, any fifth mismatch and
+every changed new SQL checksum. Inspect the expected 19 pending migrations and
+the archived preflight receipt. No preflight success authorizes migration. Do not
+use the initial-release preflight on an already-upgraded database and interpret
+its rejection as drift.
 
 ## 4. Apply the compatible unit, still fenced
 
-Only after every preceding gate and explicit migration approval:
+Only after every preceding gate and explicit migration approval, execute the
+exact reviewed archive with `deploy-migration-package.mjs --execute` as described
+in [migration-release-packages.md](migration-release-packages.md). Do not run a
+standalone `prisma migrate deploy` against the target: it would omit the pinned
+package, target-bound reconciliation and independent attempt receipts.
 
-```sh
-node node_modules/prisma/build/index.js migrate deploy --schema=server/prisma/schema.prisma
-node node_modules/prisma/build/index.js migrate status --schema=server/prisma/schema.prisma
-```
-
-Require all 159 migrations finished and the exact reviewed checksums; preserve
+Require all 160 migrations finished and the exact reviewed checksums, except
+the four separately approved historical ledger/file pairs; preserve
 sanitized execution records. On any failure leave traffic closed. Prisma SQL
-files are not an atomic 18-file transaction: inspect partial DDL/ledger before
+files are not an atomic 19-file transaction: inspect partial DDL/ledger before
 any repair; never automatically mark a failed migration resolved or retry a
 different SQL file under the same name.
 
@@ -215,7 +246,9 @@ signed with the existing fallback during the fenced cutover. JWT, session and
 staff keys must be different. JWT and staff keys must each be at least 32 bytes.
 
 Initialize founder ownership and the initial delegation authority only after
-independent human identity approval. In a reviewed DBA transaction acquire
+the owner's privately verified immutable User ID and an explicit bootstrap
+approval. This is sole-owner verification, not a second-person sign-off. In a
+reviewed privileged transaction acquire
 advisory lock `(73421,1)`, lock the named users in ascending ID order, verify the
 founder singleton is absent (otherwise compare/stop), insert its verified
 reference, and seed only the explicitly approved initial assignments. Use the
@@ -275,8 +308,8 @@ saved startup path so reboot cannot revive it; retain any privileged PM2/env
 copies only in root/DBA custody outside the app's effective access. Install but
 do not start the dedicated-user unit after the DBA-only migrations and key
 bootstrap. Confirm the dedicated UID cannot read old privileged sources.
-The legacy manual backend workflow now stops before fetching/resetting code or
-running migrations whenever `chatforia-api.service` is enabled or active;
+PR #300 makes the legacy manual backend workflow stop unconditionally before SSH;
+its earlier service-state guard is historical context;
 enable the new unit as part of the approved switch and do not dispatch that
 workflow for this release.
 Run the read-only runtime preflight under that UID with the same
@@ -401,7 +434,9 @@ For PASSWORD, securely prepare a bcrypt hash with cost 10–15. For MFA_REPLACE,
 prepare an AES-256-GCM secret compatible with `secretBox.js`, securely enroll the
 owner's authenticator and verify a code before approving the replacement.
 Recovery replaces MFA while keeping it enabled; it never creates a password-only
-privileged session. Losing both password and MFA requires two separate approvals.
+privileged session. Losing both password and MFA requires a fresh issuer approval
+record and a separate executor session. With one owner, these are two credentialed
+steps by one person, not independent human approvals.
 
 Use a fresh 32-byte random token transported through a secure operator channel.
 As the issuer login, insert only token SHA-256, target ID, action, SHA-256 of the

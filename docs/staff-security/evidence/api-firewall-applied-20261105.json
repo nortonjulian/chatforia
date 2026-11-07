@@ -1,0 +1,37 @@
+{
+  "completedAtUtc": "2026-11-06T03:28:29Z",
+  "scope": "Owner-approved API-only DigitalOcean cloud firewall edit on chatforia-api-01; no web firewall, migration, deployment, process restart or provider transaction",
+  "authorization": "Owner approved the API-only proposal at PR #301 commit fa02873b, including rollback on failed verification, and separately included the active API certificate-renewal dry run in the verification sequence",
+  "controlPlaneAccess": "Console edits and rule/attachment confirmations were performed and reported by the owner; the assistant had no DigitalOcean control-plane credential or independent final rule readback",
+  "preChangeOwnerTranscription": {
+    "firewall": "chatforia-api-firewall",
+    "soleAttachedDroplet": "chatforia-api-01",
+    "inbound": "Allow TCP 22, TCP 80 and TCP 443, each from All IPv4 and All IPv6; no other inbound rules",
+    "outbound": "Allow ICMP, all TCP ports and all UDP ports, each to All IPv4 and All IPv6"
+  },
+  "appliedSequenceOwnerConfirmed": [
+    "Added allow TCP 22 from the privately verified operator IPv4 /32; fresh independent key-only SSH login returned chatforia-api-01",
+    "Removed the original all-source TCP 22 allow; a fresh independent key-only SSH login again returned chatforia-api-01",
+    "Added allow TCP 80 from all 15 official Cloudflare IPv4 and 7 IPv6 CIDRs, then removed the original all-source TCP 80 allow",
+    "Added allow TCP 443 from the same 22 Cloudflare CIDRs, then removed the original all-source TCP 443 allow",
+    "Outbound rules and sole API Droplet attachment were not changed; no inbound TCP 5002 rule was added"
+  ],
+  "verification": {
+    "officialCloudflareCidrs": "The official IPv4 and IPv6 lists matched the 15 plus 7 CIDRs pinned in the approved proposal at the change window",
+    "freshOperatorSsh": "passed after broad TCP 22 removal and again after final TCP 443 removal, with connection reuse disabled and a pinned known host key; operator source /32 is retained in private owner communication only",
+    "proxiedApiHealth": "HTTP 200 over Cloudflare IPv4 and IPv6 after final edit and again after Certbot dry run",
+    "directOriginHttpAndHttps": "Both TCP 80 and TCP 443 connection attempts from the operator source to the known API origin timed out after final edit; pre-change direct HTTPS returned HTTP 200",
+    "providerCallbackRouting": "Empty non-credentialed POSTs via proxied api.chatforia.com reached deployed routes: Twilio voice 200 text/xml on invalid number, Twilio SMS 200 text/xml on invalid numbers, Stripe 400 on missing signature, Google Play RTDN 401 on missing authorization. No real provider delivery or paid action was triggered.",
+    "certificateRenewal": "The active api.chatforia.com Certbot lineage dry run passed with exit 0 under final TCP 80/443 rules, using the staging CA and no-random-sleep option. The earlier invocation was interrupted during Certbot's random delay and then rerun successfully. The expired unrelated chatforia.com lineage was not run.",
+    "postDryRunService": "nginx active; proxied API /health HTTP 200 over IPv4 and IPv6",
+    "heldSshSession": "kept open during edit and closed after all required checks passed"
+  },
+  "limitations": [
+    "Owner-confirmed final rule sequence is not an independent DigitalOcean API readback; retain the control-panel snapshot for rollback",
+    "Synthetic callback probes establish routing and selected rejection paths, not authenticated delivery from real providers",
+    "Separate pre-existing security finding: deployed b0ec6fd0 voice /api/webhooks/voice/inbound and SMS /api/webhooks/sms/twilio handlers do not validate Twilio request signatures; empty unsigned requests returned 200 TwiML. This is unaffected by the firewall edit and requires separate review before treating inbound Twilio payloads as authenticated.",
+    "Telna account-level webhook subscription setting remains unknown; no functioning deployed usage, balance or activation path consumes inbound Telna events"
+  ],
+  "rollbackUsed": false,
+  "rollback": "Restore the captured original all-source TCP 22/80/443 allows before removing the operator/Cloudflare allow rules, preserve outbound rules and API-only attachment, then verify fresh operator SSH and public API health"
+}

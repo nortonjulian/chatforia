@@ -1,0 +1,57 @@
+{
+  "scope": "Owner-provided console settings, deployed b0ec6fd0 source/configuration, and read-only Twilio/Stripe configuration metadata; no production configuration was changed and no provider event was sent",
+  "ownerVerified": {
+    "twilioVoiceRequestUrl": "https://api.chatforia.com/api/webhooks/voice/inbound",
+    "twilioVoiceConsoleStatusCallback": "blank",
+    "twilioA2pMessagingServiceInboundMethod": "POST",
+    "twilioA2pMessagingServiceInboundUrl": "https://api.chatforia.com/api/webhooks/sms/twilio",
+    "twilioA2pMessagingServiceFallback": "blank",
+    "twilioA2pMessagingServiceDeliveryStatusCallback": "blank",
+    "digitalOceanFirewallAttachment": "chatforia-api-firewall attached only to chatforia-api-01; attachment verified by owner, not by this read-only provider query",
+    "googlePlayPushEndpoint": "https://api.chatforia.com/billing/google-play/rtdn; owner-verified provider push setting",
+    "appStoreServerNotifications": "Production and Sandbox Server Notification URLs both unconfigured in App Store Connect; owner-verified. Notification setup remains separate launch-readiness work."
+  },
+  "twilioReadOnlyMetadata": {
+    "inboundVoiceApplication": "Voice request URL matches https://api.chatforia.com/api/webhooks/voice/inbound; fallback and application status callback blank",
+    "clientVoiceApplication": "Different application with an HTTPS api.chatforia.com voice URL; path not printed or checked for application behavior; fallback and status callback blank",
+    "messagingService": "Inbound URL matches https://api.chatforia.com/api/webhooks/sms/twilio; fallback and status callback blank; useInboundWebhookOnNumber=false",
+    "incomingNumberAggregate": "29 numbers inspected without printing numbers or SIDs. 27 use the verified inbound Voice Application. Of the two without it, one points to https://api.chatforia.com/webhooks/voice/inbound and one has no voice URL. 28 are in the verified Messaging Service; the remaining number has no SMS or SMS fallback URL. Off-proxy URLs stored on some numbers are overridden by their assigned Voice Application or Messaging Service.",
+    "effectiveDestinationConclusion": "No effective off-proxy inbound Twilio voice or SMS destination was found in this snapshot; future number/application/service changes require rechecking before the firewall edit. No live call or message was generated."
+  },
+  "deployedDynamicCallbacks": {
+    "smsStatus": "TWILIO_STATUS_CALLBACK_URL unset; sendSms does not add a per-message status callback",
+    "voiceStatus": "TWILIO_VOICE_STATUS_CALLBACK_URL unset; voiceBridge does not add the optional call-status callback",
+    "voiceFlow": "voiceBridge creates an absolute HTTPS api.chatforia.com leg-A URL; live-caption callback uses the same origin; TwiML supplies relative action/progress/recording paths under /webhooks/voice",
+    "newNumberProvisioning": "Code constructs /api/webhooks/sms/twilio and /api/webhooks/voice/inbound from the configured HTTPS api.chatforia.com/api base, but selects the configured inbound Voice Application when available",
+    "regulatoryStatus": "Code constructs HTTPS api.chatforia.com/api/webhooks/twilio/regulatory-status, while the deployed handler is mounted only at /webhooks/twilio/regulatory-status and API nginx passes the prefix unchanged. Host is compatible with Cloudflare-only ingress, but route correctness remains an existing separate issue. Cloudflare path rewrites were not inspected."
+  },
+  "otherReadOnlyMetadata": {
+    "stripe": "Live Stripe API lists one enabled webhook endpoint at https://api.chatforia.com/billing/webhook; no other enabled endpoint was returned",
+    "googleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/google/callback; prior live company Google sign-in evidence was reused",
+    "appleOAuth": "Production callback configuration matches HTTPS api.chatforia.com/auth/apple/callback; provider-console registration was not read",
+    "googlePlayRtdn": "Owner verified provider push endpoint https://api.chatforia.com/billing/google-play/rtdn; configured OIDC audience matches that deployed route and service-account identity is configured",
+    "esim": "FEATURE_ESIM=true, provider class telna, production API key configured, TELNA_WEBHOOK_SECRET unset. Deployed code does not supply a Telna callback URL; provider-side webhook subscription state remains unknown. No functioning deployed eSIM usage, balance or activation feature consumes an inbound Telna event.",
+    "porting": "The configured Twilio account is the parent account and a read-only account list found zero subaccounts. Read-only GET of Twilio's documented Porting Webhook configuration returned HTTP 404 with Twilio 20404 (resource not found), so no port-in or port-out target URL is configured through that resource. Deployed code only stores a local port request and exposes /webhooks/twilio/porting; it neither creates a Twilio port order nor registers a callback. This does not certify a working future porting flow."
+  },
+  "remainingExternalDestinationChecks": [],
+  "unknownAccountSettingsAndResidualRisk": [
+    "Telna account outbound event-webhook subscription state, destination and event types are unknown. The deployed usage/balance/activation flows do not depend on incoming Telna events, so Telna support confirmation is not a prerequisite to approve the API inbound firewall edit.",
+    "If an undiscovered Telna event subscription targets the raw API IP or an unproxied hostname, the proposed Cloudflare-only inbound rule would stop that delivery. Existing deployed webhook-shaped handlers do not process Telna usage updates; separately investigate any unexpected operational dependence and use the captured firewall rollback if it proves material."
+  ],
+  "launchReadinessItems": [
+    "Configure and verify App Store Server Notification URLs for Production and Sandbox before enabling that Apple billing notification flow; both are currently unconfigured",
+    "Implement and validate Twilio porting submission, callback registration/handling and provider payload compatibility before relying on porting events; current Porting Webhook resource is absent"
+  ],
+  "telnaUsageTrace": {
+    "deployedRevision": "b0ec6fd0fa5858633aad51ad5ef1a9e6b0346b70",
+    "clientRefresh": "WirelessDashboard fetches GET /api/wireless/status when mounted or when currentUser changes; it has no interval timer. EsimActivatePage checks activation once for a loaded PROVISIONING subscriber and also offers a manual check; it does not continuously poll Telna.",
+    "serverRefresh": "Authenticated GET /api/wireless/status reads up to 10 recent unexpired packs with positive local balance and, for each real providerPurchaseId, calls fetchEsimUsage. A missing or mock package ID keeps cached balance. Provider failures also keep cached balance. A replacement request makes an additional authoritative usage read before transferring entitlement.",
+    "telnaUsageRequest": "Outbound Bearer-authenticated GET /v2.1/pcr/packages/{package_id} to configured TELNA_API_BASE. Package ID comes from providerPurchaseId, not ICCID/profile ID. data_usage_remaining bytes become remaining MB; expiry and ACTIVE/NOT_ACTIVE package status are returned. Telna does not provide total/used MB in this adapter.",
+    "balanceSafety": "The status path persists a refreshed remaining balance only as a decrease, retains local plan total, and translates replacement-package capacity against the customer's transferred entitlement. It selects a provider ACTIVE pack and separately shows NOT_ACTIVE queued top-ups. The client displays the returned local/verified balance.",
+    "activationRequest": "For transitional eSIM activation, the API makes an outbound GET /v2.1/esim-rsp/euicc-profiles/{iccid}; ENABLED is required before marking active. This is separate from data-usage balance.",
+    "timersAndWebhooks": "No server timer, cron, provider callback registration, or Telna webhook subscription call appears in deployed usage call sites. /esim/webhooks/oneglobal only logs and returns 200 without changing usage or subscriber state. /api/wireless/webhooks/:provider is behind requireAuth and its provider normalizer is a stub; it is not an operational external Telna usage webhook. TELNA_WEBHOOK_SECRET is not configured.",
+    "reusedValidation": "Merged PR #145 reports a real Local 3 GB purchase, installed Telna eSIM with cellular data, usage accounting verified against Chatforia, repeat purchase on the same ICCID, and active/queued package behavior. Existing telnaEsim and wireless tests assert package-ID GET, byte-to-MB conversion, ACTIVE selection and non-increasing customer entitlement; they were inspected, not rerun.",
+    "firewallConclusion": "Usage/balance refresh depends on API outbound HTTPS to Telna, not inbound Telna traffic. API inbound Cloudflare-only rules do not block this pull flow if existing outbound access is retained. No functioning feature in the deployed trace requires a Telna-initiated event. Subscription state remains unknown and is a documented residual risk, not a blanket Telna-support prerequisite for API firewall approval."
+  },
+  "firewallChanges": "none"
+}

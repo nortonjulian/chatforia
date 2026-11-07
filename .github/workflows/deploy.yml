@@ -2,9 +2,50 @@ name: Deploy Chatforia Frontend
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Verify SSH only, or explicitly deploy
+        type: choice
+        required: true
+        default: verify_ssh
+        options:
+          - verify_ssh
+          - deploy
 
 jobs:
+  verify_ssh:
+    if: ${{ inputs.mode == 'verify_ssh' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test stored web SSH key without deploying
+        shell: bash
+        env:
+          DO_HOST: ${{ secrets.DO_HOST }}
+          DO_USER: ${{ secrets.DO_USER }}
+          DO_SSH_KEY: ${{ secrets.DO_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$DO_HOST" && test -n "$DO_USER" && test -n "$DO_SSH_KEY"
+          umask 077
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$DO_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 0600 "$HOME/.ssh/id_ed25519"
+          ssh-keyscan -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts"
+          test "$(wc -l < "$HOME/.ssh/known_hosts")" -eq 1
+          fingerprint="$(ssh-keygen -lf "$HOME/.ssh/known_hosts" -E sha256 | awk '{print $2}')"
+          test "$fingerprint" = 'SHA256:1x93qv1E+XlLIKRiGgV1F3sNR0w60bv7oP5nuUxaElM'
+          ssh -i "$HOME/.ssh/id_ed25519" \
+            -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o PreferredAuthentications=publickey \
+            -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no \
+            -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            -o ControlMaster=no -o ControlPath=none -o ControlPersist=no \
+            -o ConnectTimeout=10 "$DO_USER@$DO_HOST" true
+
   deploy:
+    if: ${{ inputs.mode == 'deploy' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
 
     steps:

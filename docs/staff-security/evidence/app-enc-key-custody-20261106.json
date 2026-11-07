@@ -1,0 +1,23 @@
+{
+  "observedAtUtc": "2026-11-07T02:19:57Z",
+  "scope": "Owner-authorized backup and verification of the existing production APP_ENC_KEY only; no key generation, rotation, production file edit, service restart, migration or cutover",
+  "productionSource": {
+    "host": "chatforia-api-01",
+    "path": "/var/www/chatforia-api/server/.env.production",
+    "metadata": "root-owned 0600; exactly one APP_ENC_KEY assignment decoding to 32 bytes",
+    "runtimeConsistency": "The source file predates the running PM2 chatforia-api process; the inspected start script loads this file with dotenv override. The in-process value was not dumped.",
+    "secretValueOrHashRecorded": false
+  },
+  "transferAndMacReadback": {
+    "method": "Existing SSH key and strict known-host verification; a temporary owner-side helper captured the validated source in memory and sent it to the Mac clipboard without printing it or writing a plaintext key file",
+    "destination": "Apple Passwords item named Chatforia production APP_ENC_KEY",
+    "verification": "The transfer clipboard was cleared. The owner copied the saved Apple Passwords entry; a constant-time exact comparison with a fresh production-source read passed. The helper cleared the clipboard after comparison.",
+    "result": "passed"
+  },
+  "iphoneRetrieval": {
+    "ownerReported": "The newly saved entry was present in Passwords on the owner's iPhone; the owner revealed it and reported that its full value matched the Mac entry exactly",
+    "universalClipboard": "An attempted automated iPhone-to-Mac comparison was inconclusive: one Mac clipboard comparison failed, and the repeat found non-key content. These attempts do not establish an iPhone value mismatch; the Mac clipboard was cleared.",
+    "result": "owner-reported second-device retrieval and full visual match; no machine byte comparison of the iPhone copy"
+  },
+  "assessment": "The Apple Passwords copy of the existing production key matched the current production source exactly on Mac, and owner-reported iPhone retrieval and full visual comparison passed. This is off-host custody under sole-owner Apple Passwords control, not a second human or separate provider. Independent JWT/OAuth material retrieval and final activation-package backup remain pending."
+}

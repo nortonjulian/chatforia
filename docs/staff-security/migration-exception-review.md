@@ -69,8 +69,12 @@ invokes the existing catalog/data checks when an approved exception is requested
 Strict matching remains the default and the production status gate remains closed.
 Tests exercise the proposed exception only in isolated fixtures/CI.
 
-Before production: review this change and CI, obtain an explicit merge decision,
-then separately approve exception activation and the production change window.
+The [exact activation proposal](reconciliation-activation-proposal.md) contains
+the unapplied four-file patch, proposed new digest, retained checks and the
+remaining per-migration historical uncertainty. Production-risk acceptance
+would authorize review of that change only; it does not itself activate it.
+Before production: separately approve activation, review its CI, obtain an
+explicit merge decision, then approve the production change window.
 Refresh backup/recovery readiness for that window, provision independent private
 receipt storage and restricted roles/secrets, and follow the deployment runbook.
 The owner is the identified rollout operator and stop authority. This record alone

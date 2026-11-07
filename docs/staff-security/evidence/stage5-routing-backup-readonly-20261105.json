@@ -1,0 +1,72 @@
+{
+  "observedAtUtc": "2026-11-05T02:58:53Z",
+  "scope": "Owner-provided network evidence plus read-only host configuration and local backup inventory; no production change or secret/customer value collected",
+  "ownerProvidedNetwork": {
+    "apiFirewall": "chatforia-api-firewall attached to chatforia-api-01",
+    "apiInbound": "TCP 22, 80, 443 from all IPv4 and IPv6; no TCP 5002 rule shown",
+    "apiOutbound": "TCP, UDP and ICMP broadly allowed",
+    "webFirewall": "No DigitalOcean firewall attached to chatforia-web-01",
+    "cloudflareProxiedNames": ["api.chatforia.com", "chatforia.com", "www.chatforia.com"],
+    "cloudflareSslTlsMode": "Full (strict)"
+  },
+  "webNginx": {
+    "configurationParses": true,
+    "configurationSha256": "79836d15f75314720dd15a6f1edbe240eb671e4e6f18a10ae0181bfcd67f61e3",
+    "serverNames": ["chatforia.com", "www.chatforia.com"],
+    "activeDocumentRoot": "/var/www/chatforia",
+    "activeIndexLoadsEnvJs": true,
+    "deployedRuntimeApiOrigin": "https://api.chatforia.com",
+    "apiLocation": "/api/",
+    "apiOrigin": "https://api.chatforia.com",
+    "upstreamCertificateVerification": "on",
+    "upstreamSni": "on",
+    "upstreamTlsName": "api.chatforia.com",
+    "trustedCaConfigured": true
+  },
+  "webHostFollowup": {
+    "hostUfw": "inactive (owner-provided)",
+    "effectiveSshd": {
+      "pubkeyAuthentication": "yes",
+      "passwordAuthentication": "yes",
+      "permitRootLogin": "yes",
+      "keyboardInteractiveAuthentication": "no"
+    },
+    "activeNginxCertificateExpiryUtc": "2041-04-08T18:49:00Z",
+    "certbotRenewalEntries": 0
+  },
+  "apiNginxAndHost": {
+    "configurationParses": true,
+    "configurationSha256": "3ae75467bc6cbc2238feaa91c972c352d0cb2e2f24297b3ff4c7b9d0620f1fbf",
+    "publicOrigin": "api.chatforia.com",
+    "applicationUpstream": "http://127.0.0.1:5002",
+    "applicationListen": "*:5002",
+    "hostUfw": "inactive",
+    "effectiveSshd": {
+      "pubkeyAuthentication": "yes",
+      "passwordAuthentication": "yes",
+      "permitRootLogin": "yes",
+      "keyboardInteractiveAuthentication": "no"
+    },
+    "activeLetsEncryptCertificateExpiryUtc": "2027-01-25T13:38:12Z",
+    "certbotAuthenticator": "nginx",
+    "certbotTimer": "enabled and active",
+    "expiredUnusedRenewalLineage": "chatforia.com expired 2026-04-01; not referenced by active nginx certificate directives"
+  },
+  "proxyProbe": {
+    "source": "owner-reported separately authorized change",
+    "status": 404,
+    "interpretation": "The requested path reached an HTTP response through the verified proxy; this is not an authenticated application smoke test"
+  },
+  "localArchive": {
+    "directory": "~/Desktop/Chatforia-Deployment-Records",
+    "presentFiles": ["migration-package.json", "migration-package.sha256"],
+    "timeMachineInclusion": "Included at current directory",
+    "timeMachineDestination": "Macintosh HD (Local)",
+    "timeMachineListBackups": "No machine directory found for host",
+    "physicalExternalBackupDiskAttached": false,
+    "independentCompletedBackupVerified": false
+  },
+  "notObservableFromThisAccess": [
+    "Independent recovery-key retrieval and change-window backup health"
+  ]
+}
