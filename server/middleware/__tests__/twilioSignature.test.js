@@ -3,6 +3,7 @@ import express from 'express';
 import request from 'supertest';
 import twilio from 'twilio';
 
+import { httpsRedirect } from '../httpsRedirect.js';
 import { installTwilioCallbackGuards } from '../twilioSignature.js';
 
 const originalEnv = process.env;
@@ -22,7 +23,6 @@ const paths = [
 function testApp(effect) {
   const app = express();
   app.set('trust proxy', 1);
-  app.use(express.urlencoded({ extended: true }));
   installTwilioCallbackGuards(app);
   for (const path of paths) {
     app.post(path.split('?')[0], (req, res) => {
@@ -87,6 +87,58 @@ describe('Twilio callback signature gate', () => {
     await request(app).post(path).set('X-Twilio-Signature', signature)
       .type('form').send({ Body: 'changed' }).expect(403);
     expect(effect).not.toHaveBeenCalled();
+  });
+
+  test('uses the original callback path when the configured base contains /api', async () => {
+    process.env.TWILIO_WEBHOOK_BASE_URL = `${origin}/api`;
+    process.env.TWILIO_VOICE_WEBHOOK_URL = `${origin}/api/webhooks/voice/inbound`;
+    const effect = jest.fn();
+    const path = '/api/webhooks/sms/twilio';
+    await signedPost(testApp(effect), path, { MessageSid: 'SM-base-path' }).expect(200);
+    expect(effect).toHaveBeenCalledTimes(1);
+  });
+
+  test('accepts repeated form parameter names as the Twilio SDK does', async () => {
+    const effect = jest.fn();
+    const path = '/api/webhooks/sms/twilio';
+    const body = { Tag: ['one', 'two'] };
+    const signature = twilio.getExpectedTwilioSignature(token, origin + path, body);
+    await request(testApp(effect)).post(path)
+      .set('X-Twilio-Signature', signature)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .send('Tag=one&Tag=two').expect(200);
+    expect(effect).toHaveBeenCalledWith(body);
+  });
+
+  test('rejects a bad signature before a production HTTPS redirect', async () => {
+    const effect = jest.fn();
+    const previousNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    const redirect = httpsRedirect();
+    process.env.NODE_ENV = previousNodeEnv;
+    const app = express();
+    installTwilioCallbackGuards(app);
+    app.use(redirect);
+    app.post('/api/webhooks/voice/inbound', (_req, res) => {
+      effect();
+      res.sendStatus(200);
+    });
+
+    await request(app).post('/api/webhooks/voice/inbound')
+      .set('Host', 'attacker.example.test')
+      .set('X-Forwarded-Proto', 'http')
+      .type('form').send({ CallSid: 'CA-synthetic' }).expect(403);
+    expect(effect).not.toHaveBeenCalled();
+
+    const body = { CallSid: 'CA-synthetic' };
+    const signature = twilio.getExpectedTwilioSignature(
+      token, `${origin}/api/webhooks/voice/inbound`, body
+    );
+    await request(app).post('/api/webhooks/voice/inbound')
+      .set('X-Forwarded-Proto', 'https')
+      .set('X-Twilio-Signature', signature)
+      .type('form').send(body).expect(200);
+    expect(effect).toHaveBeenCalledTimes(1);
   });
 
   test('fails closed when the token or public origin is absent', async () => {

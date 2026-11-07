@@ -53,7 +53,6 @@ describe('signed Twilio SMS handler', () => {
       process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
       process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
       const securedApp = express();
-      securedApp.use(express.urlencoded({ extended: true }));
       installTwilioCallbackGuards(securedApp);
       securedApp.use('/webhooks/sms', smsWebhooksRouter);
       securedApp.use('/api/webhooks/sms', smsWebhooksRouter);
@@ -85,7 +84,6 @@ describe('signed Twilio SMS handler', () => {
     process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
     process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
     const securedApp = express();
-    securedApp.use(express.urlencoded({ extended: true }));
     installTwilioCallbackGuards(securedApp);
     securedApp.use('/webhooks/sms', smsWebhooksRouter);
     prismaMock.smsOptOut.findFirst.mockResolvedValueOnce(null)
@@ -115,7 +113,6 @@ describe('signed Twilio SMS handler', () => {
     process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
     process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
     const securedApp = express();
-    securedApp.use(express.urlencoded({ extended: true }));
     installTwilioCallbackGuards(securedApp);
     securedApp.use('/api/webhooks/sms', smsWebhooksRouter);
     recordInboundSmsMock.mockResolvedValueOnce({ ok: false });

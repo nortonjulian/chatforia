@@ -1,3 +1,4 @@
+import express from 'express';
 import twilio from 'twilio';
 
 function publicOrigin(kind) {
@@ -39,7 +40,10 @@ function requireTwilioSignature(kind) {
       !body ||
       typeof body !== 'object' ||
       Array.isArray(body) ||
-      Object.values(body).some((value) => typeof value !== 'string')
+      Object.values(body).some((value) =>
+        typeof value !== 'string' &&
+        !(Array.isArray(value) && value.every((item) => typeof item === 'string'))
+      )
     ) return res.sendStatus(403);
 
     // Use the configured public origin and the original path/query. Forwarded
@@ -60,12 +64,15 @@ function requireTwilioSignature(kind) {
 }
 
 export function installTwilioCallbackGuards(app) {
+  const parseForm = express.urlencoded({ extended: false, limit: '512kb' });
   app.use(
     ['/webhooks/voice', '/api/webhooks/voice'],
+    parseForm,
     requireTwilioSignature('voice')
   );
   app.use(
     ['/webhooks/sms/twilio', '/api/webhooks/sms/twilio', '/webhooks/status'],
+    parseForm,
     requireTwilioSignature('sms')
   );
 }

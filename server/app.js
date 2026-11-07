@@ -184,6 +184,8 @@ export function createApp() {
   console.log('[boot] createApp reached', { cwd: process.cwd() });
 
   /* Early security */
+  // Validate Twilio callbacks before the HTTPS redirect can use request headers.
+  installTwilioCallbackGuards(app);
   app.use(httpsRedirect());
 
   const allowedOrigins = appAllowedOrigins({ isProd });
@@ -233,10 +235,6 @@ export function createApp() {
   app.use(requestId());
   app.use(express.json({ limit: '1mb' }));
   app.use(express.urlencoded({ extended: true, limit: '512kb' }));
-
-  // Authenticate provider callbacks before any voice/SMS router can write state,
-  // send notifications, or return TwiML. Both public path aliases are covered.
-  installTwilioCallbackGuards(app);
 
   // 🌍 Make region available to all downstream routes (uses Accept-Language)
   app.use(inferRegion);

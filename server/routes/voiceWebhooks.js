@@ -153,7 +153,14 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
     let createdCall = false;
 
     try {
-      const select = { id: true, createdAt: true, twilioCallSid: true };
+      const select = {
+        id: true,
+        createdAt: true,
+        twilioCallSid: true,
+        callerId: true,
+        externalPhone: true,
+        toLabel: true,
+      };
       if (callSid) {
         callRecord = await prisma.call.findUnique({
           where: { twilioCallSid: callSid },
@@ -187,6 +194,16 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       }
     } catch (err) {
       console.error('[Twilio Voice inbound] failed to create Call row', err);
+    }
+
+    if (
+      callRecord && !createdCall &&
+      (callRecord.callerId !== user.id ||
+        callRecord.externalPhone !== fromNumber ||
+        callRecord.toLabel !== toNumber)
+    ) {
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
     }
 
     if (createdCall && callRecord?.id) {
