@@ -1652,6 +1652,7 @@ model PhoneVerificationRequest {
 
 model SmsCarrierEvent {
   id        Int      @id @default(autoincrement())
+  providerMessageId String? @unique @db.VarChar(128)
   from      String
   to        String
   body      String   @db.Text
