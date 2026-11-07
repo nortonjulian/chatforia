@@ -149,6 +149,11 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
 
     const user = phoneNumber.assignedUser;
 
+    if (typeof callSid !== 'string' || !callSid.trim()) {
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
     let callRecord = null;
     let createdCall = false;
 
@@ -161,12 +166,10 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
         externalPhone: true,
         toLabel: true,
       };
-      if (callSid) {
-        callRecord = await prisma.call.findUnique({
-          where: { twilioCallSid: callSid },
-          select,
-        });
-      }
+      callRecord = await prisma.call.findUnique({
+        where: { twilioCallSid: callSid },
+        select,
+      });
       if (!callRecord) {
         try {
           callRecord = await prisma.call.create({
@@ -176,7 +179,7 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
               mode: 'AUDIO',
               status: 'RINGING',
               externalPhone: fromNumber,
-              twilioCallSid: callSid || null,
+              twilioCallSid: callSid,
               fromLabel: fromNumber || null,
               toLabel: toNumber || null,
             },
@@ -185,7 +188,7 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
           createdCall = true;
         } catch (err) {
           // Concurrent retries race on Call.twilioCallSid's unique constraint.
-          if (err?.code !== 'P2002' || !callSid) throw err;
+          if (err?.code !== 'P2002') throw err;
           callRecord = await prisma.call.findUnique({
             where: { twilioCallSid: callSid },
             select,

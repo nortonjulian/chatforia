@@ -495,6 +495,24 @@ describe('POST /webhooks/voice/inbound', () => {
     });
   });
 
+  it('does not create an unidentifiable inbound call without CallSid', async () => {
+    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
+      id: 500,
+      e164: '+15550009999',
+      assignedUserId: 65,
+      assignedUser: { id: 65 },
+    });
+    const response = await request(createApp()).post('/webhooks/voice/inbound')
+      .type('form').send({
+        To: '+15550009999',
+        From: '+15550001111',
+      });
+    expect(response.statusCode).toBe(200);
+    expect(JSON.parse(response.text)).toEqual([{ type: 'hangup' }]);
+    expect(prisma.call.create).not.toHaveBeenCalled();
+    expect(emitToUser).not.toHaveBeenCalled();
+  });
+
   it('fans out inbound PSTN calls to registered Voice destinations instead of the legacy user identity', async () => {
     prisma.phoneNumber.findUnique.mockResolvedValueOnce({
       id: 500,
