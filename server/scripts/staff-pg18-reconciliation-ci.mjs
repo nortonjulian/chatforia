@@ -99,26 +99,27 @@ ROLLBACK;`;
   await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--before-migrations', historicalMigrations), /Migration history differs/);
   console.log('PASS: strict preflight rejects all four recorded target checksum mismatches');
 
-  const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
-  const fullPackage = buildPackage('HEAD');
-  const laterMigrations = fullPackage.files.filter((file) => {
-    const match = file.path.match(/^server\/prisma\/migrations\/([^/]+)\/migration\.sql$/);
-    return match && match[1] > staffReleaseLastMigration;
-  });
-  const baselineLedger = await ledger(db);
-  if (laterMigrations.length) {
-    assert.throws(
-      () => checkReconciledHistory(fullPackage, baselineLedger, manifest.target),
-      /Reconciliation release migration set changed/
-    );
+  // Retain three inert historical attempts on the disposable service, as
+  // observed on the target. The original v1 checker still rejects such rows.
+  for (let index = 0; index < 3; index++) {
+    const id = `00000000-0000-0000-0000-${String(index + 101).padStart(12, '0')}`;
+    await db.$executeRaw`INSERT INTO public._prisma_migrations
+      (id, checksum, migration_name, started_at, rolled_back_at, applied_steps_count)
+      VALUES (${id}, ${'e'.repeat(64)}, ${names[index]}, now(), now(), 0)`;
   }
-  // Historical CI rehearsal only: keep the original pinned staff migration
-  // set. The full proposed package above must stay rejected for deployment.
-  const releasePackage = {
-    ...fullPackage,
-    files: fullPackage.files.filter((file) => !laterMigrations.includes(file)),
-  };
-  assert.equal(checkReconciledHistory(releasePackage, baselineLedger, manifest.target).length, 19);
+
+  const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
+  const consentManifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v2.json'));
+  const fullPackage = buildPackage('HEAD');
+  const releasePackage = buildPackage('6a5f06d58c4414b7a0f584eeaede3118d3e9066b');
+  const baselineLedger = await ledger(db);
+  const historicalRollbacks = baselineLedger.filter((row) => row.rolled_back_at);
+  assert.equal(historicalRollbacks.length, 3);
+  assert.equal(checkReconciledHistory(releasePackage,
+    baselineLedger.filter((row) => !row.rolled_back_at), manifest.target).length, 19);
+  assert.throws(() => checkReconciledHistory(releasePackage,
+    baselineLedger, manifest.target), /ledger shape changed/);
+  assert.equal(checkReconciledHistory(fullPackage, baselineLedger, consentManifest.target).length, 20);
   const reconciledEnv = {
     STAFF_EXPECTED_DATABASE: database,
     STAFF_MIGRATION_RECONCILIATION_ID: manifest.id,
@@ -126,9 +127,16 @@ ROLLBACK;`;
     // disposable localhost service; the production CLI uses one actual URL.
     DATABASE_URL: `postgresql://chatforia@${manifest.target.hostname}:${manifest.target.port}/${database}`,
   };
-  const isolated = { allowProposedForIsolatedTest: true, migrationRoot: join(prismaDir, 'migrations') };
-  await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations'), /not approved for production/);
+  const isolated = { allowProposedForIsolatedTest: true, manifestVersion: 'v1',
+    migrationRoot: join(prismaDir, 'migrations') };
+  await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations',
+    { ...isolated, allowProposedForIsolatedTest: false }), /not approved for production/);
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
+  const consentEnv = { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: consentManifest.id };
+  const isolatedConsent = { allowProposedForIsolatedTest: true, manifestVersion: 'v2',
+    migrationRoot: 'server/prisma/migrations' };
+  assert.equal((await runPreflight(db, consentEnv, '--before-migrations', isolatedConsent)).reconciliationId,
+    consentManifest.id);
   console.log('PASS: proposed exception is CI-only and accepts exactly the four documented target pairs');
 
   await assert.rejects(runPreflight(db, { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: 'wrong' }, '--before-migrations', isolated), /Unknown reconciliation ID/);
@@ -187,10 +195,13 @@ ROLLBACK;`;
     stdio: ['ignore', 'pipe', 'pipe'],
     maxBuffer: 8 * 1024 * 1024,
   });
-  await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations'), /not approved for production/);
+  await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations',
+    { ...isolated, allowProposedForIsolatedTest: false }), /not approved for production/);
   await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--after-migrations'), /Migration history differs/);
   assert.equal((await runPreflight(db, reconciledEnv, '--after-migrations', isolated)).reconciliationId, manifest.id);
-  assert.deepEqual(checkReconciledHistory(releasePackage, await ledger(db), manifest.target, true), []);
+  assert.deepEqual(checkReconciledHistory(releasePackage,
+    (await ledger(db)).filter((row) => !row.rolled_back_at), manifest.target, true), []);
+  assert.deepEqual((await ledger(db)).filter((row) => row.rolled_back_at), historicalRollbacks);
   console.log('PASS: archived package verifies real PostgreSQL ledger before and after the four-pair exception');
   const staffName = readdirSync('server/prisma/migrations').find((name) => name.startsWith('20261102'));
   const staffChecksum = sha(readFileSync(`server/prisma/migrations/${staffName}/migration.sql`));
@@ -198,6 +209,29 @@ ROLLBACK;`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${staffChecksum} WHERE migration_name=${staffName}`;
   console.log('PASS: all new migrations apply on isolated PostgreSQL 18 and exact new checksums remain mandatory');
+
+  const consentName = '20261106010000_twilio_compliance_event_sid';
+  const consentDirectory = join(prismaDir, 'migrations', consentName);
+  mkdirSync(consentDirectory, { mode: 0o700 });
+  copyFileSync(`server/prisma/migrations/${consentName}/migration.sql`,
+    join(consentDirectory, 'migration.sql'));
+  execFileSync(process.execPath, [resolve('node_modules/prisma/build/index.js'), 'migrate', 'deploy',
+    '--schema', join(prismaDir, 'schema.prisma')], {
+    cwd: prismaDir,
+    env: { PATH: process.env.PATH, LC_ALL: 'C', DATABASE_URL: url,
+      PRISMA_HIDE_UPDATE_MESSAGE: 'true', CHECKPOINT_DISABLE: '1' },
+    stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 8 * 1024 * 1024,
+  });
+  assert.equal((await runPreflight(db, consentEnv, '--after-migrations',
+    { ...isolatedConsent, migrationRoot: join(prismaDir, 'migrations') })).reconciliationId,
+    consentManifest.id);
+  assert.deepEqual(checkReconciledHistory(fullPackage, await ledger(db), consentManifest.target, true), []);
+  assert.deepEqual((await ledger(db)).filter((row) => row.rolled_back_at), historicalRollbacks);
+  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'f'.repeat(64)} WHERE migration_name=${consentName}`;
+  await assert.rejects(runPreflight(db, consentEnv, '--after-migrations',
+    { ...isolatedConsent, migrationRoot: join(prismaDir, 'migrations') }), /Migration history/);
+  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${sha(readFileSync(`server/prisma/migrations/${consentName}/migration.sql`))} WHERE migration_name=${consentName}`;
+  console.log('PASS: exact consent migration and 161-file ledger pass on disposable PostgreSQL 18');
 
   // The live cleanup timers share the API's DATABASE_URL. Verify their token
   // cleanup shape under the restricted role without running provider jobs.

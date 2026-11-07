@@ -4,6 +4,24 @@ PR #300 protects existing SQL at review time and provides a separate, explicit
 deployment entry point. Require the `Append-only Prisma migrations` check on
 main, restrict direct pushes, and protect workflow changes through review.
 
+## Exact package generations
+
+The retained 160-migration review package uses the unchanged v1 reconciliation
+manifest and its original four historical checksum pairs. Keep its archived
+bytes, checksum and recovery copy unchanged. A new release containing
+`20261106010000_twilio_compliance_event_sid` uses the separate v2 manifest:
+141 baseline + 19 staff + one consent migration, with the first 160 names and
+SQL hashes pinned as a set and the consent SQL pinned to SHA-256
+`3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a`.
+The package builder selects one manifest by the committed migration set; the
+runner checks the same version in the archive, reviewed checkout and preflight.
+The v2 manifest remains `proposed-not-authorized-for-production`. Its separate
+approval and digest-pin review, exact-main package creation, independent
+checksum verification and private backup/readback are still required before a
+production window. Do not repurpose the old package or checksum. The local
+Twilio release handoff is `docs/twilio-callback-release-handoff-20261106.md`
+at commit `f49ed63a` until that documentation is separately published.
+
 ## Archive before deployment
 
 After merge and review, manually run **Archive migration release** with the full

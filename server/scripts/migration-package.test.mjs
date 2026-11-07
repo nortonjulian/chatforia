@@ -5,7 +5,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 
-import { buildPackage, checkHistory, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
+import { buildPackage, checkHistory, checkReconciledHistory, checksForPending, digest,
+  readPackage, reconciliationPackageSpec, verifyPackage } from './migration-package.mjs';
 import { aggregateChecks, assertChecks } from './deploy-migration-package.mjs';
 
 test('package uses committed bytes and rejects tampering, duplicates and traversal', () => {
@@ -135,4 +136,82 @@ test('pinned reconciliation accepts only the exact four pairs and target, before
     bad.files[index] = file(path, 'changed'); // even with a recomputed per-file digest
     assert.throws(() => checkReconciledHistory(bad, rows, manifest.target));
   }
+});
+
+test('archived v1 release remains exact; v2 accepts only the 161-file consent release', () => {
+  const migration = /^server\/prisma\/migrations\/([^/]+)\/migration\.sql$/;
+  const entries = (bundle) => bundle.files.flatMap((file) => {
+    const match = file.path.match(migration);
+    return match ? [{ name: match[1], file }] : [];
+  });
+  const row = ({ name, file }, manifest) => ({
+    migration_name: name,
+    checksum: manifest.exceptions[name]?.recordedChecksum || file.sha256,
+    finished_at: 'now', rolled_back_at: null,
+  });
+  const legacy = buildPackage('6a5f06d58c4414b7a0f584eeaede3118d3e9066b');
+  const legacySpec = reconciliationPackageSpec(verifyPackage(legacy));
+  assert.equal(legacySpec.version, 'v1');
+  assert.equal(legacy.files.length, 168);
+  assert.equal(entries(legacy).length, 160);
+  const legacyBefore = entries(legacy).filter(({ name }) => name < '20261102')
+    .map((entry) => row(entry, legacySpec.manifest));
+  const legacyAfter = entries(legacy).map((entry) => row(entry, legacySpec.manifest));
+  assert.equal(checkReconciledHistory(legacy, legacyBefore, legacySpec.manifest.target).length, 19);
+  assert.deepEqual(checkReconciledHistory(legacy, legacyAfter, legacySpec.manifest.target, true), []);
+  assert.throws(() => checkHistory(legacy, legacyBefore), /mismatch/);
+  assert.throws(() => checkReconciledHistory(legacy, [...legacyBefore,
+    { migration_name: 'old_failed', checksum: '0'.repeat(64), finished_at: null,
+      rolled_back_at: 'now' }], legacySpec.manifest.target));
+
+  const current = buildPackage('HEAD');
+  const spec = reconciliationPackageSpec(verifyPackage(current));
+  assert.equal(spec.version, 'v2');
+  assert.equal(entries(current).length, 161);
+  assert.equal(current.files.length, 169);
+  const historical = [1, 2, 3].map((id) => ({
+    id: `rolled-back-${id}`, migration_name: `old_failed_${id}`,
+    checksum: `${id}`.repeat(64), finished_at: null, rolled_back_at: 'now',
+  }));
+  const before = [...entries(current).filter(({ name }) => name < '20261102')
+    .map((entry) => row(entry, spec.manifest)), ...historical];
+  const after = [...entries(current).map((entry) => row(entry, spec.manifest)), ...historical];
+  assert.equal(checkReconciledHistory(current, before, spec.manifest.target).length, 20);
+  assert.deepEqual(checkReconciledHistory(current, after, spec.manifest.target, true), []);
+  assert.throws(() => checkHistory(current, before), /mismatch/);
+  const consentPath = 'server/prisma/migrations/20261106010000_twilio_compliance_event_sid/migration.sql';
+  const existingPath = entries(current)[0].file.path;
+  const mutate = (change) => {
+    const bundle = structuredClone(current);
+    change(bundle);
+    assert.throws(() => checkReconciledHistory(bundle, before, spec.manifest.target));
+  };
+  mutate((bundle) => { bundle.files = bundle.files.filter((file) => file.path !== consentPath); });
+  mutate((bundle) => { bundle.files = bundle.files.filter((file) => file.path !== existingPath); });
+  mutate((bundle) => { bundle.files.push({ path: 'server/prisma/migrations/99999999_extra/migration.sql',
+    content: Buffer.from('SELECT 1;').toString('base64'), sha256: digest('SELECT 1;') }); });
+  for (const path of [consentPath, existingPath]) {
+    mutate((bundle) => {
+      const file = bundle.files.find((item) => item.path === path);
+      file.content = Buffer.from('SELECT 2;').toString('base64');
+      file.sha256 = digest('SELECT 2;');
+    });
+  }
+  mutate((bundle) => {
+    const file = bundle.files.find((item) => item.path === spec.paths[0]);
+    file.content = Buffer.from('{}').toString('base64');
+    file.sha256 = digest('{}');
+  });
+  mutate((bundle) => { bundle.files.push(legacy.files.find((file) =>
+    file.path === legacySpec.paths[0])); });
+  for (const bad of [
+    before.slice(1),
+    [...before, before[0]],
+    [...before, { migration_name: '99999999_extra', checksum: '0'.repeat(64), finished_at: 'now', rolled_back_at: null }],
+    before.map((entry) => entry.migration_name === 'old_failed_1'
+      ? { ...entry, finished_at: 'now' } : entry),
+  ]) assert.throws(() => checkReconciledHistory(current, bad, spec.manifest.target));
+  const badAfter = structuredClone(after);
+  badAfter.find((entry) => entry.migration_name === '20261106010000_twilio_compliance_event_sid').checksum = 'f'.repeat(64);
+  assert.throws(() => checkReconciledHistory(current, badAfter, spec.manifest.target, true));
 });

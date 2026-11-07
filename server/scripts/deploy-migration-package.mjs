@@ -8,7 +8,7 @@ import { dirname, join, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { checkHistory, checkReconciledHistory, reconciliationPaths, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
+import { checkHistory, checkReconciledHistory, reconciliationPackageSpec, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
 
 function persist(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
@@ -17,7 +17,7 @@ function persist(path, value) {
 }
 
 export async function ledger(db) {
-  return db.$queryRawUnsafe('SELECT migration_name, checksum, finished_at, rolled_back_at FROM public._prisma_migrations ORDER BY migration_name, started_at');
+  return db.$queryRawUnsafe('SELECT id, migration_name, checksum, finished_at, rolled_back_at FROM public._prisma_migrations ORDER BY migration_name, started_at, id');
 }
 
 export async function aggregateChecks(db, checks) {
@@ -77,11 +77,14 @@ export async function deployPackage(options) {
     throw new Error('Alternate URLs require a separately reviewed deployment path');
   }
   let reconciliation = null;
+  let reconciliationSpec = null;
   if (process.env.STAFF_MIGRATION_RECONCILIATION_ID) {
     const { assertReconciliationRequested } = await import('../security/staffMigrationReconciliation.js');
     // No isolated-test bypass here. Risk acceptance alone cannot open this gate.
-    reconciliation = assertReconciliationRequested(process.env, options.database);
-    for (const path of reconciliationPaths) {
+    reconciliationSpec = reconciliationPackageSpec(files);
+    reconciliation = assertReconciliationRequested(process.env, options.database,
+      { manifestVersion: reconciliationSpec.version });
+    for (const path of reconciliationSpec.paths) {
       if (!files.has(path) || digest(files.get(path)) !== digest(readFileSync(path))) {
         throw new Error('Archived reconciliation evidence differs from reviewed checkout');
       }
@@ -103,7 +106,7 @@ export async function deployPackage(options) {
   const receipt = { version: 1, commit: bundle.commit, packageSha256: options.sha256,
     target: { host: options.host, database: options.database, port: Number(url.port || 5432) },
     reconciliation: reconciliation ? { id: reconciliation.id,
-      manifestSha256: digest(files.get(reconciliationPaths[0])), exceptions: reconciliation.exceptions } : null,
+      manifestSha256: digest(files.get(reconciliationSpec.paths[0])), exceptions: reconciliation.exceptions } : null,
     startedAt: new Date().toISOString() };
   persist(join(receiptDirectory, 'started.json'), receipt);
   const archivedPackage = join(receiptDirectory, 'package.json');
@@ -142,7 +145,7 @@ export async function deployPackage(options) {
       if (reconciliation) {
         const { runPreflight } = await import('./staff-deployment-preflight.mjs');
         await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--before-migrations',
-          { migrationRoot: join(work, 'server/prisma/migrations') });
+          { migrationRoot: join(work, 'server/prisma/migrations'), manifestVersion: reconciliationSpec.version });
       }
       if (!options.execute) {
         receipt.status = 'preflight-only';
@@ -162,11 +165,18 @@ export async function deployPackage(options) {
       receipt.migrationExitCode = result.status;
       receipt.afterHistory = await ledger(db);
       if (result.error || result.status !== 0) throw new Error('Migration command failed; inspect private server diagnostics');
+      if (reconciliationSpec?.version === 'v2') {
+        assert.deepEqual(
+          receipt.afterHistory.filter((row) => row.rolled_back_at),
+          receipt.beforeHistory.filter((row) => row.rolled_back_at),
+          'Historical rolled-back migration records changed'
+        );
+      }
       historyCheck(receipt.afterHistory, true);
       if (reconciliation) {
         const { runPreflight } = await import('./staff-deployment-preflight.mjs');
         await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--after-migrations',
-          { migrationRoot: join(work, 'server/prisma/migrations') });
+          { migrationRoot: join(work, 'server/prisma/migrations'), manifestVersion: reconciliationSpec.version });
       }
       receipt.afterChecks = await aggregateChecks(db, checks);
       assertChecks(checks, receipt.beforeChecks, receipt.afterChecks);
