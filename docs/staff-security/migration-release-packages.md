@@ -1,5 +1,10 @@
 # Migration packages and receipts
 
+The [current-main activation adaptation](reconciliation-161-adaptation.md)
+requires 161 migration SQL files, including an exact-hash Twilio migration.
+The 160-file candidate described below is retained only as historical review
+evidence; it cannot be the final release package.
+
 PR #300 protects existing SQL at review time and provides a separate, explicit
 deployment entry point. Require the `Append-only Prisma migrations` check on
 main, restrict direct pushes, and protect workflow changes through review.
@@ -120,7 +125,7 @@ records the current artifact state. The reviewed candidate's AES-256 iCloud Driv
 image and successful read-back establish the storage method only. After a separately
 approved activation commit is reviewed and merged, use a **new** archive release
 from that exact main SHA. Confirm its checksum and package commit, inspect the
-embedded manifest for `approved-for-production`, verify all 160 migration files
+embedded manifest for `approved-for-production`, verify all 161 migration files
 and compare the downloaded bytes with the reviewed release. Abort on any mismatch;
 never relabel or reuse the candidate image or digest.
 

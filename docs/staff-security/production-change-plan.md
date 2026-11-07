@@ -7,6 +7,9 @@ No production execution is authorized by this document. Stage 6 admission has no
 Julian Norton is the release operator and stop authority identified in the conversation.
 The current integrated decision, production action order and final-package backup
 timing are in the [November 6 Stage 5 GO/NO-GO review](stage5-go-no-go-review-20261106.md).
+Current main subsequently added a Twilio migration; the
+[161-migration activation adaptation](reconciliation-161-adaptation.md)
+supersedes the review package's 160-file count for any future release.
 Separate DBA/security sign-offs are recommendations, not a newly imposed company policy.
 A separate privileged database connection is a technical requirement; it does not by
 itself require hiring a separate DBA. Recovery issuer/executor separation is an
@@ -189,7 +192,7 @@ See [package and receipt custody](migration-release-packages.md).
 | Runtime OS identity | chatforia-api user/group; systemd replaces root PM2 |
 | Runtime configuration | /etc/chatforia/api-runtime.env, root-owned 0600; restricted connection only |
 | Security flags after migration | STAFF_SECURITY_ENABLED=true; STAFF_DASHBOARD_ENABLED=false until separate admission |
-| Migration count after upgrade | 160 completed; all 19 new SQL checksums exact; only four pinned historical pairs allowed |
+| Migration count after upgrade | 161 completed: 141 baseline, 19 staff and one exact-hash Twilio migration; only four pinned historical pairs allowed, plus three unchanged historical rolled-back attempts |
 
 Use [deployment-runbook.md](deployment-runbook.md) for detailed technical procedure,
 [the package procedure](migration-release-packages.md) for migration execution, and
@@ -228,11 +231,11 @@ Never dispatch the legacy backend deployment workflow.
    encrypted export/role metadata capture. Do not recreate a paid restore cluster
    without separate authorization. Finish receipt-folder backup validation before
    approving execution; preparation may continue meanwhile.
-4. **Prepare the activation release for a separate decision.** Only under explicit
-   exception-activation authorization, change manifest status and both pins through
-   review and tests. Existing CI deliberately expects the proposed state; update tests
-   to preserve default-off, target/pair checks and no production use in CI. Obtain
-   the separate merge decision, then create and verify a NEW archive for that merged
+4. **Prepare the activation release for a separate decision.** The owner authorized
+   an isolated activation branch for CI review; its status and both digest pins now
+   cover the 161-migration set, retaining strict default and exact target/four-pair
+   checks. Require successful CI and review. Obtain the separate merge decision,
+   then create and verify a NEW archive for that merged
    commit. Archive application artifacts and the compatible recovery backend at
    the same reviewed revision. The current 6a5f06d archive is retained as evidence.
 5. **Present a final approval record.** Fill every field below with verified values.
@@ -245,8 +248,8 @@ Never dispatch the legacy backend deployment workflow.
 | 1 | Apply the separately approved [temporary API ingress fence](ingress-fencing-proposal.md), drain requests, stop every API/background writer and verify no conflicting migration process; retain operator access and TCP 80 for ACME. | Any unidentified writer, unverified route, certificate-renewal conflict or inability to maintain the fence. |
 | 2 | Capture/verify consistent recovery point, encrypted logical export, password-free ownership/role metadata, and recoverable key versions. Record timestamps and digests in private custody. | Unreadable backup/export, unavailable restore destination or missing key. |
 | 3 | Through the separate privileged connection, execute guarded staff-production-prerequisite-roles.sql; provision runtime password privately, grant only migration executor scoped SET authority, then staff-access-bootstrap-role.sql. Under its own approval, execute staff-recovery-operator-logins.sql; provision two separate passwords privately, store and retrieve them from the selected independent locations, and verify distinct-session role isolation. | Existing unsafe role/schema, unexpected target, provider permission/extension limitation, cross-role membership or failed credential retrieval. No CASCADE or blanket ownership reassignment. |
-| 4 | Verify exact final package/digest and strict TLS. Run deploy-migration-package.mjs WITHOUT --execute from the reviewed checkout, using the independent private receipt archive and approved exception ID only in migration context. | Wrong host/database/port, any unexpected ledger entry, fifth mismatch, changed pair/file/evidence, invalid role/schema, failed catalog/data predicate or missing archive. |
-| 5 | Run the SAME package/digest through the runner WITH --execute. Require a verified receipt, all 160 migrations complete, all 19 new hashes exact, unchanged user-count check and successful catalog/data predicates. | Any failure or partial migration. Do not retry blindly, edit the ledger, run migrate resolve or switch SQL. |
+| 4 | Verify exact final package/digest and strict TLS. Run deploy-migration-package.mjs WITHOUT --execute from the reviewed checkout, using the independent private receipt archive and approved exception ID only in migration context. Require 141 active baseline rows, exactly three inert historical rollbacks and 20 pending files. | Wrong host/database/port, any unexpected ledger entry, fifth mismatch, changed pair/file/evidence, altered Twilio SQL, invalid role/schema, failed catalog/data predicate or missing archive. |
+| 5 | Run the SAME package/digest through the runner WITH --execute. Require a verified receipt, all 161 active migrations complete, all 20 new hashes exact, the three historical rollback records unchanged, unchanged user-count check and successful catalog/data predicates. | Any failure or partial migration. Do not retry blindly, edit the ledger, run migrate resolve or switch SQL. |
 | 6 | Provision independent session/staff signing secrets through protected custody; preserve existing compatible encryption/JWT/provider keys. Initialize verified founder ownership with atomic audit/session invalidation under the reviewed bootstrap procedure. | Missing verified identity, inconsistent signing-key bytes/version, missing audit, or unapproved initial assignment. |
 | 7 | Install reviewed non-root service and restricted environment, narrow upload permissions, isolate old privileged env/PM2 state, disable old startup path. Validate unit and effective access; run runtime preflight before admitting listener. | Any doadmin app/job connection, old root listener, readable privileged secret, unsafe membership/ownership, upload failure or readiness failure. |
 | 8 | Retain the already applied website upstream-certificate verification. Apply only separately approved remaining proxy/firewall changes and the matching frontend artifact. Test private sign-in/MFA, pre-MFA denial, founder/delegate/admin boundaries, permitted audited change, ordinary write/upload, CSRF, logout and scheduled DB-job health. | Unauthorized access, missing audit, session/revocation failure, TLS/cookie/proxy failure, 5xx spike or failed job. Never trigger paid provider actions just to test. |
@@ -298,7 +301,7 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Existing Twilio Auth Token: matching current primary token retrieved from
   Twilio Console and exactly compared to production; no additional copy created.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
-- Explicit permission for roles/schema, exception activation, migrations, keys/bootstrap,
+- Explicit permission for roles/schema, production exception use, migrations, keys/bootstrap,
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.
 - Explicit Stage 6 cohort admission: NOT GRANTED.
 

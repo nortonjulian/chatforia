@@ -2,8 +2,11 @@
 
 **Current operational status:** [production-change-plan.md](production-change-plan.md)
 supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
-the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
-historical uncertainty for review only; production exception activation remains blocked.
+the current-main [activation adaptation](reconciliation-161-adaptation.md)
+proposes 141 active baseline plus 20 pending migrations (19 staff, one Twilio;
+161 total). The owner accepted historical uncertainty for preparation and
+authorized a separate draft activation branch for CI review only; no merged
+activation release or production execution approval exists.
 A basic hosted restore readability check passed, not exhaustive integrity or measured
 RPO/RTO. The archived review package is verified locally; a final activation release
 will require a new archive. No production cutover or Stage 6 admission is authorized.

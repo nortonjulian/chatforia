@@ -1,5 +1,9 @@
 # Stage 5 GO/NO-GO review — November 6, 2026
 
+Current-main update: the [activation adaptation](reconciliation-161-adaptation.md)
+adds one exact-hash Twilio migration to the proposed release (161 total, 20
+pending); the 160-file candidate backup below remains historical evidence.
+
 **Decision: NO-GO for production execution. GO for review of the prepared
 change.** PR #301 is a draft. This record grants no permission to merge, activate
 the historical-checksum exception, change production, migrate, restore, or admit
@@ -42,7 +46,7 @@ requirements. The owner accepted sole-person operation for preparation only.
 | Gate | Current state | Smallest decision/evidence before production |
 | --- | --- | --- |
 | Four historical hashes | Pinned four-pair reconciliation is proposed; original applied SQL unavailable. | Explicitly accept residual historical-data risk **for production** and approve activation of this exact target/manifest; review/merge the activation change. A fifth mismatch, changed pair, target or file is an abort. No ledger rewrite. |
-| Final immutable artifact | Current release and encrypted backup are for the proposed candidate. | Build a new GitHub Release archive from the exact reviewed/merged activation main SHA; verify the digest, all 160 migration files, approved manifest and compatible backend/frontend recovery artifacts. Complete the **final** encrypted backup/cloud readback before any production fence or role change. |
+| Final immutable artifact | Current release and encrypted backup are for the proposed candidate. | Build a new GitHub Release archive from the exact reviewed/merged activation main SHA; verify the digest, all 161 migration files, approved manifest and compatible backend/frontend recovery artifacts. Complete the **final** encrypted backup/cloud readback before any production fence or role change. |
 | Change-window recovery | Seven-day managed PITR/new-cluster option and bounded hosted restore readability are known. No fresh window point, logical export, independent restore destination, full hosted integrity or measured RPO/RTO is recorded. | Approve a window/interruption, fresh recoverable point and encrypted logical export with role/ownership metadata. Identify an independent restore destination. Either verify full restore/integrity under separate authorization or explicitly accept the remaining unmeasured restore risk before mutation; a second database on the live cluster is insufficient. |
 | Existing/new key custody | `APP_ENC_KEY` and Twilio retrieval are evidenced. JWT/OAuth off-host retrieval is open; production `SESSION_SECRET` and staff assertion key are absent. | Privately verify compatible JWT/OAuth material and recovery access. Approve protected generation/custody of distinct new session and staff signing keys at cutover; keep existing encryption/provider keys unchanged. Never place values in PR or command output. |
 | Restricted roles and runtime | `doadmin` still powers the root PM2 API and its jobs. Four prerequisite roles, `staff_security`, and two recovery LOGIN principals are absent. | Approve guarded role/schema/extension provisioning, restricted runtime credential and non-root service cutover. Verify `chatforia_dev` has no ownership, privileged memberships or superuser attributes; migration executor alone gets scoped owner SET authority. |
@@ -106,10 +110,11 @@ customer rows and private founder ID out of GitHub.
 6. **Preflight and execute the exact migration package.** From the pinned
    release, strict TLS and independent private receipt archive, run the package
    runner first without `--execute` using the explicit reconciliation ID and
-   pinned target. Inspect all 141 baseline rows, only four approved pairs, 19
+   pinned target. Inspect all 141 active baseline rows, three historical rolled-back
+   attempts, only four approved pairs, 20
    pending files and aggregate/catalog predicates. Back up the actual preflight
    receipt and verify cloud readback before execute. Execute the **same** package
-   with separate approval; require 160 completed migrations, exact checksums on
+   with separate approval; require 161 completed active migrations, exact checksums on
    all newly applied SQL, unchanged user count and successful after predicates.
    Back up the complete execute receipt, including failed/incomplete attempts.
    **Abort** on any wrong target, extra/unfinished migration, fifth mismatch,

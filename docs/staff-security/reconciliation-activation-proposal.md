@@ -1,5 +1,10 @@
 # Exact four-pair activation proposal — review only
 
+Historical checkpoint: this file records the exact 160-migration patch from
+proposal commit `f8ed01ca`. Current main later added a Twilio consent migration;
+the [separately authorized 161-migration adaptation](reconciliation-161-adaptation.md)
+is the current branch's release candidate. The four historical pairs are unchanged.
+
 Prepared against PR #301 commit `3cf4b2f4baa462238aa63a2132370b87c61577cf`.
 The [reviewed patch](reconciliation-activation-proposed.patch) is the exact
 four-file source change applied on the separate activation branch in code commit

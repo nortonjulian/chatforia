@@ -2,7 +2,8 @@
 
 **Current operational status:** [production-change-plan.md](production-change-plan.md)
 supersedes stale checkpoint/status statements below. PRs #293 and #300 are merged;
-the release has 141 baseline plus 19 new migrations (160 total). The owner accepted
+the current proposed release has 141 baseline plus 20 pending migrations
+(19 staff and one later Twilio; 161 total). The owner accepted
 historical uncertainty for review only; production exception activation remains blocked.
 A basic hosted restore readability check passed, not exhaustive integrity or measured
 RPO/RTO. The archived review package is verified locally; a final activation release
@@ -17,7 +18,8 @@ for review; see [the acceptance record](migration-exception-review.md). PR #300 
 the pinned exception into package validation. A separate activation branch now carries
 the reviewed `approved-for-production` status/pins **for CI and review only**; no
 merged activation release or production execution approval exists. Separate merge
-and production decisions remain required.
+and production decisions remain required. See the
+[161-migration adaptation](reconciliation-161-adaptation.md).
 Treat migration commands below as sequencing context; use the package runner for
 actual execution after those gates are resolved.
 
@@ -55,13 +57,14 @@ workflow limitations, not permission to change a server. Use the controlled,
 SHA-pinned procedure below under a future approval, or separately implement an
 equivalent approved deployment workflow. No live workflow was broadened here.
 
-The branch adds **19** migrations to the **141** pre-PR migrations, not only the
-last four. [deployment-migrations.json](deployment-migrations.json) records all
-19 ordered hashes. The original four hashes in migration-manifest.json remain
-unchanged. `npm run verify:staff-release` checks both manifests. The new populated
-upgrade rehearsal applies 141, seeds synthetic ordinary/admin users, then applies
-19 under a non-superuser executor. It verifies preservation and effective
-post-upgrade restrictions. It does not certify DigitalOcean permissions or timing.
+PR #293 adds **19** staff migrations to the **141** pre-PR migrations, not only
+the last four. Current main adds one later Twilio consent migration, making
+20 pending and 161 total. [deployment-migrations.json](deployment-migrations.json)
+records the 19 ordered staff hashes; the adaptation separately pins the Twilio
+hash. The original four hashes in migration-manifest.json remain unchanged.
+`npm run verify:staff-release` checks the staff manifests. The populated
+upgrade rehearsal and current PostgreSQL 18 CI must cover the full 161-file
+package. They do not certify DigitalOcean permissions or timing.
 
 ## 1. Select and prepare the release without touching the target
 
@@ -215,7 +218,7 @@ independently verified inventory. Run `deploy-migration-package.mjs` without
 invokes the transactionally read-only role/schema/pgcrypto and ledger checks with
 the explicitly approved reconciliation ID. It rejects wrong identity,
 failed/partial/extra staff history, unsafe ownership, any fifth mismatch and
-every changed new SQL checksum. Inspect the expected 19 pending migrations and
+every changed new SQL checksum. Inspect the expected 20 pending migrations and
 the archived preflight receipt. No preflight success authorizes migration. Do not
 use the initial-release preflight on an already-upgraded database and interpret
 its rejection as drift.
@@ -228,7 +231,7 @@ in [migration-release-packages.md](migration-release-packages.md). Do not run a
 standalone `prisma migrate deploy` against the target: it would omit the pinned
 package, target-bound reconciliation and independent attempt receipts.
 
-Require all 160 migrations finished and the exact reviewed checksums, except
+Require all 161 migrations finished and the exact reviewed checksums, except
 the four separately approved historical ledger/file pairs; preserve
 sanitized execution records. On any failure leave traffic closed. Prisma SQL
 files are not an atomic 19-file transaction: inspect partial DDL/ledger before
