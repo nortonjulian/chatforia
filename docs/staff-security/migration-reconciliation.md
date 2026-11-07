@@ -165,7 +165,7 @@ rewrite, `migrate resolve`, fabricated SQL or silent waiver is proposed.
 The branch adds a versioned, hash-pinned
 `server/security/staffMigrationReconciliation.v1.json` manifest for the **one
 verified target**. It pins four recorded ledger/current-file checksum pairs,
-the 141-entry baseline and 159-entry post-staff counts, target database/endpoint
+the 141-entry baseline and 160-entry post-staff counts, target database/endpoint
 identity and digests of the catalog and bounded-data evidence. The other 137
 baseline migrations and all new migrations still require exact file/ledger
 hashes. The target's three historical rolled-back attempts remain untouched;
@@ -186,8 +186,8 @@ this path. Only the guarded disposable CI harness can exercise it. Enabling
 production use would require a separate reviewed code/manifest change and
 explicit owner risk acceptance.
 
-The new `--after-migrations` executor check requires the exact 159-entry active
-sequence and file hashes for all 18 new staff migrations; only the same four
+The new `--after-migrations` executor check requires the exact 160-entry active
+sequence and file hashes for all 19 new staff migrations; only the same four
 baseline pairs can differ. Any later release must deliberately update the
 versioned count/check and verify its new migrations exactly. The CI PostgreSQL
 18 harness tests accepted and rejected states without touching target records.
