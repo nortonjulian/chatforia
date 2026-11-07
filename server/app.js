@@ -47,6 +47,7 @@ import { inferRegion } from './middleware/region.js';
 import { requestId } from './middleware/requestId.js';
 import { createRequestLoggingMiddleware } from './middleware/requestLogging.js';
 import { secureHeaders } from './middleware/secureHeaders.js';
+import { installTwilioCallbackGuards } from './middleware/twilioSignature.js';
 import a11yRouter from './routes/a11y.js';
 import adminEsimReplacementsRouter from './routes/adminEsimReplacements.js';
 import adminReportsRouter from './routes/adminReports.js';
@@ -183,6 +184,8 @@ export function createApp() {
   console.log('[boot] createApp reached', { cwd: process.cwd() });
 
   /* Early security */
+  // Validate Twilio callbacks before the HTTPS redirect can use request headers.
+  installTwilioCallbackGuards(app);
   app.use(httpsRedirect());
 
   const allowedOrigins = appAllowedOrigins({ isProd });

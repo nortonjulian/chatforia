@@ -1,0 +1,71 @@
+name: Twilio consent database verification
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/twilio-consent-db-verify.yml'
+      - 'server/routes/smsWebhooks.js'
+      - 'server/services/twilioConsent.js'
+      - 'server/scripts/twilio-consent-*.sql'
+      - 'server/scripts/twilio-consent-db-qa.mjs'
+      - 'server/prisma/schema.prisma'
+      - 'server/prisma/deployment-checks.json'
+      - 'server/prisma/migrations/**'
+      - 'server/scripts/staff-access-bootstrap-role.sql'
+      - 'package-lock.json'
+
+permissions:
+  contents: read
+
+jobs:
+  consent-db:
+    name: Disposable PostgreSQL consent and runtime-role QA
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: consent_ci
+          POSTGRES_PASSWORD: synthetic_ci_only
+          POSTGRES_DB: chatforia_twilio_consent_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U consent_ci -d chatforia_twilio_consent_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://consent_ci:synthetic_ci_only@127.0.0.1:5432/chatforia_twilio_consent_test
+      CONSENT_QA_CI_SERVICE: '1'
+
+    steps:
+      - name: Checkout proposed code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Bootstrap restricted roles in this disposable service
+        env:
+          CI_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          set -euo pipefail
+          docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U consent_ci -d chatforia_twilio_consent_test < server/scripts/twilio-consent-ci-bootstrap.sql
+          docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U consent_ci -d chatforia_twilio_consent_test < server/scripts/staff-access-bootstrap-role.sql
+
+      - name: Apply migrations only to the disposable service
+        run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
+
+      - name: Verify migration, consent transaction, retries and runtime permissions
+        run: node server/scripts/twilio-consent-db-qa.mjs

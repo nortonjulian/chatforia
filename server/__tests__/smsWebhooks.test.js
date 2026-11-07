@@ -8,6 +8,9 @@ import {
 } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
+import twilio from 'twilio';
+
+import { installTwilioCallbackGuards } from '../middleware/twilioSignature.js';
 
 const ORIGINAL_ENV = process.env;
 
@@ -26,8 +29,19 @@ let isE164Mock;
 // prisma client used in the route
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
+    $transaction: jest.fn((callback) => callback(prismaMock)),
+    smsCarrierEvent: {
+      create: jest.fn(),
+      findUnique: jest.fn(),
+    },
     user: {
       findUnique: jest.fn(),
+    },
+    smsOptOut: {
+      findFirst: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      deleteMany: jest.fn(),
     },
   };
 
@@ -35,6 +49,186 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
     __esModule: true,
     default: prismaMock,
   };
+});
+
+describe('signed Twilio SMS handler', () => {
+  test.each(['/webhooks/sms/twilio', '/api/webhooks/sms/twilio'])(
+    'rejects unauthenticated STOP before opt-out writes and accepts signed STOP at %s',
+    async (path) => {
+      process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
+      process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
+      const securedApp = express();
+      installTwilioCallbackGuards(securedApp);
+      securedApp.use('/webhooks/sms', smsWebhooksRouter);
+      securedApp.use('/api/webhooks/sms', smsWebhooksRouter);
+
+      const body = {
+        From: '+15550001111',
+        To: '+15550002222',
+        Body: 'STOP',
+        MessageSid: 'SM-synthetic-stop',
+      };
+      await request(securedApp).post(path).type('form').send(body).expect(403);
+      expect(prismaMock.smsCarrierEvent.create).not.toHaveBeenCalled();
+      expect(prismaMock.smsOptOut.findFirst).not.toHaveBeenCalled();
+      expect(prismaMock.smsOptOut.create).not.toHaveBeenCalled();
+      expect(recordInboundSmsMock).not.toHaveBeenCalled();
+
+      const signature = twilio.getExpectedTwilioSignature(
+        process.env.TWILIO_AUTH_TOKEN,
+        `https://api.example.test${path}`,
+        body
+      );
+      await request(securedApp).post(path)
+        .set('X-Twilio-Signature', signature).type('form').send(body).expect(200);
+      expect(prismaMock.smsOptOut.create).toHaveBeenCalledTimes(1);
+      expect(recordInboundSmsMock).not.toHaveBeenCalled();
+    }
+  );
+
+  test('does not write the same signed STOP SID twice', async () => {
+    process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
+    process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
+    const securedApp = express();
+    installTwilioCallbackGuards(securedApp);
+    securedApp.use('/webhooks/sms', smsWebhooksRouter);
+    prismaMock.smsOptOut.findFirst.mockResolvedValueOnce(null);
+    prismaMock.smsCarrierEvent.create.mockResolvedValueOnce({ id: 1 })
+      .mockRejectedValueOnce(Object.assign(new Error('duplicate'), { code: 'P2002' }));
+    prismaMock.smsCarrierEvent.findUnique.mockResolvedValueOnce({ id: 1 });
+
+    const body = {
+      From: '+15550001111',
+      To: '+15550002222',
+      Body: 'STOP',
+      MessageSid: 'SM-repeat',
+    };
+    const signature = twilio.getExpectedTwilioSignature(
+      process.env.TWILIO_AUTH_TOKEN,
+      'https://api.example.test/webhooks/sms/twilio',
+      body
+    );
+    const post = () => request(securedApp).post('/webhooks/sms/twilio')
+      .set('X-Twilio-Signature', signature).type('form').send(body);
+    await post().expect(200);
+    await post().expect(200);
+
+    expect(prismaMock.smsOptOut.create).toHaveBeenCalledTimes(1);
+    expect(prismaMock.smsOptOut.update).not.toHaveBeenCalled();
+    expect(prismaMock.smsCarrierEvent.findUnique).toHaveBeenCalledWith({
+      where: { providerMessageId: 'SM-repeat' },
+    });
+  });
+
+  test('an old STOP retry after START cannot restore an opt-out; a new STOP can', async () => {
+    process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
+    process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
+    const securedApp = express();
+    installTwilioCallbackGuards(securedApp);
+    securedApp.use('/webhooks/sms', smsWebhooksRouter);
+
+    const seen = new Set();
+    prismaMock.smsCarrierEvent.create.mockImplementation(async ({ data }) => {
+      if (seen.has(data.providerMessageId)) {
+        throw Object.assign(new Error('duplicate'), { code: 'P2002' });
+      }
+      seen.add(data.providerMessageId);
+      return { id: seen.size };
+    });
+    prismaMock.smsCarrierEvent.findUnique.mockImplementation(async ({ where }) =>
+      seen.has(where.providerMessageId) ? { id: 1 } : null
+    );
+    prismaMock.smsOptOut.findFirst.mockResolvedValue(null);
+
+    const sendAction = (Body, MessageSid) => {
+      const body = { From: '+15550001111', To: '+15550002222', Body, MessageSid };
+      const signature = twilio.getExpectedTwilioSignature(
+        process.env.TWILIO_AUTH_TOKEN,
+        'https://api.example.test/webhooks/sms/twilio',
+        body
+      );
+      return request(securedApp).post('/webhooks/sms/twilio')
+        .set('X-Twilio-Signature', signature).type('form').send(body);
+    };
+    await sendAction('STOP', 'SM-old-stop').expect(200);
+    await sendAction('START', 'SM-start').expect(200);
+    await sendAction('STOP', 'SM-old-stop').expect(200);
+    expect(prismaMock.smsOptOut.deleteMany).toHaveBeenCalledTimes(1);
+    expect(prismaMock.smsOptOut.create).toHaveBeenCalledTimes(1);
+
+    await sendAction('STOP', 'SM-new-stop').expect(200);
+    expect(prismaMock.smsOptOut.create).toHaveBeenCalledTimes(2);
+    await sendAction('START', 'SM-start').expect(200);
+    expect(prismaMock.smsOptOut.deleteMany).toHaveBeenCalledTimes(1);
+    expect(prismaMock.smsCarrierEvent.create).toHaveBeenCalledTimes(5);
+  });
+
+  test('STOP and START without a SID, or a failed receipt, never change consent', async () => {
+    process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
+    process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
+    const securedApp = express();
+    installTwilioCallbackGuards(securedApp);
+    securedApp.use('/webhooks/sms', smsWebhooksRouter);
+    const post = (body) => {
+      const signature = twilio.getExpectedTwilioSignature(
+        process.env.TWILIO_AUTH_TOKEN,
+        'https://api.example.test/webhooks/sms/twilio',
+        body
+      );
+      return request(securedApp).post('/webhooks/sms/twilio')
+        .set('X-Twilio-Signature', signature).type('form').send(body);
+    };
+    for (const Body of ['STOP', 'START']) {
+      await post({ From: '+15550001111', To: '+15550002222', Body }).expect(400);
+    }
+    expect(prismaMock.smsCarrierEvent.create).not.toHaveBeenCalled();
+    expect(prismaMock.smsOptOut.create).not.toHaveBeenCalled();
+    expect(prismaMock.smsOptOut.deleteMany).not.toHaveBeenCalled();
+
+    prismaMock.smsCarrierEvent.create.mockRejectedValueOnce(new Error('storage failure'));
+    await post({ From: '+15550001111', To: '+15550002222', Body: 'STOP', MessageSid: 'SM-failed' }).expect(503);
+    expect(prismaMock.smsOptOut.create).not.toHaveBeenCalled();
+
+    prismaMock.smsCarrierEvent.create.mockRejectedValueOnce(
+      Object.assign(new Error('other unique conflict'), { code: 'P2002' })
+    );
+    prismaMock.smsCarrierEvent.findUnique.mockResolvedValueOnce(null);
+    await post({ From: '+15550001111', To: '+15550002222', Body: 'START', MessageSid: 'SM-other-conflict' }).expect(503);
+    expect(prismaMock.smsOptOut.deleteMany).not.toHaveBeenCalled();
+  });
+
+  test('passes signed MMS fields to the existing inbound handler', async () => {
+    process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
+    process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
+    const securedApp = express();
+    installTwilioCallbackGuards(securedApp);
+    securedApp.use('/api/webhooks/sms', smsWebhooksRouter);
+    recordInboundSmsMock.mockResolvedValueOnce({ ok: false });
+
+    const body = {
+      From: '+15550001111',
+      To: '+15550002222',
+      Body: '',
+      MessageSid: 'SM-synthetic-media',
+      NumMedia: '1',
+      MediaUrl0: 'https://media.example.test/synthetic',
+      MediaContentType0: 'image/png',
+    };
+    const signature = twilio.getExpectedTwilioSignature(
+      process.env.TWILIO_AUTH_TOKEN,
+      'https://api.example.test/api/webhooks/sms/twilio',
+      body
+    );
+    await request(securedApp).post('/api/webhooks/sms/twilio')
+      .set('X-Twilio-Signature', signature).type('form').send(body).expect(200);
+    expect(recordInboundSmsMock).toHaveBeenCalledWith(expect.objectContaining({
+      providerMessageId: 'SM-synthetic-media',
+      media: [{
+        url: 'https://media.example.test/synthetic',
+        contentType: 'image/png',
+      }],
+    }));
+  });
 });
 
 await jest.unstable_mockModule('../utils/sendMail.js', () => {
