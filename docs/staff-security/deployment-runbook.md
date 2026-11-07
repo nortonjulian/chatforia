@@ -128,9 +128,12 @@ offers seven days into a new cluster. Same-host root-owned 0600 key copies match
 but are not independent recovery. A second database on production chatforia-db is not an
 isolated rehearsal because roles are cluster-wide. No paid fallback is authorized.
 
-Before the migration window, name separate recovery issuer/executor humans and
-their distinct login identities; neither may also be the runtime or security
-owner, and neither may hold both recovery memberships (including transitively).
+Before recovery activation, verify the owner's two distinct database login
+identities, separately stored credentials and separate sessions. Each login
+may hold only its corresponding recovery role, with no direct or transitive
+membership in the other, runtime or security-owner role. The owner accepted
+the residual single-person risk; this is credential separation, not two-person
+approval. Follow [sole-owner-recovery.md](sole-owner-recovery.md).
 Name verified founder, initial CTO/ACCESS_ADMIN and canary account IDs separately;
 global ADMIN is not a staff assignment. Check existing protected administrators
 have usable MFA and previously linked provider identities. Link providers and
@@ -152,7 +155,7 @@ verify these prerequisites without silently rewriting an unsafe existing role:
 | --- | --- |
 | `chatforia_dev` | LOGIN, NOINHERIT, NOSUPERUSER, NOCREATEDB, NOCREATEROLE, NOREPLICATION, NOBYPASSRLS; no object/schema ownership or privileged memberships |
 | `chatforia_staff_owner` | NOLOGIN plus all restrictions above; owns `staff_security`; only DBA has scoped SET authority for ownership transfer |
-| `chatforia_recovery_issuer`, `chatforia_recovery_executor` | Separate NOLOGIN restricted roles; only the corresponding independent operator receives membership |
+| `chatforia_recovery_issuer`, `chatforia_recovery_executor` | Separate NOLOGIN restricted roles; each proposed LOGIN principal may SET only its corresponding role |
 
 `server/scripts/staff-access-bootstrap-role.sql` is the reviewed owner/schema
 bootstrap, not a complete production role-provisioning script. The CI bootstrap
@@ -176,6 +179,14 @@ migration executor scoped SET membership in the owner role and then run the
 schema bootstrap. The static guard and disposable PostgreSQL 18.6 role
 execution passed in CI 150. This does not establish DigitalOcean managed-role
 compatibility.
+
+The separate [recovery-login template](../../server/scripts/staff-recovery-operator-logins.sql)
+is also prepared only. It creates password-free issuer/executor LOGIN principals
+with exclusive SET membership; credentials are provisioned privately only under
+separate approval after the base roles are reviewed. Its disposable PostgreSQL
+18 role-graph check does not prove DigitalOcean credential custody or grant
+compatibility. Do not use one DBA connection with `SET ROLE` for both recovery
+steps; the recovery function checks distinct `session_user` identities.
 
 If pgcrypto already exists outside `staff_security`, **stop before migrations**.
 `CREATE EXTENSION IF NOT EXISTS ... WITH SCHEMA` does not relocate it. Do not
@@ -413,7 +424,9 @@ For PASSWORD, securely prepare a bcrypt hash with cost 10–15. For MFA_REPLACE,
 prepare an AES-256-GCM secret compatible with `secretBox.js`, securely enroll the
 owner's authenticator and verify a code before approving the replacement.
 Recovery replaces MFA while keeping it enabled; it never creates a password-only
-privileged session. Losing both password and MFA requires two separate approvals.
+privileged session. Losing both password and MFA requires a fresh issuer approval
+record and a separate executor session. With one owner, these are two credentialed
+steps by one person, not independent human approvals.
 
 Use a fresh 32-byte random token transported through a secure operator channel.
 As the issuer login, insert only token SHA-256, target ID, action, SHA-256 of the

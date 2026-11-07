@@ -8,7 +8,9 @@ Julian Norton is the release operator and stop authority identified in the conve
 Separate DBA/security sign-offs are recommendations, not a newly imposed company policy.
 A separate privileged database connection is a technical requirement; it does not by
 itself require hiring a separate DBA. Recovery issuer/executor separation is an
-implemented control and must not be confused with release sign-off recommendations.
+implemented database-login control. The sole owner accepted its residual
+single-person risk on November 6: two credentials and sessions do not constitute
+two-person approval.
 
 ## Verified checkpoint
 
@@ -128,12 +130,18 @@ backup of the **proposed candidate**, not the still-missing backup of the final
 activation package and future private receipts.
 
 The owner-controlled recovery record must be kept outside GitHub and the API
-host. Before bootstrap, privately verify the exact immutable founder User ID,
-email verification, MFA enrollment and linked provider against the intended
-human account; record the approved initial grant or founder-only start. Name two
-distinct human recovery operators with distinct authenticated logins, and
-verify the future issuer/executor role memberships cannot overlap directly or
-transitively. This is identity preparation, not permission to grant roles.
+host. The owner selected the intended existing founder account; a
+[read-only identity check](evidence/recovery-identity-readiness-20261106.json)
+found one matching User row with verified email, enrolled MFA and linked Google
+identity. The owner inspected and approved the exact immutable User ID privately
+for a future bootstrap. This is **not** authority to insert the founder row or
+grant staff access. Record the approved initial grant or founder-only start.
+The owner is the sole recovery operator. Prepare two distinct restricted database
+logins, with separately stored credentials and separate sessions. Verify that
+issuer/executor memberships cannot overlap directly or transitively and that
+neither login is the application runtime. See the
+[sole-owner recovery procedure](sole-owner-recovery.md). This is preparation,
+not permission to create logins, grant roles or use recovery in production.
 
 Independently retrieve the existing encryption, JWT and required OAuth material
 from off-host custody and confirm it matches the running versions without
@@ -155,7 +163,7 @@ See [package and receipt custody](migration-release-packages.md).
 | Observed engine/history | PostgreSQL 18.6; 141 baseline migrations, four documented mismatches; refresh before window |
 | Runtime DB role | chatforia_dev, restricted, no ownership or privileged memberships |
 | Security owner | chatforia_staff_owner, NOLOGIN |
-| Recovery roles | Separate chatforia_recovery_issuer and chatforia_recovery_executor, NOLOGIN |
+| Recovery roles | Separate chatforia_recovery_issuer and chatforia_recovery_executor, NOLOGIN; proposed issuer/executor LOGIN principals are password-free until separately approved provisioning |
 | Runtime OS identity | chatforia-api user/group; systemd replaces root PM2 |
 | Runtime configuration | /etc/chatforia/api-runtime.env, root-owned 0600; restricted connection only |
 | Security flags after migration | STAFF_SECURITY_ENABLED=true; STAFF_DASHBOARD_ENABLED=false until separate admission |
@@ -190,7 +198,8 @@ Never dispatch the legacy backend deployment workflow.
    or explicitly start with founder only; do not invent a CTO or Access Admin.
    Confirm retrieval of existing APP_ENC_KEY/JWT/OAuth material independently of the
    API host and lost-device recovery. Do not paste keys, passwords or customer data.
-   Record how distinct recovery issuer/executor login authority will be operated.
+   Record separate issuer/executor credential custody and session use under the
+   accepted sole-owner procedure; do not claim a second human approval.
 3. **Complete the change-window recovery record.** Select date/time/timezone and
    acceptable interruption; refresh managed backup health and available restore
    points, identify a usable independent restore destination, and plan the consistent
@@ -255,8 +264,12 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Current review package and checksum match retained GitHub Release assets.
   Separate private backup of the final package and future private receipts:
   pending; local Time Machine has no completed machine backup.
-- Verified founder/canary IDs and approved initial grants: pending private verification.
-- Recovery operator identities and independent key retrieval: confirm privately.
+- Founder ID: verified and owner-approved privately for a future bootstrap;
+  canary IDs and initial staff grants remain pending private verification and
+  separate execution approval.
+- Sole-owner recovery risk: accepted for preparation; distinct restricted login
+  provisioning, separate credential storage/retrieval and independent recovery-key
+  retrieval remain unverified and require separate production approval.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
 - Explicit permission for roles/schema, exception activation, migrations, keys/bootstrap,
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.

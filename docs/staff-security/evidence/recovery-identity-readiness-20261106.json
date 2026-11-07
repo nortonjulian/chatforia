@@ -1,0 +1,23 @@
+{
+  "observedAtUtc": "2026-11-06T06:58:11Z",
+  "scope": "Owner-selected founder identity checked with one parameterized production User lookup in a read-only transaction; no identity assignment, role grant, migration, service restart or cutover",
+  "founder": {
+    "ownerSelectedAccount": true,
+    "matchingRows": 1,
+    "emailVerified": true,
+    "mfaEnabled": true,
+    "mfaEnrolled": true,
+    "googleLinked": true,
+    "ownerApprovedImmutableUserId": true,
+    "privateRecord": "Exact account selector, User ID and current role are in owner-only local files outside the repository; no identifiers, provider subject, credentials or MFA secrets are included here",
+    "bootstrapAuthorized": false
+  },
+  "recoveryOperators": {
+    "humanControl": "Sole owner; owner accepted single-person residual risk for preparation. This is separation of credentials and sessions, not two-person approval.",
+    "separateAuthenticatedLogins": "prepared as password-free restricted role template; not provisioned in production",
+    "credentialCustody": "separate independently retrievable stores and retrieval checks pending",
+    "databaseRoles": "The reviewed prerequisite script creates distinct NOLOGIN issuer/executor roles only during a separately approved change; the separate login template remains unexecuted in production; no production membership was granted in this check",
+    "sessionsAndAudit": "distinct session_user, atomic mandatory audit, replay denial and session revocation required at activation; isolated synthetic coverage does not prove production operation"
+  },
+  "existingRecoveryKeys": "Independent off-host retrieval and match of the existing encryption, JWT and needed OAuth material remain pending; no key value or hash was inspected for this identity check"
+}
