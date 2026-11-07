@@ -93,7 +93,7 @@ export async function createPortRequestForUser(user, input) {
       state,
       postalCode,
       country,
-      status: 'PENDING',
+      status: 'NONE',
     },
   });
 
@@ -109,7 +109,7 @@ export async function getUserPortRequests(userId) {
 
 export async function getUserPortRequestById(userId, portRequestId) {
   const pr = await prisma.portRequest.findUnique({
-    where: { id: Number(portRequestId) },
+    where: { id: String(portRequestId) },
   });
 
   if (!pr || Number(pr.userId) !== Number(userId)) return null;
@@ -121,7 +121,7 @@ export async function updatePortStatus(
   { status, statusReason, scheduledAt, completedAt }
 ) {
   return prisma.portRequest.update({
-    where: { id: Number(portRequestId) },
+    where: { id: String(portRequestId) },
     data: {
       status,
       statusReason,

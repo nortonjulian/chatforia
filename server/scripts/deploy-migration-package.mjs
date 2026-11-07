@@ -17,7 +17,7 @@ function persist(path, value) {
 }
 
 export async function ledger(db) {
-  return db.$queryRawUnsafe('SELECT migration_name, checksum, finished_at, rolled_back_at FROM public._prisma_migrations ORDER BY migration_name, started_at');
+  return db.$queryRawUnsafe('SELECT id, migration_name, checksum, finished_at, rolled_back_at FROM public._prisma_migrations ORDER BY migration_name, started_at, id');
 }
 
 export async function aggregateChecks(db, checks) {
@@ -162,6 +162,13 @@ export async function deployPackage(options) {
       receipt.migrationExitCode = result.status;
       receipt.afterHistory = await ledger(db);
       if (result.error || result.status !== 0) throw new Error('Migration command failed; inspect private server diagnostics');
+      if (reconciliation) {
+        assert.deepEqual(
+          receipt.afterHistory.filter((row) => row.rolled_back_at),
+          receipt.beforeHistory.filter((row) => row.rolled_back_at),
+          'Historical rolled-back migration records changed'
+        );
+      }
       historyCheck(receipt.afterHistory, true);
       if (reconciliation) {
         const { runPreflight } = await import('./staff-deployment-preflight.mjs');

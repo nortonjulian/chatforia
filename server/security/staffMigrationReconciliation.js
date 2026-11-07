@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 const manifestPath = 'server/security/staffMigrationReconciliation.v1.json';
-const manifestSha256 = '735ea2b62888a016de83bc5ac4b2acb34a455bae51310d8025e0923ebc153256';
+const manifestSha256 = '94efe3ca09f6c316fbe5d498a609e85731d67de0c195e9d3a09336481485fd71';
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
 export class ReconciliationError extends Error {}
@@ -15,7 +15,11 @@ export function loadReconciliationManifest(options = {}) {
   if (
     manifest.id !== 'chatforia-defaultdb-four-hash-20261103-v1' ||
     manifest.baselineCount !== 141 ||
-    manifest.afterStaffCount !== 160 ||
+    manifest.afterStaffCount !== 161 ||
+    manifest.historicalRolledBackCount !== 3 ||
+    Object.keys(manifest.requiredExactMigrations || {}).length !== 1 ||
+    manifest.requiredExactMigrations['20261106010000_twilio_compliance_event_sid'] !==
+      '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a' ||
     Object.keys(manifest.exceptions).length !== 4
   )
     throw new ReconciliationError('Reconciliation manifest shape changed');

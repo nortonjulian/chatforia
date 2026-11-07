@@ -13,6 +13,7 @@ const router = express.Router();
 
 function getBundleSid(body) {
   const candidates = [
+    body?.BundleSID,
     body?.BundleSid,
     body?.bundleSid,
     body?.Sid,

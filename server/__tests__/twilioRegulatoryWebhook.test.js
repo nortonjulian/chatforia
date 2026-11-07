@@ -36,6 +36,7 @@ const BU =
 
 function makeApp() {
   const app = express();
+  app.set('trust proxy', 1);
 
   app.use(
     express.urlencoded({
@@ -44,6 +45,7 @@ function makeApp() {
   );
 
   app.use('/webhooks', router);
+  app.use('/api/webhooks', router);
 
   return app;
 }
@@ -53,9 +55,11 @@ function signedPost({
   body,
   signatureBody = body,
   signatureToken = AUTH_TOKEN,
+  path = '/webhooks/twilio/regulatory-status',
+  host = '127.0.0.1',
+  protocol = 'http',
 }) {
-  const url =
-    'http://127.0.0.1/webhooks/twilio/regulatory-status';
+  const url = `${protocol}://${host}${path}`;
 
   const signature =
     twilio.getExpectedTwilioSignature(
@@ -65,8 +69,9 @@ function signedPost({
     );
 
   return request(app)
-    .post('/webhooks/twilio/regulatory-status')
-    .set('Host', '127.0.0.1')
+    .post(path)
+    .set('Host', host)
+    .set('X-Forwarded-Proto', protocol)
     .set('X-Twilio-Signature', signature)
     .type('form')
     .send(body);
@@ -94,6 +99,50 @@ describe(
     beforeEach(() => {
       jest.clearAllMocks();
     });
+
+    test.each([
+      '/webhooks/twilio/regulatory-status',
+      '/api/webhooks/twilio/regulatory-status',
+    ])(
+      'accepts documented BundleSID over the signed public URL at %s',
+      async (path) => {
+        syncRegulatoryBundleStatusBySidMock.mockResolvedValue({
+          profile: { status: 'IN_REVIEW' },
+          reason: null,
+        });
+        const body = {
+          AccountSID: 'AC11111111111111111111111111111111',
+          BundleSID: BU,
+          Status: 'in-review',
+        };
+        const response = await signedPost({
+          app, body, path, host: 'api.example.test', protocol: 'https',
+        });
+        expect(response.status).toBe(200);
+        expect(syncRegulatoryBundleStatusBySidMock).toHaveBeenCalledWith({
+          bundleSid: BU,
+        });
+      }
+    );
+
+    test.each([
+      '/webhooks/twilio/regulatory-status',
+      '/api/webhooks/twilio/regulatory-status',
+    ])(
+      'rejects missing and invalid signatures before synchronization at %s',
+      async (path) => {
+        const body = { BundleSID: BU, Status: 'twilio-approved' };
+        await request(app).post(path)
+          .set('Host', 'api.example.test')
+          .set('X-Forwarded-Proto', 'https')
+          .type('form').send(body).expect(400);
+        await signedPost({
+          app, body, path, host: 'api.example.test', protocol: 'https',
+          signatureToken: 'wrong_synthetic_token',
+        }).expect(403);
+        expect(syncRegulatoryBundleStatusBySidMock).not.toHaveBeenCalled();
+      }
+    );
 
     test(
       'accepts a valid Twilio signature and synchronizes by Bundle SID',
