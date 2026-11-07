@@ -148,6 +148,8 @@ ROLLBACK;`;
 
   const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
   const consentManifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v2.json'));
+  assert.equal(manifest.status, 'proposed-not-authorized-for-production');
+  assert.equal(consentManifest.status, 'approved-for-production');
   const fullPackage = buildPackage('HEAD');
   const releasePackage = buildPackage('6a5f06d58c4414b7a0f584eeaede3118d3e9066b');
   const baselineLedger = await ledger(db);
@@ -171,11 +173,20 @@ ROLLBACK;`;
     { ...isolated, allowProposedForIsolatedTest: false }), /not approved for production/);
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
   const consentEnv = { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: consentManifest.id };
-  const isolatedConsent = { allowProposedForIsolatedTest: true, manifestVersion: 'v2',
+  const isolatedConsent = { manifestVersion: 'v2',
     migrationRoot: 'server/prisma/migrations' };
   assert.equal((await runPreflight(db, consentEnv, '--before-migrations', isolatedConsent)).reconciliationId,
     consentManifest.id);
-  console.log('PASS: proposed exception is CI-only and accepts exactly the four documented target pairs');
+  await assert.rejects(runPreflight(db, { ...consentEnv,
+    STAFF_MIGRATION_RECONCILIATION_ID: manifest.id }, '--before-migrations', isolatedConsent),
+  /Unknown reconciliation ID/);
+  await assert.rejects(runPreflight(db, { ...consentEnv,
+    DATABASE_URL: 'postgresql://chatforia@wrong.example:25060/defaultdb' },
+  '--before-migrations', isolatedConsent), /target differs/);
+  await assert.rejects(runPreflight(db, { ...consentEnv,
+    DATABASE_URL: `postgresql://chatforia@${consentManifest.target.hostname}:5432/defaultdb` },
+  '--before-migrations', isolatedConsent), /target differs/);
+  console.log('PASS: v1 remains proposed; activated v2 accepts only the four documented target pairs');
 
   await assert.rejects(runPreflight(db, { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: 'wrong' }, '--before-migrations', isolated), /Unknown reconciliation ID/);
   await assert.rejects(runPreflight(db, { ...reconciledEnv, DATABASE_URL: 'postgresql://chatforia@wrong.example:25060/defaultdb' }, '--before-migrations', isolated), /target differs/);

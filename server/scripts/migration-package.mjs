@@ -17,7 +17,7 @@ export const reconciliationPathsV2 = [
 ];
 const reconciliationDigests = {
   v1: 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5',
-  v2: '0b49aab2bc1be3a3d230c1f6d2fc1c8368e8e4639860d12ea1fc76a925e2e7f0',
+  v2: '9d804646458a74c8fa3934db379d0431d166a26aa7104c58d1b42287ffa6c187',
 };
 const consentMigration = '20261106010000_twilio_compliance_event_sid';
 const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a';
@@ -148,7 +148,7 @@ function assertReconciliationReleaseSet(bundle, files) {
 
 // Pure verification only: this does not grant production execution authority.
 // The deployment caller must also pass assertReconciliationRequested and the
-// catalog/data preflight. Both pinned manifests remain unapproved for production.
+// catalog/data preflight. This pure checker grants no production authority.
 export function checkReconciledHistory(bundle, rows, target, complete = false) {
   const files = verifyPackage(bundle);
   const { version, manifest, migrations } = assertReconciliationReleaseSet(bundle, files);

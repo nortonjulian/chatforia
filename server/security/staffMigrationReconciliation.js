@@ -10,7 +10,7 @@ const manifests = {
   },
   v2: {
     path: 'server/security/staffMigrationReconciliation.v2.json',
-    sha256: '0b49aab2bc1be3a3d230c1f6d2fc1c8368e8e4639860d12ea1fc76a925e2e7f0',
+    sha256: '9d804646458a74c8fa3934db379d0431d166a26aa7104c58d1b42287ffa6c187',
     id: 'chatforia-defaultdb-four-hash-consent-20261106-v2',
     count: 161,
   },
@@ -54,8 +54,8 @@ export function assertReconciliationRequested(env, database, options = {}) {
   const manifest = loadReconciliationManifest(options);
   if (env.STAFF_MIGRATION_RECONCILIATION_ID !== manifest.id)
     throw new ReconciliationError('Unknown reconciliation ID');
-  // This commit implements and exercises the mechanism only. The CLI supplies
-  // no test option; changing the reviewed manifest/status is a separate release.
+  // The package CLI supplies no isolated-test bypass. The reviewed digest,
+  // explicit ID and pinned target gate a separately approved production run.
   if (manifest.status !== 'approved-for-production') {
     if (
       options.allowProposedForIsolatedTest !== true ||
