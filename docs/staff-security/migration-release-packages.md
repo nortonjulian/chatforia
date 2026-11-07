@@ -108,6 +108,42 @@ placeholder receipt that appears to certify production. The isolated PostgreSQL
 18 receipt-generation step passed in [PR verification run #174](https://github.com/nortonjulian/chatforia/actions/runs/42170718022);
 that is a synthetic test, not target evidence.
 
+**Prepared backup path, not a completed final backup:** the current manifest is
+still `proposed-not-authorized-for-production`; no final activation release asset
+or target receipt exists. The
+[preparation receipt](evidence/final-release-backup-preparation-20261106.json)
+records the current artifact state. The reviewed candidate's AES-256 iCloud Drive
+image and successful read-back establish the storage method only. After a separately
+approved activation commit is reviewed and merged, use a **new** archive release
+from that exact main SHA. Confirm its checksum and package commit, inspect the
+embedded manifest for `approved-for-production`, verify all 160 migration files
+and compare the downloaded bytes with the reviewed release. Abort on any mismatch;
+never relabel or reuse the candidate image or digest.
+
+Stage the final package and checksum in an owner-only local directory outside the
+checkout and API host. Create a new AES-256 encrypted disk image containing only
+those verified files and a minimal nonsecret inventory. Name the image and
+checksum sidecar with the full reviewed release commit; use different names for
+later receipt images so no attempt can overwrite the package backup. Provide
+its passphrase through hidden input from separately retained custody, never a
+command argument, environment variable, log, PR or the image itself. Verify the
+image checksum,
+mount it read-only, compare the package and checksum byte-for-byte with the
+downloaded source, run package verification on the mounted copy, then detach.
+Keep the plaintext staging directory owner-only and local; remove it only under
+the owner's later retention decision.
+
+Upload **only** the encrypted image and its checksum sidecar to the existing
+private iCloud Drive destination. The candidate's automatic sync was not visible
+on iCloud.com, so verify the final image through an explicit web upload and a
+separate download. Compare the returned image with the local digest, decrypt the
+returned copy read-only, verify the package again and detach. Do not mark final
+backup complete until this cloud read-back passes. After each authorized
+preflight/execute attempt, make a new encrypted backup of its complete private
+receipt directory and verify a separate read-back the same way. Preserve failed
+and incomplete attempts. No production preflight, migration or exception
+activation is authorized by these preparation steps.
+
 For the final activation release, retain the package JSON and checksum from the
 new GitHub Release plus each complete private attempt directory produced by the
 runner. Keep the runner's `started.json`, archived `package.json`, `before.json`

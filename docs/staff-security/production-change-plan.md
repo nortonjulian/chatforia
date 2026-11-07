@@ -127,7 +127,12 @@ image checksum, decryption and full package verification. The owner reported
 storing and retrieving the image passphrase independently in a password manager.
 The original temporary image and passphrase remain intact. This verifies a
 backup of the **proposed candidate**, not the still-missing backup of the final
-activation package and future private receipts.
+activation package and future private receipts. The [final-package backup
+procedure](migration-release-packages.md#private-custody-of-final-package-and-receipts)
+is prepared; it cannot produce a real final backup until the separately
+approved activation artifact and, later, actual attempt receipts exist. The
+[preparation receipt](evidence/final-release-backup-preparation-20261106.json)
+records this boundary without claiming a completed final backup.
 
 The owner-controlled recovery record must be kept outside GitHub and the API
 host. The owner selected the intended existing founder account; a
@@ -153,16 +158,20 @@ the saved Mac entry matched a fresh production-source read exactly, and the owne
 reported retrieval and a full visual match on iPhone. Universal Clipboard did
 not provide a usable automated iPhone comparison. The source file predates the
 running API process, but its in-process value was not dumped. This is sole-owner
-Apple Passwords custody, not independent human or provider custody. Independently retrieve
-existing JWT and required OAuth material from off-host custody and confirm it
-matches the running versions without printing values, hashes or tokens in public
-evidence. Record custodian, retrieval date and a redacted match result privately.
-New session/staff signing keys need separate protected custody only in the
-approved cutover; never generate them in
-this preparation document. Choose an independently durable private storage
-location for the **final** activation package, its checksum and every future
-receipt attempt directory. Prove a read-back copy with SHA-256 verification and
+Apple Passwords custody, not independent human or provider custody. Independently
+retrieve existing JWT and required OAuth material from off-host custody and
+confirm it matches the running versions without printing values, hashes or
+tokens in public evidence. Record custodian, retrieval date and a redacted match
+result privately. New session/staff signing keys need separate protected custody
+only in the approved cutover; never generate them during preparation. Choose an
+independently durable private storage location for the **final** activation
+package, its checksum and every future receipt attempt directory. Prove a
+read-back copy with SHA-256 verification and
 owner-only access; local Time Machine currently has no completed machine backup.
+The [existing Twilio Auth Token](evidence/twilio-auth-token-retrieval-20261106.json)
+was retrieved from the matching Twilio Console account and exactly matched the
+deployed source without displaying it. The Console is an off-server retrieval
+path; no extra Apple Passwords token copy or rotation was needed.
 See [package and receipt custody](migration-release-packages.md).
 
 ## Fixed target and intended changes
@@ -284,6 +293,8 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Existing `APP_ENC_KEY`: off-host Apple Passwords exact Mac readback passed;
   owner-reported iPhone retrieval/full visual match passed. Existing JWT and
   required OAuth material still lack independent off-host retrieval evidence.
+- Existing Twilio Auth Token: matching current primary token retrieved from
+  Twilio Console and exactly compared to production; no additional copy created.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
 - Explicit permission for roles/schema, exception activation, migrations, keys/bootstrap,
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.

@@ -126,7 +126,11 @@ Refresh backup health for the actual window. Existing `APP_ENC_KEY` now has an
 [off-host Apple Passwords copy](evidence/app-enc-key-custody-20261106.json):
 exact Mac readback matched the production source, and the owner reported an
 iPhone full-value visual match. JWT/OAuth retrieval remains pending. This is
-same-owner Apple Account custody, not a separate human or provider.
+same-owner Apple Passwords custody, not a separate human or provider.
+The [existing Twilio Auth Token](evidence/twilio-auth-token-retrieval-20261106.json)
+was independently retrieved from Twilio Console and exactly matched the deployed
+source; no additional copy or rotation was performed. Console-account access
+remains necessary to retrieve it again.
 Owner-reported PITR/latest-transaction recovery offers seven days into a new
 cluster. Same-host root-owned 0600 key copies match but alone are not independent
 recovery. A second database on production chatforia-db is not an isolated
