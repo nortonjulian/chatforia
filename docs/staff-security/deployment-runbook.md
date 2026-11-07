@@ -14,8 +14,10 @@ and proposed network fence are in [ingress-fencing-proposal.md](ingress-fencing-
 Migration execution must follow [the archived package and receipt procedure](migration-release-packages.md).
 The owner accepted the four-migration historical uncertainty and authorized preparation
 for review; see [the acceptance record](migration-exception-review.md). PR #300 integrates
-the pinned exception into package validation, but the manifest remains unapproved for
-production. Separate merge and production activation decisions remain required.
+the pinned exception into package validation. A separate activation branch now carries
+the reviewed `approved-for-production` status/pins **for CI and review only**; no
+merged activation release or production execution approval exists. Separate merge
+and production decisions remain required.
 Treat migration commands below as sequencing context; use the package runner for
 actual execution after those gates are resolved.
 

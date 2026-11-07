@@ -1,5 +1,12 @@
 # Four baseline migrations: evidence for reviewed reconciliation
 
+Activation-branch checkpoint (November 6): the owner authorized applying the
+[exact reviewed patch](reconciliation-activation-proposal.md) on a separate
+branch for CI and review only. The source manifest there is approved, while the
+currently merged/released package still contains the proposed manifest. The
+historical proposal-state statements below describe the earlier PR #301 base;
+no production preflight, migration, role provisioning or deployment is authorized.
+
 Current decision (November 4 owner local date / November 5 UTC): the owner accepted
 remaining historical-data uncertainty and authorized preparing the exception for
 review only. See [the scoped acceptance and evidence record](migration-exception-review.md).

@@ -55,9 +55,11 @@ every pending migration. After separate production approval, repeat with
 `--execute`. It repeats all preflight checks and executes the installed, version-
 checked Prisma CLI against the schema and SQL extracted from the archived package.
 The existing staff prerequisite preflight also runs when staff migrations are pending.
-The four-pair exception is integrated for review but remains blocked by the existing
-production-approval gate. Owner acceptance of historical uncertainty is recorded in
-`migration-exception-review.md`; it does not authorize production execution.
+The four-pair exception is integrated for review. The currently merged/released
+package remains proposed; the separate activation branch applies the exact
+status/pin patch for CI review only. Owner acceptance of historical uncertainty
+for preparation is recorded in `migration-exception-review.md`; it does not
+authorize production execution.
 Without STAFF_MIGRATION_RECONCILIATION_ID, exact checksum matching remains the default.
 With that ID, the runner requires the pinned manifest to have separate production
 approval, archives the manifest and three evidence files, checks the exact target
@@ -66,10 +68,12 @@ The production CLI cannot use the isolated CI bypass. Before and after checks al
 run the existing read-only catalog and data predicates. Receipts preserve the actual
 historical ledger and identify the exception; no ledger checksum is rewritten.
 
-The manifest remains `proposed-not-authorized-for-production`. A future separately
-approved activation must update the manifest status and both digest pins in
-staffMigrationReconciliation.js and migration-package.mjs through review and tests.
-Do not set the production exception environment variable as part of preparing this PR.
+PR #301's base manifest is `proposed-not-authorized-for-production`. The
+separate activation branch sets `approved-for-production` in source and updates
+both digest pins in staffMigrationReconciliation.js and migration-package.mjs.
+Its CI/review, merge, new release and actual production execution remain
+separate gates.
+Do not set the exception environment variable on production as part of preparing this PR.
 Never edit the migration ledger to pass a check.
 
 The [November 6 local candidate](evidence/recovery-package-local-20261106.json)
@@ -108,8 +112,8 @@ placeholder receipt that appears to certify production. The isolated PostgreSQL
 18 receipt-generation step passed in [PR verification run #174](https://github.com/nortonjulian/chatforia/actions/runs/42170718022);
 that is a synthetic test, not target evidence.
 
-**Prepared backup path, not a completed final backup:** the current manifest is
-still `proposed-not-authorized-for-production`; no final activation release asset
+**Prepared backup path, not a completed final backup:** the currently archived
+review package still contains the proposed manifest; no final activation release asset
 or target receipt exists. The
 [preparation receipt](evidence/final-release-backup-preparation-20261106.json)
 records the current artifact state. The reviewed candidate's AES-256 iCloud Drive

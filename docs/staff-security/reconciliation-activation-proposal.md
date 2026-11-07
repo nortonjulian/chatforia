@@ -1,15 +1,16 @@
 # Exact four-pair activation proposal — review only
 
 Prepared against PR #301 commit `3cf4b2f4baa462238aa63a2132370b87c61577cf`.
-The [unapplied patch](reconciliation-activation-proposed.patch) is the exact
-four-file source change proposed for a **later, separately approved activation
-commit**. Its SHA-256 is
+The [reviewed patch](reconciliation-activation-proposed.patch) is the exact
+four-file source change applied on the separate activation branch in code commit
+`c19542aa`. Its SHA-256 is
 `91939cb2301df64980d204a508de0ad1fdc6987686d17160a0a66b6ccab076d0`.
 The patch uses zero context to keep it whitespace-clean in the PR; verify the
 base commit and apply it only with `git apply --unidiff-zero` after approval.
-The live branch manifest remains `proposed-not-authorized-for-production`; this
-proposal does not activate the production exception or authorize merge,
-migration, role provisioning, deployment, or a production connection.
+The PR #301 base manifest remains `proposed-not-authorized-for-production`.
+This activation branch has `approved-for-production` **source bytes for CI and
+review only**. No merged activation release exists, and the owner has not
+authorized production preflight, migration, role provisioning or deployment.
 
 ## Exact boundary
 
@@ -66,16 +67,15 @@ package unit tests. A real-file synthetic package/ledger preview accepted the
 four pairs at 141/160 and rejected strict-default use, a fifth mismatch, a new
 staff checksum change, missing/extra rows and the wrong port. The preview gate
 accepted the exact ID/target and rejected missing/wrong IDs and wrong host.
-The CI test file parsed successfully. Existing PR #301 PostgreSQL 18 CI tested
-the proposed-state mechanism; **the activated patch has not yet run in CI or
-against the production target**. No production database was accessed for this
-preview.
+The CI test file parsed successfully. PR #301 PostgreSQL 18 CI tested the
+proposed-state mechanism; the activated branch requires its own CI result.
+No production database was accessed for this preview.
 
-The specific approval requested is: **accept the four named historical-data
-uncertainties for production preparation and authorize applying this exact
-patch on a separately reviewed activation branch**. This would permit code
-review and isolated CI only. A later explicit merge decision, a new immutable
-release/archive and independently verified encrypted cloud backup, and separate
-production preflight/migration approvals remain required. If the base code,
-target, evidence, SQL or proposed patch changes, regenerate the digest and seek
+The owner accepted the four named historical-data uncertainties **for production
+preparation** and authorized applying this exact patch on a separate branch for
+code review and isolated CI. That decision is now reflected in code commit
+`c19542aa`; it does not authorize a merge. A later explicit merge decision, a
+new immutable release/archive and independently verified encrypted cloud backup,
+and separate production preflight/migration approvals remain required. If the
+base code, target, evidence, SQL or patch changes, regenerate the digest and seek
 review again. Do not apply this patch directly on a production host.
