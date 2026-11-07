@@ -1,7 +1,7 @@
 # Stage 5 consolidated cutover approval proposal — review only
 
 Prepared November 7, 2026 from merged main `b94b1891e5bca49f153c3548a6caa773e4599918`
-and the separate v2 activation branch at `55d10a5c`. This is an approval packet, not authority
+and the separate v2 activation branch. This is an approval packet, not authority
 to run any command against production. Stage 6 staff admission is excluded.
 The owner is the release operator and stop authority. Existing sole-owner
 recovery uses separate restricted credentials and sessions, not two people.
@@ -17,7 +17,11 @@ recovery uses separate restricted credentials and sessions, not two people.
   iCloud.com upload/download, separate downloaded-image decryption with the
   saved Apple Passwords passphrase, and byte-for-byte package read-back.
   The private receipt is outside GitHub. Preserve this archive and backup as
-  historical evidence; **do not execute it against the current code**.
+  historical evidence; **do not execute it against the current code**. Its 161
+  migration SQL files and other shared packaged files match the v2 candidate.
+  It instead embeds the in-place v1 manifest, which the current checker rejects
+  as `Unreviewed reconciliation manifest`. Using it would require the exact
+  older `026b1c92` runner/checkout and would omit the later v2 checks.
 - [Main PR #307](https://github.com/nortonjulian/chatforia/pull/307) restored
   archived v1's exact 160-migration proposed manifest (SHA-256
   `a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5`)
@@ -34,8 +38,13 @@ recovery uses separate restricted credentials and sessions, not two people.
 - The earlier 168-file/160-migration candidate and its verified encrypted
   iCloud readback also remain historical evidence. Preserve both that candidate
   and the later `026b1c92` archive/image; neither is the final v2 package.
-- No final v2 archive or cloud backup exists. After a separate v2 merge decision,
-  archive **that resulting main SHA**, verify the 161 SQL files, exact 160-file
+- No final v2 archive or cloud backup exists. Freeze the final reviewed PR head
+  as the release target in the PR and private candidate receipt. The repository
+  allows a merge commit: after separate approval, merge **without squash or
+  rebase** so that exact head remains an ancestor of main. The archive workflow
+  can then package the same target SHA. A changed head, changed main base,
+  unavailable merge method or different archive checksum is a stop requiring
+  new review. Verify the 161 SQL files, exact 160-file
   legacy set, exact Twilio checksum, four pairs, three inert rollback records,
   v2 ID/status and package digest. Encrypt and independently read back the new
   package before any production fence, role change, preflight or migration.
@@ -71,10 +80,10 @@ current-data predicates do not prove every historical data effect. The owner
 accepted that uncertainty for preparation only. A fifth mismatch, altered
 target, evidence, SQL, rollback history or other ledger entry is an abort.
 Without the explicit V2 ID, strict checksum validation remains the default.
-PR #307's [PostgreSQL 18](https://github.com/nortonjulian/chatforia/actions/runs/42338821100)
-and [append-only](https://github.com/nortonjulian/chatforia/actions/runs/42338820944)
-checks passed on the same tree now in main; the activation branch needs its
-own final CI after the status/pin change.
+The activation branch's [PostgreSQL 18 and app CI](https://github.com/nortonjulian/chatforia/actions/runs/42341032152)
+and [append-only CI](https://github.com/nortonjulian/chatforia/actions/runs/42341032100)
+passed after the v2 status/pin change. A later documentation-only receipt update
+does not change those tested code bytes.
 
 ## One proposed production decision, only after the holds below close
 
@@ -208,7 +217,8 @@ reserved window. No paid-provider test event is required to prove routing.
 ## Genuine holds before this can become an executable approval
 
 1. Review and merge the **v2**, not v1, activation branch after disposable
-   PostgreSQL 18 CI. Then archive and independently back up the new main SHA.
+   PostgreSQL 18 CI. Preserve the pinned PR head with a merge commit; then
+   archive and independently back up that exact ancestor SHA.
    The verified v1 backup does not close this hold.
 2. Owner supplies an exact off-peak window, maximum tolerated interruption,
    alert destination and callback outage/retry acceptance. If an extended
