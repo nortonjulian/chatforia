@@ -1,3 +1,4 @@
+import { readPrivacy } from '@/privacy/preferences';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Box, Text } from '@mantine/core';
 import { useAds } from '@/ads/AdProvider';
@@ -10,7 +11,7 @@ function AdsenseSlot({ placement, config }) {
 
   useEffect(() => {
     try {
-      if (!pubId || !slot) return;
+      if (!readPrivacy().advertising || !pubId || !slot) return;
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
     } catch (e) {
