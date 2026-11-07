@@ -15,7 +15,14 @@
   "recoveryOperators": {
     "humanControl": "Sole owner; owner accepted single-person residual risk for preparation. This is separation of credentials and sessions, not two-person approval.",
     "separateAuthenticatedLogins": "prepared as password-free restricted role template; not provisioned in production",
-    "credentialCustody": "separate independently retrievable stores and retrieval checks pending",
+    "credentialCustody": {
+      "selectionReportedOn": "2026-11-06",
+      "issuerSelectedStore": "Apple Passwords",
+      "executorSelectedStore": "sealed paper copy in secure storage; exact physical location kept private",
+      "credentialsCreated": false,
+      "credentialsStored": false,
+      "independentRetrievalVerified": false
+    },
     "databaseRoles": "The reviewed prerequisite script creates distinct NOLOGIN issuer/executor roles only during a separately approved change; the separate login template remains unexecuted in production; no production membership was granted in this check",
     "sessionsAndAudit": "distinct session_user, atomic mandatory audit, replay denial and session revocation required at activation; isolated synthetic coverage does not prove production operation"
   },

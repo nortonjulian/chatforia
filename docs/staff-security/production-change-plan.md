@@ -142,6 +142,10 @@ issuer/executor memberships cannot overlap directly or transitively and that
 neither login is the application runtime. See the
 [sole-owner recovery procedure](sole-owner-recovery.md). This is preparation,
 not permission to create logins, grant roles or use recovery in production.
+The owner selected Apple Passwords for the issuer credential and a sealed paper
+copy in secure storage for the executor credential. This is a storage plan only:
+neither credential has been created, stored or retrieved, and no production
+recovery login has been provisioned.
 
 Independently retrieve the existing encryption, JWT and required OAuth material
 from off-host custody and confirm it matches the running versions without
@@ -267,9 +271,10 @@ revocations, token floors, consumed assertions/approvals and audits before reope
 - Founder ID: verified and owner-approved privately for a future bootstrap;
   canary IDs and initial staff grants remain pending private verification and
   separate execution approval.
-- Sole-owner recovery risk: accepted for preparation; distinct restricted login
-  provisioning, separate credential storage/retrieval and independent recovery-key
-  retrieval remain unverified and require separate production approval.
+- Sole-owner recovery risk: accepted for preparation. Issuer/executor storage
+  locations are selected; restricted login and credential creation, separate
+  storage/retrieval checks and independent recovery-key retrieval remain pending
+  separate production approval.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
 - Explicit permission for roles/schema, exception activation, migrations, keys/bootstrap,
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.

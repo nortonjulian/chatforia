@@ -33,8 +33,16 @@ administrative attributes. Each may SET only its matching NOLOGIN role. The
 template rejects an unexpected target, prior logins, unsafe base roles and
 cross-role/owner membership. It is **not** the existing-database QA fixture and
 must not run without a separately approved DBA change. The PostgreSQL 18 CI
-rehearsal checks the role graph, missing passwords, simulated distinct session identities,
-cross-role denial and repeated-run rejection on a disposable instance.
+rehearsal checks the role graph, missing passwords, simulated distinct session
+identities, cross-role denial and repeated-run rejection on a disposable instance.
+
+The owner selected **Apple Passwords** for the issuer credential and a **sealed
+paper copy in secure storage** for the executor credential. This records storage
+intent only: neither credential exists, neither has been stored or retrieved, and
+neither production login exists. Do not record the physical location or any
+credential value in this repository or PR. During separately approved
+provisioning, store each credential only in its selected location, verify each
+can be retrieved independently, and document the checks privately.
 
 Before production activation, a privileged operator must inspect the entire
 membership graph and effective grants, including PUBLIC database/schema grants,
