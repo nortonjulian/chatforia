@@ -29,6 +29,6 @@ jobs:
         with:
           node-version: '22'
       - name: Verify release packaging and evidence checks
-        run: node --test server/scripts/migration-package.test.mjs
+        run: node --test server/scripts/migration-package.test.mjs server/scripts/staff-migration-161.test.mjs
       - name: Build proposed package from committed bytes
         run: node server/scripts/migration-package.mjs HEAD /tmp/migration-package.json

@@ -232,9 +232,11 @@ Never dispatch the legacy backend deployment workflow.
    without separate authorization. Finish receipt-folder backup validation before
    approving execution; preparation may continue meanwhile.
 4. **Prepare the activation release for a separate decision.** The owner authorized
-   an isolated activation branch for CI review; its status and both digest pins now
-   cover the 161-migration set, retaining strict default and exact target/four-pair
-   checks. Require successful CI and review. Obtain the separate merge decision,
+   an isolated activation branch for CI review. The
+   [integration review](reconciliation-integration-review-20261106.md) preserves
+   the original V1 package and pins the 161-migration V2 set separately; V2's
+   approval status remains proposed. Resolve that explicit activation decision,
+   then require successful CI and review. Obtain the separate merge decision,
    then create and verify a NEW archive for that merged
    commit. Archive application artifacts and the compatible recovery backend at
    the same reviewed revision. The current 6a5f06d archive is retained as evidence.

@@ -2,13 +2,13 @@
 
 Activation-branch checkpoint (November 6): the owner authorized applying the
 [exact reviewed patch](reconciliation-activation-proposal.md) on a separate
-branch for CI and review only. The source manifest there is approved, while the
-currently merged/released package still contains the proposed manifest. The
-historical proposal-state statements below describe the earlier PR #301 base;
-no production preflight, migration, role provisioning or deployment is authorized.
-Current main then added one Twilio consent migration; the
-[161-migration adaptation](reconciliation-161-adaptation.md) pins it exactly
-without adding a historical checksum exception.
+branch for CI and review only. That Founder branch changed V1 in place and
+marked its source approved. The
+[integration review](reconciliation-integration-review-20261106.md) retains
+the original V1 bytes and a separately pinned, proposed V2 for the later Twilio
+consent migration. The historical proposal-state statements below describe the
+earlier PR #301 base; no production preflight, migration, role provisioning or
+deployment is authorized.
 
 Current decision (November 4 owner local date / November 5 UTC): the owner accepted
 remaining historical-data uncertainty and authorized preparing the exception for
@@ -172,11 +172,14 @@ rewrite, `migrate resolve`, fabricated SQL or silent waiver is proposed.
 
 ### Target-bound preflight mechanism (implemented for isolated testing only)
 
-The branch adds a versioned, hash-pinned
-`server/security/staffMigrationReconciliation.v1.json` manifest for the **one
-verified target**. It pins four recorded ledger/current-file checksum pairs,
-the 141-entry baseline and 161-entry post-release counts, target database/endpoint
-identity and digests of the catalog and bounded-data evidence. The other 137
+The retained V1 manifest pins the original 141/160-migration review package.
+The separate, proposed
+`server/security/staffMigrationReconciliation.v2.json` manifest pins the **one
+verified target** for a 161-migration release. It keeps the four recorded
+ledger/current-file checksum pairs, the 141-entry baseline and 161-entry
+post-release counts, target database/endpoint identity, the exact consent SQL
+hash and the complete prior 160-file set, plus digests of the catalog and
+bounded-data evidence. The other 137
 baseline migrations and all new migrations still require exact file/ledger
 hashes. The target's three historical rolled-back attempts remain untouched;
 the package check requires exactly three inert rows, preserves them in receipts,

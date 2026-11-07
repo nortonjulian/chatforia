@@ -11,19 +11,50 @@ export const reconciliationPaths = [
   'docs/staff-security/evidence/migration-target-catalog.json',
   'docs/staff-security/evidence/migration-current-data-invariants.json',
 ];
-const reconciliationDigest = '94efe3ca09f6c316fbe5d498a609e85731d67de0c195e9d3a09336481485fd71';
+export const reconciliationPathsV2 = [
+  'server/security/staffMigrationReconciliation.v2.json',
+  ...reconciliationPaths.slice(1),
+];
+const reconciliationDigests = {
+  v1: 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5',
+  v2: '0b49aab2bc1be3a3d230c1f6d2fc1c8368e8e4639860d12ea1fc76a925e2e7f0',
+};
+const consentMigration = '20261106010000_twilio_compliance_event_sid';
+const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a';
+const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
-...reconciliationPaths,
+  ...new Set([...reconciliationPaths, ...reconciliationPathsV2]),
 ].includes(path);
+
+export function migrationSetDigest(entries) {
+  return digest(entries.map(({ name, sha256 }) => `${name} ${sha256}\n`).sort().join(''));
+}
+
+export function reconciliationPackageSpec(files) {
+  const hasV1 = files.has(reconciliationPaths[0]);
+  const hasV2 = files.has(reconciliationPathsV2[0]);
+  if (hasV1 === hasV2) throw new Error('Expected exactly one reconciliation manifest');
+  const version = hasV2 ? 'v2' : 'v1';
+  const paths = hasV2 ? reconciliationPathsV2 : reconciliationPaths;
+  if (digest(files.get(paths[0])) !== reconciliationDigests[version])
+    throw new Error('Unreviewed reconciliation manifest');
+  return { version, paths, manifest: JSON.parse(files.get(paths[0])) };
+}
 
 export function buildPackage(ref, cwd = process.cwd()) {
   const git = (...args) => execFileSync('git', args, { cwd, maxBuffer: 32 * 1024 * 1024 });
   const commit = git('rev-parse', '--verify', `${ref}^{commit}`).toString().trim();
-  const files = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json', ...reconciliationPaths)
-    .toString().split('\0').filter(Boolean)
-    .filter((entry) => allowedPath(entry.split('\t')[1])).map((entry) => {
+  const entries = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json',
+    ...new Set([...reconciliationPaths, ...reconciliationPathsV2]))
+    .toString().split('\0').filter(Boolean);
+  const hasConsent = entries.some((entry) => entry.split('\t')[1] ===
+    `server/prisma/migrations/${consentMigration}/migration.sql`);
+  const excludedManifest = hasConsent ? reconciliationPaths[0] : reconciliationPathsV2[0];
+  const files = entries
+    .filter((entry) => allowedPath(entry.split('\t')[1]) && entry.split('\t')[1] !== excludedManifest)
+    .map((entry) => {
       const [metadata, path] = entry.split('\t');
       const [mode, type, object] = metadata.split(' ');
       if (!allowedPath(path) || mode !== '100644' || type !== 'blob') {
@@ -34,6 +65,11 @@ export function buildPackage(ref, cwd = process.cwd()) {
     }).sort((a, b) => a.path.localeCompare(b.path));
   const bundle = { version: 1, commit, files };
   verifyPackage(bundle);
+  const packaged = new Map(files.map((file) => [file.path, Buffer.from(file.content, 'base64')]));
+  if (hasConsent && !packaged.has(reconciliationPathsV2[0]))
+    throw new Error('Missing reviewed 161-migration reconciliation manifest');
+  if (packaged.has(reconciliationPaths[0]) || packaged.has(reconciliationPathsV2[0]))
+    assertReconciliationReleaseSet(bundle, packaged);
   return bundle;
 }
 
@@ -86,39 +122,45 @@ export function checkHistory(bundle, rows, complete = false) {
   return pending;
 }
 
-// Pure verification only: this does not grant production execution authority.
-// The deployment caller must also pass assertReconciliationRequested and the
-// catalog/data preflight. This pure checker grants no production authority.
-export function checkReconciledHistory(bundle, rows, target, complete = false) {
-  const files = verifyPackage(bundle);
-  const bytes = files.get(reconciliationPaths[0]);
-  if (!bytes || digest(bytes) !== reconciliationDigest) throw new Error('Unreviewed reconciliation manifest');
-  const manifest = JSON.parse(bytes);
-  if (target.hostname !== manifest.target.hostname || target.database !== manifest.target.database ||
-      Number(target.port) !== manifest.target.port) throw new Error('Reconciliation target mismatch');
+function assertReconciliationReleaseSet(bundle, files) {
+  const { version, manifest } = reconciliationPackageSpec(files);
   for (const [path, checksum] of Object.entries(manifest.evidenceSha256)) {
     if (!files.has(path) || digest(files.get(path)) !== checksum) throw new Error('Reconciliation evidence mismatch');
   }
   const migrations = bundle.files.filter((file) => migrationPath.test(file.path));
-  const names = migrations.map((file) => file.path.match(migrationPath)[1]);
-  const laterNames = names.filter((name) => name > '20261102094000_founder_staff_management').sort();
-  const requiredExactNames = Object.keys(manifest.requiredExactMigrations || {}).sort();
+  const named = migrations.map((file) => ({ name: file.path.match(migrationPath)[1], sha256: file.sha256 }));
+  const legacy = named.filter(({ name }) => name !== consentMigration);
   if (migrations.length !== manifest.afterStaffCount ||
-      names.filter((name) => name < '20261102').length !== manifest.baselineCount ||
-      names.filter((name) => name.startsWith('20261102')).length !== 19 ||
-      JSON.stringify(laterNames) !== JSON.stringify(requiredExactNames)) {
+      (version === 'v1' && legacy.filter(({ name }) => !name.startsWith('20261102')).length !== manifest.baselineCount) ||
+      (version === 'v2' && (
+        legacy.length !== 160 ||
+        legacy.filter(({ name }) => name < '20261102').length !== manifest.baselineCount ||
+        legacy.filter(({ name }) => name.startsWith('20261102')).length !== 19 ||
+        manifest.legacyMigrationSetSha256 !== legacyMigrationSetSha256 ||
+        migrationSetDigest(legacy) !== legacyMigrationSetSha256 ||
+        JSON.stringify(manifest.requiredExactMigrations) !== JSON.stringify({ [consentMigration]: consentSha256 }) ||
+        named.find(({ name }) => name === consentMigration)?.sha256 !== consentSha256
+      ))) {
     throw new Error('Reconciliation release migration set changed');
   }
-  for (const [name, checksum] of Object.entries(manifest.requiredExactMigrations)) {
-    const file = migrations.find((item) => item.path === `server/prisma/migrations/${name}/migration.sql`);
-    if (!file || file.sha256 !== checksum) throw new Error('Required exact migration file changed');
-  }
-  // Keep the three observed historical rollbacks inert and visible in receipts.
-  // Every active entry must still be finished and match the reviewed release.
+  return { version, manifest, migrations };
+}
+
+// Pure verification only: this does not grant production execution authority.
+// The deployment caller must also pass assertReconciliationRequested and the
+// catalog/data preflight. Both pinned manifests remain unapproved for production.
+export function checkReconciledHistory(bundle, rows, target, complete = false) {
+  const files = verifyPackage(bundle);
+  const { version, manifest, migrations } = assertReconciliationReleaseSet(bundle, files);
+  if (target.hostname !== manifest.target.hostname || target.database !== manifest.target.database ||
+      Number(target.port) !== manifest.target.port) throw new Error('Reconciliation target mismatch');
+  // Version 1 retains its original rejection of rolled-back rows. Version 2
+  // pins the three observed historical attempts and checks active rows exactly.
   const historical = rows.filter((row) => row.rolled_back_at);
   const active = rows.filter((row) => !row.rolled_back_at);
-  if (historical.length !== manifest.historicalRolledBackCount ||
-      historical.some((row) => row.finished_at) ||
+  if ((version === 'v1' && historical.length) ||
+      (version === 'v2' && (historical.length !== manifest.historicalRolledBackCount ||
+        historical.some((row) => row.finished_at))) ||
       active.length !== (complete ? manifest.afterStaffCount : manifest.baselineCount) ||
       active.some((row) => !row.finished_at ||
         (!complete && row.migration_name >= '20261102'))) {

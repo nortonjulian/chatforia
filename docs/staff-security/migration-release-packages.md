@@ -1,13 +1,32 @@
 # Migration packages and receipts
 
-The [current-main activation adaptation](reconciliation-161-adaptation.md)
-requires 161 migration SQL files, including an exact-hash Twilio migration.
+The [integration review](reconciliation-integration-review-20261106.md)
+requires 161 migration SQL files for a new release, including an exact-hash
+Twilio migration.
 The 160-file candidate described below is retained only as historical review
 evidence; it cannot be the final release package.
 
 PR #300 protects existing SQL at review time and provides a separate, explicit
 deployment entry point. Require the `Append-only Prisma migrations` check on
 main, restrict direct pushes, and protect workflow changes through review.
+
+## Exact package generations
+
+The retained 160-migration review package uses the unchanged v1 reconciliation
+manifest and its original four historical checksum pairs. Keep its archived
+bytes, checksum and recovery copy unchanged. A new release containing
+`20261106010000_twilio_compliance_event_sid` uses the separate v2 manifest:
+141 baseline + 19 staff + one consent migration, with the first 160 names and
+SQL hashes pinned as a set and the consent SQL pinned to SHA-256
+`3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a`.
+The package builder selects one manifest by the committed migration set; the
+runner checks the same version in the archive, reviewed checkout and preflight.
+The v2 manifest remains `proposed-not-authorized-for-production`. Its separate
+approval and digest-pin review, exact-main package creation, independent
+checksum verification and private backup/readback are still required before a
+production window. Do not repurpose the old package or checksum. The local
+Twilio release handoff is `docs/twilio-callback-release-handoff-20261106.md`
+at commit `f49ed63a` until that documentation is separately published.
 
 ## Archive before deployment
 
@@ -61,8 +80,8 @@ every pending migration. After separate production approval, repeat with
 checked Prisma CLI against the schema and SQL extracted from the archived package.
 The existing staff prerequisite preflight also runs when staff migrations are pending.
 The four-pair exception is integrated for review. The currently merged/released
-package remains proposed; the separate activation branch applies the exact
-status/pin patch for CI review only. Owner acceptance of historical uncertainty
+package remains proposed; the Founder activation branch's in-place V1 approval
+is a separate historical proposal and is **not** applied to V2. Owner acceptance of historical uncertainty
 for preparation is recorded in `migration-exception-review.md`; it does not
 authorize production execution.
 Without STAFF_MIGRATION_RECONCILIATION_ID, exact checksum matching remains the default.
@@ -74,10 +93,11 @@ run the existing read-only catalog and data predicates. Receipts preserve the ac
 historical ledger and identify the exception; no ledger checksum is rewritten.
 
 PR #301's base manifest is `proposed-not-authorized-for-production`. The
-separate activation branch sets `approved-for-production` in source and updates
-both digest pins in staffMigrationReconciliation.js and migration-package.mjs.
-Its CI/review, merge, new release and actual production execution remain
-separate gates.
+Founder activation branch set `approved-for-production` in an in-place V1
+adaptation. This integration retains V1's original bytes and leaves V2 proposed;
+the owner decision described in the
+[integration review](reconciliation-integration-review-20261106.md) remains open.
+CI/review, merge, new release and actual production execution remain separate gates.
 Do not set the exception environment variable on production as part of preparing this PR.
 Never edit the migration ledger to pass a check.
 

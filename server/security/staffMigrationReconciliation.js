@@ -1,26 +1,46 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
-const manifestPath = 'server/security/staffMigrationReconciliation.v1.json';
-const manifestSha256 = '94efe3ca09f6c316fbe5d498a609e85731d67de0c195e9d3a09336481485fd71';
+const manifests = {
+  v1: {
+    path: 'server/security/staffMigrationReconciliation.v1.json',
+    sha256: 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5',
+    id: 'chatforia-defaultdb-four-hash-20261103-v1',
+    count: 160,
+  },
+  v2: {
+    path: 'server/security/staffMigrationReconciliation.v2.json',
+    sha256: '0b49aab2bc1be3a3d230c1f6d2fc1c8368e8e4639860d12ea1fc76a925e2e7f0',
+    id: 'chatforia-defaultdb-four-hash-consent-20261106-v2',
+    count: 161,
+  },
+};
+const consentMigration = '20261106010000_twilio_compliance_event_sid';
+const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a';
+const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
 export class ReconciliationError extends Error {}
 
 export function loadReconciliationManifest(options = {}) {
-  const bytes = readFileSync(options.manifestPath || manifestPath);
-  if (sha256(bytes) !== manifestSha256)
+  const version = options.manifestVersion || 'v2';
+  const spec = manifests[version];
+  if (!spec) throw new ReconciliationError('Unknown reconciliation version');
+  const bytes = readFileSync(options.manifestPath || spec.path);
+  if (sha256(bytes) !== spec.sha256)
     throw new ReconciliationError('Reconciliation manifest bytes changed');
   const manifest = JSON.parse(bytes);
   if (
-    manifest.id !== 'chatforia-defaultdb-four-hash-20261103-v1' ||
+    manifest.id !== spec.id ||
     manifest.baselineCount !== 141 ||
-    manifest.afterStaffCount !== 161 ||
-    manifest.historicalRolledBackCount !== 3 ||
-    Object.keys(manifest.requiredExactMigrations || {}).length !== 1 ||
-    manifest.requiredExactMigrations['20261106010000_twilio_compliance_event_sid'] !==
-      '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a' ||
-    Object.keys(manifest.exceptions).length !== 4
+    manifest.afterStaffCount !== spec.count ||
+    Object.keys(manifest.exceptions).length !== 4 ||
+    (version === 'v2' && (
+      manifest.historicalRolledBackCount !== 3 ||
+      manifest.legacyMigrationSetSha256 !== legacyMigrationSetSha256 ||
+      JSON.stringify(manifest.requiredExactMigrations) !==
+        JSON.stringify({ [consentMigration]: consentSha256 })
+    ))
   )
     throw new ReconciliationError('Reconciliation manifest shape changed');
   for (const [path, expected] of Object.entries(manifest.evidenceSha256)) {
@@ -34,8 +54,8 @@ export function assertReconciliationRequested(env, database, options = {}) {
   const manifest = loadReconciliationManifest(options);
   if (env.STAFF_MIGRATION_RECONCILIATION_ID !== manifest.id)
     throw new ReconciliationError('Unknown reconciliation ID');
-  // The reviewed digest, explicit ID and pinned target gate production use.
-  // The isolated proposed-state bypass is unavailable to the package CLI.
+  // This commit implements and exercises the mechanism only. The CLI supplies
+  // no test option; changing the reviewed manifest/status is a separate release.
   if (manifest.status !== 'approved-for-production') {
     if (
       options.allowProposedForIsolatedTest !== true ||

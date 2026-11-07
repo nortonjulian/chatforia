@@ -1,5 +1,9 @@
 # Exact four-pair activation proposal — review only
 
+Historical proposal: the [integration review](reconciliation-integration-review-20261106.md)
+preserves the original V1 manifest and does not transfer this proposal's
+`approved-for-production` source status to the separate V2 release.
+
 Historical checkpoint: this file records the exact 160-migration patch from
 proposal commit `f8ed01ca`. Current main later added a Twilio consent migration;
 the [separately authorized 161-migration adaptation](reconciliation-161-adaptation.md)

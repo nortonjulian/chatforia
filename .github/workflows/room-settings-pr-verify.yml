@@ -58,6 +58,9 @@ jobs:
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
+        with:
+          # The staff rehearsal rebuilds the archived V1 package from its exact commit.
+          fetch-depth: 0
 
       - name: Set up Node 22
         uses: actions/setup-node@v4

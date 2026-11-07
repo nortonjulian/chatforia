@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { createHash } from 'node:crypto';
 import { readdirSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
@@ -7,7 +6,9 @@ import { assertStaffRuntimeReady } from '../security/staffRuntimeReadiness.js';
 import {
   assertReconciliationCatalogAndData,
   assertReconciliationRequested,
+  loadReconciliationManifest,
 } from '../security/staffMigrationReconciliation.js';
+import { migrationSetDigest } from './migration-package.mjs';
 
 class PreflightError extends Error {}
 
@@ -59,25 +60,44 @@ export async function assertDeploymentPrerequisites(db) {
 
 async function assertMigrationHistory(db, env, mode, database, options) {
   const root = options.migrationRoot || 'server/prisma/migrations';
-  const expected = readdirSync(root)
-    .filter((name) => /^\d/.test(name) && (mode === '--after-migrations' || name < '20261102'))
-    .sort();
+  const allNames = readdirSync(root).filter((name) => /^\d/.test(name)).sort();
+  const version = options.manifestVersion ||
+    (allNames.includes('20261106010000_twilio_compliance_event_sid') ? 'v2' : 'v1');
+  const expected = mode === '--after-migrations'
+    ? allNames
+    : allNames.filter((name) => name < '20261102');
   const reconciliation = env.STAFF_MIGRATION_RECONCILIATION_ID
-    ? assertReconciliationRequested(env, database, options)
+    ? assertReconciliationRequested(env, database, { ...options, manifestVersion: version })
     : null;
-  for (const [name, checksum] of Object.entries(reconciliation?.requiredExactMigrations || {})) {
-    const fileChecksum = createHash('sha256')
-      .update(readFileSync(`${root}/${name}/migration.sql`))
-      .digest('hex');
-    if (fileChecksum !== checksum)
-      throw new PreflightError('Required exact migration file changed');
+  const release = version === 'v2'
+    ? reconciliation || loadReconciliationManifest({ manifestVersion: version })
+    : reconciliation;
+  const fullCount = version === 'v2' ? 161 : 160;
+  const fullRelease = allNames.length !== 141;
+  if ((mode === '--after-migrations' && allNames.length !== fullCount) ||
+      (mode !== '--after-migrations' && fullRelease && allNames.length !== fullCount) ||
+      (version === 'v1' && allNames.includes('20261106010000_twilio_compliance_event_sid')))
+    throw new PreflightError('Migration history differs from the reviewed pre-PR baseline');
+  if (version === 'v2' && fullRelease) {
+    const legacy = allNames.filter((name) => name !== '20261106010000_twilio_compliance_event_sid')
+      .map((name) => ({ name, sha256: createHash('sha256')
+        .update(readFileSync(`${root}/${name}/migration.sql`)).digest('hex') }));
+    if (legacy.length !== 160 ||
+        migrationSetDigest(legacy) !== release.legacyMigrationSetSha256 ||
+        allNames.filter((name) => name > '20261102094000_founder_staff_management').join(',') !==
+          Object.keys(release.requiredExactMigrations).sort().join(','))
+      throw new PreflightError('Migration release set differs from reviewed 161 files');
+    for (const [name, checksum] of Object.entries(release.requiredExactMigrations)) {
+      const actual = createHash('sha256').update(readFileSync(`${root}/${name}/migration.sql`)).digest('hex');
+      if (actual !== checksum) throw new PreflightError('Required exact migration file changed');
+    }
   }
   const rows = await db.$queryRaw`
     SELECT migration_name, checksum, finished_at FROM public._prisma_migrations
     WHERE rolled_back_at IS NULL ORDER BY migration_name
   `;
   if (
-    expected.length !== (mode === '--after-migrations' ? 161 : 141) ||
+    expected.length !== (mode === '--after-migrations' ? fullCount : 141) ||
     rows.length !== expected.length ||
     rows.some(
       (row, index) => {
@@ -140,6 +160,7 @@ if (
   try {
     if (!process.env.DATABASE_URL)
       throw new PreflightError('Missing connection');
+    const { PrismaClient } = await import('@prisma/client');
     db = new PrismaClient({
       log: [],
       datasources: { db: { url: process.env.DATABASE_URL } },

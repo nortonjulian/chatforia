@@ -1,5 +1,9 @@
 # Activation adaptation for current main — review only
 
+Historical Founder-branch record: this describes its in-place V1 adaptation.
+The [integration review](reconciliation-integration-review-20261106.md)
+preserves V1 unchanged and uses a separate proposed V2 for 161 migrations.
+
 Current main at preparation: `b34211a4f09aac2600a7bf3f29295e394ab3affd`.
 The owner authorized adapting the separate activation branch to the new
 161-migration set for review and isolated CI only. This document supersedes the
