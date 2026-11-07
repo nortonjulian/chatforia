@@ -38,17 +38,23 @@ recovery uses separate restricted credentials and sessions, not two people.
 - The earlier 168-file/160-migration candidate and its verified encrypted
   iCloud readback also remain historical evidence. Preserve both that candidate
   and the later `026b1c92` archive/image; neither is the final v2 package.
-- No final v2 archive or cloud backup exists. Freeze the final reviewed PR head
-  as the release target in the PR and private candidate receipt. The repository
-  allows a merge commit: after separate approval, merge **without squash or
-  rebase** so that exact head remains an ancestor of main. The archive workflow
-  can then package the same target SHA. A changed head, changed main base,
-  unavailable merge method or different archive checksum is a stop requiring
-  new review. Verify the 161 SQL files, exact 160-file
-  legacy set, exact Twilio checksum, four pairs, three inert rollback records,
-  v2 ID/status and package digest. Encrypt and independently read back the new
-  package before any production fence, role change, preflight or migration.
-  Never relabel the `026b1c92` archive or reuse its digest.
+- No final v2 archive or cloud backup exists. A deterministic package from
+  reviewed code commit `b3f402ce65187fff7a4f93a5792fe04d80c1424a`
+  (169 files, 161 migration SQL files) has SHA-256
+  `58ef7ea07792df11c5fab55d5355d03f057d0b2ddb5b6b9c965bc10137d6f275`.
+  This is a **local candidate**, not the final package. Main's active ruleset
+  requires linear history, so a merge commit cannot preserve the PR head on
+  main. After a separate merge approval, use the allowed squash method and
+  record the resulting main SHA. The manual archive workflow must package
+  **that main SHA**, producing a new commit-bound digest. Independently compare
+  its 161 SQL files, exact 160-file legacy set, Twilio checksum, four pairs,
+  three inert rollback records, v2 ID/status and all packaged file hashes
+  against the reviewed source candidate; review any difference before proceeding.
+  Verify the new archive asset checksum and an independent build. Encrypt and
+  independently read back the new package before any production fence, role
+  change, preflight or migration. Never relabel the `026b1c92` archive or
+  reuse its digest. A changed code-bearing PR head or main base requires fresh
+  review and applicable CI before merge.
 
 ## Exact v2 exception and release set under review
 
@@ -84,6 +90,33 @@ The activation branch's [PostgreSQL 18 and app CI](https://github.com/nortonjuli
 and [append-only CI](https://github.com/nortonjulian/chatforia/actions/runs/42341032100)
 passed after the v2 status/pin change. A later documentation-only receipt update
 does not change those tested code bytes.
+
+## Separate decisions and the next approval
+
+The next owner decision is whether to accept the four specified historical
+checksum exceptions and unavailable-original-SQL uncertainty **for the v2
+source gate**, and approve a squash merge of PR #308 after final review and
+passing required CI. The merge makes the exact v2 manifest status
+`approved-for-production` in source code, but it does **not** authorize anyone
+to invoke that gate against the production database. The owner may decline
+either part; no production command follows from this approval. The reviewed
+candidate digest is not the post-merge release digest.
+
+Proposed next approval, limited to source review and merge:
+
+> I accept the documented uncertainty from the four exact historical checksum
+> pairs and unavailable original SQL for the v2 reconciliation source gate,
+> and approve squash merging PR #308 after its final diff and required checks
+> pass. This does not approve a production preflight, migration, role or key
+> change, deployment, or cutover. I will review the new main commit and final
+> release package separately before any production execution decision.
+
+The manual archive and independent package verification follow a separately
+approved merge. A new encrypted backup and independent cloud read-back need
+owner custody action. Only then can the exact final package SHA and release
+commit be put into the later production approval. Local CI, package review,
+and old-backup custody are reusable evidence; none substitutes for a fresh
+target preflight or change-window recovery point.
 
 ## One proposed production decision, only after the holds below close
 
@@ -216,9 +249,10 @@ reserved window. No paid-provider test event is required to prove routing.
 
 ## Genuine holds before this can become an executable approval
 
-1. Review and merge the **v2**, not v1, activation branch after disposable
-   PostgreSQL 18 CI. Preserve the pinned PR head with a merge commit; then
-   archive and independently back up that exact ancestor SHA.
+1. Separately approve and squash merge the **v2**, not v1, activation branch
+   after final review and disposable PostgreSQL 18 CI. Archive the resulting
+   main SHA, review its new package digest and file hashes against the candidate,
+   then independently back up and read back that new archive.
    The verified v1 backup does not close this hold.
 2. Owner supplies an exact off-peak window, maximum tolerated interruption,
    alert destination and callback outage/retry acceptance. If an extended
