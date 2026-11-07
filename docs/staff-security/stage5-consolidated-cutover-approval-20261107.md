@@ -1,7 +1,7 @@
 # Stage 5 consolidated cutover approval proposal — review only
 
 Prepared November 7, 2026 from merged main `b94b1891e5bca49f153c3548a6caa773e4599918`
-and the separate v2 activation branch. This is an approval packet, not authority
+and the separate v2 activation branch at `55d10a5c`. This is an approval packet, not authority
 to run any command against production. Stage 6 staff admission is excluded.
 The owner is the release operator and stop authority. Existing sole-owner
 recovery uses separate restricted credentials and sessions, not two people.
@@ -19,11 +19,21 @@ recovery uses separate restricted credentials and sessions, not two people.
   The private receipt is outside GitHub. Preserve this archive and backup as
   historical evidence; **do not execute it against the current code**.
 - [Main PR #307](https://github.com/nortonjulian/chatforia/pull/307) restored
-  archived v1's exact 160-file manifest and introduced a distinct 161-file v2
-  manifest. V2 remains proposed on main. The review-only v2 activation branch
-  changes only its status and two independent digest pins and exercises the
+  archived v1's exact 160-migration proposed manifest (SHA-256
+  `a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5`)
+  and introduced a distinct 161-migration v2 manifest. V2 remains proposed
+  on main (SHA-256 `0b49aab2bc1be3a3d230c1f6d2fc1c8368e8e4639860d12ea1fc76a925e2e7f0`).
+  The review-only v2 activation branch
+  proposes the status change, pins resulting SHA-256
+  `9d804646458a74c8fa3934db379d0431d166a26aa7104c58d1b42287ffa6c187`
+  independently in the request gate and package checker, and exercises the
   activated path in disposable PostgreSQL 18. V1 bytes, migration SQL, ledger
   records, four reviewed historical pairs, target and evidence are unchanged.
+  PR #306's prior in-place V1 approval remains in Git history at `026b1c92`;
+  it does not authorize V2.
+- The earlier 168-file/160-migration candidate and its verified encrypted
+  iCloud readback also remain historical evidence. Preserve both that candidate
+  and the later `026b1c92` archive/image; neither is the final v2 package.
 - No final v2 archive or cloud backup exists. After a separate v2 merge decision,
   archive **that resulting main SHA**, verify the 161 SQL files, exact 160-file
   legacy set, exact Twilio checksum, four pairs, three inert rollback records,
@@ -31,9 +41,50 @@ recovery uses separate restricted credentials and sessions, not two people.
   package before any production fence, role change, preflight or migration.
   Never relabel the `026b1c92` archive or reuse its digest.
 
+## Exact v2 exception and release set under review
+
+V2 ID: `chatforia-defaultdb-four-hash-consent-20261106-v2`. Its sole target is
+`chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com:25060/defaultdb`.
+The release pins the first 160 migration names and SQL hashes as set digest
+`ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c`,
+plus `20261106010000_twilio_compliance_event_sid` with SQL SHA-256
+`3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a`.
+The expected target ledger is 141 active baseline migrations and exactly three
+unfinished historical rolled-back attempts before execution, with 20 pending
+SQL files; afterward it must contain 161 finished active migrations and the
+same three rolled-back records. Their actual IDs/checksums are checked in the
+private target ledger and retained unchanged in receipts; the manifest does
+not enumerate those row identities.
+
+Only these four recorded/available SQL checksum pairs may differ:
+
+| Migration | Target recorded checksum | Available SQL checksum |
+| --- | --- | --- |
+| `20260726034500_add_wireless_refund_audit` | `63434b2fb65211b9d6e4be08352ac66db4c7e209d1e20b67006022ba36d34767` | `f20ce82990bc7627a5f1d485b0f43a4e36ebf81bba3e35482d086ba7166533ca` |
+| `20260806030000_add_pstn_reporting_and_blocking` | `94fe6d123994ae57dffeca09dfa26539b3174725bad2ae3fd9efabcbd785785b` | `19a1a154ba49a030dbe3aa4116c692b563e630ff6029656c5372a0d691a81cf1` |
+| `20260807010000_add_sandbox_apns_tokens` | `164917910396613ca5934d542d661268ba88d506dddf3d9ad73965417a418ab7` | `d2a68cbfbc475480b14b40d91ff1e591990e2ac144910cc8080689e9f609f271` |
+| `20261013_add_esim_replacement_audit` | `3e95935c4c4646839fc532a7fd7f6565688fd1e52700612994494f3f5f79e3b3` | `b2d299423e802dfb50958caa92c71813702c210df1ef7c84f039d3e22a1a39f4` |
+
+The original applied SQL for these four migrations remains unavailable.
+The 215-object synthetic PostgreSQL 18 catalog reconstruction and bounded
+current-data predicates do not prove every historical data effect. The owner
+accepted that uncertainty for preparation only. A fifth mismatch, altered
+target, evidence, SQL, rollback history or other ledger entry is an abort.
+Without the explicit V2 ID, strict checksum validation remains the default.
+PR #307's [PostgreSQL 18](https://github.com/nortonjulian/chatforia/actions/runs/42338821100)
+and [append-only](https://github.com/nortonjulian/chatforia/actions/runs/42338820944)
+checks passed on the same tree now in main; the activation branch needs its
+own final CI after the status/pin change.
+
 ## One proposed production decision, only after the holds below close
 
-The owner may approve one bounded cutover window covering orders 1–9 below,
+The pending decision is whether to accept the residual historical-SQL risk
+for **this exact V2 ID, target, four pairs and 161-migration set**, then approve
+one bounded cutover window covering orders 2–9 below using the final reviewed
+package. It is not requested by this coordination update: the final package
+SHA and other hold fields do not yet exist. Separate review and merge of the
+V2 activation branch precede this production decision.
+When those holds close, the owner may approve that bounded window,
 with a stop after every order. Approval of this packet would not authorize
 Stage 6 admission, a paid restore cluster, a different SQL/package/target,
 unreviewed repair, or reusing the old privileged runtime. Record the exact
@@ -41,6 +92,8 @@ window, maximum acceptable interruption, current-main/release SHA and digest,
 private founder ID, alert destination and recovery-risk choice in the private
 execution record before requesting that approval. An approval with any field
 missing is not executable.
+The historical-SQL risk acceptance belongs in this one later cutover decision;
+the review-only V2 source status and earlier V1 approval are not substitutes.
 
 **Interruption risk:** The temporary API HTTPS fence blocks normal browser API
 traffic and provider callbacks; the static website can still load. Plan an
@@ -99,7 +152,11 @@ reserved window. No paid-provider test event is required to prove routing.
    separate session identities and no cross-role/owner membership. **Stop** on
    unexpected catalog, ownership, provider limitation or privilege. Before
    migration, reverse only newly created objects after dependency review;
-   never CASCADE or modify provider-managed roles to force a pass.
+   never CASCADE or modify provider-managed roles to force a pass. The restricted
+   runtime must have `USAGE` on `public`, `SELECT, INSERT, UPDATE, DELETE`
+   on `SmsCarrierEvent` and `SmsOptOut`, and `USAGE, SELECT` on their ID
+   sequences, without table ownership or privileged membership. Verify these
+   rights under `chatforia_dev`; the Twilio migration does not grant them.
 6. **Read-only package preflight, then migration.** With strict TLS identity,
    the exact v2 release/checkout, explicit v2 reconciliation ID and private
    receipt archive outside the API host, run `deploy-migration-package.mjs`
@@ -112,7 +169,8 @@ reserved window. No paid-provider test event is required to prove routing.
    every attempt receipt, including failed/incomplete ones. **Stop** on any
    fifth mismatch, target/file/ledger drift or failed predicate. Once SQL has
    started, keep fenced and inspect partial DDL/ledger; do not edit checksums,
-   mark migrations resolved, apply down SQL or restart the old backend.
+   mark migrations resolved, apply down SQL or restart the old backend. The
+   consent migration must complete before starting the compatible API code.
 7. **Keys and founder bootstrap.** Generate distinct new `SESSION_SECRET` and
    staff assertion keys in protected custody, insert the matching staff key
    version in the protected database row, and retain compatible existing keys.
@@ -143,6 +201,9 @@ reserved window. No paid-provider test event is required to prove routing.
    Reapply the fence immediately on a security failure, 5xx above 1%, staff
    API p95 above twice the measured baseline for five minutes, or failed jobs.
    Dashboard and Stage 6 cohort access stay disabled pending a later decision.
+   Signed voice/SMS/MMS/regulatory callbacks require the separate real-provider
+   verification after deployment; synthetic CI is not that evidence. Porting
+   remains inactive.
 
 ## Genuine holds before this can become an executable approval
 
@@ -168,7 +229,9 @@ launch work are separately tracked and do not waive these cutover holds.
 ## Single approval text to complete after the holds close
 
 > I approve the Stage 5 cutover of the exact reviewed v2 main commit
-> `[FULL_MAIN_SHA]`, package SHA-256 `[PACKAGE_SHA256]`, and manifest target/ID,
+> `[FULL_MAIN_SHA]`, package SHA-256 `[PACKAGE_SHA256]`, manifest ID
+> `chatforia-defaultdb-four-hash-consent-20261106-v2`, and target
+> `chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com:25060/defaultdb`,
 > during `[START–END, TIME ZONE]`, with `[MAXIMUM TOLERATED INTERRUPTION]` and
 > alert/incident destination `[PRIVATE DESTINATION RECORDED]`. I accept the
 > documented four historical-SQL uncertainties for **production use** and
