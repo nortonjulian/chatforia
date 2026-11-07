@@ -56,14 +56,19 @@ try {
     'server/prisma/migrations/migration_lock.toml',
     join(prismaDirectory, 'migrations/migration_lock.toml')
   );
+  // Rehearse the pinned staff release window. Later application migrations
+  // have their own QA and must not be folded into its 141/160-file history.
+  const staffReleaseLastMigration = '20261102094000_founder_staff_management';
   const names = readdirSync('server/prisma/migrations')
-    .filter((name) => /^\d/.test(name))
+    .filter((name) => /^\d/.test(name) && name <= staffReleaseLastMigration)
     .sort();
   const staffNames = new Set(
     JSON.parse(
       readFileSync('docs/staff-security/deployment-migrations.json')
     ).migrations.map(({ name }) => name)
   );
+  assert.equal(names.length, 160);
+  assert.ok([...staffNames].every((name) => names.includes(name)));
   const copyMigration = (name) => {
     const target = join(prismaDirectory, 'migrations', name);
     mkdirSync(target, { mode: 0o700 });
