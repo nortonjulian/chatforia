@@ -134,6 +134,7 @@ ROLLBACK;`;
   console.log('PASS: strict preflight rejects all four recorded target checksum mismatches');
 
   const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
+  assert.equal(manifest.status, 'approved-for-production');
   const releasePackage = buildPackage('HEAD');
   assert.equal(checkReconciledHistory(releasePackage, await ledger(db), manifest.target).length, 19);
   const reconciledEnv = {
@@ -143,10 +144,9 @@ ROLLBACK;`;
     // disposable localhost service; the production CLI uses one actual URL.
     DATABASE_URL: `postgresql://chatforia@${manifest.target.hostname}:${manifest.target.port}/${database}`,
   };
-  const isolated = { allowProposedForIsolatedTest: true, migrationRoot: join(prismaDir, 'migrations') };
-  await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations'), /not approved for production/);
+  const isolated = { migrationRoot: join(prismaDir, 'migrations') };
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
-  console.log('PASS: proposed exception is CI-only and accepts exactly the four documented target pairs');
+  console.log('PASS: activated exception accepts only four documented pairs on disposable PostgreSQL 18');
 
   await assert.rejects(runPreflight(db, { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: 'wrong' }, '--before-migrations', isolated), /Unknown reconciliation ID/);
   await assert.rejects(runPreflight(db, { ...reconciledEnv, DATABASE_URL: 'postgresql://chatforia@wrong.example:25060/defaultdb' }, '--before-migrations', isolated), /target differs/);
@@ -204,7 +204,6 @@ ROLLBACK;`;
     stdio: ['ignore', 'pipe', 'pipe'],
     maxBuffer: 8 * 1024 * 1024,
   });
-  await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations'), /not approved for production/);
   await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--after-migrations'), /Migration history differs/);
   assert.equal((await runPreflight(db, reconciledEnv, '--after-migrations', isolated)).reconciliationId, manifest.id);
   assert.deepEqual(checkReconciledHistory(releasePackage, await ledger(db), manifest.target, true), []);

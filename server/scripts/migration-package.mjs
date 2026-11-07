@@ -11,7 +11,7 @@ export const reconciliationPaths = [
   'docs/staff-security/evidence/migration-target-catalog.json',
   'docs/staff-security/evidence/migration-current-data-invariants.json',
 ];
-const reconciliationDigest = 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5';
+const reconciliationDigest = '735ea2b62888a016de83bc5ac4b2acb34a455bae51310d8025e0923ebc153256';
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
@@ -88,7 +88,7 @@ export function checkHistory(bundle, rows, complete = false) {
 
 // Pure verification only: this does not grant production execution authority.
 // The deployment caller must also pass assertReconciliationRequested and the
-// catalog/data preflight. The pinned manifest remains unapproved for production.
+// catalog/data preflight. This pure checker grants no production authority.
 export function checkReconciledHistory(bundle, rows, target, complete = false) {
   const files = verifyPackage(bundle);
   const bytes = files.get(reconciliationPaths[0]);

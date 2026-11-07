@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 const manifestPath = 'server/security/staffMigrationReconciliation.v1.json';
-const manifestSha256 = 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5';
+const manifestSha256 = '735ea2b62888a016de83bc5ac4b2acb34a455bae51310d8025e0923ebc153256';
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
 export class ReconciliationError extends Error {}
@@ -30,8 +30,8 @@ export function assertReconciliationRequested(env, database, options = {}) {
   const manifest = loadReconciliationManifest(options);
   if (env.STAFF_MIGRATION_RECONCILIATION_ID !== manifest.id)
     throw new ReconciliationError('Unknown reconciliation ID');
-  // This commit implements and exercises the mechanism only. The CLI supplies
-  // no test option; changing the reviewed manifest/status is a separate release.
+  // The reviewed digest, explicit ID and pinned target gate production use.
+  // The isolated proposed-state bypass is unavailable to the package CLI.
   if (manifest.status !== 'approved-for-production') {
     if (
       options.allowProposedForIsolatedTest !== true ||
