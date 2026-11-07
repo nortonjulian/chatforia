@@ -6,6 +6,7 @@ import {
   releaseUsage,
 } from '../services/planUsageService.js';
 import { sendPushToUser } from '../services/pushService.js';
+import { recordTwilioConsentAction } from '../services/twilioConsent.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
@@ -112,8 +113,6 @@ router.post(
           const normalizedFrom =
             normalizeE164(fromNumber);
 
-          const provider = 'twilio';
-
           if (!isE164(normalizedFrom)) {
             req.log?.info?.(
               {
@@ -143,55 +142,17 @@ router.post(
               return res.sendStatus(400);
             }
 
-            try {
-              await prisma.$transaction(async (tx) => {
-                await tx.smsCarrierEvent.create({
-                  data: {
-                    providerMessageId: MessageSid,
-                    from: normalizedFrom,
-                    to: toNumber || '',
-                    body: bodyText,
-                    direction: 'inbound',
-                    action: complianceAction === 'STOP' ? 'opt_out' : 'opt_in',
-                  },
-                });
-
-                if (complianceAction === 'START') {
-                  await tx.smsOptOut.deleteMany({
-                    where: { phone: normalizedFrom, provider },
-                  });
-                  return;
-                }
-
-                const existing = await tx.smsOptOut.findFirst({
-                  where: { phone: normalizedFrom, provider },
-                });
-                const data = {
-                  reason: upperBody || 'STOP',
-                  inboundMessageId: MessageSid,
-                  rawPayload: safeSmsOptOutPayload,
-                  ipAddress: req.ip,
-                  userAgent: req.get?.('user-agent') || null,
-                };
-                if (existing) {
-                  await tx.smsOptOut.update({
-                    where: { id: existing.id },
-                    data: { ...data, createdAt: new Date() },
-                  });
-                } else {
-                  await tx.smsOptOut.create({
-                    data: { phone: normalizedFrom, provider, ...data },
-                  });
-                }
-              });
-            } catch (error) {
-              // Only acknowledge a uniqueness conflict when this exact SID
-              // was committed. Other conflicts and storage failures must retry.
-              if (error?.code !== 'P2002' ||
-                  !await prisma.smsCarrierEvent.findUnique({
-                    where: { providerMessageId: MessageSid },
-                  })) throw error;
-            }
+            await recordTwilioConsentAction(prisma, {
+              action: complianceAction,
+              messageSid: MessageSid,
+              phone: normalizedFrom,
+              to: toNumber || '',
+              body: bodyText,
+              reason: upperBody || 'STOP',
+              rawPayload: safeSmsOptOutPayload,
+              ipAddress: req.ip,
+              userAgent: req.get?.('user-agent') || null,
+            });
 
             req.log?.info?.(
               { from: normalizedFrom, twilioManaged: Boolean(twilioManagedAction) },
