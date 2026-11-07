@@ -48,7 +48,9 @@ beforeEach(() => {
     TWILIO_AUTH_TOKEN: 'synthetic_porting_token',
     TWILIO_PORTING_WEBHOOK_URL: 'https://api.example.test/webhooks/twilio/porting',
   };
-  prismaMock.portRequest.findFirst.mockResolvedValue({ id: 41 });
+  prismaMock.portRequest.findFirst.mockResolvedValue({
+    id: 'port_req_synthetic', phoneNumber: '+15550001111',
+  });
   updatePortStatusMock.mockResolvedValue({ userId: 7, phoneNumber: '+15550001111' });
 });
 afterAll(() => { process.env = originalEnv; });
@@ -57,7 +59,7 @@ describe('Twilio porting signature guard', () => {
   test.each(['/webhooks/twilio/porting', '/api/webhooks/twilio/porting'])(
     'rejects missing and invalid signatures before state changes at %s', async (path) => {
       const app = appWithGuard();
-      const body = { portInSid: 'synthetic-port', status: 'submitted' };
+      const body = { port_in_request_sid: 'synthetic-port', status: 'submitted' };
       await request(app).post(path).send(body).expect(403);
       await signedRequest(app, path, body, 'wrong_synthetic_token').expect(403);
       expect(prismaMock.portRequest.findFirst).not.toHaveBeenCalled();
@@ -69,7 +71,7 @@ describe('Twilio porting signature guard', () => {
   test.each(['/webhooks/twilio/porting', '/api/webhooks/twilio/porting'])(
     'accepts a valid signed JSON callback at %s', async (path) => {
       const app = appWithGuard();
-      const body = { portInSid: 'synthetic-port', status: 'submitted' };
+      const body = { port_in_request_sid: 'synthetic-port', status: 'submitted' };
       await signedRequest(app, path, body)
         .set('Host', 'internal.example.test')
         .set('X-Forwarded-Proto', 'http')
@@ -77,8 +79,8 @@ describe('Twilio porting signature guard', () => {
       expect(prismaMock.portRequest.findFirst).toHaveBeenCalledWith({
         where: { externalPortId: 'synthetic-port' },
       });
-      expect(updatePortStatusMock).toHaveBeenCalledWith(41, expect.objectContaining({
-        status: 'SUBMITTED',
+      expect(updatePortStatusMock).toHaveBeenCalledWith('port_req_synthetic', expect.objectContaining({
+        status: 'PORT_IN_PENDING',
       }));
     }
   );
@@ -86,7 +88,7 @@ describe('Twilio porting signature guard', () => {
   test('rejects a changed JSON body, a spoofed public URL, and missing configuration', async () => {
     const app = appWithGuard();
     const path = '/webhooks/twilio/porting';
-    const body = { portInSid: 'synthetic-port', status: 'submitted' };
+    const body = { port_in_request_sid: 'synthetic-port', status: 'submitted' };
     const raw = JSON.stringify(body);
     const hash = twilio.getExpectedBodyHash(raw);
     const signature = twilio.getExpectedTwilioSignature(
