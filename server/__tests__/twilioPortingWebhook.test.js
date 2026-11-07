@@ -1,219 +1,112 @@
+import { beforeEach, describe, expect, jest, test } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
-import { jest } from '@jest/globals';
 
 const prisma = {
-  portRequest: {
-    findFirst: jest.fn(),
-  },
-  phoneNumber: {
-    upsert: jest.fn(),
-  },
+  portRequest: { findFirst: jest.fn() },
+  phoneNumber: { upsert: jest.fn() },
 };
-
 const updatePortStatus = jest.fn();
-
-await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prisma,
-}));
-
-await jest.unstable_mockModule('../services/portingService.js', () => ({
-  __esModule: true,
-  updatePortStatus,
-}));
-
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({ default: prisma }));
+await jest.unstable_mockModule('../services/portingService.js', () => ({ updatePortStatus }));
 const { default: router } = await import('../routes/twilioPortingWebhook.js');
 
-function createApp() {
-  const app = express();
+const app = express();
+app.use(express.json());
+app.use('/webhooks/twilio/porting', router);
+app.use((_error, _req, res, _next) => res.sendStatus(500));
 
-  app.use(express.json());
-  app.use('/twilio/porting', router);
+const post = (body) => request(app).post('/webhooks/twilio/porting').send(body);
+const portRequest = {
+  id: 'port_req_synthetic',
+  userId: 7,
+  phoneNumber: '+15550001111',
+  status: 'NONE',
+};
 
-  app.use((err, _req, res, _next) => {
-    res.status(500).json({ error: 'Internal server error' });
-  });
+beforeEach(() => {
+  jest.clearAllMocks();
+  prisma.portRequest.findFirst.mockResolvedValue(portRequest);
+  updatePortStatus.mockResolvedValue({ ...portRequest, status: 'PORT_IN_PENDING' });
+});
 
-  return app;
-}
-
-describe('twilioPortingWebhook routes', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('returns 400 when externalPortId is missing', async () => {
-    const app = createApp();
-
-    const res = await request(app)
-      .post('/twilio/porting')
-      .send({ status: 'completed' });
-
-    expect(res.status).toBe(400);
-    expect(res.body).toEqual({ error: 'Missing externalPortId' });
+describe('Twilio porting callback payload and model', () => {
+  test('requires a request SID before reading state', async () => {
+    await post({ status: 'pending' }).expect(400);
     expect(prisma.portRequest.findFirst).not.toHaveBeenCalled();
     expect(updatePortStatus).not.toHaveBeenCalled();
-    expect(prisma.phoneNumber.upsert).not.toHaveBeenCalled();
   });
 
-  it('returns ok when no matching portRequest is found', async () => {
-    const app = createApp();
+  test.each(['waiting_for_signature', 'submitted', 'pending', 'in_progress'])(
+    'maps documented request-level %s to the Prisma pending enum', async (status) => {
+      await post({
+        port_in_request_sid: 'PI-synthetic',
+        port_in_phone_number_sid: null,
+        phone_number: null,
+        status,
+        last_date_updated: '2030-01-01 00:00:00.000',
+      }).expect(200, { ok: true });
+      expect(prisma.portRequest.findFirst).toHaveBeenCalledWith({
+        where: { externalPortId: 'PI-synthetic' },
+      });
+      expect(updatePortStatus).toHaveBeenCalledWith('port_req_synthetic', {
+        status: 'PORT_IN_PENDING', statusReason: null,
+      });
+      expect(prisma.phoneNumber.upsert).not.toHaveBeenCalled();
+    }
+  );
 
+  test('accepts a documented phone-level pending event only for the matching number', async () => {
+    prisma.portRequest.findFirst.mockResolvedValueOnce({
+      ...portRequest, phoneNumber: '+1 555 000 1111', country: 'US',
+    });
+    await post({
+      port_in_request_sid: 'PI-synthetic',
+      port_in_phone_number_sid: 'PN-synthetic',
+      phone_number: '+15550001111',
+      status: 'pending',
+    }).expect(200, { ok: true });
+    expect(updatePortStatus).toHaveBeenCalledTimes(1);
+
+    await post({
+      port_in_request_sid: 'PI-synthetic',
+      port_in_phone_number_sid: 'PN-synthetic',
+      phone_number: '+15550009999',
+      status: 'pending',
+    }).expect(409);
+    expect(updatePortStatus).toHaveBeenCalledTimes(1);
+  });
+
+  test.each(['completed', 'rejected', 'canceled', 'action_required', 'unknown'])(
+    'does not guess a terminal or unsupported %s transition', async (status) => {
+      await post({ port_in_request_sid: 'PI-synthetic', status }).expect(422);
+      expect(prisma.portRequest.findFirst).not.toHaveBeenCalled();
+      expect(updatePortStatus).not.toHaveBeenCalled();
+      expect(prisma.phoneNumber.upsert).not.toHaveBeenCalled();
+    }
+  );
+
+  test('acknowledges a signed but unknown request without writes', async () => {
     prisma.portRequest.findFirst.mockResolvedValueOnce(null);
-
-    const res = await request(app)
-      .post('/twilio/porting')
-      .send({
-        portInSid: 'PR_123',
-        status: 'pending',
-      });
-
-    expect(prisma.portRequest.findFirst).toHaveBeenCalledWith({
-      where: { externalPortId: 'PR_123' },
-    });
-
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ ok: true });
+    await post({ port_in_request_sid: 'PI-unknown', status: 'pending' })
+      .expect(200, { ok: true });
     expect(updatePortStatus).not.toHaveBeenCalled();
-    expect(prisma.phoneNumber.upsert).not.toHaveBeenCalled();
   });
 
-  it('maps a failed status, updates port status, and does not upsert phone number', async () => {
-    const app = createApp();
-
-    const mockPortRequest = {
-      id: 'port_req_1',
-      userId: 'user_1',
-      phoneNumber: '+1 555 123 0000',
-    };
-
-    const scheduledDate = '2030-01-01T10:00:00.000Z';
-
-    prisma.portRequest.findFirst.mockResolvedValueOnce(mockPortRequest);
-
-    updatePortStatus.mockResolvedValueOnce({
-      ...mockPortRequest,
-      status: 'FAILED',
-      statusReason: 'Carrier rejected',
+  test('a late pending event does not regress an already ported request', async () => {
+    prisma.portRequest.findFirst.mockResolvedValueOnce({
+      ...portRequest, status: 'PORTED_IN',
     });
+    await post({ port_in_request_sid: 'PI-synthetic', status: 'pending' })
+      .expect(200, { ok: true });
+    expect(updatePortStatus).not.toHaveBeenCalled();
+  });
 
-    const res = await request(app)
-      .post('/twilio/porting')
-      .send({
-        portOrderSid: 'ORD_123',
-        status: 'failed',
-        statusReason: 'Carrier rejected',
-        scheduledDate,
-      });
-
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ ok: true });
-
+  test('retains the legacy request SID alias for existing integrations', async () => {
+    await post({ portInSid: 'PI-legacy', status: 'pending' })
+      .expect(200, { ok: true });
     expect(prisma.portRequest.findFirst).toHaveBeenCalledWith({
-      where: { externalPortId: 'ORD_123' },
+      where: { externalPortId: 'PI-legacy' },
     });
-
-    expect(updatePortStatus).toHaveBeenCalledTimes(1);
-
-    const [calledId, updateArg] = updatePortStatus.mock.calls[0];
-
-    expect(calledId).toBe('port_req_1');
-    expect(updateArg.status).toBe('FAILED');
-    expect(updateArg.statusReason).toBe('Carrier rejected');
-    expect(updateArg.scheduledAt).toEqual(new Date(scheduledDate));
-    expect(updateArg.completedAt).toBeUndefined();
-
-    expect(prisma.phoneNumber.upsert).not.toHaveBeenCalled();
-  });
-
-  it('maps completed status, updates port status, and upserts phone number', async () => {
-    const app = createApp();
-
-    const mockPortRequest = {
-      id: 'port_req_2',
-      userId: 'user_2',
-      phoneNumber: '+1 555 999 0000',
-    };
-
-    prisma.portRequest.findFirst.mockResolvedValueOnce(mockPortRequest);
-
-    updatePortStatus.mockResolvedValueOnce({
-      ...mockPortRequest,
-      status: 'COMPLETED',
-    });
-
-    const res = await request(app)
-      .post('/twilio/porting')
-      .send({
-        portInSid: 'PORT_999',
-        status: 'completed',
-        statusReason: 'Completed successfully',
-      });
-
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ ok: true });
-
-    expect(prisma.portRequest.findFirst).toHaveBeenCalledWith({
-      where: { externalPortId: 'PORT_999' },
-    });
-
-    expect(updatePortStatus).toHaveBeenCalledTimes(1);
-
-    const [calledId, updateArg] = updatePortStatus.mock.calls[0];
-
-    expect(calledId).toBe('port_req_2');
-    expect(updateArg.status).toBe('COMPLETED');
-    expect(updateArg.statusReason).toBe('Completed successfully');
-    expect(updateArg.completedAt).toBeInstanceOf(Date);
-    expect(updateArg.scheduledAt).toBeUndefined();
-
-    expect(prisma.phoneNumber.upsert).toHaveBeenCalledWith({
-      where: { userId: 'user_2' },
-      create: {
-        userId: 'user_2',
-        phoneNumber: '+1 555 999 0000',
-        isPrimary: true,
-        source: 'PORTED',
-      },
-      update: {
-        phoneNumber: '+1 555 999 0000',
-        isPrimary: true,
-        source: 'PORTED',
-      },
-    });
-  });
-
-  it('maps pending/submitted statuses to SUBMITTED', async () => {
-    const app = createApp();
-
-    const mockPortRequest = {
-      id: 'port_req_3',
-      userId: 'user_3',
-      phoneNumber: '+1 555 222 3333',
-    };
-
-    prisma.portRequest.findFirst.mockResolvedValueOnce(mockPortRequest);
-
-    updatePortStatus.mockResolvedValueOnce({
-      ...mockPortRequest,
-      status: 'SUBMITTED',
-    });
-
-    const res = await request(app)
-      .post('/twilio/porting')
-      .send({
-        portOrderSid: 'ORD_222',
-        status: 'pending',
-      });
-
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ ok: true });
-
-    const [calledId, updateArg] = updatePortStatus.mock.calls[0];
-
-    expect(calledId).toBe('port_req_3');
-    expect(updateArg.status).toBe('SUBMITTED');
-    expect(updateArg.statusReason).toBeNull();
   });
 });

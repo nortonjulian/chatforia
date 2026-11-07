@@ -111,7 +111,7 @@ describe('portingService', () => {
         id: 101,
         userId: 1,
         phoneNumber: baseInput.phoneNumber,
-        status: 'PENDING',
+        status: 'NONE',
       };
 
       prisma.portRequest.create.mockResolvedValueOnce(mockCreated);
@@ -137,7 +137,7 @@ describe('portingService', () => {
           state: baseInput.state,
           postalCode: baseInput.postalCode,
           country: 'US',
-          status: 'PENDING',
+          status: 'NONE',
         },
       });
     });
@@ -161,7 +161,7 @@ describe('portingService', () => {
         id: 102,
         userId: 1,
         phoneNumber: baseInput.phoneNumber,
-        status: 'PENDING',
+        status: 'NONE',
       };
 
       prisma.portRequest.create.mockResolvedValueOnce(mockCreated);
@@ -190,7 +190,7 @@ describe('portingService', () => {
         id: 103,
         userId: 1,
         phoneNumber: baseInput.phoneNumber,
-        status: 'PENDING',
+        status: 'NONE',
       };
 
       prisma.portRequest.create.mockResolvedValueOnce(mockCreated);
@@ -238,7 +238,7 @@ describe('portingService', () => {
       const result = await getUserPortRequestById('1', '1');
 
       expect(prisma.portRequest.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 },
+        where: { id: '1' },
       });
 
       expect(result).toBe(mockReq);
@@ -250,7 +250,7 @@ describe('portingService', () => {
       const result = await getUserPortRequestById('1', '999');
 
       expect(prisma.portRequest.findUnique).toHaveBeenCalledWith({
-        where: { id: 999 },
+        where: { id: '999' },
       });
 
       expect(result).toBeNull();
@@ -267,7 +267,7 @@ describe('portingService', () => {
       const result = await getUserPortRequestById('1', '1');
 
       expect(prisma.portRequest.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 },
+        where: { id: '1' },
       });
 
       expect(result).toBeNull();
@@ -281,22 +281,22 @@ describe('portingService', () => {
 
       const mockUpdated = {
         id: 123,
-        status: 'COMPLETED',
+        status: 'PORTED_IN',
       };
 
       prisma.portRequest.update.mockResolvedValueOnce(mockUpdated);
 
       const result = await updatePortStatus(123, {
-        status: 'COMPLETED',
+        status: 'PORTED_IN',
         statusReason: 'Done',
         scheduledAt,
         completedAt,
       });
 
       expect(prisma.portRequest.update).toHaveBeenCalledWith({
-        where: { id: 123 },
+        where: { id: '123' },
         data: {
-          status: 'COMPLETED',
+          status: 'PORTED_IN',
           statusReason: 'Done',
           scheduledAt,
           completedAt,
@@ -310,16 +310,16 @@ describe('portingService', () => {
       prisma.portRequest.update.mockResolvedValueOnce({ id: 456 });
 
       await updatePortStatus(456, {
-        status: 'FAILED',
+        status: 'PORT_IN_PENDING',
         statusReason: 'Error',
         scheduledAt: undefined,
         completedAt: undefined,
       });
 
       expect(prisma.portRequest.update).toHaveBeenCalledWith({
-        where: { id: 456 },
+        where: { id: '456' },
         data: {
-          status: 'FAILED',
+          status: 'PORT_IN_PENDING',
           statusReason: 'Error',
           scheduledAt: undefined,
           completedAt: undefined,

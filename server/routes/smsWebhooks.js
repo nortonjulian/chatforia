@@ -6,6 +6,7 @@ import {
   releaseUsage,
 } from '../services/planUsageService.js';
 import { sendPushToUser } from '../services/pushService.js';
+import { recordTwilioConsentAction } from '../services/twilioConsent.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
@@ -112,8 +113,6 @@ router.post(
           const normalizedFrom =
             normalizeE164(fromNumber);
 
-          const provider = 'twilio';
-
           if (!isE164(normalizedFrom)) {
             req.log?.info?.(
               {
@@ -135,83 +134,30 @@ router.post(
             NumMedia: req.body?.NumMedia || null,
           };
 
-          if (complianceAction === 'STOP') {
-            const existing =
-              await prisma.smsOptOut.findFirst({
-                where: {
-                  phone: normalizedFrom,
-                  provider,
-                },
-              });
-
-            if (existing) {
-              await prisma.smsOptOut.update({
-                where: {
-                  id: existing.id,
-                },
-                data: {
-                  reason: upperBody || 'STOP',
-                  inboundMessageId:
-                    MessageSid || null,
-                  rawPayload:
-                    safeSmsOptOutPayload,
-                  ipAddress:
-                    req.ip,
-                  userAgent:
-                    req.get?.('user-agent') || null,
-                  createdAt:
-                    new Date(),
-                },
-              });
-            } else {
-              await prisma.smsOptOut.create({
-                data: {
-                  phone:
-                    normalizedFrom,
-                  provider,
-                  reason:
-                    upperBody || 'STOP',
-                  inboundMessageId:
-                    MessageSid || null,
-                  rawPayload:
-                    safeSmsOptOutPayload,
-                  ipAddress:
-                    req.ip,
-                  userAgent:
-                    req.get?.('user-agent') || null,
-                },
-              });
+          if (complianceAction === 'STOP' || complianceAction === 'START') {
+            // A signed retry has the same MessageSid. Keep its receipt even
+            // after START deletes the active opt-out row. Distinct SIDs have
+            // no trusted sequence here and still apply in delivery order.
+            if (typeof MessageSid !== 'string' || !MessageSid.trim() || MessageSid.length > 128) {
+              return res.sendStatus(400);
             }
 
-            req.log?.info?.(
-              {
-                from: normalizedFrom,
-                twilioManaged:
-                  Boolean(twilioManagedAction),
-              },
-              '[webhook][twilio] recorded OPT-OUT'
-            );
-
-            return emptyTwilioResponse(res);
-          }
-
-          if (complianceAction === 'START') {
-            await prisma.smsOptOut.deleteMany({
-              where: {
-                phone: normalizedFrom,
-                provider,
-              },
+            await recordTwilioConsentAction(prisma, {
+              action: complianceAction,
+              messageSid: MessageSid,
+              phone: normalizedFrom,
+              to: toNumber || '',
+              body: bodyText,
+              reason: upperBody || 'STOP',
+              rawPayload: safeSmsOptOutPayload,
+              ipAddress: req.ip,
+              userAgent: req.get?.('user-agent') || null,
             });
 
             req.log?.info?.(
-              {
-                from: normalizedFrom,
-                twilioManaged:
-                  Boolean(twilioManagedAction),
-              },
-              '[webhook][twilio] removed opt-out'
+              { from: normalizedFrom, twilioManaged: Boolean(twilioManagedAction) },
+              '[webhook][twilio] handled consent action'
             );
-
             return emptyTwilioResponse(res);
           }
 
@@ -226,12 +172,8 @@ router.post(
 
           return emptyTwilioResponse(res);
         } catch (error) {
-          console.error(
-            '[webhook][twilio] compliance handling error',
-            error
-          );
-
-          return emptyTwilioResponse(res);
+          console.error('[webhook][twilio] compliance handling error', error?.code || 'unknown');
+          return res.sendStatus(503);
         }
       }
       // ----------------------------------------------------------------------
