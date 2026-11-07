@@ -72,8 +72,9 @@ for (const entry of evidence.database.migrationLedger.mismatches) {
   assert.equal(sha(readFileSync(`server/prisma/migrations/${entry.migration}/migration.sql`)), entry.checkoutChecksum);
 }
 const db = new PrismaClient({ log: [], datasources: { db: { url } } });
+const historicalMigrations = { migrationRoot: join(prismaDir, 'migrations') };
 try {
-  await runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--before-migrations');
+  await runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--before-migrations', historicalMigrations);
   const catalogSql = `BEGIN READ ONLY;
 SELECT json_build_object('kind','column','table',c.relname,'name',a.attname,'type',format_type(a.atttypid,a.atttypmod),'notNull',a.attnotnull,'default',pg_get_expr(d.adbin,d.adrelid)) FROM pg_attribute a JOIN pg_class c ON c.oid=a.attrelid JOIN pg_namespace n ON n.oid=c.relnamespace LEFT JOIN pg_attrdef d ON d.adrelid=a.attrelid AND d.adnum=a.attnum WHERE n.nspname='public' AND c.relname IN ('MobileDataPackPurchase','Report','SmsBlockedNumber','Device','EsimReplacement') AND a.attnum>0 AND NOT a.attisdropped;
 SELECT json_build_object('kind','index','table',t.relname,'name',i.relname,'definition',pg_get_indexdef(i.oid),'unique',x.indisunique,'valid',x.indisvalid) FROM pg_index x JOIN pg_class i ON i.oid=x.indexrelid JOIN pg_class t ON t.oid=x.indrelid JOIN pg_namespace n ON n.oid=t.relnamespace WHERE n.nspname='public' AND t.relname IN ('MobileDataPackPurchase','Report','SmsBlockedNumber','Device','EsimReplacement');
@@ -95,7 +96,7 @@ ROLLBACK;`;
   for (const entry of evidence.database.migrationLedger.mismatches) {
     await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${entry.recordedChecksum} WHERE migration_name=${entry.migration} AND rolled_back_at IS NULL`;
   }
-  await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--before-migrations'), /Migration history differs/);
+  await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--before-migrations', historicalMigrations), /Migration history differs/);
   console.log('PASS: strict preflight rejects all four recorded target checksum mismatches');
 
   const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
