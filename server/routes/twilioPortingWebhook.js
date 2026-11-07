@@ -15,7 +15,6 @@ router.post('/', async (req, res, next) => {
     const reason         = payload.statusReason || payload.errorMessage || null;
 
     if (!externalPortId) {
-      console.warn('Porting webhook missing externalPortId:', payload);
       return res.status(400).json({ error: 'Missing externalPortId' });
     }
 

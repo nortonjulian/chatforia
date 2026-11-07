@@ -116,6 +116,7 @@ import supportRouter from './routes/support.js';
 import translateRoutes from "./routes/translate.js";
 import translationsRouter from './routes/translations.js';
 import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
+import { installTwilioPortingGuard } from './middleware/twilioPortingSignature.js';
 import twilioRegulatoryWebhook from './routes/twilioRegulatoryWebhook.js';
 import uploadsRouter from './routes/uploads.js';
 import usersRouter from './routes/users.js';
@@ -183,6 +184,7 @@ export function createApp() {
   console.log('[boot] createApp reached', { cwd: process.cwd() });
 
   /* Early security */
+  installTwilioPortingGuard(app);
   app.use(httpsRedirect());
 
   const allowedOrigins = appAllowedOrigins({ isProd });
@@ -498,7 +500,7 @@ app.use('/ice-servers', requireAuth, requireEmailVerified, iceRouter);
   app.use('/api/voicemail/greeting', voicemailGreetingRouter);
 
   app.use('/api/porting', authMiddleware, portingRouter);
-  app.use('/webhooks/twilio/porting', express.json(), twilioPortingWebhook);
+  app.use(['/webhooks/twilio/porting', '/api/webhooks/twilio/porting'], twilioPortingWebhook);
 
   app.use('/support', supportRouter);
   app.use('/ads', adsRouter);
