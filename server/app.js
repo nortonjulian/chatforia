@@ -469,6 +469,7 @@ export function createApp() {
   app.use('/api/webhooks/sms', smsWebhooks);
   app.use('/webhooks', webhooksTwilio);
   app.use('/webhooks', twilioRegulatoryWebhook);
+  app.use('/api/webhooks', twilioRegulatoryWebhook);
   app.use('/webhooks/status', twilioStatusWebhook);
 
   app.use('/conversations', conversationsRouter);
