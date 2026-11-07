@@ -44,6 +44,10 @@ const env = {
 };
 try {
   const prismaDirectory = join(artifacts, 'upgrade');
+  const runHistoricalPreflight = (db, config, mode) =>
+    runPreflight(db, config, mode, {
+      migrationRoot: join(prismaDirectory, 'migrations'),
+    });
   mkdirSync(join(prismaDirectory, 'migrations'), {
     recursive: true,
     mode: 0o700,
@@ -112,7 +116,7 @@ try {
     SELECT current_setting('server_version') AS version`;
   postgresVersion = engine.version;
   await assert.rejects(
-    runPreflight(executor, env, '--before-migrations'),
+    runHistoricalPreflight(executor, env, '--before-migrations'),
     /prerequisites/
   );
   pass('missing bootstrap roles/schema fail before migrations');
@@ -146,7 +150,7 @@ try {
     ],
   });
   const before = await executor.user.findMany({ orderBy: { id: 'asc' } });
-  await runPreflight(executor, env, '--before-migrations');
+  await runHistoricalPreflight(executor, env, '--before-migrations');
   pass(
     'populated 141-migration baseline passes read-only prerequisites as non-superuser'
   );
@@ -155,14 +159,14 @@ try {
   await executor.$executeRaw`UPDATE public._prisma_migrations SET checksum='synthetic-drift'
     WHERE migration_name=${originalMigration.migration_name}`;
   await assert.rejects(
-    runPreflight(executor, env, '--before-migrations'),
+    runHistoricalPreflight(executor, env, '--before-migrations'),
     /Migration history/
   );
   await executor.$executeRaw`UPDATE public._prisma_migrations SET checksum=${originalMigration.checksum}
     WHERE migration_name=${originalMigration.migration_name}`;
   pass('baseline migration checksum drift blocks upgrade');
   await assert.rejects(
-    runPreflight(
+    runHistoricalPreflight(
       executor,
       { ...env, STAFF_EXPECTED_DATABASE: 'wrong_target' },
       '--before-migrations'
@@ -172,7 +176,7 @@ try {
   pass('wrong expected database fails closed');
   cluster.sql(database, 'CREATE EXTENSION pgcrypto WITH SCHEMA public');
   await assert.rejects(
-    runPreflight(executor, env, '--before-migrations'),
+    runHistoricalPreflight(executor, env, '--before-migrations'),
     /pgcryptoNamespaceCompatible/
   );
   cluster.sql(database, 'ALTER EXTENSION pgcrypto SET SCHEMA staff_security');
@@ -184,19 +188,19 @@ try {
     'CREATE TABLE public.synthetic_owner_probe(id integer); ALTER TABLE public.synthetic_owner_probe OWNER TO chatforia_dev'
   );
   await assert.rejects(
-    runPreflight(executor, env, '--before-migrations'),
+    runHistoricalPreflight(executor, env, '--before-migrations'),
     /noRuntimeOwnership/
   );
   cluster.sql(database, 'DROP TABLE public.synthetic_owner_probe');
   pass('runtime object ownership is rejected');
   cluster.sql(database, 'GRANT chatforia_staff_owner TO chatforia_dev');
   await assert.rejects(
-    runPreflight(executor, env, '--before-migrations'),
+    runHistoricalPreflight(executor, env, '--before-migrations'),
     /noPrivilegedMembership/
   );
   cluster.sql(database, 'REVOKE chatforia_staff_owner FROM chatforia_dev');
   pass('runtime SET ROLE membership is rejected even with NOINHERIT');
-  await runPreflight(executor, env, '--before-migrations');
+  await runHistoricalPreflight(executor, env, '--before-migrations');
   for (const name of names.filter((name) => staffNames.has(name)))
     copyMigration(name);
   migrate();
@@ -208,7 +212,7 @@ try {
     await executor.$queryRaw`SELECT count(*)::integer AS count FROM public._prisma_migrations WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL`;
   assert.equal(history.count, 160);
   await assert.rejects(
-    runPreflight(executor, env, '--before-migrations'),
+    runHistoricalPreflight(executor, env, '--before-migrations'),
     /Migration history/
   );
   pass(
@@ -216,16 +220,16 @@ try {
   );
   const runtime = client('chatforia_dev');
   await assert.rejects(
-    runPreflight(runtime, env, '--runtime'),
+    runHistoricalPreflight(runtime, env, '--runtime'),
     /does not match/
   );
   // Only the verified new cluster's DBA provisions this generated test key.
   const admin = client(cluster.admin);
   await admin.$executeRaw`INSERT INTO staff_security.assertion_secrets(id,key_version,verification_secret)
     VALUES (1,1,convert_to(${env.STAFF_ACCESS_SIGNING_SECRET},'UTF8'))`;
-  await runPreflight(runtime, env, '--runtime');
+  await runHistoricalPreflight(runtime, env, '--runtime');
   await assert.rejects(
-    runPreflight(
+    runHistoricalPreflight(
       runtime,
       { ...env, STAFF_SECURITY_ENABLED: 'false' },
       '--runtime'
@@ -233,7 +237,7 @@ try {
     /enable staff security/
   );
   await assert.rejects(
-    runPreflight(
+    runHistoricalPreflight(
       runtime,
       { ...env, STAFF_ACCESS_SIGNING_SECRET: 'wrong'.repeat(16) },
       '--runtime'
@@ -258,12 +262,12 @@ try {
     9
   );
   pass('existing administrator protection and ordinary writes survive upgrade');
-  await runPreflight(
+  await runHistoricalPreflight(
     runtime,
     { ...env, STAFF_DASHBOARD_ENABLED: 'true', STAFF_DASHBOARD_USER_IDS: '1' },
     '--runtime'
   );
-  await runPreflight(runtime, env, '--runtime');
+  await runHistoricalPreflight(runtime, env, '--runtime');
   pass(
     'canary and dashboard-disabled containment configurations both retain security readiness'
   );
