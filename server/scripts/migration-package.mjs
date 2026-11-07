@@ -11,7 +11,7 @@ export const reconciliationPaths = [
   'docs/staff-security/evidence/migration-target-catalog.json',
   'docs/staff-security/evidence/migration-current-data-invariants.json',
 ];
-const reconciliationDigest = 'a59c5f947c0d2059c98f67e85230b74d6ceccfbc9d778e44278680983e2630e5';
+const reconciliationDigest = '94efe3ca09f6c316fbe5d498a609e85731d67de0c195e9d3a09336481485fd71';
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
@@ -88,7 +88,7 @@ export function checkHistory(bundle, rows, complete = false) {
 
 // Pure verification only: this does not grant production execution authority.
 // The deployment caller must also pass assertReconciliationRequested and the
-// catalog/data preflight. The pinned manifest remains unapproved for production.
+// catalog/data preflight. This pure checker grants no production authority.
 export function checkReconciledHistory(bundle, rows, target, complete = false) {
   const files = verifyPackage(bundle);
   const bytes = files.get(reconciliationPaths[0]);
@@ -100,18 +100,32 @@ export function checkReconciledHistory(bundle, rows, target, complete = false) {
     if (!files.has(path) || digest(files.get(path)) !== checksum) throw new Error('Reconciliation evidence mismatch');
   }
   const migrations = bundle.files.filter((file) => migrationPath.test(file.path));
+  const names = migrations.map((file) => file.path.match(migrationPath)[1]);
+  const laterNames = names.filter((name) => name > '20261102094000_founder_staff_management').sort();
+  const requiredExactNames = Object.keys(manifest.requiredExactMigrations || {}).sort();
   if (migrations.length !== manifest.afterStaffCount ||
-      migrations.filter((file) => !file.path.match(migrationPath)[1].startsWith('20261102')).length !== manifest.baselineCount) {
+      names.filter((name) => name < '20261102').length !== manifest.baselineCount ||
+      names.filter((name) => name.startsWith('20261102')).length !== 19 ||
+      JSON.stringify(laterNames) !== JSON.stringify(requiredExactNames)) {
     throw new Error('Reconciliation release migration set changed');
   }
-  // Reject partial, missing or duplicate ledgers, including rolled-back entries.
-  if (rows.length !== (complete ? manifest.afterStaffCount : manifest.baselineCount) ||
-      rows.some((row) => row.rolled_back_at || !row.finished_at ||
-        (!complete && row.migration_name.startsWith('20261102')))) {
+  for (const [name, checksum] of Object.entries(manifest.requiredExactMigrations)) {
+    const file = migrations.find((item) => item.path === `server/prisma/migrations/${name}/migration.sql`);
+    if (!file || file.sha256 !== checksum) throw new Error('Required exact migration file changed');
+  }
+  // Keep the three observed historical rollbacks inert and visible in receipts.
+  // Every active entry must still be finished and match the reviewed release.
+  const historical = rows.filter((row) => row.rolled_back_at);
+  const active = rows.filter((row) => !row.rolled_back_at);
+  if (historical.length !== manifest.historicalRolledBackCount ||
+      historical.some((row) => row.finished_at) ||
+      active.length !== (complete ? manifest.afterStaffCount : manifest.baselineCount) ||
+      active.some((row) => !row.finished_at ||
+        (!complete && row.migration_name >= '20261102'))) {
     throw new Error('Reconciliation ledger shape changed');
   }
   const seen = new Set();
-  const normalized = rows.map((row) => {
+  const normalized = active.map((row) => {
     const exception = manifest.exceptions[row.migration_name];
     if (!exception) return row;
     const file = migrations.find((file) => file.path === `server/prisma/migrations/${row.migration_name}/migration.sql`);

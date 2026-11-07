@@ -60,17 +60,24 @@ export async function assertDeploymentPrerequisites(db) {
 async function assertMigrationHistory(db, env, mode, database, options) {
   const root = options.migrationRoot || 'server/prisma/migrations';
   const expected = readdirSync(root)
-    .filter((name) => /^\d/.test(name) && (mode === '--after-migrations' || !name.startsWith('20261102')))
+    .filter((name) => /^\d/.test(name) && (mode === '--after-migrations' || name < '20261102'))
     .sort();
   const reconciliation = env.STAFF_MIGRATION_RECONCILIATION_ID
     ? assertReconciliationRequested(env, database, options)
     : null;
+  for (const [name, checksum] of Object.entries(reconciliation?.requiredExactMigrations || {})) {
+    const fileChecksum = createHash('sha256')
+      .update(readFileSync(`${root}/${name}/migration.sql`))
+      .digest('hex');
+    if (fileChecksum !== checksum)
+      throw new PreflightError('Required exact migration file changed');
+  }
   const rows = await db.$queryRaw`
     SELECT migration_name, checksum, finished_at FROM public._prisma_migrations
     WHERE rolled_back_at IS NULL ORDER BY migration_name
   `;
   if (
-    expected.length !== (mode === '--after-migrations' ? 160 : 141) ||
+    expected.length !== (mode === '--after-migrations' ? 161 : 141) ||
     rows.length !== expected.length ||
     rows.some(
       (row, index) => {

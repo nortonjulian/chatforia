@@ -1,5 +1,15 @@
 # Four baseline migrations: evidence for reviewed reconciliation
 
+Activation-branch checkpoint (November 6): the owner authorized applying the
+[exact reviewed patch](reconciliation-activation-proposal.md) on a separate
+branch for CI and review only. The source manifest there is approved, while the
+currently merged/released package still contains the proposed manifest. The
+historical proposal-state statements below describe the earlier PR #301 base;
+no production preflight, migration, role provisioning or deployment is authorized.
+Current main then added one Twilio consent migration; the
+[161-migration adaptation](reconciliation-161-adaptation.md) pins it exactly
+without adding a historical checksum exception.
+
 Current decision (November 4 owner local date / November 5 UTC): the owner accepted
 remaining historical-data uncertainty and authorized preparing the exception for
 review only. See [the scoped acceptance and evidence record](migration-exception-review.md).
@@ -165,12 +175,13 @@ rewrite, `migrate resolve`, fabricated SQL or silent waiver is proposed.
 The branch adds a versioned, hash-pinned
 `server/security/staffMigrationReconciliation.v1.json` manifest for the **one
 verified target**. It pins four recorded ledger/current-file checksum pairs,
-the 141-entry baseline and 159-entry post-staff counts, target database/endpoint
+the 141-entry baseline and 161-entry post-release counts, target database/endpoint
 identity and digests of the catalog and bounded-data evidence. The other 137
 baseline migrations and all new migrations still require exact file/ledger
 hashes. The target's three historical rolled-back attempts remain untouched;
-the check, like the original strict preflight, excludes rolled-back rows from
-the active sequence. The manifest does not claim SQL equivalence. No migration
+the package check requires exactly three inert rows, preserves them in receipts,
+and excludes them from the active checksum sequence. The manifest does not
+claim SQL equivalence. No migration
 SQL or target `_prisma_migrations` row was changed. A sanitized, hashed
 read-only ledger export and owner decision are still required before any
 production authorization.
@@ -186,8 +197,9 @@ this path. Only the guarded disposable CI harness can exercise it. Enabling
 production use would require a separate reviewed code/manifest change and
 explicit owner risk acceptance.
 
-The new `--after-migrations` executor check requires the exact 159-entry active
-sequence and file hashes for all 18 new staff migrations; only the same four
+The new `--after-migrations` executor check requires the exact 161-entry active
+sequence and file hashes for all 19 staff migrations and the later Twilio file;
+only the same four
 baseline pairs can differ. Any later release must deliberately update the
 versioned count/check and verify its new migrations exactly. The CI PostgreSQL
 18 harness tests accepted and rejected states without touching target records.

@@ -101,14 +101,24 @@ test('pinned reconciliation accepts only the exact four pairs and target, before
     bundle.files.push(file(`server/prisma/migrations/${name}/migration.sql`, 'SELECT 1;'));
     rows.push({ migration_name: name, checksum: digest('SELECT 1;'), finished_at: 'now', rolled_back_at: null });
   }
+  for (let i = 0; i < 3; i++) {
+    rows.push({ migration_name: `20260101_fixture_${i}`, checksum: 'e'.repeat(64),
+      finished_at: null, rolled_back_at: 'historical' });
+  }
   const after = structuredClone(rows);
   for (let i = 0; i < 19; i++) {
-    const name = `20261102_fixture_${i}`;
+    const name = `20261102090000_fixture_${i}`;
     bundle.files.push(file(`server/prisma/migrations/${name}/migration.sql`, 'SELECT 2;'));
     after.push({ migration_name: name, checksum: digest('SELECT 2;'), finished_at: 'now', rolled_back_at: null });
   }
+  const twilioName = '20261106010000_twilio_compliance_event_sid';
+  const twilioPath = `server/prisma/migrations/${twilioName}/migration.sql`;
+  const twilioSql = readFileSync(twilioPath);
+  assert.equal(digest(twilioSql), manifest.requiredExactMigrations[twilioName]);
+  bundle.files.push(file(twilioPath, twilioSql));
+  after.push({ migration_name: twilioName, checksum: digest(twilioSql), finished_at: 'now', rolled_back_at: null });
   const original = JSON.stringify(rows);
-  assert.equal(checkReconciledHistory(bundle, rows, manifest.target).length, 19);
+  assert.equal(checkReconciledHistory(bundle, rows, manifest.target).length, 20);
   assert.deepEqual(checkReconciledHistory(bundle, after, manifest.target, true), []);
   assert.equal(JSON.stringify(rows), original, 'checker must not change recorded checksums');
   assert.throws(() => checkHistory(bundle, rows), /mismatch/, 'strict default still rejects the four');
@@ -128,8 +138,18 @@ test('pinned reconciliation accepts only the exact four pairs and target, before
   const duplicate = structuredClone(rows); duplicate[5] = duplicate[4];
   assert.throws(() => checkReconciledHistory(bundle, duplicate, manifest.target));
   assert.throws(() => checkReconciledHistory(bundle, after.slice(1), manifest.target, true));
+  const missingHistorical = rows.filter((row, index) => index !== 141);
+  assert.throws(() => checkReconciledHistory(bundle, missingHistorical, manifest.target));
+  const extraHistorical = [...rows, rows[141]];
+  assert.throws(() => checkReconciledHistory(bundle, extraHistorical, manifest.target));
+  const finishedHistorical = structuredClone(rows);
+  finishedHistorical[141].finished_at = 'now';
+  assert.throws(() => checkReconciledHistory(bundle, finishedHistorical, manifest.target));
+  const changedTwilioLedger = structuredClone(after);
+  changedTwilioLedger.at(-1).checksum = 'f'.repeat(64);
+  assert.throws(() => checkReconciledHistory(bundle, changedTwilioLedger, manifest.target, true));
   for (const path of [reconciliationPaths[0], reconciliationPaths[1],
-    `server/prisma/migrations/${rows[0].migration_name}/migration.sql`]) {
+    `server/prisma/migrations/${rows[0].migration_name}/migration.sql`, twilioPath]) {
     const bad = structuredClone(bundle);
     const index = bad.files.findIndex((f) => f.path === path);
     bad.files[index] = file(path, 'changed'); // even with a recomputed per-file digest

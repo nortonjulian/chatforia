@@ -1,13 +1,17 @@
 {
   "id": "chatforia-defaultdb-four-hash-20261103-v1",
-  "status": "proposed-not-authorized-for-production",
+  "status": "approved-for-production",
   "target": {
     "database": "defaultdb",
     "hostname": "chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com",
     "port": 25060
   },
   "baselineCount": 141,
-  "afterStaffCount": 160,
+  "afterStaffCount": 161,
+  "historicalRolledBackCount": 3,
+  "requiredExactMigrations": {
+    "20261106010000_twilio_compliance_event_sid": "3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a"
+  },
   "exceptions": {
     "20260726034500_add_wireless_refund_audit": {
       "historicalSql": "unavailable",

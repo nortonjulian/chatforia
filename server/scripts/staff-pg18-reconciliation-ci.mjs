@@ -42,6 +42,44 @@ assert.equal(sql(`SELECT count(*) = 4 AND bool_and(
   rolcanlogin = (rolname = 'chatforia_dev'))
   FROM pg_roles WHERE rolname IN
   ('chatforia_dev','chatforia_staff_owner','chatforia_recovery_issuer','chatforia_recovery_executor')`).trim(), 't');
+const recoveryLoginSql = readFileSync('server/scripts/staff-recovery-operator-logins.sql', 'utf8');
+sql('GRANT chatforia_recovery_executor TO chatforia_recovery_issuer WITH SET TRUE, INHERIT FALSE, ADMIN FALSE');
+assert.throws(() => sql(recoveryLoginSql));
+sql('REVOKE chatforia_recovery_executor FROM chatforia_recovery_issuer');
+sql(recoveryLoginSql);
+assert.throws(() => sql(recoveryLoginSql));
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolcanlogin AND NOT
+  (rolinherit OR rolsuper OR rolcreatedb OR rolcreaterole OR rolreplication OR rolbypassrls))
+  FROM pg_roles WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolpassword IS NULL)
+  FROM pg_authid WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT pg_has_role('chatforia_recovery_issuer_login',
+  'chatforia_recovery_issuer', 'SET') AND
+  pg_has_role('chatforia_recovery_executor_login',
+  'chatforia_recovery_executor', 'SET') AND
+  NOT pg_has_role('chatforia_recovery_issuer_login',
+  'chatforia_recovery_executor', 'MEMBER') AND
+  NOT pg_has_role('chatforia_recovery_executor_login',
+  'chatforia_recovery_issuer', 'MEMBER') AND
+  NOT pg_has_role('chatforia_dev',
+  'chatforia_recovery_issuer', 'MEMBER') AND
+  NOT pg_has_role('chatforia_dev',
+  'chatforia_recovery_executor', 'MEMBER')`).trim(), 't');
+assert.equal(sql(`SET SESSION AUTHORIZATION chatforia_recovery_issuer_login;
+  SET ROLE chatforia_recovery_issuer;
+  SELECT session_user = 'chatforia_recovery_issuer_login' AND
+    current_user = 'chatforia_recovery_issuer'`).trim(), 't');
+assert.throws(() => sql(`SET SESSION AUTHORIZATION chatforia_recovery_issuer_login;
+  SET ROLE chatforia_recovery_executor`));
+assert.equal(sql(`SET SESSION AUTHORIZATION chatforia_recovery_executor_login;
+  SET ROLE chatforia_recovery_executor;
+  SELECT session_user = 'chatforia_recovery_executor_login' AND
+    current_user = 'chatforia_recovery_executor'`).trim(), 't');
+assert.throws(() => sql(`SET SESSION AUTHORIZATION chatforia_recovery_executor_login;
+  SET ROLE chatforia_recovery_issuer`));
+console.log('PASS: PostgreSQL 18.6 prepared recovery logins retain separate session identities and exclusive roles');
 sql('GRANT chatforia_staff_owner TO chatforia WITH SET TRUE, INHERIT FALSE, ADMIN FALSE;');
 sql(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8'));
 
@@ -99,26 +137,32 @@ ROLLBACK;`;
   await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--before-migrations', historicalMigrations), /Migration history differs/);
   console.log('PASS: strict preflight rejects all four recorded target checksum mismatches');
 
-  const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
-  const fullPackage = buildPackage('HEAD');
-  const laterMigrations = fullPackage.files.filter((file) => {
-    const match = file.path.match(/^server\/prisma\/migrations\/([^/]+)\/migration\.sql$/);
-    return match && match[1] > staffReleaseLastMigration;
-  });
-  const baselineLedger = await ledger(db);
-  if (laterMigrations.length) {
-    assert.throws(
-      () => checkReconciledHistory(fullPackage, baselineLedger, manifest.target),
-      /Reconciliation release migration set changed/
-    );
+  // Model the three retained rolled-back attempts observed on the target.
+  // They are inert history, not a fifth checksum exception or an active row.
+  for (let index = 0; index < 3; index++) {
+    const id = `00000000-0000-0000-0000-${String(index + 101).padStart(12, '0')}`;
+    await db.$executeRaw`INSERT INTO public._prisma_migrations
+      (id, checksum, migration_name, started_at, rolled_back_at, applied_steps_count)
+      VALUES (${id}, ${'e'.repeat(64)}, ${names[index]}, now(), now(), 0)`;
   }
-  // Historical CI rehearsal only: keep the original pinned staff migration
-  // set. The full proposed package above must stay rejected for deployment.
-  const releasePackage = {
-    ...fullPackage,
-    files: fullPackage.files.filter((file) => !laterMigrations.includes(file)),
-  };
-  assert.equal(checkReconciledHistory(releasePackage, baselineLedger, manifest.target).length, 19);
+  const historicalRollbackRows = (await ledger(db)).filter((row) => row.rolled_back_at);
+  assert.equal(historicalRollbackRows.length, 3);
+
+  // The target has 141 completed baseline migrations. The 19 staff migrations
+  // and one later Twilio migration are pending in this disposable service.
+  const pendingNames = readdirSync('server/prisma/migrations')
+    .filter((name) => /^\d/.test(name) && name >= '20261102').sort();
+  assert.equal(pendingNames.length, 20);
+  for (const name of pendingNames) {
+    const destination = join(prismaDir, 'migrations', name);
+    mkdirSync(destination, { mode: 0o700 });
+    copyFileSync(`server/prisma/migrations/${name}/migration.sql`, join(destination, 'migration.sql'));
+  }
+  const manifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v1.json'));
+  assert.equal(manifest.status, 'approved-for-production');
+  assert.equal(Object.keys(manifest.exceptions).length, 4);
+  const releasePackage = buildPackage('HEAD');
+  assert.equal(checkReconciledHistory(releasePackage, await ledger(db), manifest.target).length, 20);
   const reconciledEnv = {
     STAFF_EXPECTED_DATABASE: database,
     STAFF_MIGRATION_RECONCILIATION_ID: manifest.id,
@@ -126,10 +170,9 @@ ROLLBACK;`;
     // disposable localhost service; the production CLI uses one actual URL.
     DATABASE_URL: `postgresql://chatforia@${manifest.target.hostname}:${manifest.target.port}/${database}`,
   };
-  const isolated = { allowProposedForIsolatedTest: true, migrationRoot: join(prismaDir, 'migrations') };
-  await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations'), /not approved for production/);
+  const isolated = { migrationRoot: join(prismaDir, 'migrations') };
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
-  console.log('PASS: proposed exception is CI-only and accepts exactly the four documented target pairs');
+  console.log('PASS: activated exception accepts only four documented pairs on disposable PostgreSQL 18');
 
   await assert.rejects(runPreflight(db, { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: 'wrong' }, '--before-migrations', isolated), /Unknown reconciliation ID/);
   await assert.rejects(runPreflight(db, { ...reconciledEnv, DATABASE_URL: 'postgresql://chatforia@wrong.example:25060/defaultdb' }, '--before-migrations', isolated), /target differs/);
@@ -150,6 +193,21 @@ ROLLBACK;`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
   writeFileSync(changedExceptionFile, originalExceptionFile);
 
+  const twilioName = '20261106010000_twilio_compliance_event_sid';
+  assert.equal(sha(readFileSync(`server/prisma/migrations/${twilioName}/migration.sql`)),
+    manifest.requiredExactMigrations[twilioName]);
+  const twilioFile = join(prismaDir, 'migrations', twilioName, 'migration.sql');
+  const originalTwilioFile = readFileSync(twilioFile);
+  writeFileSync(twilioFile, Buffer.concat([originalTwilioFile, Buffer.from('\n-- isolated tamper\n')]));
+  await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Required exact migration file changed/);
+  writeFileSync(twilioFile, originalTwilioFile);
+  const changedPackage = structuredClone(releasePackage);
+  const twilioEntry = changedPackage.files.find((file) => file.path === `server/prisma/migrations/${twilioName}/migration.sql`);
+  twilioEntry.content = Buffer.from('-- isolated tamper\n').toString('base64');
+  twilioEntry.sha256 = sha(Buffer.from('-- isolated tamper\n'));
+  const beforeLedger = await ledger(db);
+  assert.throws(() => checkReconciledHistory(changedPackage, beforeLedger, manifest.target), /Required exact migration file changed/);
+
   const firstException = evidence.database.migrationLedger.mismatches[0];
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'0'.repeat(64)} WHERE migration_name=${firstException.migration} AND rolled_back_at IS NULL`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
@@ -157,47 +215,46 @@ ROLLBACK;`;
 
   const stableName = names.find((name) => !manifest.exceptions[name]);
   const stableChecksum = sha(readFileSync(`server/prisma/migrations/${stableName}/migration.sql`));
+  const [stableActive] = await db.$queryRaw`SELECT id, finished_at FROM public._prisma_migrations
+    WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'f'.repeat(64)} WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${stableChecksum} WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
 
-  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=now() WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=now() WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=NULL WHERE migration_name=${stableName} AND rolled_back_at IS NOT NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=NULL WHERE id=${stableActive.id}`;
 
   await db.$executeRaw`INSERT INTO public._prisma_migrations(id, checksum, migration_name, started_at, finished_at, applied_steps_count) VALUES ('00000000-0000-0000-0000-000000000001', ${'a'.repeat(64)}, '99999999_extra_synthetic', now(), now(), 1)`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`DELETE FROM public._prisma_migrations WHERE migration_name='99999999_extra_synthetic'`;
 
-  const [finished] = await db.$queryRaw`SELECT finished_at FROM public._prisma_migrations WHERE migration_name=${stableName}`;
-  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=NULL WHERE migration_name=${stableName}`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=NULL WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=${finished.finished_at} WHERE migration_name=${stableName}`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=${stableActive.finished_at} WHERE id=${stableActive.id}`;
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
   console.log('PASS: wrong target/ID/manifest, changed files/ledger, missing/extra/unfinished and fifth mismatch fail closed');
 
-  for (const name of readdirSync('server/prisma/migrations').filter((name) => name.startsWith('20261102')).sort()) {
-    const destination = join(prismaDir, 'migrations', name);
-    mkdirSync(destination, { mode: 0o700 });
-    copyFileSync(`server/prisma/migrations/${name}/migration.sql`, join(destination, 'migration.sql'));
-  }
   execFileSync(process.execPath, [resolve('node_modules/prisma/build/index.js'), 'migrate', 'deploy', '--schema', join(prismaDir, 'schema.prisma')], {
     cwd: prismaDir,
     env: { PATH: process.env.PATH, LC_ALL: 'C', DATABASE_URL: url, PRISMA_HIDE_UPDATE_MESSAGE: 'true', CHECKPOINT_DISABLE: '1' },
     stdio: ['ignore', 'pipe', 'pipe'],
     maxBuffer: 8 * 1024 * 1024,
   });
-  await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations'), /not approved for production/);
   await assert.rejects(runPreflight(db, { STAFF_EXPECTED_DATABASE: database }, '--after-migrations'), /Migration history differs/);
   assert.equal((await runPreflight(db, reconciledEnv, '--after-migrations', isolated)).reconciliationId, manifest.id);
   assert.deepEqual(checkReconciledHistory(releasePackage, await ledger(db), manifest.target, true), []);
+  assert.deepEqual((await ledger(db)).filter((row) => row.rolled_back_at), historicalRollbackRows);
   console.log('PASS: archived package verifies real PostgreSQL ledger before and after the four-pair exception');
   const staffName = readdirSync('server/prisma/migrations').find((name) => name.startsWith('20261102'));
   const staffChecksum = sha(readFileSync(`server/prisma/migrations/${staffName}/migration.sql`));
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'b'.repeat(64)} WHERE migration_name=${staffName}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${staffChecksum} WHERE migration_name=${staffName}`;
-  console.log('PASS: all new migrations apply on isolated PostgreSQL 18 and exact new checksums remain mandatory');
+  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'c'.repeat(64)} WHERE migration_name=${twilioName}`;
+  await assert.rejects(runPreflight(db, reconciledEnv, '--after-migrations', isolated), /Migration history differs/);
+  await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${manifest.requiredExactMigrations[twilioName]} WHERE migration_name=${twilioName}`;
+  console.log('PASS: all 20 pending migrations apply on isolated PostgreSQL 18; staff and Twilio ledger/file checksums remain exact');
 
   // The live cleanup timers share the API's DATABASE_URL. Verify their token
   // cleanup shape under the restricted role without running provider jobs.
