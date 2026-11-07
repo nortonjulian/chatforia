@@ -147,11 +147,18 @@ copy in secure storage for the executor credential. This is a storage plan only:
 neither credential has been created, stored or retrieved, and no production
 recovery login has been provisioned.
 
-Independently retrieve the existing encryption, JWT and required OAuth material
-from off-host custody and confirm it matches the running versions without
-printing values, hashes or tokens in public evidence. Record custodian, retrieval
-date and a redacted match result privately. New session/staff signing keys need
-separate protected custody only in the approved cutover; never generate them in
+The existing `APP_ENC_KEY` now has an
+[off-host Apple Passwords copy](evidence/app-enc-key-custody-20261106.json):
+the saved Mac entry matched a fresh production-source read exactly, and the owner
+reported retrieval and a full visual match on iPhone. Universal Clipboard did
+not provide a usable automated iPhone comparison. The source file predates the
+running API process, but its in-process value was not dumped. This is sole-owner
+Apple Passwords custody, not independent human or provider custody. Independently retrieve
+existing JWT and required OAuth material from off-host custody and confirm it
+matches the running versions without printing values, hashes or tokens in public
+evidence. Record custodian, retrieval date and a redacted match result privately.
+New session/staff signing keys need separate protected custody only in the
+approved cutover; never generate them in
 this preparation document. Choose an independently durable private storage
 location for the **final** activation package, its checksum and every future
 receipt attempt directory. Prove a read-back copy with SHA-256 verification and
@@ -273,8 +280,10 @@ revocations, token floors, consumed assertions/approvals and audits before reope
   separate execution approval.
 - Sole-owner recovery risk: accepted for preparation. Issuer/executor storage
   locations are selected; restricted login and credential creation, separate
-  storage/retrieval checks and independent recovery-key retrieval remain pending
-  separate production approval.
+  storage/retrieval checks remain pending separate production approval.
+- Existing `APP_ENC_KEY`: off-host Apple Passwords exact Mac readback passed;
+  owner-reported iPhone retrieval/full visual match passed. Existing JWT and
+  required OAuth material still lack independent off-host retrieval evidence.
 - Operator/stop authority: Julian Norton; alert destination/receipt and observation window pending.
 - Explicit permission for roles/schema, exception activation, migrations, keys/bootstrap,
   process/credential cutover, proxy/firewall changes and restart: NOT GRANTED.

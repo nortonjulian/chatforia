@@ -122,11 +122,15 @@ digests, time point, retention, restore destination and measured RPO/RTO. Preser
 JWT/session, staff assertion and existing MFA encryption key versions separately
 in the actual secret store. Verify independent access to that recovery material.
 Local restore/reconciliation and a basic hosted restore readability check passed.
-Refresh backup health for the actual window; independently usable key custody still
-requires confirmation. Owner-reported PITR/latest-transaction recovery
-offers seven days into a new cluster. Same-host root-owned 0600 key copies match
-but are not independent recovery. A second database on production chatforia-db is not an
-isolated rehearsal because roles are cluster-wide. No paid fallback is authorized.
+Refresh backup health for the actual window. Existing `APP_ENC_KEY` now has an
+[off-host Apple Passwords copy](evidence/app-enc-key-custody-20261106.json):
+exact Mac readback matched the production source, and the owner reported an
+iPhone full-value visual match. JWT/OAuth retrieval remains pending. This is
+same-owner Apple Account custody, not a separate human or provider.
+Owner-reported PITR/latest-transaction recovery offers seven days into a new
+cluster. Same-host root-owned 0600 key copies match but alone are not independent
+recovery. A second database on production chatforia-db is not an isolated
+rehearsal because roles are cluster-wide. No paid fallback is authorized.
 
 Before recovery activation, verify the owner's two distinct database login
 identities, separately stored credentials and separate sessions. Each login

@@ -180,8 +180,10 @@ This is a hard stop; the remaining numbered actions are conditional.
   usable restore destination; a real restore is unverified.
 - Cloud Firewall attachments/rules, Cloudflare SSL mode and hostname→origin
   routing, plus whether an already-paid dedicated isolated sandbox exists.
-- Independently recoverable key storage and the two separate sole-owner recovery
-  credentials; canary IDs and incident/alert ownership. Founder ID is privately
+- Existing `APP_ENC_KEY` off-host custody passed exact Mac readback and
+  owner-reported iPhone retrieval/full visual match; independent JWT/OAuth
+  retrieval and the two separate sole-owner recovery credentials remain pending.
+  Canary IDs and incident/alert ownership are pending. Founder ID is privately
   verified and owner-approved for future bootstrap only.
 
 The existing voicemail/wireless databases share production's role namespace and
