@@ -215,22 +215,23 @@ ROLLBACK;`;
 
   const stableName = names.find((name) => !manifest.exceptions[name]);
   const stableChecksum = sha(readFileSync(`server/prisma/migrations/${stableName}/migration.sql`));
+  const [stableActive] = await db.$queryRaw`SELECT id, finished_at FROM public._prisma_migrations
+    WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${'f'.repeat(64)} WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${stableChecksum} WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
 
-  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=now() WHERE migration_name=${stableName} AND rolled_back_at IS NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=now() WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=NULL WHERE migration_name=${stableName} AND rolled_back_at IS NOT NULL`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET rolled_back_at=NULL WHERE id=${stableActive.id}`;
 
   await db.$executeRaw`INSERT INTO public._prisma_migrations(id, checksum, migration_name, started_at, finished_at, applied_steps_count) VALUES ('00000000-0000-0000-0000-000000000001', ${'a'.repeat(64)}, '99999999_extra_synthetic', now(), now(), 1)`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
   await db.$executeRaw`DELETE FROM public._prisma_migrations WHERE migration_name='99999999_extra_synthetic'`;
 
-  const [finished] = await db.$queryRaw`SELECT finished_at FROM public._prisma_migrations WHERE migration_name=${stableName}`;
-  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=NULL WHERE migration_name=${stableName}`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=NULL WHERE id=${stableActive.id}`;
   await assert.rejects(runPreflight(db, reconciledEnv, '--before-migrations', isolated), /Migration history differs/);
-  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=${finished.finished_at} WHERE migration_name=${stableName}`;
+  await db.$executeRaw`UPDATE public._prisma_migrations SET finished_at=${stableActive.finished_at} WHERE id=${stableActive.id}`;
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
   console.log('PASS: wrong target/ID/manifest, changed files/ledger, missing/extra/unfinished and fifth mismatch fail closed');
 
