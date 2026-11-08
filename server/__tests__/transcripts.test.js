@@ -23,7 +23,7 @@ beforeEach(() => {
   db.message.findUnique.mockResolvedValue(message); db.participant.findFirst.mockResolvedValue({ id: 1 }); db.user.findUnique.mockResolvedValue(user);
   db.transcript.findFirst.mockResolvedValue(null); db.transcript.create.mockImplementation(async ({ data }) => ({ id: 't1', ...data }));
   db.sTTUsage.upsert.mockResolvedValue({}); db.sTTUsage.updateMany.mockResolvedValue({ count: 1 });
-  transcribe.mockResolvedValue({ text: 'Actual recorded words' });
+  transcribe.mockImplementation(async (_url, _language, { beforeTranscribe }) => { await beforeTranscribe(9); return { text: 'Actual recorded words' }; });
 });
 test('both endpoints require authentication', async () => {
   expect((await request(app).post('/media/10/transcribe')).status).toBe(401);
@@ -60,7 +60,7 @@ test('saved OFF preference prevents generation', async () => {
   expect(transcribe).not.toHaveBeenCalled();
 });
 test('provider failure returns an explicit error and refunds the reservation', async () => {
-  transcribe.mockRejectedValue(new Error('provider failed'));
+  transcribe.mockImplementation(async (_url, _language, { beforeTranscribe }) => { await beforeTranscribe(9); throw new Error('provider failed'); });
   const res = await request(app).post('/media/10/transcribe').set('x-user', '65');
   expect(res.status).toBe(503); expect(res.body.code).toBe('TRANSCRIPTION_UNAVAILABLE');
   expect(db.sTTUsage.updateMany).toHaveBeenLastCalledWith(expect.objectContaining({ data: { seconds: { decrement: 9 } } }));
@@ -73,4 +73,33 @@ test('no-store preference returns text without writing a transcript', async () =
 test('invalid IDs are rejected rather than passed into Prisma', async () => {
   expect((await request(app).post('/media/0/transcribe').set('x-user', '65')).status).toBe(400);
   expect(db.message.findUnique).not.toHaveBeenCalled();
+});
+
+test('Premium reserves measured audio seconds against the proposed 120-minute limit', async () => {
+  transcribe.mockImplementation(async (_url, _language, { beforeTranscribe }) => {
+    await beforeTranscribe(90); // deliberately differs from the attachment's 9 seconds
+    return { text: 'Longer recording' };
+  });
+  expect((await request(app).post('/media/10/transcribe').set('x-user','65')).status).toBe(200);
+  expect(db.sTTUsage.updateMany).toHaveBeenCalledWith(expect.objectContaining({
+    where: expect.objectContaining({ seconds: { lte: 7200 - 90 } }),
+    data: { seconds: { increment: 90 } },
+  }));
+});
+test('exhausted Premium quota prevents provider work and does not refund an unmade reservation', async () => {
+  db.sTTUsage.updateMany.mockResolvedValue({ count: 0 });
+  const paidWork = jest.fn();
+  transcribe.mockImplementation(async (_url, _language, { beforeTranscribe }) => { await beforeTranscribe(9); paidWork(); return { text:'unused' }; });
+  const res = await request(app).post('/media/10/transcribe').set('x-user','65');
+  expect(res.status).toBe(402);
+  expect(res.body.code).toBe('TRANSCRIPTION_QUOTA_EXCEEDED');
+  expect(paidWork).not.toHaveBeenCalled();
+  expect(db.sTTUsage.updateMany).toHaveBeenCalledTimes(1);
+});
+test('saved transcript remains available without reserving more audio time', async () => {
+  db.transcript.findFirst.mockResolvedValue({ segments: [{ text:'cached' }] });
+  db.sTTUsage.updateMany.mockResolvedValue({ count:0 });
+  expect((await request(app).post('/media/10/transcribe').set('x-user','65')).status).toBe(200);
+  expect(transcribe).not.toHaveBeenCalled();
+  expect(db.sTTUsage.updateMany).not.toHaveBeenCalled();
 });

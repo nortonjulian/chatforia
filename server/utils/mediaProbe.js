@@ -1,7 +1,7 @@
 import { execa } from 'execa';
 import ffprobe from 'ffprobe-static';
 
-export async function probeDurationSec(localPath) {
+export async function probeDurationSec(localPath, { roundUp = false } = {}) {
   try {
     const { stdout } = await execa(ffprobe.path, [
       '-v', 'error',
@@ -9,7 +9,8 @@ export async function probeDurationSec(localPath) {
       '-of', 'default=nw=1:nk=1',
       localPath,
     ]);
-    const sec = Math.round(parseFloat(stdout || '0'));
+    const raw = parseFloat(stdout || '0');
+    const sec = roundUp ? Math.ceil(raw) : Math.round(raw);
     return Number.isFinite(sec) ? sec : null;
   } catch {
     return null;

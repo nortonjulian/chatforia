@@ -1,3 +1,4 @@
+import { withRiaAllowance } from './aiUsageService.js';
 import { enqueueAI } from './aiQueue.js';
 import { allow } from '../utils/tokenBucket.js';
 import { generateGroupRiaReply } from './groupRiaProvider.js';
@@ -28,7 +29,7 @@ const MESSAGE_SELECT = {
   contentCiphertext: true,
   isAutoReply: true,
   deletedForAll: true,
-  sender: { select: { strictE2EE: true } },
+  sender: { select: { strictE2EE: true, plan: true } },
   keys: { select: { messageId: true }, take: 1 },
   payloads: { select: { messageId: true }, take: 1 },
   sessionKeys: { select: { messageId: true }, take: 1 },
@@ -132,7 +133,10 @@ export async function maybeInvokeForiaBot({ text, savedMessage, prisma }) {
       const prompt = extractGroupRiaPrompt(preAI.message.rawContent)?.slice(0, MAX_CHARS);
       if (!prompt) return;
 
-      const reply = await generateGroupRiaReply(prompt);
+      const reply = await withRiaAllowance(
+        { id: senderId, plan: preAI.message.sender?.plan || 'FREE' },
+        () => generateGroupRiaReply(prompt),
+      );
       if (!reply || !enabled()) return;
 
       // In particular, don't post a response after a consent revocation.

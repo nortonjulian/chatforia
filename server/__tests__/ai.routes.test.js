@@ -107,6 +107,7 @@ describe('AI routes', () => {
         plan: 'PREMIUM',
         meter: 'riaActions',
         amount: 1,
+        date: expect.any(Date),
       });
 
       expect(suggestRepliesMock).toHaveBeenCalledWith({
@@ -142,6 +143,7 @@ describe('AI routes', () => {
         plan: 'PLUS',
         meter: 'riaActions',
         amount: 1,
+        date: expect.any(Date),
       });
       expect(suggestRepliesMock).toHaveBeenCalledTimes(1);
     });
@@ -191,6 +193,7 @@ describe('AI routes', () => {
         userId: 1,
         meter: 'riaActions',
         amount: 1,
+        date: expect.any(Date),
       });
     });
   });
@@ -220,7 +223,7 @@ describe('AI routes', () => {
         filterProfanity: false,
       });
 
-      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledWith(expect.objectContaining({ meter: 'riaActions', amount: 1 }));
       expect(releaseUsageMock).not.toHaveBeenCalled();
     });
 
@@ -242,7 +245,7 @@ describe('AI routes', () => {
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual(result);
       expect(rewriteTextMock).toHaveBeenCalledTimes(1);
-      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(assertAndConsumeUsageMock).toHaveBeenCalledWith(expect.objectContaining({ meter: 'riaActions', amount: 1 }));
     });
 
     test('blocks Chatforia Free from AI rewrite', async () => {
@@ -302,6 +305,7 @@ describe('AI routes', () => {
         plan: 'PREMIUM',
         meter: 'riaActions',
         amount: 1,
+        date: expect.any(Date),
       });
 
       expect(chatWithRiaMock).toHaveBeenCalledWith({
@@ -331,6 +335,7 @@ describe('AI routes', () => {
         userId: 1,
         meter: 'riaActions',
         amount: 1,
+        date: expect.any(Date),
       });
     });
 
