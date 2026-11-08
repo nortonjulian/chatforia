@@ -56,19 +56,31 @@ export function createVoiceNoteHandlers({ db, transcribe, hasPremiumAccess, conf
     if (!premium(c) && !freeLanguage(c)) throw fail(402, 'PREMIUM_REQUIRED');
     const existing = await cached(c);
     if (existing) return { ok: true, transcript: existing };
-    const seconds = Math.max(1, Math.ceil(Number(c.audio.durationSec ?? c.msg.audioDurationSec) || 60));
     const date = now();
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    const monthKey = date.toISOString().slice(0, 7);
     const key = { userId: c.userId, monthKey };
-    await db.sTTUsage.upsert({ where: { userId_monthKey: key }, create: { ...key, seconds: 0 }, update: {} });
-    const budget = Math.max(0, Number(config.FREE_STT_MIN_PER_MONTH || 0) * 60);
-    const reserved = await db.sTTUsage.updateMany({
-      where: { ...key, ...(!premium(c) ? { seconds: { lte: budget - seconds } } : {}) },
-      data: { seconds: { increment: seconds } },
-    });
-    if (!reserved.count) throw fail(402, 'TRANSCRIPTION_QUOTA_EXCEEDED');
+    const minutes = Number(premium(c) ? (config.PREMIUM_STT_MIN_PER_MONTH ?? 120) : config.FREE_STT_MIN_PER_MONTH);
+    if (!Number.isFinite(minutes) || minutes < 0) throw fail(503, 'TRANSCRIPTION_NOT_CONFIGURED');
+    const budget = Math.floor(minutes * 60);
+    let reservedSeconds = 0;
     try {
-      const result = await transcribe(c.audio.url, c.language);
+      const result = await transcribe(c.audio.url, c.language, {
+        beforeTranscribe: async (seconds) => {
+          if (!Number.isSafeInteger(seconds) || seconds <= 0 || reservedSeconds) throw fail(422, 'AUDIO_DURATION_UNAVAILABLE');
+          await db.sTTUsage.upsert({ where: { userId_monthKey: key }, create: { ...key, seconds: 0 }, update: {} });
+          const reserved = await db.sTTUsage.updateMany({
+            where: { ...key, seconds: { lte: budget - seconds } },
+            data: { seconds: { increment: seconds } },
+          });
+          if (!reserved.count) {
+            throw Object.assign(fail(402, 'TRANSCRIPTION_QUOTA_EXCEEDED'), {
+              allowance: { limitMinutes: minutes, resetAt: new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1)).toISOString() },
+            });
+          }
+          reservedSeconds = seconds;
+        },
+      });
+      if (!reservedSeconds) throw fail(503, 'TRANSCRIPTION_RESERVATION_MISSING');
       const text = String(result?.text || '').trim();
       const transcript = { language: c.language, segments: text ? [{ text }] : [], createdAt: now() };
       // A slow provider response must not disclose text after deletion, expiry, or opt-out.
@@ -82,13 +94,15 @@ export function createVoiceNoteHandlers({ db, transcribe, hasPremiumAccess, conf
       });
       return { ok: true, transcript: saved };
     } catch (error) {
-      await db.sTTUsage.updateMany({ where: { ...key, seconds: { gte: seconds } }, data: { seconds: { decrement: seconds } } });
+      if (reservedSeconds) {
+        await db.sTTUsage.updateMany({ where: { ...key, seconds: { gte: reservedSeconds } }, data: { seconds: { decrement: reservedSeconds } } });
+      }
       throw error;
     }
   }
   function replyError(res, error) {
     // Do not log audio URLs, credentials, or transcript text.
-    return res.status(error.status || 503).json({ error: 'Voice-note transcription unavailable', code: error.code || 'TRANSCRIPTION_UNAVAILABLE' });
+    return res.status(error.status || 503).json({ error: 'Voice-note transcription unavailable', code: error.code || 'TRANSCRIPTION_UNAVAILABLE', ...(error.allowance ? { allowance: error.allowance } : {}) });
   }
   return {
     async post(req, res) {

@@ -51,6 +51,7 @@ describe('translationUsageService', () => {
       plan: 'PLUS',
       meter: 'translationChars',
       amount: 5,
+        date: expect.any(Date),
     });
     expect(releaseUsageMock).not.toHaveBeenCalled();
   });
@@ -68,6 +69,7 @@ describe('translationUsageService', () => {
       userId: 42,
       meter: 'translationChars',
       amount: 5,
+        date: expect.any(Date),
     });
   });
 
@@ -87,6 +89,7 @@ describe('translationUsageService', () => {
       userId: 42,
       meter: 'translationChars',
       amount: 5,
+        date: expect.any(Date),
     });
   });
 
