@@ -1104,6 +1104,7 @@ model SmsMessage {
   providerMessageId String?   @db.VarChar(128)
   mediaUrls         Json?
   createdAt         DateTime  @default(now())
+  readAt            DateTime?
   editedAt          DateTime?
 
   // link to thread (existing)
@@ -1117,6 +1118,7 @@ model SmsMessage {
 
   @@unique([provider, providerMessageId])
   @@index([threadId])
+  @@index([threadId, direction, readAt])
   @@index([providerMessageId])
   @@index([phoneId, createdAt])
 }

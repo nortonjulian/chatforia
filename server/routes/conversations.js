@@ -556,7 +556,6 @@ router.get(
       select: {
         id: true,
         updatedAt: true,
-        lastReadAt: true,
         // ✅ FIX: include contactPhone so we ALWAYS have the counterparty
         contactPhone: true,
         participants: { select: { phone: true }, take: 5 },
@@ -595,22 +594,17 @@ router.get(
           where: {
             threadId: { in: smsThreads.map((t) => t.id) },
             direction: 'in',
+            readAt: null,
           },
           select: {
             threadId: true,
-            createdAt: true,
           },
         })
       : [];
 
-    const smsThreadById = new Map(smsThreads.map((t) => [t.id, t]));
     const unreadSmsCountByThread = new Map();
 
     for (const message of inboundSmsMessages) {
-      const thread = smsThreadById.get(message.threadId);
-      if (!thread) continue;
-      if (thread.lastReadAt && message.createdAt <= thread.lastReadAt) continue;
-
       unreadSmsCountByThread.set(
         message.threadId,
         (unreadSmsCountByThread.get(message.threadId) || 0) + 1

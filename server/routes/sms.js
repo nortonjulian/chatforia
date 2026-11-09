@@ -244,43 +244,47 @@ r.post(
       throw Boom.badRequest('Valid SMS thread id is required');
     }
 
-    const messageId = Number(req.body?.messageId);
-    if (!Number.isSafeInteger(messageId) || messageId <= 0) {
-      throw Boom.badRequest('Valid last visible inbound SMS message id is required');
+    const requestedIds = Array.isArray(req.body?.messageIds)
+      ? req.body.messageIds
+      : [req.body?.messageId];
+    if (
+      requestedIds.length === 0 || requestedIds.length > 100 ||
+      requestedIds.some((id) => !Number.isSafeInteger(id) || id <= 0)
+    ) {
+      throw Boom.badRequest('Valid visible inbound SMS message ids are required');
     }
+    const messageIds = [...new Set(requestedIds)];
 
-    // Never advance the read marker to current wall-clock time: a newer SMS
-    // could arrive after the UI rendered but before this request completes.
-    const visibleMessage = await prisma.smsMessage.findFirst({
+    // Validate every requested ID before changing any read state.
+    const visibleMessages = await prisma.smsMessage.findMany({
       where: {
-        id: messageId,
+        id: { in: messageIds },
         threadId,
         direction: 'in',
         thread: { userId, archivedAt: null, deletedAt: null },
       },
-      select: { createdAt: true },
+      select: { id: true },
     });
-    if (!visibleMessage) {
+    if (visibleMessages.length !== messageIds.length) {
       throw Boom.notFound('SMS message not found in owned thread');
     }
 
-    // Monotonic, conditional read acknowledgement: retries and out-of-order
-    // requests cannot move the read marker backwards.
-    await prisma.smsThread.updateMany({
+    // Mark exactly the visible messages. Retries, out-of-order events, and
+    // arrivals during this request cannot mark any unseen row read.
+    const updated = await prisma.smsMessage.updateMany({
       where: {
-        id: threadId,
-        userId,
-        archivedAt: null,
-        deletedAt: null,
-        OR: [
-          { lastReadAt: null },
-          { lastReadAt: { lt: visibleMessage.createdAt } },
-        ],
+        id: { in: messageIds },
+        threadId,
+        direction: 'in',
+        readAt: null,
+        thread: { userId, archivedAt: null, deletedAt: null },
       },
-      data: { lastReadAt: visibleMessage.createdAt },
+      data: { readAt: new Date() },
     });
 
-    await syncBadgeToUserDevices(userId, 'sms_thread_read');
+    if (updated.count > 0) {
+      await syncBadgeToUserDevices(userId, 'sms_thread_read');
+    }
     res.json({ ok: true });
   })
 );
