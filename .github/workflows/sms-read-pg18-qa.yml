@@ -1,0 +1,75 @@
+name: SMS read receipts PostgreSQL 18 QA
+
+on:
+  pull_request:
+    branches: [qa/web-unread-sms-20261109]
+    paths:
+      - '.github/workflows/sms-read-pg18-qa.yml'
+      - 'server/prisma/schema.prisma'
+      - 'server/prisma/migrations/**'
+      - 'server/routes/sms.js'
+      - 'server/routes/conversations.js'
+      - 'server/services/badgeState.js'
+      - 'server/scripts/qa-sms-read-*'
+      - 'package-lock.json'
+
+permissions:
+  contents: read
+
+jobs:
+  sms-read-pg18:
+    name: Disposable PG18 migration, receipts, and runtime role
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres18:
+        image: postgres:18.6
+        env:
+          POSTGRES_USER: chatforia
+          POSTGRES_PASSWORD: qa_password
+          POSTGRES_DB: chatforia_room_settings_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U chatforia -d chatforia_room_settings_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test
+
+    steps:
+      - name: Checkout proposed code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Bootstrap restricted roles in disposable PG18 service
+        env:
+          CI_POSTGRES18_CONTAINER: ${{ job.services.postgres18.id }}
+        run: |
+          set -euo pipefail
+          docker exec -i "$CI_POSTGRES18_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U chatforia -d chatforia_room_settings_test < server/scripts/staff-ci-bootstrap.sql
+          docker exec -i "$CI_POSTGRES18_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U chatforia -d chatforia_room_settings_test < server/scripts/staff-access-bootstrap-role.sql
+
+      - name: Apply migrations only to disposable PG18 service
+        run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
+
+      - name: Verify migration, legacy backfill, SMS reads, and runtime permissions
+        env:
+          CI_POSTGRES18_CONTAINER: ${{ job.services.postgres18.id }}
+        run: node server/scripts/qa-sms-read-pg18-ci.mjs
+
+      - name: Verify route authorization and badge logic with synthetic mocks
+        env:
+          TEST_DATABASE_URL: postgresql://synthetic:synthetic@127.0.0.1:65432/chatforia_sms_test
+        run: npm run -w server test:server -- --coverage=false --watchman=false --runTestsByPath __tests__/sms.test.js services/__tests__/badgeState.test.js
