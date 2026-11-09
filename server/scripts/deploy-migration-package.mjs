@@ -38,12 +38,12 @@ export async function aggregateChecks(db, checks) {
 }
 
 export function assertPackageDatasource(schema) {
-  // Match declarations at the start of a line. A comment that mentions
-  // "datasource" must not be mistaken for a second Prisma datasource.
-  const declarations = [...schema.matchAll(/^\s*datasource\s+([A-Za-z_]\w*)\s*\{([^}]*)\}/gm)];
-  if (declarations.length !== 1 || declarations[0][1] !== 'db' ||
-      declarations[0][2].replace(/\s/g, '') !==
-        'provider="postgresql"url=env("DATABASE_URL")') {
+  // Ignore only complete line comments; keep the original count of every
+  // declaration, including one placed later on the same line.
+  const uncommented = schema.replace(/^[ \t]*\/\/[^\r\n]*/gm, '');
+  const datasource = uncommented.match(/datasource\s+db\s*\{([^}]+)\}/)?.[1].replace(/\s/g, '');
+  if (datasource !== 'provider="postgresql"url=env("DATABASE_URL")' ||
+      (uncommented.match(/datasource\s+/g) || []).length !== 1) {
     throw new Error('Package datasource requires separate review');
   }
 }

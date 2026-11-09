@@ -15,6 +15,11 @@ test('rejects a second actual datasource or an alternate URL', () => {
   assert.throws(() => assertPackageDatasource(`${schema}\n` +
     'datasource extra { provider = "postgresql" url = env("DATABASE_URL") }'),
   /Package datasource requires separate review/);
+  const sameLine = schema.replace(/datasource db \{[^}]+\}/,
+    'datasource db { provider = "postgresql" url = env("DATABASE_URL") } ' +
+    'datasource extra { provider = "postgresql" url = env("DATABASE_URL") }');
+  assert.throws(() => assertPackageDatasource(sameLine),
+    /Package datasource requires separate review/);
   assert.throws(() => assertPackageDatasource(
     schema.replace('env("DATABASE_URL")', 'env("SHADOW_DATABASE_URL")')),
   /Package datasource requires separate review/);
