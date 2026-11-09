@@ -66,6 +66,7 @@ sql('REVOKE chatforia_recovery_issuer FROM staff_unexpected_member');
 sql('DROP ROLE staff_unexpected_member');
 asManagedCreator('GRANT chatforia_staff_owner TO staff_managed_creator WITH SET TRUE, INHERIT FALSE, ADMIN FALSE');
 asManagedCreator(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8'));
+assert.throws(() => asManagedCreator(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8')));
 assert.equal(asManagedCreator("SELECT pg_has_role(current_user, 'chatforia_staff_owner', 'SET')").trim(), 't');
 asManagedCreator(recoveryLoginSql);
 assert.throws(() => asManagedCreator(recoveryLoginSql));

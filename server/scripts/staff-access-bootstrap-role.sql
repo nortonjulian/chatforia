@@ -34,7 +34,10 @@ BEGIN
 END
 $$;
 
-CREATE SCHEMA IF NOT EXISTS staff_security
+-- The base-role script required this schema to be absent. A later creator,
+-- even one assigning the expected owner, must not turn a pre-existing schema
+-- into an accepted preparation result.
+CREATE SCHEMA staff_security
   AUTHORIZATION chatforia_staff_owner;
 
 -- A non-superuser DBA with SET membership can create the schema for this
