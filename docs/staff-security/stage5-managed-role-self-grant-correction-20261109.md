@@ -56,6 +56,15 @@ after lockfile, Node/native target and its pinned hash are reverified. Keep
 the old backup. The inactive production stage is not to be activated or
 rewritten under this preparation approval.
 
+The branch review rechecked the unchanged package lock at SHA-256
+`a35ce22b3b10604f61986a58c65332170cea65c90d59868c76e2c801b317711d`
+and the existing Linux amd64 dependency archive at SHA-256
+`3363e6578b9ca7cd01b7365f68874762b3e0282dac0fd9f7fcbf1b9dc7ccbd04`.
+Package manifests and Prisma schema also match the prior release. The
+dependency bytes are compatible for reuse in the new inactive source stage;
+the new source and release archive must still be built and verified, and the
+target-side smoke must be repeated after any approved transfer.
+
 ## Next bounded production request, after a new release and backup
 
 1. Confirm the exact new release/archive/source/dependency/backup hashes,
