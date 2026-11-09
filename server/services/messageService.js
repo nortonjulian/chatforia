@@ -18,6 +18,20 @@ import { getPlanEntitlements } from '../config/planEntitlements.js';
 const FORIA_BOT_USER_ID = Number(process.env.FORIA_BOT_USER_ID ?? 0);
 const MAX_TRANSLATE_CHARS = Number(process.env.TRANSLATE_MAX_INPUT_CHARS || 1200);
 
+// Both message translation paths reserve the same meter, after cache/no-op checks.
+function translateForSender(text, source, target, senderId, plan) {
+  return maybeTranslateForTarget(text, source, target, {
+    runBillable: (operation) => withTranslationAllowance({
+      userId: senderId,
+      plan: plan || 'FREE',
+      amount: countTranslationCharacters(text),
+      operation,
+      shouldBillResult: (result) =>
+        !['cache', 'noop', 'none'].includes(String(result?.provider || '').toLowerCase()),
+    }),
+  });
+}
+
 /* =========================
  *  Plan-aware disappearing-message limits
  *
@@ -315,11 +329,16 @@ export async function createMessageService({
   const map = {};
 
   for (const lang of targetLangs) {
-    const result = await maybeTranslateForTarget(
-      cleanContent,
-      translatedFrom,
-      lang
-    );
+    let result;
+    try {
+      result = await translateForSender(
+        cleanContent,
+        translatedFrom, lang, sender.id, sender.plan,
+      );
+    } catch {
+      // Translation is optional; quota exhaustion must not prevent messaging.
+      continue;
+    }
 
     if (result?.translatedText) {
       map[lang] = result.translatedText;
@@ -638,46 +657,34 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
         })
       : null;
 
-    const results = {};
-    const amount = countTranslationCharacters(clipped);
+    const results = { ...(savedMessage.translations || {}) };
+    let changed = false;
 
     for (const lang of targets) {
       try {
+        if (results[lang]) continue;
         if (!allow(`translate:${roomId}:${lang}`, 6, 10_000)) continue;
         if (!senderId) continue;
 
-        const out = await withTranslationAllowance({
-          userId: senderId,
-          plan: sender?.plan || 'FREE',
-          amount,
-          operation: () =>
-            maybeTranslateForTarget(
-              clipped,
-              null,
-              lang
-            ),
-          shouldBillResult: (result) =>
-            !['cache', 'noop', 'none'].includes(
-              String(result?.provider || '').toLowerCase()
-            ),
-        });
+        const out = await translateForSender(
+          clipped, null, lang, senderId, sender?.plan,
+        );
 
         const translated =
           out?.translatedText || out?.translated || out?.text || null;
 
         if (translated) {
           results[lang] = translated;
+          changed = true;
         }
       } catch (err) {
         console.error('[maybeAutoTranslate] translate failed:', lang, err?.message || err);
 
-        if (err?.code === 'PLAN_ALLOWANCE_EXCEEDED') {
-          break;
-        }
+        // Continue to allow later targets to reuse cached translations.
       }
     }
 
-    if (Object.keys(results).length === 0) return;
+    if (!changed) return;
 
     await db.message.update({
       where: { id: savedMessage.id },

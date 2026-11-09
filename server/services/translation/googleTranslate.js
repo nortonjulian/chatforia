@@ -80,7 +80,7 @@ export async function translateText(text, targetLang) {
   const translate = getClient();
 
   // client.translate(text, targetLang) resolves to [translated]
-  let [translated] = await pRetry(
+  let [translated, response] = await pRetry(
     () => translate.translate(text, targetLang),
     { retries: RETRIES }
   );
@@ -93,6 +93,7 @@ export async function translateText(text, targetLang) {
   return {
     translated,
     provider: 'google',
+    detectedSourceLanguage: response?.data?.translations?.[0]?.detectedSourceLanguage || null,
   };
 }
 
