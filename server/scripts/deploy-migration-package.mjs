@@ -37,6 +37,17 @@ export async function aggregateChecks(db, checks) {
   }, { timeout: 120000, isolationLevel: 'RepeatableRead' });
 }
 
+export function assertPackageDatasource(schema) {
+  // Match declarations at the start of a line. A comment that mentions
+  // "datasource" must not be mistaken for a second Prisma datasource.
+  const declarations = [...schema.matchAll(/^\s*datasource\s+([A-Za-z_]\w*)\s*\{([^}]*)\}/gm)];
+  if (declarations.length !== 1 || declarations[0][1] !== 'db' ||
+      declarations[0][2].replace(/\s/g, '') !==
+        'provider="postgresql"url=env("DATABASE_URL")') {
+    throw new Error('Package datasource requires separate review');
+  }
+}
+
 export function assertChecks(checks, before, after) {
   for (const [id, check] of checks) {
     if (check.rule === 'expected') {
@@ -57,11 +68,7 @@ export async function deployPackage(options) {
     throw new Error('Duplicate connection parameters are not allowed');
   }
   const schema = files.get('server/prisma/schema.prisma').toString();
-  const datasource = schema.match(/datasource\s+db\s*\{([^}]+)\}/)?.[1].replace(/\s/g, '');
-  if (datasource !== 'provider="postgresql"url=env("DATABASE_URL")' ||
-      (schema.match(/datasource\s+/g) || []).length !== 1) {
-    throw new Error('Package datasource requires separate review');
-  }
+  assertPackageDatasource(schema);
   if (url.hostname !== options.host || decodeURIComponent(url.pathname.slice(1)) !== options.database ||
       !['postgres:', 'postgresql:'].includes(url.protocol)) throw new Error('Database target mismatch');
   if (url.searchParams.has('schema') && url.searchParams.get('schema') !== 'public') {
