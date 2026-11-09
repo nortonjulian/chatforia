@@ -37,10 +37,26 @@ $$;
 CREATE SCHEMA IF NOT EXISTS staff_security
   AUTHORIZATION chatforia_staff_owner;
 
-ALTER SCHEMA staff_security
-  OWNER TO chatforia_staff_owner;
+-- A non-superuser DBA with SET membership can create the schema for this
+-- owner but cannot exercise its owner-only ACL rights until SET ROLE. Check
+-- ownership instead of silently taking over any pre-existing schema.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT FROM pg_namespace n JOIN pg_roles r ON r.oid = n.nspowner
+    WHERE n.nspname = 'staff_security'
+      AND r.rolname = 'chatforia_staff_owner'
+  ) THEN
+    RAISE EXCEPTION 'Existing staff_security schema has unexpected owner';
+  END IF;
+END
+$$;
+
+SET ROLE chatforia_staff_owner;
 
 REVOKE ALL ON SCHEMA staff_security FROM PUBLIC;
 REVOKE ALL ON SCHEMA staff_security FROM chatforia_dev;
 
 GRANT USAGE ON SCHEMA staff_security TO chatforia_dev;
+
+RESET ROLE;
