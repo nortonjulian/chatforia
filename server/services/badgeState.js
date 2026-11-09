@@ -29,10 +29,10 @@ export async function getBadgeState(userIdValue) {
         where: { userId, archivedAt: null, deletedAt: null },
         select: {
           id: true,
-          lastReadAt: true,
           messages: {
-            where: { direction: 'in' },
-            select: { createdAt: true },
+            where: { direction: 'in', readAt: null },
+            select: { id: true },
+            take: 1,
           },
         },
       }),
@@ -70,12 +70,10 @@ export async function getBadgeState(userIdValue) {
     unreadChatRoomIds.add(message.chatRoomId);
   }
 
-  const unreadSmsThreads = smsThreads.reduce((count, thread) => {
-    const hasUnread = thread.messages.some(
-      (message) => !thread.lastReadAt || message.createdAt > thread.lastReadAt
-    );
-    return count + (hasUnread ? 1 : 0);
-  }, 0);
+  const unreadSmsThreads = smsThreads.reduce(
+    (count, thread) => count + (thread.messages.length > 0 ? 1 : 0),
+    0
+  );
 
   const unreadConversations = unreadChatRoomIds.size + unreadSmsThreads;
 
