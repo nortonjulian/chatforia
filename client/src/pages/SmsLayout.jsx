@@ -49,6 +49,7 @@ import SmsReportModal from '@/components/sms/SmsReportModal.jsx';
 import { submitSmsMessageReport } from '@/api/smsReporting';
 import { notifications } from '@mantine/notifications';
 import { createSmsThreadLoader, subscribeSmsThread } from '@/utils/smsThreadLive';
+import { visibleIncomingSmsIds } from '@/utils/smsVisibleRead';
 import './SmsLayout.css';
 
 // ✅ NEW: local SMS cache + UI
@@ -117,6 +118,15 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   // React has already rendered the thread (notably Firefox).
   const initialScrollPendingRef = useRef(false);
   const initialScrollScopeRef = useRef('');
+  const acknowledgedSmsIdsRef = useRef(new Set());
+  const pendingSmsReadIdsRef = useRef(new Set());
+  const readScopeRef = useRef(scopeKey);
+
+  useLayoutEffect(() => {
+    readScopeRef.current = scopeKey;
+    acknowledgedSmsIdsRef.current = new Set();
+    pendingSmsReadIdsRef.current = new Set();
+  }, [scopeKey]);
 
 
   const {
@@ -284,6 +294,58 @@ const showCallBanner = Boolean(
   useEffect(() => subscribeSmsThread({ socket, threadId,
     refresh: () => loaderRef.current?.refresh(),
   }), [socket, threadId, accountKey]);
+
+  useEffect(() => {
+    if (!thread || loadedScope !== scopeKey) return undefined;
+    const viewport = scrollViewportRef.current;
+    if (!viewport) return undefined;
+    let disposed = false;
+    let timer;
+
+    const acknowledge = async () => {
+      if (disposed || initialScrollPendingRef.current) return;
+      const ids = visibleIncomingSmsIds(viewport, thread.messages).filter(
+        id => !acknowledgedSmsIdsRef.current.has(id) &&
+          !pendingSmsReadIdsRef.current.has(id)
+      ).slice(0, 100);
+      if (!ids.length) return;
+      ids.forEach(id => pendingSmsReadIdsRef.current.add(id));
+      let succeeded = false;
+      try {
+        await axiosClient.post(`/sms/threads/${threadId}/read`, { messageIds: ids });
+        succeeded = true;
+        if (readScopeRef.current === scopeKey) {
+          ids.forEach(id => acknowledgedSmsIdsRef.current.add(id));
+          window.dispatchEvent(new Event('sidebar:reload-rooms'));
+        }
+      } catch {
+        // Keep failed IDs eligible for the next scroll, focus, or reconnect.
+      } finally {
+        if (readScopeRef.current === scopeKey) {
+          ids.forEach(id => pendingSmsReadIdsRef.current.delete(id));
+        }
+        if (succeeded && !disposed) queue();
+      }
+    };
+    const queue = () => {
+      if (disposed) return;
+      clearTimeout(timer);
+      timer = setTimeout(acknowledge, initialScrollPendingRef.current ? 420 : 80);
+    };
+    queue();
+    viewport.addEventListener('scroll', queue);
+    window.addEventListener('focus', queue);
+    window.addEventListener('online', queue);
+    document.addEventListener('visibilitychange', queue);
+    return () => {
+      disposed = true;
+      clearTimeout(timer);
+      viewport.removeEventListener('scroll', queue);
+      window.removeEventListener('focus', queue);
+      window.removeEventListener('online', queue);
+      document.removeEventListener('visibilitychange', queue);
+    };
+  }, [thread?.messages, loadedScope, scopeKey, threadId]);
 
   // Normalize SMS messages so Smart Replies can work consistently
   const normalizedMessages = useMemo(() => {

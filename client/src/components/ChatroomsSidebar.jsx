@@ -534,6 +534,8 @@ export default function ChatroomsSidebar({
       'message:upsert', 'message:new', 'receive:message',
       'message:edited', 'message:deleted', 'message_read', 'message:read',
       'message:expired', 'message_expired',
+      'sms:message:new', 'sms_message_new',
+      'sms:message:updated', 'sms:message:deleted',
       'connect',
     ];
     events.forEach((event) => socket.on(event, refresh));

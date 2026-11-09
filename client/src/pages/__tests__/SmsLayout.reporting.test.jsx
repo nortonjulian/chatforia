@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor, within } from '@testing-library/rea
 
 const mockNavigate = jest.fn();
 const mockGet = jest.fn();
+const mockPost = jest.fn();
 const mockSubmitReport = jest.fn();
 const mockRefresh = jest.fn();
 const mockNotificationsShow = jest.fn();
@@ -45,7 +46,7 @@ jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
     get: (...args) => mockGet(...args),
-    post: jest.fn(),
+    post: (...args) => mockPost(...args),
     patch: jest.fn(),
     delete: jest.fn(),
   },
@@ -176,7 +177,57 @@ import SmsLayout from '../SmsLayout.jsx';
 beforeEach(() => {
   jest.clearAllMocks();
   mockRefresh.mockResolvedValue();
+  mockPost.mockResolvedValue({ data: { ok: true } });
   window.alert = jest.fn();
+});
+
+function mockSmsViewportGeometry() {
+  const focus = jest.spyOn(document, 'hasFocus').mockReturnValue(true);
+  const geometry = jest.spyOn(Element.prototype, 'getBoundingClientRect')
+    .mockImplementation(function () {
+      if (this.classList?.contains('sms-thread-viewport')) {
+        return { top: 0, bottom: 100, left: 0, right: 200 };
+      }
+      if (this.getAttribute?.('data-sms-msg-id') === '42') {
+        return { top: 20, bottom: 50, left: 0, right: 200 };
+      }
+      return { top: 120, bottom: 150, left: 0, right: 200 };
+    });
+  return () => { geometry.mockRestore(); focus.mockRestore(); };
+}
+
+test('foreground SMS view acknowledges only its visible incoming row', async () => {
+  const restore = mockSmsViewportGeometry();
+  try {
+    render(<SmsLayout currentUserId={7} currentUser={{ id: 7, plan: 'FREE' }} />);
+    await screen.findByText('Incoming suspicious message');
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/sms/threads/19/read', {
+        messageIds: [42],
+      });
+    }, { timeout: 2000 });
+  } finally {
+    restore();
+  }
+});
+
+test('failed SMS acknowledgment retries on focus and refreshes after success', async () => {
+  const restore = mockSmsViewportGeometry();
+  const reload = jest.fn();
+  window.addEventListener('sidebar:reload-rooms', reload);
+  mockPost.mockRejectedValueOnce(new Error('synthetic offline'));
+  try {
+    render(<SmsLayout currentUserId={7} currentUser={{ id: 7, plan: 'FREE' }} />);
+    await screen.findByText('Incoming suspicious message');
+    await waitFor(() => expect(mockPost).toHaveBeenCalledTimes(1), { timeout: 2000 });
+    expect(reload).not.toHaveBeenCalled();
+    fireEvent.focus(window);
+    await waitFor(() => expect(mockPost).toHaveBeenCalledTimes(2), { timeout: 2000 });
+    await waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
+  } finally {
+    window.removeEventListener('sidebar:reload-rooms', reload);
+    restore();
+  }
 });
 
 describe('SmsLayout reporting integration', () => {
