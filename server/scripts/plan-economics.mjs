@@ -1,3 +1,5 @@
+// Launch baseline excludes affiliate commissions; creator comps are a separate marketing cost.
+const includeAffiliateScenario = process.argv.includes('--include-affiliate-scenario');
 // Offline scenario model. No database, credentials, provider calls or mutations.
 import { PLAN_ENTITLEMENTS } from '../config/planEntitlements.js';
 const prices = [['PLUS',7.99,1],['PREMIUM',12.99,1],['PREMIUM',119.99,12]];
@@ -37,8 +39,8 @@ for(const [plan,price,months] of prices) for(const scenario of scenarios){
  const store=price*.85/months;
  rows.push({plan,price,months,scenario:scenario.name,costs,totalDirectCost:total,
   contributionWithoutAffiliate:{web:web-total,store:store-total},
-  contributionWith20PercentNetAffiliate:{web:web*.8-total,store:store*.8-total},
-  monthlyPriceNeededFor25PercentReserveWithAffiliate:{web:(total/.6+.30)/.964,store:total/(.85*.8*.75)},
+  ...(includeAffiliateScenario ? { contributionWith20PercentNetAffiliate:{web:web*.8-total,store:store*.8-total},
+  monthlyPriceNeededFor25PercentReserveWithAffiliate:{web:(total/.6+.30)/.964,store:total/(.85*.8*.75)} } : {}),
  });
 }
 console.log(JSON.stringify({assumptions,scenarios,rows},null,2));

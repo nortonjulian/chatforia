@@ -1,3 +1,5 @@
+// Launch baseline excludes affiliate commissions; creator comps are a separate marketing cost.
+const includeAffiliateScenario = process.argv.includes('--include-affiliate-scenario');
 // Decision aid only: these alternatives are NOT imported by runtime entitlements.
 // Rates and exclusions match docs/launch-economics-controls.md.
 const packages = [
@@ -19,7 +21,7 @@ for(const p of packages) for(const tokens of [8000,35000]) {
   for(const [price,months] of [[p.price,1],...(p.annual?[[p.annual,12]]:[])]) {
     const web=(price*.964-.3)/months,store=price*.85/months;
     rows.push({package:p.name,plan:p.plan,price,months,inputTokensPerAction:tokens,costs,total,
-      after20PercentNetCommission:{web:web*.8-total,store:store*.8-total},
+      ...(includeAffiliateScenario ? {after20PercentNetCommission:{web:web*.8-total,store:store*.8-total}} : {}),
       withoutCommission:{web:web-total,store:store-total}});
   }
 }

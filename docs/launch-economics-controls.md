@@ -1,5 +1,7 @@
 # Launch economics controls — review draft, 8 November 2026
 
+> Launch decision — November 9, 2026: affiliate compensation is deferred. Use the no-commission baseline. The creator pilot offers an agreed, time-limited Premium comp and one 3GB data pack in exchange for honestly disclosed content, with tracking but no commissions or automatic renewals. The historical pricing/package scenarios below are retained for reference, not launch instructions or approved prices. Run scripts with `--include-affiliate-scenario` only for future affiliate sensitivity analysis. See `creator-pilot.md` for implementation and rollout.
+
 This branch builds on translation PR #309. It is not a production rollout or a final commercial offer. No prices, SMS allowances, paid top-ups, affiliate payments or eSIM rates have been changed. There are no new database migrations.
 
 ## Implemented draft behavior

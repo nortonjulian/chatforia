@@ -24,9 +24,11 @@ import userEvent from '@testing-library/user-event';
 import { screen, waitFor, act } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils';
 import Registration from '../src/components/Registration.jsx';
+import { clearCreatorReferral, currentCreatorReferral } from '../src/utils/creatorReferral';
 
 beforeEach(() => {
   jest.clearAllMocks();
+  clearCreatorReferral();
 });
 
 test('validates email and shows error', async () => {
@@ -74,8 +76,26 @@ test('submits on valid data', async () => {
       username: 'bob',
       email: 'bob@example.com',
       password: 'secret123',
+      referralCode: null,
     });
   });
 });
 
 
+
+ test('creator link is submitted, retained on failure and cleared after success', async () => {
+  const user = userEvent.setup();
+  mockPost.mockRejectedValueOnce({response: {status: 500}});
+  mockPost.mockResolvedValueOnce({data: {user: {id: 3}}});
+  renderWithRouter(<Registration />, {router: {initialEntries: ['/ref/PILOT_1']}});
+  await user.type(screen.getByLabelText(/username/i), 'creatoruser');
+  await user.type(screen.getByLabelText(/email/i), 'creator@example.com');
+  await user.type(screen.getByLabelText(/password/i), 'secret123');
+  await user.click(screen.getByRole('button', {name: /register/i}));
+  await waitFor(() => expect(mockPost).toHaveBeenCalledTimes(1));
+  expect(currentCreatorReferral()).toBe('PILOT_1');
+  expect(mockPost).toHaveBeenLastCalledWith('/auth/register', expect.objectContaining({referralCode: 'PILOT_1'}));
+  await user.click(screen.getByRole('button', {name: /register/i}));
+  await waitFor(() => expect(mockNavigate).toHaveBeenCalled());
+  expect(currentCreatorReferral()).toBeNull();
+});

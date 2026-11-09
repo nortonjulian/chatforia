@@ -1,5 +1,7 @@
 # Launch package decision — 8 November 2026
 
+> Launch decision — November 9, 2026: affiliate compensation is deferred. Use the no-commission baseline. The creator pilot offers an agreed, time-limited Premium comp and one 3GB data pack in exchange for honestly disclosed content, with tracking but no commissions or automatic renewals. The historical pricing/package scenarios below are retained for reference, not launch instructions or approved prices. Run scripts with `--include-affiliate-scenario` only for future affiliate sensitivity analysis. See `creator-pilot.md` for implementation and rollout.
+
 ## Recommendation
 
 Do not quietly shrink the current allowances to force a 20% recurring affiliate offer into the current prices. Preserve ordinary in-app chat and make the expensive services explicit. Keep the live prices unchanged while reviewing the two concrete candidates below. Of these candidates, prefer evaluating the more-included-usage package with beta users; it offers more room for useful paid features. Its proposed prices are a financial candidate, not evidence of willingness to pay or a change authorized for production.
