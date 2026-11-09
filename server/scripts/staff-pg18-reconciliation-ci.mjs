@@ -34,6 +34,62 @@ const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
 assert.equal(sql("SELECT current_setting('server_version_num')::int / 10000, current_database(), current_user").trim(), '18|defaultdb|chatforia');
 
 const roleSql = readFileSync('server/scripts/staff-production-prerequisite-roles.sql', 'utf8');
+const recoveryLoginSql = readFileSync('server/scripts/staff-recovery-operator-logins.sql', 'utf8');
+const asManagedCreator = (query) => execFileSync('docker', [
+  'exec', '-i', container, 'psql', '-X', '-A', '-t', '-q',
+  '-v', 'ON_ERROR_STOP=1', '-U', 'staff_managed_creator', '-d', database,
+], { input: query, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: 4 * 1024 * 1024 });
+
+// DigitalOcean's doadmin has CREATEROLE but is not a superuser. PostgreSQL 18
+// creates bootstrap-granted ADMIN memberships in each role it creates; the
+// superuser-only fixture below cannot exercise that managed-service behavior.
+sql('CREATE ROLE staff_managed_creator LOGIN NOSUPERUSER CREATEDB CREATEROLE REPLICATION BYPASSRLS');
+sql('ALTER DATABASE defaultdb OWNER TO staff_managed_creator');
+assert.equal(asManagedCreator(`SELECT session_user = 'staff_managed_creator'
+  AND current_user = session_user AND NOT rolsuper AND rolcreaterole
+  FROM pg_roles WHERE rolname = current_user`).trim(), 't');
+asManagedCreator(roleSql);
+assert.equal(sql(`SELECT count(*) = 4 AND bool_and(m.grantor = 10::oid
+  AND m.admin_option AND NOT m.inherit_option AND NOT m.set_option)
+  FROM pg_auth_members m
+  JOIN pg_roles granted ON granted.oid = m.roleid
+  JOIN pg_roles member ON member.oid = m.member
+  WHERE granted.rolname IN ('chatforia_dev','chatforia_staff_owner',
+    'chatforia_recovery_issuer','chatforia_recovery_executor')
+    AND member.rolname = 'staff_managed_creator'`).trim(), 't');
+sql('CREATE ROLE staff_unexpected_member NOLOGIN');
+sql('GRANT chatforia_recovery_issuer TO staff_unexpected_member WITH SET FALSE, INHERIT FALSE, ADMIN FALSE');
+assert.throws(() => asManagedCreator(recoveryLoginSql));
+assert.equal(sql(`SELECT count(*) FROM pg_roles WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), '0');
+sql('REVOKE chatforia_recovery_issuer FROM staff_unexpected_member');
+sql('DROP ROLE staff_unexpected_member');
+asManagedCreator('GRANT chatforia_staff_owner TO staff_managed_creator WITH SET TRUE, INHERIT FALSE, ADMIN FALSE');
+asManagedCreator(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8'));
+assert.throws(() => asManagedCreator(readFileSync('server/scripts/staff-access-bootstrap-role.sql', 'utf8')));
+assert.equal(asManagedCreator("SELECT pg_has_role(current_user, 'chatforia_staff_owner', 'SET')").trim(), 't');
+asManagedCreator(recoveryLoginSql);
+assert.throws(() => asManagedCreator(recoveryLoginSql));
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(rolpassword IS NULL)
+  FROM pg_authid WHERE rolname IN
+  ('chatforia_recovery_issuer_login','chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(sql(`SELECT count(*) = 2 AND bool_and(NOT m.admin_option
+  AND NOT m.inherit_option AND m.set_option)
+  FROM pg_auth_members m
+  JOIN pg_roles granted ON granted.oid = m.roleid
+  JOIN pg_roles member ON member.oid = m.member
+  WHERE (granted.rolname = 'chatforia_recovery_issuer'
+    AND member.rolname = 'chatforia_recovery_issuer_login')
+    OR (granted.rolname = 'chatforia_recovery_executor'
+    AND member.rolname = 'chatforia_recovery_executor_login')`).trim(), 't');
+sql(`DROP SCHEMA staff_security;
+  DROP ROLE chatforia_recovery_issuer_login, chatforia_recovery_executor_login;
+  DROP ROLE chatforia_dev, chatforia_staff_owner,
+    chatforia_recovery_issuer, chatforia_recovery_executor;
+  ALTER DATABASE defaultdb OWNER TO chatforia;
+  DROP ROLE staff_managed_creator`);
+console.log('PASS: PostgreSQL 18.6 non-superuser CREATEROLE grants and exclusive recovery logins');
+
 sql(roleSql);
 assert.throws(() => sql(roleSql));
 assert.equal(sql(`SELECT count(*) = 4 AND bool_and(
@@ -42,7 +98,6 @@ assert.equal(sql(`SELECT count(*) = 4 AND bool_and(
   rolcanlogin = (rolname = 'chatforia_dev'))
   FROM pg_roles WHERE rolname IN
   ('chatforia_dev','chatforia_staff_owner','chatforia_recovery_issuer','chatforia_recovery_executor')`).trim(), 't');
-const recoveryLoginSql = readFileSync('server/scripts/staff-recovery-operator-logins.sql', 'utf8');
 sql('GRANT chatforia_recovery_executor TO chatforia_recovery_issuer WITH SET TRUE, INHERIT FALSE, ADMIN FALSE');
 assert.throws(() => sql(recoveryLoginSql));
 sql('REVOKE chatforia_recovery_executor FROM chatforia_recovery_issuer');
