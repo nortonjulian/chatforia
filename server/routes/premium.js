@@ -1,4 +1,5 @@
 import express from 'express';
+import { a11yConfig } from '../config/a11yConfig.js';
 import { allowanceResetAt } from '../utils/hostedAllowanceResponse.js';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -32,6 +33,35 @@ router.get('/entitlements', requireAuth, async (req, res) => {
     tones: premiumConfig.tones,
     themes: premiumConfig.themes,
   });
+});
+
+/** Usage-only screen; never cache one account's balances for another account. */
+router.get('/usage', requireAuth, async (req, res) => {
+  res.set('Cache-Control', 'private, no-store');
+  try {
+    const date = new Date();
+    const me = await prisma.user.findUnique({ where: { id: req.user.id },
+      select: { plan: true, role: true, subscriptionStatus: true, subscriptionEndsAt: true } });
+    if (!me) return res.status(401).json({ error: 'Account unavailable' });
+    const summary = await getUsageSummary(req.user.id, me.plan || 'FREE', date);
+    const row = await prisma.sTTUsage.findUnique({ where: {
+      userId_monthKey: { userId: req.user.id, monthKey: summary.monthKey },
+    } });
+    const minutes = Number(hasPremiumAccess(me, date)
+      ? a11yConfig.PREMIUM_STT_MIN_PER_MONTH : a11yConfig.FREE_STT_MIN_PER_MONTH);
+    const limit = Math.floor(minutes * 60);
+    const used = row?.seconds ?? 0;
+    if (!Number.isSafeInteger(limit) || limit < 0 || !Number.isSafeInteger(used) || used < 0) {
+      throw new Error('Invalid transcription usage');
+    }
+    return res.json({ ...summary, resetAt: allowanceResetAt(summary.monthKey),
+      usage: { ...summary.usage, voiceNoteTranscriptionSeconds: {
+        used, limit, remaining: Math.max(0, limit - used),
+      } },
+    });
+  } catch {
+    return res.status(503).json({ error: 'Usage unavailable. Please retry.' });
+  }
 });
 
 /** Tone catalogs (with premium flags) + current selection. */
