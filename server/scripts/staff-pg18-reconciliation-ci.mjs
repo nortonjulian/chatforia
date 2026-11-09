@@ -44,10 +44,27 @@ const asManagedCreator = (query) => execFileSync('docker', [
 // creates bootstrap-granted ADMIN memberships in each role it creates; the
 // superuser-only fixture below cannot exercise that managed-service behavior.
 sql('CREATE ROLE staff_managed_creator LOGIN NOSUPERUSER CREATEDB CREATEROLE REPLICATION BYPASSRLS');
+sql("ALTER ROLE staff_managed_creator SET createrole_self_grant = 'inherit,set'");
 sql('ALTER DATABASE defaultdb OWNER TO staff_managed_creator');
 assert.equal(asManagedCreator(`SELECT session_user = 'staff_managed_creator'
   AND current_user = session_user AND NOT rolsuper AND rolcreaterole
   FROM pg_roles WHERE rolname = current_user`).trim(), 't');
+assert.equal(asManagedCreator('SHOW createrole_self_grant').trim(), 'inherit,set');
+asManagedCreator('CREATE ROLE staff_self_grant_probe NOLOGIN NOINHERIT');
+assert.equal(asManagedCreator(`SELECT count(*) = 2 AND
+  bool_or(m.grantor = 10::oid AND m.admin_option AND
+    NOT m.set_option AND NOT m.inherit_option) AND
+  bool_or(grantor.rolname = 'staff_managed_creator' AND
+    NOT m.admin_option AND m.set_option AND m.inherit_option)
+  FROM pg_auth_members m JOIN pg_roles granted ON granted.oid = m.roleid
+  JOIN pg_roles grantor ON grantor.oid = m.grantor
+  WHERE granted.rolname = 'staff_self_grant_probe'`).trim(), 't');
+assert.equal(asManagedCreator(`SELECT
+  pg_has_role(current_user,'staff_self_grant_probe','SET') AND
+  pg_has_role(current_user,'staff_self_grant_probe','USAGE')`).trim(), 't');
+assert.equal(asManagedCreator('SET ROLE staff_self_grant_probe; SELECT current_user').trim(),
+  'staff_self_grant_probe');
+asManagedCreator('DROP ROLE staff_self_grant_probe');
 asManagedCreator(roleSql);
 assert.equal(sql(`SELECT count(*) = 4 AND bool_and(m.grantor = 10::oid
   AND m.admin_option AND NOT m.inherit_option AND NOT m.set_option)
@@ -57,6 +74,11 @@ assert.equal(sql(`SELECT count(*) = 4 AND bool_and(m.grantor = 10::oid
   WHERE granted.rolname IN ('chatforia_dev','chatforia_staff_owner',
     'chatforia_recovery_issuer','chatforia_recovery_executor')
     AND member.rolname = 'staff_managed_creator'`).trim(), 't');
+assert.equal(asManagedCreator(`SELECT NOT
+  pg_has_role(current_user,'chatforia_staff_owner','SET') AND NOT
+  pg_has_role(current_user,'chatforia_staff_owner','USAGE')`).trim(), 't');
+assert.throws(() => asManagedCreator('SET ROLE chatforia_staff_owner'));
+assert.equal(asManagedCreator('SHOW createrole_self_grant').trim(), 'inherit,set');
 sql('CREATE ROLE staff_unexpected_member NOLOGIN');
 sql('GRANT chatforia_recovery_issuer TO staff_unexpected_member WITH SET FALSE, INHERIT FALSE, ADMIN FALSE');
 assert.throws(() => asManagedCreator(recoveryLoginSql));
@@ -82,6 +104,13 @@ assert.equal(sql(`SELECT count(*) = 2 AND bool_and(NOT m.admin_option
     AND member.rolname = 'chatforia_recovery_issuer_login')
     OR (granted.rolname = 'chatforia_recovery_executor'
     AND member.rolname = 'chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(asManagedCreator(`SELECT count(*) = 2 AND
+  bool_and(m.grantor = 10::oid AND m.admin_option AND
+    NOT m.set_option AND NOT m.inherit_option)
+  FROM pg_auth_members m JOIN pg_roles granted ON granted.oid = m.roleid
+  WHERE granted.rolname IN ('chatforia_recovery_issuer_login',
+    'chatforia_recovery_executor_login')`).trim(), 't');
+assert.equal(asManagedCreator('SHOW createrole_self_grant').trim(), 'inherit,set');
 sql(`DROP SCHEMA staff_security;
   DROP ROLE chatforia_recovery_issuer_login, chatforia_recovery_executor_login;
   DROP ROLE chatforia_dev, chatforia_staff_owner,

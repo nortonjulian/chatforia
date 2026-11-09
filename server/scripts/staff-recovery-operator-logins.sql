@@ -59,6 +59,17 @@ BEGIN
 END;
 $guard$;
 
+-- The managed cluster sets createrole_self_grant=inherit,set. Keep its
+-- automatic self-grants off for these two logins, only within this transaction.
+SET LOCAL createrole_self_grant = '';
+DO $$
+BEGIN
+  IF current_setting('createrole_self_grant') <> '' THEN
+    RAISE EXCEPTION 'STOP: role self-grant setting was not disabled';
+  END IF;
+END
+$$;
+
 CREATE ROLE chatforia_recovery_issuer_login LOGIN NOINHERIT NOSUPERUSER
   NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD NULL;
 CREATE ROLE chatforia_recovery_executor_login LOGIN NOINHERIT NOSUPERUSER
@@ -95,6 +106,21 @@ BEGIN
        JOIN pg_roles member ON member.oid = m.member
        WHERE member.rolname IN
          ('chatforia_recovery_issuer_login', 'chatforia_recovery_executor_login')) <> 2
+     OR (SELECT count(*) FROM pg_auth_members m
+       JOIN pg_roles granted ON granted.oid = m.roleid
+       WHERE granted.rolname IN
+         ('chatforia_recovery_issuer_login', 'chatforia_recovery_executor_login'))
+       <> expected_creator_edges
+     OR EXISTS (
+       SELECT FROM pg_auth_members m
+       JOIN pg_roles granted ON granted.oid = m.roleid
+       JOIN pg_roles member ON member.oid = m.member
+       WHERE granted.rolname IN
+         ('chatforia_recovery_issuer_login', 'chatforia_recovery_executor_login')
+         AND NOT (expected_creator_edges = 2
+           AND member.rolname = current_user
+           AND m.grantor = 10::oid
+           AND m.admin_option AND NOT m.set_option AND NOT m.inherit_option))
      OR (SELECT count(*) FROM pg_auth_members m
        JOIN pg_roles granted ON granted.oid = m.roleid
        JOIN pg_roles member ON member.oid = m.member
