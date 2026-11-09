@@ -44,6 +44,7 @@ const asManagedCreator = (query) => execFileSync('docker', [
 // creates bootstrap-granted ADMIN memberships in each role it creates; the
 // superuser-only fixture below cannot exercise that managed-service behavior.
 sql('CREATE ROLE staff_managed_creator LOGIN NOSUPERUSER CREATEDB CREATEROLE REPLICATION BYPASSRLS');
+sql('ALTER DATABASE defaultdb OWNER TO staff_managed_creator');
 assert.equal(asManagedCreator(`SELECT session_user = 'staff_managed_creator'
   AND current_user = session_user AND NOT rolsuper AND rolcreaterole
   FROM pg_roles WHERE rolname = current_user`).trim(), 't');
@@ -84,6 +85,7 @@ sql(`DROP SCHEMA staff_security;
   DROP ROLE chatforia_recovery_issuer_login, chatforia_recovery_executor_login;
   DROP ROLE chatforia_dev, chatforia_staff_owner,
     chatforia_recovery_issuer, chatforia_recovery_executor;
+  ALTER DATABASE defaultdb OWNER TO chatforia;
   DROP ROLE staff_managed_creator`);
 console.log('PASS: PostgreSQL 18.6 non-superuser CREATEROLE grants and exclusive recovery logins');
 
