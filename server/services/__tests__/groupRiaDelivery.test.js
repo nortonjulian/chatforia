@@ -24,6 +24,9 @@ const room = (participants = members()) => ({
   isGroup: true, allowForiaBot: true, aiAssistantMode: 'MENTION', participants,
 });
 
+const consume = jest.fn();
+const release = jest.fn();
+jest.unstable_mockModule(modulePath('../planUsageService.js'), () => ({ assertAndConsumeUsage: consume, releaseUsage: release }));
 jest.unstable_mockModule(modulePath('../aiQueue.js'), () => ({ enqueueAI: enqueue }));
 jest.unstable_mockModule(modulePath('../../utils/tokenBucket.js'), () => ({ allow }));
 jest.unstable_mockModule(modulePath('../groupRiaProvider.js'), () => ({ generateGroupRiaReply: generate }));
@@ -49,6 +52,7 @@ function db({ participants = members(), message = persisted, duplicate = false }
 
 beforeEach(() => {
   jest.clearAllMocks();
+  consume.mockReset(); release.mockReset();
   process.env.OPENAI_API_KEY = 'test-only-key';
   process.env.GROUP_RIA_ENABLED = 'true';
 });
@@ -223,4 +227,13 @@ describe('group Ria pre-activation failure gates', () => {
       warn.mockRestore();
     }
   });
+});
+
+
+it('does not call the group provider when the invoking user has exhausted AI actions', async () => {
+  consume.mockRejectedValueOnce(Object.assign(new Error('exhausted'), { code: 'PLAN_ALLOWANCE_EXCEEDED' }));
+  await maybeInvokeForiaBot({ text: '@Ria help', savedMessage: saved, prisma: db() });
+  expect(generate).not.toHaveBeenCalled();
+  expect(create).not.toHaveBeenCalled();
+  expect(release).not.toHaveBeenCalled();
 });

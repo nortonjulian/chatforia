@@ -43,7 +43,7 @@ test('one provider call auto-detects language and consumes allowance once', asyn
     translatedText: 'hola', detectedLang: 'en', confidence: null, provider: 'google',
   });
   expect(consume).toHaveBeenCalledTimes(1);
-  expect(consume).toHaveBeenCalledWith({userId: 1, plan: 'PLUS', meter: 'translationChars', amount: 5});
+  expect(consume).toHaveBeenCalledWith({userId: 1, plan: 'PLUS', meter: 'translationChars', amount: 5, date: expect.any(Date)});
   expect(translateText).toHaveBeenCalledTimes(1);
   expect(detectLanguage).not.toHaveBeenCalled();
 });

@@ -1,4 +1,5 @@
 import express from 'express';
+import { assertAiPromptBudget, withRiaAllowance } from '../services/aiUsageService.js';
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -8,8 +9,10 @@ const router = express.Router();
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 async function llmChat(messages, { model = 'gpt-4o-mini', temperature = 0.2, max_tokens = 600 } = {}) {
+  assertAiPromptBudget(messages);
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
+    signal: AbortSignal.timeout(60000),
     headers: {
       Authorization: `Bearer ${OPENAI_API_KEY}`,
       'Content-Type': 'application/json',
@@ -38,7 +41,7 @@ router.post('/summarize-thread', requireAuth, requirePremium, async (req, res) =
   const msgs = await prisma.message.findMany({
     where: { chatRoomId },
     orderBy: { createdAt: 'desc' },
-    take: Math.min(Number(limit) || 50, 200),
+    take: Math.max(1, Math.min(Math.floor(Number(limit)) || 50, 200)),
     select: { rawContent: true, senderId: true },
   });
 
@@ -48,7 +51,7 @@ router.post('/summarize-thread', requireAuth, requirePremium, async (req, res) =
     .join('\n')
     .slice(0, 8000);
 
-  const summary = await llmChat(
+  const summary = await withRiaAllowance({ ...req.user, plan: req.userPlan || req.user.plan }, () => llmChat(
     [
       {
         role: 'system',
@@ -57,7 +60,7 @@ router.post('/summarize-thread', requireAuth, requirePremium, async (req, res) =
       { role: 'user', content: text },
     ],
     { max_tokens: 400 }
-  );
+  ));
 
   res.json({ ok: true, summary });
 });
