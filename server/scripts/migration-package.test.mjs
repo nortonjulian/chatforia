@@ -7,7 +7,24 @@ import { test } from 'node:test';
 
 import { buildPackage, checkHistory, checkReconciledHistory, checksForPending, digest,
   readPackage, reconciliationPackageSpec, verifyPackage } from './migration-package.mjs';
-import { aggregateChecks, assertChecks } from './deploy-migration-package.mjs';
+import { aggregateChecks, assertChecks, assertPackageDatasource } from './deploy-migration-package.mjs';
+
+test('package datasource guard ignores comments but rejects extra declarations', () => {
+  const schema = readFileSync(new URL('../prisma/schema.prisma', import.meta.url), 'utf8');
+  assert.match(schema, /\/\/.*datasource\s+/);
+  assert.doesNotThrow(() => assertPackageDatasource(schema));
+  assert.throws(() => assertPackageDatasource(`${schema}\n` +
+    'datasource extra { provider = "postgresql" url = env("DATABASE_URL") }'),
+  /Package datasource requires separate review/);
+  const sameLine = schema.replace(/datasource db \{[^}]+\}/,
+    'datasource db { provider = "postgresql" url = env("DATABASE_URL") } ' +
+    'datasource extra { provider = "postgresql" url = env("DATABASE_URL") }');
+  assert.throws(() => assertPackageDatasource(sameLine),
+    /Package datasource requires separate review/);
+  assert.throws(() => assertPackageDatasource(
+    schema.replace('env("DATABASE_URL")', 'env("SHADOW_DATABASE_URL")')),
+  /Package datasource requires separate review/);
+});
 
 test('package uses committed bytes and rejects tampering, duplicates and traversal', () => {
   const directory = mkdtempSync(join(tmpdir(), 'migration-package-test-'));
