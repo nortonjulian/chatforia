@@ -1,0 +1,56 @@
+name: Stage 5 recovery rehearsal
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'server/scripts/*stage5*'
+      - 'server/scripts/*migration*'
+      - 'server/security/**'
+      - 'server/prisma/**'
+      - '.github/workflows/stage5-recovery-rehearsal.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  recovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        failure: [none, after-resolve, during-deploy]
+    services:
+      postgres:
+        image: postgres:18.6
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Unit and command-boundary tests
+        run: node --test server/scripts/staff-stage5-recovery-history.test.mjs server/scripts/staff-stage5-recovery-sequence.test.mjs server/scripts/staff-stage5-recovery-run.test.mjs
+      - name: Initialize new disposable database only
+        run: psql -X -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -f server/scripts/staff-stage5-pg18-synthetic-init.sql
+      - name: Reproduce failure and exercise guarded recovery
+        env:
+          DATABASE_URL: postgresql://doadmin_probe@127.0.0.1:5432/defaultdb
+          STAFF_STAGE5_SYNTHETIC_PG18: 'yes'
+          STAFF_STAGE5_FAILURE_AT: ${{ matrix.failure }}
+        run: node server/scripts/staff-stage5-recovery-pg18.test.mjs

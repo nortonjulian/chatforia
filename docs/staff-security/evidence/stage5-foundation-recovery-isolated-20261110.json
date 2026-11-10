@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-10",
+  "scope": "isolated synthetic PostgreSQL 18.6 and local preserved receipt; no production writes",
+  "fixedReleaseCommit": "c1037d7150e3bacbb50492ef92d20596d8c18d1f",
+  "fixedPackageSha256": "b1322c1e57ae579e7f6e3e03b784fcfbc88211fa117c3a7ac3e5d6604adf78ae",
+  "privateFailedReceiptSha256": "a9f61dc5af847a81429e50d16cc58d1ba9ee42befafb9095d3ff4906898cfa92",
+  "privateReceiptMatchedPinnedRecoveryLedger": true,
+  "originalFailure": {
+    "initialLedger": "141/3/0",
+    "afterAttemptLedger": "143/3/1",
+    "foundationGuard": "P0001: information_schema.schemata hides the existing schema without inherited USAGE",
+    "foundationObjects": 0,
+    "newStaffTableRows": "0/0/0"
+  },
+  "isolatedPostgres": {
+    "version": "18.6",
+    "authentication": "loopback-only synthetic trust; no credential value in the review patch",
+    "executor": "non-superuser CREATEDB/CREATEROLE, two PostgreSQL 18 owner-membership edges",
+    "schemaOnlyGrant": "insufficient: after owner transfer, REVOKE fails with 42501",
+    "guardedGrantWithAnotherExecutorSession": "rejected",
+    "guardedGrantAfterSessionClosed": "passed",
+    "fullMigrationReplay": "161/4/0; original failed row preserved as rolled back; 18 remaining migrations applied",
+    "guardedCleanupFromUnfinishedState": "passed",
+    "guardedCleanupFromResolvedState": "passed",
+    "allStaffSchemaTablesOwnedByRestrictedOwner": "5/5",
+    "postCleanupExecutorInheritance": false,
+    "runtimeSchemaCreateAndProtectedDirectWrites": "denied",
+    "readOnlyPhaseGates": [
+      "failed 143/3/1",
+      "resolved 143/4/0",
+      "complete 161/4/0"
+    ]
+  },
+  "localChecks": {
+    "recoveryHistoryTests": "2/2 passed",
+    "newScriptSyntax": "passed",
+    "targetedEslint": "passed"
+  },
+  "productionAuthorization": "none; recovery scripts and route are prepared for separate review"
+}
