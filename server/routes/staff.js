@@ -103,9 +103,22 @@ export function createStaffRouter({
           skip > 100000
         )
           return res.sendStatus(400);
+        let where;
+        if (path === '/users' && req.query.query !== undefined) {
+          if (typeof req.query.query !== 'string' || req.query.query.length > 100)
+            return res.sendStatus(400);
+          const query = req.query.query.trim();
+          if (query) {
+            const OR = [{ username: { contains: query, mode: 'insensitive' } }];
+            if (/^[1-9][0-9]*$/.test(query) && validId(Number(query)))
+              OR.push({ id: Number(query) });
+            where = { OR };
+          }
+        }
+        const filter = where ? { where } : {};
         const [items, total] = await Promise.all([
-          db[model].findMany({ take, skip, orderBy: { id: 'desc' }, select }),
-          db[model].count(),
+          db[model].findMany({ take, skip, orderBy: { id: 'desc' }, select, ...filter }),
+          db[model].count(filter),
         ]);
         res.json({ items, total });
       })
