@@ -214,16 +214,18 @@ export default function StaffDashboard() {
                     onChange={(event) => setReason(event.target.value)}
                   />
                 </label>
-                <DashboardButton primary disabled={busy} type="submit">
-                  Grant or change access
-                </DashboardButton>
-                <DashboardButton
-                  disabled={busy || !target || reason.trim().length < 5}
-                  type="button"
-                  onClick={() => changeAccess('revoke')}
-                >
-                  Revoke access
-                </DashboardButton>
+                <div className="cf-dashboard-actions">
+                  <DashboardButton primary disabled={busy} type="submit">
+                    Grant or change access
+                  </DashboardButton>
+                  <DashboardButton
+                    disabled={busy || !target || reason.trim().length < 5}
+                    type="button"
+                    onClick={() => changeAccess('revoke')}
+                  >
+                    Revoke access
+                  </DashboardButton>
+                </div>
               </form>
             )}
           {view === 'reports' &&
