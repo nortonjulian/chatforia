@@ -151,7 +151,8 @@ function LegacySmsThreadRedirect() {
 
 function AuthedLayout() {
   const adminMatch = useMatch('/admin/*');
-  const isAdminRoute = Boolean(adminMatch);
+  const staffMatch = useMatch('/staff/*');
+  const isAdminRoute = Boolean(adminMatch || staffMatch);
   const smsThreadMatch = useMatch('/sms/:threadId');
   const isSMSThread = Boolean(
     smsThreadMatch && smsThreadMatch.params.threadId !== 'compose'
