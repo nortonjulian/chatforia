@@ -42,6 +42,7 @@ const ChatroomsSidebar = lazy(() =>
 );
 import StartChatModal from '@/components/StartChatModal';
 import UserProfile from '@/components/UserProfile';
+import StaffDashboardLink from '@/components/StaffDashboardLink';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 
@@ -389,6 +390,10 @@ function Sidebar({ currentUser, features = {} }) {
           >
             {t('sidebar.forwarding', 'Call & Text Forwarding')}
           </Button>
+        )}
+
+        {currentUser?.id && (
+          <StaffDashboardLink key={currentUser.id} userId={currentUser.id} />
         )}
 
         {currentUser?.role === 'ADMIN' && (
