@@ -411,6 +411,7 @@ router.get(
         chatRoomId,
         id: { gt: sinceId },
         deletedForAll: false,
+        AND: [{ OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] }],
         ...(clearedAt
           ? {
               createdAt: {
@@ -1336,6 +1337,9 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     const baseWhere = {
       chatRoomId,
       deletedForAll: false,
+      // Exclude elapsed content before the async expiry job deletes it.
+      // Keep this under AND so cursor pagination can use its own OR.
+      AND: [{ OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] }],
       ...(clearedAt ? { createdAt: { gt: clearedAt } } : {}),
     };
 
