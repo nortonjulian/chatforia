@@ -123,7 +123,7 @@ export function SocketProvider({ children, autoJoin = true }) {
     socketRef.current = null;
     refreshRoomsPromiseRef.current = null;
     setSocket(null);
-    setRoomIds([]);
+    setRoomIds((previous) => (previous.length === 0 ? previous : []));
   }, []);
 
   const reconnect = useCallback(() => {
@@ -166,13 +166,19 @@ export function SocketProvider({ children, autoJoin = true }) {
           }
 
           const ids = toRoomIds(rows);
-          setRoomIds(ids);
+          // An unchanged empty result must not retrigger the auto-join effect.
+          setRoomIds((previous) =>
+            previous.length === ids.length &&
+            previous.every((id, index) => id === ids[index])
+              ? previous
+              : ids
+          );
           return ids;
         } catch (e) {
           const status = e?.response?.status;
 
           if (status === 401) {
-            setRoomIds([]);
+            setRoomIds((previous) => (previous.length === 0 ? previous : []));
             return [];
           }
 
@@ -182,7 +188,7 @@ export function SocketProvider({ children, autoJoin = true }) {
         }
       }
 
-      setRoomIds([]);
+      setRoomIds((previous) => (previous.length === 0 ? previous : []));
       return [];
     })();
 

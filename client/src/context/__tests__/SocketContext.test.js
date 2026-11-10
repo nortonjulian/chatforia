@@ -147,6 +147,32 @@ beforeEach(() => {
 });
 
 describe('SocketContext', () => {
+  test.each(['empty', 'unauthorized', 'invalid'])(
+    'does not repeatedly fetch rooms after a %s response; reconnect still refreshes',
+    async (kind) => {
+      // Keep a possible second request pending so the unfixed loop fails cleanly.
+      mockAxiosGet.mockImplementation(() => new Promise(() => {}));
+      const reply = () => {
+        if (kind === 'unauthorized') {
+          mockAxiosGet.mockRejectedValueOnce({ response: { status: 401 } });
+        } else {
+          mockAxiosGet.mockResolvedValueOnce({
+            data: kind === 'empty' ? { items: [] } : {},
+          });
+        }
+      };
+      reply();
+      renderWithProvider();
+      await act(async () => { ctxRef.connect(); });
+      expect(mockAxiosGet).toHaveBeenCalledTimes(1);
+      expect(mockSocket.emit).not.toHaveBeenCalled();
+
+      reply();
+      await act(async () => { emitSocketEvent('connect'); });
+      expect(mockAxiosGet).toHaveBeenCalledTimes(2);
+    }
+  );
+
   test('connect() creates socket even without auth', () => {
     clearAuth();
 
