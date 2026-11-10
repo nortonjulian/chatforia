@@ -226,25 +226,62 @@ r.get(
     }
     const thread = await smsService.getThread(req.user.id, req.params.id);
 
-    const resolvedThreadId = Number(thread?.id ?? req.params.id);
-    if (thread && Number.isInteger(resolvedThreadId) && resolvedThreadId > 0) {
-      await prisma.smsThread.updateMany({
-        where: {
-          id: resolvedThreadId,
-          userId: Number(req.user.id),
-        },
-        data: { lastReadAt: new Date() },
-      });
-    }
-
-    if (thread) {
-      await syncBadgeToUserDevices(
-        Number(req.user.id),
-        'sms_thread_read'
-      );
-    }
-
+    // Fetching a thread must not mark it read: background refreshes,
+    // link previews and other clients can fetch without the user viewing it.
     res.json(thread);
+  })
+);
+
+// POST /sms/threads/:id/read — an explicit acknowledgement from the
+// foreground, visible conversation view (never from background refresh).
+r.post(
+  '/threads/:id/read',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user.id);
+    const threadId = Number(req.params.id);
+    if (!Number.isSafeInteger(threadId) || threadId <= 0) {
+      throw Boom.badRequest('Valid SMS thread id is required');
+    }
+
+    const messageId = Number(req.body?.messageId);
+    if (!Number.isSafeInteger(messageId) || messageId <= 0) {
+      throw Boom.badRequest('Valid last visible inbound SMS message id is required');
+    }
+
+    // Never advance the read marker to current wall-clock time: a newer SMS
+    // could arrive after the UI rendered but before this request completes.
+    const visibleMessage = await prisma.smsMessage.findFirst({
+      where: {
+        id: messageId,
+        threadId,
+        direction: 'in',
+        thread: { userId, archivedAt: null, deletedAt: null },
+      },
+      select: { createdAt: true },
+    });
+    if (!visibleMessage) {
+      throw Boom.notFound('SMS message not found in owned thread');
+    }
+
+    // Monotonic, conditional read acknowledgement: retries and out-of-order
+    // requests cannot move the read marker backwards.
+    await prisma.smsThread.updateMany({
+      where: {
+        id: threadId,
+        userId,
+        archivedAt: null,
+        deletedAt: null,
+        OR: [
+          { lastReadAt: null },
+          { lastReadAt: { lt: visibleMessage.createdAt } },
+        ],
+      },
+      data: { lastReadAt: visibleMessage.createdAt },
+    });
+
+    await syncBadgeToUserDevices(userId, 'sms_thread_read');
+    res.json({ ok: true });
   })
 );
 
