@@ -262,6 +262,19 @@ export default function StaffDashboard() {
             <p role="status">Loading…</p>
           ) : (
             <>
+              {result.items.length === 0 ? (
+                <p style={{
+                  width: 'fit-content',
+                  maxWidth: '100%',
+                  padding: '12px 16px',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--mantine-radius-lg)',
+                  background: 'var(--card)',
+                  fontWeight: 600,
+                }}>
+                  {views.find(([key]) => key === view)?.[1]} — {result.total} records
+                </p>
+              ) : (
               <ScrollArea
                 className="cf-dashboard-table-scroll"
                 viewportProps={{ tabIndex: 0, 'aria-label': 'Staff records' }}
@@ -309,6 +322,7 @@ export default function StaffDashboard() {
                   </tbody>
                 </table>
               </ScrollArea>
+              )}
               {!result.items.length && <p>No records.</p>}
               <div className="cf-dashboard-actions" aria-label="Pagination">
                 <DashboardButton
