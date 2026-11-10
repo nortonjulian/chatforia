@@ -1,0 +1,47 @@
+{
+  "id": "chatforia-c103-foundation-20261110-recovery-v1",
+  "status": "prepared-not-authorized-for-production",
+  "releaseCommit": "c1037d7150e3bacbb50492ef92d20596d8c18d1f",
+  "packageSha256": "b1322c1e57ae579e7f6e3e03b784fcfbc88211fa117c3a7ac3e5d6604adf78ae",
+  "reconciliationId": "chatforia-defaultdb-four-hash-consent-20261106-v2",
+  "target": {
+    "database": "defaultdb",
+    "hostname": "chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com",
+    "port": 25060
+  },
+  "preservedFailedReceiptTarSha256": "a9f61dc5af847a81429e50d16cc58d1ba9ee42befafb9095d3ff4906898cfa92",
+  "completedNewMigrations": [
+    {
+      "id": "cb956aaa-f0f1-4b3d-a1de-6f319ee377b2",
+      "name": "20261102060000_add_staff_access",
+      "checksum": "5fc89f6d97f8642c7fc1e659e4cd0907bb6a554fca61c09361e76417481be409"
+    },
+    {
+      "id": "156212f9-5a26-4f2e-80ff-23350128d247",
+      "name": "20261102061000_add_founder_ownership",
+      "checksum": "563d781f80540f3398efdb21c4be9c7878ecd51e647694f11b928e5f56a1eaa4"
+    }
+  ],
+  "failedMigration": {
+    "id": "3cba3a9a-c3b5-4d6d-9e1f-28ba5e8016d6",
+    "name": "20261102070000_staff_security_foundation",
+    "checksum": "717b13a595b54a7c693147f0509caa527637ec3fa81dbc1bd939e6fe4241d662"
+  },
+  "preexistingRolledBackRows": [
+    {
+      "id": "047afc05-0050-487b-84ec-227f2fa38bb1",
+      "name": "20260423035728_add_push_provider_to_device",
+      "checksum": "653008ba99c4a20b37e4251639ad1631691b7b75fbd4db999cf6cd569878c3b9"
+    },
+    {
+      "id": "a02e09ba-312d-4a41-9649-b6a6729da10f",
+      "name": "20260424200440_add_phone_number_inventory_flags",
+      "checksum": "e39dd6388de788b8d0c4b753a8643e0919104e129b6d79a4ad2da6f1bdd7aa97"
+    },
+    {
+      "id": "4e635131-51bf-41a2-bd85-eefd9ee1d25f",
+      "name": "20260508220249_add_stripe_webhook_events",
+      "checksum": "82dca46c428c86eb14c3912a95bcd585c9a34e2d65565fd1dc26522b38253bed"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-10",
+  "scope": "Independent local review and synthetic database tests; no production connection or changes",
+  "baseRelease": "c1037d7150e3bacbb50492ef92d20596d8c18d1f",
+  "inputRecoveryCommit": "c96bea530705c763aac95957b1847e1631211d7b",
+  "packageSha256": "b1322c1e57ae579e7f6e3e03b784fcfbc88211fa117c3a7ac3e5d6604adf78ae",
+  "environment": {
+    "node": "22.23.3",
+    "prisma": "6.17.1",
+    "postgresql": "18.6",
+    "postgresqlRuntime": "Native build from upstream 18.6 source, loopback TCP only, disposable data directories",
+    "data": "Two synthetic users; no production data or credentials"
+  },
+  "checks": {
+    "packageRebuiltAndHashMatched": true,
+    "migrationSqlUnchanged": 161,
+    "v2ManifestUnchanged": true,
+    "lockfileUnchanged": true,
+    "unitAndExistingPackageRegressions": "27/27 passed",
+    "targetedEslint": "passed",
+    "targetedPrettier": "passed",
+    "diffCheck": "passed"
+  },
+  "postgresScenarios": [
+    {
+      "scenario": "success",
+      "before": "143/3/1",
+      "after": "161/4/0",
+      "originalFailedIdChecksumAndLogsPreserved": true,
+      "allSyntheticUserFieldsPreserved": true,
+      "executorInheritanceRemoved": true,
+      "protectedRuntimeWritesDenied": true
+    },
+    {
+      "scenario": "after-resolve failure",
+      "after": "143/4/0",
+      "allSyntheticUserFieldsPreserved": true,
+      "executorInheritanceRemoved": true,
+      "sqlRetry": false
+    },
+    {
+      "scenario": "later migration failure",
+      "after": "144/4/1",
+      "allSyntheticUserFieldsPreserved": true,
+      "executorInheritanceRemoved": true,
+      "sqlRetry": false
+    }
+  ],
+  "guardedSqlChecks": [
+    "Enable rejected a second executor connection",
+    "Disable committed inheritance removal despite runtime-membership drift causing a postcondition failure",
+    "Repeated disable passed",
+    "Shared runner removed inheritance after an injected pre-resolve failure"
+  ],
+  "limitations": [
+    "Production adapter target/TLS validation and child-process boundaries unit-tested; no live managed-cluster execution",
+    "SIGKILL, host loss, or database loss requires independent operator cleanup and verification",
+    "GitHub CI not run at time of this local evidence record",
+    "Full managed-cluster restore duration remains unmeasured",
+    "Founder activation, API switch, full API acceptance and Stage 6 were not performed"
+  ]
+}
