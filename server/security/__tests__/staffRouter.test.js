@@ -236,3 +236,23 @@ test('delegate cannot invoke founder endpoints with forged ownership', async () 
     expect(response.status).toBe(403);
   }
 });
+
+
+test('SUPPORT search filters rows and count while preserving pagination', async () => {
+  assignment.profile = 'SUPPORT';
+  const response = await request(app).get('/staff/users?query=42&take=10&skip=10');
+  expect(response.status).toBe(200);
+  const where = { OR: [{ username: { contains: '42', mode: 'insensitive' } }, { id: 42 }] };
+  expect(db.user.findMany).toHaveBeenCalledWith(expect.objectContaining({ where, take: 10, skip: 10 }));
+  expect(db.user.count).toHaveBeenCalledWith({ where });
+});
+test('search does not bypass MFA or current staff assignment checks', async () => {
+  session.auth.mfaVerified = false;
+  expect((await request(app).get('/staff/users?query=julian')).status).toBe(403);
+  expect(db.user.findMany).not.toHaveBeenCalled();
+});
+test('rejects oversized searches before database access', async () => {
+  assignment.profile = 'SUPPORT';
+  expect((await request(app).get('/staff/users').query({ query: 'x'.repeat(101) })).status).toBe(400);
+  expect(db.user.findMany).not.toHaveBeenCalled();
+});
