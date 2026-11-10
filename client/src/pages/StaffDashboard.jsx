@@ -20,6 +20,8 @@ export default function StaffDashboard() {
   const [session, setSession] = useState(null);
   const [view, setView] = useState('');
   const [page, setPage] = useState(0);
+  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('');
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -60,7 +62,7 @@ export default function StaffDashboard() {
     let live = true;
     setResult(null);
     axiosClient
-      .get(`/staff/${view}`, { params: { take: 25, skip: page * 25 } })
+      .get(`/staff/${view}`, { params: { take: 25, skip: page * 25, ...(view === 'users' && query ? { query } : {}) } })
       .then(({ data }) => {
         if (live) {
           setResult(data);
@@ -81,7 +83,7 @@ export default function StaffDashboard() {
     return () => {
       live = false;
     };
-  }, [view, page, message]);
+  }, [view, page, message, query]);
   async function changeAccess(action) {
     setBusy(true);
     setError('');
@@ -258,6 +260,25 @@ export default function StaffDashboard() {
                 </DashboardButton>
               </form>
             )}
+          {view === 'users' && (
+            <form className="cf-dashboard-form" onSubmit={(event) => {
+              event.preventDefault();
+              setPage(0);
+              setQuery(search.trim());
+            }}>
+              <label>
+                Search users by username or User ID
+                <input type="search" maxLength={100} value={search}
+                  onChange={(event) => setSearch(event.target.value)} />
+              </label>
+              <div className="cf-dashboard-actions">
+                <DashboardButton primary type="submit">Search</DashboardButton>
+                <DashboardButton type="button" onClick={() => {
+                  setSearch(''); setQuery(''); setPage(0);
+                }}>Clear</DashboardButton>
+              </div>
+            </form>
+          )}
           {!result ? (
             <p role="status">Loading…</p>
           ) : (
@@ -277,6 +298,8 @@ export default function StaffDashboard() {
               ) : (
               <ScrollArea
                 className="cf-dashboard-table-scroll"
+                h="min(55dvh, 560px)"
+                type="auto"
                 viewportProps={{ tabIndex: 0, 'aria-label': 'Staff records' }}
               >
                 <table className="cf-dashboard-table">
