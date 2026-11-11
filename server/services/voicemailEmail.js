@@ -14,7 +14,7 @@ export async function sendVoicemailForwardEmail({
 }) {
   if (!toEmail) {
     logger?.warn?.({ toEmail }, 'No toEmail provided for voicemail forward');
-    return;
+    return false;
   }
 
   const callerLabel =
@@ -58,7 +58,7 @@ export async function sendVoicemailForwardEmail({
     <p>You have a new voicemail in <strong>Chatforia</strong>.</p>
     <ul>
       <li><strong>From:</strong> ${escapeHtml(callerLabel)}</li>
-      <li><strong>To:</strong> ${toNumber || 'Your Chatforia number'}</li>
+      <li><strong>To:</strong> ${escapeHtml(toNumber || 'Your Chatforia number')}</li>
       <li><strong>Time:</strong> ${created.toLocaleString()}</li>
       ${
         typeof durationSec === 'number'
@@ -95,12 +95,14 @@ export async function sendVoicemailForwardEmail({
         { err: result?.error ?? new Error('Email provider did not confirm submission'), toEmail },
         'Failed to send voicemail forward email'
       );
-      return;
+      return false;
     }
 
     logger?.info?.({ toEmail }, 'Voicemail forward email accepted by provider');
+    return true;
   } catch (err) {
     logger?.error?.({ err, toEmail }, 'Failed to send voicemail forward email');
+    return false;
   }
 }
 

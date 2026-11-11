@@ -50,7 +50,7 @@ describe('sendVoicemailForwardEmail', () => {
   test('sends email with correct fields and logs info on success', async () => {
     const createdAt = '2024-01-01T12:00:00.000Z';
 
-    await sendVoicemailForwardEmail({
+    const sent = await sendVoicemailForwardEmail({
       toEmail: 'user@example.com',
       fromNumber: '+15551234567',
       toNumber: '+15557654321',
@@ -59,6 +59,7 @@ describe('sendVoicemailForwardEmail', () => {
       durationSec: 42,
       createdAt,
     });
+    expect(sent).toBe(true);
 
     expect(sendMail).toHaveBeenCalledTimes(1);
 
@@ -92,7 +93,7 @@ describe('sendVoicemailForwardEmail', () => {
   test('logs error rather than success when provider returns failure without throwing', async () => {
     sendMail.mockResolvedValueOnce({ success: false, error: new Error('Provider rejected') });
 
-    await sendVoicemailForwardEmail({
+    const sent = await sendVoicemailForwardEmail({
       toEmail: 'user@example.com',
       fromNumber: '+15551234567',
       toNumber: '+15557654321',
@@ -101,6 +102,7 @@ describe('sendVoicemailForwardEmail', () => {
       durationSec: 10,
       createdAt: '2026-10-26T12:00:00.000Z',
     });
+    expect(sent).toBe(false);
 
     expect(sendMail).toHaveBeenCalledTimes(1);
     expect(logger.info).not.toHaveBeenCalled();
@@ -128,6 +130,21 @@ describe('sendVoicemailForwardEmail', () => {
     expect(callArg.subject).toBe('New voicemail from Unknown caller');
     expect(callArg.text).toContain('From: Unknown caller');
     expect(callArg.html).toContain('Unknown caller');
+  });
+
+  test('escapes the destination number in HTML and never exposes the provider recording URL', async () => {
+    await sendVoicemailForwardEmail({
+      voicemailId: 'twilio-REaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      toEmail: 'owner@example.com',
+      fromNumber: '+15551234567',
+      toNumber: '<img src=x onerror=alert(1)>',
+      audioUrl: 'https://api.twilio.com/private-recording',
+    });
+    const message = sendMail.mock.calls[0][0];
+    expect(message.html).toContain('&lt;img src=x onerror=alert(1)&gt;');
+    expect(message.html).not.toContain('<img');
+    expect(message.text).toContain('voicemail?id=twilio-REaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    expect(message.html).not.toContain('https://api.twilio.com/private-recording');
   });
 
   test('logs error when sendMail throws', async () => {

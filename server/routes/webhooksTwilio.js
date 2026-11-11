@@ -21,6 +21,43 @@ import {
 
 const { VoiceResponse } = twilio.twiml;
 const r = express.Router();
+const voicemailEmailInFlight = new Map();
+
+function queueVoicemailEmail({ voicemail, toEmail, fromDisplayName }) {
+  if (voicemailEmailInFlight.has(voicemail.id)) return;
+
+  const job = (async () => {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      if (attempt) await new Promise((resolve) => setTimeout(resolve, 250));
+      const sent = await sendVoicemailForwardEmail({
+        voicemailId: voicemail.id,
+        toEmail,
+        fromNumber: voicemail.fromNumber,
+        fromDisplayName,
+        toNumber: voicemail.toNumber,
+        transcript: null,
+        audioUrl: voicemail.audioUrl,
+        durationSec: voicemail.durationSec,
+        createdAt: voicemail.createdAt,
+      });
+      if (sent) {
+        await prisma.voicemail.updateMany({
+          where: { id: voicemail.id, userId: voicemail.userId, forwardedToEmailAt: null },
+          data: { forwardedToEmailAt: new Date() },
+        });
+        return;
+      }
+    }
+    console.error('[voicemail] email forwarding failed after local retry', { voicemailId: voicemail.id });
+  })();
+
+  voicemailEmailInFlight.set(voicemail.id, job);
+  void job.catch((error) => {
+    console.error('[voicemail] email forwarding failed', error);
+  }).finally(() => {
+    voicemailEmailInFlight.delete(voicemail.id);
+  });
+}
 
 async function findMatchingMissedCall({ userId, createdAt }) {
   return prisma.call.findFirst({
@@ -381,10 +418,11 @@ r.post(
   '/voice/voicemail/recording-status',
   express.urlencoded({ extended: false }),
   asyncHandler(async (req, res) => {
+    // Keep Twilio's acknowledgment independent of audio analysis and mail.
     res.status(200).send('ok');
-
     try {
       const {
+        RecordingSid,
         RecordingUrl,
         RecordingDuration,
         RecordingStatus,
@@ -408,8 +446,11 @@ r.post(
         return;
       }
 
-      if (!RecordingUrl) {
-        console.error('[voicemail] missing RecordingUrl');
+      // Twilio identifies the recording independently of delivery attempts.
+      // Use that ID as the voicemail primary key so a callback retry cannot
+      // create a second inbox item when the first attempt was saved.
+      if (!RecordingUrl || !/^RE[0-9a-f]{32}$/i.test(String(RecordingSid || ''))) {
+        console.error('[voicemail] missing recording URL or SID');
         return;
       }
 
@@ -550,20 +591,34 @@ r.post(
         return;
       }
 
-      const voicemail = await prisma.voicemail.create({
-        data: {
-          userId: numericUserId,
-          phoneNumberId: Number.isNaN(numericPhoneNumberId) ? null : numericPhoneNumberId,
-          fromNumber: storedFrom,
-          toNumber: storedTo,
-          audioUrl: recordingAudioUrl,
-          durationSec: RecordingDuration != null ? Number(RecordingDuration) : null,
-          transcript: null,
-          transcriptStatus: 'PENDING',
-          relatedCallId: matchingCall?.id ?? null,
-          createdAt,
-        },
-      });
+      const voicemailId = `twilio-${RecordingSid}`;
+      let voicemail;
+      let created = false;
+      try {
+        voicemail = await prisma.voicemail.create({
+          data: {
+            id: voicemailId,
+            userId: numericUserId,
+            phoneNumberId: Number.isNaN(numericPhoneNumberId) ? null : numericPhoneNumberId,
+            fromNumber: storedFrom,
+            toNumber: storedTo,
+            audioUrl: recordingAudioUrl,
+            durationSec: RecordingDuration != null ? Number(RecordingDuration) : null,
+            transcript: null,
+            transcriptStatus: 'PENDING',
+            relatedCallId: matchingCall?.id ?? null,
+            createdAt,
+          },
+        });
+        created = true;
+      } catch (error) {
+        if (error?.code !== 'P2002') throw error;
+        voicemail = await prisma.voicemail.findUnique({ where: { id: voicemailId } });
+        if (!voicemail || voicemail.userId !== numericUserId || voicemail.audioUrl !== recordingAudioUrl) {
+          console.error('[voicemail] recording SID conflicts with saved voicemail');
+          return;
+        }
+      }
 
       const voicemailUser = await prisma.user.findUnique({
         where: { id: numericUserId },
@@ -575,53 +630,44 @@ r.post(
         },
       });
 
-     void enqueueVoicemailTranscription(voicemail.id);
+      if (created) void enqueueVoicemailTranscription(voicemail.id);
 
-      const forwardEmail = voicemailForwardingDestination(voicemailUser);
+      if (created) {
+        emitToUser(numericUserId, 'voicemail:new', { voicemail });
 
-      if (forwardEmail) {
-        void sendVoicemailForwardEmail({
-          voicemailId: voicemail.id,
-          toEmail: forwardEmail,
-          fromNumber: voicemail.fromNumber,
-          fromDisplayName,
-          toNumber: voicemail.toNumber,
-          transcript: null,
-          audioUrl: voicemail.audioUrl,
-          durationSec: voicemail.durationSec,
-          createdAt: voicemail.createdAt,
+        void sendPushToUser(numericUserId, {
+          alert: {
+            title: 'New voicemail',
+            body: fromDisplayName
+              ? `Voicemail from ${fromDisplayName}`
+              : `Voicemail from ${storedFrom}`,
+          },
+          sound: 'default',
+          data: {
+            type: 'voicemail_new',
+            voicemailId: voicemail.id,
+          },
         }).catch((error) => {
-          console.error('[voicemail] email forwarding failed', error);
+          console.warn('[voicemail] failed to send push', {
+            userId: numericUserId,
+            voicemailId: voicemail.id,
+            error: error?.message || error,
+          });
+        });
+
+        console.log('[voicemail] saved voicemail', {
+          userId: numericUserId,
+          voicemailId: voicemail.id,
+          relatedCallId: matchingCall?.id ?? null,
         });
       }
 
-      emitToUser(numericUserId, 'voicemail:new', { voicemail });
+      const forwardEmail = voicemailForwardingDestination(voicemailUser);
 
-      void sendPushToUser(numericUserId, {
-        alert: {
-          title: 'New voicemail',
-          body: fromDisplayName
-            ? `Voicemail from ${fromDisplayName}`
-            : `Voicemail from ${storedFrom}`,
-        },
-        sound: 'default',
-        data: {
-          type: 'voicemail_new',
-          voicemailId: voicemail.id,
-        },
-      }).catch((error) => {
-        console.warn('[voicemail] failed to send push', {
-          userId: numericUserId,
-          voicemailId: voicemail.id,
-          error: error?.message || error,
-        });
-      });
+      if (forwardEmail && !voicemail.forwardedToEmailAt) {
+        queueVoicemailEmail({ voicemail, toEmail: forwardEmail, fromDisplayName });
+      }
 
-      console.log('[voicemail] saved voicemail', {
-        userId: numericUserId,
-        voicemailId: voicemail.id,
-        relatedCallId: matchingCall?.id ?? null,
-      });
     } catch (err) {
       console.error('[voicemail] failed to save voicemail', err);
     }
