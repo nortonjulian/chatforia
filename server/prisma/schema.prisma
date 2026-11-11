@@ -1973,6 +1973,27 @@ model Voicemail {
 
   createdAt          DateTime  @default(now())
   forwardedToEmailAt DateTime?
+  emailDelivery       VoicemailEmailDelivery?
+}
+
+model VoicemailEmailDelivery {
+  voicemailId String @id
+  voicemail   Voicemail @relation(fields: [voicemailId], references: [id], onDelete: Cascade)
+  userId      Int
+  recipient   String @db.VarChar(255)
+  fromDisplayName String?
+  status      String @default("PENDING")
+  attempts    Int @default(0)
+  nextAttemptAt DateTime @default(now())
+  leaseId     String?
+  leaseUntil  DateTime?
+  lastError   String?
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, nextAttemptAt])
+  @@index([leaseUntil])
 }
 
 // ===================== 11) Accessibility / Usage =====================
