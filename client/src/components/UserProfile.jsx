@@ -232,6 +232,22 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
   const [voicemailGreetingText, setVoicemailGreetingText] = useState(
     currentUser?.voicemailGreetingText || ''
   );
+  // Account switches can reuse this mounted profile screen. Reload its
+  // voicemail draft from the newly authenticated account.
+  useEffect(() => {
+    setVoicemailEnabled(currentUser?.voicemailEnabled !== false);
+    setVoicemailAutoDeleteDays(currentUser?.voicemailAutoDeleteDays ?? null);
+    setVoicemailForwardEmail(currentUser?.voicemailForwardEmail || '');
+    setVoicemailEmailForwardingEnabled(currentUser?.voicemailEmailForwardingEnabled === true);
+    setVoicemailGreetingText(currentUser?.voicemailGreetingText || '');
+  }, [
+    currentUser?.id,
+    currentUser?.voicemailEnabled,
+    currentUser?.voicemailAutoDeleteDays,
+    currentUser?.voicemailForwardEmail,
+    currentUser?.voicemailEmailForwardingEnabled,
+    currentUser?.voicemailGreetingText,
+  ]);
   const [voicemailGreetingUploading, setVoicemailGreetingUploading] = useState(false);
 
   // Avatar upload state (inline error instead of toast)
@@ -415,6 +431,7 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
   };
 
   const saveSettings = async () => {
+    const accountId = currentUser?.id;
     try {
       const chosenTheme = getTheme();
       const payload = {
@@ -453,14 +470,13 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
 
       i18n.changeLanguage(preferredLanguage);
       onLanguageChange?.(preferredLanguage);
-      setCurrentUser((prev) => ({
+      setCurrentUser((prev) => prev?.id === accountId ? ({
         ...prev,
         ...payload,
         voicemailForwardEmail: savedUser.voicemailForwardEmail,
         voicemailEmailForwardingEnabled: savedUser.voicemailEmailForwardingEnabled,
         canForwardVoicemailEmail: savedUser.canForwardVoicemailEmail,
-      }));
-      setVoicemailEmailForwardingEnabled(savedUser.voicemailEmailForwardingEnabled === true);
+      }) : prev);
 
       notifications.show({
         color: 'green',
