@@ -1,9 +1,27 @@
 import { Container, Title, Text, List, Anchor, Divider } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 
-const LAST_UPDATED = "July 1, 2026";
+const LAST_UPDATED = "November 3, 2026";
 
 const sections = [
+  {
+    title: "Website & Web App",
+    items: [
+      "React", "Vite", "Mantine", "Emotion", "React Router", "Axios",
+      "Socket.IO", "Sentry", "PostHog", "i18next", "Giphy SDK",
+      "Twilio Voice SDK", "Twilio Video", "Day.js", "Luxon",
+      "Lucide React", "Tabler Icons", "TweetNaCl", "Zustand",
+    ],
+  },
+  {
+    title: "Server & Backend",
+    items: [
+      "Node.js", "Express", "Prisma", "PostgreSQL", "Redis / ioredis",
+      "Socket.IO", "Twilio", "Stripe", "OpenAI SDK", "Google Cloud Translation",
+      "Firebase Admin", "AWS SDK for S3-compatible storage", "Sentry",
+      "Nodemailer", "Sharp",
+    ],
+  },
   {
     title: "iOS App",
     items: [
@@ -48,34 +66,7 @@ const sections = [
       "Google Identity / Google ID",
     ],
   },
-  {
-    title: "Website & Web App",
-    items: [
-      "React",
-      "Vite",
-      "Mantine",
-      "Emotion",
-      "React Router",
-      "Axios",
-      "Socket.IO",
-      "Sentry",
-      "PostHog",
-      "i18next",
-      "Giphy SDK",
-      "Twilio Voice SDK",
-      "Twilio Video",
-      "OpenAI SDK",
-      "Prisma",
-      "Express",
-      "Redis / ioredis",
-      "Day.js",
-      "Luxon",
-      "Lucide React",
-      "Tabler Icons",
-      "TweetNaCl",
-      "Zustand",
-    ],
-  },
+
 ];
 
 export default function OpenSourceLicenses() {
@@ -84,7 +75,7 @@ export default function OpenSourceLicenses() {
   return (
     <Container size="md" py="xl">
       <Title order={1} mb="sm">
-        {t("openSource.title", "Open Source Licenses")}
+        {t("openSource.technologyTitle", "Technology & Open Source Licenses")}
       </Title>
 
       <Text c="dimmed" mb="md">
@@ -100,10 +91,17 @@ export default function OpenSourceLicenses() {
 
       <Text mb="xl">
         {t(
-          "openSource.notice",
-          "This page lists key third-party software used in Chatforia. Each project remains governed by its own license terms."
+          "openSource.sharedOverview20261103",
+          "This shared overview covers technology across Chatforia’s website, server, iOS app, and Android app, regardless of which device you use to view it. It highlights key technologies, not every dependency or every feature enabled in a particular release. Some third-party SDKs use proprietary terms; listing them here does not mean they are open source."
         )}
       </Text>
+
+      <Title order={2} mt="lg" mb="xs">Detailed License Notices</Title>
+      <Text mb="md">Browser package notices are generated for each production build. They do not cover native apps, server-only software, externally loaded SDKs, or separately supplied static assets.</Text>
+      <Anchor href="/third-party-notices.txt">Read browser third-party notices (plain text)</Anchor>
+      <Text mt="xs"><Anchor href="/third-party-notices.json" download>Download browser package inventory (JSON)</Anchor></Text>
+      <Text mt="md">For notices bundled with a native app, open Profile → Legal &amp; Support → This App’s Licenses in that app. The shared overview is available through Technology Across Chatforia.</Text>
+      <Divider my="lg" />
 
       {sections.map((section) => (
         <div key={section.title}>
