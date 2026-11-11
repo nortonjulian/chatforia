@@ -256,6 +256,7 @@ model User {
   forwardToPhoneE164     String? @db.VarChar(32)
   forwardQuietHoursStart Int?
   forwardQuietHoursEnd   Int?
+  forwardQuietHoursTimeZone String? @db.VarChar(64)
 
   cycling           Boolean            @default(false)
   strictE2EE        Boolean            @default(false)

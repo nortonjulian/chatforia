@@ -8,6 +8,7 @@ import { sendIncomingForwardedCallPush } from '../services/pushService.js';
 import { getVoiceDialDestinations } from '../services/voiceDeviceService.js';
 import { parseVoiceIdentityUserId } from '../utils/voiceIdentity.js';
 import { hasPremiumAccess } from '../utils/planAccess.js';
+import { inQuietHours } from '../utils/forwardingQuietHours.js';
 import {
   chargePstnCallDurationOnce,
   reserveRemainingUsage,
@@ -34,15 +35,6 @@ async function finishInboundAppLeg(userId, callId, mutation) {
       forwarded: false,
     });
   }
-}
-
-function inQuietHours(start, end, now = new Date()) {
-  if (start == null || end == null) return false;
-  const h = now.getHours();
-  return (
-    (start < end && h >= start && h < end) ||
-    (start > end && (h >= start || h < end))
-  );
 }
 
 router.post('/status', async (req, res) => {
@@ -395,6 +387,7 @@ router.post('/inbound-app-complete', async (req, res) => {
         forwardToPhoneE164: true,
         forwardQuietHoursStart: true,
         forwardQuietHoursEnd: true,
+        forwardQuietHoursTimeZone: true,
         voicemailEnabled: true,
         voicemailGreetingText: true,
         voicemailGreetingUrl: true,
@@ -411,7 +404,7 @@ router.post('/inbound-app-complete', async (req, res) => {
       dialStatus === 'no-answer' &&
       user.forwardingEnabledCalls &&
       isE164(user.forwardToPhoneE164) &&
-      !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd);
+      !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd, new Date(), user.forwardQuietHoursTimeZone);
 
     if (forwardingAllowed) {
       const parentCallSid = String(req.body?.CallSid || '').trim();

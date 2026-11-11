@@ -83,6 +83,25 @@ describe('GET /settings/forwarding', () => {
 });
 
 describe('PATCH /settings/forwarding', () => {
+  it.each(['true', 1])('rejects truthy non-boolean %p before the plan gate and service', async (value) => {
+    const app = createApp({ user: { id: 42, role: 'USER', plan: 'FREE' } });
+    const res = await request(app).patch('/settings/forwarding').send({ forwardingEnabledSms: value });
+    expect(res.statusCode).toBe(400);
+    expect(mockUpdateForwardingPrefs).not.toHaveBeenCalled();
+  });
+  it('ignores a forged userId and updates only the authenticated account', async () => {
+    const app = createApp({ user: { id: 42, role: 'USER', plan: 'PLUS' } });
+    mockUpdateForwardingPrefs.mockResolvedValueOnce({ forwardingEnabledCalls: false });
+    const res = await request(app).patch('/settings/forwarding').send({
+      userId: 99,
+      forwardingEnabledCalls: false,
+    });
+    expect(res.statusCode).toBe(200);
+    expect(mockUpdateForwardingPrefs).toHaveBeenCalledWith(42, {
+      userId: 99,
+      forwardingEnabledCalls: false,
+    });
+  });
   it.each(['FREE', 'WIRELESS'])(
     'blocks %s from enabling SMS forwarding',
     async (plan) => {
