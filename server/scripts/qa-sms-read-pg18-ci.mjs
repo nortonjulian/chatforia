@@ -12,6 +12,9 @@ assert.match(process.env.CI_POSTGRES18_CONTAINER || '', /^[a-f0-9]{12,64}$/);
 const migrationName = '20261109010000_sms_message_read_receipts';
 const migrationSql = readFileSync(`server/prisma/migrations/${migrationName}/migration.sql`, 'utf8');
 const checksum = createHash('sha256').update(migrationSql).digest('hex');
+const quietMigrationName = '20261110010000_forwarding_quiet_hours_time_zone';
+const quietMigrationSql = readFileSync(`server/prisma/migrations/${quietMigrationName}/migration.sql`, 'utf8');
+const quietChecksum = createHash('sha256').update(quietMigrationSql).digest('hex');
 const db = new PrismaClient({ datasources: { db: { url: expectedUrl } } });
 
 try {
@@ -25,11 +28,13 @@ try {
   const rows = await db.$queryRaw`
     SELECT migration_name, checksum, finished_at, rolled_back_at
     FROM public._prisma_migrations`;
-  assert.equal(rows.length, 162);
+  assert.equal(rows.length, 163);
   assert.ok(rows.every((row) => row.finished_at && !row.rolled_back_at));
-  const applied = rows.filter((row) => row.migration_name === migrationName);
-  assert.equal(applied.length, 1);
-  assert.equal(applied[0].checksum, checksum);
+  for (const [name, expectedChecksum] of [[migrationName, checksum], [quietMigrationName, quietChecksum]]) {
+    const applied = rows.filter((row) => row.migration_name === name);
+    assert.equal(applied.length, 1);
+    assert.equal(applied[0].checksum, expectedChecksum);
+  }
 
   const [column] = await db.$queryRaw`
     SELECT data_type, is_nullable FROM information_schema.columns
@@ -42,6 +47,15 @@ try {
       AND indexname = 'SmsMessage_threadId_direction_readAt_idx'`;
   assert.match(index.indexdef, /"threadId", direction, "readAt"/);
 
+  const [quietColumn] = await db.$queryRaw`
+    SELECT data_type, character_maximum_length, is_nullable
+    FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'User'
+      AND column_name = 'forwardQuietHoursTimeZone'`;
+  assert.deepEqual(quietColumn, {
+    data_type: 'character varying', character_maximum_length: 64, is_nullable: 'YES',
+  });
+
   const [privileges] = await db.$queryRaw`
     SELECT
       has_schema_privilege('chatforia_dev', 'public', 'USAGE') AS schema_usage,
@@ -51,9 +65,12 @@ try {
       has_column_privilege('chatforia_dev', 'public."SmsMessage"', 'readAt', 'UPDATE') AS receipt_update,
       has_table_privilege('chatforia_dev', 'public."SmsThread"', 'SELECT') AS thread_select,
       has_sequence_privilege('chatforia_dev', 'public."SmsMessage_id_seq"', 'USAGE') AS sequence_usage,
-      has_table_privilege('chatforia_dev', 'public."StaffAssignment"', 'UPDATE') AS protected_update`;
+      has_table_privilege('chatforia_dev', 'public."StaffAssignment"', 'UPDATE') AS protected_update,
+      has_table_privilege('chatforia_dev', 'public."User"', 'SELECT') AS user_select,
+      has_column_privilege('chatforia_dev', 'public."User"', 'forwardQuietHoursTimeZone', 'UPDATE') AS zone_update,
+      has_column_privilege('chatforia_dev', 'public."User"', 'role', 'UPDATE') AS role_update`;
   assert.ok(Object.entries(privileges).every(([key, value]) =>
-    key === 'protected_update' ? value === false : value === true));
+    ['protected_update', 'role_update'].includes(key) ? value === false : value === true));
 
   // Reapply the exact SQL against a minimal legacy fixture in a separate
   // schema. Every fixture change is rolled back, and public stays untouched.
@@ -113,7 +130,40 @@ try {
   }, { timeout: 15000 }), (error) => error === rolledBack);
   assert.equal(await db.user.count({ where: { username: { startsWith: 'sms_read_' } } }), 0);
 
-  console.log('PASS: PostgreSQL 18.6 migration 162, legacy backfill, exact reads, ownership, retries, and runtime grants');
+  const quietRollback = new Error('synthetic quiet-hours QA rollback');
+  await assert.rejects(db.$transaction(async (tx) => {
+    const legacy = await tx.user.create({ data: {
+      username: 'quiet_legacy', passwordHash: 'synthetic',
+      forwardQuietHoursStart: 22, forwardQuietHoursEnd: 6,
+    } });
+    const selected = await tx.user.create({ data: {
+      username: 'quiet_selected', passwordHash: 'synthetic',
+      forwardQuietHoursStart: 22, forwardQuietHoursEnd: 6,
+    } });
+    await tx.$executeRawUnsafe('SET LOCAL ROLE chatforia_dev');
+    const read = { forwardQuietHoursStart: true, forwardQuietHoursEnd: true,
+      forwardQuietHoursTimeZone: true };
+    assert.deepEqual(await tx.user.findUnique({ where: { id: legacy.id }, select: read }), {
+      forwardQuietHoursStart: 22, forwardQuietHoursEnd: 6, forwardQuietHoursTimeZone: null,
+    });
+    const unchanged = await tx.user.update({ where: { id: legacy.id },
+      data: { forwardQuietHoursStart: 21 }, select: read });
+    assert.deepEqual(unchanged, {
+      forwardQuietHoursStart: 21, forwardQuietHoursEnd: 6, forwardQuietHoursTimeZone: null,
+    });
+    const saved = await tx.user.update({ where: { id: selected.id },
+      data: { forwardQuietHoursTimeZone: 'America/Denver' }, select: read });
+    assert.deepEqual(saved, {
+      forwardQuietHoursStart: 22, forwardQuietHoursEnd: 6,
+      forwardQuietHoursTimeZone: 'America/Denver',
+    });
+    assert.equal((await tx.user.findUnique({ where: { id: selected.id }, select: read }))
+      .forwardQuietHoursTimeZone, 'America/Denver');
+    throw quietRollback;
+  }, { timeout: 15000 }), (error) => error === quietRollback);
+  assert.equal(await db.user.count({ where: { username: { startsWith: 'quiet_' } } }), 0);
+
+  console.log('PASS: PostgreSQL 18.6 migrations 162/163, SMS legacy backfill and exact reads, quiet-hours save/read and legacy NULL, restricted runtime grants');
 } finally {
   await db.$disconnect();
 }

@@ -1,15 +1,20 @@
-name: SMS read receipts PostgreSQL 18 QA
+name: SMS read and quiet-hours PostgreSQL 18 QA
 
 on:
   pull_request:
-    branches: [qa/web-unread-sms-20261109]
+    branches: [main]
     paths:
       - '.github/workflows/sms-read-pg18-qa.yml'
       - 'server/prisma/schema.prisma'
       - 'server/prisma/migrations/**'
       - 'server/routes/sms.js'
       - 'server/routes/conversations.js'
+      - 'server/routes/settings.forwarding.js'
+      - 'server/routes/smsWebhooks.js'
+      - 'server/routes/voiceWebhooks.js'
       - 'server/services/badgeState.js'
+      - 'server/services/forwardingService.js'
+      - 'server/utils/forwardingQuietHours.js'
       - 'server/scripts/qa-sms-read-*'
       - 'package-lock.json'
 
@@ -18,7 +23,7 @@ permissions:
 
 jobs:
   sms-read-pg18:
-    name: Disposable PG18 migration, receipts, and runtime role
+    name: Disposable PG18 migrations, SMS receipts, quiet hours, and runtime role
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     services:
@@ -37,6 +42,7 @@ jobs:
           --health-retries 12
     env:
       DATABASE_URL: postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
     steps:
       - name: Checkout proposed code
@@ -64,12 +70,12 @@ jobs:
       - name: Apply migrations only to disposable PG18 service
         run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
 
-      - name: Verify migration, legacy backfill, SMS reads, and runtime permissions
+      - name: Verify both migrations, legacy rows, SMS reads, quiet-hours settings, and runtime permissions
         env:
           CI_POSTGRES18_CONTAINER: ${{ job.services.postgres18.id }}
         run: node server/scripts/qa-sms-read-pg18-ci.mjs
 
-      - name: Verify route authorization and badge logic with synthetic mocks
+      - name: Verify affected routes, settings, and badge logic with synthetic mocks
         env:
           TEST_DATABASE_URL: postgresql://synthetic:synthetic@127.0.0.1:65432/chatforia_sms_test
-        run: npm run -w server test:server -- --coverage=false --watchman=false --runTestsByPath __tests__/sms.test.js services/__tests__/badgeState.test.js
+        run: npm run -w server test:server -- --coverage=false --watchman=false --runInBand --runTestsByPath __tests__/sms.test.js services/__tests__/badgeState.test.js __tests__/smsWebhooks.test.js __tests__/voiceWebhooks.test.js __tests__/settings.forwarding.test.js services/__tests__/forwardingService.test.js utils/__tests__/forwardingQuietHours.test.js
