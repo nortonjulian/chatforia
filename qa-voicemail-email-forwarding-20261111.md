@@ -5,6 +5,7 @@ Base: `origin/main` at `dbf5887e`. This branch is isolated from the SMS/quiet-ho
 ## Reused evidence and current local checks
 
 - The existing settings, forwarding gate, voicemail audio, and email tests cover paid-plan opt-in, disabled/free-plan suppression, address retention, and authenticated audio proxying. The earlier unmerged `160b16a5` and `52a26de9` provider-result fix/tests were preserved on this branch.
+- Historical documentation listed WIRELESS as eligible, but `a2d44762` intentionally removed that entitlement and the existing unit test asserts it is blocked. The forwarding documentation now reflects the current PLUS/PREMIUM policy.
 - New synthetic callback tests cover a delayed completed recording, one notification on sequential duplicate callbacks, one local mail retry after a failed result, rejection of missing recording SID before side effects, storage failure, and a conflicting account/SID. A delayed transcription does not resend email; the email is an inbox notification and the later transcript remains in the app.
 - Rendered web profile component tests with mocked Mantine controls cover save/reopen, account switching, and disabled controls for an ineligible plan. They are automated UI tests, not a browser observation.
 - The email content tests verify the configured recipient, escaped HTML content, an authenticated inbox link, and absence of the provider recording URL. The existing audio route test verifies another account cannot fetch the recording.
