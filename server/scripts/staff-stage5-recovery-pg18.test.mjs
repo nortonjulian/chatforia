@@ -4,7 +4,6 @@ import {
   copyFileSync,
   mkdirSync,
   mkdtempSync,
-  readdirSync,
   readFileSync,
   writeFileSync,
 } from 'node:fs';

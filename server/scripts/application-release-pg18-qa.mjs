@@ -53,8 +53,9 @@ try {
     VALUES ('release_synthetic', 'unusable-synthetic-hash', 'PLUS', 'owner@example.test', true)
     RETURNING id`);
   const userId = user[0].id;
-  const thread = await db.$queryRawUnsafe(`INSERT INTO public."SmsThread" ("userId", "lastReadAt")
-    VALUES ($1, '2026-11-10 12:00:00') RETURNING id`, userId);
+  const thread = await db.$queryRawUnsafe(`INSERT INTO public."SmsThread"
+    ("userId", "updatedAt", "lastReadAt")
+    VALUES ($1, now(), '2026-11-10 12:00:00') RETURNING id`, userId);
   const threadId = thread[0].id;
   const messages = await db.$queryRawUnsafe(`INSERT INTO public."SmsMessage"
     ("threadId", direction, "fromNumber", "toNumber", body, "createdAt")

@@ -56,6 +56,8 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
+      - name: Verify manual deployment workflow safety boundaries
+        run: node --test server/scripts/deploy-systemd-api.test.mjs
       - name: Bootstrap only the fresh disposable database
         env:
           CI_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}

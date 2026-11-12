@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { PrismaClient } from '@prisma/client';
 
 const expectedUrl = 'postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test';
@@ -28,7 +28,19 @@ try {
   const rows = await db.$queryRaw`
     SELECT migration_name, checksum, finished_at, rolled_back_at
     FROM public._prisma_migrations`;
-  assert.equal(rows.length, 163);
+  const combinedManifestPath = 'server/security/applicationMigrationRelease.v3.json';
+  if (existsSync(combinedManifestPath)) {
+    const combined = JSON.parse(readFileSync(combinedManifestPath, 'utf8'));
+    assert.equal(combined.afterCount, 164);
+    assert.equal(rows.length, combined.afterCount);
+    for (const [name, expectedChecksum] of Object.entries(combined.requiredExactMigrations)) {
+      const applied = rows.filter((row) => row.migration_name === name);
+      assert.equal(applied.length, 1);
+      assert.equal(applied[0].checksum, expectedChecksum);
+    }
+  } else {
+    assert.equal(rows.length, 163);
+  }
   assert.ok(rows.every((row) => row.finished_at && !row.rolled_back_at));
   for (const [name, expectedChecksum] of [[migrationName, checksum], [quietMigrationName, quietChecksum]]) {
     const applied = rows.filter((row) => row.migration_name === name);
@@ -163,7 +175,7 @@ try {
   }, { timeout: 15000 }), (error) => error === quietRollback);
   assert.equal(await db.user.count({ where: { username: { startsWith: 'quiet_' } } }), 0);
 
-  console.log('PASS: PostgreSQL 18.6 migrations 162/163, SMS legacy backfill and exact reads, quiet-hours save/read and legacy NULL, restricted runtime grants');
+  console.log('PASS: PostgreSQL 18.6 SMS/quiet-hours migrations, SMS legacy backfill and exact reads, quiet-hours save/read and legacy NULL, restricted runtime grants');
 } finally {
   await db.$disconnect();
 }
