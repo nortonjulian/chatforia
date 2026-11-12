@@ -27,10 +27,30 @@ const applicationReleaseDigests = Object.freeze({
   // Retain verification of the archived proposed package from merged PR #325.
   '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045':
     'proposed-not-authorized-for-production',
-  // This activation candidate has no production approval until separately reviewed.
+  // Preserve the approved and archived 56fe release package unchanged.
   'b51ea823ea66f91dd4f5f081bcdb060ce94fcbdf88eddc0d76743699e7ef8a33':
     'approved-for-production',
+  // Preserve the distinct four-row proposal before its source-gate approval.
+  'e574dccdcdde70893704361507afb513ac77ad8887bd4800d51fe5b8f52ebd0e':
+    'proposed-not-authorized-for-production',
+  // Owner-approved source gate for the exact four-row recovered ledger.
+  '6a5b2271c38b110e6380821198d46565e4d6a1f54decffea29c3683a6adf5741':
+    'approved-for-production',
 });
+const recoveredRolledBackRows = Object.freeze([
+  { id: '047afc05-0050-487b-84ec-227f2fa38bb1',
+    name: '20260423035728_add_push_provider_to_device',
+    checksum: '653008ba99c4a20b37e4251639ad1631691b7b75fbd4db999cf6cd569878c3b9' },
+  { id: 'a02e09ba-312d-4a41-9649-b6a6729da10f',
+    name: '20260424200440_add_phone_number_inventory_flags',
+    checksum: 'e39dd6388de788b8d0c4b753a8643e0919104e129b6d79a4ad2da6f1bdd7aa97' },
+  { id: '4e635131-51bf-41a2-bd85-eefd9ee1d25f',
+    name: '20260508220249_add_stripe_webhook_events',
+    checksum: '82dca46c428c86eb14c3912a95bcd585c9a34e2d65565fd1dc26522b38253bed' },
+  { id: '3cba3a9a-c3b5-4d6d-9e1f-28ba5e8016d6',
+    name: '20261102070000_staff_security_foundation',
+    checksum: '717b13a595b54a7c693147f0509caa527637ec3fa81dbc1bd939e6fe4241d662' },
+]);
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
@@ -62,7 +82,10 @@ export function applicationReleaseSpec(files) {
       manifest.status !== reviewedStatus ||
       manifest.basedOnReconciliationManifestSha256 !== reconciliationDigests.v2 ||
       manifest.beforeCount !== 161 || manifest.afterCount !== 164 ||
-      manifest.historicalRolledBackCount !== 3 ||
+      !((manifest.historicalRolledBackCount === 3 &&
+        manifest.historicalRolledBackRows === undefined) ||
+        (manifest.historicalRolledBackCount === 4 &&
+        JSON.stringify(manifest.historicalRolledBackRows) === JSON.stringify(recoveredRolledBackRows))) ||
       manifest.beforeMigrationSetSha256 !== '481107cb70b4df1c90fbd4c60dfc28dba01f1c3930f7fdb7ea79babaac0e2c28' ||
       manifest.afterMigrationSetSha256 !== '21896086d07c00ef8f216a500dcd87f76e10a07d7d028774b90b5db13bdf549b' ||
       JSON.stringify(manifest.requiredExactMigrations) !== JSON.stringify({
@@ -202,9 +225,16 @@ export function checkReconciledHistory(bundle, rows, target, complete = false) {
   // pins the three observed historical attempts and checks active rows exactly.
   const historical = rows.filter((row) => row.rolled_back_at);
   const active = rows.filter((row) => !row.rolled_back_at);
+  const expectedRolledBackCount = application?.historicalRolledBackCount ??
+    manifest.historicalRolledBackCount;
   if ((version === 'v1' && historical.length) ||
-      (version !== 'v1' && (historical.length !== manifest.historicalRolledBackCount ||
+      (version !== 'v1' && (historical.length !== expectedRolledBackCount ||
         historical.some((row) => row.finished_at))) ||
+      (application?.historicalRolledBackRows &&
+        (new Set(historical.map((row) => row.id)).size !== historical.length ||
+          application.historicalRolledBackRows.some((expected) => !historical.some((row) =>
+            row.id === expected.id && row.migration_name === expected.name &&
+            row.checksum === expected.checksum)))) ||
       active.length !== (complete ? (application?.afterCount || manifest.afterStaffCount) :
         (application?.beforeCount || manifest.baselineCount)) ||
       active.some((row) => !row.finished_at ||

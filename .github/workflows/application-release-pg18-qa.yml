@@ -11,6 +11,7 @@ on:
       - 'server/security/applicationMigrationRelease.v3.json'
       - 'server/scripts/application-release-*'
       - 'server/scripts/deploy-systemd-api*'
+      - 'server/scripts/systemd-release-unit*'
       - 'server/scripts/migration-package*'
       - 'server/scripts/deploy-migration-package.mjs'
       - 'server/scripts/staff-migration-161.test.mjs'
@@ -59,7 +60,7 @@ jobs:
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
       - name: Verify manual deployment workflow safety boundaries
-        run: node --test server/scripts/deploy-systemd-api.test.mjs server/scripts/deploy-systemd-api-operator.test.mjs
+        run: node --test server/scripts/deploy-systemd-api.test.mjs server/scripts/deploy-systemd-api-operator.test.mjs server/scripts/systemd-release-unit.test.mjs
       - name: Bootstrap only the fresh disposable database
         env:
           CI_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}

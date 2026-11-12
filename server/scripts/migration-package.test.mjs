@@ -244,17 +244,27 @@ test('zero-after backfill check accepts a variable baseline but rejects an incom
     { legacy: [{ missing_read_receipt: '1' }] }), /After predicate failed/);
 });
 
-test('v3 pins the 161-file approved base and exactly three ordered new migrations', async () => {
+test('v3 preserves the archived 161/3 source gate and pins the approved 161/4 release', async () => {
   const bundle = buildPackage('HEAD');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const v2 = reconciliationPackageSpec(files).manifest;
   assert.equal(release.status, 'approved-for-production');
+  const archivedRecoveryProposal = buildPackage('04e0b96addbe7d1ae63ca556d06d5845b0d8f0d1');
+  assert.equal(applicationReleaseSpec(verifyPackage(archivedRecoveryProposal)).status,
+    'proposed-not-authorized-for-production');
+  const recovery = JSON.parse(readFileSync('server/security/stage5MigrationRecovery.v1.json'));
+  assert.deepEqual(release.historicalRolledBackRows,
+    [...recovery.preexistingRolledBackRows, recovery.failedMigration]);
+  const archivedApproved = buildPackage('56fe5d914231b21608e6ba511daa0088efc501b7');
+  const approvedRelease = applicationReleaseSpec(verifyPackage(archivedApproved));
+  assert.equal(approvedRelease.status, 'approved-for-production');
+  assert.equal(approvedRelease.historicalRolledBackCount, 3);
   const archivedProposal = buildPackage('64904fd76bc487bda6cf2619f5241f2d95cf06e1');
   const archivedFiles = verifyPackage(archivedProposal);
   const priorRelease = applicationReleaseSpec(archivedFiles);
   assert.equal(priorRelease.status, 'proposed-not-authorized-for-production');
-  assert.deepEqual({ ...release, status: priorRelease.status }, priorRelease);
+  assert.deepEqual({ ...approvedRelease, status: priorRelease.status }, priorRelease);
   const tamperedManifest = structuredClone(bundle);
   const tamperedFile = tamperedManifest.files.find((file) => file.path ===
     'server/security/applicationMigrationRelease.v3.json');
@@ -271,8 +281,8 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
     return match ? [{ name: match[1], sha256: file.sha256 }] : [];
   });
   assert.equal(entries.length, 164);
-  const historical = [1, 2, 3].map((id) => ({
-    migration_name: `old_failed_${id}`, checksum: 'e'.repeat(64),
+  const historical = release.historicalRolledBackRows.map((entry) => ({
+    id: entry.id, migration_name: entry.name, checksum: entry.checksum,
     finished_at: null, rolled_back_at: 'now',
   }));
   const row = ({ name, sha256 }) => ({ migration_name: name,
@@ -280,6 +290,11 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
     finished_at: 'now', rolled_back_at: null });
   const before = [...entries.slice(0, 161).map(row), ...historical];
   const after = [...entries.map(row), ...historical];
+  const archivedBefore = [...entries.slice(0, 161).map(row), ...historical.slice(0, 3)];
+  assert.deepEqual(checkReconciledHistory(archivedApproved, archivedBefore,
+    approvedRelease.target), Object.keys(approvedRelease.requiredExactMigrations));
+  assert.throws(() => checkReconciledHistory(archivedApproved, before, approvedRelease.target),
+    /ledger shape changed/);
   assert.deepEqual(checkReconciledHistory(bundle, before, release.target),
     Object.keys(release.requiredExactMigrations));
   assert.deepEqual(checkReconciledHistory(bundle, after, release.target, true), []);
@@ -300,9 +315,17 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
     content: Buffer.from('SELECT 1;').toString('base64'), sha256: digest('SELECT 1;') });
   assert.throws(() => checkReconciledHistory(extra, before, release.target));
   for (const rows of [before.slice(1), [...before, before[0]],
-    before.map((entry) => entry.migration_name === 'old_failed_1'
+    before.map((entry) => entry.id === historical[3].id
       ? { ...entry, finished_at: 'now' } : entry),
-    before.filter((entry) => entry.migration_name !== 'old_failed_1'),
+    before.filter((entry) => entry.id !== historical[3].id),
+    before.map((entry) => entry.id === historical[3].id
+      ? { ...entry, checksum: 'f'.repeat(64) } : entry),
+    before.map((entry) => entry.id === historical[3].id
+      ? { ...entry, migration_name: 'unexpected_rollback' } : entry),
+    before.map((entry) => entry.id === historical[3].id
+      ? { ...entry, id: 'unexpected-id' } : entry),
+    [...before.filter((entry) => entry.id !== historical[3].id),
+      { ...historical[3], id: 'unexpected-id' }],
     [...before, row(entries[161])]])
     assert.throws(() => checkReconciledHistory(bundle, rows, release.target));
   const wrongNewChecksum = structuredClone(after);
@@ -311,7 +334,7 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
   const directory = mkdtempSync(join(tmpdir(), 'application-release-proposed-'));
   try {
     const packagePath = join(directory, 'package.json');
-    const bytes = Buffer.from(JSON.stringify(archivedProposal));
+    const bytes = Buffer.from(JSON.stringify(archivedRecoveryProposal));
     writeFileSync(packagePath, bytes);
     await assert.rejects(deployPackage({ package: packagePath, sha256: digest(bytes) }),
       /production execution is not approved/);

@@ -72,12 +72,11 @@ try {
   for (const [name, pair] of Object.entries(v2.exceptions))
     await db.$executeRawUnsafe('UPDATE public._prisma_migrations SET checksum=$1 WHERE migration_name=$2',
       pair.recordedChecksum, name);
-  for (let i = 0; i < 3; i++)
+  for (const row of release.historicalRolledBackRows)
     await db.$executeRawUnsafe(`INSERT INTO public._prisma_migrations
       (id, checksum, migration_name, started_at, rolled_back_at, applied_steps_count)
       VALUES ($1, $2, $3, now(), now(), 0)`,
-    `00000000-0000-0000-0000-${String(i + 301).padStart(12, '0')}`,
-    'e'.repeat(64), names[i]);
+    row.id, row.checksum, row.name);
   const pending = Object.keys(release.requiredExactMigrations);
   const checks = checksForPending(files, pending);
   const before = await aggregateChecks(db, checks);
@@ -119,7 +118,7 @@ try {
     dispatchVoicemailEmailOnce({ db, send })]);
   assert.equal(sends, 1);
   assert.equal((await db.voicemailEmailDelivery.findUnique({ where: { voicemailId } })).status, 'SENT');
-  console.log('PASS: disposable PG18 v2-to-v3 161/164 history, three checksums, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
+  console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {
   await db.$disconnect();
   rmSync(root, { recursive: true, force: true });
