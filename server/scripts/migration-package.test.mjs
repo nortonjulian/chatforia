@@ -250,6 +250,9 @@ test('v3 preserves the archived 161/3 source gate and pins a separate 161/4 prop
   const release = applicationReleaseSpec(files);
   const v2 = reconciliationPackageSpec(files).manifest;
   assert.equal(release.status, 'proposed-not-authorized-for-production');
+  const recovery = JSON.parse(readFileSync('server/security/stage5MigrationRecovery.v1.json'));
+  assert.deepEqual(release.historicalRolledBackRows,
+    [...recovery.preexistingRolledBackRows, recovery.failedMigration]);
   const archivedApproved = buildPackage('56fe5d914231b21608e6ba511daa0088efc501b7');
   const approvedRelease = applicationReleaseSpec(verifyPackage(archivedApproved));
   assert.equal(approvedRelease.status, 'approved-for-production');
