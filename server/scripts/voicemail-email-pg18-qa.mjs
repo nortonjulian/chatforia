@@ -20,7 +20,7 @@ const makeVoicemail = async (id, userId) => db.voicemail.create({
   },
 });
 const makeDelivery = async (id, userId) => db.voicemailEmailDelivery.create({
-  data: { voicemailId: id, userId, recipient: 'owner@example.test' },
+  data: { voicemailId: id, userId, recipient: 'owner@example.test', nextAttemptAt: new Date(0) },
 });
 
 try {
@@ -66,6 +66,7 @@ try {
   let failureClock = new Date(Date.now());
   for (let attempt = 0; attempt < 5; attempt += 1) {
     await dispatchVoicemailEmailOnce({ db, now: () => failureClock, send: async () => false });
+    assert.equal((await db.voicemailEmailDelivery.findUnique({ where: { voicemailId: failed } })).attempts, attempt + 1);
     failureClock = new Date(failureClock.getTime() + 2 * 60 * 60 * 1000);
   }
   const exhausted = await db.voicemailEmailDelivery.findUnique({ where: { voicemailId: failed } });
