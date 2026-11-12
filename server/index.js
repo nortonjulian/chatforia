@@ -9,6 +9,7 @@ import validateEnv from './config/validateEnv.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
 import { initCrons, stopCrons } from './cron/index.js';
 import { scheduleExpireJob } from './jobs/expireMessagesJob.js';
+import { startVoicemailEmailDispatcher } from './jobs/voicemailEmailDispatcher.js';
 import { startNumberLifecycleJob } from './jobs/numberLifecycle.js';
 import { assertStaffRuntimeReady } from './security/staffRuntimeReadiness.js';
 import { setSocketIo, setHelpers } from './services/socketBus.js';
@@ -108,6 +109,8 @@ if (ENV.IS_TEST) {
   } catch (e) {
     logger.warn({ err: e }, 'Failed to start number lifecycle jobs');
   }
+
+  const voicemailEmailDispatcher = startVoicemailEmailDispatcher();
 
   // ----------------------------
   // Wire up Socket.IO and register helpers for socketBus
@@ -219,6 +222,8 @@ if (ENV.IS_TEST) {
   // Graceful shutdown
   async function shutdown(sig) {
     logger.warn({ sig }, 'Shutting down...');
+
+    voicemailEmailDispatcher.stop();
 
     // Stop expire job first so no new expire work starts
     try {
