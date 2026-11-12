@@ -7,7 +7,7 @@ import { test } from 'node:test';
 
 import { buildPackage, checkHistory, checkReconciledHistory, checksForPending, digest,
   readPackage, reconciliationPackageSpec, applicationReleaseSpec, verifyPackage } from './migration-package.mjs';
-import { aggregateChecks, assertChecks, assertPackageDatasource } from './deploy-migration-package.mjs';
+import { aggregateChecks, assertChecks, assertPackageDatasource, deployPackage } from './deploy-migration-package.mjs';
 
 test('package datasource guard ignores comments but rejects extra declarations', () => {
   const schema = readFileSync(new URL('../prisma/schema.prisma', import.meta.url), 'utf8');
@@ -244,7 +244,7 @@ test('zero-after backfill check accepts a variable baseline but rejects an incom
     { legacy: [{ missing_read_receipt: '1' }] }), /After predicate failed/);
 });
 
-test('v3 pins the 161-file approved base and exactly three ordered new migrations', () => {
+test('v3 pins the 161-file approved base and exactly three ordered new migrations', async () => {
   const bundle = buildPackage('HEAD');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
@@ -293,4 +293,12 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
   const wrongNewChecksum = structuredClone(after);
   wrongNewChecksum.find((entry) => entry.migration_name === entries.at(-1).name).checksum = 'f'.repeat(64);
   assert.throws(() => checkReconciledHistory(bundle, wrongNewChecksum, release.target, true));
+  const directory = mkdtempSync(join(tmpdir(), 'application-release-proposed-'));
+  try {
+    const packagePath = join(directory, 'package.json');
+    const bytes = Buffer.from(JSON.stringify(bundle));
+    writeFileSync(packagePath, bytes);
+    await assert.rejects(deployPackage({ package: packagePath, sha256: digest(bytes) }),
+      /production execution is not approved/);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
 });

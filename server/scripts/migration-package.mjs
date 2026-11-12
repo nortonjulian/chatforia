@@ -70,7 +70,7 @@ export function buildPackage(ref, cwd = process.cwd()) {
   const git = (...args) => execFileSync('git', args, { cwd, maxBuffer: 32 * 1024 * 1024 });
   const commit = git('rev-parse', '--verify', `${ref}^{commit}`).toString().trim();
   const entries = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json',
-    ...new Set([...reconciliationPaths, ...reconciliationPathsV2]))
+    ...new Set([...reconciliationPaths, ...reconciliationPathsV2, applicationReleasePath]))
     .toString().split('\0').filter(Boolean);
   const hasConsent = entries.some((entry) => entry.split('\t')[1] ===
     `server/prisma/migrations/${consentMigration}/migration.sql`);

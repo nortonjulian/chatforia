@@ -29,11 +29,17 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         (phase === 'runtime' && identity.role !== 'chatforia_dev') ||
         (phase !== 'runtime' && identity.role === 'chatforia_dev'))
       throw new Error('Application release database or role mismatch');
-    const rows = await tx.$queryRawUnsafe(`SELECT migration_name, checksum, finished_at, rolled_back_at
-      FROM public._prisma_migrations ORDER BY migration_name, started_at, id`);
-    const pending = checkReconciledHistory(bundle, rows, release.target, phase !== 'before');
-    if (phase === 'before' && pending.length !== 3)
-      throw new Error('Application release pending migration set changed');
+    let pending = [];
+    // The restricted API role has no migration-ledger grant. The separately
+    // held DBA executor verifies exact history in before/after preflight;
+    // runtime verifies only its own post-migration catalog capabilities.
+    if (phase !== 'runtime') {
+      const rows = await tx.$queryRawUnsafe(`SELECT migration_name, checksum, finished_at, rolled_back_at
+        FROM public._prisma_migrations ORDER BY migration_name, started_at, id`);
+      pending = checkReconciledHistory(bundle, rows, release.target, phase === 'after');
+      if (phase === 'before' && pending.length !== 3)
+        throw new Error('Application release pending migration set changed');
+    }
     if (phase !== 'before') {
       const [grants] = await tx.$queryRawUnsafe(`SELECT
         has_table_privilege('chatforia_dev','public."VoicemailEmailDelivery"','SELECT') AS outbox_select,

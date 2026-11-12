@@ -390,6 +390,26 @@ ROLLBACK;`;
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${sha(readFileSync(`server/prisma/migrations/${consentName}/migration.sql`))} WHERE migration_name=${consentName}`;
   console.log('PASS: exact consent migration and 161-file ledger pass on disposable PostgreSQL 18');
 
+  // Keep the historical v2 checks above on exactly 161 migrations. The staff
+  // route checks below use this checkout's generated Prisma client, so apply
+  // the separately pinned application additions before exercising that client.
+  for (const name of [
+    '20261109010000_sms_message_read_receipts',
+    '20261110010000_forwarding_quiet_hours_time_zone',
+    '20261111010000_voicemail_email_delivery_outbox',
+  ]) {
+    const directory = join(prismaDir, 'migrations', name);
+    mkdirSync(directory, { mode: 0o700 });
+    copyFileSync(`server/prisma/migrations/${name}/migration.sql`, join(directory, 'migration.sql'));
+  }
+  execFileSync(process.execPath, [resolve('node_modules/prisma/build/index.js'), 'migrate', 'deploy',
+    '--schema', join(prismaDir, 'schema.prisma')], {
+    cwd: prismaDir,
+    env: { PATH: process.env.PATH, LC_ALL: 'C', DATABASE_URL: url,
+      PRISMA_HIDE_UPDATE_MESSAGE: 'true', CHECKPOINT_DISABLE: '1' },
+    stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 8 * 1024 * 1024,
+  });
+
   // The live cleanup timers share the API's DATABASE_URL. Verify their token
   // cleanup shape under the restricted role without running provider jobs.
   const runtimePassword = randomBytes(24).toString('hex');
