@@ -34,7 +34,7 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
     // held DBA executor verifies exact history in before/after preflight;
     // runtime verifies only its own post-migration catalog capabilities.
     if (phase !== 'runtime') {
-      const rows = await tx.$queryRawUnsafe(`SELECT migration_name, checksum, finished_at, rolled_back_at
+      const rows = await tx.$queryRawUnsafe(`SELECT id, migration_name, checksum, finished_at, rolled_back_at
         FROM public._prisma_migrations ORDER BY migration_name, started_at, id`);
       pending = checkReconciledHistory(bundle, rows, release.target, phase === 'after');
       if (phase === 'before' && pending.length !== 3)
