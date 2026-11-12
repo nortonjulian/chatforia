@@ -1,9 +1,12 @@
 # Combined SMS, quiet-hours, and voicemail application release
 
-This is a **proposed** release assembled from draft PRs #323 and #324 on main
-`dbf5887ebf64d87a649a8a033e5b66b1539b7b7e`. It does not change the
-completed staff-security cutover or its archived 160/161-migration packages.
-The exact integration commit must be reviewed again after either PR changes.
+PR #325 merged the code from #323 and #324 into main at
+`64904fd76bc487bda6cf2619f5241f2d95cf06e1`. This separate draft branch
+proposes changing only the v3 manifest status from proposed to approved and
+pinning both exact manifest checksums in the package builder. **The owner has
+not approved this v3 production release or its execution. Do not merge this
+status revision until that decision is recorded.** The completed staff-security
+cutover and archived 160/161-migration packages remain unchanged.
 
 ## Pinned migration boundary
 
@@ -19,11 +22,24 @@ three later migrations, for **164 total**:
 
 The complete 164-file set digest is
 `21896086d07c00ef8f216a500dcd87f76e10a07d7d028774b90b5db13bdf549b`.
-The separate v3 manifest remains `proposed-not-authorized-for-production`.
+Main at the #325 merge retains `proposed-not-authorized-for-production`.
+This draft status revision would set `approved-for-production` only after a
+separate owner decision and review. The archived proposed manifest digest is
+`8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045`;
+the exact approved-status candidate digest is
+`b51ea823ea66f91dd4f5f081bcdb060ce94fcbdf88eddc0d76743699e7ef8a33`.
+Both are separately pinned; only the latter could open the production gate.
 The old v1 and v2 manifests and checksum exceptions remain pinned. The new
 history checker requires the completed 161-file v2 ledger, its three historical
 rolled-back attempts, and the same four previously accepted checksum pairs;
 it rejects any missing, extra, altered, or prematurely applied new migration.
+Those four pairs concern `20260726034500_add_wireless_refund_audit`,
+`20260806030000_add_pstn_reporting_and_blocking`,
+`20260807010000_add_sandbox_apns_tokens`, and
+`20261013_add_esim_replacement_audit`. Their original applied SQL remains
+unavailable; the accepted v2 reconciliation compares the exact recorded and
+available checksums without claiming the unavailable SQL was recovered.
+The v3 decision carries that residual historical uncertainty forward.
 
 The package review includes unchanged User/SMS/voicemail counts, a zero-after
 predicate for legacy incoming SMS rows that should receive `readAt`, and the
@@ -35,16 +51,18 @@ The outbox uses a string key, so it adds no sequence permission.
 
 ## Order and activation gates
 
-1. Review both PR heads and this integration diff. Merge and archive only after
-   the separately pinned package and all affected PR checks pass. Rebuild the
-   package from the resulting full main commit, verify its SHA-256 against
-   independently reviewed bytes, and retain it separately from earlier packages.
-2. Obtain explicit owner approval for this **v3** migration set, production
-   preflight, schema execution, and API deployment as separate decisions. The
+1. Review the merged #325 main tree and this separate status/checksum diff.
+   Merge the status revision only after explicit v3 source-gate approval and
+   passing checks. Rebuild the package from that resulting full main commit,
+   verify its SHA-256 against independently reviewed bytes, and retain it
+   separately from earlier packages.
+2. Obtain explicit owner approval for this **v3** migration set and status
+   revision; production preflight, schema execution, and API deployment remain
+   separate decisions. The
    prior v2 approval does not approve any of these three new migrations. The
-   current manifest and its pinned SHA-256 are deliberately **proposed**; an
-   approval requires a separately reviewed status/checksum revision, a new
-   commit-bound package, and passing CI before the production runner can open.
+   main manifest remains **proposed** until this draft status/checksum revision
+   receives that approval, passes CI, and merges. Build a new commit-bound
+   package after the resulting main commit; the #325 package cannot open this gate.
 3. Under an approved change window, take and verify the new release backup and
    target ledger/aggregate preflight using the privileged migration executor.
    Apply the three SQL files using the reviewed package runner, never the
@@ -127,8 +145,8 @@ host-key checking, the explicit privileged SSH key, and the root login needed
 to inspect systemd and stage code. The API still runs as `chatforia-api`.
 The host script repeats current-main and package checks before any service
 stop. If the protected run, package, checkout, pin, or admitted operator source
-cannot be confirmed, stop. Do not execute under the present proposed v3 status
-or without separate production deployment authorization.
+cannot be confirmed, stop. Do not execute while this candidate remains
+unapproved or without separate production deployment authorization.
 
 ## Stop and recovery boundaries
 

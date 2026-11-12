@@ -23,7 +23,14 @@ const consentMigration = '20261106010000_twilio_compliance_event_sid';
 const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a';
 const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
-const applicationReleaseSha256 = '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045';
+const applicationReleaseDigests = Object.freeze({
+  // Retain verification of the archived proposed package from merged PR #325.
+  '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045':
+    'proposed-not-authorized-for-production',
+  // This activation candidate has no production approval until separately reviewed.
+  'b51ea823ea66f91dd4f5f081bcdb060ce94fcbdf88eddc0d76743699e7ef8a33':
+    'approved-for-production',
+});
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
@@ -48,11 +55,11 @@ export function reconciliationPackageSpec(files) {
 
 export function applicationReleaseSpec(files) {
   if (!files.has(applicationReleasePath)) return null;
-  if (digest(files.get(applicationReleasePath)) !== applicationReleaseSha256)
-    throw new Error('Unreviewed application release manifest');
+  const reviewedStatus = applicationReleaseDigests[digest(files.get(applicationReleasePath))];
+  if (!reviewedStatus) throw new Error('Unreviewed application release manifest');
   const manifest = JSON.parse(files.get(applicationReleasePath));
   if (manifest.id !== 'chatforia-sms-quiet-voicemail-20261111-v3' ||
-      manifest.status !== 'proposed-not-authorized-for-production' ||
+      manifest.status !== reviewedStatus ||
       manifest.basedOnReconciliationManifestSha256 !== reconciliationDigests.v2 ||
       manifest.beforeCount !== 161 || manifest.afterCount !== 164 ||
       manifest.historicalRolledBackCount !== 3 ||
