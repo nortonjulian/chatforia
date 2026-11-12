@@ -16,6 +16,8 @@ test('protected workflow verifies exact current main and package without product
   assert.match(workflow, /test "\$\(git rev-parse HEAD\)" = "\$RELEASE_COMMIT"/);
   assert.match(workflow, /migration-package\.mjs "\$RELEASE_COMMIT"/);
   assert.match(workflow, /sha256sum \/tmp\/chatforia-api-package\.json/);
+  assert.match(workflow, /actions\/upload-artifact@v4/);
+  assert.match(workflow, /chatforia-api-operator-handoff/);
   assert.doesNotMatch(workflow, /secrets\.|ssh-keyscan|^\s*ssh\s|systemctl|rsync/mi);
   assert.match(workflow, /No production connection or deployment occurred/);
   for (const forbidden of [/prisma migrate/, /pm2 reload/, /git reset/, /git clean/])
@@ -35,6 +37,9 @@ test('restricted schema and staff preflights precede stopping the systemd API', 
   assert.ok(script.indexOf('staff-deployment-preflight.mjs') < script.indexOf('systemctl stop'));
   assert.ok(script.indexOf('systemctl stop') < script.indexOf('systemctl start'));
   assert.match(script, /test "\$\(git rev-parse origin\/main\)" = "\$commit"/);
+  assert.ok(script.lastIndexOf('git fetch --no-tags origin main') > script.indexOf('staff-deployment-preflight.mjs'));
+  assert.ok(script.lastIndexOf('test "$(git rev-parse origin/main)" = "$commit"') < script.indexOf('systemctl stop'));
+  assert.ok(script.lastIndexOf('test "$(git rev-parse origin/main)" = "$commit"') > script.indexOf('staff-deployment-preflight.mjs'));
   assert.match(script, /npm ci --no-audit --no-fund/);
   assert.match(script, /npx prisma generate[\s\S]*chgrp -R chatforia-api "\$stage\/source"[\s\S]*chmod -R g\+rX "\$stage\/source"[\s\S]*application-release-preflight\.mjs/);
   assert.match(script, /git ls-files -z -- server/);

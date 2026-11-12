@@ -70,6 +70,11 @@ systemd-run --unit=chatforia-staff-runtime-check --wait --collect --pipe \
   -E NODE_ENV=production -E DOTENV_CONFIG_PATH=/dev/null \
   /usr/bin/node "$stage/source/server/scripts/staff-deployment-preflight.mjs" --runtime
 
+# The current main tip may have changed during staging or restricted preflights.
+# Do not stop a healthy service to activate a superseded commit.
+git fetch --no-tags origin main
+test "$(git rev-parse origin/main)" = "$commit"
+
 # A failure after stop leaves the service stopped for operator recovery; never
 # revive PM2 or run an unreviewed migration/automatic downgrade.
 systemctl stop "$unit"

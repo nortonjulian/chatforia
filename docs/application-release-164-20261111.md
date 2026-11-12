@@ -55,8 +55,9 @@ The outbox uses a string key, so it adds no sequence permission.
    pass. The manual backend GitHub job is now a **verification-only operator
    handoff**: the protected `production-api` environment gates a check of the
    exact current main SHA, approved v3 manifest, and independently reviewed
-   package checksum. It makes no production connection, uses no deployment
-   secrets, and never performs deployment. The owner reports this environment
+   package checksum. It archives a small nonsecret JSON handoff receipt only
+   after those checks pass. It makes no production connection, uses no
+   deployment secrets, and never performs deployment. The owner reports this environment
    has a required reviewer and main-only branch policy; self-review is allowed.
    Its approval permits this verification job only. A separate explicit owner
    decision is required before the operator executes the host script.
@@ -74,12 +75,15 @@ The outbox uses a string key, so it adds no sequence permission.
    broaden SSH ingress or install a runner on the production host.
 
    After the protected handoff succeeds and **separate deployment approval**
-   is recorded, the operator fetches main, verifies its exact reviewed SHA,
-   and streams `server/scripts/deploy-systemd-api.sh` from that immutable Git
-   commit over strict SSH. Pass the same approved commit and package digest as
-   arguments. The host script independently fetches current main, rebuilds
-   and checks the package digest, verifies the restricted unit, and runs
-   read-only preflights before stopping it. It uses `npm ci`, the restricted
+   is recorded, the operator downloads its handoff receipt and invokes the
+   reviewed Mac-side helper. It verifies the archived package against the
+   handoff digest, exact current main and checked-out commit, and its own
+   reviewed source before streaming the immutable host script over strict
+   SSH with the same commit and digest. The host script independently fetches
+   current main, rebuilds and checks the package digest, verifies the
+   restricted unit, and runs read-only preflights. It fetches main again
+   immediately before service stop, rejecting an intervening main change.
+   It uses `npm ci`, the restricted
    `chatforia-api` OS identity, the root-owned runtime EnvironmentFile,
    systemd preflights after installation, and narrow read access to tracked
    server files and dependencies without opening ignored secrets or uploads.
@@ -100,26 +104,31 @@ for a stronger guarantee.
 
 ## Operator-source command boundary (future approved execution only)
 
-Use a clean local checkout on the existing allowed operator source. Privately
-select the direct API SSH host, the previously verified root login key, and its
-strict known-host file. Confirm the successful protected handoff run records
-the same full main commit and independently checked package digest, and that
-the archived release package has that digest. In Bash with `pipefail` enabled,
-fetch main, require `git rev-parse origin/main` to equal that commit, then
-stream only `git show COMMIT:server/scripts/deploy-systemd-api.sh` to:
+Download `chatforia-api-operator-handoff` only from a completed **successful**
+protected workflow run. Independently confirm its run ID/attempt, reviewed full
+main commit, and package digest in GitHub before using the JSON file. The
+receipt is a handoff record, not a production approval. On the existing
+firewall-allowed operator Mac, use a clean checkout at that exact main commit,
+the independently checked archived package, the direct API host, the verified
+root login key, and its strict pinned known-host file. After a separate owner
+deployment approval, run the reviewed helper from that checkout:
 
-```text
-ssh -i OPERATOR_KEY -o IdentitiesOnly=yes -o BatchMode=yes \
-  -o StrictHostKeyChecking=yes -o UserKnownHostsFile=PINNED_KNOWN_HOSTS \
-  root@DIRECT_API_SSH_HOST bash -se -- COMMIT PACKAGE_SHA256
+```bash
+API_DO_OPERATOR_KNOWN_HOSTS='PINNED_KNOWN_HOSTS' \
+  bash server/scripts/deploy-systemd-api-operator.sh \
+  DOWNLOADED_HANDOFF_JSON VERIFIED_PACKAGE_JSON CLEAN_CHECKOUT \
+  DIRECT_API_SSH_HOST OPERATOR_KEY
 ```
 
-The source is the exact reviewed Git object, not a mutable local script.
-`pipefail` makes a failed Git read fail the operator command. The host script
-repeats the current-main and package checks before any service stop. Do not
-execute this template under the present proposed v3 status or without the
-separate production deployment authorization. If the operator source is no
-longer admitted by the existing firewall, stop and review transport separately.
+The helper binds the command to the downloaded handoff commit and digest,
+checks the local package, confirms main is still at that commit, and compares
+its own bytes with the reviewed Git object. It uses `pipefail`, strict pinned
+host-key checking, the explicit privileged SSH key, and the root login needed
+to inspect systemd and stage code. The API still runs as `chatforia-api`.
+The host script repeats current-main and package checks before any service
+stop. If the protected run, package, checkout, pin, or admitted operator source
+cannot be confirmed, stop. Do not execute under the present proposed v3 status
+or without separate production deployment authorization.
 
 ## Stop and recovery boundaries
 
