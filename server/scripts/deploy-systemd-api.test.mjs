@@ -42,9 +42,14 @@ test('restricted schema and staff preflights precede stopping the systemd API', 
   assert.ok(script.lastIndexOf('test "$(git rev-parse origin/main)" = "$commit"') > script.indexOf('staff-deployment-preflight.mjs'));
   assert.match(script, /npm ci --no-audit --no-fund/);
   assert.match(script, /chatforia-api-releases/);
+  assert.match(script, /realpath "\$active_server"/);
   assert.match(script, /git worktree add --detach "\$release\/app" "\$commit"/);
+  assert.match(script, /git -C "\$release\/app" status --porcelain --untracked-files=no/);
+  assert.match(script, /ls-files --stage -- server/);
   assert.match(script, /npx prisma generate[\s\S]*chgrp -R chatforia-api "\$release\/app"[\s\S]*chmod -R g\+rX "\$release\/app"[\s\S]*application-release-preflight\.mjs/);
-  assert.match(script, /for name in uploads tmp_uploads; do[\s\S]*ln -s -- "\$target" "\$new_server\/\$name"/);
+  assert.match(script, /for name in uploads tmp_uploads; do[\s\S]*ln -s -- "\$target" "\$staged"/);
+  assert.match(script, /staged="\$new_server\/\$name"[\s\S]*rm -rf -- "\$staged"/);
+  assert.doesNotMatch(script, /rm -rf -- "\$target"/);
   assert.match(script, /systemd-release-unit\.mjs/);
   assert.match(script, /systemctl show -P FragmentPath/);
   assert.match(script, /systemctl show -P DropInPaths/);

@@ -14,6 +14,7 @@ unit=chatforia-api.service
 unit_file=/etc/systemd/system/chatforia-api.service
 active_server=$(systemctl show -P WorkingDirectory "$unit")
 [[ "$active_server" =~ ^/var/www/chatforia-api-releases/[0-9a-f]{40}/app/server$ ]] || exit 1
+test "$(realpath "$active_server")" = "$active_server"
 [[ "$(systemctl show -P ExecStart "$unit")" == *"/usr/bin/node $active_server/bootstrap.js"* ]] || exit 1
 test "$(systemctl show -P FragmentPath "$unit")" = "$unit_file"
 test -z "$(systemctl show -P DropInPaths "$unit")"
@@ -48,6 +49,12 @@ mkdir -m 0755 -- "$release"
 before_stop=true
 cleanup() {
   if "$before_stop"; then
+    for name in uploads tmp_uploads; do
+      link="$new_server/$name"
+      if test -L "$link" && test "$(readlink "$link")" = "$checkout/server/$name"; then
+        rm -- "$link"
+      fi
+    done
     git worktree remove --force "$release/app" 2>/dev/null || true
     rm -f -- "$release/package.json" "$release/previous-unit.service" "$release/next-unit.service"
     rmdir -- "$release" 2>/dev/null || true
@@ -55,6 +62,11 @@ cleanup() {
 }
 trap cleanup EXIT
 git worktree add --detach "$release/app" "$commit"
+test "$(git -C "$release/app" rev-parse HEAD)" = "$commit"
+if git -C "$release/app" ls-files --stage -- server | grep '^120000 ' > /dev/null; then
+  echo 'Tracked server symlink requires separate review' >&2
+  exit 1
+fi
 chgrp -R chatforia-api "$release/app"
 chmod -R g+rX "$release/app"
 (
@@ -63,6 +75,7 @@ chmod -R g+rX "$release/app"
   npx prisma generate --schema=server/prisma/schema.prisma
   node server/scripts/migration-package.mjs "$commit" "$release/package.json"
 )
+test -z "$(git -C "$release/app" status --porcelain --untracked-files=no)"
 # npm ci and Prisma generation create files after the initial permission pass.
 # The restricted preflight process must be able to read those exact staged bytes.
 chgrp -R chatforia-api "$release/app"
@@ -73,14 +86,29 @@ chmod 640 "$release/package.json"
 
 # The active c103 release links these two write roots to the persistent,
 # restricted upload directories. Preserve them without copying or changing
-# existing files, and reject a changed target before installing the new unit.
+# existing files. A Git worktree includes repository-tracked upload fixtures;
+# remove only those copies inside this new inactive release before linking.
 for name in uploads tmp_uploads; do
   target="$checkout/server/$name"
+  staged="$new_server/$name"
   test -d "$target" && test ! -L "$target"
   test "$(stat -c '%U:%G' "$target")" = 'chatforia-api:chatforia-api'
-  test ! -e "$new_server/$name" && test ! -L "$new_server/$name"
-  ln -s -- "$target" "$new_server/$name"
+  if test -e "$staged"; then
+    test -d "$staged" && test ! -L "$staged"
+    test "$(realpath "$staged")" = "$staged"
+    rm -rf -- "$staged"
+  fi
+  test ! -e "$staged" && test ! -L "$staged"
+  ln -s -- "$target" "$staged"
 done
+# The intentional removal of packaged upload fixtures is the only tracked
+# difference allowed in the staged source. Runtime data stays in the existing
+# persistent upload roots, and every other committed file remains exact.
+changed=$(git -C "$release/app" diff --name-only HEAD -- .)
+if printf '%s' "$changed" | grep -Ev '^server/(uploads|tmp_uploads)/' > /dev/null; then
+  echo 'Staged source changed outside persistent upload paths' >&2
+  exit 1
+fi
 
 # Retain the exact prior unit for a separately approved recovery. Generate a
 # candidate that changes only WorkingDirectory and ExecStart; no unit writes
@@ -118,6 +146,7 @@ before_stop=false
 systemctl stop "$unit"
 next_unit=$(mktemp /etc/systemd/system/.chatforia-api.service.XXXXXX)
 install -o root -g root -m 0644 "$release/next-unit.service" "$next_unit"
+cmp -s "$unit_file" "$release/previous-unit.service"
 mv -T -- "$next_unit" "$unit_file"
 systemctl daemon-reload
 test "$(systemctl show -P WorkingDirectory "$unit")" = "$new_server"

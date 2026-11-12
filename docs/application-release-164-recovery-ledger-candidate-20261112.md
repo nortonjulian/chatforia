@@ -58,8 +58,11 @@ The read-only runtime inspection also found the active service running as
 The reviewed host deployment script currently requires its working directory
 to be `/var/www/chatforia-api/server`. The proposed host script now stages
 the reviewed commit in a new sibling release directory, preserves the current
-c103 directory, and links only the two existing persistent upload roots. It
-copies the exact current unit for recovery, then generates a candidate unit
+c103 directory, and links only the two existing persistent upload roots. The
+repository-tracked upload fixtures are removed only from the new inactive
+stage before those links are made; the existing upload directories are never
+removed or copied. The script copies the exact current unit for recovery, then
+generates a candidate unit
 whose only changed directives are `WorkingDirectory` and `ExecStart`. The
 reviewed restricted identity, root-owned runtime EnvironmentFile, hardening,
 restart policy, and startup command remain unchanged. All package, staff, and
