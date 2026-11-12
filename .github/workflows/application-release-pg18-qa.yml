@@ -6,9 +6,11 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/application-release-pg18-qa.yml'
+      - '.github/workflows/deploy-backend.yml'
       - 'server/prisma/**'
       - 'server/security/applicationMigrationRelease.v3.json'
       - 'server/scripts/application-release-*'
+      - 'server/scripts/deploy-systemd-api*'
       - 'server/scripts/migration-package*'
       - 'server/scripts/deploy-migration-package.mjs'
       - 'server/scripts/staff-migration-161.test.mjs'

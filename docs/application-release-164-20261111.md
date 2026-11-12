@@ -41,7 +41,10 @@ The outbox uses a string key, so it adds no sequence permission.
    independently reviewed bytes, and retain it separately from earlier packages.
 2. Obtain explicit owner approval for this **v3** migration set, production
    preflight, schema execution, and API deployment as separate decisions. The
-   prior v2 approval does not approve any of these three new migrations.
+   prior v2 approval does not approve any of these three new migrations. The
+   current manifest and its pinned SHA-256 are deliberately **proposed**; an
+   approval requires a separately reviewed status/checksum revision, a new
+   commit-bound package, and passing CI before the production runner can open.
 3. Under an approved change window, take and verify the new release backup and
    target ledger/aggregate preflight using the privileged migration executor.
    Apply the three SQL files using the reviewed package runner, never the
@@ -53,10 +56,20 @@ The outbox uses a string key, so it adds no sequence permission.
    checksum, an approved v3 manifest, a protected `production-api` environment,
    pinned `API_DO_SSH_KNOWN_HOSTS`, and existing SSH identity/host/user secrets.
    It uses `npm ci`, the restricted `chatforia-api` OS identity, the root-owned
-   runtime EnvironmentFile, systemd runtime preflights, and
+   runtime EnvironmentFile, systemd runtime preflights before stop and after
+   installation, and narrow read access to tracked server files and installed
+   dependencies without opening ignored secrets or upload trees. It uses
    `chatforia-api.service`. It does not run SQL, use PM2, reset or clean the
    checkout, or change credentials. If installation fails after service stop,
    leave the service stopped and follow the reviewed operator recovery procedure.
+   Before any dispatch, independently confirm GitHub Settings → Environments
+   contains `production-api` with required reviewer protection and a main-only
+   deployment branch rule. Merely naming an absent environment in a workflow
+   can create it without those rules. Confirm the four required SSH secret
+   names are configured, including a privileged deployment-only SSH identity;
+   compare the pinned known-host key fingerprint with a
+   trusted host record without printing the key or secret values. Repository
+   API access for this review did not expose those settings.
 5. The voicemail dispatcher starts with the API, scans persisted due rows
    immediately, and recovers expired leases after restart. Do not start a new
    API worker against the pre-164 schema. Monitor PENDING, PROCESSING, FAILED,
@@ -68,6 +81,27 @@ ambiguous: lease recovery can send the same email again. An in-flight provider
 call longer than its five-minute lease can overlap another claim. This is
 at-least-once, not exactly-once delivery; provider idempotency would be needed
 for a stronger guarantee.
+
+## Stop and recovery boundaries
+
+Before migration SQL, a failed preflight leaves the schema unchanged. Keep
+the approved traffic/writer fence until the operator confirms the previous
+service and schema are compatible and separately authorizes reopening. Once
+any migration SQL begins, a failed or partial attempt requires a privileged
+read-only comparison of the package receipt, migration ledger, schema, and
+preservation aggregates. Do not relabel failed ledger entries, run an
+unreviewed down migration, or restart the old API merely because it still
+starts. Resume forward only from a separately reviewed repair plan, or restore
+the whole database from the verified backup under a separate recovery approval;
+that restore may discard writes accepted after its recovery point.
+
+If all 164 migrations pass but code installation or startup fails, keep the
+listener stopped and traffic fenced. Inspect the systemd journal and final
+runtime preflight, repair the compatible API forward, or use an expressly
+reviewed code rollback only after proving it works with the 164-file schema.
+Review any PROCESSING/FAILED voicemail outbox rows and the possibility of
+duplicate mail before restarting workers. The manual workflow never performs
+an automatic database or application rollback.
 
 ## Post-deployment checks still required
 
