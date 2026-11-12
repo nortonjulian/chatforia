@@ -249,7 +249,22 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const v2 = reconciliationPackageSpec(files).manifest;
-  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.status, 'approved-for-production');
+  const archivedProposal = buildPackage('64904fd76bc487bda6cf2619f5241f2d95cf06e1');
+  const archivedFiles = verifyPackage(archivedProposal);
+  const priorRelease = applicationReleaseSpec(archivedFiles);
+  assert.equal(priorRelease.status, 'proposed-not-authorized-for-production');
+  assert.deepEqual({ ...release, status: priorRelease.status }, priorRelease);
+  const tamperedManifest = structuredClone(bundle);
+  const tamperedFile = tamperedManifest.files.find((file) => file.path ===
+    'server/security/applicationMigrationRelease.v3.json');
+  const original = Buffer.from(tamperedFile.content, 'base64').toString();
+  const changed = original.replace('"afterCount": 164', '"afterCount": 165');
+  assert.notEqual(changed, original);
+  tamperedFile.content = Buffer.from(changed).toString('base64');
+  tamperedFile.sha256 = digest(changed);
+  assert.throws(() => applicationReleaseSpec(verifyPackage(tamperedManifest)),
+    /Unreviewed application release manifest/);
   const migration = /^server\/prisma\/migrations\/([^/]+)\/migration\.sql$/;
   const entries = bundle.files.flatMap((file) => {
     const match = file.path.match(migration);
@@ -296,7 +311,7 @@ test('v3 pins the 161-file approved base and exactly three ordered new migration
   const directory = mkdtempSync(join(tmpdir(), 'application-release-proposed-'));
   try {
     const packagePath = join(directory, 'package.json');
-    const bytes = Buffer.from(JSON.stringify(bundle));
+    const bytes = Buffer.from(JSON.stringify(archivedProposal));
     writeFileSync(packagePath, bytes);
     await assert.rejects(deployPackage({ package: packagePath, sha256: digest(bytes) }),
       /production execution is not approved/);
