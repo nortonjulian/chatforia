@@ -11,6 +11,7 @@ import { recordTwilioConsentAction } from '../services/twilioConsent.js';
 import { sendSms } from '../lib/telco/index.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendMail, isEmailAvailable } from '../utils/sendMail.js';
+import { inQuietHours } from '../utils/forwardingQuietHours.js';
 
 const router = express.Router();
 
@@ -19,14 +20,6 @@ function emptyTwilioResponse(res) {
     .type('text/xml')
     .status(200)
     .send('<Response></Response>');
-}
-
-/** Quiet-hours helper */
-function inQuietHours(start, end, now = new Date()) {
-  if (start == null || end == null) return false;
-  const h = now.getHours();
-  // 22->06 spans midnight, handle both shapes
-  return (start < end && h >= start && h < end) || (start > end && (h >= start || h < end));
 }
 
 /** Should we skip forwarding (loop guard)? */
@@ -285,6 +278,7 @@ router.post(
             forwardEmail: true,
             forwardQuietHoursStart: true,
             forwardQuietHoursEnd: true,
+            forwardQuietHoursTimeZone: true,
           },
         });
 
@@ -299,7 +293,7 @@ router.post(
         if (
           smsForwardingAllowed &&
           user?.forwardingEnabledSms &&
-          !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd)
+          !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd, new Date(), user.forwardQuietHoursTimeZone)
         ) {
           // Forward to phone via Twilio.
           //

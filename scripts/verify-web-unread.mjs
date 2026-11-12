@@ -121,6 +121,28 @@ test('existing explicit ID clients remain compatible and deduplicate IDs', async
   assert.deepEqual([...h.read], [1]);
 });
 
+test('SMS sidebar counts only individually unread incoming messages', async () => {
+  const s = source('server/routes/conversations.js');
+  const start = s.indexOf('    const inboundSmsMessages =');
+  const end = s.indexOf('    const smsConvos =', start);
+  assert.ok(start >= 0 && end > start);
+  const smsThreads = [{ id: 67 }, { id: 68 }];
+  let query;
+  const prisma = { smsMessage: { findMany: async (args) => {
+    query = args;
+    return [{ threadId: 67 }, { threadId: 67 }, { threadId: 68 }];
+  } } };
+  const counts = await vm.runInNewContext(
+    `(async () => { ${s.slice(start, end)} return unreadSmsCountByThread; })()`,
+    { smsThreads, prisma, Map }
+  );
+  assert.equal(query.where.direction, 'in');
+  assert.equal(query.where.readAt, null);
+  assert.deepEqual([...query.where.threadId.in], [67, 68]);
+  assert.equal(counts.get(67), 2);
+  assert.equal(counts.get(68), 1);
+});
+
 function eventTarget() {
   const handlers = new Map();
   return {
@@ -206,7 +228,7 @@ test('leaving the thread cancels pending reads and removes listeners', async () 
   assert.equal(h.document.handlers.size, 0);
   assert.equal(h.viewport.handlers.size, 0);
 });
-test('duplicate message, own-message and receipt events share one authoritative recount', async () => {
+test('duplicate chat and SMS events share one authoritative recount', async () => {
   const s = source('client/src/components/ChatroomsSidebar.jsx');
   const a = s.indexOf('  /* ---------------- authoritative live conversation state');
   const b = s.indexOf('  /* ---------------- UI states', a);
@@ -218,12 +240,19 @@ test('duplicate message, own-message and receipt events share one authoritative 
     setTimeout: (fn) => { const id = ++tick; timers.set(id, fn); return id; },
     clearTimeout: (id) => timers.delete(id),
   });
-  for (const event of ['message:new', 'message:upsert', 'receive:message', 'message_read', 'message:read']) {
+  for (const event of [
+    'message:new', 'message:upsert', 'receive:message', 'message_read', 'message:read',
+    'sms:message:new', 'sms_message_new', 'sms:message:updated', 'sms:message:deleted',
+  ]) {
     handlers.get(event)({ item: row(2), reader: { id: 7 } });
   }
   assert.equal(timers.size, 1);
   for (const fn of timers.values()) fn();
   assert.equal(loads, 1);
+  timers.clear();
+  handlers.get('connect')();
+  for (const fn of timers.values()) fn();
+  assert.equal(loads, 2, 'reconnect must fetch the authoritative unread state');
   cleanup(); assert.equal(handlers.size, 0);
 });
 

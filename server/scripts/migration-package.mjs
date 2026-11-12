@@ -22,9 +22,12 @@ const reconciliationDigests = {
 const consentMigration = '20261106010000_twilio_compliance_event_sid';
 const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a';
 const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
+export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
+const applicationReleaseSha256 = '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045';
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
+  applicationReleasePath,
   ...new Set([...reconciliationPaths, ...reconciliationPathsV2]),
 ].includes(path);
 
@@ -43,11 +46,31 @@ export function reconciliationPackageSpec(files) {
   return { version, paths, manifest: JSON.parse(files.get(paths[0])) };
 }
 
+export function applicationReleaseSpec(files) {
+  if (!files.has(applicationReleasePath)) return null;
+  if (digest(files.get(applicationReleasePath)) !== applicationReleaseSha256)
+    throw new Error('Unreviewed application release manifest');
+  const manifest = JSON.parse(files.get(applicationReleasePath));
+  if (manifest.id !== 'chatforia-sms-quiet-voicemail-20261111-v3' ||
+      manifest.status !== 'proposed-not-authorized-for-production' ||
+      manifest.basedOnReconciliationManifestSha256 !== reconciliationDigests.v2 ||
+      manifest.beforeCount !== 161 || manifest.afterCount !== 164 ||
+      manifest.historicalRolledBackCount !== 3 ||
+      manifest.beforeMigrationSetSha256 !== '481107cb70b4df1c90fbd4c60dfc28dba01f1c3930f7fdb7ea79babaac0e2c28' ||
+      manifest.afterMigrationSetSha256 !== '21896086d07c00ef8f216a500dcd87f76e10a07d7d028774b90b5db13bdf549b' ||
+      JSON.stringify(manifest.requiredExactMigrations) !== JSON.stringify({
+        '20261109010000_sms_message_read_receipts': '8e99dd90ec1c7e436e1674dc51c9de6dac9816b0a22a4e1b3047461a5fc1973a',
+        '20261110010000_forwarding_quiet_hours_time_zone': 'c0ae138a7fe8964998833c2359a6e75b2ad14a309fcc94346a545ebe83ae9626',
+        '20261111010000_voicemail_email_delivery_outbox': 'c270299272798d230705c655b268bc3244889174d630b60c289dbb3ec28dfeab',
+      })) throw new Error('Application release manifest shape changed');
+  return manifest;
+}
+
 export function buildPackage(ref, cwd = process.cwd()) {
   const git = (...args) => execFileSync('git', args, { cwd, maxBuffer: 32 * 1024 * 1024 });
   const commit = git('rev-parse', '--verify', `${ref}^{commit}`).toString().trim();
   const entries = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json',
-    ...new Set([...reconciliationPaths, ...reconciliationPathsV2]))
+    ...new Set([...reconciliationPaths, ...reconciliationPathsV2, applicationReleasePath]))
     .toString().split('\0').filter(Boolean);
   const hasConsent = entries.some((entry) => entry.split('\t')[1] ===
     `server/prisma/migrations/${consentMigration}/migration.sql`);
@@ -124,13 +147,17 @@ export function checkHistory(bundle, rows, complete = false) {
 
 function assertReconciliationReleaseSet(bundle, files) {
   const { version, manifest } = reconciliationPackageSpec(files);
+  const application = applicationReleaseSpec(files);
+  if (application && version !== 'v2') throw new Error('Application release requires the exact v2 base');
   for (const [path, checksum] of Object.entries(manifest.evidenceSha256)) {
     if (!files.has(path) || digest(files.get(path)) !== checksum) throw new Error('Reconciliation evidence mismatch');
   }
   const migrations = bundle.files.filter((file) => migrationPath.test(file.path));
   const named = migrations.map((file) => ({ name: file.path.match(migrationPath)[1], sha256: file.sha256 }));
-  const legacy = named.filter(({ name }) => name !== consentMigration);
-  if (migrations.length !== manifest.afterStaffCount ||
+  const newNames = application ? Object.keys(application.requiredExactMigrations) : [];
+  const base = named.filter(({ name }) => !newNames.includes(name));
+  const legacy = base.filter(({ name }) => name !== consentMigration);
+  if (base.length !== manifest.afterStaffCount ||
       (version === 'v1' && legacy.filter(({ name }) => !name.startsWith('20261102')).length !== manifest.baselineCount) ||
       (version === 'v2' && (
         legacy.length !== 160 ||
@@ -143,7 +170,17 @@ function assertReconciliationReleaseSet(bundle, files) {
       ))) {
     throw new Error('Reconciliation release migration set changed');
   }
-  return { version, manifest, migrations };
+  if (application && (
+    named.length !== application.afterCount ||
+    migrationSetDigest(base) !== application.beforeMigrationSetSha256 ||
+    migrationSetDigest(named) !== application.afterMigrationSetSha256 ||
+    newNames.some((name) => named.find((entry) => entry.name === name)?.sha256 !==
+      application.requiredExactMigrations[name]) ||
+    application.target.hostname !== manifest.target.hostname ||
+    application.target.database !== manifest.target.database ||
+    application.target.port !== manifest.target.port
+  )) throw new Error('Application release migration set changed');
+  return { version: application ? 'v3' : version, manifest, application, migrations };
 }
 
 // Pure verification only: this does not grant production execution authority.
@@ -151,7 +188,7 @@ function assertReconciliationReleaseSet(bundle, files) {
 // catalog/data preflight. This pure checker grants no production authority.
 export function checkReconciledHistory(bundle, rows, target, complete = false) {
   const files = verifyPackage(bundle);
-  const { version, manifest, migrations } = assertReconciliationReleaseSet(bundle, files);
+  const { version, manifest, application, migrations } = assertReconciliationReleaseSet(bundle, files);
   if (target.hostname !== manifest.target.hostname || target.database !== manifest.target.database ||
       Number(target.port) !== manifest.target.port) throw new Error('Reconciliation target mismatch');
   // Version 1 retains its original rejection of rolled-back rows. Version 2
@@ -159,11 +196,12 @@ export function checkReconciledHistory(bundle, rows, target, complete = false) {
   const historical = rows.filter((row) => row.rolled_back_at);
   const active = rows.filter((row) => !row.rolled_back_at);
   if ((version === 'v1' && historical.length) ||
-      (version === 'v2' && (historical.length !== manifest.historicalRolledBackCount ||
+      (version !== 'v1' && (historical.length !== manifest.historicalRolledBackCount ||
         historical.some((row) => row.finished_at))) ||
-      active.length !== (complete ? manifest.afterStaffCount : manifest.baselineCount) ||
+      active.length !== (complete ? (application?.afterCount || manifest.afterStaffCount) :
+        (application?.beforeCount || manifest.baselineCount)) ||
       active.some((row) => !row.finished_at ||
-        (!complete && row.migration_name >= '20261102'))) {
+        (!complete && !application && row.migration_name >= '20261102'))) {
     throw new Error('Reconciliation ledger shape changed');
   }
   const seen = new Set();
@@ -178,7 +216,11 @@ export function checkReconciledHistory(bundle, rows, target, complete = false) {
     return { ...row, checksum: exception.availableChecksum };
   });
   if (seen.size !== 4) throw new Error('Expected all four historical mismatches');
-  return checkHistory(bundle, normalized, complete);
+  const pending = checkHistory(bundle, normalized, complete);
+  if (application && !complete && JSON.stringify(pending) !==
+      JSON.stringify(Object.keys(application.requiredExactMigrations)))
+    throw new Error('Application release baseline differs from reviewed v2 history');
+  return pending;
 }
 
 export function checksForPending(files, pending) {
@@ -191,16 +233,20 @@ export function checksForPending(files, pending) {
       !Array.isArray(review.checks) || !review.checks.length) {
       throw new Error(`Missing reviewed before/after checks: ${name}`);
     }
+    let hasDataCheck = false;
     for (const id of review.checks) {
       const check = plan.checks[id];
       if (!check || typeof check.sql !== 'string' || !check.sql.trim() ||
-        !['unchanged', 'expected'].includes(check.rule) ||
+        !['unchanged', 'expected', 'zero-after'].includes(check.rule) ||
         (check.rule === 'expected' && (!Object.hasOwn(check, 'before') || !Object.hasOwn(check, 'after'))) ||
-        (review.kind === 'data' && check.rule !== 'expected')) {
+        (check.rule === 'zero-after' && !Object.hasOwn(check, 'after'))) {
         throw new Error(`Invalid aggregate check: ${id}`);
       }
+      if (check.rule === 'expected' || check.rule === 'zero-after') hasDataCheck = true;
       selected.set(id, check);
     }
+    if (review.kind === 'data' && !hasDataCheck)
+      throw new Error(`Missing data transition check: ${name}`);
   }
   return [...selected];
 }

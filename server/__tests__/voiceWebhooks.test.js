@@ -864,6 +864,30 @@ describe('POST /webhooks/voice/inbound', () => {
     });
   });
 
+  it('does not reserve or dial a forwarded call during overnight quiet hours', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: '+15556667777',
+      forwardQuietHoursStart: 22,
+      forwardQuietHoursEnd: 6,
+      forwardQuietHoursTimeZone: 'America/Denver',
+      voicemailEnabled: false,
+    });
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-11-10T05:00:00.000Z'));
+    try {
+      const res = await request(createApp())
+        .post('/webhooks/voice/inbound-app-complete?userId=42&from=%2B15550001111&to=%2B15550009999')
+        .type('form')
+        .send({ DialCallStatus: 'no-answer', CallSid: 'CA-quiet' });
+      expect(res.statusCode).toBe(200);
+      expect(JSON.parse(res.text).some((action) => action.type === 'dial')).toBe(false);
+      expect(reserveRemainingUsageMock).not.toHaveBeenCalled();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   it('offers voicemail after the app-ring fallback is unanswered', async () => {
     prisma.user.findUnique.mockResolvedValueOnce({
       forwardingEnabledCalls: false,

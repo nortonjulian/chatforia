@@ -1,64 +1,70 @@
-name: Deploy Chatforia Backend
+name: Verify Chatforia Backend Operator Handoff
 
+# Manual, protected verification only. The API firewall allows SSH from the
+# operator source, not this GitHub-hosted runner. No job connects to production.
 on:
   workflow_dispatch:
+    inputs:
+      commit:
+        description: Full reviewed commit SHA already on main
+        required: true
+        type: string
+      package_sha256:
+        description: Independently reviewed migration package SHA-256
+        required: true
+        type: string
+
+permissions:
+  contents: read
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  verify:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment: production-api
+    timeout-minutes: 30
     steps:
-      - name: Require archived migration deployment
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # The read-only token is needed to re-fetch main after environment review.
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Require current main commit, approved application release, and package checksum
+        env:
+          RELEASE_COMMIT: ${{ inputs.commit }}
+          PACKAGE_SHA256: ${{ inputs.package_sha256 }}
         run: |
-          echo "Use the reviewed migration package and receipt procedure in docs/staff-security/migration-release-packages.md."
-          exit 1
-
-      - name: Setup SSH
+          set -euo pipefail
+          [[ "$RELEASE_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$PACKAGE_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$RELEASE_COMMIT"
+          test "$(git rev-parse HEAD)" = "$RELEASE_COMMIT"
+          node -e 'const m=require("./server/security/applicationMigrationRelease.v3.json"); if(m.status!=="approved-for-production") process.exit(1)'
+          node server/scripts/migration-package.mjs "$RELEASE_COMMIT" /tmp/chatforia-api-package.json
+          test "$(sha256sum /tmp/chatforia-api-package.json | cut -d' ' -f1)" = "$PACKAGE_SHA256"
+      - name: Record verified operator-only handoff
+        env:
+          RELEASE_COMMIT: ${{ inputs.commit }}
+          PACKAGE_SHA256: ${{ inputs.package_sha256 }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.API_DO_SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.API_DO_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy backend on droplet
-        run: |
-          ssh ${{ secrets.API_DO_USER }}@${{ secrets.API_DO_HOST }} << 'EOF'
-            set -e
-            # After the approved restricted-runtime cutover, this legacy PM2
-            # workflow must not reset code, migrate, or revive the old process.
-            if systemctl is-enabled --quiet chatforia-api.service || \
-               systemctl is-active --quiet chatforia-api.service; then
-              echo "STOP: dedicated API service requires the reviewed deployment procedure."
-              exit 1
-            fi
-            cd /var/www/chatforia-api
-
-            git fetch origin
-
-            # Runtime uploads must never be changed by deployment.
-            if [ -n "$(git diff --name-only HEAD origin/main -- server/uploads/)" ]; then
-              echo "STOP: Deployment would change tracked upload files."
-              exit 1
-            fi
-
-            # Do not overwrite locally modified tracked upload files.
-            if [ -n "$(git status --porcelain --untracked-files=no -- server/uploads/)" ]; then
-              echo "STOP: Production has locally modified tracked upload files."
-              exit 1
-            fi
-
-            # Do not overwrite local production changes outside runtime uploads.
-            if [ -n "$(git status --porcelain --untracked-files=normal -- . ":(exclude)server/uploads/")" ]; then
-              echo "STOP: Production checkout has local changes."
-              exit 1
-            fi
-
-            # Preserve runtime uploads during cleanup.
-            git reset --hard origin/main
-            git clean -fd -e server/uploads/
-
-            npm install
-            npx prisma generate --schema=server/prisma/schema.prisma
-            npx prisma migrate deploy --schema=server/prisma/schema.prisma
-            pm2 reload chatforia-api
-          EOF
+          set -euo pipefail
+          node -e 'const fs=require("node:fs"); const r={version:1,repository:"nortonjulian/chatforia",workflow:"deploy-backend.yml",ref:"refs/heads/main",commit:process.env.RELEASE_COMMIT,package_sha256:process.env.PACKAGE_SHA256,run_id:Number(process.env.RUN_ID),run_attempt:Number(process.env.RUN_ATTEMPT)}; fs.writeFileSync("/tmp/chatforia-api-handoff.json",JSON.stringify(r)+"\n")'
+          {
+            echo '### Operator-only API release handoff'
+            echo "Verified current main commit: $RELEASE_COMMIT"
+            echo "Verified package SHA-256: $PACKAGE_SHA256"
+            echo 'No production connection or deployment occurred.'
+            echo 'Separate owner authorization and the approved operator-source procedure are required before systemd activation.'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chatforia-api-operator-handoff
+          path: /tmp/chatforia-api-handoff.json
+          if-no-files-found: error
+          retention-days: 7

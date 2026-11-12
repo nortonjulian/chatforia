@@ -6,8 +6,8 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 
 import { buildPackage, checkHistory, checkReconciledHistory, checksForPending, digest,
-  readPackage, reconciliationPackageSpec, verifyPackage } from './migration-package.mjs';
-import { aggregateChecks, assertChecks, assertPackageDatasource } from './deploy-migration-package.mjs';
+  readPackage, reconciliationPackageSpec, applicationReleaseSpec, verifyPackage } from './migration-package.mjs';
+import { aggregateChecks, assertChecks, assertPackageDatasource, deployPackage } from './deploy-migration-package.mjs';
 
 test('package datasource guard ignores comments but rejects extra declarations', () => {
   const schema = readFileSync(new URL('../prisma/schema.prisma', import.meta.url), 'utf8');
@@ -181,7 +181,8 @@ test('archived v1 release remains exact; v2 accepts only the 161-file consent re
     { migration_name: 'old_failed', checksum: '0'.repeat(64), finished_at: null,
       rolled_back_at: 'now' }], legacySpec.manifest.target));
 
-  const current = buildPackage('HEAD');
+  // Keep the original v2 proof tied to its reviewed 161-file main commit.
+  const current = buildPackage('dbf5887ebf64d87a649a8a033e5b66b1539b7b7e');
   const spec = reconciliationPackageSpec(verifyPackage(current));
   assert.equal(spec.version, 'v2');
   assert.equal(entries(current).length, 161);
@@ -233,4 +234,71 @@ test('archived v1 release remains exact; v2 accepts only the 161-file consent re
   const badAfter = structuredClone(after);
   badAfter.find((entry) => entry.migration_name === '20261106010000_twilio_compliance_event_sid').checksum = 'f'.repeat(64);
   assert.throws(() => checkReconciledHistory(current, badAfter, spec.manifest.target, true));
+});
+
+test('zero-after backfill check accepts a variable baseline but rejects an incomplete backfill', () => {
+  const checks = [['legacy', { rule: 'zero-after', after: [{ missing_read_receipt: '0' }] }]];
+  assertChecks(checks, { legacy: [{ missing_read_receipt: '37' }] },
+    { legacy: [{ missing_read_receipt: '0' }] });
+  assert.throws(() => assertChecks(checks, { legacy: [{ missing_read_receipt: '37' }] },
+    { legacy: [{ missing_read_receipt: '1' }] }), /After predicate failed/);
+});
+
+test('v3 pins the 161-file approved base and exactly three ordered new migrations', async () => {
+  const bundle = buildPackage('HEAD');
+  const files = verifyPackage(bundle);
+  const release = applicationReleaseSpec(files);
+  const v2 = reconciliationPackageSpec(files).manifest;
+  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  const migration = /^server\/prisma\/migrations\/([^/]+)\/migration\.sql$/;
+  const entries = bundle.files.flatMap((file) => {
+    const match = file.path.match(migration);
+    return match ? [{ name: match[1], sha256: file.sha256 }] : [];
+  });
+  assert.equal(entries.length, 164);
+  const historical = [1, 2, 3].map((id) => ({
+    migration_name: `old_failed_${id}`, checksum: 'e'.repeat(64),
+    finished_at: null, rolled_back_at: 'now',
+  }));
+  const row = ({ name, sha256 }) => ({ migration_name: name,
+    checksum: v2.exceptions[name]?.recordedChecksum || sha256,
+    finished_at: 'now', rolled_back_at: null });
+  const before = [...entries.slice(0, 161).map(row), ...historical];
+  const after = [...entries.map(row), ...historical];
+  assert.deepEqual(checkReconciledHistory(bundle, before, release.target),
+    Object.keys(release.requiredExactMigrations));
+  assert.deepEqual(checkReconciledHistory(bundle, after, release.target, true), []);
+  assert.equal(checksForPending(files, Object.keys(release.requiredExactMigrations)).length, 5);
+  for (const name of [entries[0].name, ...Object.keys(release.requiredExactMigrations)]) {
+    const path = `server/prisma/migrations/${name}/migration.sql`;
+    const missing = structuredClone(bundle);
+    missing.files = missing.files.filter((file) => file.path !== path);
+    assert.throws(() => checkReconciledHistory(missing, before, release.target));
+    const altered = structuredClone(bundle);
+    const file = altered.files.find((item) => item.path === path);
+    file.content = Buffer.from('SELECT 1;').toString('base64');
+    file.sha256 = digest('SELECT 1;');
+    assert.throws(() => checkReconciledHistory(altered, before, release.target));
+  }
+  const extra = structuredClone(bundle);
+  extra.files.push({ path: 'server/prisma/migrations/99999999_extra/migration.sql',
+    content: Buffer.from('SELECT 1;').toString('base64'), sha256: digest('SELECT 1;') });
+  assert.throws(() => checkReconciledHistory(extra, before, release.target));
+  for (const rows of [before.slice(1), [...before, before[0]],
+    before.map((entry) => entry.migration_name === 'old_failed_1'
+      ? { ...entry, finished_at: 'now' } : entry),
+    before.filter((entry) => entry.migration_name !== 'old_failed_1'),
+    [...before, row(entries[161])]])
+    assert.throws(() => checkReconciledHistory(bundle, rows, release.target));
+  const wrongNewChecksum = structuredClone(after);
+  wrongNewChecksum.find((entry) => entry.migration_name === entries.at(-1).name).checksum = 'f'.repeat(64);
+  assert.throws(() => checkReconciledHistory(bundle, wrongNewChecksum, release.target, true));
+  const directory = mkdtempSync(join(tmpdir(), 'application-release-proposed-'));
+  try {
+    const packagePath = join(directory, 'package.json');
+    const bytes = Buffer.from(JSON.stringify(bundle));
+    writeFileSync(packagePath, bytes);
+    await assert.rejects(deployPackage({ package: packagePath, sha256: digest(bytes) }),
+      /production execution is not approved/);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
 });

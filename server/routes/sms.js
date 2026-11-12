@@ -226,25 +226,66 @@ r.get(
     }
     const thread = await smsService.getThread(req.user.id, req.params.id);
 
-    const resolvedThreadId = Number(thread?.id ?? req.params.id);
-    if (thread && Number.isInteger(resolvedThreadId) && resolvedThreadId > 0) {
-      await prisma.smsThread.updateMany({
-        where: {
-          id: resolvedThreadId,
-          userId: Number(req.user.id),
-        },
-        data: { lastReadAt: new Date() },
-      });
-    }
-
-    if (thread) {
-      await syncBadgeToUserDevices(
-        Number(req.user.id),
-        'sms_thread_read'
-      );
-    }
-
+    // Fetching a thread must not mark it read: background refreshes,
+    // link previews and other clients can fetch without the user viewing it.
     res.json(thread);
+  })
+);
+
+// POST /sms/threads/:id/read — an explicit acknowledgement from the
+// foreground, visible conversation view (never from background refresh).
+r.post(
+  '/threads/:id/read',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user.id);
+    const threadId = Number(req.params.id);
+    if (!Number.isSafeInteger(threadId) || threadId <= 0) {
+      throw Boom.badRequest('Valid SMS thread id is required');
+    }
+
+    const requestedIds = Array.isArray(req.body?.messageIds)
+      ? req.body.messageIds
+      : [req.body?.messageId];
+    if (
+      requestedIds.length === 0 || requestedIds.length > 100 ||
+      requestedIds.some((id) => !Number.isSafeInteger(id) || id <= 0)
+    ) {
+      throw Boom.badRequest('Valid visible inbound SMS message ids are required');
+    }
+    const messageIds = [...new Set(requestedIds)];
+
+    // Validate every requested ID before changing any read state.
+    const visibleMessages = await prisma.smsMessage.findMany({
+      where: {
+        id: { in: messageIds },
+        threadId,
+        direction: 'in',
+        thread: { userId, archivedAt: null, deletedAt: null },
+      },
+      select: { id: true },
+    });
+    if (visibleMessages.length !== messageIds.length) {
+      throw Boom.notFound('SMS message not found in owned thread');
+    }
+
+    // Mark exactly the visible messages. Retries, out-of-order events, and
+    // arrivals during this request cannot mark any unseen row read.
+    const updated = await prisma.smsMessage.updateMany({
+      where: {
+        id: { in: messageIds },
+        threadId,
+        direction: 'in',
+        readAt: null,
+        thread: { userId, archivedAt: null, deletedAt: null },
+      },
+      data: { readAt: new Date() },
+    });
+
+    if (updated.count > 0) {
+      await syncBadgeToUserDevices(userId, 'sms_thread_read');
+    }
+    res.json({ ok: true });
   })
 );
 

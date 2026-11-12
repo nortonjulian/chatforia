@@ -234,7 +234,8 @@ ROLLBACK;`;
   const consentManifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v2.json'));
   assert.equal(manifest.status, 'proposed-not-authorized-for-production');
   assert.equal(consentManifest.status, 'approved-for-production');
-  const fullPackage = buildPackage('HEAD');
+  // The staff rehearsal remains fixed to the exact 161-file v2 release.
+  const fullPackage = buildPackage('dbf5887ebf64d87a649a8a033e5b66b1539b7b7e');
   const releasePackage = buildPackage('6a5f06d58c4414b7a0f584eeaede3118d3e9066b');
   const baselineLedger = await ledger(db);
   const historicalRollbacks = baselineLedger.filter((row) => row.rolled_back_at);
@@ -257,8 +258,16 @@ ROLLBACK;`;
     { ...isolated, allowProposedForIsolatedTest: false }), /not approved for production/);
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
   const consentEnv = { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: consentManifest.id };
-  const isolatedConsent = { manifestVersion: 'v2',
-    migrationRoot: 'server/prisma/migrations' };
+  const v2MigrationRoot = join(root, 'v2-migrations');
+  mkdirSync(v2MigrationRoot);
+  for (const file of fullPackage.files.filter((entry) =>
+    /^server\/prisma\/migrations\/[^/]+\/migration\.sql$/.test(entry.path))) {
+    const name = file.path.split('/').at(-2);
+    const directory = join(v2MigrationRoot, name);
+    mkdirSync(directory);
+    writeFileSync(join(directory, 'migration.sql'), Buffer.from(file.content, 'base64'));
+  }
+  const isolatedConsent = { manifestVersion: 'v2', migrationRoot: v2MigrationRoot };
   assert.equal((await runPreflight(db, consentEnv, '--before-migrations', isolatedConsent)).reconciliationId,
     consentManifest.id);
   await assert.rejects(runPreflight(db, { ...consentEnv,
@@ -380,6 +389,26 @@ ROLLBACK;`;
     { ...isolatedConsent, migrationRoot: join(prismaDir, 'migrations') }), /Migration history/);
   await db.$executeRaw`UPDATE public._prisma_migrations SET checksum=${sha(readFileSync(`server/prisma/migrations/${consentName}/migration.sql`))} WHERE migration_name=${consentName}`;
   console.log('PASS: exact consent migration and 161-file ledger pass on disposable PostgreSQL 18');
+
+  // Keep the historical v2 checks above on exactly 161 migrations. The staff
+  // route checks below use this checkout's generated Prisma client, so apply
+  // the separately pinned application additions before exercising that client.
+  for (const name of [
+    '20261109010000_sms_message_read_receipts',
+    '20261110010000_forwarding_quiet_hours_time_zone',
+    '20261111010000_voicemail_email_delivery_outbox',
+  ]) {
+    const directory = join(prismaDir, 'migrations', name);
+    mkdirSync(directory, { mode: 0o700 });
+    copyFileSync(`server/prisma/migrations/${name}/migration.sql`, join(directory, 'migration.sql'));
+  }
+  execFileSync(process.execPath, [resolve('node_modules/prisma/build/index.js'), 'migrate', 'deploy',
+    '--schema', join(prismaDir, 'schema.prisma')], {
+    cwd: prismaDir,
+    env: { PATH: process.env.PATH, LC_ALL: 'C', DATABASE_URL: url,
+      PRISMA_HIDE_UPDATE_MESSAGE: 'true', CHECKPOINT_DISABLE: '1' },
+    stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 8 * 1024 * 1024,
+  });
 
   // The live cleanup timers share the API's DATABASE_URL. Verify their token
   // cleanup shape under the restricted role without running provider jobs.

@@ -5,7 +5,7 @@ Voicemail availability and email delivery are independent preferences:
 - `voicemailEnabled`: whether callers can leave a voicemail; editable on the website.
 - `voicemailEmailForwardingEnabled`: explicit opt-in for email delivery.
 - `voicemailForwardEmail`: saved destination, retained when email forwarding is switched off.
-- `canForwardVoicemailEmail`: server-derived entitlement used by all clients. Eligible plans follow the existing paid forwarding policy: PLUS, PREMIUM, WIRELESS.
+- `canForwardVoicemailEmail`: server-derived entitlement used by all clients. The current eligible plans are PLUS and PREMIUM. WIRELESS is a data plan and does not grant app forwarding entitlement.
 
 Delivery requires an eligible current database plan, an enabled email preference, and a valid saved address. A downgrade pauses email delivery while preserving preferences. Basic voicemail storage, transcription scheduling, and inbox events remain independent. An upgrade resumes delivery if the saved preference is still enabled.
 
