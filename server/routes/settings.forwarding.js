@@ -32,6 +32,12 @@ r.get('/forwarding', requireAuth, asyncHandler(async (req, res) => {
 r.patch('/forwarding', requireAuth, express.json(), asyncHandler(async (req, res) => {
   const patch = req.body || {};
 
+  for (const key of ['forwardingEnabledSms', 'forwardSmsToPhone', 'forwardSmsToEmail', 'forwardingEnabledCalls']) {
+    if (key in patch && typeof patch[key] !== 'boolean') {
+      return res.status(400).json({ error: `${key} must be a boolean` });
+    }
+  }
+
   if (
     attemptsToEnableForwarding(patch) &&
     !hasForwardingAccess(req.user)

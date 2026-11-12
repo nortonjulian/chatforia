@@ -37,6 +37,7 @@ describe('forwardingService.getForwardingPrefs', () => {
       forwardToPhoneE164: '',
       forwardQuietHoursStart: 22,
       forwardQuietHoursEnd: 7,
+      forwardQuietHoursTimeZone: 'America/Denver',
     };
 
     mockPrisma.user.findUnique.mockResolvedValue(prefs);
@@ -55,6 +56,7 @@ describe('forwardingService.getForwardingPrefs', () => {
         forwardToPhoneE164: true,
         forwardQuietHoursStart: true,
         forwardQuietHoursEnd: true,
+        forwardQuietHoursTimeZone: true,
       },
     });
     expect(result).toBe(prefs);
@@ -82,6 +84,7 @@ describe('forwardingService.updateForwardingPrefs', () => {
     forwardToPhoneE164: '',
     forwardQuietHoursStart: null,
     forwardQuietHoursEnd: null,
+    forwardQuietHoursTimeZone: null,
   };
 
   beforeEach(() => {
@@ -101,6 +104,7 @@ describe('forwardingService.updateForwardingPrefs', () => {
       forwardToPhoneE164: '+19998887777',
       forwardQuietHoursStart: 22,
       forwardQuietHoursEnd: 7,
+      forwardQuietHoursTimeZone: 'America/Denver',
     };
 
     mockPrisma.user.update.mockResolvedValue(updatedPrefs);
@@ -115,6 +119,7 @@ describe('forwardingService.updateForwardingPrefs', () => {
       forwardToPhoneE164: '+1-999-888-7777', // should be normalized
       forwardQuietHoursStart: 22,
       forwardQuietHoursEnd: 7,
+      forwardQuietHoursTimeZone: 'America/Denver',
     });
 
     // It should call getForwardingPrefs several times; we don't assert call count, just that update is correct.
@@ -130,6 +135,7 @@ describe('forwardingService.updateForwardingPrefs', () => {
         forwardToPhoneE164: '+19998887777',
         forwardQuietHoursStart: 22,
         forwardQuietHoursEnd: 7,
+        forwardQuietHoursTimeZone: 'America/Denver',
       },
       select: {
         forwardingEnabledSms: true,
@@ -141,6 +147,7 @@ describe('forwardingService.updateForwardingPrefs', () => {
         forwardToPhoneE164: true,
         forwardQuietHoursStart: true,
         forwardQuietHoursEnd: true,
+        forwardQuietHoursTimeZone: true,
       },
     });
 
@@ -232,6 +239,68 @@ describe('forwardingService.updateForwardingPrefs', () => {
       message: 'Quiet hours must be 0–23 or null',
     });
 
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('rejects enabled email forwarding without an email before writing', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    await expect(updateForwardingPrefs(1, {
+      forwardingEnabledSms: true,
+      forwardSmsToEmail: true,
+      forwardEmail: '',
+    })).rejects.toMatchObject({ output: { statusCode: 400 } });
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it.each([1.5, '', 'abc'])('rejects invalid quiet hour %p before writing', async (hour) => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    await expect(updateForwardingPrefs(1, { forwardQuietHoursStart: hour, forwardQuietHoursEnd: 7 }))
+      .rejects.toMatchObject({ output: { statusCode: 400 } });
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('rejects an incomplete quiet-hours pair before writing', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    await expect(updateForwardingPrefs(1, { forwardQuietHoursStart: 22 }))
+      .rejects.toMatchObject({ output: { statusCode: 400 } });
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('rejects equal quiet-hour endpoints that would silently disable the schedule', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    await expect(updateForwardingPrefs(1, { forwardQuietHoursStart: 8, forwardQuietHoursEnd: 8 }))
+      .rejects.toMatchObject({ output: { statusCode: 400 } });
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it.each(['MST', '+07:00', 'Nowhere/Imaginary', '', 42])('rejects invalid IANA zone %p before writing', async (zone) => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    await expect(updateForwardingPrefs(1, { forwardQuietHoursTimeZone: zone }))
+      .rejects.toMatchObject({ output: { statusCode: 400 } });
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('preserves a legacy null zone when a patch omits the zone', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    mockPrisma.user.update.mockResolvedValue(basePrefs);
+    await updateForwardingPrefs(1, { forwardQuietHoursStart: 22, forwardQuietHoursEnd: 6 });
+    expect(mockPrisma.user.update.mock.calls[0][0].data).not.toHaveProperty('forwardQuietHoursTimeZone');
+  });
+
+  it('does not allow an active schedule to be explicitly reset to server-local time', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue({
+      ...basePrefs, forwardQuietHoursStart: 22, forwardQuietHoursEnd: 6,
+      forwardQuietHoursTimeZone: 'America/Denver',
+    });
+    await expect(updateForwardingPrefs(1, { forwardQuietHoursTimeZone: null }))
+      .rejects.toMatchObject({ output: { statusCode: 400 } });
+    expect(mockPrisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('rejects truthy non-boolean forwarding flags before writing', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue(basePrefs);
+    await expect(updateForwardingPrefs(1, { forwardingEnabledSms: 'true' }))
+      .rejects.toMatchObject({ output: { statusCode: 400 } });
     expect(mockPrisma.user.update).not.toHaveBeenCalled();
   });
 

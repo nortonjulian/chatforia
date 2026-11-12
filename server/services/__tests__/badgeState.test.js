@@ -63,20 +63,26 @@ describe('badgeState', () => {
     expect((await getBadgeState(7)).unreadConversations).toBe(1);
   });
 
-  test('counts each SMS thread with a newer inbound message once', async () => {
+  test('counts each SMS thread with an unacknowledged inbound message once', async () => {
     smsThreadFindManyMock.mockResolvedValue([
-      { id: 1, lastReadAt: null, messages: [
-        { createdAt: new Date('2026-09-27T17:00:00Z') },
-        { createdAt: new Date('2026-09-27T17:01:00Z') },
+      { id: 1, messages: [
+        { id: 11 },
       ]},
-      { id: 2, lastReadAt: new Date('2026-09-27T18:00:00Z'), messages: [
-        { createdAt: new Date('2026-09-27T17:59:00Z') },
-      ]},
-      { id: 3, lastReadAt: new Date('2026-09-27T18:00:00Z'), messages: [
-        { createdAt: new Date('2026-09-27T18:01:00Z') },
-      ]},
+      { id: 2, messages: [] },
+      { id: 3, messages: [{ id: 31 }] },
     ]);
     expect((await getBadgeState(7)).unreadConversations).toBe(2);
+    expect(smsThreadFindManyMock).toHaveBeenCalledWith({
+      where: { userId: 7, archivedAt: null, deletedAt: null },
+      select: {
+        id: true,
+        messages: {
+          where: { direction: 'in', readAt: null },
+          select: { id: true },
+          take: 1,
+        },
+      },
+    });
   });
 
   test('requests only unacknowledged missed calls relevant to the user', async () => {

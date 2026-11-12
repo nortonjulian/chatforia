@@ -413,6 +413,7 @@ describe('POST /webhooks/sms/twilio', () => {
         forwardEmail: true,
         forwardQuietHoursStart: true,
         forwardQuietHoursEnd: true,
+        forwardQuietHoursTimeZone: true,
       },
     });
 
@@ -446,6 +447,28 @@ describe('POST /webhooks/sms/twilio', () => {
       subject: 'SMS from +13035550123',
       text: 'Forward this please',
     });
+  });
+
+  test('records but does not forward when a paid account disables SMS forwarding', async () => {
+    isE164Mock.mockReturnValue(true);
+    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId: 777 });
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PLUS',
+      forwardingEnabledSms: false,
+      forwardSmsToPhone: true,
+      forwardSmsToEmail: true,
+      forwardPhoneNumber: '+18005550123',
+      forwardEmail: 'user@example.com',
+      forwardQuietHoursStart: null,
+      forwardQuietHoursEnd: null,
+    });
+    const res = await request(app).post('/webhooks/sms/twilio').type('form').send({
+      From: '+13035550123', To: '+17205550123', Body: 'Keep this local', MessageSid: 'SM-disabled',
+    });
+    expect(res.status).toBe(200);
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith(expect.objectContaining({ where: { id: 777 } }));
+    expect(sendSmsMock).not.toHaveBeenCalled();
+    expect(sendMailMock).not.toHaveBeenCalled();
   });
 
   test('skips phone forwarding at the SMS allowance but still forwards to email', async () => {
@@ -555,6 +578,7 @@ describe('POST /webhooks/sms/twilio', () => {
     });
 
     prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PLUS',
       forwardingEnabledSms: true,
       forwardSmsToPhone: true,
       forwardSmsToEmail: true,
@@ -588,6 +612,28 @@ describe('POST /webhooks/sms/twilio', () => {
     } finally {
       jest.useRealTimers();
     }
+  });
+
+  test('uses the saved zone rather than UTC when suppressing SMS forwarding', async () => {
+    isE164Mock.mockReturnValue(true);
+    normalizeE164Mock.mockImplementation((n) => n);
+    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId: 321 });
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      plan: 'PLUS', forwardingEnabledSms: true, forwardSmsToPhone: true,
+      forwardSmsToEmail: true, forwardPhoneNumber: '+18005550123',
+      forwardEmail: 'user@example.com', forwardQuietHoursStart: 22,
+      forwardQuietHoursEnd: 23, forwardQuietHoursTimeZone: 'America/Denver',
+    });
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-11-10T05:00:00Z'));
+    try {
+      const res = await request(app).post('/webhooks/sms/twilio').type('form').send({
+        From: '+13035550123', To: '+17205550123', Body: 'Synthetic zone check',
+      });
+      expect(res.status).toBe(200);
+      expect(sendSmsMock).not.toHaveBeenCalled();
+      expect(sendMailMock).not.toHaveBeenCalled();
+    } finally { jest.useRealTimers(); }
   });
 
   test('returns 500 when an exception is thrown', async () => {
