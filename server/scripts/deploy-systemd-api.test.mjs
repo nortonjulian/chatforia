@@ -6,15 +6,18 @@ import { test } from 'node:test';
 const workflow = readFileSync('.github/workflows/deploy-backend.yml', 'utf8');
 const script = readFileSync('server/scripts/deploy-systemd-api.sh', 'utf8');
 
-test('backend workflow remains manual, SHA-bound, and cannot invoke legacy PM2/migrations', () => {
+test('protected workflow verifies exact current main and package without production connectivity', () => {
   assert.match(workflow, /^on:\n  workflow_dispatch:/m);
   assert.doesNotMatch(workflow, /(^|\n)\s*(push|pull_request|workflow_run|schedule):/);
   assert.match(workflow, /github\.ref == 'refs\/heads\/main'/);
   assert.match(workflow, /production-api/);
   assert.match(workflow, /approved-for-production/);
-  assert.match(workflow, /API_DO_SSH_KNOWN_HOSTS/);
-  assert.match(workflow, /StrictHostKeyChecking=yes/);
-  assert.doesNotMatch(workflow, /ssh-keyscan/);
+  assert.match(workflow, /test "\$\(git rev-parse origin\/main\)" = "\$RELEASE_COMMIT"/);
+  assert.match(workflow, /test "\$\(git rev-parse HEAD\)" = "\$RELEASE_COMMIT"/);
+  assert.match(workflow, /migration-package\.mjs "\$RELEASE_COMMIT"/);
+  assert.match(workflow, /sha256sum \/tmp\/chatforia-api-package\.json/);
+  assert.doesNotMatch(workflow, /secrets\.|ssh-keyscan|^\s*ssh\s|systemctl|rsync/mi);
+  assert.match(workflow, /No production connection or deployment occurred/);
   for (const forbidden of [/prisma migrate/, /pm2 reload/, /git reset/, /git clean/])
     assert.doesNotMatch(workflow + script, forbidden);
   assert.doesNotMatch(script, /DATABASE_URL=/);
@@ -31,7 +34,7 @@ test('restricted schema and staff preflights precede stopping the systemd API', 
   assert.ok(script.indexOf('application-release-preflight.mjs') < script.indexOf('systemctl stop'));
   assert.ok(script.indexOf('staff-deployment-preflight.mjs') < script.indexOf('systemctl stop'));
   assert.ok(script.indexOf('systemctl stop') < script.indexOf('systemctl start'));
-  assert.match(script, /git merge-base --is-ancestor "\$commit" origin\/main/);
+  assert.match(script, /test "\$\(git rev-parse origin\/main\)" = "\$commit"/);
   assert.match(script, /npm ci --no-audit --no-fund/);
   assert.match(script, /npx prisma generate[\s\S]*chgrp -R chatforia-api "\$stage\/source"[\s\S]*chmod -R g\+rX "\$stage\/source"[\s\S]*application-release-preflight\.mjs/);
   assert.match(script, /git ls-files -z -- server/);

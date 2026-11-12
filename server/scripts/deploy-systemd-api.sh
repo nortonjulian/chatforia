@@ -26,7 +26,7 @@ systemctl is-active --quiet "$unit"
 cd "$checkout"
 test -z "$(git status --porcelain --untracked-files=no)"
 git fetch --no-tags origin main
-git merge-base --is-ancestor "$commit" origin/main
+test "$(git rev-parse origin/main)" = "$commit"
 test -z "$(git diff --name-only HEAD "$commit" -- server/uploads/)"
 
 stage=$(mktemp -d /var/tmp/chatforia-api-release.XXXXXX)

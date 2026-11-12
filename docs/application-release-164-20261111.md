@@ -52,24 +52,40 @@ The outbox uses a string key, so it adds no sequence permission.
    A partial migration needs ledger and schema inspection; it cannot be safely
    undone by restarting the old API or relabeling the ledger.
 4. Deploy the compatible API **after** all 164 migrations and narrow grants
-   pass. The manual backend workflow requires the exact main SHA, package
-   checksum, an approved v3 manifest, a protected `production-api` environment,
-   pinned `API_DO_SSH_KNOWN_HOSTS`, and existing SSH identity/host/user secrets.
-   It uses `npm ci`, the restricted `chatforia-api` OS identity, the root-owned
-   runtime EnvironmentFile, systemd runtime preflights before stop and after
-   installation, and narrow read access to tracked server files and installed
-   dependencies without opening ignored secrets or upload trees. It uses
-   `chatforia-api.service`. It does not run SQL, use PM2, reset or clean the
-   checkout, or change credentials. If installation fails after service stop,
-   leave the service stopped and follow the reviewed operator recovery procedure.
-   Before any dispatch, independently confirm GitHub Settings → Environments
-   contains `production-api` with required reviewer protection and a main-only
-   deployment branch rule. Merely naming an absent environment in a workflow
-   can create it without those rules. Confirm the four required SSH secret
-   names are configured, including a privileged deployment-only SSH identity;
-   compare the pinned known-host key fingerprint with a
-   trusted host record without printing the key or secret values. Repository
-   API access for this review did not expose those settings.
+   pass. The manual backend GitHub job is now a **verification-only operator
+   handoff**: the protected `production-api` environment gates a check of the
+   exact current main SHA, approved v3 manifest, and independently reviewed
+   package checksum. It makes no production connection, uses no deployment
+   secrets, and never performs deployment. The owner reports this environment
+   has a required reviewer and main-only branch policy; self-review is allowed.
+   Its approval permits this verification job only. A separate explicit owner
+   decision is required before the operator executes the host script.
+
+   The API firewall admits SSH from the privately verified operator IPv4 /32,
+   not a standard GitHub-hosted runner. The smallest deployment transport is
+   the existing key-only operator machine on that source, with strict existing
+   known-host verification. The repository receipt confirms a previously
+   pinned API host key, but does not store its fingerprint; the new GitHub
+   `API_DO_SSH_KNOWN_HOSTS` secret was populated from the existing local pin
+   without a fresh independent console comparison. Do not treat this as a new
+   out-of-band host-key verification. Before execution, confirm the operator
+   source still reaches the intended API Droplet and the privately held key
+   still authenticates the privileged deployment login; stop if not. Do not
+   broaden SSH ingress or install a runner on the production host.
+
+   After the protected handoff succeeds and **separate deployment approval**
+   is recorded, the operator fetches main, verifies its exact reviewed SHA,
+   and streams `server/scripts/deploy-systemd-api.sh` from that immutable Git
+   commit over strict SSH. Pass the same approved commit and package digest as
+   arguments. The host script independently fetches current main, rebuilds
+   and checks the package digest, verifies the restricted unit, and runs
+   read-only preflights before stopping it. It uses `npm ci`, the restricted
+   `chatforia-api` OS identity, the root-owned runtime EnvironmentFile,
+   systemd preflights after installation, and narrow read access to tracked
+   server files and dependencies without opening ignored secrets or uploads.
+   It does not run SQL, use PM2, reset or clean the checkout, or change
+   credentials. If installation fails after service stop, leave it stopped
+   and follow the reviewed recovery procedure.
 5. The voicemail dispatcher starts with the API, scans persisted due rows
    immediately, and recovers expired leases after restart. Do not start a new
    API worker against the pre-164 schema. Monitor PENDING, PROCESSING, FAILED,
@@ -81,6 +97,29 @@ ambiguous: lease recovery can send the same email again. An in-flight provider
 call longer than its five-minute lease can overlap another claim. This is
 at-least-once, not exactly-once delivery; provider idempotency would be needed
 for a stronger guarantee.
+
+## Operator-source command boundary (future approved execution only)
+
+Use a clean local checkout on the existing allowed operator source. Privately
+select the direct API SSH host, the previously verified root login key, and its
+strict known-host file. Confirm the successful protected handoff run records
+the same full main commit and independently checked package digest, and that
+the archived release package has that digest. In Bash with `pipefail` enabled,
+fetch main, require `git rev-parse origin/main` to equal that commit, then
+stream only `git show COMMIT:server/scripts/deploy-systemd-api.sh` to:
+
+```text
+ssh -i OPERATOR_KEY -o IdentitiesOnly=yes -o BatchMode=yes \
+  -o StrictHostKeyChecking=yes -o UserKnownHostsFile=PINNED_KNOWN_HOSTS \
+  root@DIRECT_API_SSH_HOST bash -se -- COMMIT PACKAGE_SHA256
+```
+
+The source is the exact reviewed Git object, not a mutable local script.
+`pipefail` makes a failed Git read fail the operator command. The host script
+repeats the current-main and package checks before any service stop. Do not
+execute this template under the present proposed v3 status or without the
+separate production deployment authorization. If the operator source is no
+longer admitted by the existing firewall, stop and review transport separately.
 
 ## Stop and recovery boundaries
 
