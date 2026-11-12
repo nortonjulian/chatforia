@@ -30,10 +30,12 @@ const applicationReleaseDigests = Object.freeze({
   // Preserve the approved and archived 56fe release package unchanged.
   'b51ea823ea66f91dd4f5f081bcdb060ce94fcbdf88eddc0d76743699e7ef8a33':
     'approved-for-production',
-  // The completed Stage 5 recovery added one rolled-back foundation attempt.
-  // This distinct candidate needs its own source-gate and execution approval.
+  // Preserve the distinct four-row proposal before its source-gate approval.
   'e574dccdcdde70893704361507afb513ac77ad8887bd4800d51fe5b8f52ebd0e':
     'proposed-not-authorized-for-production',
+  // Owner-approved source gate for the exact four-row recovered ledger.
+  '6a5b2271c38b110e6380821198d46565e4d6a1f54decffea29c3683a6adf5741':
+    'approved-for-production',
 });
 const recoveredRolledBackRows = Object.freeze([
   { id: '047afc05-0050-487b-84ec-227f2fa38bb1',

@@ -244,12 +244,15 @@ test('zero-after backfill check accepts a variable baseline but rejects an incom
     { legacy: [{ missing_read_receipt: '1' }] }), /After predicate failed/);
 });
 
-test('v3 preserves the archived 161/3 source gate and pins a separate 161/4 proposal', async () => {
+test('v3 preserves the archived 161/3 source gate and pins the approved 161/4 release', async () => {
   const bundle = buildPackage('HEAD');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const v2 = reconciliationPackageSpec(files).manifest;
-  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.status, 'approved-for-production');
+  const archivedRecoveryProposal = buildPackage('04e0b96addbe7d1ae63ca556d06d5845b0d8f0d1');
+  assert.equal(applicationReleaseSpec(verifyPackage(archivedRecoveryProposal)).status,
+    'proposed-not-authorized-for-production');
   const recovery = JSON.parse(readFileSync('server/security/stage5MigrationRecovery.v1.json'));
   assert.deepEqual(release.historicalRolledBackRows,
     [...recovery.preexistingRolledBackRows, recovery.failedMigration]);
@@ -331,7 +334,7 @@ test('v3 preserves the archived 161/3 source gate and pins a separate 161/4 prop
   const directory = mkdtempSync(join(tmpdir(), 'application-release-proposed-'));
   try {
     const packagePath = join(directory, 'package.json');
-    const bytes = Buffer.from(JSON.stringify(bundle));
+    const bytes = Buffer.from(JSON.stringify(archivedRecoveryProposal));
     writeFileSync(packagePath, bytes);
     await assert.rejects(deployPackage({ package: packagePath, sha256: digest(bytes) }),
       /production execution is not approved/);

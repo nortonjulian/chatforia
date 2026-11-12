@@ -1,6 +1,8 @@
-# Application release 164: recovered Stage 5 ledger candidate
+# Application release 164: recovered Stage 5 ledger source gate
 
-This branch is a **proposed source-gate correction**, not production approval.
+The owner approved this exact four-row **source-gate correction**. That approval
+does not authorize production preflight, a production backup, migration,
+deployment, or cutover.
 It does not change migrations 162–164, their checksums, the approved v2 base,
 the four accepted historical checksum exceptions, or the archived release
 package and encrypted backup at `56fe5d914231b21608e6ba511daa0088efc501b7`.
@@ -13,21 +15,19 @@ receipt is `Chatforia-Deployment-Records/application-164-readonly-preflight-stop
 The approved 56fe package expects only three rolled-back rows, so its package
 preflight was stopped before invoking the runner. No migration or runtime
 database preflight followed the failed gate.
-The production receipt records counts, not individual row IDs. The proposed
+The production receipt records counts, not individual row IDs. The approved
 gate pins the exact IDs from the completed recovery manifest; a later
 separately approved preflight must compare all four against the live ledger.
 
 The fourth row is the preserved failed attempt for
 `20261102070000_staff_security_foundation` from the reviewed Stage 5 recovery
-manifest. The candidate v3 manifest pins the **IDs, names, and checksums of all
+manifest. The v3 manifest pins the **IDs, names, and checksums of all
 four rolled-back rows** and requires each to remain rolled back and unfinished.
 It retains the exact 161 active base and three pending application migrations.
-Its proposed manifest SHA-256 is
+The archived proposed manifest SHA-256 is
 `e574dccdcdde70893704361507afb513ac77ad8887bd4800d51fe5b8f52ebd0e`.
-Changing only its status to `approved-for-production` would produce manifest
-SHA-256 `6a5b2271c38b110e6380821198d46565e4d6a1f54decffea29c3683a6adf5741`;
-that status and digest are **not** activated by this PR and require explicit
-source-gate approval plus a passing reviewed revision.
+The approved-status manifest SHA-256 is
+`6a5b2271c38b110e6380821198d46565e4d6a1f54decffea29c3683a6adf5741`.
 The package builder still accepts the archived 56fe manifest only with its
 original three-row rule. A different rollback row, duplicate ID, altered
 checksum, extra/missing active migration, or altered SQL remains a stop.
@@ -39,13 +39,12 @@ Its delta after 56fe contains only two launch-QA documentation files. The
 protected `deploy-backend.yml` workflow and both Mac/host deployment scripts
 require the release SHA to equal the **current main tip**. The 56fe package
 cannot pass that guard; no exception should be added just for the docs change.
-If this candidate is reviewed, approved, and merged, rebuild, archive, and
+After this reviewed source-gate revision merges, rebuild, archive, and
 independently verify a new package at the **resulting full main commit**. Create
 and independently read back a new encrypted release-package backup under a
-new filename, preserving the 56fe package, backup, and receipts. Obtain a
-separate owner decision for the new proposed four-row source gate, then a
-separate production preflight and execution decision. Do not treat the prior
-56fe source-gate approval as approval of this revision.
+new filename, preserving the 56fe package, backup, and receipts. Obtain
+separate production preflight and execution decisions. The earlier 56fe
+source-gate approval did not authorize this four-row revision.
 
 The deployment handoff remains verification-only and protected by
 `production-api`. Its current-main, package-digest, and restricted-systemd
