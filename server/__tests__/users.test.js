@@ -710,6 +710,18 @@ describe('PATCH /users/me independent voicemail email forwarding', () => {
     expect(mockUserUpdate).not.toHaveBeenCalled();
   });
 
+  it.each(['invalid', 'a@b', 'a b@example.com'])('rejects invalid forwarding destination %s before saving', async (email) => {
+    const res = await request(app()).patch('/users/me').send({ voicemailForwardEmail: email, voicemailGreetingText: 'Hello' });
+    expect(res.status).toBe(400);
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('uses only the authenticated account for forwarding updates', async () => {
+    mockUserUpdate.mockResolvedValue({ id: 65, plan: 'PLUS', voicemailForwardEmail: 'voice@example.com' });
+    await request(app()).patch('/users/me').send({ voicemailForwardEmail: 'voice@example.com', userId: 999 }).expect(200);
+    expect(mockUserUpdate.mock.calls[0][0].where).toEqual({ id: 65 });
+  });
+
   it('turns forwarding off without clearing the saved email or touching voicemail availability', async () => {
     mockUserUpdate.mockResolvedValue({ id: 65, plan: 'FREE', voicemailEnabled: true, voicemailForwardEmail: 'saved@example.com', voicemailEmailForwardingEnabled: false });
     const res = await request(app()).patch('/users/me').send({ voicemailEmailForwardingEnabled: false });

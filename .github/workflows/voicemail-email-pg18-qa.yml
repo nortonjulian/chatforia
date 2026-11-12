@@ -1,0 +1,67 @@
+name: Voicemail email outbox PostgreSQL 18 verification
+
+# Disposable migration and runtime-role QA only. No deployment or repository secrets.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/voicemail-email-pg18-qa.yml'
+      - 'server/prisma/schema.prisma'
+      - 'server/prisma/migrations/**'
+      - 'server/routes/webhooksTwilio.js'
+      - 'server/jobs/voicemailEmailDispatcher.js'
+      - 'server/jobs/__tests__/voicemailEmailDispatcher.test.js'
+      - 'server/scripts/voicemail-email-*'
+      - 'server/services/voicemailEmail.js'
+
+permissions:
+  contents: read
+
+jobs:
+  voicemail-email-pg18:
+    name: Disposable PG18 voicemail outbox and runtime-role QA
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:18.6
+        env:
+          POSTGRES_USER: voicemail_ci
+          POSTGRES_PASSWORD: synthetic_ci_only
+          POSTGRES_DB: chatforia_voicemail_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U voicemail_ci -d chatforia_voicemail_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://voicemail_ci:synthetic_ci_only@127.0.0.1:5432/chatforia_voicemail_test
+      TEST_DATABASE_URL: postgresql://voicemail_ci:synthetic_ci_only@127.0.0.1:5432/chatforia_voicemail_test
+      VOICEMAIL_QA_CI_SERVICE: '1'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Bootstrap restricted roles in the disposable service
+        env:
+          CI_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          set -euo pipefail
+          docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U voicemail_ci -d chatforia_voicemail_test < server/scripts/voicemail-email-ci-bootstrap.sql
+          docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U voicemail_ci -d chatforia_voicemail_test < server/scripts/staff-access-bootstrap-role.sql
+      - name: Apply migrations only to the disposable PostgreSQL service
+        run: npx prisma migrate deploy --schema=server/prisma/schema.prisma
+      - name: Verify outbox migration, grants, and delivery behavior
+        run: node server/scripts/voicemail-email-pg18-qa.mjs
+      - name: Focused callback and worker regressions
+        run: npm run -w chatforia-server test:server -- --watchman=false --coverage=false --silent __tests__/voicemailForwardingWebhook.test.js jobs/__tests__/voicemailEmailDispatcher.test.js services/__tests__/voicemailEmail.test.js
