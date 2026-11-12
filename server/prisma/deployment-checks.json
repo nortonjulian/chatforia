@@ -4,6 +4,25 @@
     "preserve_user_count": {
       "sql": "SELECT count(*)::text AS user_count FROM public.\"User\"",
       "rule": "unchanged"
+    },
+    "preserve_sms_count": {
+      "sql": "SELECT count(*)::text AS sms_count FROM public.\"SmsMessage\"",
+      "rule": "unchanged"
+    },
+    "preserve_voicemail_count": {
+      "sql": "SELECT count(*)::text AS voicemail_count FROM public.\"Voicemail\"",
+      "rule": "unchanged"
+    },
+    "sms_legacy_read_backfill": {
+      "sql": "SELECT count(*)::text AS missing_read_receipt FROM public.\"SmsMessage\" AS message JOIN public.\"SmsThread\" AS thread ON thread.id = message.\"threadId\" WHERE message.direction = 'in' AND thread.\"lastReadAt\" IS NOT NULL AND message.\"createdAt\" <= thread.\"lastReadAt\" AND (to_jsonb(message)->>'readAt') IS NULL",
+      "rule": "zero-after",
+      "after": [{ "missing_read_receipt": "0" }]
+    },
+    "voicemail_outbox_exists": {
+      "sql": "SELECT to_regclass('public.\"VoicemailEmailDelivery\"') IS NOT NULL AS outbox_exists",
+      "rule": "expected",
+      "before": [{ "outbox_exists": false }],
+      "after": [{ "outbox_exists": true }]
     }
   },
   "migrations": {
@@ -146,6 +165,21 @@
       "checks": [
         "preserve_user_count"
       ]
+    },
+    "20261109010000_sms_message_read_receipts": {
+      "kind": "data",
+      "reason": "Add per-message SMS read receipts and backfill previously acknowledged incoming messages without losing SMS rows.",
+      "checks": ["preserve_user_count", "preserve_sms_count", "sms_legacy_read_backfill"]
+    },
+    "20261110010000_forwarding_quiet_hours_time_zone": {
+      "kind": "schema",
+      "reason": "Add a nullable selected IANA zone; existing accounts retain their prior fallback until they save a zone.",
+      "checks": ["preserve_user_count"]
+    },
+    "20261111010000_voicemail_email_delivery_outbox": {
+      "kind": "schema",
+      "reason": "Create durable voicemail email work with narrow runtime grants before starting the dispatcher.",
+      "checks": ["preserve_user_count", "preserve_voicemail_count", "voicemail_outbox_exists"]
     }
   }
 }

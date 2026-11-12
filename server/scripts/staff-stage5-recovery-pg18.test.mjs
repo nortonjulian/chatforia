@@ -38,9 +38,12 @@ copyFileSync(
   'server/prisma/migrations/migration_lock.toml',
   join(migrationDir, 'migration_lock.toml')
 );
-const names = readdirSync('server/prisma/migrations')
-  .filter((name) => /^\d/.test(name))
-  .sort();
+// Rehearse the archived v2 release, even when newer application migrations
+// exist in this checkout. The append-only CI guard protects these SQL bytes.
+const names = execFileSync('git', ['ls-tree', '-r', '--name-only',
+  'dbf5887ebf64d87a649a8a033e5b66b1539b7b7e', '--', 'server/prisma/migrations'],
+{ encoding: 'utf8' }).split('\n').filter((path) => path.endsWith('/migration.sql'))
+  .map((path) => path.split('/').at(-2)).sort();
 assert.equal(names.length, 161);
 const baseline = names.filter((name) => name < '20261102');
 assert.equal(baseline.length, 141);

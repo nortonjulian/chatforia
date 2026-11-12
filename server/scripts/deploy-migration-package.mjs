@@ -8,7 +8,7 @@ import { dirname, join, resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { checkHistory, checkReconciledHistory, reconciliationPackageSpec, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
+import { applicationReleaseSpec, checkHistory, checkReconciledHistory, reconciliationPackageSpec, checksForPending, digest, readPackage, verifyPackage } from './migration-package.mjs';
 
 function persist(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
@@ -53,6 +53,8 @@ export function assertChecks(checks, before, after) {
     if (check.rule === 'expected') {
       assert.deepEqual(before[id], check.before, `Before predicate failed: ${id}`);
       if (after) assert.deepEqual(after[id], check.after, `After predicate failed: ${id}`);
+    } else if (check.rule === 'zero-after') {
+      if (after) assert.deepEqual(after[id], check.after, `After predicate failed: ${id}`);
     } else if (after) {
       assert.deepEqual(after[id], before[id], `Preservation predicate failed: ${id}`);
     }
@@ -62,6 +64,11 @@ export function assertChecks(checks, before, after) {
 export async function deployPackage(options) {
   const bundle = readPackage(options.package, options.sha256);
   const files = verifyPackage(bundle);
+  const applicationRelease = applicationReleaseSpec(files);
+  // The approved 161-file staff cutover does not approve three later app
+  // migrations. A separately reviewed manifest revision must open this gate.
+  if (applicationRelease && applicationRelease.status !== 'approved-for-production')
+    throw new Error('Application release is proposed; production execution is not approved');
   let url;
   try { url = new URL(process.env.DATABASE_URL); } catch { throw new Error('Invalid DATABASE_URL'); }
   if (new Set(url.searchParams.keys()).size !== [...url.searchParams.keys()].length) {
@@ -97,7 +104,7 @@ export async function deployPackage(options) {
       }
     }
   }
-  const historyCheck = (rows, complete = false) => reconciliation
+  const historyCheck = (rows, complete = false) => (reconciliation || applicationRelease)
     ? checkReconciledHistory(bundle, rows, { hostname: url.hostname,
       database: options.database, port: url.port }, complete)
     : checkHistory(bundle, rows, complete);
@@ -112,6 +119,8 @@ export async function deployPackage(options) {
   mkdirSync(receiptDirectory, { mode: 0o700 });
   const receipt = { version: 1, commit: bundle.commit, packageSha256: options.sha256,
     target: { host: options.host, database: options.database, port: Number(url.port || 5432) },
+    applicationRelease: applicationRelease ? { id: applicationRelease.id,
+      manifestSha256: digest(files.get('server/security/applicationMigrationRelease.v3.json')) } : null,
     reconciliation: reconciliation ? { id: reconciliation.id,
       manifestSha256: digest(files.get(reconciliationSpec.paths[0])), exceptions: reconciliation.exceptions } : null,
     startedAt: new Date().toISOString() };
@@ -149,7 +158,10 @@ export async function deployPackage(options) {
       receipt.beforeChecks = await aggregateChecks(db, checks);
       assertChecks(checks, receipt.beforeChecks);
       persist(join(receiptDirectory, 'before.json'), receipt);
-      if (reconciliation) {
+      if (applicationRelease) {
+        const { runApplicationReleasePreflight } = await import('./application-release-preflight.mjs');
+        await runApplicationReleasePreflight(db, bundle, 'before');
+      } else if (reconciliation) {
         const { runPreflight } = await import('./staff-deployment-preflight.mjs');
         await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--before-migrations',
           { migrationRoot: join(work, 'server/prisma/migrations'), manifestVersion: reconciliationSpec.version });
@@ -172,7 +184,7 @@ export async function deployPackage(options) {
       receipt.migrationExitCode = result.status;
       receipt.afterHistory = await ledger(db);
       if (result.error || result.status !== 0) throw new Error('Migration command failed; inspect private server diagnostics');
-      if (reconciliationSpec?.version === 'v2') {
+      if (applicationRelease || reconciliationSpec?.version === 'v2') {
         assert.deepEqual(
           receipt.afterHistory.filter((row) => row.rolled_back_at),
           receipt.beforeHistory.filter((row) => row.rolled_back_at),
@@ -180,7 +192,10 @@ export async function deployPackage(options) {
         );
       }
       historyCheck(receipt.afterHistory, true);
-      if (reconciliation) {
+      if (applicationRelease) {
+        const { runApplicationReleasePreflight } = await import('./application-release-preflight.mjs');
+        await runApplicationReleasePreflight(db, bundle, 'after');
+      } else if (reconciliation) {
         const { runPreflight } = await import('./staff-deployment-preflight.mjs');
         await runPreflight(db, { ...process.env, STAFF_EXPECTED_DATABASE: options.database }, '--after-migrations',
           { migrationRoot: join(work, 'server/prisma/migrations'), manifestVersion: reconciliationSpec.version });

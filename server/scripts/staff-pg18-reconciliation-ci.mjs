@@ -234,7 +234,8 @@ ROLLBACK;`;
   const consentManifest = JSON.parse(readFileSync('server/security/staffMigrationReconciliation.v2.json'));
   assert.equal(manifest.status, 'proposed-not-authorized-for-production');
   assert.equal(consentManifest.status, 'approved-for-production');
-  const fullPackage = buildPackage('HEAD');
+  // The staff rehearsal remains fixed to the exact 161-file v2 release.
+  const fullPackage = buildPackage('dbf5887ebf64d87a649a8a033e5b66b1539b7b7e');
   const releasePackage = buildPackage('6a5f06d58c4414b7a0f584eeaede3118d3e9066b');
   const baselineLedger = await ledger(db);
   const historicalRollbacks = baselineLedger.filter((row) => row.rolled_back_at);
@@ -257,8 +258,16 @@ ROLLBACK;`;
     { ...isolated, allowProposedForIsolatedTest: false }), /not approved for production/);
   assert.equal((await runPreflight(db, reconciledEnv, '--before-migrations', isolated)).reconciliationId, manifest.id);
   const consentEnv = { ...reconciledEnv, STAFF_MIGRATION_RECONCILIATION_ID: consentManifest.id };
-  const isolatedConsent = { manifestVersion: 'v2',
-    migrationRoot: 'server/prisma/migrations' };
+  const v2MigrationRoot = join(root, 'v2-migrations');
+  mkdirSync(v2MigrationRoot);
+  for (const file of fullPackage.files.filter((entry) =>
+    /^server\/prisma\/migrations\/[^/]+\/migration\.sql$/.test(entry.path))) {
+    const name = file.path.split('/').at(-2);
+    const directory = join(v2MigrationRoot, name);
+    mkdirSync(directory);
+    writeFileSync(join(directory, 'migration.sql'), Buffer.from(file.content, 'base64'));
+  }
+  const isolatedConsent = { manifestVersion: 'v2', migrationRoot: v2MigrationRoot };
   assert.equal((await runPreflight(db, consentEnv, '--before-migrations', isolatedConsent)).reconciliationId,
     consentManifest.id);
   await assert.rejects(runPreflight(db, { ...consentEnv,
