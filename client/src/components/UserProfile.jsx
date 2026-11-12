@@ -100,7 +100,7 @@ class SectionBoundary extends React.Component {
 }
 
 /* ---------- main ---------- */
-export default function UserProfile({ onLanguageChange, openSection, drawerScrollReady = true }) {
+export default function UserProfile({ onLanguageChange, openSection, drawerScrollReady = true, qaVoicemailOnly = false }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useUser();
@@ -680,6 +680,35 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
     typeof currentUser?.avatarUrl === 'string' &&
     currentUser.avatarUrl.startsWith('/uploads/avatars/');
 
+  const voicemailForwardingFields = <>
+    <Switch
+      checked={canForwardVoicemailEmail && voicemailEmailForwardingEnabled}
+      disabled={!canForwardVoicemailEmail}
+      onChange={(e) => setVoicemailEmailForwardingEnabled(e.currentTarget.checked)}
+      label={t('profile.voicemailForwardEmail', 'Forward voicemail to email')}
+    />
+    {!canForwardVoicemailEmail && (
+      <Text size="sm" c="dimmed">
+        {t('profile.voicemailEmailRequiresPlus', 'Voicemail email forwarding requires Plus or Premium.')}
+      </Text>
+    )}
+    <TextInput
+      disabled={!canForwardVoicemailEmail}
+      type="email"
+      label={t('profile.voicemailForwardEmailAddress', 'Forwarding email address')}
+      placeholder={t('profile.voicemailForwardEmailPlaceholder', 'Email to send voicemail notifications to')}
+      value={voicemailForwardEmail}
+      onChange={(e) => setVoicemailForwardEmail(e.currentTarget.value)}
+    />
+  </>;
+
+  // The local QA page mounts the real controls and save handler without the
+  // unrelated profile sections. Normal application rendering is unchanged.
+  if (qaVoicemailOnly) return <Paper p="lg">
+    <Stack gap="sm">{voicemailForwardingFields}</Stack>
+    <Button onClick={saveSettings}>{t('profile.saveProfile', 'Save profile')}</Button>
+  </Paper>;
+
   /* ---------- main render ---------- */
 
   return (
@@ -1012,31 +1041,7 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
                 }
               />
 
-              <Switch
-                checked={canForwardVoicemailEmail && voicemailEmailForwardingEnabled}
-                disabled={!canForwardVoicemailEmail}
-                onChange={(e) => setVoicemailEmailForwardingEnabled(e.currentTarget.checked)}
-                label={t('profile.voicemailForwardEmail', 'Forward voicemail to email')}
-              />
-              {!canForwardVoicemailEmail && (
-                <Text size="sm" c="dimmed">
-                  {t('profile.voicemailEmailRequiresPlus', 'Voicemail email forwarding requires Plus or Premium.')}
-                </Text>
-              )}
-              <TextInput
-                disabled={!canForwardVoicemailEmail}
-                type="email"
-                label={t(
-                  'profile.voicemailForwardEmailAddress',
-                  'Forwarding email address'
-                )}
-                placeholder={t(
-                  'profile.voicemailForwardEmailPlaceholder',
-                  'Email to send voicemail notifications to'
-                )}
-                value={voicemailForwardEmail}
-                onChange={(e) => setVoicemailForwardEmail(e.currentTarget.value)}
-              />
+              {voicemailForwardingFields}
 
               <Textarea
                 label={t(
