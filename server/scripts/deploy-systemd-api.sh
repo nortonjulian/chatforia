@@ -39,6 +39,10 @@ chmod -R g+rX "$stage/source"
   npx prisma generate --schema=server/prisma/schema.prisma
   node server/scripts/migration-package.mjs "$commit" "$stage/package.json"
 )
+# npm ci and Prisma generation create files after the initial permission pass.
+# The restricted preflight process must be able to read those exact staged bytes.
+chgrp -R chatforia-api "$stage/source"
+chmod -R g+rX "$stage/source"
 test "$(sha256sum "$stage/package.json" | cut -d' ' -f1)" = "$package_sha256"
 chgrp chatforia-api "$stage/package.json"
 chmod 640 "$stage/package.json"

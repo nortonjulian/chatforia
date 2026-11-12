@@ -28,4 +28,5 @@ test('restricted schema and staff preflights precede stopping the systemd API', 
   assert.ok(script.indexOf('systemctl stop') < script.indexOf('systemctl start'));
   assert.match(script, /git merge-base --is-ancestor "\$commit" origin\/main/);
   assert.match(script, /npm ci --no-audit --no-fund/);
+  assert.match(script, /npx prisma generate[\s\S]*chgrp -R chatforia-api "\$stage\/source"[\s\S]*chmod -R g\+rX "\$stage\/source"[\s\S]*application-release-preflight\.mjs/);
 });
