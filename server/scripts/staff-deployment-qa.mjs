@@ -149,7 +149,16 @@ try {
       },
     ],
   });
-  const before = await executor.user.findMany({ orderBy: { id: 'asc' } });
+  // This is intentionally a 160-migration staff rehearsal. The current
+  // client also knows later application columns, so select only fields that
+  // existed in the historical schema under test.
+  const historicalUserFields = {
+    id: true, username: true, displayName: true, role: true,
+    tokenVersion: true, passwordHash: true,
+  };
+  const before = await executor.user.findMany({
+    orderBy: { id: 'asc' }, select: historicalUserFields,
+  });
   await runHistoricalPreflight(executor, env, '--before-migrations');
   pass(
     'populated 141-migration baseline passes read-only prerequisites as non-superuser'
@@ -205,7 +214,9 @@ try {
     copyMigration(name);
   migrate();
   assert.deepEqual(
-    await executor.user.findMany({ orderBy: { id: 'asc' } }),
+    await executor.user.findMany({
+      orderBy: { id: 'asc' }, select: historicalUserFields,
+    }),
     before
   );
   const [history] =
@@ -250,15 +261,19 @@ try {
   await runtime.user.update({
     where: { id: 2 },
     data: { displayName: 'Ordinary write still works' },
+    select: { displayName: true },
   });
   await assert.rejects(
     runtime.user.update({
       where: { id: 1 },
       data: { passwordHash: 'forbidden' },
+      select: { id: true },
     })
   );
   assert.equal(
-    (await runtime.user.findUnique({ where: { id: 1 } })).tokenVersion,
+    (await runtime.user.findUnique({
+      where: { id: 1 }, select: { tokenVersion: true },
+    })).tokenVersion,
     9
   );
   pass('existing administrator protection and ordinary writes survive upgrade');
