@@ -1,5 +1,9 @@
 import { render, screen } from '@testing-library/react';
 
+const mockUserState = { currentUser: { id: 1 } };
+let mockForwardingMounts = 0;
+jest.mock('@/context/UserContext', () => ({ useUser: () => mockUserState }));
+
 // ---- Mocks ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
@@ -59,7 +63,11 @@ jest.mock('@/features/settings/AgeSettings', () => ({
 
 jest.mock('@/features/settings/ForwardingSettings.jsx', () => ({
   __esModule: true,
-  default: () => <div data-testid="forwarding-settings" />,
+  default: function MockForwardingSettings() {
+    const React = require('react');
+    React.useEffect(() => { mockForwardingMounts += 1; }, []);
+    return <div data-testid="forwarding-settings" />;
+  },
 }));
 
 jest.mock(
@@ -74,6 +82,15 @@ jest.mock(
 import SettingsPage from '../settings/SettingsPage';
 
 describe('SettingsPage', () => {
+  test('remounts forwarding settings when the authenticated account changes', () => {
+    mockUserState.currentUser = { id: 1 };
+    mockForwardingMounts = 0;
+    const { rerender } = render(<SettingsPage />);
+    expect(mockForwardingMounts).toBe(1);
+    mockUserState.currentUser = { id: 2 };
+    rerender(<SettingsPage />);
+    expect(mockForwardingMounts).toBe(2);
+  });
   test('renders sections, dividers, and child components', () => {
     render(<SettingsPage />);
 

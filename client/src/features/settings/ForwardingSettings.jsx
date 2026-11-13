@@ -19,6 +19,17 @@ function isE164(s) { return /^\+?[1-9]\d{7,14}$/.test(String(s || '').replace(/[
 function normalizeE164(s) { return String(s || '').replace(/[^\d+]/g, ''); }
 function isEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '')); }
 function changed(a, b) { return JSON.stringify(a) !== JSON.stringify(b); }
+function deviceTimeZone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+}
+function displayForm(data) {
+  return { ...data, forwardQuietHoursTimeZone: data.forwardQuietHoursTimeZone ?? deviceTimeZone() };
+}
+function validTimeZone(zone) {
+  if (typeof zone !== 'string' || zone.length > 64 ||
+      !/^(?:UTC|GMT|[A-Za-z0-9._+-]+(?:\/[A-Za-z0-9._+-]+)+)$/.test(zone.trim())) return false;
+  try { new Intl.DateTimeFormat('en-US', { timeZone: zone.trim() }); return true; } catch { return false; }
+}
 
 export default function ForwardingSettings() {
   const { t } = useTranslation();
@@ -36,6 +47,7 @@ export default function ForwardingSettings() {
     forwardToPhoneE164: '',
     forwardQuietHoursStart: null, // 0–23 or null
     forwardQuietHoursEnd: null,   // 0–23 or null
+    forwardQuietHoursTimeZone: deviceTimeZone(),
   });
   const [initial, setInitial] = useState(form);
 
@@ -45,7 +57,7 @@ export default function ForwardingSettings() {
       try {
         const { data } = await api.get('/settings/forwarding');
         if (!alive) return;
-        setForm(data);
+        setForm(displayForm(data));
         setInitial(data);
       } catch {
         // best-effort
@@ -69,7 +81,7 @@ export default function ForwardingSettings() {
       };
       const { data } = await api.patch('/settings/forwarding', payload);
       setInitial(data);
-      setForm(data);
+      setForm(displayForm(data));
       const okMsg = t('profile.forwardSaved', 'Forwarding settings saved');
       setBanner(okMsg);
       try { notifications.show?.({ message: okMsg, withBorder: true }); } catch {}
@@ -102,10 +114,19 @@ export default function ForwardingSettings() {
     }
     const hrs = [form.forwardQuietHoursStart, form.forwardQuietHoursEnd];
     for (const v of hrs) {
-      if (v != null && (Number.isNaN(+v) || +v < 0 || +v > 23)) {
+      if (v != null && (!Number.isInteger(Number(v)) || v === '' || +v < 0 || +v > 23)) {
         out.quiet = t('profile.errQuietHours', 'Quiet hours must be between 0 and 23.');
         break;
       }
+    }
+    if (!out.quiet && (hrs[0] == null) !== (hrs[1] == null)) {
+      out.quiet = t('profile.errQuietHoursPair', 'Set both quiet hours or clear both.');
+    }
+    if (!out.quiet && hrs[0] != null && Number(hrs[0]) === Number(hrs[1])) {
+      out.quiet = t('profile.errQuietHoursEqual', 'Quiet hours start and end must differ.');
+    }
+    if (!validTimeZone(form.forwardQuietHoursTimeZone)) {
+      out.timeZone = t('profile.errQuietHoursTimeZone', 'Enter a valid IANA time zone, such as America/Denver.');
     }
     return out;
   }, [form, t]);
@@ -237,12 +258,21 @@ export default function ForwardingSettings() {
           />
         </Group>
         {errors.quiet ? <Text size="xs" c="red">{errors.quiet}</Text> : null}
+        <TextInput
+          label={t('profile.quietHoursTimeZone', 'Quiet-hours time zone (IANA)')}
+          value={form.forwardQuietHoursTimeZone ?? ''}
+          onChange={(e) => setForm((f) => ({ ...f, forwardQuietHoursTimeZone: e.target.value }))}
+          error={errors.timeZone}
+          description={initial.forwardQuietHoursTimeZone == null
+            ? t('profile.quietHoursLegacyZone', 'Device time zone suggested. Save to use it across devices; until then, existing quiet hours use the server time zone.')
+            : t('profile.quietHoursSavedZone', 'Saved for this account across devices. Daylight-saving changes follow this zone.')}
+        />
 
         <Group justify="flex-end" mt="sm">
           <Button
             variant="default"
             disabled={!hasChanges || saving}
-            onClick={() => { setForm(initial); setBanner(''); }}
+            onClick={() => { setForm(displayForm(initial)); setBanner(''); }}
           >
             {t('profile.reset', 'Reset')}
           </Button>
