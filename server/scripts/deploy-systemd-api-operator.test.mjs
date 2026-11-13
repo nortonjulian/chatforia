@@ -51,8 +51,8 @@ function fixture(t) {
   const sshInput = join(root, 'ssh-input');
   const env = { ...process.env, PATH: `${mocks}:${process.env.PATH}`,
     API_DO_OPERATOR_KNOWN_HOSTS: knownHosts, MOCK_SSH_ARGS: sshArgs, MOCK_SSH_INPUT: sshInput };
-  const invoke = () => spawnSync('bash', [localHelper, receiptPath, packagePath, checkout,
-    'example.invalid', key], { cwd: checkout, env, encoding: 'utf8' });
+  const invoke = (extraArgs = []) => spawnSync('bash', [localHelper, receiptPath, packagePath, checkout,
+    'example.invalid', key, ...extraArgs], { cwd: checkout, env, encoding: 'utf8' });
   return { root, origin, checkout, commit, packagePath, packageSha, receiptPath,
     sshArgs, sshInput, invoke };
 }
@@ -67,7 +67,22 @@ test('operator helper uses the receipt commit and package digest with strict pin
   assert.match(args, /root@example\.invalid/);
   assert.match(args, new RegExp(f.commit));
   assert.match(args, new RegExp(f.packageSha));
+  assert.equal(args.trim().split('\n').at(-1), 'active');
   assert.equal(readFileSync(f.sshInput, 'utf8'), '#!/bin/bash\necho synthetic-host-script\n');
+});
+
+test('operator helper passes explicit pre-stopped mode only when requested', (t) => {
+  const f = fixture(t);
+  const result = f.invoke(['--pre-stopped']);
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(readFileSync(f.sshArgs, 'utf8').trim().split('\n').at(-1), 'pre-stopped');
+  assert.equal(readFileSync(f.sshInput, 'utf8'), '#!/bin/bash\necho synthetic-host-script\n');
+});
+
+test('operator helper rejects an unrecognized deployment mode before SSH', (t) => {
+  const f = fixture(t);
+  assert.notEqual(f.invoke(['--other-mode']).status, 0);
+  assert.equal(existsSync(f.sshArgs), false);
 });
 
 test('operator helper rejects changed package before any SSH side effect', (t) => {
