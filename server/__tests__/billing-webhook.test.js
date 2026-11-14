@@ -673,6 +673,84 @@ describe(
       });
     });
 
+    test('records a paid purchase without assigning it during unresolved replacement', async () => {
+      await createTestUser();
+      const expiry = new Date(Date.now() + 86400000);
+      const priorPurchase = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: TEST_USER_ID,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_local_3_premium',
+          totalDataMb: 3072,
+          remainingDataMb: 1024,
+          expiresAt: expiry,
+          iccid: '89000000000000999',
+          esimProfileId: 'mock-telna-existing',
+          providerPurchaseId: 'mock-existing-package',
+        },
+      });
+      const oldSubscriber = await prisma.subscriber.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          provider: 'telna',
+          providerProfileId: 'mock-telna-existing',
+          iccid: '89000000000000999',
+          status: 'ACTIVE',
+        },
+      });
+      await prisma.esimReplacement.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          oldSubscriberId: oldSubscriber.id,
+          oldIccid: oldSubscriber.iccid,
+          oldProviderPurchaseId: 'mock-existing-package',
+          idempotencyKey: 'unresolved-before-topup',
+          remainingDataMb: 1024,
+          originalExpiresAt: expiry,
+          status: 'REQUIRES_RECONCILIATION',
+        },
+      });
+
+      const event = makeStripeEvent({
+        id: 'evt_esim_unresolved_topup',
+        type: 'checkout.session.completed',
+        object: {
+          object: 'checkout.session',
+          id: 'cs_esim_unresolved_topup',
+          mode: 'payment',
+          status: 'complete',
+          payment_status: 'paid',
+          payment_intent: 'pi_esim_unresolved_topup',
+          client_reference_id: String(TEST_USER_ID),
+          livemode: false,
+          metadata: {
+            userId: String(TEST_USER_ID),
+            product: 'chatforia_esim_local_5',
+          },
+        },
+      });
+
+      await agent.post(ENDPOINTS.webhook)
+        .set('Stripe-Signature', 't=0,v1=testsig')
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify(event))
+        .expect(500);
+
+      expect(await prisma.mobileDataPackPurchase.findFirst({
+        where: { billingTransactionId: 'pi_esim_unresolved_topup' },
+      })).toMatchObject({
+        userId: TEST_USER_ID,
+        iccid: null,
+        providerPurchaseId: null,
+        remainingDataMb: 5120,
+      });
+      expect(await prisma.stripeWebhookEvent.findUnique({
+        where: { id: event.id },
+      })).toBeNull();
+    });
+
     test('a second Stripe event for the same paid transaction reuses the provisioned package', async () => {
       await createTestUser();
 

@@ -678,6 +678,29 @@ async function applyPaidAddonCheckoutSession(session) {
     });
   }
 
+  // A paid checkout must remain visible in the ledger, but must not be
+  // attached to either eSIM while a replacement outcome is unresolved.
+  // The per-account claim prevents a fresh replacement from starting
+  // between this check and package assignment.
+  const unresolvedReplacement = await prisma.esimReplacement.findFirst({
+    where: {
+      userId: Number(userId),
+      OR: [
+        { status: { notIn: ['COMPLETED', 'FAILED'] } },
+        { status: 'FAILED', newProviderPurchaseId: { not: null } },
+      ],
+    },
+    select: { id: true },
+  });
+
+  if (unresolvedReplacement) {
+    const err = new Error(
+      'Paid eSIM purchase is awaiting replacement reconciliation before provisioning'
+    );
+    err.code = 'ESIM_REPLACEMENT_REQUIRES_RECONCILIATION';
+    throw err;
+  }
+
   const purchaseAlreadyContainsCarryForward =
     purchasedDataMb > 0 &&
     purchase.totalDataMb > purchasedDataMb;
