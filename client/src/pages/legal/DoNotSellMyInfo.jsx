@@ -1,4 +1,4 @@
-import { Container, Title, Text, Button } from '@mantine/core';
+import { Container, Title, Text, Button, Anchor } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
 export default function DoNotSellMyInfo() {
@@ -19,6 +19,8 @@ export default function DoNotSellMyInfo() {
           "Use this page to request an opt-out of the sale or sharing of your personal information, including sharing for cross-context behavioral advertising where applicable. Advertising integrations may process identifiers and online activity. The button below opens your email app; send the message to submit your request. Clicking the button alone does not change advertising settings. You do not need a Chatforia account to email a request."
         )}
       </Text>
+
+      <Text mb="md"><Anchor href="/legal/cookies">{t('doNotSell.browserChoices', 'Turn off third-party advertising for this browser in Cookie Settings')}</Anchor></Text>
 
       <Button
         radius="xl"

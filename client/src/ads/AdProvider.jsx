@@ -1,4 +1,5 @@
 import React from 'react';
+import usePrivacy from '@/privacy/usePrivacy';
 import useIsPaidPlan from '@/hooks/useIsPaidPlan';
 
 const AdsContext = React.createContext(null);
@@ -14,9 +15,12 @@ export function AdProvider({ children, isPremium: isPremiumProp }) {
     typeof isPremiumProp === 'boolean' ? isPremiumProp : hookPremium;
 
   const adsEnabled = import.meta.env.VITE_ADS_ENABLED !== 'false';
-  const provider = String(import.meta.env.VITE_AD_PROVIDER || 'house')
+  const { advertising } = usePrivacy();
+  const configuredProvider = String(import.meta.env.VITE_AD_PROVIDER || 'house')
     .toLowerCase()
     .trim();
+
+  const provider = advertising ? configuredProvider : 'house';
 
   const canShow = React.useCallback(
     (placement, capKey = 'global', cooldownMs = 30 * 60 * 1000) => {
