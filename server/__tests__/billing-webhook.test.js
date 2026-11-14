@@ -690,22 +690,22 @@ describe(
           product: 'chatforia_esim_local_5',
         },
       };
-      const postEvent = (eventId) => agent.post(ENDPOINTS.webhook)
+      const postEvent = (eventId, sessionId) => agent.post(ENDPOINTS.webhook)
         .set('Stripe-Signature', 't=0,v1=testsig')
         .set('Content-Type', 'application/json')
         .send(JSON.stringify(makeStripeEvent({
           id: eventId,
           type: 'checkout.session.completed',
-          object: session,
+          object: { ...session, id: sessionId },
         })));
 
-      await postEvent('evt_esim_replay_first').expect(200);
+      await postEvent('evt_esim_replay_first', 'cs_esim_replay_first').expect(200);
       const first = await prisma.mobileDataPackPurchase.findFirst({
         where: { billingTransactionId: 'pi_esim_replay' },
       });
       expect(first?.providerPurchaseId).toBeTruthy();
 
-      await postEvent('evt_esim_replay_second').expect(200);
+      await postEvent('evt_esim_replay_second', 'cs_esim_replay_second').expect(200);
       const second = await prisma.mobileDataPackPurchase.findFirst({
         where: { billingTransactionId: 'pi_esim_replay' },
       });
@@ -719,6 +719,11 @@ describe(
       expect(await prisma.mobileDataPackPurchase.count({
         where: { billingTransactionId: 'pi_esim_replay' },
       })).toBe(1);
+      const subscriber = await prisma.subscriber.findFirst({
+        where: { userId: TEST_USER_ID },
+      });
+      expect(subscriber.providerMeta.stripeSessionId)
+        .toBe('cs_esim_replay_first');
     });
 
     test('paid checkout ignores an unprovisioned failed replacement allocation', async () => {
