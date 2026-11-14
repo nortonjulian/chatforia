@@ -24,7 +24,8 @@ const migrationDir = join(prismaDir, 'migrations');
 mkdirSync(migrationDir, { recursive: true });
 copyFileSync('server/prisma/schema.prisma', join(prismaDir, 'schema.prisma'));
 copyFileSync('server/prisma/migrations/migration_lock.toml', join(migrationDir, 'migration_lock.toml'));
-const bundle = buildPackage('HEAD');
+// Preserve the exact historical v2-to-v3 rehearsal before the new transition.
+const bundle = buildPackage('a69f5fbc08c920c9146bda8a34454b51b5cc5eb8');
 const files = verifyPackage(bundle);
 const release = applicationReleaseSpec(files);
 const names = bundle.files.flatMap((file) => {
@@ -118,6 +119,20 @@ try {
     dispatchVoicemailEmailOnce({ db, send })]);
   assert.equal(sends, 1);
   assert.equal((await db.voicemailEmailDelivery.findUnique({ where: { voicemailId } })).status, 'SENT');
+  const nextBundle = buildPackage('HEAD');
+  const nextFiles = verifyPackage(nextBundle);
+  const next = applicationReleaseSpec(nextFiles);
+  const nextPending = Object.keys(next.requiredExactMigrations);
+  const nextChecks = checksForPending(nextFiles, nextPending);
+  const nextBefore = await aggregateChecks(db, nextChecks);
+  assert.deepEqual((await runApplicationReleasePreflight(db, nextBundle, 'before',
+    { allowProposedForIsolatedTest: true })).pending, nextPending);
+  for (const name of nextPending) add(name);
+  deploy();
+  assertChecks(nextChecks, nextBefore, await aggregateChecks(db, nextChecks));
+  assert.equal((await runApplicationReleasePreflight(db, nextBundle, 'after',
+    { allowProposedForIsolatedTest: true })).migrationCount, 165);
+  console.log('PASS: exact 164-to-165 proposed MFA release and restricted grants');
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {
   await db.$disconnect();

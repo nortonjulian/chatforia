@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { buildPackage, verifyPackage, applicationReleaseSpec, checkHistory } from './migration-package.mjs';
 import { PrismaClient } from '@prisma/client';
 
 const expectedUrl = 'postgresql://chatforia:qa_password@127.0.0.1:5432/chatforia_room_settings_test';
@@ -32,7 +33,10 @@ try {
   if (existsSync(combinedManifestPath)) {
     const combined = JSON.parse(readFileSync(combinedManifestPath, 'utf8'));
     assert.equal(combined.afterCount, 164);
-    assert.equal(rows.length, combined.afterCount);
+    const bundle = buildPackage('HEAD');
+    const release = applicationReleaseSpec(verifyPackage(bundle));
+    assert.equal(rows.length, release.afterCount);
+    assert.deepEqual(checkHistory(bundle, rows, true), []);
     for (const [name, expectedChecksum] of Object.entries(combined.requiredExactMigrations)) {
       const applied = rows.filter((row) => row.migration_name === name);
       assert.equal(applied.length, 1);

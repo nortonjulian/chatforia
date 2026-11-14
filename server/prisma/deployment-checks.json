@@ -16,13 +16,39 @@
     "sms_legacy_read_backfill": {
       "sql": "SELECT count(*)::text AS missing_read_receipt FROM public.\"SmsMessage\" AS message JOIN public.\"SmsThread\" AS thread ON thread.id = message.\"threadId\" WHERE message.direction = 'in' AND thread.\"lastReadAt\" IS NOT NULL AND message.\"createdAt\" <= thread.\"lastReadAt\" AND (to_jsonb(message)->>'readAt') IS NULL",
       "rule": "zero-after",
-      "after": [{ "missing_read_receipt": "0" }]
+      "after": [
+        {
+          "missing_read_receipt": "0"
+        }
+      ]
     },
     "voicemail_outbox_exists": {
       "sql": "SELECT to_regclass('public.\"VoicemailEmailDelivery\"') IS NOT NULL AS outbox_exists",
       "rule": "expected",
-      "before": [{ "outbox_exists": false }],
-      "after": [{ "outbox_exists": true }]
+      "before": [
+        {
+          "outbox_exists": false
+        }
+      ],
+      "after": [
+        {
+          "outbox_exists": true
+        }
+      ]
+    },
+    "mfa_disable_catalog": {
+      "rule": "expected",
+      "before": [
+        {
+          "installed": "0"
+        }
+      ],
+      "after": [
+        {
+          "installed": "1"
+        }
+      ],
+      "sql": "SELECT count(*)::text AS installed FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='staff_security' AND p.proname='disable_mfa' AND pg_get_function_identity_arguments(p.oid)='p_payload text, p_signature text' AND p.prosecdef"
     }
   },
   "migrations": {
@@ -169,17 +195,35 @@
     "20261109010000_sms_message_read_receipts": {
       "kind": "data",
       "reason": "Add per-message SMS read receipts and backfill previously acknowledged incoming messages without losing SMS rows.",
-      "checks": ["preserve_user_count", "preserve_sms_count", "sms_legacy_read_backfill"]
+      "checks": [
+        "preserve_user_count",
+        "preserve_sms_count",
+        "sms_legacy_read_backfill"
+      ]
     },
     "20261110010000_forwarding_quiet_hours_time_zone": {
       "kind": "schema",
       "reason": "Add a nullable selected IANA zone; existing accounts retain their prior fallback until they save a zone.",
-      "checks": ["preserve_user_count"]
+      "checks": [
+        "preserve_user_count"
+      ]
     },
     "20261111010000_voicemail_email_delivery_outbox": {
       "kind": "schema",
       "reason": "Create durable voicemail email work with narrow runtime grants before starting the dispatcher.",
-      "checks": ["preserve_user_count", "preserve_voicemail_count", "voicemail_outbox_exists"]
+      "checks": [
+        "preserve_user_count",
+        "preserve_voicemail_count",
+        "voicemail_outbox_exists"
+      ]
+    },
+    "20261114050000_authorized_mfa_disable": {
+      "kind": "schema",
+      "reason": "Add signed former-staff MFA disable without changing existing credentials or access records.",
+      "checks": [
+        "preserve_user_count",
+        "mfa_disable_catalog"
+      ]
     }
   }
 }

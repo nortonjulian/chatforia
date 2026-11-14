@@ -245,7 +245,7 @@ test('zero-after backfill check accepts a variable baseline but rejects an incom
 });
 
 test('v3 preserves the archived 161/3 source gate and pins the approved 161/4 release', async () => {
-  const bundle = buildPackage('HEAD');
+  const bundle = buildPackage('a69f5fbc08c920c9146bda8a34454b51b5cc5eb8');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const v2 = reconciliationPackageSpec(files).manifest;
@@ -339,4 +339,40 @@ test('v3 preserves the archived 161/3 source gate and pins the approved 161/4 re
     await assert.rejects(deployPackage({ package: packagePath, sha256: digest(bytes) }),
       /production execution is not approved/);
   } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('v4 pins only the proposed 164-to-165 MFA transition and cannot authorize production', async () => {
+  const bundle = buildPackage('HEAD');
+  const files = verifyPackage(bundle);
+  const release = applicationReleaseSpec(files);
+  const v2 = reconciliationPackageSpec(files).manifest;
+  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.beforeCount, 164);
+  assert.equal(release.afterCount, 165);
+  const entries = bundle.files.filter((f) => /\/migrations\/[^/]+\/migration.sql$/.test(f.path));
+  assert.equal(entries.length, 165);
+  const historical = release.historicalRolledBackRows.map((r) => ({ id:r.id,
+    migration_name:r.name, checksum:r.checksum, finished_at:null, rolled_back_at:'now' }));
+  const rows = entries.map((f) => { const name=f.path.split('/').at(-2); return {
+    migration_name:name, checksum:v2.exceptions[name]?.recordedChecksum || f.sha256,
+    finished_at:'now', rolled_back_at:null }; });
+  const before = [...rows.slice(0,164), ...historical];
+  assert.deepEqual(checkReconciledHistory(bundle, before, release.target), Object.keys(release.requiredExactMigrations));
+  assert.deepEqual(checkReconciledHistory(bundle, [...rows,...historical], release.target, true), []);
+  assert.throws(() => checkReconciledHistory(bundle, [...rows.slice(0,161),...historical], release.target));
+  assert.equal(checksForPending(files, Object.keys(release.requiredExactMigrations)).length, 2);
+  for (const target of ['server/security/applicationMigrationRelease.v4.json', entries.at(-1).path]) {
+    const bad=structuredClone(bundle); const file=bad.files.find((f)=>f.path===target);
+    file.content=Buffer.from('{}').toString('base64'); file.sha256=digest('{}');
+    assert.throws(()=>checkReconciledHistory(bad,before,release.target));
+  }
+  const extra=structuredClone(bundle);
+  extra.files.push({path:'server/prisma/migrations/99999999_extra/migration.sql',content:Buffer.from('SELECT 1;').toString('base64'),sha256:digest('SELECT 1;')});
+  assert.throws(()=>checkReconciledHistory(extra,before,release.target));
+  const directory=mkdtempSync(join(tmpdir(),'mfa-release-proposal-'));
+  try {
+    const path=join(directory,'package.json'); const bytes=Buffer.from(JSON.stringify(bundle));
+    writeFileSync(path,bytes);
+    await assert.rejects(deployPackage({package:path,sha256:digest(bytes)}), /production execution is not approved/);
+  } finally { rmSync(directory,{recursive:true,force:true}); }
 });
