@@ -281,12 +281,16 @@ export default function WirelessDashboard() {
 
           {status.queuedPacks?.length > 0 && (
             <Text size="sm" c="dimmed">
-              {t('wireless.queuedPacks', 'Queued data packs')}: {' '}
-              {status.queuedPacks.map((pack) =>
-                pack.unlimited || /_unlimited(?:_|$)/i.test(pack.addonKind || '')
-                  ? `${formatEsimPackLabel(pack.addonKind, t)} (${t('wireless.data.unlimited', 'Unlimited data')})`
-                  : `${formatEsimPackLabel(pack.addonKind, t)} (${formatGb(pack.remainingDataMb || 0)})`
-              ).join(', ')}
+              {t('wireless.queuedPacks', 'Purchased packs awaiting activation (not yet usable)')}: {' '}
+              {status.queuedPacks.map((pack) => {
+                const balance = pack.unlimited || /_unlimited(?:_|$)/i.test(pack.addonKind || '')
+                  ? t('wireless.data.unlimited', 'Unlimited data')
+                  : formatGb(pack.remainingDataMb || 0);
+                const expiry = pack.expiresAt
+                  ? ` — ${t('wireless.purchases.expiry', 'Expires: {{date}}', { date: formatUtc(pack.expiresAt) })}`
+                  : '';
+                return `${formatEsimPackLabel(pack.addonKind, t)} (${balance})${expiry}`;
+              }).join(', ')}
             </Text>
           )}
 

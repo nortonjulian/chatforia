@@ -229,6 +229,7 @@ describe('WirelessDashboard', () => {
         addonKind: 'chatforia_esim_europe_unlimited_premium',
         unlimited: true,
         remainingDataMb: 0,
+        expiresAt: '2026-11-15T19:27:49.000Z',
       }],
     });
 
@@ -238,6 +239,7 @@ describe('WirelessDashboard', () => {
     expect(screen.queryByText(/0\.0 GB \/ 0\.0 GB/)).not.toBeInTheDocument();
     expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
     expect(screen.getByText(/Europe Unlimited \(Unlimited data\)/)).toBeInTheDocument();
+    expect(screen.getByText(/Purchased packs awaiting activation \(not yet usable\)/)).toHaveTextContent('Expires: 2026-11-15 19:27 UTC');
   });
 
   test('does not describe a queued package as active or suggest another purchase', async () => {
