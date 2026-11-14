@@ -1769,6 +1769,22 @@ describe('wireless routes', () => {
     });
   });
 
+  it('returns 409 while account eSIM billing or replacement is in progress', async () => {
+    const app = makeApp();
+    replaceEsimForDeviceMock.mockRejectedValue(Object.assign(
+      new Error('Another eSIM purchase or replacement is being processed for this account'),
+      { code: 'ESIM_OPERATION_IN_PROGRESS' }
+    ));
+
+    const res = await request(app)
+      .post('/api/wireless/esim/50/replace')
+      .set('Idempotency-Key', 'replacement-operation-busy-1')
+      .send({});
+
+    expect(res.status).toBe(409);
+    expect(res.body.code).toBe('ESIM_OPERATION_IN_PROGRESS');
+  });
+
   it('returns 409 when the existing eSIM has no remaining data to transfer', async () => {
     const app = makeApp();
 

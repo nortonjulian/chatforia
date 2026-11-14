@@ -1,4 +1,6 @@
+import { acquireEsimOperationLock } from '../services/esimOperationLock.js';
 import prisma from '../utils/prismaClient.js';
+
 import {
   makeAgent,
 } from './helpers/testServer.js';
@@ -221,10 +223,18 @@ describe(
     beforeEach(async () => {
   await prisma.stripeWebhookEvent.deleteMany({});
 
+  await prisma.esimOperationLock.deleteMany({
+    where: { userId: TEST_USER_ID },
+  });
+
   await prisma.appSubscription.deleteMany({
     where: {
       userId: TEST_USER_ID,
     },
+  });
+
+  await prisma.esimReplacement.deleteMany({
+    where: { userId: TEST_USER_ID },
   });
 
   await prisma.subscriber.deleteMany({
@@ -583,6 +593,302 @@ describe(
         ).toBe(2);
       }
     );
+
+    test('paid eSIM checkout retries after a concurrent replacement claim', async () => {
+      await createTestUser();
+
+      const priorPurchase = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: TEST_USER_ID,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_local_3_premium',
+          totalDataMb: 3 * 1024,
+          remainingDataMb: 1024,
+          expiresAt: new Date(Date.now() + 86400000),
+          iccid: '89000000000000999',
+          esimProfileId: 'mock-telna-existing',
+          providerPurchaseId: 'mock-existing-package',
+        },
+      });
+      await prisma.subscriber.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          provider: 'telna',
+          providerProfileId: 'mock-telna-existing',
+          iccid: '89000000000000999',
+          status: 'ACTIVE',
+        },
+      });
+
+      const event = makeStripeEvent({
+        id: 'evt_esim_locked_checkout',
+        type: 'checkout.session.completed',
+        object: {
+          object: 'checkout.session',
+          id: 'cs_esim_locked_checkout',
+          mode: 'payment',
+          status: 'complete',
+          payment_status: 'paid',
+          payment_intent: 'pi_esim_locked_checkout',
+          client_reference_id: String(TEST_USER_ID),
+          livemode: false,
+          metadata: {
+            userId: String(TEST_USER_ID),
+            product: 'chatforia_esim_local_5',
+          },
+        },
+      });
+      const postEvent = () => agent.post(ENDPOINTS.webhook)
+        .set('Stripe-Signature', 't=0,v1=testsig')
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify(event));
+
+      const lock = await acquireEsimOperationLock({
+        prismaClient: prisma,
+        userId: TEST_USER_ID,
+        operation: 'REPLACEMENT',
+        operationKey: 'concurrent-replacement',
+      });
+
+      try {
+        await postEvent().expect(500);
+        expect(await prisma.mobileDataPackPurchase.count({
+          where: { billingTransactionId: 'pi_esim_locked_checkout' },
+        })).toBe(0);
+        expect(await prisma.stripeWebhookEvent.findUnique({
+          where: { id: event.id },
+        })).toBeNull();
+      } finally {
+        await lock.release();
+      }
+
+      await postEvent().expect(200);
+      const purchased = await prisma.mobileDataPackPurchase.findFirst({
+        where: { billingTransactionId: 'pi_esim_locked_checkout' },
+      });
+      expect(purchased).toMatchObject({
+        iccid: '89000000000000999',
+        addonKind: 'chatforia_esim_local_5_premium',
+      });
+    });
+
+    test('records a paid purchase without assigning it during unresolved replacement', async () => {
+      await createTestUser();
+      const expiry = new Date(Date.now() + 86400000);
+      const priorPurchase = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: TEST_USER_ID,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_local_3_premium',
+          totalDataMb: 3072,
+          remainingDataMb: 1024,
+          expiresAt: expiry,
+          iccid: '89000000000000999',
+          esimProfileId: 'mock-telna-existing',
+          providerPurchaseId: 'mock-existing-package',
+        },
+      });
+      const oldSubscriber = await prisma.subscriber.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          provider: 'telna',
+          providerProfileId: 'mock-telna-existing',
+          iccid: '89000000000000999',
+          status: 'ACTIVE',
+        },
+      });
+      await prisma.esimReplacement.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          oldSubscriberId: oldSubscriber.id,
+          oldIccid: oldSubscriber.iccid,
+          oldProviderPurchaseId: 'mock-existing-package',
+          idempotencyKey: 'unresolved-before-topup',
+          remainingDataMb: 1024,
+          originalExpiresAt: expiry,
+          status: 'REQUIRES_RECONCILIATION',
+        },
+      });
+
+      const event = makeStripeEvent({
+        id: 'evt_esim_unresolved_topup',
+        type: 'checkout.session.completed',
+        object: {
+          object: 'checkout.session',
+          id: 'cs_esim_unresolved_topup',
+          mode: 'payment',
+          status: 'complete',
+          payment_status: 'paid',
+          payment_intent: 'pi_esim_unresolved_topup',
+          client_reference_id: String(TEST_USER_ID),
+          livemode: false,
+          metadata: {
+            userId: String(TEST_USER_ID),
+            product: 'chatforia_esim_local_5',
+          },
+        },
+      });
+
+      await agent.post(ENDPOINTS.webhook)
+        .set('Stripe-Signature', 't=0,v1=testsig')
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify(event))
+        .expect(500);
+
+      expect(await prisma.mobileDataPackPurchase.findFirst({
+        where: { billingTransactionId: 'pi_esim_unresolved_topup' },
+      })).toMatchObject({
+        userId: TEST_USER_ID,
+        iccid: null,
+        providerPurchaseId: null,
+        remainingDataMb: 5120,
+      });
+      expect(await prisma.stripeWebhookEvent.findUnique({
+        where: { id: event.id },
+      })).toBeNull();
+    });
+
+    test('a second Stripe event for the same paid transaction reuses the provisioned package', async () => {
+      await createTestUser();
+
+      const session = {
+        object: 'checkout.session',
+        id: 'cs_esim_replay',
+        mode: 'payment',
+        status: 'complete',
+        payment_status: 'paid',
+        payment_intent: 'pi_esim_replay',
+        client_reference_id: String(TEST_USER_ID),
+        livemode: false,
+        metadata: {
+          userId: String(TEST_USER_ID),
+          product: 'chatforia_esim_local_5',
+        },
+      };
+      const postEvent = (eventId) => agent.post(ENDPOINTS.webhook)
+        .set('Stripe-Signature', 't=0,v1=testsig')
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify(makeStripeEvent({
+          id: eventId,
+          type: 'checkout.session.completed',
+          object: session,
+        })));
+
+      await postEvent('evt_esim_replay_first').expect(200);
+      const first = await prisma.mobileDataPackPurchase.findFirst({
+        where: { billingTransactionId: 'pi_esim_replay' },
+      });
+      expect(first?.providerPurchaseId).toBeTruthy();
+
+      await postEvent('evt_esim_replay_second').expect(200);
+      const second = await prisma.mobileDataPackPurchase.findFirst({
+        where: { billingTransactionId: 'pi_esim_replay' },
+      });
+      expect(second).toMatchObject({
+        id: first.id,
+        providerPurchaseId: first.providerPurchaseId,
+        iccid: first.iccid,
+        remainingDataMb: first.remainingDataMb,
+        expiresAt: first.expiresAt,
+      });
+      expect(await prisma.mobileDataPackPurchase.count({
+        where: { billingTransactionId: 'pi_esim_replay' },
+      })).toBe(1);
+    });
+
+    test('paid checkout ignores an unprovisioned failed replacement allocation', async () => {
+      await createTestUser({ iccid: '89000000000000999' });
+      const expiry = new Date(Date.now() + 20 * 86400000);
+      const priorPurchase = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: TEST_USER_ID,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_local_3_premium',
+          totalDataMb: 3 * 1024,
+          remainingDataMb: 1024,
+          expiresAt: expiry,
+          iccid: '89000000000000999',
+          esimProfileId: 'mock-original-profile',
+          providerPurchaseId: 'mock-original-package',
+        },
+      });
+      const oldSubscriber = await prisma.subscriber.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          provider: 'telna',
+          providerProfileId: 'mock-original-profile',
+          iccid: '89000000000000999',
+          status: 'ACTIVE',
+          createdAt: new Date(Date.now() - 60000),
+        },
+      });
+      const unusedSubscriber = await prisma.subscriber.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          provider: 'telna',
+          providerProfileId: 'mock-unused-replacement',
+          iccid: '89000000000008888',
+          status: 'PENDING',
+        },
+      });
+      await prisma.esimReplacement.create({
+        data: {
+          userId: TEST_USER_ID,
+          purchaseId: priorPurchase.id,
+          oldSubscriberId: oldSubscriber.id,
+          newSubscriberId: unusedSubscriber.id,
+          oldIccid: oldSubscriber.iccid,
+          newIccid: unusedSubscriber.iccid,
+          oldProviderPurchaseId: 'mock-original-package',
+          idempotencyKey: 'failed-replacement-before-topup',
+          remainingDataMb: 1024,
+          originalExpiresAt: expiry,
+          status: 'FAILED',
+        },
+      });
+
+      const event = makeStripeEvent({
+        id: 'evt_esim_after_failed_replacement',
+        type: 'checkout.session.completed',
+        object: {
+          object: 'checkout.session',
+          id: 'cs_esim_after_failed_replacement',
+          mode: 'payment',
+          status: 'complete',
+          payment_status: 'paid',
+          payment_intent: 'pi_esim_after_failed_replacement',
+          client_reference_id: String(TEST_USER_ID),
+          livemode: false,
+          metadata: {
+            userId: String(TEST_USER_ID),
+            product: 'chatforia_esim_local_5',
+          },
+        },
+      });
+
+      await agent.post(ENDPOINTS.webhook)
+        .set('Stripe-Signature', 't=0,v1=testsig')
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify(event))
+        .expect(200);
+
+      const purchased = await prisma.mobileDataPackPurchase.findFirst({
+        where: { billingTransactionId: 'pi_esim_after_failed_replacement' },
+      });
+      expect(purchased.iccid).toBe(oldSubscriber.iccid);
+      expect(purchased.esimProfileId).toBe(oldSubscriber.providerProfileId);
+      expect(await prisma.subscriber.findUnique({
+        where: { id: unusedSubscriber.id },
+      })).toMatchObject({
+        status: 'PENDING',
+        purchaseId: priorPurchase.id,
+      });
+    });
 
     test(
       'Sandbox Europe purchase reuses a Local subscriber after its prior pack expires',

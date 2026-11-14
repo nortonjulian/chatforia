@@ -38,6 +38,12 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
       if (!permissions.usage || !permissions.create || !permissions.can_set_owner || permissions.runtime_member)
         throw new Error('MFA migration executor lacks protected-schema privileges; use the reviewed recovery procedure');
     }
+    if (phase === 'before' && release.id === 'chatforia-esim-operation-lock-20261114-v5') {
+      const [catalog] = await tx.$queryRawUnsafe(`SELECT
+        to_regclass('public."EsimOperationLock"') IS NULL AS lock_table_absent`);
+      if (!catalog.lock_table_absent)
+        throw new Error('eSIM operation-lock table exists before its reviewed migration');
+    }
     let pending = [];
     // The restricted API role has no migration-ledger grant. The separately
     // held DBA executor verifies exact history in before/after preflight;
@@ -62,7 +68,8 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
       if (Object.values(grants).some((allowed) => allowed !== true))
         throw new Error('Application release restricted runtime grants differ');
     }
-    if (phase !== 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') {
+    if ((phase !== 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') ||
+        release.id === 'chatforia-esim-operation-lock-20261114-v5') {
       const [mfa] = await tx.$queryRawUnsafe(`SELECT
         has_function_privilege('chatforia_dev','staff_security.disable_mfa(text,text)','EXECUTE') AS can_disable,
         has_function_privilege('chatforia_dev','staff_security.enroll_mfa(text,text)','EXECUTE') AS can_enroll,
@@ -74,6 +81,15 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','DELETE') AS no_audit_delete`);
       if (Object.values(mfa).some((allowed) => allowed !== true))
         throw new Error('MFA release restricted runtime grants differ');
+    }
+    if (phase !== 'before' && release.id === 'chatforia-esim-operation-lock-20261114-v5') {
+      const [lock] = await tx.$queryRawUnsafe(`SELECT
+        has_table_privilege('chatforia_dev','public."EsimOperationLock"','SELECT') AS can_select,
+        has_table_privilege('chatforia_dev','public."EsimOperationLock"','INSERT') AS can_insert,
+        has_table_privilege('chatforia_dev','public."EsimOperationLock"','DELETE') AS can_delete,
+        NOT has_table_privilege('chatforia_dev','public."EsimOperationLock"','UPDATE') AS no_update`);
+      if (Object.values(lock).some((allowed) => allowed !== true))
+        throw new Error('eSIM operation-lock restricted runtime grants differ');
     }
     return { phase, pending, migrationCount: phase === 'before' ? release.beforeCount : release.afterCount };
   }, { timeout: 30000 });
