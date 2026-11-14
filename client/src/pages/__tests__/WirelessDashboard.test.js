@@ -214,6 +214,24 @@ describe('WirelessDashboard', () => {
     expect(screen.getByText(/Europe Unlimited \(Unlimited data\)/)).toBeInTheDocument();
   });
 
+  test('does not describe a queued package as active or suggest another purchase', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'AWAITING_ACTIVATION',
+      source: {
+        addonKind: 'chatforia_esim_local_3_premium',
+        totalDataMb: 3072,
+        remainingDataMb: 3072,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText(/not confirmed active/i)).toBeInTheDocument();
+    expect(screen.getByText(/before buying again/i)).toBeInTheDocument();
+    expect(screen.queryByText(/keeps Chatforia working when you’re away from Wi-Fi/i)).not.toBeInTheDocument();
+  });
+
   test('keeps eSIM setup available while the subscriber is PROVISIONING', async () => {
     useUser.mockReturnValue({
       currentUser: {
