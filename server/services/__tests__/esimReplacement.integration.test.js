@@ -143,7 +143,7 @@ describe(
       }
     });
 
-    test('real PostgreSQL preserves an older active package on the same ICCID', async () => {
+    test('real PostgreSQL preserves older and pending sibling packages', async () => {
       const suffix =
         `${Date.now()}-${Math.random().toString(16).slice(2)}`;
       const oldIccid = `${TEST_PREFIX}-SHARED-${suffix}`;
@@ -242,6 +242,47 @@ describe(
       });
       expect(persistedSubscriber.status).toBe('ACTIVE');
       expect(replacementCount).toBe(0);
+      expect(fakeAllocator).not.toHaveBeenCalled();
+      for (const providerCall of Object.values(fakeProvider)) {
+        expect(providerCall).not.toHaveBeenCalled();
+      }
+
+      await prisma.mobileDataPackPurchase.update({
+        where: { id: olderLocal.id },
+        data: { remainingDataMb: 0 },
+      });
+      const pendingGlobal = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: user.id,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_global_5_premium',
+          totalDataMb: 5 * 1024,
+          remainingDataMb: 5 * 1024,
+          expiresAt: expiry,
+          billingTransactionId: `${TEST_PREFIX}-PENDING-${suffix}`,
+        },
+      });
+
+      await expect(replaceEsimForDevice({
+        userId: user.id,
+        purchaseId: newestEurope.id,
+        idempotencyKey: `${TEST_PREFIX}-PENDING-KEY-${suffix}`,
+        now,
+      }, {
+        prismaClient: prisma,
+        provider: fakeProvider,
+        allocator: fakeAllocator,
+      })).rejects.toMatchObject({
+        code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+      });
+
+      expect(await prisma.mobileDataPackPurchase.findUnique({
+        where: { id: pendingGlobal.id },
+      })).toMatchObject({
+        iccid: null,
+        remainingDataMb: 5 * 1024,
+        expiresAt: expiry,
+      });
       expect(fakeAllocator).not.toHaveBeenCalled();
       for (const providerCall of Object.values(fakeProvider)) {
         expect(providerCall).not.toHaveBeenCalled();

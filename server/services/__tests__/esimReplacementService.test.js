@@ -1185,8 +1185,14 @@ describe('replaceEsimForDevice safety ordering', () => {
       .toHaveBeenCalledWith(expect.objectContaining({
         where: {
           userId: 7,
-          iccid: 'OLD-ICCID',
           id: { not: 50 },
+          OR: [
+            { iccid: 'OLD-ICCID' },
+            {
+              iccid: null,
+              addonKind: { startsWith: 'chatforia_esim_' },
+            },
+          ],
         },
       }));
     expect(fixture.provider.fetchEsimUsage).not.toHaveBeenCalled();
@@ -1194,6 +1200,27 @@ describe('replaceEsimForDevice safety ordering', () => {
     expect(fixture.provider.provisionEsimPack).not.toHaveBeenCalled();
     expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
     expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+  });
+
+  test('blocks an unresolved paid eSIM purchase before its ICCID is written', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.mobileDataPackPurchase.findMany.mockResolvedValue([{
+      id: 51,
+      addonKind: 'chatforia_esim_global_5_premium',
+      remainingDataMb: 5120,
+      expiresAt: new Date('2026-11-02T00:00:00.000Z'),
+    }]);
+
+    await expect(replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.allocator).not.toHaveBeenCalled();
+    expect(fixture.provider.fetchEsimUsage).not.toHaveBeenCalled();
   });
 
   test('expired and zero-balance finite sibling packages do not block replacement', async () => {
