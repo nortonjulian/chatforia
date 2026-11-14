@@ -2,6 +2,7 @@ import { earliestValidExpiry } from '../utils/entitlementExpiry.js';
 import prisma from '../utils/prismaClient.js';
 
 import { createSubscriberWithAllocatedEsim } from './esimAllocation.js';
+import { withEsimOperationLock } from './esimOperationLock.js';
 import * as esimProvider from './providers/esimProvider.js';
 
 const FINITE_PACKS_GB = [3, 5, 10, 20];
@@ -679,6 +680,13 @@ export async function replaceEsimForDevice(
     return existingByRequest;
   }
 
+  // Keep the claim through provider provisioning and old-ICCID cleanup.
+  return withEsimOperationLock({
+    prismaClient,
+    userId: normalizedUserId,
+    operation: 'REPLACEMENT',
+    operationKey: normalizedIdempotencyKey,
+  }, async () => {
   /*
    * Ownership is enforced in the query itself. A caller cannot replace
    * another user's purchased eSIM by guessing a purchase ID.
@@ -1179,6 +1187,7 @@ export async function replaceEsimForDevice(
       oldSubscriber: true,
     },
   });
+  });
 }
 
 
@@ -1240,6 +1249,12 @@ export async function retryFailedEsimReplacement(
     );
   }
 
+  return withEsimOperationLock({
+    prismaClient,
+    userId: replacement.userId,
+    operation: 'REPLACEMENT_RETRY',
+    operationKey: normalizedId,
+  }, async () => {
   /*
    * Never route ambiguous/known-provider state through retry.
    * Reconciliation is the only safe recovery path for those states.
@@ -1551,6 +1566,7 @@ export async function retryFailedEsimReplacement(
       purchase: true,
     },
   });
+  });
 }
 
 
@@ -1572,7 +1588,7 @@ export async function reconcileEsimReplacement(
     );
   }
 
-  const replacement =
+  let replacement =
     await prismaClient.esimReplacement.findUnique({
       where: {
         id: normalizedId,
@@ -1589,6 +1605,25 @@ export async function reconcileEsimReplacement(
       'eSIM replacement not found',
       'ESIM_REPLACEMENT_NOT_FOUND'
     );
+  }
+
+  return withEsimOperationLock({
+    prismaClient,
+    userId: replacement.userId,
+    operation: 'REPLACEMENT_RECONCILE',
+    operationKey: normalizedId,
+  }, async () => {
+  replacement = await prismaClient.esimReplacement.findUnique({
+    where: { id: normalizedId },
+    include: {
+      oldSubscriber: true,
+      newSubscriber: true,
+      purchase: true,
+    },
+  });
+
+  if (!replacement) {
+    throw makeError('eSIM replacement not found', 'ESIM_REPLACEMENT_NOT_FOUND');
   }
 
   if (replacement.status === 'COMPLETED') {
@@ -1787,6 +1822,7 @@ export async function reconcileEsimReplacement(
       newSubscriber: true,
       purchase: true,
     },
+  });
   });
 }
 
