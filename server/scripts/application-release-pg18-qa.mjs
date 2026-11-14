@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, copyFileSync, rmSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
 import { PrismaClient } from '@prisma/client';
-import { applicationReleaseSpec, buildPackage, checksForPending, verifyPackage } from './migration-package.mjs';
+import { applicationReleaseSpec, buildPackage, checksForPending, verifyPackage, digest } from './migration-package.mjs';
 import { aggregateChecks, assertChecks } from './deploy-migration-package.mjs';
 import { runApplicationReleasePreflight } from './application-release-preflight.mjs';
+import { recover, failedAttempt, checkRecoveryRole } from './mfa-165-recovery.mjs';
 import { dispatchVoicemailEmailOnce } from '../jobs/voicemailEmailDispatcher.js';
 
 assert.equal(process.env.GITHUB_ACTIONS, 'true');
@@ -122,17 +123,61 @@ try {
   const nextBundle = buildPackage('HEAD');
   const nextFiles = verifyPackage(nextBundle);
   const next = applicationReleaseSpec(nextFiles);
-  const nextPending = Object.keys(next.requiredExactMigrations);
-  const nextChecks = checksForPending(nextFiles, nextPending);
-  const nextBefore = await aggregateChecks(db, nextChecks);
-  assert.deepEqual((await runApplicationReleasePreflight(db, nextBundle, 'before',
-    { allowProposedForIsolatedTest: true })).pending, nextPending);
-  for (const name of nextPending) add(name);
-  deploy();
-  assertChecks(nextChecks, nextBefore, await aggregateChecks(db, nextChecks));
-  assert.equal((await runApplicationReleasePreflight(db, nextBundle, 'after',
-    { allowProposedForIsolatedTest: true })).migrationCount, 165);
-  console.log('PASS: exact 164-to-165 proposed MFA release and restricted grants');
+  // Reproduce the actual failing managed-admin migration, then invoke the
+  // production recovery runner's programmatic loopback-only test entrypoint.
+  await db.$executeRawUnsafe("CREATE ROLE doadmin LOGIN CREATEROLE PASSWORD 'synthetic_recovery_only'");
+  await db.$executeRawUnsafe("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname='postgres') THEN CREATE ROLE postgres NOLOGIN CREATEROLE; END IF; END $$");
+  await db.$executeRawUnsafe('GRANT chatforia_staff_owner TO postgres WITH ADMIN TRUE');
+  await db.$executeRawUnsafe('GRANT CONNECT ON DATABASE chatforia_application_release_test TO doadmin');
+  await db.$executeRawUnsafe('GRANT USAGE ON SCHEMA public TO doadmin');
+  await db.$executeRawUnsafe('GRANT SELECT ON ALL TABLES IN SCHEMA public TO doadmin');
+  await db.$executeRawUnsafe('GRANT INSERT, UPDATE ON public._prisma_migrations TO doadmin');
+  await db.$transaction(async tx=>{
+    await tx.$executeRawUnsafe('SET LOCAL ROLE postgres');
+    await tx.$executeRawUnsafe('GRANT chatforia_staff_owner TO doadmin WITH ADMIN TRUE, INHERIT FALSE, SET FALSE');
+  });
+  const operatorUrl=new URL(url); operatorUrl.username='doadmin'; operatorUrl.password='synthetic_recovery_only';
+  const operator=new PrismaClient({datasources:{db:{url:operatorUrl.toString()}}});
+  try {
+    await operator.$executeRawUnsafe('GRANT chatforia_staff_owner TO doadmin WITH ADMIN FALSE, INHERIT FALSE, SET TRUE');
+    await checkRecoveryRole(operator,false,'chatforia_application_release_test');
+    add(failedAttempt.name);
+    assert.throws(()=>execFileSync(process.execPath,[resolve('node_modules/prisma/build/index.js'),
+      'migrate','deploy','--schema',join(prismaDir,'schema.prisma')],{
+        env:{...process.env,DATABASE_URL:operatorUrl.toString()},stdio:'pipe',timeout:60000}));
+    const [failed]=await operator.$queryRawUnsafe(`SELECT id,logs,applied_steps_count FROM public._prisma_migrations
+      WHERE migration_name=$1 AND finished_at IS NULL AND rolled_back_at IS NULL`,failedAttempt.name);
+    assert.match(failed.logs,/permission denied for schema staff_security/);
+    assert.equal(failed.applied_steps_count,0);
+    // Only the disposable fixture normalizes the random failed ID to the pinned
+    // production incident ID; production recovery never updates ledger rows itself.
+    await db.$executeRawUnsafe('UPDATE public._prisma_migrations SET id=$1 WHERE id=$2',failedAttempt.id,failed.id);
+  } finally { await operator.$disconnect(); }
+  const packagePath=join(root,'recovery-package.json');
+  const bytes=Buffer.from(JSON.stringify(nextBundle,null,2)+'\n'); writeFileSync(packagePath,bytes);
+  const archive=join(root,'receipts'); mkdirSync(archive);
+  const failureStage=process.env.MFA_RECOVERY_FAILURE || 'none';
+  assert.ok(['none','after-resolve','during-deploy'].includes(failureStage));
+  process.env.DATABASE_URL=operatorUrl.toString();
+  const options={package:packagePath,sha256:digest(bytes),archive,execute:true};
+  const testOptions={allowSyntheticForTest:true,...(failureStage==='none'?{}:{failureStage})};
+  try {
+    if (failureStage==='none') await recover(options,testOptions);
+    else await assert.rejects(recover(options,testOptions),/Recovery stopped/);
+    const check=new PrismaClient({datasources:{db:{url:operatorUrl.toString()}}});
+    try {
+      await checkRecoveryRole(check,false,'chatforia_application_release_test');
+      const rows=await check.$queryRawUnsafe(`SELECT finished_at,rolled_back_at FROM public._prisma_migrations WHERE id=$1`,failedAttempt.id);
+      assert.equal(rows[0].finished_at,null); assert.ok(rows[0].rolled_back_at);
+      const [done]=await check.$queryRawUnsafe(`SELECT count(*)::int AS n FROM public._prisma_migrations
+        WHERE migration_name=$1 AND finished_at IS NOT NULL AND rolled_back_at IS NULL`,failedAttempt.name);
+      assert.equal(done.n,failureStage==='none'?1:0);
+    } finally {await check.$disconnect();}
+    const receiptFiles=readdirSync(archive).flatMap(dir=>readdirSync(join(archive,dir)).map(file=>join(archive,dir,file)));
+    assert.ok(receiptFiles.some(p=>p.endsWith('inherit-disabled.json')));
+    for(const file of receiptFiles) assert.ok(!readFileSync(file,'utf8').includes('synthetic_recovery_only'));
+    console.log(`PASS: actual MFA recovery runner / real Prisma resolve+deploy / cleanup / ${failureStage}`);
+  } finally {process.env.DATABASE_URL=url.toString();}
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {
   await db.$disconnect();

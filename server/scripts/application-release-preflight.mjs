@@ -29,6 +29,15 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         (phase === 'runtime' && identity.role !== 'chatforia_dev') ||
         (phase !== 'runtime' && identity.role === 'chatforia_dev'))
       throw new Error('Application release database or role mismatch');
+    if (phase === 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') {
+      const [permissions] = await tx.$queryRawUnsafe(`SELECT
+        has_schema_privilege(current_user,'staff_security','USAGE') AS usage,
+        has_schema_privilege(current_user,'staff_security','CREATE') AS create,
+        pg_has_role(current_user,'chatforia_staff_owner','SET') AS can_set_owner,
+        pg_has_role('chatforia_dev','chatforia_staff_owner','MEMBER') AS runtime_member`);
+      if (!permissions.usage || !permissions.create || !permissions.can_set_owner || permissions.runtime_member)
+        throw new Error('MFA migration executor lacks protected-schema privileges; use the reviewed recovery procedure');
+    }
     let pending = [];
     // The restricted API role has no migration-ledger grant. The separately
     // held DBA executor verifies exact history in before/after preflight;

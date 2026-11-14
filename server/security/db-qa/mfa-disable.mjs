@@ -58,7 +58,29 @@ try {
   await db.query(await migration('20261102090000_protect_staff_user_identity'));
   const tokens = await migration('20261102091000_runtime_role_permissions');
   await db.query(tokens.slice(tokens.indexOf('CREATE FUNCTION staff_security.protect_privileged_auth_token()'), tokens.indexOf('$install$;', tokens.indexOf('DO $install$')) + '$install$;'.length));
-  await db.query(await migration('20261114050000_authorized_mfa_disable'));
+  // Reproduce the production managed-admin boundary; superuser-only migration
+  // rehearsals missed the missing inherited schema privileges.
+  await db.query(`DO $$ BEGIN
+    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname='mfa_managed_admin_probe') THEN
+      CREATE ROLE mfa_managed_admin_probe NOLOGIN CREATEROLE;
+    END IF;
+  END $$;
+  GRANT chatforia_staff_owner TO mfa_managed_admin_probe WITH ADMIN TRUE, INHERIT FALSE, SET FALSE;
+  SET SESSION AUTHORIZATION mfa_managed_admin_probe;
+  GRANT chatforia_staff_owner TO mfa_managed_admin_probe WITH ADMIN FALSE, INHERIT FALSE, SET TRUE;`);
+  await assert.rejects(db.query(await migration('20261114050000_authorized_mfa_disable')),
+    error => error.code === '42501' && error.message.includes('schema staff_security'));
+  assert.equal((await db.query(`SELECT count(*)::int AS n FROM pg_class c JOIN pg_namespace n
+    ON n.oid=c.relnamespace WHERE n.nspname='staff_security' AND c.relname='mfa_disable_event'`)).rows[0].n,0);
+  await db.query('GRANT chatforia_staff_owner TO mfa_managed_admin_probe WITH INHERIT TRUE');
+  try {
+    await db.query(await migration('20261114050000_authorized_mfa_disable'));
+  } finally {
+    await db.query('GRANT chatforia_staff_owner TO mfa_managed_admin_probe WITH INHERIT FALSE');
+    assert.equal((await db.query("SELECT has_schema_privilege(current_user,'staff_security','CREATE') AS allowed")).rows[0].allowed,false);
+    await db.query('RESET SESSION AUTHORIZATION');
+  }
+
   const claims = (id, extra={}) => ({userId:id, tokenVersion:1, secretHash:crypto.createHash('sha256').update('synthetic-encrypted-secret').digest('hex'), nonce:crypto.randomUUID(), exp:Math.floor(Date.now()/1000)+30, ...extra});
   const call = async (c, signature) => {
     const payload=JSON.stringify(c);
