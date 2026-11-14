@@ -1466,6 +1466,26 @@ describe('wireless routes', () => {
     });
   });
 
+  it('returns 409 when another active package shares the eSIM', async () => {
+    const app = makeApp();
+
+    replaceEsimForDeviceMock.mockRejectedValue(Object.assign(
+      new Error('Another unexpired data package remains on this eSIM'),
+      { code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED' }
+    ));
+
+    const res = await request(app)
+      .post('/api/wireless/esim/50/replace')
+      .set('Idempotency-Key', 'replacement-shared-iccid-1')
+      .send({});
+
+    expect(res.status).toBe(409);
+    expect(res.body).toEqual({
+      error: 'Another unexpired data package remains on this eSIM',
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+  });
+
   it('returns 409 when the existing eSIM has no remaining data to transfer', async () => {
     const app = makeApp();
 

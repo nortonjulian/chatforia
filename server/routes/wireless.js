@@ -821,7 +821,9 @@ router.post(
         code ===
           'ESIM_REPLACEMENT_MISSING_ICCID' ||
         code ===
-          'ESIM_REPLACEMENT_USAGE_UNAVAILABLE'
+          'ESIM_REPLACEMENT_USAGE_UNAVAILABLE' ||
+        code ===
+          'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED'
       ) {
         return res
           .status(409)
