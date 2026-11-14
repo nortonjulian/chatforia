@@ -1532,7 +1532,7 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
         <Title order={4} mb="xs">
           {t('profile.forwarding', 'Call & Text Forwarding')}
         </Title>
-        <ForwardingSettings />
+        <ForwardingSettings key={currentUser?.id ?? 'anonymous'} />
       </div>
 
       <Group justify="flex-end" mt="xl">

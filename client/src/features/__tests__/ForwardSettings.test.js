@@ -117,6 +117,7 @@ const initialServerData = {
   forwardToPhoneE164: '',
   forwardQuietHoursStart: null,
   forwardQuietHoursEnd: null,
+  forwardQuietHoursTimeZone: 'UTC',
 };
 
 function renderWithApi(data = initialServerData) {
@@ -254,6 +255,16 @@ describe('ForwardingSettings', () => {
     // Fix to valid range
     fireEvent.change(screen.getByTestId('numinput-Start hour (0–23)'), { target: { value: '22' } });
     expect(screen.queryByText(/Quiet hours must be between 0 and 23/i)).toBeNull();
+    expect(screen.getByText(/Set both quiet hours or clear both/i)).toBeInTheDocument();
+    expect(getButton('Save')).toBeDisabled();
+
+    fireEvent.change(screen.getByTestId('numinput-End hour (0–23)'), { target: { value: '7' } });
+    expect(screen.queryByText(/Set both quiet hours or clear both/i)).toBeNull();
+    expect(getButton('Save')).not.toBeDisabled();
+
+    fireEvent.change(screen.getByTestId('numinput-End hour (0–23)'), { target: { value: '22' } });
+    expect(screen.getByText(/Quiet hours start and end must differ/i)).toBeInTheDocument();
+    expect(getButton('Save')).toBeDisabled();
   });
 
   test('Save success: normalizes E.164, PATCHes, shows banner, resets hasChanges', async () => {
@@ -288,6 +299,7 @@ describe('ForwardingSettings', () => {
         forwardToPhoneE164: '+15559990000', // normalized
         forwardQuietHoursStart: 21,
         forwardQuietHoursEnd: 7,
+        forwardQuietHoursTimeZone: 'UTC',
       },
     });
 
@@ -364,5 +376,67 @@ describe('ForwardingSettings', () => {
     expect(screen.getByTestId('input-Destination phone (E.164)')).toHaveValue(serverData.forwardPhoneNumber);
     // Banner cleared (role=status element absent)
     expect(screen.queryByRole('status')).toBeNull();
+  });
+
+  test('an account switch discards a late settings load from the prior account', async () => {
+    let resolveA;
+    mockApiGet.mockReset();
+    mockApiGet.mockImplementationOnce(() => new Promise((resolve) => { resolveA = resolve; }));
+    mockApiGet.mockResolvedValueOnce({
+      data: { ...initialServerData, forwardingEnabledCalls: true, forwardToPhoneE164: '+15550002222' },
+    });
+    const { rerender } = render(<ForwardingSettings key="A" />);
+    rerender(<ForwardingSettings key="B" />);
+    await waitLoaded();
+    expect(screen.getByTestId('input-Destination (E.164) for calls')).toHaveValue('+15550002222');
+    await act(async () => { resolveA({ data: { ...initialServerData, forwardPhoneNumber: '+15550001111' } }); });
+    expect(screen.getByTestId('input-Destination phone (E.164)')).toHaveValue('');
+  });
+
+  test('an account switch discards a late save response from the prior account', async () => {
+    const { rerender } = renderWithApi();
+    await waitLoaded();
+    fireEvent.click(screen.getByTestId('chk-Enable text forwarding').querySelector('input'));
+    fireEvent.click(screen.getByTestId('chk-Forward texts to phone').querySelector('input'));
+    fireEvent.change(screen.getByTestId('input-Destination phone (E.164)'), {
+      target: { value: '+15550001111' },
+    });
+    let resolveSave;
+    mockApiPatch.mockImplementationOnce(() => new Promise((resolve) => { resolveSave = resolve; }));
+    fireEvent.click(getButton('Save'));
+    await waitFor(() => expect(resolveSave).toBeDefined());
+    mockApiGet.mockResolvedValueOnce({
+      data: { ...initialServerData, forwardingEnabledCalls: true, forwardToPhoneE164: '+15550002222' },
+    });
+    // A keyed remount is what both production parents now perform on account change.
+    rerender(<ForwardingSettings key="B" />);
+    await waitLoaded();
+    await act(async () => { resolveSave({ data: { ...initialServerData, forwardPhoneNumber: '+15550001111' } }); });
+    expect(screen.getByTestId('input-Destination (E.164) for calls')).toHaveValue('+15550002222');
+  });
+
+  test('legacy account proposes device zone, saves it, and rejects invalid zone locally', async () => {
+    renderWithApi({ ...initialServerData, forwardQuietHoursTimeZone: null });
+    await waitLoaded();
+    const zoneInput = screen.getByTestId('input-Quiet-hours time zone (IANA)');
+    expect(zoneInput).toHaveValue(Intl.DateTimeFormat().resolvedOptions().timeZone);
+    expect(screen.getByTestId('txt-Quiet-hours time zone (IANA)'))
+      .toHaveAttribute('description', expect.stringMatching(/existing quiet hours use the server time zone/i));
+    fireEvent.change(zoneInput, { target: { value: 'MST' } });
+    expect(getButton('Save')).toBeDisabled();
+    fireEvent.change(zoneInput, { target: { value: 'America/Denver' } });
+    mockApiPatch.mockResolvedValueOnce({ data: { ...initialServerData, forwardQuietHoursTimeZone: 'America/Denver' } });
+    fireEvent.click(getButton('Save'));
+    await waitFor(() => expect(mockApiPatch).toHaveBeenCalled());
+    expect(mockApiPatch.mock.calls[0][1].forwardQuietHoursTimeZone).toBe('America/Denver');
+    await waitFor(() => expect(screen.getByTestId('txt-Quiet-hours time zone (IANA)'))
+      .toHaveAttribute('description', expect.stringMatching(/Saved for this account across devices/i)));
+  });
+
+  test('saved account zone is retained instead of a second device zone', async () => {
+    renderWithApi({ ...initialServerData, forwardQuietHoursTimeZone: 'Europe/London' });
+    await waitLoaded();
+    expect(screen.getByTestId('input-Quiet-hours time zone (IANA)')).toHaveValue('Europe/London');
+    expect(getButton('Save')).toBeDisabled();
   });
 });
