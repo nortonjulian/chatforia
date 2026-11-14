@@ -89,3 +89,49 @@ test('disable requires the enrolled code and revokes old sessions', async () => 
   expect(user.tokenVersion).toBe(4);
   expect(recoveryHashes).toHaveLength(0);
 });
+
+describe('restricted runtime disable', () => {
+  const originalQuery = tx.$queryRaw;
+  beforeEach(() => {
+    process.env.STAFF_SECURITY_ENABLED = 'true';
+    process.env.STAFF_ACCESS_SIGNING_SECRET = 'test-only-signing-key-at-least-32-bytes';
+    user.twoFactorEnabled = true;
+    user.totpSecretEnc = 'sealed:JBSWY3DPEHPK3PXP';
+    tx.$queryRaw = jest.fn(async (sql) => {
+      if (sql.join('').includes('disable_mfa')) return [{ result: 'mfa_required' }];
+      return [{ id: user.id }];
+    });
+  });
+  afterEach(() => {
+    delete process.env.STAFF_SECURITY_ENABLED;
+    delete process.env.STAFF_ACCESS_SIGNING_SECRET;
+    tx.$queryRaw = originalQuery;
+  });
+  test('protected accounts receive a clear 403 without a new session', async () => {
+    const response = await request(app).post('/auth/2fa/disable')
+      .send({ code: code('JBSWY3DPEHPK3PXP') }).expect(403);
+    expect(response.body.reason).toBe('mfa_required');
+    expect(response.body.error).toContain('protected founder');
+    expect(user.twoFactorEnabled).toBe(true);
+    expect(issueSession).not.toHaveBeenCalled();
+    expect(tx.$queryRaw.mock.calls[0][0].join('')).toContain('pg_advisory_xact_lock');
+  });
+  test('invalid TOTP cannot reach the authorized database function', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP';
+    const invalid = Array.from({ length: 10 }, (_, i) => String(i).repeat(6))
+      .find((token) => !speakeasy.totp.verify({ secret, encoding: 'base32', token, window: 1 }));
+    await request(app).post('/auth/2fa/disable').send({ code: invalid }).expect(400);
+    expect(tx.$queryRaw.mock.calls.some(([sql]) => sql.join('').includes('disable_mfa'))).toBe(false);
+  });
+  test('authorized disable returns the updated user and rotates the session', async () => {
+    tx.$queryRaw.mockImplementation(async (sql) => {
+      if (sql.join('').includes('disable_mfa')) {
+        user.twoFactorEnabled = false; user.totpSecretEnc = null; user.tokenVersion++;
+        return [{ result: 'disabled' }];
+      }
+      return [{ id: user.id }];
+    });
+    await request(app).post('/auth/2fa/disable').send({ code: code('JBSWY3DPEHPK3PXP') }).expect(200);
+    expect(issueSession).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ twoFactorEnabled: false, tokenVersion: 3 }));
+  });
+});

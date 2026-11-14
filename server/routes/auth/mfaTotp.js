@@ -7,6 +7,7 @@ import { seal, open } from '../../utils/secretBox.js';
 import { asyncHandler } from '../../utils/asyncHandler.js';
 import { issueSession } from '../auth.js';
 import { lockMfaUser, recoveryCodeHash } from '../../services/mfaLogin.js';
+import { disableMfa } from '../../security/disableMfa.js';
 
 export const router = express.Router();
 const validCode = (code) => typeof code === 'string' && /^\d{6}$/.test(code);
@@ -75,9 +76,16 @@ router.post('/disable', asyncHandler(async (req, res) => {
   const { code } = req.body || {};
   if (!validCode(code)) return res.status(400).json({ ok: false, reason: 'bad_code' });
   const disabled = await prisma.$transaction(async (tx) => {
+    const secured = process.env.STAFF_SECURITY_ENABLED === 'true';
+    if (secured) await tx.$queryRaw`SELECT pg_advisory_xact_lock(73421, 1)::text`;
     const user = await lockMfaUser(tx, req.user.id);
     if (!user?.twoFactorEnabled || !user.totpSecretEnc || (user.tokenVersion ?? 0) !== (req.user.tokenVersion ?? 0)) return false;
     if (!speakeasy.totp.verify({ secret: open(user.totpSecretEnc), encoding: 'base32', token: code, window: 1 })) return false;
+    if (secured) {
+      const result = await disableMfa(tx, user);
+      if (result === 'mfa_required') return result;
+      return tx.user.findUnique({ where: { id: user.id } });
+    }
     const updated = await tx.user.update({ where: { id: user.id }, data: {
       twoFactorEnabled: false, totpSecretEnc: null, twoFactorEnrolledAt: null,
       tokenVersion: { increment: 1 },
@@ -87,6 +95,10 @@ router.post('/disable', asyncHandler(async (req, res) => {
       userId: user.id, type: { startsWith: 'mfa_' }, usedAt: null,
     }, data: { usedAt: new Date() } });
     return updated;
+  });
+  if (disabled === 'mfa_required') return res.status(403).json({
+    ok: false, reason: 'mfa_required',
+    error: 'Two-factor authentication is required for active staff and protected founder accounts.',
   });
   if (!disabled) return res.status(400).json({ ok: false, reason: 'bad_code' });
   const token = issueSession(res, disabled);
