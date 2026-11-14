@@ -43,7 +43,7 @@ jobs:
           git fetch --no-tags origin main
           test "$(git rev-parse origin/main)" = "$RELEASE_COMMIT"
           test "$(git rev-parse HEAD)" = "$RELEASE_COMMIT"
-          node -e 'const m=require("./server/security/applicationMigrationRelease.v3.json"); if(m.status!=="approved-for-production") process.exit(1)'
+          node --input-type=module -e 'import {buildPackage,verifyPackage,applicationReleaseSpec} from "./server/scripts/migration-package.mjs"; const m=applicationReleaseSpec(verifyPackage(buildPackage(process.env.RELEASE_COMMIT))); if(m?.status!=="approved-for-production") process.exit(1)'
           node server/scripts/migration-package.mjs "$RELEASE_COMMIT" /tmp/chatforia-api-package.json
           test "$(sha256sum /tmp/chatforia-api-package.json | cut -d' ' -f1)" = "$PACKAGE_SHA256"
       - name: Record verified operator-only handoff

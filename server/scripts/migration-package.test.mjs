@@ -341,8 +341,8 @@ test('v3 preserves the archived 161/3 source gate and pins the approved 161/4 re
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
-test('v4 pins only the proposed 164-to-165 MFA transition and cannot authorize production', async () => {
-  const bundle = buildPackage('HEAD');
+test('v4 preserves the proposed 164-to-165 package without production authority', async () => {
+  const bundle = buildPackage('ff7dc8c1bcc61ee364fff4c16503098cb38feed7');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const v2 = reconciliationPackageSpec(files).manifest;
@@ -375,4 +375,20 @@ test('v4 pins only the proposed 164-to-165 MFA transition and cannot authorize p
     writeFileSync(path,bytes);
     await assert.rejects(deployPackage({package:path,sha256:digest(bytes)}), /production execution is not approved/);
   } finally { rmSync(directory,{recursive:true,force:true}); }
+});
+
+
+test('approved v4 retains exact migration bytes and rejects unpinned approval edits', () => {
+  const before = buildPackage('ff7dc8c1bcc61ee364fff4c16503098cb38feed7');
+  const current = buildPackage('HEAD');
+  const previous = applicationReleaseSpec(verifyPackage(before));
+  const release = applicationReleaseSpec(verifyPackage(current));
+  assert.equal(release.status, 'approved-for-production');
+  assert.deepEqual({...release,status:previous.status},previous);
+  assert.deepEqual(current.files.filter(f=>f.path.endsWith('/migration.sql')),before.files.filter(f=>f.path.endsWith('/migration.sql')));
+  const tampered=structuredClone(current);
+  const file=tampered.files.find(f=>f.path.endsWith('applicationMigrationRelease.v4.json'));
+  const bytes=Buffer.from(Buffer.from(file.content,'base64').toString().replace('"afterCount": 165','"afterCount": 166'));
+  file.content=bytes.toString('base64');file.sha256=digest(bytes);
+  assert.throws(()=>applicationReleaseSpec(verifyPackage(tampered)),/Unreviewed MFA release/);
 });
