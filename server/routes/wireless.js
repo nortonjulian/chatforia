@@ -1013,7 +1013,8 @@ router.post(
 
       if (
         code ===
-          'ESIM_REPLACEMENT_IDEMPOTENCY_CONFLICT'
+          'ESIM_REPLACEMENT_IDEMPOTENCY_CONFLICT' ||
+        code === 'ESIM_OPERATION_IN_PROGRESS'
       ) {
         return res
           .status(409)
