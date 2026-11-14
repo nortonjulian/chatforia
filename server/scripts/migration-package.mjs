@@ -25,6 +25,8 @@ const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
 const mfaReleaseDigests = Object.freeze({
+  // Proposed recovery retains the exact failed attempt as a fifth historical row.
+  '24395cb2b8d0a0899e59ea4452869d7d208e0abce1d8b4af5daecdff325a36d9': 'proposed-not-authorized-for-production',
   'c8be058f97a023c9406287ac29bcd1959a28a0cd52eee0ff67e183a497a57585': 'proposed-not-authorized-for-production',
   'ab3462be1d16627b86b6568089928869612986edc3d6f31fb33f7c545dd01b29': 'approved-for-production',
 });

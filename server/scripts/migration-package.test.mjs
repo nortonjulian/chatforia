@@ -380,7 +380,7 @@ test('v4 preserves the proposed 164-to-165 package without production authority'
 
 test('approved v4 retains exact migration bytes and rejects unpinned approval edits', () => {
   const before = buildPackage('ff7dc8c1bcc61ee364fff4c16503098cb38feed7');
-  const current = buildPackage('HEAD');
+  const current = buildPackage('edabf1aa2c5669eb7188afdc5f0f890308ece52e');
   const previous = applicationReleaseSpec(verifyPackage(before));
   const release = applicationReleaseSpec(verifyPackage(current));
   assert.equal(release.status, 'approved-for-production');

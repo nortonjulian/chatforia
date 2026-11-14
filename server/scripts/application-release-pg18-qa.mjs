@@ -122,6 +122,14 @@ try {
   const nextBundle = buildPackage('HEAD');
   const nextFiles = verifyPackage(nextBundle);
   const next = applicationReleaseSpec(nextFiles);
+  // Model the exact recorded incident resolution before the new package's gate.
+  // Actual permission failure and temporary-inheritance SQL are exercised in mfa-disable.mjs.
+  for (const row of next.historicalRolledBackRows.filter(row =>
+    !release.historicalRolledBackRows.some(old => old.id === row.id))) {
+    await db.$executeRawUnsafe(`INSERT INTO public._prisma_migrations
+      (id, checksum, migration_name, started_at, rolled_back_at, applied_steps_count)
+      VALUES ($1,$2,$3,now(),now(),0)`,row.id,row.checksum,row.name);
+  }
   const nextPending = Object.keys(next.requiredExactMigrations);
   const nextChecks = checksForPending(nextFiles, nextPending);
   const nextBefore = await aggregateChecks(db, nextChecks);
