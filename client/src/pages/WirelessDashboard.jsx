@@ -16,7 +16,7 @@ import { Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import { useUser } from '@/context/UserContext';
-import { fetchWirelessStatus } from '@/api/wireless';
+import { fetchWirelessPurchases, fetchWirelessStatus } from '@/api/wireless';
 
 function formatGb(mb) {
   if (!mb || mb <= 0) return '0 GB';
@@ -50,6 +50,9 @@ export default function WirelessDashboard() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
+  const [purchases, setPurchases] = useState([]);
+  const [purchaseError, setPurchaseError] = useState(null);
+  const [replacementEligibility, setReplacementEligibility] = useState(null);
 
   const subscriber = currentUser?.subscriber || null;
   const hasEsim = Boolean(
@@ -81,6 +84,17 @@ export default function WirelessDashboard() {
         );
       } finally {
         setLoading(false);
+      }
+    })();
+
+    (async () => {
+      try {
+        setPurchaseError(null);
+        const data = await fetchWirelessPurchases();
+        setPurchases(Array.isArray(data?.packages) ? data.packages : []);
+        setReplacementEligibility(data?.replacementEligibility ?? null);
+      } catch {
+        setPurchaseError(t('wireless.purchases.loadError', 'Purchased data packages could not be loaded. Try again later.'));
       }
     })();
   }, [currentUser, navigate, t]);
@@ -382,6 +396,49 @@ export default function WirelessDashboard() {
       {esimCard}
 
       {isNone ? noneContent : planContent}
+
+      {(purchases.length > 0 || purchaseError) && (
+        <Card radius="xl" withBorder>
+          <Stack gap="sm">
+            <Title order={3}>{t('wireless.purchases.title', 'Purchased Data Packages')}</Title>
+            {purchaseError && <Alert color="yellow">{purchaseError}</Alert>}
+            {purchases.map((purchase) => (
+              <Card key={purchase.id} withBorder radius="md">
+                <Stack gap="xs">
+                  <Group justify="space-between" align="flex-start">
+                    <Text fw={600}>{formatEsimPackLabel(purchase.addonKind, t)}</Text>
+                    <Badge color={purchase.state === 'ACTIVE' ? 'green' : purchase.state === 'AWAITING_ACTIVATION' ? 'yellow' : 'gray'}>
+                      {t(`wireless.purchases.state.${purchase.state}`, String(purchase.state || 'UNKNOWN').replaceAll('_', ' ').toLowerCase())}
+                    </Badge>
+                  </Group>
+                  <Text size="sm">
+                    {purchase.unlimited
+                      ? t('wireless.data.unlimited', 'Unlimited data')
+                      : t('wireless.purchases.recordedBalance', 'Recorded remaining: {{remaining}} of {{total}}', {
+                          remaining: formatGb(purchase.recordedRemainingDataMb ?? purchase.remainingDataMb),
+                          total: formatGb(purchase.totalDataMb),
+                        })}
+                  </Text>
+                  {purchase.expiresAt && (
+                    <Text size="xs" c="dimmed">
+                      {t('wireless.purchases.expiry', 'Expires: {{date}}', {
+                        date: new Date(purchase.expiresAt).toLocaleDateString(),
+                      })}
+                    </Text>
+                  )}
+                </Stack>
+              </Card>
+            ))}
+            {replacementEligibility?.reason && (
+              <Alert color="blue" variant="light">
+                {t('wireless.purchases.transferUnavailable', 'eSIM transfer unavailable: {{reason}}', {
+                  reason: replacementEligibility.reason,
+                })}
+              </Alert>
+            )}
+          </Stack>
+        </Card>
+      )}
     </Stack>
   );
 }

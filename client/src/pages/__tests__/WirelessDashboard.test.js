@@ -14,18 +14,15 @@ jest.mock('@/context/UserContext', () => ({
 jest.mock('@/api/wireless', () => ({
   __esModule: true,
   fetchWirelessStatus: jest.fn(),
+  fetchWirelessPurchases: jest.fn(),
 }));
 
 const mockT = (_key, defaultValueOrOptions, options) => {
   if (typeof defaultValueOrOptions === 'string') {
-    if (options?.days != null) {
-      return defaultValueOrOptions.replace(
-        '{{days}}',
-        String(options.days)
-      );
-    }
-
-    return defaultValueOrOptions;
+    return Object.entries(options || {}).reduce(
+      (value, [name, replacement]) => value.replace(`{{${name}}}`, String(replacement)),
+      defaultValueOrOptions
+    );
   }
 
   return _key;
@@ -50,7 +47,7 @@ jest.mock('react-router-dom', () => {
 });
 
 const { useUser } = jest.requireMock('@/context/UserContext');
-const { fetchWirelessStatus } = jest.requireMock('@/api/wireless');
+const { fetchWirelessStatus, fetchWirelessPurchases } = jest.requireMock('@/api/wireless');
 
 function renderWithRouter(ui) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
@@ -62,6 +59,7 @@ beforeEach(() => {
   useUser.mockReturnValue({
     currentUser: { id: 1, username: 'julian' },
   });
+  fetchWirelessPurchases.mockResolvedValue({ packages: [], replacementEligibility: null });
 });
 
 describe('WirelessDashboard', () => {
@@ -75,6 +73,31 @@ describe('WirelessDashboard', () => {
     });
 
     expect(fetchWirelessStatus).not.toHaveBeenCalled();
+    expect(fetchWirelessPurchases).not.toHaveBeenCalled();
+  });
+
+  test('keeps expired paid packages visible without calling them queued or transferable', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL', state: 'EXPIRED', expired: true,
+      source: { addonKind: 'chatforia_esim_local_3_premium', totalDataMb: 3072, remainingDataMb: 3072 },
+    });
+    fetchWirelessPurchases.mockResolvedValueOnce({
+      packages: [{
+        id: 43, addonKind: 'chatforia_esim_local_3_premium',
+        state: 'TERMINATED', paid: true,
+        totalDataMb: 3072, remainingDataMb: 3072, recordedRemainingDataMb: 3072,
+        expiresAt: '2026-11-13T19:27:49.000Z',
+      }],
+      replacementEligibility: { eligible: false, reason: 'No active package remains.' },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('Purchased Data Packages')).toBeInTheDocument();
+    expect(screen.getByText('terminated')).toBeInTheDocument();
+    expect(screen.getByText(/Recorded remaining: 3.0 GB of 3.0 GB/)).toBeInTheDocument();
+    expect(screen.getByText(/eSIM transfer unavailable: No active package remains/)).toBeInTheDocument();
+    expect(screen.queryByText(/Queued data packs/)).not.toBeInTheDocument();
   });
 
   test('shows Get a data plan and navigates to /upgrade when viewing plans', async () => {
