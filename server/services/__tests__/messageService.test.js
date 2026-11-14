@@ -427,6 +427,35 @@ describe('createMessageService', () => {
       skipDuplicates: true,
     });
   });
+
+  it('uses explicit Off instead of an enabled account default', async () => {
+    mockUserFindUnique.mockResolvedValueOnce({
+      id: 5, username: 'prem', preferredLanguage: 'en',
+      allowExplicitContent: true, autoDeleteSeconds: 3600,
+      publicKey: 'PUB5', plan: 'PREMIUM',
+    });
+    mockParticipantFindFirst.mockResolvedValueOnce({ id: 11, chatRoomId: 42, userId: 5 });
+    mockParticipantFindMany.mockResolvedValueOnce([{
+      user: { id: 5, username: 'prem', preferredLanguage: 'en',
+        allowExplicitContent: true, publicKey: 'PUB5' },
+    }]);
+    mockIsExplicit.mockReturnValueOnce(false);
+    mockCleanText.mockImplementation((value) => value);
+    mockMessageCreate.mockResolvedValueOnce({
+      id: 1001, chatRoomId: 42, senderId: 5, rawContent: 'No timer',
+      contentCiphertext: 'cipher', attachments: [], revision: 1,
+      createdAt: new Date(), expiresAt: null,
+      sender: { id: 5, username: 'prem', publicKey: 'PUB5' },
+    });
+
+    await createMessageService({
+      senderId: 5, chatRoomId: 42, content: 'No timer',
+      contentCiphertext: 'cipher', encryptedKeys: { '5': 'encKey5' },
+      expireSeconds: 0,
+    });
+
+    expect(mockMessageCreate.mock.calls[0][0].data.expiresAt).toBeNull();
+  });
 });
 
 // ============================================================================

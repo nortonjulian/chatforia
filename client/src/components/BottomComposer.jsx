@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Group, Button, ActionIcon, Textarea, Tooltip} from '@mantine/core';
-import { Smile, Image as ImageIcon, Send } from 'lucide-react';
+import { Card, Group, Button, ActionIcon, Textarea, Tooltip, Menu, Select, Divider } from '@mantine/core';
+import { Smile, Image as ImageIcon, Send, Clock3 } from 'lucide-react';
 import StickerPicker from '@/components/StickerPicker.jsx';
 import MicButton from '@/components/MicButton.jsx';
 import FileUploader from '@/components/FileUploader.jsx';
+import { MESSAGE_TTL_OPTIONS, buildMessageTtlOptions, clampMessageTtlSeconds } from '@/utils/messageTtl';
 
 const TAB_EMOJI = 'emoji';
 const TAB_GIFS = 'gifs';
@@ -31,6 +32,9 @@ export default function BottomComposer({
   showEmoji = true,
   showMic = true,
   showUpload = true,
+  showMessageTimer = false,
+  defaultExpireSeconds = 0,
+  expireMaxDays = 1,
   prepareFile, // optional; carrier MMS conversion only when caller supplies it
   onUploadFiles, // optional; if omitted, we'll pass files to onSend via 2nd arg
 }) {
@@ -43,6 +47,21 @@ export default function BottomComposer({
   const openUploader = () => uploadTriggerRef.current?.click?.();
 
   const [pendingAttachment, setPendingAttachment] = useState(null);
+  const [expireSeconds, setExpireSeconds] = useState(() =>
+    clampMessageTtlSeconds(defaultExpireSeconds, expireMaxDays)
+  );
+  const timerOptions = useMemo(() => {
+    const options = buildMessageTtlOptions(MESSAGE_TTL_OPTIONS, expireMaxDays, t);
+    return options.some((option) => option.value === String(expireSeconds))
+      ? options
+      : [...options, { value: String(expireSeconds), label: `${expireSeconds}s` }];
+  }, [expireMaxDays, expireSeconds, t]);
+  const selectedTimerLabel = timerOptions.find((option) => option.value === String(expireSeconds))?.label
+    || `${expireSeconds}s`;
+
+  useEffect(() => {
+    setExpireSeconds((seconds) => clampMessageTtlSeconds(seconds, expireMaxDays));
+  }, [expireMaxDays]);
 
   useEffect(() => {
     const url = pendingAttachment?.previewUrl;
@@ -94,6 +113,9 @@ export default function BottomComposer({
       text: hasAttachments && !hasText ? '' : rawText,
       attachments,
     };
+  const outgoingWithTimer = showMessageTimer
+    ? { ...outgoing, expireSeconds }
+    : outgoing;
 
   if (!hasText && !hasAttachments) return;
 
@@ -102,7 +124,7 @@ export default function BottomComposer({
   setSendError('');
 
   try {
-    const result = await onSend?.(outgoing);
+    const result = await onSend?.(outgoingWithTimer);
     if (result === false) {
       setSendError('Message could not be sent. Please try again.');
       return;
@@ -438,6 +460,38 @@ export default function BottomComposer({
                 }}
                 disabled={disabled}
               />
+
+              {showMessageTimer && (
+                <Menu withinPortal position="top-end" shadow="md">
+                  <Menu.Target>
+                    <Tooltip label={`${t('messageInput.autoDelete', 'Auto-delete timer')}: ${selectedTimerLabel}`} openDelay={400}>
+                      <ActionIcon
+                        variant={expireSeconds > 0 ? 'light' : 'default'}
+                        size="lg"
+                        radius="md"
+                        aria-label={t('messageInput.autoDelete', 'Auto-delete timer')}
+                        title={`${t('messageInput.autoDelete', 'Auto-delete timer')}: ${selectedTimerLabel}`}
+                        disabled={disabled || uploading || sending}
+                      >
+                        <Clock3 size={18} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>{t('messageInput.autoDelete', 'Auto-delete')}</Menu.Label>
+                    <Divider my="xs" />
+                    <Select
+                      aria-label="Message timer"
+                      data={timerOptions}
+                      value={String(expireSeconds)}
+                      onChange={(value) => setExpireSeconds(clampMessageTtlSeconds(value, expireMaxDays))}
+                      allowDeselect={false}
+                      disabled={disabled || uploading || sending}
+                      w={180}
+                    />
+                  </Menu.Dropdown>
+                </Menu>
+              )}
 
               <Tooltip
                 label={

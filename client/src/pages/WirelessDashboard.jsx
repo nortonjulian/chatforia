@@ -16,24 +16,34 @@ import { Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import { useUser } from '@/context/UserContext';
-import { fetchWirelessStatus } from '@/api/wireless';
+import { fetchWirelessPurchases, fetchWirelessStatus } from '@/api/wireless';
 
 function formatGb(mb) {
   if (!mb || mb <= 0) return '0 GB';
   return `${(mb / 1024).toFixed(1)} GB`;
 }
 
+function formatUtc(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return `${date.toISOString().slice(0, 16).replace('T', ' ')} UTC`;
+}
+
 function formatEsimPackLabel(addonKind, t) {
   if (!addonKind) return t('wireless.esimPackLabel', 'eSIM data pack');
 
   const match = String(addonKind).match(
-    /^chatforia_esim_(local|europe|global)_(3|5|10|20)(?:_(?:premium|standard))?$/i
+    /^chatforia_esim_(local|europe|global)_(3|5|10|20|unlimited)(?:_(?:premium|standard))?$/i
   );
   if (!match) return addonKind;
 
   const region = match[1].toLowerCase();
   const gb = match[2];
   const regionLabel = region.charAt(0).toUpperCase() + region.slice(1);
+
+  if (gb.toLowerCase() === 'unlimited') {
+    return t(`upgrade.esim.${region}.unlimited.title`, `${regionLabel} Unlimited`);
+  }
 
   return t(`upgrade.esim.${region}.${gb}.title`, `${regionLabel} ${gb} GB`);
 }
@@ -46,6 +56,9 @@ export default function WirelessDashboard() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
+  const [purchases, setPurchases] = useState([]);
+  const [purchaseError, setPurchaseError] = useState(null);
+  const [replacementEligibility, setReplacementEligibility] = useState(null);
 
   const subscriber = currentUser?.subscriber || null;
   const hasEsim = Boolean(
@@ -77,6 +90,17 @@ export default function WirelessDashboard() {
         );
       } finally {
         setLoading(false);
+      }
+    })();
+
+    (async () => {
+      try {
+        setPurchaseError(null);
+        const data = await fetchWirelessPurchases();
+        setPurchases(Array.isArray(data?.packages) ? data.packages : []);
+        setReplacementEligibility(data?.replacementEligibility ?? null);
+      } catch {
+        setPurchaseError(t('wireless.purchases.loadError', 'Purchased data packages could not be loaded. Try again later.'));
       }
     })();
   }, [currentUser, navigate, t]);
@@ -122,7 +146,7 @@ export default function WirelessDashboard() {
               {isEsimActive
                 ? t(
                     'wireless.esim.activeBody',
-                    'Your Chatforia eSIM is installed and your mobile service is active.'
+                    'Your Chatforia data eSIM is installed and active.'
                   )
                 : hasEsim
                   ? t(
@@ -145,7 +169,7 @@ export default function WirelessDashboard() {
 
         {subscriber?.msisdn && (
           <Text size="sm">
-            {t('wireless.phoneNumber', 'Phone number')}: {subscriber.msisdn}
+            {t('wireless.esimCarrierNumber', 'eSIM carrier number (not your Chatforia number)')}: {subscriber.msisdn}
           </Text>
         )}
 
@@ -172,6 +196,9 @@ export default function WirelessDashboard() {
 
   if (!isNone && status) {
     const src = status.source || {};
+    const isUnlimited = !isFamily && (
+      src.unlimited === true || /_unlimited(?:_|$)/i.test(src.addonKind || '')
+    );
     const total = src.totalDataMb || 0;
     const remaining =
       src.remainingDataMb ?? src.remainingDataMb === 0
@@ -182,6 +209,12 @@ export default function WirelessDashboard() {
     const isLow = status.state === 'LOW';
     const isExhausted = status.state === 'EXHAUSTED' || status.exhausted;
     const isExpired = status.state === 'EXPIRED' || status.expired;
+    const isUnconfirmed = [
+      'AWAITING_ACTIVATION',
+      'AWAITING_PROVISIONING',
+      'PROVIDER_UNVERIFIED',
+      'TERMINATED',
+    ].includes(status.state);
 
     planContent = (
       <Card radius="xl" withBorder>
@@ -199,7 +232,9 @@ export default function WirelessDashboard() {
                       'wireless.plan.familyBody',
                       'This shared pool powers Chatforia for your family members.'
                     )
-                  : t(
+                  : isUnconfirmed
+                    ? t('wireless.plan.bodyUnconfirmed', 'This data package is not confirmed active. Check your purchase status before buying another pack.')
+                    : t(
                       'wireless.plan.bodyActive',
                       'Your mobile data plan keeps Chatforia working when you’re away from Wi-Fi.'
                     )}
@@ -221,11 +256,13 @@ export default function WirelessDashboard() {
                   : t('wireless.data.yourData', 'Your data')}
               </Text>
               <Text size="sm">
-                {formatGb(total)} / {formatGb(remaining)}
+                {isUnlimited
+                  ? t('wireless.data.unlimited', 'Unlimited data')
+                  : `${formatGb(total)} / ${formatGb(remaining)}`}
               </Text>
             </Group>
 
-            <Progress value={pct} />
+            {!isUnlimited && <Progress value={pct} />}
 
             <Text size="xs" c="dimmed">
               {isFamily
@@ -233,25 +270,47 @@ export default function WirelessDashboard() {
                     'wireless.data.familyCaption',
                     'All members share this pool. We’ll warn you as you approach your limit.'
                   )
-                : t(
+                : isUnlimited
+                  ? t('wireless.data.unlimitedCaption', 'Speed and fair-use terms depend on your data package.')
+                  : t(
                     'wireless.data.caption',
                     'We’ll warn you as you approach your limit.'
                   )}
             </Text>
           </Stack>
 
-          {(isLow || isExhausted || isExpired) && (
+          {status.queuedPacks?.length > 0 && (
+            <Text size="sm" c="dimmed">
+              {t('wireless.queuedPacks', 'Purchased packs awaiting activation (not yet usable)')}: {' '}
+              {status.queuedPacks.map((pack) => {
+                const balance = pack.unlimited || /_unlimited(?:_|$)/i.test(pack.addonKind || '')
+                  ? t('wireless.data.unlimited', 'Unlimited data')
+                  : formatGb(pack.remainingDataMb || 0);
+                const expiry = pack.expiresAt
+                  ? ` — ${t('wireless.purchases.expiry', 'Expires: {{date}}', { date: formatUtc(pack.expiresAt) })}`
+                  : '';
+                return `${formatEsimPackLabel(pack.addonKind, t)} (${balance})${expiry}`;
+              }).join(', ')}
+            </Text>
+          )}
+
+          {(isLow || isExhausted || isExpired || isUnconfirmed) && (
             <Alert
               color={isExhausted || isExpired ? 'red' : 'yellow'}
               variant="light"
               icon={<Info size={16} />}
             >
-              {isExhausted || isExpired ? (
+              {isUnconfirmed ? (
                 <Text>
-                  {t(
-                    'wireless.exhausted',
-                    'Your data has run out. Buy a new pack to continue using mobile data.'
-                  )}
+                  {status.state === 'TERMINATED'
+                    ? t('wireless.statusTerminated', 'Telna reports this data package as terminated. Contact support before buying another pack.')
+                    : t('wireless.statusUnconfirmed', 'This data package is awaiting activation, provisioning, or provider confirmation. Check your purchase status or contact support before buying again.')}
+                </Text>
+              ) : isExhausted || isExpired ? (
+                <Text>
+                  {isExpired
+                    ? t('wireless.expired', 'Your data pack has expired. Buy a new pack to continue using mobile data.')
+                    : t('wireless.exhausted', 'Your data has run out. Buy a new pack to continue using mobile data.')}
                 </Text>
               ) : (
                 <Text>
@@ -273,7 +332,7 @@ export default function WirelessDashboard() {
             </Alert>
           )}
 
-          {!isLow && !isExhausted && !isExpired && (
+          {!isLow && !isExhausted && !isExpired && !isUnconfirmed && (
             <Group mt="xs">
               <Button size="xs" variant="light" onClick={goToPlans}>
                 {t('wireless.plan.manageCta', 'Change plan / top up')}
@@ -347,6 +406,69 @@ export default function WirelessDashboard() {
       {esimCard}
 
       {isNone ? noneContent : planContent}
+
+      {(purchases.length > 0 || purchaseError) && (
+        <Card radius="xl" withBorder>
+          <Stack gap="sm">
+            <Title order={3}>{t('wireless.purchases.title', 'Purchased Data Packages')}</Title>
+            {purchaseError && <Alert color="yellow">{purchaseError}</Alert>}
+            {purchases.map((purchase) => (
+              <Card key={purchase.id} withBorder radius="md">
+                <Stack gap="xs">
+                  <Group justify="space-between" align="flex-start">
+                    <Text fw={600}>{formatEsimPackLabel(purchase.addonKind, t)}</Text>
+                    <Badge color={purchase.state === 'ACTIVE' ? 'green' : purchase.state === 'AWAITING_ACTIVATION' ? 'yellow' : 'gray'}>
+                      {t(`wireless.purchases.state.${purchase.state}`, String(purchase.state || 'UNKNOWN').replaceAll('_', ' ').toLowerCase())}
+                    </Badge>
+                  </Group>
+                  <Text size="sm">
+                    {purchase.unlimited
+                      ? t('wireless.data.unlimited', 'Unlimited data')
+                      : t('wireless.purchases.recordedBalance', 'Recorded remaining: {{remaining}} of {{total}}', {
+                          remaining: formatGb(purchase.recordedRemainingDataMb ?? purchase.remainingDataMb),
+                          total: formatGb(purchase.totalDataMb),
+                        })}
+                  </Text>
+                  {purchase.expiresAt && (
+                    <Text size="xs" c="dimmed">
+                      {t('wireless.purchases.expiry', 'Expires: {{date}}', {
+                        date: formatUtc(purchase.expiresAt),
+                      })}
+                    </Text>
+                  )}
+                  {purchase.activatedAt && (
+                    <Text size="xs" c="dimmed">
+                      {t('wireless.purchases.activated', 'Provider activation: {{date}}', {
+                        date: formatUtc(purchase.activatedAt),
+                      })}
+                    </Text>
+                  )}
+                  {!purchase.activatedAt && purchase.activationWindowEndsAt && (
+                    <Text size="xs" c="dimmed">
+                      {t(
+                        purchase.state === 'TERMINATED'
+                          ? 'wireless.purchases.activationWindowEnded'
+                          : 'wireless.purchases.activationWindowEnds',
+                        purchase.state === 'TERMINATED'
+                          ? 'No provider activation recorded; activation window ended {{date}}.'
+                          : 'Provider activation not confirmed; activation window ends {{date}}.',
+                        { date: formatUtc(purchase.activationWindowEndsAt) }
+                      )}
+                    </Text>
+                  )}
+                </Stack>
+              </Card>
+            ))}
+            {replacementEligibility?.reason && (
+              <Alert color="blue" variant="light">
+                {t('wireless.purchases.transferUnavailable', 'eSIM transfer unavailable: {{reason}}', {
+                  reason: replacementEligibility.reason,
+                })}
+              </Alert>
+            )}
+          </Stack>
+        </Card>
+      )}
     </Stack>
   );
 }
