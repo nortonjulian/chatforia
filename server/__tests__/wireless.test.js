@@ -1470,7 +1470,7 @@ describe('wireless routes', () => {
     const app = makeApp();
 
     replaceEsimForDeviceMock.mockRejectedValue(Object.assign(
-      new Error('Another unexpired data package remains on this eSIM'),
+      new Error('Another active or pending eSIM package must be resolved before this eSIM can be replaced'),
       { code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED' }
     ));
 
@@ -1481,7 +1481,7 @@ describe('wireless routes', () => {
 
     expect(res.status).toBe(409);
     expect(res.body).toEqual({
-      error: 'Another unexpired data package remains on this eSIM',
+      error: 'Another active or pending eSIM package must be resolved before this eSIM can be replaced',
       code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
     });
   });

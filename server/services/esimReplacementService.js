@@ -289,8 +289,16 @@ async function assertNoOtherEligiblePackages({
     await prismaClient.mobileDataPackPurchase.findMany({
       where: {
         userId: Number(userId),
-        iccid: String(iccid),
         id: { not: Number(purchaseId) },
+        OR: [
+          { iccid: String(iccid) },
+          {
+            iccid: null,
+            addonKind: {
+              startsWith: 'chatforia_esim_',
+            },
+          },
+        ],
       },
       select: {
         addonKind: true,
@@ -301,7 +309,7 @@ async function assertNoOtherEligiblePackages({
 
   if (otherPackages.some((pack) => hasRemainingEntitlement(pack, now))) {
     throw makeError(
-      'Another unexpired data package remains on this eSIM; transferring multiple packages requires provider confirmation',
+      'Another active or pending eSIM package must be resolved before this eSIM can be replaced',
       'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED'
     );
   }
