@@ -24,6 +24,12 @@ const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff
 const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
+export const esimReleasePath = 'server/security/applicationMigrationRelease.v5.json';
+const esimReleaseDigests = Object.freeze({
+  // A reviewable 165-to-166 proposal. Production authority requires a separate owner approval.
+  'a27172c770c418201e00da5a9f13814c8da65ecdc5454331ba2039240ed7451b':
+    'proposed-not-authorized-for-production',
+});
 const mfaReleaseDigests = Object.freeze({
   // Owner approved exact failed-attempt recovery and deployment on 2026-11-14.
   '46e18ede18aaaea2d33879786cf6ce09d6f82e928d40b4faf585214a260b005f': 'approved-for-production',
@@ -63,7 +69,7 @@ const recoveredRolledBackRows = Object.freeze([
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
-  applicationReleasePath, mfaReleasePath,
+  applicationReleasePath, mfaReleasePath, esimReleasePath,
   ...new Set([...reconciliationPaths, ...reconciliationPathsV2]),
 ].includes(path);
 
@@ -105,7 +111,7 @@ function archivedApplicationReleaseSpec(files) {
   return manifest;
 }
 
-export function applicationReleaseSpec(files) {
+function mfaApplicationReleaseSpec(files) {
   const previous = archivedApplicationReleaseSpec(files);
   if (!files.has(mfaReleasePath)) return previous;
   const reviewedStatus = mfaReleaseDigests[digest(files.get(mfaReleasePath))];
@@ -120,11 +126,39 @@ export function applicationReleaseSpec(files) {
   return next;
 }
 
+export function applicationReleaseSpec(files) {
+  const previous = mfaApplicationReleaseSpec(files);
+  if (!files.has(esimReleasePath)) return previous;
+  const reviewedStatus = esimReleaseDigests[digest(files.get(esimReleasePath))];
+  if (!files.has(mfaReleasePath) || !previous || !reviewedStatus)
+    throw new Error('Unreviewed eSIM release manifest');
+  const next = JSON.parse(files.get(esimReleasePath));
+  if (previous.status !== 'approved-for-production' ||
+      next.id !== 'chatforia-esim-operation-lock-20261114-v5' ||
+      next.status !== reviewedStatus ||
+      next.basedOnMfaManifestSha256 !== digest(files.get(mfaReleasePath)) ||
+      next.beforeCount !== previous.afterCount || next.afterCount !== 166 ||
+      next.historicalRolledBackCount !== previous.historicalRolledBackCount ||
+      JSON.stringify(next.historicalRolledBackRows) !==
+        JSON.stringify(previous.historicalRolledBackRows) ||
+      next.beforeMigrationSetSha256 !== previous.afterMigrationSetSha256 ||
+      next.afterMigrationSetSha256 !==
+        '6dada3d377c7fa68cbef08aa129c45410e6caf4cef00f9aac9009c275c2252a9' ||
+      JSON.stringify(next.requiredExactMigrations) !== JSON.stringify({
+        '20261113010000_add_esim_operation_lock':
+          'd6d204b0d34f8c211b2c9c9e60a69cd5826768cfdc93f87ecb5949e76811cbc0',
+      }) ||
+      JSON.stringify(next.target) !== JSON.stringify(previous.target))
+    throw new Error('eSIM release baseline mismatch');
+  return next;
+}
+
 export function buildPackage(ref, cwd = process.cwd()) {
   const git = (...args) => execFileSync('git', args, { cwd, maxBuffer: 32 * 1024 * 1024 });
   const commit = git('rev-parse', '--verify', `${ref}^{commit}`).toString().trim();
   const entries = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json',
-    ...new Set([...reconciliationPaths, ...reconciliationPathsV2, applicationReleasePath, mfaReleasePath]))
+    ...new Set([...reconciliationPaths, ...reconciliationPathsV2,
+      applicationReleasePath, mfaReleasePath, esimReleasePath]))
     .toString().split('\0').filter(Boolean);
   const hasConsent = entries.some((entry) => entry.split('\t')[1] ===
     `server/prisma/migrations/${consentMigration}/migration.sql`);
@@ -210,8 +244,12 @@ function assertReconciliationReleaseSet(bundle, files) {
   const named = migrations.map((file) => ({ name: file.path.match(migrationPath)[1], sha256: file.sha256 }));
   const newNames = application ? Object.keys(application.requiredExactMigrations) : [];
   const applicationBase = named.filter(({ name }) => !newNames.includes(name));
-  const priorNames = files.has(mfaReleasePath)
-    ? Object.keys(archivedApplicationReleaseSpec(files).requiredExactMigrations) : [];
+  const priorNames = [
+    ...(files.has(mfaReleasePath)
+      ? Object.keys(archivedApplicationReleaseSpec(files).requiredExactMigrations) : []),
+    ...(files.has(esimReleasePath)
+      ? Object.keys(mfaApplicationReleaseSpec(files).requiredExactMigrations) : []),
+  ];
   const base = applicationBase.filter(({ name }) => !priorNames.includes(name));
   const legacy = base.filter(({ name }) => name !== consentMigration);
   if (base.length !== manifest.afterStaffCount ||
@@ -237,7 +275,9 @@ function assertReconciliationReleaseSet(bundle, files) {
     application.target.database !== manifest.target.database ||
     application.target.port !== manifest.target.port
   )) throw new Error('Application release migration set changed');
-  return { version: application ? (files.has(mfaReleasePath) ? 'v4' : 'v3') : version, manifest, application, migrations };
+  return { version: application ?
+    (files.has(esimReleasePath) ? 'v5' : files.has(mfaReleasePath) ? 'v4' : 'v3') :
+    version, manifest, application, migrations };
 }
 
 // Pure verification only: this does not grant production execution authority.
