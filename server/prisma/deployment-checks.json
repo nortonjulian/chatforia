@@ -1,6 +1,12 @@
 {
   "version": 1,
   "checks": {
+    "esim_operation_lock_exists": {
+      "sql": "SELECT to_regclass('public.\"EsimOperationLock\"') IS NOT NULL AS esim_operation_lock_exists",
+      "rule": "expected",
+      "before": [{ "esim_operation_lock_exists": false }],
+      "after": [{ "esim_operation_lock_exists": true }]
+    },
     "preserve_user_count": {
       "sql": "SELECT count(*)::text AS user_count FROM public.\"User\"",
       "rule": "unchanged"
@@ -26,6 +32,14 @@
     }
   },
   "migrations": {
+    "20261113010000_add_esim_operation_lock": {
+      "kind": "schema",
+      "reason": "Create a per-account eSIM operation claim for purchase and replacement serialization; preserve existing accounts and verify the table exists.",
+      "checks": [
+        "preserve_user_count",
+        "esim_operation_lock_exists"
+      ]
+    },
     "20261102060000_add_staff_access": {
       "kind": "schema",
       "reason": "Staff schema, privileges, triggers or protected functions. Existing users must be preserved while traffic is fenced.",
