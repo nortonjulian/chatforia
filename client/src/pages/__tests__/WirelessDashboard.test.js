@@ -164,7 +164,7 @@ describe('WirelessDashboard', () => {
 
     expect(
       screen.getByText(
-        /Your Chatforia eSIM is installed and your mobile service is active/i
+        /Your Chatforia data eSIM is installed and active/i
       )
     ).toBeInTheDocument();
 
@@ -187,6 +187,31 @@ describe('WirelessDashboard', () => {
     await userEvent.click(manageButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('/account/esim');
+  });
+
+  test('shows Unlimited as a plan instead of zero data', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'OK',
+      source: {
+        addonKind: 'chatforia_esim_global_unlimited_premium',
+        unlimited: true,
+        totalDataMb: 0,
+        remainingDataMb: 0,
+      },
+      queuedPacks: [{
+        addonKind: 'chatforia_esim_europe_unlimited_premium',
+        unlimited: true,
+        remainingDataMb: 0,
+      }],
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('Unlimited data')).toBeInTheDocument();
+    expect(screen.queryByText(/0\.0 GB \/ 0\.0 GB/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.getByText(/Europe Unlimited \(Unlimited data\)/)).toBeInTheDocument();
   });
 
   test('keeps eSIM setup available while the subscriber is PROVISIONING', async () => {

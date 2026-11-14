@@ -27,13 +27,17 @@ function formatEsimPackLabel(addonKind, t) {
   if (!addonKind) return t('wireless.esimPackLabel', 'eSIM data pack');
 
   const match = String(addonKind).match(
-    /^chatforia_esim_(local|europe|global)_(3|5|10|20)(?:_(?:premium|standard))?$/i
+    /^chatforia_esim_(local|europe|global)_(3|5|10|20|unlimited)(?:_(?:premium|standard))?$/i
   );
   if (!match) return addonKind;
 
   const region = match[1].toLowerCase();
   const gb = match[2];
   const regionLabel = region.charAt(0).toUpperCase() + region.slice(1);
+
+  if (gb.toLowerCase() === 'unlimited') {
+    return t(`upgrade.esim.${region}.unlimited.title`, `${regionLabel} Unlimited`);
+  }
 
   return t(`upgrade.esim.${region}.${gb}.title`, `${regionLabel} ${gb} GB`);
 }
@@ -122,7 +126,7 @@ export default function WirelessDashboard() {
               {isEsimActive
                 ? t(
                     'wireless.esim.activeBody',
-                    'Your Chatforia eSIM is installed and your mobile service is active.'
+                    'Your Chatforia data eSIM is installed and active.'
                   )
                 : hasEsim
                   ? t(
@@ -145,7 +149,7 @@ export default function WirelessDashboard() {
 
         {subscriber?.msisdn && (
           <Text size="sm">
-            {t('wireless.phoneNumber', 'Phone number')}: {subscriber.msisdn}
+            {t('wireless.esimCarrierNumber', 'eSIM carrier number (not your Chatforia number)')}: {subscriber.msisdn}
           </Text>
         )}
 
@@ -172,6 +176,9 @@ export default function WirelessDashboard() {
 
   if (!isNone && status) {
     const src = status.source || {};
+    const isUnlimited = !isFamily && (
+      src.unlimited === true || /_unlimited(?:_|$)/i.test(src.addonKind || '')
+    );
     const total = src.totalDataMb || 0;
     const remaining =
       src.remainingDataMb ?? src.remainingDataMb === 0
@@ -221,11 +228,13 @@ export default function WirelessDashboard() {
                   : t('wireless.data.yourData', 'Your data')}
               </Text>
               <Text size="sm">
-                {formatGb(total)} / {formatGb(remaining)}
+                {isUnlimited
+                  ? t('wireless.data.unlimited', 'Unlimited data')
+                  : `${formatGb(total)} / ${formatGb(remaining)}`}
               </Text>
             </Group>
 
-            <Progress value={pct} />
+            {!isUnlimited && <Progress value={pct} />}
 
             <Text size="xs" c="dimmed">
               {isFamily
@@ -233,12 +242,25 @@ export default function WirelessDashboard() {
                     'wireless.data.familyCaption',
                     'All members share this pool. We’ll warn you as you approach your limit.'
                   )
-                : t(
+                : isUnlimited
+                  ? t('wireless.data.unlimitedCaption', 'Speed and fair-use terms depend on your data package.')
+                  : t(
                     'wireless.data.caption',
                     'We’ll warn you as you approach your limit.'
                   )}
             </Text>
           </Stack>
+
+          {status.queuedPacks?.length > 0 && (
+            <Text size="sm" c="dimmed">
+              {t('wireless.queuedPacks', 'Queued data packs')}: {' '}
+              {status.queuedPacks.map((pack) =>
+                pack.unlimited || /_unlimited(?:_|$)/i.test(pack.addonKind || '')
+                  ? `${formatEsimPackLabel(pack.addonKind, t)} (${t('wireless.data.unlimited', 'Unlimited data')})`
+                  : `${formatEsimPackLabel(pack.addonKind, t)} (${formatGb(pack.remainingDataMb || 0)})`
+              ).join(', ')}
+            </Text>
+          )}
 
           {(isLow || isExhausted || isExpired) && (
             <Alert
@@ -248,10 +270,9 @@ export default function WirelessDashboard() {
             >
               {isExhausted || isExpired ? (
                 <Text>
-                  {t(
-                    'wireless.exhausted',
-                    'Your data has run out. Buy a new pack to continue using mobile data.'
-                  )}
+                  {isExpired
+                    ? t('wireless.expired', 'Your data pack has expired. Buy a new pack to continue using mobile data.')
+                    : t('wireless.exhausted', 'Your data has run out. Buy a new pack to continue using mobile data.')}
                 </Text>
               ) : (
                 <Text>
