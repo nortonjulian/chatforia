@@ -24,7 +24,10 @@ const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff
 const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
-const mfaReleaseDigest = 'c8be058f97a023c9406287ac29bcd1959a28a0cd52eee0ff67e183a497a57585';
+const mfaReleaseDigests = Object.freeze({
+  'c8be058f97a023c9406287ac29bcd1959a28a0cd52eee0ff67e183a497a57585': 'proposed-not-authorized-for-production',
+  'ab3462be1d16627b86b6568089928869612986edc3d6f31fb33f7c545dd01b29': 'approved-for-production',
+});
 const applicationReleaseDigests = Object.freeze({
   // Retain verification of the archived proposed package from merged PR #325.
   '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045':
@@ -101,10 +104,11 @@ function archivedApplicationReleaseSpec(files) {
 export function applicationReleaseSpec(files) {
   const previous = archivedApplicationReleaseSpec(files);
   if (!files.has(mfaReleasePath)) return previous;
-  if (!previous || digest(files.get(mfaReleasePath)) !== mfaReleaseDigest)
+  const reviewedStatus = mfaReleaseDigests[digest(files.get(mfaReleasePath))];
+  if (!previous || !reviewedStatus)
     throw new Error('Unreviewed MFA release manifest');
   const next = JSON.parse(files.get(mfaReleasePath));
-  if (next.status !== 'proposed-not-authorized-for-production' ||
+  if (next.status !== reviewedStatus ||
       next.basedOnApplicationManifestSha256 !== digest(files.get(applicationReleasePath)) ||
       next.beforeCount !== previous.afterCount ||
       next.beforeMigrationSetSha256 !== previous.afterMigrationSetSha256)
