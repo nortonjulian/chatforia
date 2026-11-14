@@ -1,14 +1,17 @@
 import { Stack, Title, Divider } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
+
+import SecureMessageSettingsCard from '@/components/security/SecureMessageSettingsCard.jsx';
 import SoundSettings from '@/components/SoundSettings';
-import ThemePicker from '@/features/settings/ThemePicker';
-import PrivacyToggles from '@/features/settings/PrivacyToggles';
+import { useUser } from '@/context/UserContext';
 import AgeSettings from '@/features/settings/AgeSettings';
 import ForwardingSettings from '@/features/settings/ForwardingSettings.jsx';
-import SecureMessageSettingsCard from '@/components/security/SecureMessageSettingsCard.jsx';
-import { useTranslation } from 'react-i18next';
+import PrivacyToggles from '@/features/settings/PrivacyToggles';
+import ThemePicker from '@/features/settings/ThemePicker';
 
 export default function SettingsPage() {
   const { t } = useTranslation();
+  const { currentUser } = useUser() || {};
 
   return (
     <Stack gap="lg">
@@ -38,7 +41,7 @@ export default function SettingsPage() {
 
       {/* Call & Text Forwarding */}
       <Title order={3}>{t('profile.forwarding', 'Call & Text Forwarding')}</Title>
-      <ForwardingSettings />
+      <ForwardingSettings key={currentUser?.id ?? 'anonymous'} />
 
       <Divider />
 

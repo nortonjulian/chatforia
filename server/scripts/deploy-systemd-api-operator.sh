@@ -4,8 +4,8 @@
 # protected Verify Chatforia Backend Operator Handoff workflow run.
 set -euo pipefail
 
-if (( $# != 5 )); then
-  echo 'Usage: deploy-systemd-api-operator.sh HANDOFF_JSON PACKAGE_JSON CHECKOUT SSH_HOST SSH_KEY' >&2
+if (( $# != 5 && $# != 6 )); then
+  echo 'Usage: deploy-systemd-api-operator.sh HANDOFF_JSON PACKAGE_JSON CHECKOUT SSH_HOST SSH_KEY [--pre-stopped]' >&2
   exit 2
 fi
 receipt=$1
@@ -13,6 +13,11 @@ package=$2
 checkout=$3
 host=$4
 key=$5
+deployment_mode=active
+if (( $# == 6 )); then
+  [[ "$6" == --pre-stopped ]] || exit 2
+  deployment_mode=pre-stopped
+fi
 known_hosts=${API_DO_OPERATOR_KNOWN_HOSTS:?Set API_DO_OPERATOR_KNOWN_HOSTS to the existing pinned file}
 
 [[ -f "$receipt" && -f "$package" && -f "$key" && -s "$known_hosts" ]]
@@ -38,9 +43,9 @@ test "$(git -C "$checkout" rev-parse HEAD)" = "$commit"
 test -z "$(git -C "$checkout" status --porcelain --untracked-files=no)"
 cmp -s "$0" <(git -C "$checkout" show "$commit:server/scripts/deploy-systemd-api-operator.sh")
 
-echo "Ready to stream reviewed commit $commit and package $package_sha256 from handoff run $run_id attempt $run_attempt" >&2
+echo "Ready to stream reviewed commit $commit and package $package_sha256 from handoff run $run_id attempt $run_attempt in $deployment_mode mode" >&2
 cd "$checkout"
 git show "$commit:server/scripts/deploy-systemd-api.sh" |
   ssh -i "$key" -o IdentitiesOnly=yes -o BatchMode=yes \
     -o StrictHostKeyChecking=yes -o "UserKnownHostsFile=$known_hosts" \
-    "root@$host" bash -se -- "$commit" "$package_sha256"
+    "root@$host" bash -se -- "$commit" "$package_sha256" "$deployment_mode"
