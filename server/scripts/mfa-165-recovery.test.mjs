@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { buildPackage, verifyPackage, applicationReleaseSpec } from './migration-package.mjs';
-import { checkRecoveryHistory, failedAttempt, assertNoMfaObjects } from './mfa-165-recovery.mjs';
+import { checkRecoveryHistory, failedAttempt, assertNoMfaObjects, syntheticRecoveryConnection } from './mfa-165-recovery.mjs';
 import { runApplicationReleasePreflight } from './application-release-preflight.mjs';
 
 test('recovery package pins only the observed failed attempt and unchanged SQL',()=>{
@@ -44,4 +44,17 @@ test('preflight rejects non-inheriting managed executor before migration',async(
   }})};
   await assert.rejects(runApplicationReleasePreflight(db,bundle,'before',{databaseUrl:'postgresql://doadmin@chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com:25060/defaultdb'}),/lacks protected-schema/);
   assert.equal(calls,2);
+});
+
+
+test('synthetic recovery cannot target production or run outside explicit PR rehearsal',()=>{
+  const env={GITHUB_ACTIONS:'true',GITHUB_EVENT_NAME:'pull_request',GITHUB_REPOSITORY:'nortonjulian/chatforia',APPLICATION_RELEASE_SYNTHETIC_PG18:'yes',DATABASE_URL:'postgresql://doadmin:test@127.0.0.1:5432/chatforia_application_release_test'};
+  assert.equal(syntheticRecoveryConnection(env).hostname,'127.0.0.1');
+  for(const change of [
+    {DATABASE_URL:'postgresql://doadmin:test@chatforia-db-do-user-31025199-0.f.db.ondigitalocean.com:25060/defaultdb'},
+    {DATABASE_URL:'postgresql://doadmin:test@127.0.0.1:5432/defaultdb'},
+    {DATABASE_URL:env.DATABASE_URL+'?host=production'},
+    {GITHUB_ACTIONS:'false'}, {GITHUB_EVENT_NAME:'workflow_dispatch'},
+    {APPLICATION_RELEASE_SYNTHETIC_PG18:'no'}, {DIRECT_URL:'postgresql://production'},
+  ]) assert.throws(()=>syntheticRecoveryConnection({...env,...change}));
 });

@@ -13,6 +13,7 @@ on:
       - 'server/security/enrollMfa.js'
       - 'server/security/db-qa/mfa-disable.mjs'
       - 'server/scripts/application-release-*'
+      - 'server/scripts/mfa-165-recovery*'
       - 'server/scripts/deploy-systemd-api*'
       - 'server/scripts/systemd-release-unit*'
       - 'server/scripts/migration-package*'
@@ -29,6 +30,10 @@ permissions:
 jobs:
   application-release-pg18:
     name: Disposable PG18 v2-to-v3 migration, grants, and combined callbacks
+    strategy:
+      fail-fast: false
+      matrix:
+        recovery-failure: [none, after-resolve, during-deploy]
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     services:
@@ -49,6 +54,7 @@ jobs:
       DATABASE_URL: postgresql://application_ci:synthetic_ci_only@127.0.0.1:5432/chatforia_application_release_test
       TEST_DATABASE_URL: postgresql://application_ci:synthetic_ci_only@127.0.0.1:5432/chatforia_application_release_test
       APPLICATION_RELEASE_SYNTHETIC_PG18: 'yes'
+      MFA_RECOVERY_FAILURE: ${{ matrix.recovery-failure }}
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
     steps:

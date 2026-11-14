@@ -57,6 +57,14 @@ test -z "$(git diff --name-only HEAD "$commit" -- server/uploads/)"
 release="$releases/$commit"
 new_server="$release/app/server"
 test ! -e "$release" && test ! -L "$release"
+# A prior attempt exhausted this disk during npm ci. Require headroom for
+# the staged release, dependency cache, and the retained rollback release.
+available_bytes=$(df -B1 --output=avail "$releases" | tail -n 1 | tr -d '[:space:]')
+[[ "$available_bytes" =~ ^[0-9]+$ ]]
+if (( available_bytes < 8 * 1024 * 1024 * 1024 )); then
+  echo 'STOP: API release staging requires at least 8 GiB free; preserve active and rollback releases.' >&2
+  exit 1
+fi
 mkdir -m 0755 -- "$release"
 before_stop=true
 cleanup() {

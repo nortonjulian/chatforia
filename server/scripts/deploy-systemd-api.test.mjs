@@ -96,3 +96,12 @@ assert_expected_service_state`;
   assert.notEqual(check('pre-stopped', 'failed', 0), 0);
   assert.notEqual(check('pre-stopped', 'active', 345), 0);
 });
+
+
+test('disk headroom is checked before staging, npm install, and service stop', () => {
+  const script = readFileSync(new URL('./deploy-systemd-api.sh', import.meta.url), 'utf8');
+  const check = script.indexOf('available_bytes < 8 * 1024 * 1024 * 1024');
+  assert.ok(check > 0);
+  assert.ok(check < script.indexOf('mkdir -m 0755 -- "$release"'));
+  assert.ok(check < script.indexOf('systemctl stop "$unit"'));
+});
