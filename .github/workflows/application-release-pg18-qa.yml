@@ -8,7 +8,10 @@ on:
       - '.github/workflows/application-release-pg18-qa.yml'
       - '.github/workflows/deploy-backend.yml'
       - 'server/prisma/**'
-      - 'server/security/applicationMigrationRelease.v3.json'
+      - 'server/security/applicationMigrationRelease.v*.json'
+      - 'server/security/disableMfa.js'
+      - 'server/security/enrollMfa.js'
+      - 'server/security/db-qa/mfa-disable.mjs'
       - 'server/scripts/application-release-*'
       - 'server/scripts/deploy-systemd-api*'
       - 'server/scripts/systemd-release-unit*'
@@ -68,7 +71,12 @@ jobs:
           set -euo pipefail
           docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U application_ci -d chatforia_application_release_test < server/scripts/application-release-ci-bootstrap.sql
           docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U application_ci -d chatforia_application_release_test < server/scripts/staff-access-bootstrap-role.sql
-      - name: Rehearse exact 161-to-164 migration with synthetic rows and restricted runtime
+      - name: Rehearse exact 161-to-164 and proposed 164-to-165 transitions
         run: node server/scripts/application-release-pg18-qa.mjs
+      - name: Verify MFA disable policy and runtime database protections
+        run: |
+          npm install --prefix /tmp/mfa-test-driver --no-audit --no-fund pg@8.16.3
+          NODE_PATH=/tmp/mfa-test-driver/node_modules MFA_TEST_ADMIN_URL="$DATABASE_URL" node server/security/db-qa/mfa-disable.mjs
+          npm run -w server test:server -- --coverage=false --runInBand --runTestsByPath __tests__/mfa.enrollment.test.js __tests__/auth.mfaTotp.test.js
       - name: Run affected SMS, quiet-hours, and voicemail tests
         run: npm run -w server test:server -- --coverage=false --watchman=false --runInBand --runTestsByPath __tests__/sms.test.js services/__tests__/badgeState.test.js __tests__/smsWebhooks.test.js __tests__/voiceWebhooks.test.js __tests__/settings.forwarding.test.js services/__tests__/forwardingService.test.js utils/__tests__/forwardingQuietHours.test.js __tests__/voicemailForwardingWebhook.test.js jobs/__tests__/voicemailEmailDispatcher.test.js services/__tests__/voicemailEmail.test.js

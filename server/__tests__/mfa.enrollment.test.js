@@ -1,5 +1,6 @@
 /** @jest-environment node */
 import { jest } from '@jest/globals';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
 import request from 'supertest';
@@ -88,4 +89,94 @@ test('disable requires the enrolled code and revokes old sessions', async () => 
   expect(user.twoFactorEnabled).toBe(false);
   expect(user.tokenVersion).toBe(4);
   expect(recoveryHashes).toHaveLength(0);
+});
+
+describe('restricted runtime disable', () => {
+  const originalQuery = tx.$queryRaw;
+  beforeEach(() => {
+    process.env.STAFF_SECURITY_ENABLED = 'true';
+    process.env.STAFF_ACCESS_SIGNING_SECRET = 'test-only-signing-key-at-least-32-bytes';
+    user.twoFactorEnabled = true;
+    user.totpSecretEnc = 'sealed:JBSWY3DPEHPK3PXP';
+    tx.$queryRaw = jest.fn(async (sql) => {
+      if (sql.join('').includes('disable_mfa')) return [{ result: 'mfa_required' }];
+      return [{ id: user.id }];
+    });
+  });
+  afterEach(() => {
+    delete process.env.STAFF_SECURITY_ENABLED;
+    delete process.env.STAFF_ACCESS_SIGNING_SECRET;
+    tx.$queryRaw = originalQuery;
+  });
+  test('protected accounts receive a clear 403 without a new session', async () => {
+    const response = await request(app).post('/auth/2fa/disable')
+      .send({ code: code('JBSWY3DPEHPK3PXP') }).expect(403);
+    expect(response.body.reason).toBe('mfa_required');
+    expect(response.body.error).toContain('protected founder');
+    expect(user.twoFactorEnabled).toBe(true);
+    expect(issueSession).not.toHaveBeenCalled();
+    expect(tx.$queryRaw.mock.calls[0][0].join('')).toContain('pg_advisory_xact_lock');
+  });
+  test('invalid TOTP cannot reach the authorized database function', async () => {
+    const secret = 'JBSWY3DPEHPK3PXP';
+    const invalid = Array.from({ length: 10 }, (_, i) => String(i).repeat(6))
+      .find((token) => !speakeasy.totp.verify({ secret, encoding: 'base32', token, window: 1 }));
+    await request(app).post('/auth/2fa/disable').send({ code: invalid }).expect(400);
+    expect(tx.$queryRaw.mock.calls.some(([sql]) => sql.join('').includes('disable_mfa'))).toBe(false);
+  });
+  test('authorized disable returns the updated user and rotates the session', async () => {
+    tx.$queryRaw.mockImplementation(async (sql) => {
+      if (sql.join('').includes('disable_mfa')) {
+        user.twoFactorEnabled = false; user.totpSecretEnc = null; user.tokenVersion++;
+        return [{ result: 'disabled' }];
+      }
+      return [{ id: user.id }];
+    });
+    await request(app).post('/auth/2fa/disable').send({ code: code('JBSWY3DPEHPK3PXP') }).expect(200);
+    expect(issueSession).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ twoFactorEnabled: false, tokenVersion: 3 }));
+  });
+  test('restricted runtime can disable then re-enroll with a fresh verified session', async () => {
+    const queries = [];
+    tx.$queryRaw.mockImplementation(async (sql, payload, signature) => {
+      const query = sql.join('');
+      if (query.includes('disable_mfa')) {
+        user.twoFactorEnabled = false; user.totpSecretEnc = null; user.tokenVersion++;
+        return [{ result: 'disabled' }];
+      }
+      if (query.includes('enroll_mfa')) {
+        const c = JSON.parse(payload); queries.push(c);
+        expect(signature).toBe(crypto.createHmac('sha256', process.env.STAFF_ACCESS_SIGNING_SECRET)
+          .update(`mfa-enroll:${payload}`).digest('hex'));
+        expect(c.userId).toBe(user.id); expect(c.tokenVersion).toBe(user.tokenVersion);
+        if (c.operation === 'SETUP') {
+          pending = { id: 2, tokenHash: c.secretEnc, usedAt: null, expiresAt: new Date(Date.now()+600000) };
+          return [{ result: 'prepared' }];
+        }
+        expect(c.recordId).toBe(pending.id);
+        expect(c.pendingHash).toBe(crypto.createHash('sha256').update(pending.tokenHash).digest('hex'));
+        user.twoFactorEnabled = true; user.totpSecretEnc = pending.tokenHash; user.tokenVersion++;
+        recoveryHashes = c.recoveryHashes; pending.usedAt = new Date();
+        return [{ result: 'enabled' }];
+      }
+      return [{ id: user.id }];
+    });
+    await request(app).post('/auth/2fa/disable').send({ code: code('JBSWY3DPEHPK3PXP') }).expect(200);
+    const secret = await setup();
+    await request(app).post('/auth/2fa/enable').send({ tmpSecret: secret, code: 'wrong' }).expect(400);
+    expect(queries.map((q) => q.operation)).toEqual(['SETUP']);
+    const result = await request(app).post('/auth/2fa/enable').send({ tmpSecret: secret, code: code(secret) }).expect(200);
+    expect(recoveryHashes).toEqual(result.body.backupCodes.map(recoveryCodeHash));
+    expect(user.tokenVersion).toBe(4);
+    expect(issueSession).toHaveBeenLastCalledWith(expect.anything(), expect.objectContaining({twoFactorEnabled:true,tokenVersion:4}), {mfaVerified:true});
+  });
+  test('protected enrollment shows a policy error and exposes no setup secret', async () => {
+    user.twoFactorEnabled = false; user.totpSecretEnc = null;
+    tx.$queryRaw.mockImplementation(async (sql) => sql.join('').includes('enroll_mfa')
+      ? [{ result: 'mfa_protected' }] : [{ id: user.id }]);
+    const response = await request(app).post('/auth/2fa/setup').expect(403);
+    expect(response.body.reason).toBe('mfa_protected');
+    expect(response.body.tmpSecret).toBeUndefined();
+    expect(issueSession).not.toHaveBeenCalled();
+  });
+
 });
