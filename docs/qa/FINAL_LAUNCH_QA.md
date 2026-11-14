@@ -54,6 +54,8 @@ All Firefox observations above are **local synthetic UI results**. They do not v
 
 This is a proposal, not authorization to merge, deploy, or distribute. Keep the completed `632db2b7` package, encrypted backup, Stage 5/6 signoffs, and production receipts intact. Review the following exact sources before creating new artifacts:
 
+Read-only refresh on November 13: `https://chatforia.com/` returned HTTP 200 and still served `assets/index-DKf609Am.js`; inspection of that served asset found no SMS read-ack call or `forwardQuietHoursTimeZone` field. `https://api.chatforia.com/health` returned HTTP 200 with `{"ok":true}`. Health does not identify the API commit or prove authenticated behavior. The current PR #332 head passed Prisma migration-history CI; no mobile PR workflow run was reported for the new iOS/Android heads, so their recorded local tests remain the available automated evidence.
+
 | Outstanding fix or check | Required release source | Gate before the check |
 | --- | --- | --- |
 | Expired chat content reappearing from history, reconnect delta, or legacy room reads | Backend PR #330 (`9ab35097`), released after merge onto current main | New pinned backend package, protected handoff, separate deployment approval, then deployed disposable-account history and real issued attachment expiry tests. Local synthetic 18/18 tests are already credited. |
