@@ -196,6 +196,35 @@ describe('wireless routes', () => {
       );
     });
 
+    it('shows a terminated package’s provider activation window without inventing activation', async () => {
+      prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([
+        purchase(43, { expiresAt: '2026-11-13T19:27:49.000Z' }),
+      ]);
+      fetchEsimUsageMock.mockResolvedValue({
+        providerStatus: 'TERMINATED',
+        remainingMb: 3072,
+        expiresAt: '2026-11-13T19:27:49.000Z',
+        providerMeta: {
+          created_date: 1792006069000,
+          window_activation_end: 1794598069000,
+          expiry_date: 1794598069000,
+          terminated_date: 1794598070000,
+        },
+      });
+
+      const res = await request(makeApp()).get('/api/wireless/purchases');
+
+      expect(res.status).toBe(200);
+      expect(res.body.packages[0]).toEqual(expect.objectContaining({
+        state: 'TERMINATED',
+        providerCreatedAt: '2026-10-14T19:27:49.000Z',
+        activationWindowEndsAt: '2026-11-13T19:27:49.000Z',
+        activatedAt: null,
+        terminatedAt: '2026-11-13T19:27:50.000Z',
+      }));
+      expect(prismaMock.mobileDataPackPurchase.update).not.toHaveBeenCalled();
+    });
+
     it('keeps paid but unfulfilled and unverified purchases visible', async () => {
       prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([
         purchase(5, { providerPurchaseId: null, iccid: null }),
@@ -276,6 +305,23 @@ describe('wireless routes', () => {
       expect(res.body.replacementEligibility).toEqual({
         eligible: true, purchaseId: 9, reason: null,
       });
+    });
+
+    it('does not advertise live transfer even for an otherwise eligible single package', async () => {
+      process.env.NODE_ENV = 'production';
+      prismaMock.subscriber.findFirst.mockResolvedValue({
+        userId: 123, iccid: 'owned-iccid', status: 'ACTIVE',
+      });
+      prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([purchase(9)]);
+      fetchEsimUsageMock.mockResolvedValue({
+        providerStatus: 'ACTIVE', remainingMb: 1237, expiresAt: future,
+      });
+
+      const res = await request(makeApp()).get('/api/wireless/purchases');
+
+      expect(res.status).toBe(200);
+      expect(res.body.replacementEligibility.eligible).toBe(false);
+      expect(res.body.replacementEligibility.reason).toMatch(/temporarily unavailable/);
     });
 
     it('disables replacement for an Unlimited package and a pending sibling', async () => {
@@ -1493,6 +1539,19 @@ describe('wireless routes', () => {
     expect(
       replaceEsimForDeviceMock
     ).not.toHaveBeenCalled();
+  });
+
+  it('holds live replacement before any provider action', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const res = await request(makeApp())
+      .post('/api/wireless/esim/50/replace')
+      .set('Idempotency-Key', 'replacement-safety-hold-test');
+
+    expect(res.status).toBe(409);
+    expect(res.body.code).toBe('ESIM_TRANSFER_SAFETY_HOLD');
+    expect(replaceEsimForDeviceMock).not.toHaveBeenCalled();
+    expect(prismaMock.mobileDataPackPurchase.update).not.toHaveBeenCalled();
   });
 
   it('rejects an invalid replacement purchase ID before calling the service', async () => {

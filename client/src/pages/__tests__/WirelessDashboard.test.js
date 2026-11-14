@@ -87,6 +87,8 @@ describe('WirelessDashboard', () => {
         state: 'TERMINATED', paid: true,
         totalDataMb: 3072, remainingDataMb: 3072, recordedRemainingDataMb: 3072,
         expiresAt: '2026-11-13T19:27:49.000Z',
+        activatedAt: null,
+        activationWindowEndsAt: '2026-11-13T19:27:49.000Z',
       }],
       replacementEligibility: { eligible: false, reason: 'No active package remains.' },
     });
@@ -96,6 +98,7 @@ describe('WirelessDashboard', () => {
     expect(await screen.findByText('Purchased Data Packages')).toBeInTheDocument();
     expect(screen.getByText('terminated')).toBeInTheDocument();
     expect(screen.getByText(/Recorded remaining: 3.0 GB of 3.0 GB/)).toBeInTheDocument();
+    expect(screen.getByText(/No provider activation recorded; activation window ended 2026-11-13 19:27 UTC/)).toBeInTheDocument();
     expect(screen.getByText(/eSIM transfer unavailable: No active package remains/)).toBeInTheDocument();
     expect(screen.queryByText(/Queued data packs/)).not.toBeInTheDocument();
   });

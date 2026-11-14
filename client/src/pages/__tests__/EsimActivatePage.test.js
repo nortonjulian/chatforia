@@ -66,7 +66,7 @@ describe('EsimActivatePage', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: /eSIM data service is active/i,
+        name: /Mobile service is active/i,
       })
     ).toBeInTheDocument();
 

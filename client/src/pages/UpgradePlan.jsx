@@ -472,7 +472,7 @@ function EsimCompareTable({ scope }) {
               <Table.Td>
                 {t(
                   'upgrade.mobile.compare.validity.30Days',
-                  '30 days; check your pack expiry after purchase'
+                  '30 days from first use'
                 )}
               </Table.Td>
               <Table.Td>{r.bestFor}</Table.Td>
@@ -661,7 +661,7 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
           title: t('upgrade.esim.global.unlimited.title', 'Global Unlimited'),
           desc: t(
             'upgrade.esim.global.unlimited.desc',
-            'For heavy use in supported destinations; speed terms depend on the data package.'
+            'Best for heavy usage, streaming, and never worrying about data limits.'
           ),
           kind: 'unlimited',
         },
@@ -697,7 +697,7 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
           title: t('upgrade.esim.europe.unlimited.title', 'Europe Unlimited'),
           desc: t(
             'upgrade.esim.europe.unlimited.desc',
-            'For heavy use in supported destinations; speed terms depend on the data package.'
+            'Best for heavy usage, streaming, and never worrying about data limits.'
           ),
           kind: 'unlimited',
         },
@@ -741,7 +741,7 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
         title: t('upgrade.esim.local.unlimited.title', 'Local Unlimited'),
         desc: t(
           'upgrade.esim.local.unlimited.desc',
-            'For heavy use in supported destinations; speed terms depend on the data package.'
+          'Best for heavy usage, streaming, and never worrying about data limits.'
         ),
         kind: 'unlimited',
       },
@@ -919,12 +919,12 @@ useEffect(() => {
 
   const esimValidityLabel = t(
     'upgrade.mobile.validity.30Days',
-    'Valid for 30 days; check your pack expiry after purchase'
+    'Valid for 30 days from first data connection'
   );
 
   const esimActivationLabel = t(
     'upgrade.mobile.activation.firstConnection',
-    'Activation status is confirmed after eSIM installation'
+    'Activates automatically on first data connection'
   );
 
   const startCheckout = async ({ plan, priceId } = {}) => {
@@ -1408,13 +1408,13 @@ useEffect(() => {
           <Text c="dimmed" size="sm">
             {t(
               'upgrade.mobile.subtitle',
-              'Use mobile data in supported destinations when Wi-Fi is unavailable. Coverage and available networks depend on your selected package.'
+              'Stay connected anywhere — even without Wi-Fi. Chatforia is designed to keep you on the best available coverage for your trip.'
             )}
           </Text>
 
           <Group gap="md" mt={4}>
             <Text fw={600} c="dimmed">
-              {t('upgrade.mobile.feature.firstUse', '✔ Install eSIM to activate')}
+              {t('upgrade.mobile.feature.firstUse', '✔ Activates on first use')}
             </Text>
             <Text fw={600} c="dimmed">
               {t('upgrade.mobile.feature.validity', '✔ Valid for 30 days')}
@@ -1423,7 +1423,7 @@ useEffect(() => {
               {t('upgrade.mobile.feature.contracts', '✔ No contracts')}
             </Text>
             <Text fw={600} c="dimmed">
-              {t('upgrade.mobile.feature.coverage', '✔ Coverage in supported destinations')}
+              {t('upgrade.mobile.feature.coverage', '✔ Reliable coverage')}
             </Text>
           </Group>
 
@@ -1483,7 +1483,7 @@ useEffect(() => {
                   <Text size="sm" c="dimmed">
                     {t(
                       'upgrade.mobile.hero.subcopy',
-                      'Unlimited data for the package validity period, with speeds subject to applicable package terms.'
+                      'Unlimited data for 30 days, with speeds subject to the applicable fair-use policy.'
                     )}
                   </Text>
                 </Stack>
@@ -1500,15 +1500,15 @@ useEffect(() => {
                       </Text></li>
 
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.heavyUse', 'Data for heavy use in supported destinations')}
+                        {t('upgrade.mobile.unlimited.features.heavyUse', 'High-speed data for heavy use')}
                       </Text></li>
 
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.throttle', 'Speed terms depend on the data package')}
+                        {t('upgrade.mobile.unlimited.features.throttle', 'Speeds may be reduced after high usage')}
                       </Text></li>
 
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.coverage', 'Coverage in supported destinations')}
+                        {t('upgrade.mobile.unlimited.features.coverage', 'Reliable coverage')}
                       </Text></li>
 
                       <li><Text size="sm" component="span">
@@ -1603,7 +1603,7 @@ useEffect(() => {
           <Text size="xs" c="dimmed">
             {t(
               'upgrade.mobile.disclaimer.fairUse',
-              'Unlimited package speed, fair-use, and network management terms depend on the provider package. Performance varies by destination and network conditions.'
+              'Unlimited plans include high-speed data up to a certain usage level, after which speeds may be reduced. Usage is subject to fair use and network management policies. Performance may vary by region and network conditions.'
             )}
           </Text>
 

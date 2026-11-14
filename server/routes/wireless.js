@@ -10,6 +10,9 @@ import prisma from '../utils/prismaClient.js';
 
 const router = express.Router();
 
+const TRANSFER_SAFETY_HOLD =
+  'New-phone eSIM transfer is temporarily unavailable while concurrent purchases and multi-package preservation are verified.';
+
 router.use(requireAuth);
 
 /* -------------------- existing helpers & routes (unchanged) ------------------ */
@@ -49,6 +52,14 @@ function computeStatus(totalMb, remainingMb, expiresAt, unlimited = false) {
 
 function isUnlimitedPack(pack) {
   return /_unlimited(?:_|$)/i.test(String(pack?.addonKind || ''));
+}
+
+function telnaMillisToIso(value) {
+  // Telna PCR package timestamps are Unix milliseconds. Keep unknown
+  // provider formats null rather than inventing a lifecycle date.
+  if (typeof value !== 'number' || !Number.isFinite(value)) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
 function currentPackStatus(pack, providerStatus, fallbackExpiry = null) {
@@ -763,7 +774,10 @@ router.get('/purchases', async (req, res) => {
         recordedRemainingDataMb,
         providerRemainingDataMb,
         purchasedAt: purchase.purchasedAt,
-        activatedAt: null, // Telna's documented usage response does not supply this.
+        providerCreatedAt: telnaMillisToIso(usage?.providerMeta?.created_date),
+        activationWindowEndsAt: telnaMillisToIso(usage?.providerMeta?.window_activation_end),
+        activatedAt: telnaMillisToIso(usage?.providerMeta?.activated_date),
+        terminatedAt: telnaMillisToIso(usage?.providerMeta?.terminated_date),
         expiresAt,
         recordedExpiresAt: purchase.expiresAt,
         providerExpiresAt: usage?.expiresAt ?? null,
@@ -816,6 +830,17 @@ router.get('/purchases', async (req, res) => {
             'Transfer requires one active, unexpired data package with a confirmed balance.';
         }
       }
+    }
+
+    // Tests continue to exercise the eligibility algorithm, but the
+    // customer endpoint cannot advertise a live transfer until a shared
+    // purchase/replacement claim and provider multi-package rules ship.
+    if (process.env.NODE_ENV !== 'test' && replacementEligibility.eligible) {
+      replacementEligibility = {
+        eligible: false,
+        purchaseId: null,
+        reason: TRANSFER_SAFETY_HOLD,
+      };
     }
 
     return res.json({ packages, replacementEligibility });
@@ -885,6 +910,16 @@ router.post(
             code:
               'ESIM_REPLACEMENT_INVALID_IDEMPOTENCY_KEY',
           });
+      }
+
+      // Fail closed before any provider allocation or old-line action.
+      // Lifting this hold requires the coordinated paid-purchase claim
+      // and confirmed Telna multi-package transfer semantics.
+      if (process.env.NODE_ENV !== 'test') {
+        return res.status(409).json({
+          error: TRANSFER_SAFETY_HOLD,
+          code: 'ESIM_TRANSFER_SAFETY_HOLD',
+        });
       }
 
       const replacement =

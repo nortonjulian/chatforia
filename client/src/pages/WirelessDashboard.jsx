@@ -23,6 +23,12 @@ function formatGb(mb) {
   return `${(mb / 1024).toFixed(1)} GB`;
 }
 
+function formatUtc(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return `${date.toISOString().slice(0, 16).replace('T', ' ')} UTC`;
+}
+
 function formatEsimPackLabel(addonKind, t) {
   if (!addonKind) return t('wireless.esimPackLabel', 'eSIM data pack');
 
@@ -422,8 +428,28 @@ export default function WirelessDashboard() {
                   {purchase.expiresAt && (
                     <Text size="xs" c="dimmed">
                       {t('wireless.purchases.expiry', 'Expires: {{date}}', {
-                        date: new Date(purchase.expiresAt).toLocaleDateString(),
+                        date: formatUtc(purchase.expiresAt),
                       })}
+                    </Text>
+                  )}
+                  {purchase.activatedAt && (
+                    <Text size="xs" c="dimmed">
+                      {t('wireless.purchases.activated', 'Provider activation: {{date}}', {
+                        date: formatUtc(purchase.activatedAt),
+                      })}
+                    </Text>
+                  )}
+                  {!purchase.activatedAt && purchase.activationWindowEndsAt && (
+                    <Text size="xs" c="dimmed">
+                      {t(
+                        purchase.state === 'TERMINATED'
+                          ? 'wireless.purchases.activationWindowEnded'
+                          : 'wireless.purchases.activationWindowEnds',
+                        purchase.state === 'TERMINATED'
+                          ? 'No provider activation recorded; activation window ended {{date}}.'
+                          : 'Provider activation not confirmed; activation window ends {{date}}.',
+                        { date: formatUtc(purchase.activationWindowEndsAt) }
+                      )}
                     </Text>
                   )}
                 </Stack>
