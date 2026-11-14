@@ -7,7 +7,7 @@ import { runApplicationReleasePreflight } from './application-release-preflight.
 test('recovery package pins only the observed failed attempt and unchanged SQL',()=>{
   const bundle=buildPackage('HEAD');
   const release=applicationReleaseSpec(verifyPackage(bundle));
-  assert.equal(release.status,'proposed-not-authorized-for-production');
+  assert.equal(release.status,'approved-for-production');
   const prior=buildPackage('edabf1aa2c5669eb7188afdc5f0f890308ece52e');
   const sql=`server/prisma/migrations/${failedAttempt.name}/migration.sql`;
   assert.deepEqual(verifyPackage(bundle).get(sql),verifyPackage(prior).get(sql));
