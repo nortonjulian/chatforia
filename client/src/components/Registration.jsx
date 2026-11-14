@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Paper,
   Title,
@@ -10,7 +10,8 @@ import {
   Text,
   Anchor,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { captureCreatorReferral, currentCreatorReferral, clearCreatorReferral } from '@/utils/creatorReferral';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,8 @@ import posthog from '@/utils/analytics';
 
 export default function Registration() {
   const { t } = useTranslation();
+  const location = useLocation();
+  useEffect(() => { captureCreatorReferral(location); }, [location]);
 
   const [form, setForm] = useState({
     username: '',
@@ -73,11 +76,13 @@ export default function Registration() {
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
+        referralCode: currentCreatorReferral(),
       };
 
       const res = await axiosClient.post('/auth/register', payload);
 
       const user = res?.data?.user || null;
+      clearCreatorReferral();
 
       if (user?.id) posthog.identify(String(user.id));
       posthog.capture('user_registered', {

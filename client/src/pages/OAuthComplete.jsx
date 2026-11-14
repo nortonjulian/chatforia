@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 
 import { voicemailLinkTarget, pendingVoicemailReturn } from '@/utils/voicemailLink.js';
 
+import { clearCreatorReferral } from '@/utils/creatorReferral';
+
 const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
 
 export default function OAuthComplete() {
@@ -26,6 +28,7 @@ export default function OAuthComplete() {
         if (!alive.current) return;
 
         if (userObj) {
+          clearCreatorReferral();
           // Mark this device as having successfully logged in via OAuth
           try {
             if (typeof window !== 'undefined') {

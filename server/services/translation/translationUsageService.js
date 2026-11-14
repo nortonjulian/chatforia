@@ -24,31 +24,25 @@ export async function withTranslationAllowance({
     return operation();
   }
 
+  const date = new Date();
   await assertAndConsumeUsage({
     userId,
     plan,
     meter: 'translationChars',
     amount: normalizedAmount,
+    date,
   });
 
+  let result;
   try {
-    const result = await operation();
-
-    if (!shouldBillResult(result)) {
-      await releaseUsage({
-        userId,
-        meter: 'translationChars',
-        amount: normalizedAmount,
-      });
-    }
-
-    return result;
+    result = await operation();
   } catch (error) {
     try {
       await releaseUsage({
         userId,
         meter: 'translationChars',
         amount: normalizedAmount,
+        date,
       });
     } catch (releaseError) {
       console.error(
@@ -59,4 +53,11 @@ export async function withTranslationAllowance({
 
     throw error;
   }
+
+  // Keep refund failures outside the operation catch: retrying a refund whose
+  // commit outcome is unknown could subtract another request's usage.
+  if (!shouldBillResult(result)) {
+    await releaseUsage({ userId, meter: 'translationChars', amount: normalizedAmount, date });
+  }
+  return result;
 }

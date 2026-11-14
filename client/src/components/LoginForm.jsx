@@ -29,6 +29,8 @@ import { voicemailLinkTarget, pendingVoicemailReturn, rememberVoicemailReturn } 
 // Prefer an absolute API in prod; fall back to a same-origin dev proxy.
 const apiBase = API_BASE_URL;
 
+import { currentCreatorReferral, clearCreatorReferral } from '@/utils/creatorReferral';
+
 const oauthBase = (import.meta.env.VITE_OAUTH_BASE_PATH || '/auth').replace(/\/$/, '');
 const webPrefix = import.meta.env.VITE_WEB_API_PREFIX || '';
 
@@ -66,8 +68,10 @@ async function getCsrfToken() {
 function startOAuth(provider) {
   const target = rememberVoicemailReturn(window.location.pathname + window.location.search) || pendingVoicemailReturn();
   const next = `${window.location.origin}/auth/complete${target ? `?next=${encodeURIComponent(target)}` : ''}`;
+  const referral = currentCreatorReferral();
+  const refQuery = referral ? `&ref=${encodeURIComponent(referral)}` : '';
   window.location.assign(
-    absoluteApi(`${oauthBase}/${provider}?next=${encodeURIComponent(next)}`)
+    absoluteApi(`${oauthBase}/${provider}?next=${encodeURIComponent(next)}${refQuery}`)
   );
 }
 
@@ -193,6 +197,7 @@ export default function LoginForm({ onLoginSuccess }) {
       // Authenticate the browser key before exposing any authenticated routes.
       // The account password is not the separate secure-message backup passcode.
       await refreshSession();
+      clearCreatorReferral();
       onLoginSuccess?.(user);
 
       // mark this device as having successfully logged in
