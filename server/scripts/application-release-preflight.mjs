@@ -56,6 +56,10 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
     if (phase !== 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') {
       const [mfa] = await tx.$queryRawUnsafe(`SELECT
         has_function_privilege('chatforia_dev','staff_security.disable_mfa(text,text)','EXECUTE') AS can_disable,
+        has_function_privilege('chatforia_dev','staff_security.enroll_mfa(text,text)','EXECUTE') AS can_enroll,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','INSERT') AS no_enrollment_audit_insert,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','UPDATE') AS no_enrollment_audit_update,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','DELETE') AS no_enrollment_audit_delete,
         NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','INSERT') AS no_audit_insert,
         NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','UPDATE') AS no_audit_update,
         NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','DELETE') AS no_audit_delete`);

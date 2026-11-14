@@ -37,14 +37,16 @@ try {
       "isSystem" boolean DEFAULT false, "isTestAccount" boolean DEFAULT false);
     CREATE TABLE public."FounderOwnership"(id int PRIMARY KEY, "userId" int);
     CREATE TABLE public."StaffAssignment"("userId" int PRIMARY KEY, active boolean, "revokedAt" timestamp);
-    CREATE TABLE public."VerificationToken"(id serial, "userId" int, type text, "usedAt" timestamp);
-    CREATE TABLE public."TwoFactorRecoveryCode"(id serial, "userId" int);
+    CREATE TABLE public."VerificationToken"(id serial, "userId" int, type text, "usedAt" timestamp, "tokenHash" text, "expiresAt" timestamp, "createdAt" timestamp DEFAULT now());
+    CREATE TABLE public."TwoFactorRecoveryCode"(id serial, "userId" int, "codeHash" text);
     CREATE TABLE public."PasswordResetToken"(id serial, "userId" int);
     GRANT SELECT ON ALL TABLES IN SCHEMA public TO chatforia_dev, chatforia_staff_owner;
     GRANT UPDATE ON public."User" TO chatforia_dev;
     GRANT UPDATE ("tokenVersion") ON public."User" TO chatforia_staff_owner;
     GRANT UPDATE ON public."VerificationToken" TO chatforia_staff_owner;
-    GRANT DELETE ON public."TwoFactorRecoveryCode" TO chatforia_staff_owner;
+    GRANT INSERT, DELETE ON public."TwoFactorRecoveryCode" TO chatforia_staff_owner;
+    GRANT INSERT ON public."VerificationToken" TO chatforia_staff_owner;
+    GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO chatforia_staff_owner;
     INSERT INTO public."User"(id) SELECT generate_series(1,8);
     UPDATE public."User" SET role='ADMIN' WHERE id=4;
     INSERT INTO public."FounderOwnership" VALUES(1,3);
@@ -85,6 +87,48 @@ try {
   assert.equal((await db.query('SELECT active FROM public."StaffAssignment" WHERE "userId"=1')).rows[0].active,false);
   assert.equal((await db.query('SELECT count(*)::int AS n FROM staff_security.mfa_disable_event')).rows[0].n,1);
   assert.equal(await call(claims(5)), 'disabled');
+  const enroll = async (c, signature) => {
+    const payload=JSON.stringify(c);
+    const sig=signature ?? crypto.createHmac('sha256',key).update(`mfa-enroll:${payload}`).digest('hex');
+    await db.query('SET ROLE chatforia_dev');
+    try { return (await db.query('SELECT staff_security.enroll_mfa($1,$2) AS result',[payload,sig])).rows[0].result; }
+    finally { await db.query('RESET ROLE'); }
+  };
+  const fresh = (operation, extra={}) => ({userId:1,tokenVersion:2,operation,nonce:crypto.randomUUID(),exp:Math.floor(Date.now()/1000)+30,...extra});
+  const setup = fresh('SETUP',{secretEnc:'synthetic-encrypted-new-secret'.repeat(3)});
+  await assert.rejects(enroll(setup,'0'.repeat(64)), /signature/);
+  await assert.rejects(enroll({...setup,exp:1}), /claims/);
+  assert.equal(await enroll(setup),'prepared');
+  await assert.rejects(enroll(setup), /duplicate key/);
+  const firstPending=(await db.query(`SELECT * FROM public."VerificationToken" WHERE "userId"=1 AND type='mfa_setup' AND "usedAt" IS NULL`)).rows[0];
+  assert.equal(await enroll(fresh('SETUP',{secretEnc:setup.secretEnc})),'prepared');
+  const pending=(await db.query(`SELECT * FROM public."VerificationToken" WHERE "userId"=1 AND type='mfa_setup' AND "usedAt" IS NULL`)).rows[0];
+  const hashes=Array.from({length:10},(_,i)=>crypto.createHash('sha256').update(`recovery-${i}`).digest('hex'));
+  const enable = fresh('ENABLE',{recordId:pending.id,pendingHash:crypto.createHash('sha256').update(pending.tokenHash).digest('hex'),recoveryHashes:hashes});
+  await assert.rejects(enroll({...enable,recordId:firstPending.id}), /Pending MFA enrollment/);
+  await assert.rejects(enroll({...enable,userId:5}), /Pending MFA enrollment/);
+  await assert.rejects(enroll({...enable,pendingHash:'0'.repeat(64)}), /Pending MFA enrollment/);
+  await assert.rejects(enroll({...enable,recoveryHashes:Array(10).fill(hashes[0])}), /recovery hashes/);
+  await db.query('SET ROLE chatforia_staff_owner');
+  await db.query(`UPDATE public."VerificationToken" SET "expiresAt"=(now() AT TIME ZONE 'UTC')-interval '1 minute' WHERE id=$1`,[pending.id]);
+  await db.query('RESET ROLE');
+  await assert.rejects(enroll(enable), /Pending MFA enrollment/);
+  await db.query('SET ROLE chatforia_staff_owner');
+  await db.query(`UPDATE public."VerificationToken" SET "expiresAt"=(now() AT TIME ZONE 'UTC')+interval '1 minute' WHERE id=$1`,[pending.id]);
+  await db.query('RESET ROLE');
+  assert.equal(await enroll(enable),'enabled');
+  await assert.rejects(enroll(enable), /enrollment unavailable/);
+  await assert.rejects(enroll(fresh('SETUP',{tokenVersion:3,secretEnc:setup.secretEnc})), /enrollment unavailable/);
+  const enabledUser=(await db.query('SELECT * FROM public."User" WHERE id=1')).rows[0];
+  assert.equal(enabledUser.twoFactorEnabled,true); assert.equal(enabledUser.tokenVersion,3);
+  assert.equal(enabledUser.totpSecretEnc,pending.tokenHash);
+  assert.equal((await db.query('SELECT count(*)::int AS n FROM public."TwoFactorRecoveryCode" WHERE "userId"=1')).rows[0].n,10);
+  assert.equal((await db.query('SELECT active FROM public."StaffAssignment" WHERE "userId"=1')).rows[0].active,false);
+  await db.query(`SET ROLE chatforia_staff_owner;
+    UPDATE public."User" SET "twoFactorEnabled"=false,"totpSecretEnc"=NULL WHERE id IN (2,3,4);
+    RESET ROLE;`);
+  for (const id of [2,3,4]) assert.equal(await enroll(fresh('SETUP',{userId:id,tokenVersion:1,secretEnc:setup.secretEnc})),'mfa_protected');
+  console.log('PASS: former-staff disable/re-enroll cycle; fresh codes/version; replaced/expired/cross-account pending denial; no enabled-secret replacement; protected enrollment denial');
   // A concurrent staff grant must win before eligibility is evaluated.
   const grant = new Client({ connectionString: target.href });
   await grant.connect();

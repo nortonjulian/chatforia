@@ -45,10 +45,10 @@
       ],
       "after": [
         {
-          "installed": "1"
+          "installed": "2"
         }
       ],
-      "sql": "SELECT count(*)::text AS installed FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='staff_security' AND p.proname='disable_mfa' AND pg_get_function_identity_arguments(p.oid)='p_payload text, p_signature text' AND p.prosecdef"
+      "sql": "SELECT count(*)::text AS installed FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='staff_security' AND p.proname IN ('disable_mfa','enroll_mfa') AND pg_get_function_identity_arguments(p.oid)='p_payload text, p_signature text' AND p.prosecdef"
     }
   },
   "migrations": {

@@ -7,10 +7,15 @@ import { seal, open } from '../../utils/secretBox.js';
 import { asyncHandler } from '../../utils/asyncHandler.js';
 import { issueSession } from '../auth.js';
 import { lockMfaUser, recoveryCodeHash } from '../../services/mfaLogin.js';
+import { enrollMfa } from '../../security/enrollMfa.js';
 import { disableMfa } from '../../security/disableMfa.js';
 
 export const router = express.Router();
 const validCode = (code) => typeof code === 'string' && /^\d{6}$/.test(code);
+function protectedEnrollment(res) {
+  return res.status(403).json({ ok: false, reason: 'mfa_protected',
+    error: 'This protected account requires the authorized security recovery workflow to set up two-factor authentication.' });
+}
 function makeBackup() {
   return Array.from({ length: 10 }, () => {
     const raw = crypto.randomBytes(8).toString('hex').toUpperCase();
@@ -24,8 +29,11 @@ router.post('/setup', asyncHandler(async (req, res) => {
     name: `Chatforia (${req.user.username})`, issuer: 'Chatforia' });
   const qrDataUrl = await qrcode.toDataURL(generated.otpauth_url);
   const prepared = await prisma.$transaction(async (tx) => {
+    const secured = process.env.STAFF_SECURITY_ENABLED === 'true';
+    if (secured) await tx.$queryRaw`SELECT pg_advisory_xact_lock(73421, 1)::text`;
     const user = await lockMfaUser(tx, req.user.id);
     if (!user || user.twoFactorEnabled || (user.tokenVersion ?? 0) !== (req.user.tokenVersion ?? 0)) return false;
+    if (secured) return enrollMfa(tx, user, 'SETUP', { secretEnc: seal(generated.base32) });
     await tx.verificationToken.updateMany({
       where: { userId: user.id, type: 'mfa_setup', usedAt: null }, data: { usedAt: new Date() },
     });
@@ -35,6 +43,7 @@ router.post('/setup', asyncHandler(async (req, res) => {
     } });
     return true;
   });
+  if (prepared === 'mfa_protected') return protectedEnrollment(res);
   if (!prepared) return res.status(409).json({ ok: false, error: 'MFA already enabled or account unavailable' });
   res.set('Cache-Control', 'no-store');
   return res.json({ ok: true, tmpSecret: generated.base32, qrDataUrl });
@@ -47,6 +56,8 @@ router.post('/enable', asyncHandler(async (req, res) => {
   }
   const backupCodes = makeBackup();
   const enabled = await prisma.$transaction(async (tx) => {
+    const secured = process.env.STAFF_SECURITY_ENABLED === 'true';
+    if (secured) await tx.$queryRaw`SELECT pg_advisory_xact_lock(73421, 1)::text`;
     const user = await lockMfaUser(tx, req.user.id);
     if (!user || user.twoFactorEnabled || (user.tokenVersion ?? 0) !== (req.user.tokenVersion ?? 0)) return false;
     const pending = await tx.verificationToken.findFirst({ where: {
@@ -55,6 +66,15 @@ router.post('/enable', asyncHandler(async (req, res) => {
     if (!pending) return false;
     const secret = open(pending.tokenHash);
     if (secret !== tmpSecret || !speakeasy.totp.verify({ secret, encoding: 'base32', token: code, window: 1 })) return false;
+    if (secured) {
+      const result = await enrollMfa(tx, user, 'ENABLE', {
+        recordId: pending.id,
+        pendingHash: crypto.createHash('sha256').update(pending.tokenHash).digest('hex'),
+        recoveryHashes: backupCodes.map(recoveryCodeHash),
+      });
+      if (result === 'mfa_protected') return result;
+      return tx.user.findUnique({ where: { id: user.id } });
+    }
     const updated = await tx.user.update({ where: { id: user.id }, data: {
       twoFactorEnabled: true, totpSecretEnc: seal(secret), twoFactorEnrolledAt: new Date(),
       tokenVersion: { increment: 1 },
@@ -66,6 +86,7 @@ router.post('/enable', asyncHandler(async (req, res) => {
     })) });
     return updated;
   });
+  if (enabled === 'mfa_protected') return protectedEnrollment(res);
   if (!enabled) return res.status(400).json({ ok: false, reason: 'bad_code' });
   res.set('Cache-Control', 'no-store');
   const token = issueSession(res, enabled, { mfaVerified: true });

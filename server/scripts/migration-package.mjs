@@ -24,7 +24,7 @@ const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff
 const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
-const mfaReleaseDigest = 'b531ee79d4ad808f509b2e85a6cf1ca3be03346038af6059428776f15a1af3cd';
+const mfaReleaseDigest = 'c8be058f97a023c9406287ac29bcd1959a28a0cd52eee0ff67e183a497a57585';
 const applicationReleaseDigests = Object.freeze({
   // Retain verification of the archived proposed package from merged PR #325.
   '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045':

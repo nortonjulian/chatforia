@@ -18,7 +18,7 @@ not from a screenshot, username, or user ID hardcoded into the change.
 
 ## Verification
 
-- Server enrollment and route suites: 14 tests passed.
+- Server enrollment and route suites: 16 tests passed.
 - Client two-factor API and settings component suites: 23 tests passed.
 - Disposable PostgreSQL 18.6 regression: real identity/token triggers and runtime
   role; ordinary/former-staff success; founder/active/admin denial; direct update
@@ -47,7 +47,17 @@ Use the existing release verification and controlled deployment process. Verify
 the actual account's FounderOwnership and active staff status at rollout; this
 checkout cannot establish private production ownership records.
 
-This change is limited to disable. Historical staff protection on other credential
-operations, including subsequent MFA enrollment, is unchanged; it does not return
-a former staff identity to unrestricted credential management. A general credential
-transition/re-enrollment workflow requires separate coverage.
+The change also supports re-enrollment for eligible ordinary/former staff accounts.
+The setup/enable operation uses a separate signature domain and immutable audit
+nonces. It cannot replace an enabled secret. Enable binds the pending record to the
+user, current token version, encrypted-secret digest and expiry, after application
+TOTP verification. Recovery hashes must be ten distinct SHA-256 values. Replacing
+setup consumes previous pending records; enable rotates the session version and
+returns fresh recovery codes. Active staff/founder/admin recovery remains separate.
+Other protected credential operations are unchanged.
+
+The v4 manifest pins the exact proposed 164-to-165 transition and remains explicitly
+unapproved for production. The previously approved v3 manifest is unchanged.
+CI checks both release transitions, schema/function permissions and the full
+former-staff disable/re-enroll cycle, including expired/replaced/cross-account
+pending denial and enabled-secret replacement denial.
