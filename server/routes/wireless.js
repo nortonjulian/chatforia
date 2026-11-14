@@ -15,14 +15,14 @@ router.use(requireAuth);
 /**
  * Compute status flags for a pack or family pool.
  */
-function computeStatus(totalMb, remainingMb, expiresAt) {
+function computeStatus(totalMb, remainingMb, expiresAt, unlimited = false) {
   const now = new Date();
   const total = totalMb || 0;
   const remaining = Math.max(0, remainingMb || 0);
 
   const expired = expiresAt ? new Date(expiresAt) <= now : false;
   if (expired) {
-    return { state: 'EXPIRED', expired: true, low: false, exhausted: remaining <= 0 };
+    return { state: 'EXPIRED', expired: true, low: false, exhausted: !unlimited && remaining <= 0 };
   }
 
   if (total <= 0) {
@@ -45,6 +45,10 @@ function computeStatus(totalMb, remainingMb, expiresAt) {
   };
 }
 
+function isUnlimitedPack(pack) {
+  return /_unlimited(?:_|$)/i.test(String(pack?.addonKind || ''));
+}
+
 /**
  * Return usable individual eSIM pack candidates newest-first.
  *
@@ -60,7 +64,10 @@ async function getIndividualPackCandidates(userId) {
     where: {
       userId: Number(userId),
       expiresAt: { gt: now },
-      remainingDataMb: { gt: 0 },
+      OR: [
+        { remainingDataMb: { gt: 0 } },
+        { addonKind: { contains: '_unlimited' } },
+      ],
     },
     orderBy: {
       purchasedAt: 'desc',
@@ -488,7 +495,7 @@ router.get('/status', async (req, res) => {
 
       const totalDataMb = lastPack.totalDataMb || 0;
       const remainingDataMb = lastPack.remainingDataMb || 0;
-      const status = computeStatus(totalDataMb, remainingDataMb, lastPack.expiresAt || now);
+      const status = computeStatus(totalDataMb, remainingDataMb, lastPack.expiresAt || now, isUnlimitedPack(lastPack));
 
       const daysRemaining = lastPack.expiresAt
         ? Math.max(
@@ -509,6 +516,7 @@ router.get('/status', async (req, res) => {
           type: 'ESIM_PACK',
           id: lastPack.id,
           addonKind: lastPack.addonKind,
+          unlimited: isUnlimitedPack(lastPack),
           totalDataMb,
           remainingDataMb,
           expiresAt: lastPack.expiresAt,
@@ -520,7 +528,7 @@ router.get('/status', async (req, res) => {
     // We have an active, non-expired pack
     const totalDataMb = pack.totalDataMb || 0;
     const remainingDataMb = pack.remainingDataMb || 0;
-    const status = computeStatus(totalDataMb, remainingDataMb, pack.expiresAt || null);
+    const status = computeStatus(totalDataMb, remainingDataMb, pack.expiresAt || null, isUnlimitedPack(pack));
 
     const daysRemaining = pack.expiresAt
       ? Math.max(
@@ -549,6 +557,7 @@ router.get('/status', async (req, res) => {
         return {
           id: queuedPack.id,
           addonKind: queuedPack.addonKind,
+          unlimited: isUnlimitedPack(queuedPack),
           totalDataMb:
             queuedPack.totalDataMb || 0,
           remainingDataMb:
@@ -584,6 +593,7 @@ router.get('/status', async (req, res) => {
         type: 'ESIM_PACK',
         id: pack.id,
         addonKind: pack.addonKind,
+        unlimited: isUnlimitedPack(pack),
         totalDataMb,
         remainingDataMb,
         expiresAt: pack.expiresAt,
@@ -845,7 +855,7 @@ router.post(
   }
 );
 
-/* -------------------- debug consume (unchanged) ------------------ */
+/* -------------------- debug consume ------------------ */
 
 router.post('/debug/consume', async (req, res) => {
   try {
@@ -863,8 +873,8 @@ router.post('/debug/consume', async (req, res) => {
 
     const userId = Number(req.user.id);
 
-    const pack = await getActiveIndividualPack(userId);
-    if (!pack) {
+    const { pack } = await resolveActiveIndividualPack(userId);
+    if (!pack || isUnlimitedPack(pack)) {
       return res.status(400).json({ error: 'No active individual pack to consume from' });
     }
 

@@ -137,6 +137,7 @@ import voicemailRouter from './routes/voicemail.js';
 import voicemailGreetingRouter from './routes/voicemailGreeting.js';
 import voiceWebhooks from './routes/voiceWebhooks.js';
 import webhooksTwilio from './routes/webhooksTwilio.js';
+import { mountVoiceWebhookRoutes } from './routes/mountVoiceWebhookRoutes.js';
 import wirelessRouter from './routes/wireless.js';
 import logger from './utils/logger.js';
 import prisma from './utils/prismaClient.js'; // add near the top of app.js with other imports
@@ -467,7 +468,7 @@ export function createApp() {
   // Inbound SMS webhooks (ungated)
   app.use('/webhooks/sms', smsWebhooks);
   app.use('/api/webhooks/sms', smsWebhooks);
-  app.use('/webhooks', webhooksTwilio);
+  mountVoiceWebhookRoutes(app, { voiceWebhooks, legacyWebhooks: webhooksTwilio });
   app.use('/webhooks', twilioRegulatoryWebhook);
   app.use('/api/webhooks', twilioRegulatoryWebhook);
   app.use('/webhooks/status', twilioStatusWebhook);
@@ -491,8 +492,6 @@ app.use('/ice-servers', requireAuth, requireEmailVerified, iceRouter);
   app.use('/sms', smsRouter)
   app.use('/sms-consent', express.json(), smsConsentRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
-  app.use('/webhooks/voice', voiceWebhooks);
-  app.use('/api/webhooks/voice', voiceWebhooks);
   app.use('/', videoTokens);
   app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);

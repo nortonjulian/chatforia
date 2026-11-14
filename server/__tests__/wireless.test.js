@@ -186,6 +186,38 @@ describe('wireless routes', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
+  it('keeps a paid Unlimited pack eligible despite its zero MB accounting fields', async () => {
+    const pack = {
+      id: 21,
+      userId: 123,
+      addonKind: 'chatforia_esim_europe_unlimited_premium',
+      totalDataMb: 0,
+      remainingDataMb: 0,
+      expiresAt: new Date(Date.now() + 86400000).toISOString(),
+      purchasedAt: new Date().toISOString(),
+    };
+    prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([pack]);
+
+    const res = await request(makeApp()).get('/api/wireless/status');
+
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({
+      mode: 'INDIVIDUAL',
+      state: 'OK',
+      exhausted: false,
+      source: { id: 21, unlimited: true },
+    });
+    expect(prismaMock.mobileDataPackPurchase.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: expect.objectContaining({
+          OR: expect.arrayContaining([
+            { addonKind: { contains: '_unlimited' } },
+          ]),
+        }),
+      })
+    );
+  });
+
   it('uses the provider ACTIVE package instead of a newer queued top-up', async () => {
     const app = makeApp();
 
@@ -294,6 +326,7 @@ describe('wireless routes', () => {
         id: 43,
         addonKind:
           'chatforia_esim_local_3_premium',
+        unlimited: false,
         totalDataMb: 3072,
         remainingDataMb: 3072,
         expiresAt,
@@ -891,9 +924,7 @@ describe('wireless routes', () => {
   it('returns 400 when there is no active individual pack to consume from', async () => {
     const app = makeApp();
 
-    prismaMock.mobileDataPackPurchase.findFirst.mockResolvedValue(
-      null
-    );
+    prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([]);
 
     const res = await request(app)
       .post('/api/wireless/debug/consume')
@@ -909,7 +940,7 @@ describe('wireless routes', () => {
   it('consumes from active pack and updates remainingDataMb', async () => {
     const app = makeApp();
 
-    prismaMock.mobileDataPackPurchase.findFirst.mockResolvedValue({
+    prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([{
       id: 30,
       userId: 123,
       addonKind: 'ESIM_POWER',
@@ -917,7 +948,7 @@ describe('wireless routes', () => {
       remainingDataMb: 600,
       expiresAt: new Date().toISOString(),
       purchasedAt: new Date().toISOString(),
-    });
+    }]);
 
     prismaMock.mobileDataPackPurchase.update.mockResolvedValue({
       id: 30,
@@ -929,7 +960,7 @@ describe('wireless routes', () => {
       .send({ mb: 100 });
 
     expect(
-      prismaMock.mobileDataPackPurchase.findFirst
+      prismaMock.mobileDataPackPurchase.findMany
     ).toHaveBeenCalledTimes(1);
 
     expect(
@@ -951,11 +982,11 @@ describe('wireless routes', () => {
   it('handles errors in debug consume with 500', async () => {
     const app = makeApp();
 
-    prismaMock.mobileDataPackPurchase.findFirst.mockResolvedValue({
+    prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([{
       id: 40,
       userId: 123,
       remainingDataMb: 300,
-    });
+    }]);
 
     prismaMock.mobileDataPackPurchase.update.mockRejectedValue(
       new Error('Update failed')
@@ -970,6 +1001,22 @@ describe('wireless routes', () => {
     expect(res.body).toEqual({
       error: 'Failed to consume data',
     });
+  });
+
+  it('does not consume a local MB balance for Unlimited', async () => {
+    prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([{
+      id: 41,
+      userId: 123,
+      addonKind: 'chatforia_esim_global_unlimited_premium',
+      remainingDataMb: 0,
+    }]);
+
+    const res = await request(makeApp())
+      .post('/api/wireless/debug/consume')
+      .send({ mb: 100 });
+
+    expect(res.status).toBe(400);
+    expect(prismaMock.mobileDataPackPurchase.update).not.toHaveBeenCalled();
   });
 
 

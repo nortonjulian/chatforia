@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 
 const telnaRequestMock = jest.fn();
 
-jest.unstable_mockModule('../config/esim.js', () => ({
+jest.unstable_mockModule('../../config/esim.js', () => ({
   __esModule: true,
   getEsimProviderConfig: jest.fn(() => ({
     baseUrl: 'https://developer-api.telna.com',
@@ -16,7 +16,7 @@ jest.unstable_mockModule('../config/esim.js', () => ({
   })),
 }));
 
-jest.unstable_mockModule('../utils/telnaClient.js', () => ({
+jest.unstable_mockModule('../../utils/telnaClient.js', () => ({
   __esModule: true,
   telnaRequest: telnaRequestMock,
 }));
