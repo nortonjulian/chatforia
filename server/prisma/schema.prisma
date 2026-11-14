@@ -1731,17 +1731,6 @@ model EsimReplacement {
   @@index([status])
 }
 
-// Serializes billing and device replacement across server processes.
-// A claim has no automatic expiry: an uncertain provider result requires
-// manual reconciliation before another operation may use the account.
-model EsimOperationLock {
-  userId       Int      @id
-  token        String   @unique
-  operation    String
-  operationKey String?
-  createdAt    DateTime @default(now())
-}
-
 model Subscriber {
   id                   Int       @id @default(autoincrement())
   userId               Int?

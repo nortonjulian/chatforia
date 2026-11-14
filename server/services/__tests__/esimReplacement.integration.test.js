@@ -4,10 +4,6 @@ import {
 } from '@prisma/client';
 
 import {
-  acquireEsimOperationLock,
-  withEsimOperationLock,
-} from '../esimOperationLock.js';
-import {
   replaceEsimForDevice,
   reconcileEsimReplacement,
 } from '../esimReplacementService.js';
@@ -78,10 +74,6 @@ async function cleanupSyntheticRows() {
     return;
   }
 
-  await prisma.esimOperationLock.deleteMany({
-    where: { userId: { in: userIds } },
-  });
-
   await prisma.esimReplacement.deleteMany({
     where: {
       userId: {
@@ -151,40 +143,6 @@ describe(
       }
     });
 
-    test('an uncertain operation retains its database claim until reconciliation', async () => {
-      const suffix = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      const user = await prisma.user.create({
-        data: {
-          username: `${TEST_PREFIX}-LOCK-${suffix}`,
-          passwordHash: 'integration-test-not-a-real-password',
-          isTestAccount: true,
-        },
-      });
-
-      await expect(withEsimOperationLock({
-        prismaClient: prisma,
-        userId: user.id,
-        operation: 'PURCHASE',
-        operationKey: `${TEST_PREFIX}-LOCK-${suffix}`,
-      }, async (lock) => {
-        lock.retain();
-        throw new Error('unknown provider outcome');
-      })).rejects.toThrow('unknown provider outcome');
-
-      await expect(acquireEsimOperationLock({
-        prismaClient: prisma,
-        userId: user.id,
-        operation: 'REPLACEMENT',
-      })).rejects.toMatchObject({ code: 'ESIM_OPERATION_IN_PROGRESS' });
-
-      expect(await prisma.esimOperationLock.findUnique({
-        where: { userId: user.id },
-      })).toMatchObject({
-        operation: 'PURCHASE',
-        operationKey: `${TEST_PREFIX}-LOCK-${suffix}`,
-      });
-    });
-
     test('real PostgreSQL preserves older and pending sibling packages', async () => {
       const suffix =
         `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -248,28 +206,6 @@ describe(
         suspendLine: jest.fn(),
       };
       const fakeAllocator = jest.fn();
-
-      const purchaseLock = await acquireEsimOperationLock({
-        prismaClient: prisma,
-        userId: user.id,
-        operation: 'PURCHASE',
-        operationKey: `${TEST_PREFIX}-ACTIVE-CHECKOUT-${suffix}`,
-      });
-
-      try {
-        await expect(replaceEsimForDevice({
-          userId: user.id,
-          purchaseId: newestEurope.id,
-          idempotencyKey: `${TEST_PREFIX}-SHARED-KEY-${suffix}`,
-          now,
-        }, {
-          prismaClient: prisma,
-          provider: fakeProvider,
-          allocator: fakeAllocator,
-        })).rejects.toMatchObject({ code: 'ESIM_OPERATION_IN_PROGRESS' });
-      } finally {
-        await purchaseLock.release();
-      }
 
       await expect(replaceEsimForDevice({
         userId: user.id,
@@ -451,15 +387,6 @@ describe(
          */
         const providerCalls = [];
 
-        let signalProvisionStarted;
-        let continueProvision;
-        const provisionStarted = new Promise((resolve) => {
-          signalProvisionStarted = resolve;
-        });
-        const provisionGate = new Promise((resolve) => {
-          continueProvision = resolve;
-        });
-
         const fakeProvider = {
           fetchEsimUsage:
             jest.fn(
@@ -499,9 +426,6 @@ describe(
                 expect(
                   input.providerProfileId
                 ).toBe(newProfile);
-
-                signalProvisionStarted();
-                await provisionGate;
 
                 return {
                   providerPurchaseId:
@@ -633,8 +557,8 @@ describe(
          *
          * Only its external Telna boundaries are replaced.
          */
-        const firstReplacement =
-          replaceEsimForDevice(
+        const result =
+          await replaceEsimForDevice(
             {
               userId:
                 user.id,
@@ -655,44 +579,6 @@ describe(
                 fakeAllocator,
             }
           );
-
-        await provisionStarted;
-
-        expect(await prisma.esimOperationLock.findUnique({
-          where: { userId: user.id },
-        })).toMatchObject({
-          operation: 'REPLACEMENT',
-          operationKey: `${TEST_PREFIX}-KEY-${suffix}`,
-        });
-
-        try {
-          await expect(replaceEsimForDevice(
-            {
-              userId: user.id,
-              purchaseId: purchase.id,
-              idempotencyKey: `${TEST_PREFIX}-CONCURRENT-${suffix}`,
-              now,
-            },
-            {
-              prismaClient: prisma,
-              provider: fakeProvider,
-              allocator: fakeAllocator,
-            }
-          )).rejects.toMatchObject({
-            code: 'ESIM_OPERATION_IN_PROGRESS',
-          });
-
-          expect(fakeAllocator).toHaveBeenCalledTimes(1);
-          expect(fakeProvider.provisionEsimPack).toHaveBeenCalledTimes(1);
-        } finally {
-          continueProvision();
-        }
-
-        const result = await firstReplacement;
-
-        expect(await prisma.esimOperationLock.findUnique({
-          where: { userId: user.id },
-        })).toBeNull();
 
         expect(result.status).toBe(
           'COMPLETED'

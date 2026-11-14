@@ -72,10 +72,6 @@ function makeFixture({
   };
 
   const prismaClient = {
-    esimOperationLock: {
-      create: jest.fn().mockResolvedValue({}),
-      deleteMany: jest.fn().mockResolvedValue({ count: 1 }),
-    },
     mobileDataPackPurchase: {
       findFirst: jest.fn().mockResolvedValue(purchase),
       findMany: jest.fn().mockResolvedValue([]),
@@ -524,30 +520,6 @@ describe('retryFailedEsimReplacement safety', () => {
     expect(fixture.provider.provisionEsimPack).not.toHaveBeenCalled();
     expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
     expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
-  });
-
-  test('retry waits for a concurrent purchase claim before provider work', async () => {
-    const fixture = makeFixture();
-    fixture.prismaClient.esimReplacement.findUnique
-      .mockReset()
-      .mockResolvedValueOnce({
-        id: 'replacement-1',
-        userId: 7,
-        purchaseId: 50,
-        status: 'FAILED',
-      });
-    fixture.prismaClient.esimOperationLock.create.mockRejectedValue(
-      Object.assign(new Error('unique user claim'), { code: 'P2002' })
-    );
-
-    await expect(retryFailedEsimReplacement('replacement-1', {
-      prismaClient: fixture.prismaClient,
-      provider: fixture.provider,
-    })).rejects.toMatchObject({ code: 'ESIM_OPERATION_IN_PROGRESS' });
-
-    expect(fixture.prismaClient.esimReplacement.updateMany)
-      .not.toHaveBeenCalled();
-    expect(fixture.provider.provisionEsimPack).not.toHaveBeenCalled();
   });
 
   test('definite retry provisioning rejection returns workflow to FAILED without touching old service', async () => {
@@ -2648,7 +2620,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValue(ambiguous);
+      .mockResolvedValueOnce(ambiguous);
 
     await expect(
       reconcileEsimReplacement(
@@ -2695,7 +2667,7 @@ describe('replaceEsimForDevice safety ordering', () => {
     };
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValue(reconciling);
+      .mockResolvedValueOnce(reconciling);
     fixture.prismaClient.mobileDataPackPurchase.findMany
       .mockResolvedValue([{
         id: 40,
@@ -2771,7 +2743,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValue(reconciling);
+      .mockResolvedValueOnce(reconciling);
 
     fixture.prismaClient.$transaction
       .mockRejectedValueOnce(
@@ -2877,7 +2849,6 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(completed);
 
@@ -3019,7 +2990,6 @@ describe('replaceEsimForDevice safety ordering', () => {
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
       .mockResolvedValueOnce(reconciling)
-      .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(completed);
 
     const result =
@@ -3117,7 +3087,6 @@ describe('replaceEsimForDevice safety ordering', () => {
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
       .mockResolvedValueOnce(reconciling)
-      .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(completed);
 
     await reconcileEsimReplacement(
@@ -3164,7 +3133,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValue(completed);
+      .mockResolvedValueOnce(completed);
 
     const result =
       await reconcileEsimReplacement(
@@ -3196,29 +3165,6 @@ describe('replaceEsimForDevice safety ordering', () => {
     ).not.toHaveBeenCalled();
   });
 
-  test('reconciliation re-reads after the lock and skips cleanup already completed elsewhere', async () => {
-    const fixture = makeFixture();
-    const reconciling = {
-      ...fixture.replacement,
-      userId: 7,
-      status: 'REQUIRES_RECONCILIATION',
-    };
-    const completed = { ...reconciling, status: 'COMPLETED' };
-    fixture.prismaClient.esimReplacement.findUnique
-      .mockReset()
-      .mockResolvedValueOnce(reconciling)
-      .mockResolvedValueOnce(completed);
-
-    const result = await reconcileEsimReplacement(reconciling.id, {
-      prismaClient: fixture.prismaClient,
-      provider: fixture.provider,
-    });
-
-    expect(result).toBe(completed);
-    expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
-    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
-  });
-
 
   test('records another termination failure as requiring reconciliation', async () => {
     const fixture = makeFixture();
@@ -3245,7 +3191,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValue(reconciling);
+      .mockResolvedValueOnce(reconciling);
 
     fixture.provider.setEsimPackageStatus
       .mockRejectedValueOnce(failure);
@@ -3317,7 +3263,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValue(reconciling);
+      .mockResolvedValueOnce(reconciling);
 
     fixture.provider.suspendLine
       .mockRejectedValueOnce(failure);

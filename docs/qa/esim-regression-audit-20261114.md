@@ -32,8 +32,10 @@ Other searched deletion/hiding commits concern redundant labels, deleted-message
 
 ## Current branch checks
 
-- Six focused backend suites passed **140/140** against a newly created disposable local PostgreSQL 18 database populated with `prisma db push`; no migration was executed or replayed. Provider calls in these tests were mocked.
+- Six focused backend suites passed against a newly created disposable local PostgreSQL 18 database populated with `prisma db push`; no migration was executed or replayed. Provider calls in these tests were mocked.
 - Focused web tests passed **17/17** and the Vite production build passed on the reconciled branch.
 - `git diff --check` passed. Prior authenticated browser QA receipts and the original eSIM review-branch test evidence were left untouched.
 
 The new purchase endpoint performs Telna GET lookups and does not update the ledger. The web view labels recorded balances as recorded and shows expired/terminated packages separately from currently usable queued data. Replacement remains blocked for this account because no active, unexpired package is eligible; this branch does not initiate replacement.
+
+The previously prepared account-level operation lock is preserved on `launch/esim-international-connectivity-20261113` and excluded here because its new migration changes the pinned release set. The static sibling-package guard in this branch is not an atomic cross-workflow guarantee if a paid purchase is created concurrently with replacement. Do not perform a live replacement until that race and Telna's multi-package transfer semantics are resolved.
