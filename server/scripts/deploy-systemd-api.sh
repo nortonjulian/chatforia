@@ -4,14 +4,26 @@ umask 027
 
 commit=${1:?full release commit required}
 package_sha256=${2:?package digest required}
+deployment_mode=${3:-active}
 [[ "$commit" =~ ^[0-9a-f]{40}$ ]] || exit 1
 [[ "$package_sha256" =~ ^[0-9a-f]{64}$ ]] || exit 1
+[[ "$deployment_mode" == active || "$deployment_mode" == pre-stopped ]] || exit 1
 test "$(id -u)" -eq 0
 
 checkout=/var/www/chatforia-api
 releases=/var/www/chatforia-api-releases
 unit=chatforia-api.service
 unit_file=/etc/systemd/system/chatforia-api.service
+# A maintenance writer fence may have stopped the old API before schema work.
+# Routine deployment still requires an active unit; pre-stopped mode is explicit.
+assert_expected_service_state() {
+  if [[ "$deployment_mode" == pre-stopped ]]; then
+    test "$(systemctl show -P ActiveState "$unit")" = inactive
+    test "$(systemctl show -P MainPID "$unit")" = 0
+  else
+    systemctl is-active --quiet "$unit"
+  fi
+}
 active_server=$(systemctl show -P WorkingDirectory "$unit")
 [[ "$active_server" =~ ^/var/www/chatforia-api-releases/[0-9a-f]{40}/app/server$ ]] || exit 1
 test "$(realpath "$active_server")" = "$active_server"
@@ -33,7 +45,7 @@ if grep -Eq '^[[:space:]]*DOTENV_CONFIG_(PATH|OVERRIDE)[[:space:]]*=' /etc/chatf
   echo 'Runtime EnvironmentFile overrides dotenv isolation' >&2
   exit 1
 fi
-systemctl is-active --quiet "$unit"
+assert_expected_service_state
 test -d "$releases" && test ! -L "$releases"
 
 cd "$checkout"
@@ -45,6 +57,14 @@ test -z "$(git diff --name-only HEAD "$commit" -- server/uploads/)"
 release="$releases/$commit"
 new_server="$release/app/server"
 test ! -e "$release" && test ! -L "$release"
+# A prior attempt exhausted this disk during npm ci. Require headroom for
+# the staged release, dependency cache, and the retained rollback release.
+available_bytes=$(df -B1 --output=avail "$releases" | tail -n 1 | tr -d '[:space:]')
+[[ "$available_bytes" =~ ^[0-9]+$ ]]
+if (( available_bytes < 8 * 1024 * 1024 * 1024 )); then
+  echo 'STOP: API release staging requires at least 8 GiB free; preserve active and rollback releases.' >&2
+  exit 1
+fi
 mkdir -m 0755 -- "$release"
 before_stop=true
 cleanup() {
@@ -139,6 +159,7 @@ systemd-run --unit=chatforia-staff-runtime-check --wait --collect --pipe \
 git fetch --no-tags origin main
 test "$(git rev-parse origin/main)" = "$commit"
 cmp -s "$unit_file" "$release/previous-unit.service"
+assert_expected_service_state
 
 # A failure after stop leaves the service stopped for operator recovery; never
 # revive PM2 or run an unreviewed migration/automatic downgrade.

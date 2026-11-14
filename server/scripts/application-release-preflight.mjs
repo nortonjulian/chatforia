@@ -29,6 +29,15 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         (phase === 'runtime' && identity.role !== 'chatforia_dev') ||
         (phase !== 'runtime' && identity.role === 'chatforia_dev'))
       throw new Error('Application release database or role mismatch');
+    if (phase === 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') {
+      const [permissions] = await tx.$queryRawUnsafe(`SELECT
+        has_schema_privilege(current_user,'staff_security','USAGE') AS usage,
+        has_schema_privilege(current_user,'staff_security','CREATE') AS create,
+        pg_has_role(current_user,'chatforia_staff_owner','SET') AS can_set_owner,
+        pg_has_role('chatforia_dev','chatforia_staff_owner','MEMBER') AS runtime_member`);
+      if (!permissions.usage || !permissions.create || !permissions.can_set_owner || permissions.runtime_member)
+        throw new Error('MFA migration executor lacks protected-schema privileges; use the reviewed recovery procedure');
+    }
     let pending = [];
     // The restricted API role has no migration-ledger grant. The separately
     // held DBA executor verifies exact history in before/after preflight;
@@ -37,7 +46,7 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
       const rows = await tx.$queryRawUnsafe(`SELECT id, migration_name, checksum, finished_at, rolled_back_at
         FROM public._prisma_migrations ORDER BY migration_name, started_at, id`);
       pending = checkReconciledHistory(bundle, rows, release.target, phase === 'after');
-      if (phase === 'before' && pending.length !== 3)
+      if (phase === 'before' && pending.length !== Object.keys(release.requiredExactMigrations).length)
         throw new Error('Application release pending migration set changed');
     }
     if (phase !== 'before') {
@@ -52,6 +61,19 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         NOT has_table_privilege('chatforia_dev','public."StaffAssignment"','UPDATE') AS no_staff_write`);
       if (Object.values(grants).some((allowed) => allowed !== true))
         throw new Error('Application release restricted runtime grants differ');
+    }
+    if (phase !== 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') {
+      const [mfa] = await tx.$queryRawUnsafe(`SELECT
+        has_function_privilege('chatforia_dev','staff_security.disable_mfa(text,text)','EXECUTE') AS can_disable,
+        has_function_privilege('chatforia_dev','staff_security.enroll_mfa(text,text)','EXECUTE') AS can_enroll,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','INSERT') AS no_enrollment_audit_insert,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','UPDATE') AS no_enrollment_audit_update,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','DELETE') AS no_enrollment_audit_delete,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','INSERT') AS no_audit_insert,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','UPDATE') AS no_audit_update,
+        NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','DELETE') AS no_audit_delete`);
+      if (Object.values(mfa).some((allowed) => allowed !== true))
+        throw new Error('MFA release restricted runtime grants differ');
     }
     return { phase, pending, migrationCount: phase === 'before' ? release.beforeCount : release.afterCount };
   }, { timeout: 30000 });

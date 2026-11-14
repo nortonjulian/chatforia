@@ -246,4 +246,16 @@ describe('TwoFASection', () => {
       name: 'Disable two-factor authentication',
     })).toBeInTheDocument();
   });
+  test('shows the protected-account policy returned by the server', async () => {
+    const message = 'Two-factor authentication is required for active staff and protected founder accounts.';
+    disableTwoFactor.mockRejectedValueOnce({ response: { status: 403, data: { error: message, reason: 'mfa_required' } } });
+    const onChange = jest.fn();
+    render(<TwoFASection user={{ twoFactorEnabled: true }} onChange={onChange} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Disable two-factor authentication' }));
+    fireEvent.change(screen.getByLabelText('Authenticator code'), { target: { value: '123456' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Disable 2FA' }));
+    expect(await screen.findByText(message)).toBeInTheDocument();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
 });

@@ -23,6 +23,15 @@ const consentMigration = '20261106010000_twilio_compliance_event_sid';
 const consentSha256 = '3befceaba8f76df39c15a60cadcd8698f06c03ceee71c263210c62bff6dde78a';
 const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f28aeee2ef939ab382c';
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
+export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
+const mfaReleaseDigests = Object.freeze({
+  // Owner approved exact failed-attempt recovery and deployment on 2026-11-14.
+  '46e18ede18aaaea2d33879786cf6ce09d6f82e928d40b4faf585214a260b005f': 'approved-for-production',
+  // Proposed recovery retains the exact failed attempt as a fifth historical row.
+  '24395cb2b8d0a0899e59ea4452869d7d208e0abce1d8b4af5daecdff325a36d9': 'proposed-not-authorized-for-production',
+  'c8be058f97a023c9406287ac29bcd1959a28a0cd52eee0ff67e183a497a57585': 'proposed-not-authorized-for-production',
+  'ab3462be1d16627b86b6568089928869612986edc3d6f31fb33f7c545dd01b29': 'approved-for-production',
+});
 const applicationReleaseDigests = Object.freeze({
   // Retain verification of the archived proposed package from merged PR #325.
   '8b853c9f12a775097adae55b657e463871c8a42450ad8eab556815ce21c23045':
@@ -54,7 +63,7 @@ const recoveredRolledBackRows = Object.freeze([
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
-  applicationReleasePath,
+  applicationReleasePath, mfaReleasePath,
   ...new Set([...reconciliationPaths, ...reconciliationPathsV2]),
 ].includes(path);
 
@@ -73,7 +82,7 @@ export function reconciliationPackageSpec(files) {
   return { version, paths, manifest: JSON.parse(files.get(paths[0])) };
 }
 
-export function applicationReleaseSpec(files) {
+function archivedApplicationReleaseSpec(files) {
   if (!files.has(applicationReleasePath)) return null;
   const reviewedStatus = applicationReleaseDigests[digest(files.get(applicationReleasePath))];
   if (!reviewedStatus) throw new Error('Unreviewed application release manifest');
@@ -96,11 +105,26 @@ export function applicationReleaseSpec(files) {
   return manifest;
 }
 
+export function applicationReleaseSpec(files) {
+  const previous = archivedApplicationReleaseSpec(files);
+  if (!files.has(mfaReleasePath)) return previous;
+  const reviewedStatus = mfaReleaseDigests[digest(files.get(mfaReleasePath))];
+  if (!previous || !reviewedStatus)
+    throw new Error('Unreviewed MFA release manifest');
+  const next = JSON.parse(files.get(mfaReleasePath));
+  if (next.status !== reviewedStatus ||
+      next.basedOnApplicationManifestSha256 !== digest(files.get(applicationReleasePath)) ||
+      next.beforeCount !== previous.afterCount ||
+      next.beforeMigrationSetSha256 !== previous.afterMigrationSetSha256)
+    throw new Error('MFA release baseline mismatch');
+  return next;
+}
+
 export function buildPackage(ref, cwd = process.cwd()) {
   const git = (...args) => execFileSync('git', args, { cwd, maxBuffer: 32 * 1024 * 1024 });
   const commit = git('rev-parse', '--verify', `${ref}^{commit}`).toString().trim();
   const entries = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json',
-    ...new Set([...reconciliationPaths, ...reconciliationPathsV2, applicationReleasePath]))
+    ...new Set([...reconciliationPaths, ...reconciliationPathsV2, applicationReleasePath, mfaReleasePath]))
     .toString().split('\0').filter(Boolean);
   const hasConsent = entries.some((entry) => entry.split('\t')[1] ===
     `server/prisma/migrations/${consentMigration}/migration.sql`);
@@ -185,7 +209,10 @@ function assertReconciliationReleaseSet(bundle, files) {
   const migrations = bundle.files.filter((file) => migrationPath.test(file.path));
   const named = migrations.map((file) => ({ name: file.path.match(migrationPath)[1], sha256: file.sha256 }));
   const newNames = application ? Object.keys(application.requiredExactMigrations) : [];
-  const base = named.filter(({ name }) => !newNames.includes(name));
+  const applicationBase = named.filter(({ name }) => !newNames.includes(name));
+  const priorNames = files.has(mfaReleasePath)
+    ? Object.keys(archivedApplicationReleaseSpec(files).requiredExactMigrations) : [];
+  const base = applicationBase.filter(({ name }) => !priorNames.includes(name));
   const legacy = base.filter(({ name }) => name !== consentMigration);
   if (base.length !== manifest.afterStaffCount ||
       (version === 'v1' && legacy.filter(({ name }) => !name.startsWith('20261102')).length !== manifest.baselineCount) ||
@@ -202,7 +229,7 @@ function assertReconciliationReleaseSet(bundle, files) {
   }
   if (application && (
     named.length !== application.afterCount ||
-    migrationSetDigest(base) !== application.beforeMigrationSetSha256 ||
+    migrationSetDigest(applicationBase) !== application.beforeMigrationSetSha256 ||
     migrationSetDigest(named) !== application.afterMigrationSetSha256 ||
     newNames.some((name) => named.find((entry) => entry.name === name)?.sha256 !==
       application.requiredExactMigrations[name]) ||
@@ -210,7 +237,7 @@ function assertReconciliationReleaseSet(bundle, files) {
     application.target.database !== manifest.target.database ||
     application.target.port !== manifest.target.port
   )) throw new Error('Application release migration set changed');
-  return { version: application ? 'v3' : version, manifest, application, migrations };
+  return { version: application ? (files.has(mfaReleasePath) ? 'v4' : 'v3') : version, manifest, application, migrations };
 }
 
 // Pure verification only: this does not grant production execution authority.

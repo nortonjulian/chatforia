@@ -140,7 +140,13 @@ router.get(
     if (chatMember) permittedSources.push({ chatRoomId: roomId });
     if (randomMember) permittedSources.push({ randomChatRoomId: roomId });
     const messages = await prisma.message.findMany({
-      where: { OR: permittedSources },
+      where: {
+        AND: [
+          { OR: permittedSources },
+          { deletedForAll: false },
+          { OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] },
+        ],
+      },
       orderBy: { createdAt: 'asc' },
       take: 200,
     });

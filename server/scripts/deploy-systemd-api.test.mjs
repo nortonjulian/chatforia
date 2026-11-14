@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
@@ -55,6 +55,9 @@ test('restricted schema and staff preflights precede stopping the systemd API', 
   assert.match(script, /systemctl show -P DropInPaths/);
   assert.match(script, /cp -- "\$unit_file" "\$release\/previous-unit\.service"/);
   assert.match(script, /cmp -s "\$unit_file" "\$release\/previous-unit\.service"/);
+  assert.equal(script.match(/assert_expected_service_state/g)?.length, 3);
+  assert.ok(script.lastIndexOf('assert_expected_service_state') < script.indexOf('systemctl stop'));
+  assert.ok(script.lastIndexOf('assert_expected_service_state') > script.lastIndexOf('git fetch --no-tags origin main'));
   assert.ok(script.indexOf('systemd-release-unit.mjs') < script.indexOf('systemctl stop'));
   assert.ok(script.indexOf('cmp -s "$unit_file"') < script.indexOf('systemctl stop'));
   assert.ok(script.indexOf('systemctl stop') < script.indexOf('mv -T -- "$next_unit"'));
@@ -64,4 +67,41 @@ test('restricted schema and staff preflights precede stopping the systemd API', 
   assert.doesNotMatch(script, /chgrp -R chatforia-api "\$checkout\/server"/);
   assert.doesNotMatch(script, /git switch --detach/);
   assert.match(script, /application-release-final-check[\s\S]*staff-runtime-final-check[\s\S]*systemctl start/);
+});
+
+test('routine and pre-stopped modes require their exact service states', () => {
+  const start = script.indexOf('assert_expected_service_state() {');
+  const end = script.indexOf('\n}', start);
+  assert.ok(start >= 0 && end > start);
+  const functionSource = script.slice(start, end + 2);
+  const check = (mode, state, pid) => {
+    const shell = `set -euo pipefail
+unit=chatforia-api.service
+deployment_mode=${mode}
+systemctl() {
+  if [[ "$1" == is-active ]]; then [[ "$TEST_STATE" == active ]]; return; fi
+  if [[ "$1" == show && "$2" == -P ]]; then
+    case "$3" in ActiveState) printf '%s' "$TEST_STATE";; MainPID) printf '%s' "$TEST_PID";; esac
+  fi
+}
+${functionSource}
+assert_expected_service_state`;
+    return spawnSync('bash', ['-c', shell], { env: { ...process.env, TEST_STATE: state,
+      TEST_PID: String(pid) }, encoding: 'utf8' }).status;
+  };
+  assert.equal(check('active', 'active', 345), 0);
+  assert.notEqual(check('active', 'inactive', 0), 0);
+  assert.equal(check('pre-stopped', 'inactive', 0), 0);
+  assert.notEqual(check('pre-stopped', 'inactive', 345), 0);
+  assert.notEqual(check('pre-stopped', 'failed', 0), 0);
+  assert.notEqual(check('pre-stopped', 'active', 345), 0);
+});
+
+
+test('disk headroom is checked before staging, npm install, and service stop', () => {
+  const script = readFileSync(new URL('./deploy-systemd-api.sh', import.meta.url), 'utf8');
+  const check = script.indexOf('available_bytes < 8 * 1024 * 1024 * 1024');
+  assert.ok(check > 0);
+  assert.ok(check < script.indexOf('mkdir -m 0755 -- "$release"'));
+  assert.ok(check < script.indexOf('systemctl stop "$unit"'));
 });
