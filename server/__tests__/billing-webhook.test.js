@@ -585,7 +585,7 @@ describe(
     );
 
     test(
-      'Sandbox eSIM purchase reuses an active subscriber after its prior pack expires',
+      'Sandbox Europe purchase reuses a Local subscriber after its prior pack expires',
       async () => {
         const existingIccid =
           '89000000000009997';
@@ -677,7 +677,7 @@ describe(
               String(TEST_USER_ID),
 
             product:
-              'chatforia_esim_local_3_premium',
+              'chatforia_esim_europe_3_premium',
 
             platform:
               'web',
@@ -776,7 +776,7 @@ describe(
               TEST_USER_ID,
 
             addonKind:
-              'chatforia_esim_local_3_premium',
+              'chatforia_esim_europe_3_premium',
 
             totalDataMb:
               3 * 1024,

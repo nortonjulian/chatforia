@@ -14,18 +14,15 @@ jest.mock('@/context/UserContext', () => ({
 jest.mock('@/api/wireless', () => ({
   __esModule: true,
   fetchWirelessStatus: jest.fn(),
+  fetchWirelessPurchases: jest.fn(),
 }));
 
 const mockT = (_key, defaultValueOrOptions, options) => {
   if (typeof defaultValueOrOptions === 'string') {
-    if (options?.days != null) {
-      return defaultValueOrOptions.replace(
-        '{{days}}',
-        String(options.days)
-      );
-    }
-
-    return defaultValueOrOptions;
+    return Object.entries(options || {}).reduce(
+      (value, [name, replacement]) => value.replace(`{{${name}}}`, String(replacement)),
+      defaultValueOrOptions
+    );
   }
 
   return _key;
@@ -50,7 +47,7 @@ jest.mock('react-router-dom', () => {
 });
 
 const { useUser } = jest.requireMock('@/context/UserContext');
-const { fetchWirelessStatus } = jest.requireMock('@/api/wireless');
+const { fetchWirelessStatus, fetchWirelessPurchases } = jest.requireMock('@/api/wireless');
 
 function renderWithRouter(ui) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
@@ -62,6 +59,7 @@ beforeEach(() => {
   useUser.mockReturnValue({
     currentUser: { id: 1, username: 'julian' },
   });
+  fetchWirelessPurchases.mockResolvedValue({ packages: [], replacementEligibility: null });
 });
 
 describe('WirelessDashboard', () => {
@@ -75,6 +73,34 @@ describe('WirelessDashboard', () => {
     });
 
     expect(fetchWirelessStatus).not.toHaveBeenCalled();
+    expect(fetchWirelessPurchases).not.toHaveBeenCalled();
+  });
+
+  test('keeps expired paid packages visible without calling them queued or transferable', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL', state: 'EXPIRED', expired: true,
+      source: { addonKind: 'chatforia_esim_local_3_premium', totalDataMb: 3072, remainingDataMb: 3072 },
+    });
+    fetchWirelessPurchases.mockResolvedValueOnce({
+      packages: [{
+        id: 43, addonKind: 'chatforia_esim_local_3_premium',
+        state: 'TERMINATED', paid: true,
+        totalDataMb: 3072, remainingDataMb: 3072, recordedRemainingDataMb: 3072,
+        expiresAt: '2026-11-13T19:27:49.000Z',
+        activatedAt: null,
+        activationWindowEndsAt: '2026-11-13T19:27:49.000Z',
+      }],
+      replacementEligibility: { eligible: false, reason: 'No active package remains.' },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('Purchased Data Packages')).toBeInTheDocument();
+    expect(screen.getByText('terminated')).toBeInTheDocument();
+    expect(screen.getByText(/Recorded remaining: 3.0 GB of 3.0 GB/)).toBeInTheDocument();
+    expect(screen.getByText(/No provider activation recorded; activation window ended 2026-11-13 19:27 UTC/)).toBeInTheDocument();
+    expect(screen.getByText(/eSIM transfer unavailable: No active package remains/)).toBeInTheDocument();
+    expect(screen.queryByText(/Queued data packs/)).not.toBeInTheDocument();
   });
 
   test('shows Get a data plan and navigates to /upgrade when viewing plans', async () => {
@@ -164,7 +190,7 @@ describe('WirelessDashboard', () => {
 
     expect(
       screen.getByText(
-        /Your Chatforia eSIM is installed and your mobile service is active/i
+        /Your Chatforia data eSIM is installed and active/i
       )
     ).toBeInTheDocument();
 
@@ -187,6 +213,51 @@ describe('WirelessDashboard', () => {
     await userEvent.click(manageButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('/account/esim');
+  });
+
+  test('shows Unlimited as a plan instead of zero data', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'OK',
+      source: {
+        addonKind: 'chatforia_esim_global_unlimited_premium',
+        unlimited: true,
+        totalDataMb: 0,
+        remainingDataMb: 0,
+      },
+      queuedPacks: [{
+        addonKind: 'chatforia_esim_europe_unlimited_premium',
+        unlimited: true,
+        remainingDataMb: 0,
+        expiresAt: '2026-11-15T19:27:49.000Z',
+      }],
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('Unlimited data')).toBeInTheDocument();
+    expect(screen.queryByText(/0\.0 GB \/ 0\.0 GB/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.getByText(/Europe Unlimited \(Unlimited data\)/)).toBeInTheDocument();
+    expect(screen.getByText(/Purchased packs awaiting activation \(not yet usable\)/)).toHaveTextContent('Expires: 2026-11-15 19:27 UTC');
+  });
+
+  test('does not describe a queued package as active or suggest another purchase', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'AWAITING_ACTIVATION',
+      source: {
+        addonKind: 'chatforia_esim_local_3_premium',
+        totalDataMb: 3072,
+        remainingDataMb: 3072,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText(/not confirmed active/i)).toBeInTheDocument();
+    expect(screen.getByText(/before buying again/i)).toBeInTheDocument();
+    expect(screen.queryByText(/keeps Chatforia working when you’re away from Wi-Fi/i)).not.toBeInTheDocument();
   });
 
   test('keeps eSIM setup available while the subscriber is PROVISIONING', async () => {
