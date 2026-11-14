@@ -263,6 +263,50 @@ function remainingValiditySeconds(expiresAt, now) {
   return Math.ceil(milliseconds / 1000);
 }
 
+function hasRemainingEntitlement(pack, now) {
+  const expiresAt = pack.expiresAt
+    ? new Date(pack.expiresAt).getTime()
+    : null;
+
+  if (Number.isFinite(expiresAt) && expiresAt <= now.getTime()) {
+    return false;
+  }
+
+  return (
+    Number(pack.remainingDataMb) > 0 ||
+    /_unlimited(?:_|$)/i.test(String(pack.addonKind || ''))
+  );
+}
+
+async function assertNoOtherEligiblePackages({
+  prismaClient,
+  userId,
+  purchaseId,
+  iccid,
+  now,
+}) {
+  const otherPackages =
+    await prismaClient.mobileDataPackPurchase.findMany({
+      where: {
+        userId: Number(userId),
+        iccid: String(iccid),
+        id: { not: Number(purchaseId) },
+      },
+      select: {
+        addonKind: true,
+        remainingDataMb: true,
+        expiresAt: true,
+      },
+    });
+
+  if (otherPackages.some((pack) => hasRemainingEntitlement(pack, now))) {
+    throw makeError(
+      'Another unexpired data package remains on this eSIM; transferring multiple packages requires provider confirmation',
+      'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED'
+    );
+  }
+}
+
 async function resolveOldSubscriber({
   prismaClient,
   userId,
@@ -470,7 +514,16 @@ async function completeOldEsimCleanup({
   oldProviderProfileId,
   oldIccid,
   testMode = false,
+  now = new Date(),
 }) {
+  await assertNoOtherEligiblePackages({
+    prismaClient,
+    userId: replacement.userId,
+    purchaseId: replacement.purchaseId,
+    iccid: oldIccid,
+    now,
+  });
+
   if (!replacement.oldPackageTerminatedAt) {
     await provider.setEsimPackageStatus(
       oldProviderPurchaseId,
@@ -488,6 +541,14 @@ async function completeOldEsimCleanup({
       },
     });
   }
+
+  await assertNoOtherEligiblePackages({
+    prismaClient,
+    userId: replacement.userId,
+    purchaseId: replacement.purchaseId,
+    iccid: oldIccid,
+    now,
+  });
 
   await provider.suspendLine({
     providerProfileId:
@@ -643,6 +704,24 @@ export async function replaceEsimForDevice(
     );
   }
 
+  await assertNoOtherEligiblePackages({
+    prismaClient,
+    userId: normalizedUserId,
+    purchaseId: normalizedPurchaseId,
+    iccid: purchase.iccid,
+    now,
+  });
+
+  if (
+    !/_unlimited(?:_|$)/i.test(String(purchase.addonKind || '')) &&
+    purchase.remainingDataMb <= 0
+  ) {
+    throw makeError(
+      'The eSIM package has no remaining data to transfer',
+      'ESIM_REPLACEMENT_EXHAUSTED'
+    );
+  }
+
   const oldSubscriber =
     await resolveOldSubscriber({
       prismaClient,
@@ -651,8 +730,9 @@ export async function replaceEsimForDevice(
     });
 
   /*
-   * Ask Telna for the authoritative balance immediately before moving
-   * the entitlement. Never use a stale locally cached balance here.
+   * Refresh provider usage before moving the entitlement, then cap it
+   * by Chatforia's recorded balance and original expiry. A stale or
+   * larger provider container must not grant more customer service.
    */
   const usage =
     await provider.fetchEsimUsage(
@@ -671,11 +751,16 @@ export async function replaceEsimForDevice(
   }
 
   const authoritativeRemainingMb =
-    Math.ceil(usage.remainingMb);
+    Math.min(
+      Math.ceil(usage.remainingMb),
+      purchase.remainingDataMb
+    );
 
   const authoritativeExpiresAt =
-    usage.expiresAt ||
-    purchase.expiresAt;
+    earliestValidExpiry(
+      usage.expiresAt,
+      purchase.expiresAt
+    );
 
   const timeAllowance =
     remainingValiditySeconds(
@@ -686,7 +771,7 @@ export async function replaceEsimForDevice(
   const replacementPack =
     chooseReplacementPack(
       purchase.addonKind,
-      usage.remainingMb
+      authoritativeRemainingMb
     );
 
   /*
@@ -1053,6 +1138,7 @@ export async function replaceEsimForDevice(
       oldIccid:
         purchase.iccid,
       testMode,
+      now,
     });
   } catch (err) {
     await prismaClient.esimReplacement.update({
@@ -1226,6 +1312,14 @@ export async function retryFailedEsimReplacement(
     now
   );
 
+  await assertNoOtherEligiblePackages({
+    prismaClient,
+    userId: replacement.userId,
+    purchaseId: replacement.purchaseId,
+    iccid: replacement.oldIccid,
+    now,
+  });
+
   /*
    * Atomic concurrency gate.
    *
@@ -1338,8 +1432,10 @@ export async function retryFailedEsimReplacement(
       remainingDataMb:
         retryRemainingMb,
       expiresAt:
-        providerPack.expiresAt ||
-        retryExpiresAt,
+        earliestValidExpiry(
+          providerPack.expiresAt,
+          retryExpiresAt
+        ),
     });
   } catch (err) {
     const knownProviderPackage =
@@ -1413,6 +1509,7 @@ export async function retryFailedEsimReplacement(
       oldIccid:
         replacement.oldIccid,
       testMode,
+      now,
     });
   } catch (err) {
     await prismaClient.esimReplacement.update({
@@ -1526,6 +1623,14 @@ export async function reconcileEsimReplacement(
    * the workflow back into reconciliation. Never provision here.
    */
   try {
+    await assertNoOtherEligiblePackages({
+      prismaClient,
+      userId: replacement.userId,
+      purchaseId: replacement.purchaseId,
+      iccid: replacement.oldIccid,
+      now: new Date(),
+    });
+
     /*
      * A known provider package does NOT by itself prove that Chatforia's
      * canonical entitlement was switched successfully.
