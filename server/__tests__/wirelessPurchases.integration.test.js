@@ -35,7 +35,7 @@ function assertDisposableDatabase() {
   const url = new URL(raw);
   if (
     url.hostname !== '127.0.0.1' ||
-    url.port !== '65444' ||
+    !['65444', '65445'].includes(url.port) ||
     url.pathname !== `/${EXPECTED_DATABASE}`
   ) {
     throw new Error(
