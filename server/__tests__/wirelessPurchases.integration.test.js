@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
+import { PrismaClient } from '@prisma/client';
 import express from 'express';
 import request from 'supertest';
-import { PrismaClient } from '@prisma/client';
 
 const EXPECTED_DATABASE = 'chatforia_wireless_test_20261013';
 const usernamePrefix = 'ZERO-TELNA-PURCHASE-LIST-';
