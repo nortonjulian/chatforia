@@ -28,7 +28,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install locked dependencies for recovery preflight tests
+        run: npm ci --ignore-scripts --no-audit --no-fund && npm run -w server prisma:generate
       - name: Verify release packaging and evidence checks
-        run: node --test server/scripts/migration-package.test.mjs server/scripts/staff-migration-161.test.mjs
+        run: node --test server/scripts/migration-package.test.mjs server/scripts/staff-migration-161.test.mjs server/scripts/mfa-165-recovery.test.mjs
       - name: Build proposed package from committed bytes
         run: node server/scripts/migration-package.mjs HEAD /tmp/migration-package.json

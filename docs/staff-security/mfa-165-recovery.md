@@ -1,0 +1,32 @@
+# Migration 165 permission-failure recovery
+
+Production evidence: attempt `e85fbfdb-a6e6-4a11-8035-09b0131ed9fd` failed with 42501 on the first CREATE TABLE. Its checksum is `9c2b5bb518becc5dec7a994b3c5e568377c67fc6c5a84e212e3a87f3358d73fa`, zero steps were recorded, and a later catalog query found none of the two MFA tables or two functions. The previous API release was restarted and reported active. This is not evidence that the MFA fix is deployed.
+
+The managed administrator has an existing self-granted SET TRUE / INHERIT FALSE owner edge, alongside the provider's ADMIN TRUE / SET FALSE / INHERIT FALSE edge. The runtime has no owner membership. The recovery uses the same temporary executor-inheritance pattern as the Stage 5 recovery, restoring INHERIT FALSE even when a step fails. No runtime grant is broadened. This proposal retains every migration SQL byte and the previous archived manifest digests.
+
+The new v4 package pins the failed attempt as the fifth historical rolled-back row. `mfa-165-recovery.mjs` validates the entire exact baseline, zero new objects, the exact existing owner edges and the recorded schema-permission failure. Preflight defaults to read-only and accepts the proposal for inspection. Execution requires an approved release package. It serializes with the package migration advisory lock, enables temporary executor inheritance, runs the locked Prisma CLI `migrate resolve --rolled-back` (never edits the ledger with SQL), checks the resolved baseline, deploys the unchanged SQL from the package, restores inheritance and verifies the complete ledger, data predicates and runtime grants. It does not stop or start the API itself. Ordinary preflight now rejects missing schema privileges before downtime.
+
+## Operator sequence
+
+1. Review and approve the recovery package, merge, archive the exact new main commit, and obtain a new protected API handoff for that exact digest. The old handoff and old package are not interchangeable with the recovery release.
+2. Keep the old API active during preparation. Check available disk space and inodes before stopping it. The earlier cache cleanup left only 3.5 GiB free; that is not proven sufficient for npm installation plus its new cache. Reclaim or expand space before another deployment. Preserve the current release, rollback material, uploaded files and migration receipts.
+3. Load the DBA URL privately with strict TLS and the downloaded CA. Do not expose it in command history, process arguments or screenshots. The Mac requires the database-specific CA trust already established during this incident. The runner requires an independent private archive directory.
+4. Run `node server/scripts/mfa-165-recovery.mjs --package PACKAGE --sha256 DIGEST --archive PRIVATE_DIRECTORY` from the exact reviewed checkout with locked dependencies. The shared strict connection validator accepts sslmode, sslaccept, sslcert/sslrootcert, schema and connection_limit, not connect_timeout.
+5. Verify recovery readiness and the backup/restore point; stop all API/background writers for the execution window. Repeat with `--execute`. Do not activate the API unless it reports recovery verified and executor privileges restored.
+6. Run the new exact handoff with the existing systemd operator wrapper and `--pre-stopped`. Validate health, eligible former-staff disable → setup → enable and protected-account denial. Preserve receipts and independently back them up. Remove the temporary Mac trusted-source entry after completion. Rotate the DBA password exposed in an earlier screenshot, accounting for any legitimate consumers.
+
+## Failure handling
+
+There is no automatic retry or rollback. The runner only accepts the exact initial failed state, so interruption after resolution needs a fresh reviewed recovery decision. If cleanup cannot be verified, keep writers fenced and inspect role edges. A process kill, host loss or lost connection can prevent cleanup; the saved phase receipts and a fresh read-only privilege query are required before deciding what to do next. Error receipts contain stage/codes, not connection strings. An operator must not run the historical Stage 5 SQL scripts verbatim: those pin an entirely different ledger.
+
+The receipt archive captures the failed row, resolved row, final ledger and aggregate checks; old attempts are preserved. Point-in-time recovery availability is not a restore rehearsal. No production change is performed by this patch or its tests.
+
+## End-to-end validation
+
+The combined PostgreSQL 18.6 rehearsal now creates the managed DBA's two actual role edges, invokes the installed Prisma CLI to reproduce the first-statement 42501, and invokes the same recovery runner used by the operator. All three scenarios passed locally: success, injected failure after resolve, and real Prisma deployment failure after removing temporary inheritance. Each asserts removal of inherited privileges and preservation of the exact failed record; success additionally requires a completed migration. The disposable fixture normalizes the generated UUID solely to match the incident-pinned package. Production code never directly edits the ledger. Test connection relaxation is programmatic-only, requires explicit PR-test environment markers, and rejects every hostname except 127.0.0.1 and every database except the dedicated synthetic database. The public CLI has no synthetic flag.
+
+The API staging script now requires 8 GiB free before creating the release or installing dependencies. Verify this headroom while the old API is still running; the guard does not recover downtime if an operator has already stopped the API.
+
+## Owner authorization — 2026-11-14
+
+Julian explicitly approved finalizing and merging PR #336 and proceeding with migration recovery and API deployment after being told that recovery marks the exact failed attempt rolled back through Prisma and temporarily enables existing DBA owner-role inheritance with cleanup afterward. His response was “Yes, I approve”. This records authorization for this exact five-history-row recovery package, the unchanged migration 165 SQL, and subsequent API activation. It is not evidence of execution or permission to bypass failed checks. The previously proposed package digest remains verifiable.
