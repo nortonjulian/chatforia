@@ -189,6 +189,12 @@ export default function WirelessDashboard() {
     const isLow = status.state === 'LOW';
     const isExhausted = status.state === 'EXHAUSTED' || status.exhausted;
     const isExpired = status.state === 'EXPIRED' || status.expired;
+    const isUnconfirmed = [
+      'AWAITING_ACTIVATION',
+      'AWAITING_PROVISIONING',
+      'PROVIDER_UNVERIFIED',
+      'TERMINATED',
+    ].includes(status.state);
 
     planContent = (
       <Card radius="xl" withBorder>
@@ -206,7 +212,9 @@ export default function WirelessDashboard() {
                       'wireless.plan.familyBody',
                       'This shared pool powers Chatforia for your family members.'
                     )
-                  : t(
+                  : isUnconfirmed
+                    ? t('wireless.plan.bodyUnconfirmed', 'This data package is not confirmed active. Check your purchase status before buying another pack.')
+                    : t(
                       'wireless.plan.bodyActive',
                       'Your mobile data plan keeps Chatforia working when you’re away from Wi-Fi.'
                     )}
@@ -262,13 +270,19 @@ export default function WirelessDashboard() {
             </Text>
           )}
 
-          {(isLow || isExhausted || isExpired) && (
+          {(isLow || isExhausted || isExpired || isUnconfirmed) && (
             <Alert
               color={isExhausted || isExpired ? 'red' : 'yellow'}
               variant="light"
               icon={<Info size={16} />}
             >
-              {isExhausted || isExpired ? (
+              {isUnconfirmed ? (
+                <Text>
+                  {status.state === 'TERMINATED'
+                    ? t('wireless.statusTerminated', 'Telna reports this data package as terminated. Contact support before buying another pack.')
+                    : t('wireless.statusUnconfirmed', 'This data package is awaiting activation, provisioning, or provider confirmation. Check your purchase status or contact support before buying again.')}
+                </Text>
+              ) : isExhausted || isExpired ? (
                 <Text>
                   {isExpired
                     ? t('wireless.expired', 'Your data pack has expired. Buy a new pack to continue using mobile data.')
@@ -294,7 +308,7 @@ export default function WirelessDashboard() {
             </Alert>
           )}
 
-          {!isLow && !isExhausted && !isExpired && (
+          {!isLow && !isExhausted && !isExpired && !isUnconfirmed && (
             <Group mt="xs">
               <Button size="xs" variant="light" onClick={goToPlans}>
                 {t('wireless.plan.manageCta', 'Change plan / top up')}
