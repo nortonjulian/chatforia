@@ -4,7 +4,6 @@ import {
   requireAuth,
   requireAdmin,
 } from '../middleware/auth.js';
-
 import {
   reconcileEsimReplacement,
   retryFailedEsimReplacement,
@@ -53,6 +52,8 @@ router.post(
 
         case 'ESIM_REPLACEMENT_PROVIDER_OUTCOME_UNKNOWN':
         case 'ESIM_REPLACEMENT_NOT_RECONCILABLE':
+        case 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED':
+        case 'ESIM_OPERATION_IN_PROGRESS':
           return res.status(409).json({
             error: err.message,
             code: err.code,
@@ -119,6 +120,8 @@ router.post(
         case 'ESIM_REPLACEMENT_RETRY_PROVIDER_PACKAGE_EXISTS':
         case 'ESIM_REPLACEMENT_RETRY_DATA_MISSING':
         case 'ESIM_REPLACEMENT_EXPIRED':
+        case 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED':
+        case 'ESIM_OPERATION_IN_PROGRESS':
           return res.status(409).json({
             error: err.message,
             code: err.code,
