@@ -2215,6 +2215,35 @@ describe('replaceEsimForDevice safety ordering', () => {
     ).toBeUndefined();
   });
 
+  test('replacement subscriber keeps the transferred expiry when the provider container lasts longer', async () => {
+    const fixture = makeFixture();
+    fixture.provider.provisionEsimPack.mockResolvedValue({
+      providerPurchaseId: 'NEW-PACKAGE',
+      iccid: 'NEW-ICCID',
+      expiresAt: new Date('2026-12-01T00:00:00.000Z'),
+      qrCodeSvg: '<new-qr>',
+    });
+
+    await replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    });
+
+    expect(fixture.tx.subscriber.update).toHaveBeenCalledWith({
+      where: { id: 101 },
+      data: expect.objectContaining({
+        expiresAt: fixture.purchase.expiresAt,
+      }),
+    });
+    expect(fixture.tx.mobileDataPackPurchase.update).toHaveBeenCalledWith({
+      where: { id: 50 },
+      data: expect.objectContaining({
+        expiresAt: fixture.purchase.expiresAt,
+      }),
+    });
+  });
+
   test('full success switches canonical service only after new service exists', async () => {
     const fixture = makeFixture();
 

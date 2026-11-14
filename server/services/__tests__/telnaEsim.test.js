@@ -1,8 +1,10 @@
+import { fileURLToPath } from 'node:url';
+
 import { jest } from '@jest/globals';
 
 const telnaRequestMock = jest.fn();
 
-jest.unstable_mockModule('../../config/esim.js', () => ({
+jest.unstable_mockModule(fileURLToPath(new URL('../../config/esim.js', import.meta.url)), () => ({
   __esModule: true,
   getEsimProviderConfig: jest.fn(() => ({
     baseUrl: 'https://developer-api.telna.com',
@@ -16,7 +18,7 @@ jest.unstable_mockModule('../../config/esim.js', () => ({
   })),
 }));
 
-jest.unstable_mockModule('../../utils/telnaClient.js', () => ({
+jest.unstable_mockModule(fileURLToPath(new URL('../../utils/telnaClient.js', import.meta.url)), () => ({
   __esModule: true,
   telnaRequest: telnaRequestMock,
 }));
