@@ -1,6 +1,8 @@
+import { earliestValidExpiry } from '../utils/entitlementExpiry.js';
 import prisma from '../utils/prismaClient.js';
-import * as esimProvider from './providers/esimProvider.js';
+
 import { createSubscriberWithAllocatedEsim } from './esimAllocation.js';
+import * as esimProvider from './providers/esimProvider.js';
 
 const FINITE_PACKS_GB = [3, 5, 10, 20];
 
@@ -385,8 +387,10 @@ async function persistProvisionedReplacement({
           iccid:
             canonicalIccid,
           expiresAt:
-            providerPack.expiresAt ||
-            expiresAt,
+            earliestValidExpiry(
+              providerPack.expiresAt,
+              expiresAt
+            ),
           /*
            * The replacement package exists, but installation/activation
            * on the new device may not have happened yet.

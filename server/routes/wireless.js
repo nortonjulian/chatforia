@@ -1,10 +1,12 @@
 import express from 'express';
-import prisma from '../utils/prismaClient.js';
 import { v4 as uuidv4 } from 'uuid';
-import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
+
 import { requireAuth } from '../middleware/auth.js';
-import { fetchEsimUsage } from '../services/providers/esimProvider.js';
 import { replaceEsimForDevice } from '../services/esimReplacementService.js';
+import { fetchEsimUsage } from '../services/providers/esimProvider.js';
+import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
+import { earliestValidExpiry } from '../utils/entitlementExpiry.js';
+import prisma from '../utils/prismaClient.js';
 
 const router = express.Router();
 
@@ -292,48 +294,48 @@ async function refreshPackUsageFromProvider(userId, pack) {
      * Translate consumption against the replacement audit so unused
      * Telna template capacity never becomes customer data.
      */
+    const replacement =
+      await prisma.esimReplacement.findFirst({
+        where: {
+          userId: Number(userId),
+          newProviderPurchaseId:
+            String(providerUsageId),
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
     if (
+      replacement &&
       typeof usage.remainingMb === 'number' &&
-      usage.remainingMb >= 0
+      usage.remainingMb >= 0 &&
+      typeof replacement.remainingDataMb === 'number' &&
+      typeof replacement.replacementDataMb === 'number'
     ) {
-      const replacement =
-        await prisma.esimReplacement.findFirst({
-          where: {
-            userId: Number(userId),
-            newProviderPurchaseId:
-              String(providerUsageId),
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
+      const translatedRemainingMb =
+        replacementEntitlementRemainingMb({
+          entitlementMb:
+            replacement.remainingDataMb,
+          providerCapacityMb:
+            replacement.replacementDataMb,
+          providerRemainingMb:
+            usage.remainingMb,
         });
 
-      if (
-        replacement &&
-        typeof replacement.remainingDataMb === 'number' &&
-        typeof replacement.replacementDataMb === 'number'
-      ) {
-        const translatedRemainingMb =
-          replacementEntitlementRemainingMb({
-            entitlementMb:
-              replacement.remainingDataMb,
-            providerCapacityMb:
-              replacement.replacementDataMb,
-            providerRemainingMb:
-              usage.remainingMb,
-          });
-
-        if (translatedRemainingMb != null) {
-          nextRemainingMb =
-            translatedRemainingMb;
-        }
+      if (translatedRemainingMb != null) {
+        nextRemainingMb =
+          translatedRemainingMb;
       }
     }
 
-    const nextExpiresAt =
-      usage.expiresAt ??
-      pack.expiresAt ??
-      null;
+    const nextExpiresAt = replacement
+      ? earliestValidExpiry(
+          usage.expiresAt,
+          replacement.originalExpiresAt,
+          pack.expiresAt
+        )
+      : usage.expiresAt ?? pack.expiresAt ?? null;
 
     /*
      * Provider usage refresh is consumption-only. A stale or

@@ -707,6 +707,44 @@ describe('wireless routes', () => {
     expect(res.body.source.remainingDataMb).toBe(1000);
   });
 
+  it('does not extend replacement entitlement when provider package expires later', async () => {
+    const originalExpiry = new Date(Date.now() + 5 * 86400000).toISOString();
+    const providerExpiry = new Date(Date.now() + 30 * 86400000).toISOString();
+    const pack = {
+      id: 14,
+      userId: 123,
+      addonKind: 'chatforia_esim_local_3_premium',
+      totalDataMb: 3072,
+      remainingDataMb: 1000,
+      expiresAt: originalExpiry,
+      purchasedAt: new Date().toISOString(),
+      providerPurchaseId: 'replacement-package-14',
+    };
+
+    prismaMock.mobileDataPackPurchase.findMany.mockResolvedValue([pack]);
+    prismaMock.esimReplacement.findFirst.mockResolvedValue({
+      originalExpiresAt: originalExpiry,
+      remainingDataMb: 1000,
+      replacementDataMb: 3072,
+    });
+    fetchEsimUsageMock.mockResolvedValue({
+      totalMb: 3072,
+      remainingMb: 3072,
+      expiresAt: providerExpiry,
+      providerStatus: 'ACTIVE',
+    });
+    prismaMock.mobileDataPackPurchase.update.mockImplementation(
+      async ({ data }) => ({ ...pack, ...data })
+    );
+
+    const res = await request(makeApp()).get('/api/wireless/status');
+
+    expect(res.status).toBe(200);
+    expect(res.body.source.expiresAt).toBe(originalExpiry);
+    const update = prismaMock.mobileDataPackPurchase.update.mock.calls[0][0];
+    expect(new Date(update.data.expiresAt).toISOString()).toBe(originalExpiry);
+  });
+
   it('does not expose replacement provider capacity as customer entitlement', async () => {
     const app = makeApp();
 
