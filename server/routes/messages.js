@@ -20,6 +20,7 @@ import {
 } from '../services/groupRiaInvocationContract.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
+import { normalizeRequestedExpireSeconds } from '../utils/messageExpirySeconds.js';
 
 import { scoreReport, shouldAutoHide } from '../services/src/moderationService.js';
 
@@ -664,11 +665,8 @@ router.post(
     if (!okMember) throw Boom.forbidden('Not a participant in this chat');
     await assertDirectRoomAllowed(chatRoomId, senderId);
 
-    // Clamp optional per-message TTL (5s .. 7d)
-    let secs = Number(expireSeconds);
-    secs = Number.isFinite(secs)
-      ? Math.max(5, Math.min(7 * 24 * 60 * 60, secs))
-      : undefined;
+    // Preserve explicit Off (0); createMessageService applies the plan limit.
+    const secs = normalizeRequestedExpireSeconds(expireSeconds);
 
     // Parse upload meta
     let meta = [];
