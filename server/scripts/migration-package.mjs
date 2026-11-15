@@ -29,6 +29,8 @@ const esimReleaseDigests = Object.freeze({
   // A reviewable 165-to-166 proposal. Production authority requires a separate owner approval.
   'a27172c770c418201e00da5a9f13814c8da65ecdc5454331ba2039240ed7451b':
     'proposed-not-authorized-for-production',
+  // Owner-authorized manifest for the 165-to-166 eSIM release gate; execution remains separately gated.
+  'a58b89852156680d36914d08d875c3321d7761e26ce0698897a1806878c5d4af': 'approved-for-production',
 });
 const mfaReleaseDigests = Object.freeze({
   // Owner approved exact failed-attempt recovery and deployment on 2026-11-14.

@@ -184,7 +184,7 @@ try {
     const esimBundle = buildPackage('HEAD');
     const esimFiles = verifyPackage(esimBundle);
     const esimRelease = applicationReleaseSpec(esimFiles);
-    assert.equal(esimRelease.status, 'proposed-not-authorized-for-production');
+    assert.equal(esimRelease.status, 'approved-for-production');
     assert.equal(esimRelease.beforeCount, 165);
     assert.equal(esimRelease.afterCount, 166);
     const [esimName] = Object.keys(esimRelease.requiredExactMigrations);
@@ -213,7 +213,7 @@ try {
       await tx.$executeRawUnsafe(`DELETE FROM public."EsimOperationLock"
         WHERE "userId" = 987654321`);
     });
-    console.log('PASS: disposable PG18 approved 165 recovery then proposed 166 migration, preserved eSIM entitlement and restricted lock writes');
+    console.log('PASS: disposable PG18 approved 165 recovery then approved 166 migration, preserved eSIM entitlement and restricted lock writes');
   }
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {

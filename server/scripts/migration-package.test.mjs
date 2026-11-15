@@ -393,7 +393,7 @@ test('approved v4 retains exact migration bytes and rejects unpinned approval ed
   assert.throws(()=>applicationReleaseSpec(verifyPackage(tampered)),/Unreviewed MFA release/);
 });
 
-test('proposed v5 pins only eSIM migration 166 after the approved 165 recovery', async () => {
+test('approved v5 pins only eSIM migration 166 after the approved 165 recovery', async () => {
   const prior = buildPackage('aa4b4e040464336033ed8f9679290e727d58e7a6');
   const priorFiles = verifyPackage(prior);
   const priorRelease = applicationReleaseSpec(priorFiles);
@@ -402,7 +402,7 @@ test('proposed v5 pins only eSIM migration 166 after the approved 165 recovery',
   const release = applicationReleaseSpec(files);
   const esimName = '20261113010000_add_esim_operation_lock';
   assert.equal(priorRelease.status, 'approved-for-production');
-  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.status, 'approved-for-production');
   assert.equal(release.beforeCount, 165);
   assert.equal(release.afterCount, 166);
   assert.deepEqual(Object.keys(release.requiredExactMigrations), [esimName]);
@@ -445,15 +445,23 @@ test('proposed v5 pins only eSIM migration 166 after the approved 165 recovery',
   const manifest = alteredManifest.files.find((file) => file.path ===
     'server/security/applicationMigrationRelease.v5.json');
   const bytes = Buffer.from(manifest.content, 'base64').toString()
-    .replace('proposed-not-authorized-for-production', 'approved-for-production');
+    .replace('approved-for-production', 'unexpected-authorization');
   manifest.content = Buffer.from(bytes).toString('base64');
   manifest.sha256 = digest(bytes);
   assert.throws(() => applicationReleaseSpec(verifyPackage(alteredManifest)),
     /Unreviewed eSIM release manifest/);
+  // An archived proposal must remain blocked from production execution.
+  const proposal = structuredClone(bundle);
+  const proposalManifest = proposal.files.find((file) => file.path ===
+    'server/security/applicationMigrationRelease.v5.json');
+  const proposedBytes = Buffer.from(proposalManifest.content, 'base64').toString()
+    .replace('approved-for-production', 'proposed-not-authorized-for-production');
+  proposalManifest.content = Buffer.from(proposedBytes).toString('base64');
+  proposalManifest.sha256 = digest(proposedBytes);
   const directory = mkdtempSync(join(tmpdir(), 'esim-release-proposal-'));
   try {
     const path = join(directory, 'package.json');
-    const packageBytes = Buffer.from(JSON.stringify(bundle));
+    const packageBytes = Buffer.from(JSON.stringify(proposal));
     writeFileSync(path, packageBytes);
     await assert.rejects(deployPackage({ package: path, sha256: digest(packageBytes) }),
       /production execution is not approved/);
