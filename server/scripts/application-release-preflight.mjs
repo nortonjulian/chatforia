@@ -70,15 +70,41 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
     }
     if ((phase !== 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') ||
         release.id === 'chatforia-esim-operation-lock-20261114-v5') {
-      const [mfa] = await tx.$queryRawUnsafe(`SELECT
-        has_function_privilege('chatforia_dev','staff_security.disable_mfa(text,text)','EXECUTE') AS can_disable,
-        has_function_privilege('chatforia_dev','staff_security.enroll_mfa(text,text)','EXECUTE') AS can_enroll,
-        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','INSERT') AS no_enrollment_audit_insert,
-        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','UPDATE') AS no_enrollment_audit_update,
-        NOT has_table_privilege('chatforia_dev','staff_security.mfa_enrollment_event','DELETE') AS no_enrollment_audit_delete,
-        NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','INSERT') AS no_audit_insert,
-        NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','UPDATE') AS no_audit_update,
-        NOT has_table_privilege('chatforia_dev','staff_security.mfa_disable_event','DELETE') AS no_audit_delete`);
+      // Resolve protected objects through pg_catalog. The DBA executor may not
+      // have USAGE on staff_security; name-based privilege helpers would throw
+      // 42501 even though the runtime role has the required privileges.
+      // Missing objects must fail closed (including negative audit assertions).
+      const [mfa] = await tx.$queryRawUnsafe(`WITH protected AS (
+        SELECT
+          (SELECT p.oid FROM pg_catalog.pg_proc p
+             JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+           WHERE n.nspname = 'staff_security' AND p.proname = 'disable_mfa'
+             AND p.pronargs = 2 AND p.proargtypes[0] = 'text'::regtype
+             AND p.proargtypes[1] = 'text'::regtype) AS disable_oid,
+          (SELECT p.oid FROM pg_catalog.pg_proc p
+             JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+           WHERE n.nspname = 'staff_security' AND p.proname = 'enroll_mfa'
+             AND p.pronargs = 2 AND p.proargtypes[0] = 'text'::regtype
+             AND p.proargtypes[1] = 'text'::regtype) AS enroll_oid,
+          (SELECT c.oid FROM pg_catalog.pg_class c
+             JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+           WHERE n.nspname = 'staff_security' AND c.relname = 'mfa_enrollment_event'
+             AND c.relkind IN ('r', 'p')) AS enrollment_audit_oid,
+          (SELECT c.oid FROM pg_catalog.pg_class c
+             JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+           WHERE n.nspname = 'staff_security' AND c.relname = 'mfa_disable_event'
+             AND c.relkind IN ('r', 'p')) AS disable_audit_oid
+      ) SELECT
+        COALESCE(has_schema_privilege('chatforia_dev', 'staff_security', 'USAGE'), false) AS runtime_schema_usage,
+        COALESCE(has_function_privilege('chatforia_dev', disable_oid, 'EXECUTE'), false) AS can_disable,
+        COALESCE(has_function_privilege('chatforia_dev', enroll_oid, 'EXECUTE'), false) AS can_enroll,
+        COALESCE(NOT has_table_privilege('chatforia_dev', enrollment_audit_oid, 'INSERT'), false) AS no_enrollment_audit_insert,
+        COALESCE(NOT has_table_privilege('chatforia_dev', enrollment_audit_oid, 'UPDATE'), false) AS no_enrollment_audit_update,
+        COALESCE(NOT has_table_privilege('chatforia_dev', enrollment_audit_oid, 'DELETE'), false) AS no_enrollment_audit_delete,
+        COALESCE(NOT has_table_privilege('chatforia_dev', disable_audit_oid, 'INSERT'), false) AS no_audit_insert,
+        COALESCE(NOT has_table_privilege('chatforia_dev', disable_audit_oid, 'UPDATE'), false) AS no_audit_update,
+        COALESCE(NOT has_table_privilege('chatforia_dev', disable_audit_oid, 'DELETE'), false) AS no_audit_delete
+      FROM protected`);
       if (Object.values(mfa).some((allowed) => allowed !== true))
         throw new Error('MFA release restricted runtime grants differ');
     }
