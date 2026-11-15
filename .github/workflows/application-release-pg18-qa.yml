@@ -29,7 +29,7 @@ permissions:
 
 jobs:
   application-release-pg18:
-    name: Disposable PG18 v2-to-v3 migration, grants, and combined callbacks
+    name: Disposable PG18 through proposed eSIM migration 166
     strategy:
       fail-fast: false
       matrix:
@@ -77,7 +77,7 @@ jobs:
           set -euo pipefail
           docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U application_ci -d chatforia_application_release_test < server/scripts/application-release-ci-bootstrap.sql
           docker exec -i "$CI_POSTGRES_CONTAINER" psql -X -v ON_ERROR_STOP=1 -U application_ci -d chatforia_application_release_test < server/scripts/staff-access-bootstrap-role.sql
-      - name: Rehearse exact 161-to-164 and proposed 164-to-165 transitions
+      - name: Rehearse 161-to-164, approved 165 recovery, and proposed 166 eSIM lock
         run: node server/scripts/application-release-pg18-qa.mjs
       - name: Verify MFA disable policy and runtime database protections
         run: |

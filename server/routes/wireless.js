@@ -1,10 +1,12 @@
 import express from 'express';
-import prisma from '../utils/prismaClient.js';
 import { v4 as uuidv4 } from 'uuid';
-import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
+
 import { requireAuth } from '../middleware/auth.js';
+import { chooseReplacementPack, replaceEsimForDevice } from '../services/esimReplacementService.js';
 import { fetchEsimUsage } from '../services/providers/esimProvider.js';
-import { replaceEsimForDevice } from '../services/esimReplacementService.js';
+import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
+import { earliestValidExpiry } from '../utils/entitlementExpiry.js';
+import prisma from '../utils/prismaClient.js';
 
 const router = express.Router();
 
@@ -15,14 +17,14 @@ router.use(requireAuth);
 /**
  * Compute status flags for a pack or family pool.
  */
-function computeStatus(totalMb, remainingMb, expiresAt) {
+function computeStatus(totalMb, remainingMb, expiresAt, unlimited = false) {
   const now = new Date();
   const total = totalMb || 0;
   const remaining = Math.max(0, remainingMb || 0);
 
   const expired = expiresAt ? new Date(expiresAt) <= now : false;
   if (expired) {
-    return { state: 'EXPIRED', expired: true, low: false, exhausted: remaining <= 0 };
+    return { state: 'EXPIRED', expired: true, low: false, exhausted: !unlimited && remaining <= 0 };
   }
 
   if (total <= 0) {
@@ -45,6 +47,37 @@ function computeStatus(totalMb, remainingMb, expiresAt) {
   };
 }
 
+function isUnlimitedPack(pack) {
+  return /_unlimited(?:_|$)/i.test(String(pack?.addonKind || ''));
+}
+
+function currentPackStatus(pack, providerStatus, fallbackExpiry = null) {
+  const calculated = computeStatus(
+    pack.totalDataMb,
+    pack.remainingDataMb,
+    pack.expiresAt || fallbackExpiry,
+    isUnlimitedPack(pack)
+  );
+  if (providerStatus === 'TERMINATED') {
+    return { ...calculated, state: 'TERMINATED' };
+  }
+  if (calculated.expired) return calculated;
+  if (pack.billingTransactionId && (!pack.iccid || !pack.providerPurchaseId)) {
+    return { ...calculated, state: 'AWAITING_PROVISIONING' };
+  }
+  if (providerStatus === 'NOT_ACTIVE') {
+    return { ...calculated, state: 'AWAITING_ACTIVATION' };
+  }
+  if (
+    pack.providerPurchaseId &&
+    !String(pack.providerPurchaseId).startsWith('mock-') &&
+    providerStatus !== 'ACTIVE'
+  ) {
+    return { ...calculated, state: 'PROVIDER_UNVERIFIED' };
+  }
+  return calculated;
+}
+
 /**
  * Return usable individual eSIM pack candidates newest-first.
  *
@@ -60,7 +93,10 @@ async function getIndividualPackCandidates(userId) {
     where: {
       userId: Number(userId),
       expiresAt: { gt: now },
-      remainingDataMb: { gt: 0 },
+      OR: [
+        { remainingDataMb: { gt: 0 } },
+        { addonKind: { contains: '_unlimited' } },
+      ],
     },
     orderBy: {
       purchasedAt: 'desc',
@@ -285,48 +321,48 @@ async function refreshPackUsageFromProvider(userId, pack) {
      * Translate consumption against the replacement audit so unused
      * Telna template capacity never becomes customer data.
      */
+    const replacement =
+      await prisma.esimReplacement.findFirst({
+        where: {
+          userId: Number(userId),
+          newProviderPurchaseId:
+            String(providerUsageId),
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
     if (
+      replacement &&
       typeof usage.remainingMb === 'number' &&
-      usage.remainingMb >= 0
+      usage.remainingMb >= 0 &&
+      typeof replacement.remainingDataMb === 'number' &&
+      typeof replacement.replacementDataMb === 'number'
     ) {
-      const replacement =
-        await prisma.esimReplacement.findFirst({
-          where: {
-            userId: Number(userId),
-            newProviderPurchaseId:
-              String(providerUsageId),
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
+      const translatedRemainingMb =
+        replacementEntitlementRemainingMb({
+          entitlementMb:
+            replacement.remainingDataMb,
+          providerCapacityMb:
+            replacement.replacementDataMb,
+          providerRemainingMb:
+            usage.remainingMb,
         });
 
-      if (
-        replacement &&
-        typeof replacement.remainingDataMb === 'number' &&
-        typeof replacement.replacementDataMb === 'number'
-      ) {
-        const translatedRemainingMb =
-          replacementEntitlementRemainingMb({
-            entitlementMb:
-              replacement.remainingDataMb,
-            providerCapacityMb:
-              replacement.replacementDataMb,
-            providerRemainingMb:
-              usage.remainingMb,
-          });
-
-        if (translatedRemainingMb != null) {
-          nextRemainingMb =
-            translatedRemainingMb;
-        }
+      if (translatedRemainingMb != null) {
+        nextRemainingMb =
+          translatedRemainingMb;
       }
     }
 
-    const nextExpiresAt =
-      usage.expiresAt ??
-      pack.expiresAt ??
-      null;
+    const nextExpiresAt = replacement
+      ? earliestValidExpiry(
+          usage.expiresAt,
+          replacement.originalExpiresAt,
+          pack.expiresAt
+        )
+      : usage.expiresAt ?? pack.expiresAt ?? null;
 
     /*
      * Provider usage refresh is consumption-only. A stale or
@@ -488,7 +524,7 @@ router.get('/status', async (req, res) => {
 
       const totalDataMb = lastPack.totalDataMb || 0;
       const remainingDataMb = lastPack.remainingDataMb || 0;
-      const status = computeStatus(totalDataMb, remainingDataMb, lastPack.expiresAt || now);
+      const status = currentPackStatus(lastPack, null, now);
 
       const daysRemaining = lastPack.expiresAt
         ? Math.max(
@@ -509,6 +545,7 @@ router.get('/status', async (req, res) => {
           type: 'ESIM_PACK',
           id: lastPack.id,
           addonKind: lastPack.addonKind,
+          unlimited: isUnlimitedPack(lastPack),
           totalDataMb,
           remainingDataMb,
           expiresAt: lastPack.expiresAt,
@@ -520,7 +557,7 @@ router.get('/status', async (req, res) => {
     // We have an active, non-expired pack
     const totalDataMb = pack.totalDataMb || 0;
     const remainingDataMb = pack.remainingDataMb || 0;
-    const status = computeStatus(totalDataMb, remainingDataMb, pack.expiresAt || null);
+    const status = currentPackStatus(pack, resolvedPack.providerStatus);
 
     const daysRemaining = pack.expiresAt
       ? Math.max(
@@ -549,6 +586,7 @@ router.get('/status', async (req, res) => {
         return {
           id: queuedPack.id,
           addonKind: queuedPack.addonKind,
+          unlimited: isUnlimitedPack(queuedPack),
           totalDataMb:
             queuedPack.totalDataMb || 0,
           remainingDataMb:
@@ -584,6 +622,7 @@ router.get('/status', async (req, res) => {
         type: 'ESIM_PACK',
         id: pack.id,
         addonKind: pack.addonKind,
+        unlimited: isUnlimitedPack(pack),
         totalDataMb,
         remainingDataMb,
         expiresAt: pack.expiresAt,
@@ -601,6 +640,188 @@ router.get('/status', async (req, res) => {
       message: err?.message || String(err),
       stack: process.env.NODE_ENV !== 'production' ? err?.stack : undefined,
     });
+  }
+});
+
+/**
+ * Read each recorded eSIM purchase independently. This endpoint deliberately
+ * does not refresh the ledger: a customer opening Manage must not change an
+ * entitlement or turn a paid but unfulfilled purchase into an active pack.
+ */
+router.get('/purchases', async (req, res) => {
+  try {
+    const userId = Number(req.user?.id);
+    if (!Number.isInteger(userId) || userId <= 0) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const [purchases, subscriber] = await Promise.all([
+      prisma.mobileDataPackPurchase.findMany({
+        where: { userId },
+        orderBy: [{ purchasedAt: 'desc' }, { id: 'desc' }],
+      }),
+      prisma.subscriber.findFirst({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    const now = new Date();
+    const packages = [];
+
+    for (const purchase of purchases.filter((item) =>
+      item.kind === 'ESIM' || /_esim_/i.test(String(item.addonKind || ''))
+    )) {
+      const providerId = String(purchase.providerPurchaseId || '').trim();
+      let usage = null;
+      if (providerId && !providerId.startsWith('mock-')) {
+        try {
+          usage = await fetchEsimUsage(providerId);
+        } catch (err) {
+          console.warn('wireless purchase status lookup failed:', err?.code || err?.message);
+        }
+      }
+
+      const providerStatus =
+        typeof usage?.providerStatus === 'string'
+          ? usage.providerStatus.trim().toUpperCase()
+          : null;
+
+      const replacement = providerId
+        ? await prisma.esimReplacement.findFirst({
+            where: { userId, newProviderPurchaseId: providerId },
+            orderBy: { createdAt: 'desc' },
+          })
+        : null;
+
+      const recordedRemainingDataMb = Math.max(0, Number(purchase.remainingDataMb) || 0);
+      const providerRemainingDataMb =
+        Number.isFinite(usage?.remainingMb) && usage.remainingMb >= 0
+          ? Math.round(usage.remainingMb)
+          : null;
+      let remainingDataMb = recordedRemainingDataMb;
+      if (Number.isFinite(usage?.remainingMb) && usage.remainingMb >= 0) {
+        const translated = replacement
+          ? replacementEntitlementRemainingMb({
+              entitlementMb: replacement.remainingDataMb,
+              providerCapacityMb: replacement.replacementDataMb,
+              providerRemainingMb: usage.remainingMb,
+            })
+          : Math.round(usage.remainingMb);
+        if (translated != null) {
+          remainingDataMb = Math.min(remainingDataMb, translated);
+        }
+      }
+
+      // The recorded expiry and the original replacement expiry are customer
+      // entitlement limits. A later Telna expiry must not extend either one.
+      const expiresAt = earliestValidExpiry(
+        purchase.expiresAt,
+        replacement?.originalExpiresAt,
+        usage?.expiresAt
+      );
+      const recordedExpired = purchase.expiresAt &&
+        new Date(purchase.expiresAt) <= now;
+      const expired = expiresAt && new Date(expiresAt) <= now;
+      const unlimited = isUnlimitedPack(purchase);
+
+      let state;
+      if (providerStatus === 'TERMINATED') {
+        state = 'TERMINATED';
+      } else if (!providerId || !purchase.iccid) {
+        state = purchase.billingTransactionId
+          ? (purchase.provisioningError ? 'PROVISIONING_NEEDS_REVIEW' : 'AWAITING_PROVISIONING')
+          : 'PAYMENT_UNVERIFIED';
+      } else if (providerStatus === 'NOT_ACTIVE' && recordedExpired && !usage?.expiresAt) {
+        state = 'EXPIRY_NEEDS_REVIEW';
+      } else if (
+        providerStatus === 'NOT_ACTIVE' &&
+        providerRemainingDataMb === 0 &&
+        recordedRemainingDataMb > 0
+      ) {
+        state = 'BALANCE_NEEDS_REVIEW';
+      } else if (expired) {
+        state = 'EXPIRED';
+      } else if (!unlimited && remainingDataMb <= 0) {
+        state = 'EXHAUSTED';
+      } else if (providerStatus === 'ACTIVE') {
+        state = 'ACTIVE';
+      } else if (providerStatus === 'NOT_ACTIVE') {
+        state = 'AWAITING_ACTIVATION';
+      } else {
+        state = 'PROVIDER_UNVERIFIED';
+      }
+
+      packages.push({
+        id: purchase.id,
+        addonKind: purchase.addonKind,
+        state,
+        providerStatus,
+        unlimited,
+        totalDataMb: Math.max(0, Number(purchase.totalDataMb) || 0),
+        remainingDataMb,
+        recordedRemainingDataMb,
+        providerRemainingDataMb,
+        purchasedAt: purchase.purchasedAt,
+        activatedAt: null, // Telna's documented usage response does not supply this.
+        expiresAt,
+        recordedExpiresAt: purchase.expiresAt,
+        providerExpiresAt: usage?.expiresAt ?? null,
+        paid: Boolean(purchase.billingTransactionId),
+      });
+    }
+
+    let replacementEligibility = {
+      eligible: false,
+      purchaseId: null,
+      reason: 'No eligible active data package is available for transfer.',
+    };
+
+    if (subscriber?.iccid && subscriber.status === 'ACTIVE') {
+      const pendingUnassigned = purchases.some((purchase) =>
+        !purchase.iccid &&
+        String(purchase.addonKind || '').startsWith('chatforia_esim_') &&
+        (!purchase.expiresAt || new Date(purchase.expiresAt) > now) &&
+        (Number(purchase.remainingDataMb) > 0 || isUnlimitedPack(purchase))
+      );
+      const liveOnIccid = purchases.filter((purchase) =>
+        purchase.iccid === subscriber.iccid &&
+        (!purchase.expiresAt || new Date(purchase.expiresAt) > now) &&
+        (Number(purchase.remainingDataMb) > 0 || isUnlimitedPack(purchase))
+      );
+
+      if (pendingUnassigned || liveOnIccid.length > 1) {
+        replacementEligibility.reason =
+          'Multiple or pending data packages may share this eSIM. Transfer is unavailable until every remaining entitlement can be preserved.';
+      } else if (liveOnIccid.length === 1) {
+        const purchase = liveOnIccid[0];
+        const summary = packages.find((item) => item.id === purchase.id);
+        if (isUnlimitedPack(purchase)) {
+          replacementEligibility.reason =
+            'Unlimited data package transfer requires Telna confirmation.';
+        } else if (summary?.state === 'ACTIVE' && summary.expiresAt) {
+          try {
+            chooseReplacementPack(purchase.addonKind, summary.remainingDataMb);
+            replacementEligibility = {
+              eligible: true,
+              purchaseId: purchase.id,
+              reason: null,
+            };
+          } catch {
+            replacementEligibility.reason =
+              'This data package cannot be safely transferred with the current provider workflow.';
+          }
+        } else {
+          replacementEligibility.reason =
+            'Transfer requires one active, unexpired data package with a confirmed balance.';
+        }
+      }
+    }
+
+    return res.json({ packages, replacementEligibility });
+  } catch (err) {
+    console.error('wireless purchases error:', err);
+    return res.status(500).json({ error: 'Failed to load purchased data packages' });
   }
 });
 
@@ -757,7 +978,8 @@ router.post(
 
       if (
         code ===
-          'ESIM_REPLACEMENT_IDEMPOTENCY_CONFLICT'
+          'ESIM_REPLACEMENT_IDEMPOTENCY_CONFLICT' ||
+        code === 'ESIM_OPERATION_IN_PROGRESS'
       ) {
         return res
           .status(409)
@@ -809,7 +1031,9 @@ router.post(
         code ===
           'ESIM_REPLACEMENT_MISSING_ICCID' ||
         code ===
-          'ESIM_REPLACEMENT_USAGE_UNAVAILABLE'
+          'ESIM_REPLACEMENT_USAGE_UNAVAILABLE' ||
+        code ===
+          'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED'
       ) {
         return res
           .status(409)
@@ -845,7 +1069,7 @@ router.post(
   }
 );
 
-/* -------------------- debug consume (unchanged) ------------------ */
+/* -------------------- debug consume ------------------ */
 
 router.post('/debug/consume', async (req, res) => {
   try {
@@ -863,8 +1087,8 @@ router.post('/debug/consume', async (req, res) => {
 
     const userId = Number(req.user.id);
 
-    const pack = await getActiveIndividualPack(userId);
-    if (!pack) {
+    const { pack } = await resolveActiveIndividualPack(userId);
+    if (!pack || isUnlimitedPack(pack)) {
       return res.status(400).json({ error: 'No active individual pack to consume from' });
     }
 

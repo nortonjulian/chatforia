@@ -4,6 +4,10 @@ import {
 } from '@prisma/client';
 
 import {
+  acquireEsimOperationLock,
+  withEsimOperationLock,
+} from '../esimOperationLock.js';
+import {
   replaceEsimForDevice,
   reconcileEsimReplacement,
 } from '../esimReplacementService.js';
@@ -74,6 +78,10 @@ async function cleanupSyntheticRows() {
     return;
   }
 
+  await prisma.esimOperationLock.deleteMany({
+    where: { userId: { in: userIds } },
+  });
+
   await prisma.esimReplacement.deleteMany({
     where: {
       userId: {
@@ -140,6 +148,208 @@ describe(
       if (prisma) {
         await cleanupSyntheticRows();
         await prisma.$disconnect();
+      }
+    });
+
+    test('an uncertain operation retains its database claim until reconciliation', async () => {
+      const suffix = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      const user = await prisma.user.create({
+        data: {
+          username: `${TEST_PREFIX}-LOCK-${suffix}`,
+          passwordHash: 'integration-test-not-a-real-password',
+          isTestAccount: true,
+        },
+      });
+
+      await expect(withEsimOperationLock({
+        prismaClient: prisma,
+        userId: user.id,
+        operation: 'PURCHASE',
+        operationKey: `${TEST_PREFIX}-LOCK-${suffix}`,
+      }, async (lock) => {
+        lock.retain();
+        throw new Error('unknown provider outcome');
+      })).rejects.toThrow('unknown provider outcome');
+
+      await expect(acquireEsimOperationLock({
+        prismaClient: prisma,
+        userId: user.id,
+        operation: 'REPLACEMENT',
+      })).rejects.toMatchObject({ code: 'ESIM_OPERATION_IN_PROGRESS' });
+
+      expect(await prisma.esimOperationLock.findUnique({
+        where: { userId: user.id },
+      })).toMatchObject({
+        operation: 'PURCHASE',
+        operationKey: `${TEST_PREFIX}-LOCK-${suffix}`,
+      });
+    });
+
+    test('real PostgreSQL preserves older and pending sibling packages', async () => {
+      const suffix =
+        `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      const oldIccid = `${TEST_PREFIX}-SHARED-${suffix}`;
+      const expiry = new Date('2026-11-13T16:00:00.000Z');
+      const now = new Date('2026-10-13T16:00:00.000Z');
+
+      const user = await prisma.user.create({
+        data: {
+          username: `${TEST_PREFIX}-SHARED-${suffix}`,
+          passwordHash: 'integration-test-not-a-real-password',
+          isTestAccount: true,
+          iccid: oldIccid,
+        },
+      });
+
+      const olderLocal = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: user.id,
+          kind: 'LOCAL',
+          addonKind: 'chatforia_esim_local_5_premium',
+          totalDataMb: 5 * 1024,
+          remainingDataMb: 2048,
+          expiresAt: expiry,
+          iccid: oldIccid,
+          esimProfileId: `${TEST_PREFIX}-PROFILE-${suffix}`,
+          providerPurchaseId: `${TEST_PREFIX}-LOCAL-${suffix}`,
+        },
+      });
+
+      const newestEurope = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: user.id,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_europe_5_premium',
+          totalDataMb: 5 * 1024,
+          remainingDataMb: 3072,
+          expiresAt: expiry,
+          iccid: oldIccid,
+          esimProfileId: `${TEST_PREFIX}-PROFILE-${suffix}`,
+          providerPurchaseId: `${TEST_PREFIX}-EUROPE-${suffix}`,
+        },
+      });
+
+      const subscriber = await prisma.subscriber.create({
+        data: {
+          userId: user.id,
+          purchaseId: newestEurope.id,
+          provider: 'TELNA-FAKE',
+          providerProfileId: `${TEST_PREFIX}-PROFILE-${suffix}`,
+          iccid: oldIccid,
+          status: 'ACTIVE',
+          expiresAt: expiry,
+        },
+      });
+
+      const fakeProvider = {
+        fetchEsimUsage: jest.fn(),
+        provisionEsimPack: jest.fn(),
+        setEsimPackageStatus: jest.fn(),
+        suspendLine: jest.fn(),
+      };
+      const fakeAllocator = jest.fn();
+
+      const purchaseLock = await acquireEsimOperationLock({
+        prismaClient: prisma,
+        userId: user.id,
+        operation: 'PURCHASE',
+        operationKey: `${TEST_PREFIX}-ACTIVE-CHECKOUT-${suffix}`,
+      });
+
+      try {
+        await expect(replaceEsimForDevice({
+          userId: user.id,
+          purchaseId: newestEurope.id,
+          idempotencyKey: `${TEST_PREFIX}-SHARED-KEY-${suffix}`,
+          now,
+        }, {
+          prismaClient: prisma,
+          provider: fakeProvider,
+          allocator: fakeAllocator,
+        })).rejects.toMatchObject({ code: 'ESIM_OPERATION_IN_PROGRESS' });
+      } finally {
+        await purchaseLock.release();
+      }
+
+      await expect(replaceEsimForDevice({
+        userId: user.id,
+        purchaseId: newestEurope.id,
+        idempotencyKey: `${TEST_PREFIX}-SHARED-KEY-${suffix}`,
+        now,
+      }, {
+        prismaClient: prisma,
+        provider: fakeProvider,
+        allocator: fakeAllocator,
+      })).rejects.toMatchObject({
+        code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+      });
+
+      const [persistedUser, persistedLocal, persistedEurope, persistedSubscriber, replacementCount] =
+        await Promise.all([
+          prisma.user.findUnique({ where: { id: user.id } }),
+          prisma.mobileDataPackPurchase.findUnique({ where: { id: olderLocal.id } }),
+          prisma.mobileDataPackPurchase.findUnique({ where: { id: newestEurope.id } }),
+          prisma.subscriber.findUnique({ where: { id: subscriber.id } }),
+          prisma.esimReplacement.count({ where: { userId: user.id } }),
+        ]);
+
+      expect(persistedUser.iccid).toBe(oldIccid);
+      expect(persistedLocal).toMatchObject({
+        iccid: oldIccid,
+        remainingDataMb: 2048,
+        expiresAt: expiry,
+      });
+      expect(persistedEurope).toMatchObject({
+        iccid: oldIccid,
+        remainingDataMb: 3072,
+        expiresAt: expiry,
+      });
+      expect(persistedSubscriber.status).toBe('ACTIVE');
+      expect(replacementCount).toBe(0);
+      expect(fakeAllocator).not.toHaveBeenCalled();
+      for (const providerCall of Object.values(fakeProvider)) {
+        expect(providerCall).not.toHaveBeenCalled();
+      }
+
+      await prisma.mobileDataPackPurchase.update({
+        where: { id: olderLocal.id },
+        data: { remainingDataMb: 0 },
+      });
+      const pendingGlobal = await prisma.mobileDataPackPurchase.create({
+        data: {
+          userId: user.id,
+          kind: 'ESIM',
+          addonKind: 'chatforia_esim_global_5_premium',
+          totalDataMb: 5 * 1024,
+          remainingDataMb: 5 * 1024,
+          expiresAt: expiry,
+          billingTransactionId: `${TEST_PREFIX}-PENDING-${suffix}`,
+        },
+      });
+
+      await expect(replaceEsimForDevice({
+        userId: user.id,
+        purchaseId: newestEurope.id,
+        idempotencyKey: `${TEST_PREFIX}-PENDING-KEY-${suffix}`,
+        now,
+      }, {
+        prismaClient: prisma,
+        provider: fakeProvider,
+        allocator: fakeAllocator,
+      })).rejects.toMatchObject({
+        code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+      });
+
+      expect(await prisma.mobileDataPackPurchase.findUnique({
+        where: { id: pendingGlobal.id },
+      })).toMatchObject({
+        iccid: null,
+        remainingDataMb: 5 * 1024,
+        expiresAt: expiry,
+      });
+      expect(fakeAllocator).not.toHaveBeenCalled();
+      for (const providerCall of Object.values(fakeProvider)) {
+        expect(providerCall).not.toHaveBeenCalled();
       }
     });
 
@@ -241,6 +451,15 @@ describe(
          */
         const providerCalls = [];
 
+        let signalProvisionStarted;
+        let continueProvision;
+        const provisionStarted = new Promise((resolve) => {
+          signalProvisionStarted = resolve;
+        });
+        const provisionGate = new Promise((resolve) => {
+          continueProvision = resolve;
+        });
+
         const fakeProvider = {
           fetchEsimUsage:
             jest.fn(
@@ -280,6 +499,9 @@ describe(
                 expect(
                   input.providerProfileId
                 ).toBe(newProfile);
+
+                signalProvisionStarted();
+                await provisionGate;
 
                 return {
                   providerPurchaseId:
@@ -411,8 +633,8 @@ describe(
          *
          * Only its external Telna boundaries are replaced.
          */
-        const result =
-          await replaceEsimForDevice(
+        const firstReplacement =
+          replaceEsimForDevice(
             {
               userId:
                 user.id,
@@ -433,6 +655,44 @@ describe(
                 fakeAllocator,
             }
           );
+
+        await provisionStarted;
+
+        expect(await prisma.esimOperationLock.findUnique({
+          where: { userId: user.id },
+        })).toMatchObject({
+          operation: 'REPLACEMENT',
+          operationKey: `${TEST_PREFIX}-KEY-${suffix}`,
+        });
+
+        try {
+          await expect(replaceEsimForDevice(
+            {
+              userId: user.id,
+              purchaseId: purchase.id,
+              idempotencyKey: `${TEST_PREFIX}-CONCURRENT-${suffix}`,
+              now,
+            },
+            {
+              prismaClient: prisma,
+              provider: fakeProvider,
+              allocator: fakeAllocator,
+            }
+          )).rejects.toMatchObject({
+            code: 'ESIM_OPERATION_IN_PROGRESS',
+          });
+
+          expect(fakeAllocator).toHaveBeenCalledTimes(1);
+          expect(fakeProvider.provisionEsimPack).toHaveBeenCalledTimes(1);
+        } finally {
+          continueProvision();
+        }
+
+        const result = await firstReplacement;
+
+        expect(await prisma.esimOperationLock.findUnique({
+          where: { userId: user.id },
+        })).toBeNull();
 
         expect(result.status).toBe(
           'COMPLETED'

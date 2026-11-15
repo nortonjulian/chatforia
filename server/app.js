@@ -90,6 +90,7 @@ import invitesRouter from './routes/invites.js';
 import languagesRouter from './routes/languages.js';
 import mediaRouter from './routes/media.js';
 import messagesRouter from './routes/messages.js';
+import { mountVoiceWebhookRoutes } from './routes/mountVoiceWebhookRoutes.js';
 import numbersRouter from './routes/numbers.js';
 import oauthMobileRouter from './routes/oauth.mobile.js';
 import oauthRouter from './routes/oauth.routes.js';
@@ -467,7 +468,7 @@ export function createApp() {
   // Inbound SMS webhooks (ungated)
   app.use('/webhooks/sms', smsWebhooks);
   app.use('/api/webhooks/sms', smsWebhooks);
-  app.use('/webhooks', webhooksTwilio);
+  mountVoiceWebhookRoutes(app, { voiceWebhooks, legacyWebhooks: webhooksTwilio });
   app.use('/webhooks', twilioRegulatoryWebhook);
   app.use('/api/webhooks', twilioRegulatoryWebhook);
   app.use('/webhooks/status', twilioStatusWebhook);
@@ -491,8 +492,6 @@ app.use('/ice-servers', requireAuth, requireEmailVerified, iceRouter);
   app.use('/sms', smsRouter)
   app.use('/sms-consent', express.json(), smsConsentRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
-  app.use('/webhooks/voice', voiceWebhooks);
-  app.use('/api/webhooks/voice', voiceWebhooks);
   app.use('/', videoTokens);
   app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);

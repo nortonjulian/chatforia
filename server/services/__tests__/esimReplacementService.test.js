@@ -72,8 +72,13 @@ function makeFixture({
   };
 
   const prismaClient = {
+    esimOperationLock: {
+      create: jest.fn().mockResolvedValue({}),
+      deleteMany: jest.fn().mockResolvedValue({ count: 1 }),
+    },
     mobileDataPackPurchase: {
       findFirst: jest.fn().mockResolvedValue(purchase),
+      findMany: jest.fn().mockResolvedValue([]),
     },
     subscriber: {
       findFirst: jest.fn().mockResolvedValue(oldSubscriber),
@@ -311,6 +316,11 @@ describe('retryFailedEsimReplacement safety', () => {
   });
   test('retry winner reuses the frozen allocation and completes the replacement', async () => {
     const fixture = makeFixture();
+    fixture.provider.provisionEsimPack.mockResolvedValue({
+      providerPurchaseId: 'NEW-PACKAGE',
+      iccid: 'NEW-ICCID',
+      expiresAt: new Date('2026-12-01T00:00:00.000Z'),
+    });
 
     const failed = {
       id: 'replacement-1',
@@ -448,6 +458,13 @@ describe('retryFailedEsimReplacement safety', () => {
       fixture.prismaClient.$transaction
     ).toHaveBeenCalled();
 
+    expect(fixture.tx.mobileDataPackPurchase.update)
+      .toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          expiresAt: fixture.purchase.expiresAt,
+        }),
+      }));
+
     expect(
       fixture.provider.setEsimPackageStatus
     ).toHaveBeenCalledWith(
@@ -464,6 +481,73 @@ describe('retryFailedEsimReplacement safety', () => {
       newProviderPurchaseId:
         'NEW-PACKAGE',
     });
+  });
+
+  test('retry with another active package does not claim or provision', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.esimReplacement.findUnique
+      .mockReset()
+      .mockResolvedValueOnce({
+        id: 'replacement-1',
+        userId: 7,
+        purchaseId: 50,
+        status: 'FAILED',
+        newSubscriberId: 101,
+        newIccid: 'NEW-ICCID',
+        newProviderProfileId: 'NEW-PROFILE',
+        newProviderPurchaseId: null,
+        oldIccid: 'OLD-ICCID',
+        remainingDataMb: 4301,
+        replacementDataMb: 5 * 1024,
+        replacementAddonKind: 'chatforia_esim_local_5_premium',
+        originalExpiresAt: fixture.purchase.expiresAt,
+        newSubscriber: fixture.newSubscriber,
+      });
+    fixture.prismaClient.mobileDataPackPurchase.findMany
+      .mockResolvedValue([{
+        id: 40,
+        addonKind: 'chatforia_esim_global_5_premium',
+        remainingDataMb: 100,
+        expiresAt: fixture.purchase.expiresAt,
+      }]);
+
+    await expect(retryFailedEsimReplacement('replacement-1', {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      now: new Date('2026-10-13T16:00:00.000Z'),
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.prismaClient.esimReplacement.updateMany)
+      .not.toHaveBeenCalled();
+    expect(fixture.provider.provisionEsimPack).not.toHaveBeenCalled();
+    expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
+    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+  });
+
+  test('retry waits for a concurrent purchase claim before provider work', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.esimReplacement.findUnique
+      .mockReset()
+      .mockResolvedValueOnce({
+        id: 'replacement-1',
+        userId: 7,
+        purchaseId: 50,
+        status: 'FAILED',
+      });
+    fixture.prismaClient.esimOperationLock.create.mockRejectedValue(
+      Object.assign(new Error('unique user claim'), { code: 'P2002' })
+    );
+
+    await expect(retryFailedEsimReplacement('replacement-1', {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+    })).rejects.toMatchObject({ code: 'ESIM_OPERATION_IN_PROGRESS' });
+
+    expect(fixture.prismaClient.esimReplacement.updateMany)
+      .not.toHaveBeenCalled();
+    expect(fixture.provider.provisionEsimPack).not.toHaveBeenCalled();
   });
 
   test('definite retry provisioning rejection returns workflow to FAILED without touching old service', async () => {
@@ -1096,6 +1180,203 @@ describe('replaceEsimForDevice safety ordering', () => {
       'replacement-request-1',
     now: new Date('2026-10-13T16:00:00.000Z'),
   };
+
+  test.each([
+    ['older Local', 'chatforia_esim_local_5_premium', 1024],
+    ['older Europe', 'chatforia_esim_europe_5_premium', 1024],
+    ['older Global', 'chatforia_esim_global_5_premium', 1024],
+    ['older Unlimited', 'chatforia_esim_local_unlimited_premium', 0],
+  ])('blocks replacement while an %s package remains on the ICCID', async (
+    _description,
+    addonKind,
+    remainingDataMb
+  ) => {
+    const fixture = makeFixture();
+    fixture.prismaClient.mobileDataPackPurchase.findMany.mockResolvedValue([
+      {
+        id: 40,
+        addonKind,
+        remainingDataMb,
+        expiresAt: new Date('2026-11-02T00:00:00.000Z'),
+      },
+    ]);
+
+    await expect(replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.prismaClient.mobileDataPackPurchase.findMany)
+      .toHaveBeenCalledWith(expect.objectContaining({
+        where: {
+          userId: 7,
+          id: { not: 50 },
+          OR: [
+            { iccid: 'OLD-ICCID' },
+            {
+              iccid: null,
+              addonKind: { startsWith: 'chatforia_esim_' },
+            },
+          ],
+        },
+      }));
+    expect(fixture.provider.fetchEsimUsage).not.toHaveBeenCalled();
+    expect(fixture.allocator).not.toHaveBeenCalled();
+    expect(fixture.provider.provisionEsimPack).not.toHaveBeenCalled();
+    expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
+    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+  });
+
+  test('blocks an unresolved paid eSIM purchase before its ICCID is written', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.mobileDataPackPurchase.findMany.mockResolvedValue([{
+      id: 51,
+      addonKind: 'chatforia_esim_global_5_premium',
+      remainingDataMb: 5120,
+      expiresAt: new Date('2026-11-02T00:00:00.000Z'),
+    }]);
+
+    await expect(replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.allocator).not.toHaveBeenCalled();
+    expect(fixture.provider.fetchEsimUsage).not.toHaveBeenCalled();
+  });
+
+  test('expired and zero-balance finite sibling packages do not block replacement', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.mobileDataPackPurchase.findMany.mockResolvedValue([
+      {
+        id: 40,
+        addonKind: 'chatforia_esim_europe_5_premium',
+        remainingDataMb: 1000,
+        expiresAt: new Date('2026-10-12T00:00:00.000Z'),
+      },
+      {
+        id: 41,
+        addonKind: 'chatforia_esim_global_5_premium',
+        remainingDataMb: 0,
+        expiresAt: new Date('2026-11-02T00:00:00.000Z'),
+      },
+    ]);
+
+    await replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    });
+
+    expect(fixture.prismaClient.mobileDataPackPurchase.findMany)
+      .toHaveBeenCalledTimes(3);
+    expect(fixture.provider.setEsimPackageStatus).toHaveBeenCalledTimes(1);
+    expect(fixture.provider.suspendLine).toHaveBeenCalledTimes(1);
+  });
+
+  test('a package added before old-line cleanup preserves the old ICCID', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.mobileDataPackPurchase.findMany
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([{
+        id: 51,
+        addonKind: 'chatforia_esim_global_5_premium',
+        remainingDataMb: 500,
+        expiresAt: new Date('2026-11-02T00:00:00.000Z'),
+      }]);
+
+    await expect(replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.provider.provisionEsimPack).toHaveBeenCalledTimes(1);
+    expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
+    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+    expect(fixture.prismaClient.esimReplacement.update)
+      .toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          status: 'REQUIRES_RECONCILIATION',
+          errorCode: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+        }),
+      }));
+  });
+
+  test('a package added during old-package termination prevents ICCID suspension', async () => {
+    const fixture = makeFixture();
+    fixture.prismaClient.mobileDataPackPurchase.findMany
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([{
+        id: 51,
+        addonKind: 'chatforia_esim_global_5_premium',
+        remainingDataMb: 500,
+        expiresAt: new Date('2026-11-02T00:00:00.000Z'),
+      }]);
+
+    await expect(replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.provider.setEsimPackageStatus).toHaveBeenCalledTimes(1);
+    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+  });
+
+  test('local zero balance cannot be revived by a stale provider balance', async () => {
+    const fixture = makeFixture();
+    fixture.purchase.remainingDataMb = 0;
+
+    await expect(replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    })).rejects.toMatchObject({ code: 'ESIM_REPLACEMENT_EXHAUSTED' });
+
+    expect(fixture.provider.fetchEsimUsage).not.toHaveBeenCalled();
+    expect(fixture.allocator).not.toHaveBeenCalled();
+  });
+
+  test('transferred balance and expiry cannot exceed local entitlement', async () => {
+    const fixture = makeFixture({ remainingMb: 6000 });
+    fixture.provider.fetchEsimUsage.mockResolvedValue({
+      remainingMb: 6000,
+      expiresAt: new Date('2026-12-01T00:00:00.000Z'),
+    });
+
+    await replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    });
+
+    expect(fixture.prismaClient.esimReplacement.create)
+      .toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          remainingDataMb: 5000,
+          originalExpiresAt: fixture.purchase.expiresAt,
+        }),
+      }));
+    expect(fixture.tx.mobileDataPackPurchase.update)
+      .toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          remainingDataMb: 5000,
+          expiresAt: fixture.purchase.expiresAt,
+        }),
+      }));
+  });
 
   test('exhausted authoritative balance cannot allocate or provision a replacement', async () => {
     const fixture = makeFixture();
@@ -2215,6 +2496,35 @@ describe('replaceEsimForDevice safety ordering', () => {
     ).toBeUndefined();
   });
 
+  test('replacement subscriber keeps the transferred expiry when the provider container lasts longer', async () => {
+    const fixture = makeFixture();
+    fixture.provider.provisionEsimPack.mockResolvedValue({
+      providerPurchaseId: 'NEW-PACKAGE',
+      iccid: 'NEW-ICCID',
+      expiresAt: new Date('2026-12-01T00:00:00.000Z'),
+      qrCodeSvg: '<new-qr>',
+    });
+
+    await replaceEsimForDevice(args, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+      allocator: fixture.allocator,
+    });
+
+    expect(fixture.tx.subscriber.update).toHaveBeenCalledWith({
+      where: { id: 101 },
+      data: expect.objectContaining({
+        expiresAt: fixture.purchase.expiresAt,
+      }),
+    });
+    expect(fixture.tx.mobileDataPackPurchase.update).toHaveBeenCalledWith({
+      where: { id: 50 },
+      data: expect.objectContaining({
+        expiresAt: fixture.purchase.expiresAt,
+      }),
+    });
+  });
+
   test('full success switches canonical service only after new service exists', async () => {
     const fixture = makeFixture();
 
@@ -2338,7 +2648,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValueOnce(ambiguous);
+      .mockResolvedValue(ambiguous);
 
     await expect(
       reconcileEsimReplacement(
@@ -2370,6 +2680,47 @@ describe('replaceEsimForDevice safety ordering', () => {
     expect(
       fixture.provider.suspendLine
     ).not.toHaveBeenCalled();
+  });
+
+  test('reconciliation leaves the old ICCID active when another package remains', async () => {
+    const fixture = makeFixture();
+    const reconciling = {
+      ...fixture.replacement,
+      status: 'REQUIRES_RECONCILIATION',
+      userId: 7,
+      purchaseId: 50,
+      oldIccid: 'OLD-ICCID',
+      newProviderPurchaseId: 'NEW-PACKAGE',
+      oldSubscriber: fixture.oldSubscriber,
+    };
+    fixture.prismaClient.esimReplacement.findUnique
+      .mockReset()
+      .mockResolvedValue(reconciling);
+    fixture.prismaClient.mobileDataPackPurchase.findMany
+      .mockResolvedValue([{
+        id: 40,
+        addonKind: 'chatforia_esim_europe_5_premium',
+        remainingDataMb: 1000,
+        expiresAt: new Date('2099-01-01T00:00:00.000Z'),
+      }]);
+
+    await expect(reconcileEsimReplacement(reconciling.id, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+    })).rejects.toMatchObject({
+      code: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+    });
+
+    expect(fixture.prismaClient.$transaction).not.toHaveBeenCalled();
+    expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
+    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+    expect(fixture.prismaClient.esimReplacement.update)
+      .toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          status: 'REQUIRES_RECONCILIATION',
+          errorCode: 'ESIM_REPLACEMENT_MULTIPLE_PACKAGES_UNSUPPORTED',
+        }),
+      }));
   });
 
   test('canonical recovery failure leaves old service untouched and remains reconcilable', async () => {
@@ -2420,7 +2771,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValueOnce(reconciling);
+      .mockResolvedValue(reconciling);
 
     fixture.prismaClient.$transaction
       .mockRejectedValueOnce(
@@ -2526,6 +2877,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
+      .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(completed);
 
@@ -2667,6 +3019,7 @@ describe('replaceEsimForDevice safety ordering', () => {
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
       .mockResolvedValueOnce(reconciling)
+      .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(completed);
 
     const result =
@@ -2764,6 +3117,7 @@ describe('replaceEsimForDevice safety ordering', () => {
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
       .mockResolvedValueOnce(reconciling)
+      .mockResolvedValueOnce(reconciling)
       .mockResolvedValueOnce(completed);
 
     await reconcileEsimReplacement(
@@ -2810,7 +3164,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValueOnce(completed);
+      .mockResolvedValue(completed);
 
     const result =
       await reconcileEsimReplacement(
@@ -2842,6 +3196,29 @@ describe('replaceEsimForDevice safety ordering', () => {
     ).not.toHaveBeenCalled();
   });
 
+  test('reconciliation re-reads after the lock and skips cleanup already completed elsewhere', async () => {
+    const fixture = makeFixture();
+    const reconciling = {
+      ...fixture.replacement,
+      userId: 7,
+      status: 'REQUIRES_RECONCILIATION',
+    };
+    const completed = { ...reconciling, status: 'COMPLETED' };
+    fixture.prismaClient.esimReplacement.findUnique
+      .mockReset()
+      .mockResolvedValueOnce(reconciling)
+      .mockResolvedValueOnce(completed);
+
+    const result = await reconcileEsimReplacement(reconciling.id, {
+      prismaClient: fixture.prismaClient,
+      provider: fixture.provider,
+    });
+
+    expect(result).toBe(completed);
+    expect(fixture.provider.setEsimPackageStatus).not.toHaveBeenCalled();
+    expect(fixture.provider.suspendLine).not.toHaveBeenCalled();
+  });
+
 
   test('records another termination failure as requiring reconciliation', async () => {
     const fixture = makeFixture();
@@ -2868,7 +3245,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValueOnce(reconciling);
+      .mockResolvedValue(reconciling);
 
     fixture.provider.setEsimPackageStatus
       .mockRejectedValueOnce(failure);
@@ -2940,7 +3317,7 @@ describe('replaceEsimForDevice safety ordering', () => {
 
     fixture.prismaClient.esimReplacement.findUnique
       .mockReset()
-      .mockResolvedValueOnce(reconciling);
+      .mockResolvedValue(reconciling);
 
     fixture.provider.suspendLine
       .mockRejectedValueOnce(failure);

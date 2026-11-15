@@ -120,7 +120,9 @@ try {
     dispatchVoicemailEmailOnce({ db, send })]);
   assert.equal(sends, 1);
   assert.equal((await db.voicemailEmailDelivery.findUnique({ where: { voicemailId } })).status, 'SENT');
-  const nextBundle = buildPackage('HEAD');
+  // Keep the approved 165 recovery package exact even when a later review
+  // branch proposes migration 166.
+  const nextBundle = buildPackage('aa4b4e040464336033ed8f9679290e727d58e7a6');
   const nextFiles = verifyPackage(nextBundle);
   const next = applicationReleaseSpec(nextFiles);
   // Reproduce the actual failing managed-admin migration, then invoke the
@@ -178,6 +180,41 @@ try {
     for(const file of receiptFiles) assert.ok(!readFileSync(file,'utf8').includes('synthetic_recovery_only'));
     console.log(`PASS: actual MFA recovery runner / real Prisma resolve+deploy / cleanup / ${failureStage}`);
   } finally {process.env.DATABASE_URL=url.toString();}
+  if (failureStage === 'none') {
+    const esimBundle = buildPackage('HEAD');
+    const esimFiles = verifyPackage(esimBundle);
+    const esimRelease = applicationReleaseSpec(esimFiles);
+    assert.equal(esimRelease.status, 'proposed-not-authorized-for-production');
+    assert.equal(esimRelease.beforeCount, 165);
+    assert.equal(esimRelease.afterCount, 166);
+    const [esimName] = Object.keys(esimRelease.requiredExactMigrations);
+    assert.equal(esimName, '20261113010000_add_esim_operation_lock');
+    const fixture = await db.mobileDataPackPurchase.create({ data: {
+      userId, kind: 'ESIM', addonKind: 'chatforia_esim_local_3_premium',
+      totalDataMb: 3072, remainingDataMb: 2048,
+      expiresAt: new Date('2026-12-01T00:00:00Z'),
+      billingTransactionId: 'synthetic-esim-166-paid',
+    } });
+    const checks = checksForPending(esimFiles, [esimName]);
+    const before = await aggregateChecks(db, checks);
+    assert.deepEqual((await runApplicationReleasePreflight(db, esimBundle, 'before',
+      { allowProposedForIsolatedTest: true })).pending, [esimName]);
+    add(esimName);
+    deploy();
+    const after = await aggregateChecks(db, checks);
+    assertChecks(checks, before, after);
+    assert.equal((await runApplicationReleasePreflight(db, esimBundle, 'after',
+      { allowProposedForIsolatedTest: true })).migrationCount, 166);
+    assert.deepEqual(await db.mobileDataPackPurchase.findUnique({ where: { id: fixture.id } }), fixture);
+    await db.$transaction(async (tx) => {
+      await tx.$executeRawUnsafe('SET LOCAL ROLE chatforia_dev');
+      await tx.$executeRawUnsafe(`INSERT INTO public."EsimOperationLock"
+        ("userId", token, operation) VALUES (987654321, 'synthetic-166-lock', 'PURCHASE')`);
+      await tx.$executeRawUnsafe(`DELETE FROM public."EsimOperationLock"
+        WHERE "userId" = 987654321`);
+    });
+    console.log('PASS: disposable PG18 approved 165 recovery then proposed 166 migration, preserved eSIM entitlement and restricted lock writes');
+  }
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {
   await db.$disconnect();

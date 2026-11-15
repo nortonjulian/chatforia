@@ -5,7 +5,9 @@ import { checkRecoveryHistory, failedAttempt, assertNoMfaObjects, syntheticRecov
 import { runApplicationReleasePreflight } from './application-release-preflight.mjs';
 
 test('recovery package pins only the observed failed attempt and unchanged SQL',()=>{
-  const bundle=buildPackage('HEAD');
+  // This test is for the archived approved recovery, independent of later
+  // application migrations proposed on the current review branch.
+  const bundle=buildPackage('aa4b4e040464336033ed8f9679290e727d58e7a6');
   const release=applicationReleaseSpec(verifyPackage(bundle));
   assert.equal(release.status,'approved-for-production');
   const prior=buildPackage('edabf1aa2c5669eb7188afdc5f0f890308ece52e');

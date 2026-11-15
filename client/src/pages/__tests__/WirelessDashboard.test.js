@@ -164,7 +164,7 @@ describe('WirelessDashboard', () => {
 
     expect(
       screen.getByText(
-        /Your Chatforia eSIM is installed and your mobile service is active/i
+        /Your Chatforia data eSIM is installed and active/i
       )
     ).toBeInTheDocument();
 
@@ -187,6 +187,49 @@ describe('WirelessDashboard', () => {
     await userEvent.click(manageButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('/account/esim');
+  });
+
+  test('shows Unlimited as a plan instead of zero data', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'OK',
+      source: {
+        addonKind: 'chatforia_esim_global_unlimited_premium',
+        unlimited: true,
+        totalDataMb: 0,
+        remainingDataMb: 0,
+      },
+      queuedPacks: [{
+        addonKind: 'chatforia_esim_europe_unlimited_premium',
+        unlimited: true,
+        remainingDataMb: 0,
+      }],
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText('Unlimited data')).toBeInTheDocument();
+    expect(screen.queryByText(/0\.0 GB \/ 0\.0 GB/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.getByText(/Europe Unlimited \(Unlimited data\)/)).toBeInTheDocument();
+  });
+
+  test('does not describe a queued package as active or suggest another purchase', async () => {
+    fetchWirelessStatus.mockResolvedValueOnce({
+      mode: 'INDIVIDUAL',
+      state: 'AWAITING_ACTIVATION',
+      source: {
+        addonKind: 'chatforia_esim_local_3_premium',
+        totalDataMb: 3072,
+        remainingDataMb: 3072,
+      },
+    });
+
+    renderWithRouter(<WirelessDashboard />);
+
+    expect(await screen.findByText(/not confirmed active/i)).toBeInTheDocument();
+    expect(screen.getByText(/before buying again/i)).toBeInTheDocument();
+    expect(screen.queryByText(/keeps Chatforia working when you’re away from Wi-Fi/i)).not.toBeInTheDocument();
   });
 
   test('keeps eSIM setup available while the subscriber is PROVISIONING', async () => {

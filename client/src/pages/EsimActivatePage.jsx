@@ -114,6 +114,9 @@ export default function EsimActivatePage() {
             Scan the code below. If that fails, enter the details manually.
           </Trans>
         </li>
+        <li>
+          {t('esim.instructions.step4', 'After installation, enable this eSIM for mobile data, turn on data roaming for the eSIM, and leave network selection on Automatic. Keep your preferred SIM selected for ordinary cellular calls and texts.')}
+        </li>
       </ol>
     ),
     [t],
@@ -216,13 +219,13 @@ export default function EsimActivatePage() {
             <div className="rounded-xl border p-5 space-y-4">
               <div>
                 <h2 className="text-lg font-semibold">
-                  {t('esim.activeServiceTitle', 'Mobile service is active')}
+                  {t('esim.activeDataTitle', 'eSIM data service is active')}
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
                   {t(
                     'esim.activeServiceBody',
-                    'Your Chatforia eSIM is installed and your mobile service is active.',
+                    'Your Chatforia data eSIM is installed and active. Your Chatforia phone number remains in your account and uses the app over an internet connection.',
                   )}
                 </p>
               </div>
@@ -240,7 +243,7 @@ export default function EsimActivatePage() {
                 {provision.msisdn && (
                   <div>
                     <span className="font-medium">
-                      {t('esim.msisdn', 'Phone number')}:
+                      {t('esim.carrierNumber', 'eSIM carrier number (not your Chatforia number)')}:
                     </span>{' '}
                     <span>{provision.msisdn}</span>
                   </div>
@@ -267,6 +270,10 @@ export default function EsimActivatePage() {
               {t('esim.statusLabel', 'Status')}: {statusLabel}
             </div>
           )}
+
+          <p className="text-sm text-gray-600">
+            {t('esim.troubleshooting', 'If data does not connect, check that this eSIM is the selected data line, data roaming is on, and a pack is active for your destination. Try Automatic network selection and restart the phone. If the device requests an APN, obtain the correct value from Chatforia support; do not guess one. Calls and SMS to your Chatforia number require the app to have internet access.')}
+          </p>
 
           {provision?.status === 'PROVISIONING' && (
             <div className="space-y-2">

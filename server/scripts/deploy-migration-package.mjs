@@ -120,7 +120,11 @@ export async function deployPackage(options) {
   const receipt = { version: 1, commit: bundle.commit, packageSha256: options.sha256,
     target: { host: options.host, database: options.database, port: Number(url.port || 5432) },
     applicationRelease: applicationRelease ? { id: applicationRelease.id,
-      manifestSha256: digest(files.get(files.has('server/security/applicationMigrationRelease.v4.json') ? 'server/security/applicationMigrationRelease.v4.json' : 'server/security/applicationMigrationRelease.v3.json')) } : null,
+      manifestSha256: digest(files.get(files.has('server/security/applicationMigrationRelease.v5.json')
+        ? 'server/security/applicationMigrationRelease.v5.json'
+        : files.has('server/security/applicationMigrationRelease.v4.json')
+          ? 'server/security/applicationMigrationRelease.v4.json'
+          : 'server/security/applicationMigrationRelease.v3.json')) } : null,
     reconciliation: reconciliation ? { id: reconciliation.id,
       manifestSha256: digest(files.get(reconciliationSpec.paths[0])), exceptions: reconciliation.exceptions } : null,
     startedAt: new Date().toISOString() };

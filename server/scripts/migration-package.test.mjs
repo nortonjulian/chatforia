@@ -392,3 +392,70 @@ test('approved v4 retains exact migration bytes and rejects unpinned approval ed
   file.content=bytes.toString('base64');file.sha256=digest(bytes);
   assert.throws(()=>applicationReleaseSpec(verifyPackage(tampered)),/Unreviewed MFA release/);
 });
+
+test('proposed v5 pins only eSIM migration 166 after the approved 165 recovery', async () => {
+  const prior = buildPackage('aa4b4e040464336033ed8f9679290e727d58e7a6');
+  const priorFiles = verifyPackage(prior);
+  const priorRelease = applicationReleaseSpec(priorFiles);
+  const bundle = buildPackage('HEAD');
+  const files = verifyPackage(bundle);
+  const release = applicationReleaseSpec(files);
+  const esimName = '20261113010000_add_esim_operation_lock';
+  assert.equal(priorRelease.status, 'approved-for-production');
+  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.beforeCount, 165);
+  assert.equal(release.afterCount, 166);
+  assert.deepEqual(Object.keys(release.requiredExactMigrations), [esimName]);
+  assert.deepEqual(files.get('server/security/applicationMigrationRelease.v4.json'),
+    priorFiles.get('server/security/applicationMigrationRelease.v4.json'));
+  assert.equal(digest(files.get(`server/prisma/migrations/${esimName}/migration.sql`)),
+    release.requiredExactMigrations[esimName]);
+  const entries = bundle.files.filter((file) => /\/migrations\/[^/]+\/migration.sql$/.test(file.path));
+  assert.equal(entries.length, 166);
+  const exceptions = reconciliationPackageSpec(files).manifest.exceptions;
+  const active = entries.map((file, index) => {
+    const migration_name = file.path.split('/').at(-2);
+    return { id: `active-${index}`, migration_name,
+      checksum: exceptions[migration_name]?.recordedChecksum || file.sha256,
+      finished_at: 'now', rolled_back_at: null };
+  });
+  const historical = release.historicalRolledBackRows.map((row) => ({
+    id: row.id, migration_name: row.name, checksum: row.checksum,
+    finished_at: null, rolled_back_at: 'now',
+  }));
+  const before = [...active.filter((row) => row.migration_name !== esimName), ...historical];
+  const after = [...active, ...historical];
+  assert.deepEqual(checkReconciledHistory(bundle, before, release.target), [esimName]);
+  assert.deepEqual(checkReconciledHistory(bundle, after, release.target, true), []);
+  assert.throws(() => checkReconciledHistory(bundle,
+    before.filter((row) => row.migration_name !== '20261114050000_authorized_mfa_disable'),
+    release.target));
+  assert.throws(() => checkReconciledHistory(bundle,
+    before.map((row) => row.migration_name === '20261114050000_authorized_mfa_disable'
+      ? { ...row, checksum: 'f'.repeat(64) } : row), release.target));
+  assert.deepEqual(checksForPending(files, [esimName]).map(([id]) => id),
+    ['preserve_user_count', 'esim_operation_lock_exists']);
+  const alteredSql = structuredClone(bundle);
+  const sql = alteredSql.files.find((file) => file.path ===
+    `server/prisma/migrations/${esimName}/migration.sql`);
+  sql.content = Buffer.from('SELECT 1;').toString('base64');
+  sql.sha256 = digest('SELECT 1;');
+  assert.throws(() => checkReconciledHistory(alteredSql, before, release.target));
+  const alteredManifest = structuredClone(bundle);
+  const manifest = alteredManifest.files.find((file) => file.path ===
+    'server/security/applicationMigrationRelease.v5.json');
+  const bytes = Buffer.from(manifest.content, 'base64').toString()
+    .replace('proposed-not-authorized-for-production', 'approved-for-production');
+  manifest.content = Buffer.from(bytes).toString('base64');
+  manifest.sha256 = digest(bytes);
+  assert.throws(() => applicationReleaseSpec(verifyPackage(alteredManifest)),
+    /Unreviewed eSIM release manifest/);
+  const directory = mkdtempSync(join(tmpdir(), 'esim-release-proposal-'));
+  try {
+    const path = join(directory, 'package.json');
+    const packageBytes = Buffer.from(JSON.stringify(bundle));
+    writeFileSync(path, packageBytes);
+    await assert.rejects(deployPackage({ package: path, sha256: digest(packageBytes) }),
+      /production execution is not approved/);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});

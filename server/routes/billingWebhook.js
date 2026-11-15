@@ -1,16 +1,17 @@
 import express from 'express';
 import Stripe from 'stripe';
-import prisma from '../utils/prismaClient.js';
-import { getAddonConfig } from '../utils/billingProducts.js';
-import * as esimProvider from '../services/providers/esimProvider.js';
-import { ESIM_PROVIDER } from '../config/esim.js';
-import {
-  createSubscriberWithAllocatedEsim,
-} from '../services/esimAllocation.js';
+
 import {
   assertAppSubscriptionProviderAvailable,
   recomputeUserAppEntitlement,
 } from '../services/appEntitlementService.js';
+import {
+  createSubscriberWithAllocatedEsim,
+} from '../services/esimAllocation.js';
+import { withEsimOperationLock } from '../services/esimOperationLock.js';
+import * as esimProvider from '../services/providers/esimProvider.js';
+import { getAddonConfig } from '../utils/billingProducts.js';
+import prisma from '../utils/prismaClient.js';
 
 const router = express.Router();
 
@@ -570,6 +571,13 @@ async function getReusableSubscriberForUser(userId) {
           'ACTIVE',
         ],
       },
+
+      replacementsAsNew: {
+        none: {
+          provisionedAt: null,
+          status: { not: 'COMPLETED' },
+        },
+      },
     },
 
     /*
@@ -618,6 +626,13 @@ async function applyPaidAddonCheckoutSession(session) {
   }
 
   const transactionId = String(session.payment_intent || session.id);
+
+  return withEsimOperationLock({
+    prismaClient: prisma,
+    userId,
+    operation: 'PURCHASE',
+    operationKey: transactionId,
+  }, async (operationLock) => {
   const purchasedAt = new Date();
   const fallbackExpiresAt = addDays(
     purchasedAt,
@@ -638,6 +653,15 @@ async function applyPaidAddonCheckoutSession(session) {
       billingTransactionId: transactionId,
     },
   });
+
+  if (purchase?.providerPurchaseId && purchase.iccid) {
+    return {
+      ignored: false,
+      duplicate: true,
+      kind: 'esim-addon',
+      purchaseId: purchase.id,
+    };
+  }
 
   if (!purchase) {
     purchase = await prisma.mobileDataPackPurchase.create({
@@ -770,31 +794,37 @@ async function applyPaidAddonCheckoutSession(session) {
 
   // Add/provision the purchased data pack to the provider profile when possible.
   if (providerProfileId && typeof esimProvider.provisionEsimPack === 'function') {
-        providerPack =
-          await esimProvider.provisionEsimPack({
-            userId: Number(userId),
+    operationLock.retain();
 
-            providerProfileId:
-              String(providerProfileId),
+    try {
+      providerPack = await esimProvider.provisionEsimPack({
+        userId: Number(userId),
+        providerProfileId: String(providerProfileId),
 
-            /*
-            * Telna Connect v2.1 creates packages against the ICCID.
-            * Existing providers can simply ignore this extra field.
-            */
-            iccid:
-              subscriber?.iccid ||
-              reserve?.iccid ||
-              null,
-
-            addonKind:
-              addonCfg.addonKind,
-
-            planCode:
-              addonCfg.addonKind,
-
-            testMode:
-              isSandboxCheckout,
+        /* Telna creates packages against the ICCID. */
+        iccid:
+          subscriber?.iccid ||
+          reserve?.iccid ||
+          null,
+        addonKind: addonCfg.addonKind,
+        planCode: addonCfg.addonKind,
+        testMode: isSandboxCheckout,
       });
+    } catch (err) {
+      const status = Number(err?.status);
+      if (status >= 400 && status < 500) {
+        operationLock.allowRelease();
+      }
+      throw err;
+    }
+
+    if (!providerPack?.providerPurchaseId) {
+      const err = new Error(
+        'eSIM provider returned no package identifier; manual reconciliation is required'
+      );
+      err.code = 'ESIM_PURCHASE_PROVIDER_OUTCOME_UNKNOWN';
+      throw err;
+    }
   }
 
   const nextExpiresAt =
@@ -931,12 +961,15 @@ async function applyPaidAddonCheckoutSession(session) {
     }
   });
 
+  operationLock.allowRelease();
+
   return {
     ignored: false,
     kind: 'esim-addon',
     purchaseId: purchase.id,
     subscriberId: subscriber?.id || null,
   };
+  });
 }
 
 router.post(
