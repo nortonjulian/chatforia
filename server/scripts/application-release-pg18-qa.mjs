@@ -187,6 +187,21 @@ try {
     assert.equal(esimRelease.status, 'approved-for-production');
     assert.equal(esimRelease.beforeCount, 165);
     assert.equal(esimRelease.afterCount, 166);
+    // Reproduce production's protected-schema restriction: the DBA executor
+    // has no staff_security USAGE, but must still verify the exact ledger and
+    // runtime MFA grants without changing schema ownership or permissions.
+    const restrictedOperator = new PrismaClient({ datasources: { db: { url: operatorUrl.toString() } } });
+    try {
+      const [visibility] = await restrictedOperator.$queryRawUnsafe(`SELECT
+        has_schema_privilege(current_user, 'staff_security', 'USAGE') AS executor_usage,
+        has_schema_privilege('chatforia_dev', 'staff_security', 'USAGE') AS runtime_usage`);
+      assert.equal(visibility.executor_usage, false);
+      assert.equal(visibility.runtime_usage, true);
+      const result = await runApplicationReleasePreflight(restrictedOperator, esimBundle, 'before',
+        { allowProposedForIsolatedTest: true, databaseUrl: url.toString() });
+      assert.deepEqual(result.pending, ['20261113010000_add_esim_operation_lock']);
+      console.log('PASS: restricted DBA without protected-schema USAGE verifies MFA grants by catalog OID');
+    } finally { await restrictedOperator.$disconnect(); }
     const [esimName] = Object.keys(esimRelease.requiredExactMigrations);
     assert.equal(esimName, '20261113010000_add_esim_operation_lock');
     const fixture = await db.mobileDataPackPurchase.create({ data: {
