@@ -6,6 +6,7 @@ import {
   releaseUsage,
 } from '../services/planUsageService.js';
 import { sendPushToUser } from '../services/pushService.js';
+import { loadSmsContactNames, smsPhoneKeys } from '../services/smsContactNames.js';
 import { recordTwilioConsentAction } from '../services/twilioConsent.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
@@ -237,19 +238,31 @@ router.post(
           trimmedBody ||
           (hasMedia ? 'New MMS received' : 'New SMS received');
 
-        void sendPushToUser(rec.userId, {
-          alert: {
-            title: fromNumber,
-            body: notificationBody.slice(0, 160),
-          },
-          sound: 'default',
-          data: {
-            type: 'sms_message',
-            threadId: String(rec.threadId),
-            fromNumber,
-            toNumber,
-          },
-        })
+        void (async () => {
+          let title = fromNumber;
+          try {
+            const names = await loadSmsContactNames(prisma, rec.userId, [fromNumber]);
+            title = smsPhoneKeys(fromNumber)
+              .map((key) => names.get(key))
+              .find((name) => typeof name === 'string' && name.trim()) || fromNumber;
+          } catch {
+            console.warn('[sms:inbound] contact name lookup failed; using number');
+          }
+
+          return sendPushToUser(rec.userId, {
+            alert: {
+              title: title.slice(0, 160),
+              body: notificationBody.slice(0, 160),
+            },
+            sound: 'default',
+            data: {
+              type: 'sms_message',
+              threadId: String(rec.threadId),
+              fromNumber,
+              toNumber,
+            },
+          });
+        })()
           .then((result) => {
             console.log('[sms:inbound] push result', {
               userId: rec.userId,
