@@ -21,6 +21,7 @@ let releaseUsageMock;
 let sendMailMock;
 let isEmailAvailableMock;
 let sendSmsMock;
+let sendPushToUserMock;
 let normalizeE164Mock;
 let isE164Mock;
 
@@ -37,6 +38,9 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
     user: {
       findUnique: jest.fn(),
     },
+    contact: {
+      findMany: jest.fn(),
+    },
     smsOptOut: {
       findFirst: jest.fn(),
       create: jest.fn(),
@@ -52,6 +56,42 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
 });
 
 describe('signed Twilio SMS handler', () => {
+  test('rejects an unsigned inbound SMS before persistence or push, then sends a signed contact-name push', async () => {
+    process.env.TWILIO_AUTH_TOKEN = 'synthetic_sms_token';
+    process.env.TWILIO_WEBHOOK_BASE_URL = 'https://api.example.test';
+    const securedApp = express();
+    installTwilioCallbackGuards(securedApp);
+    securedApp.use('/webhooks/sms', smsWebhooksRouter);
+    const path = '/webhooks/sms/twilio';
+    const body = {
+      From: '+13035550123', To: '+17205550123', Body: 'Signed hello',
+      MessageSid: 'SM-signed-contact-name',
+    };
+
+    await request(securedApp).post(path).type('form').send(body).expect(403);
+    expect(recordInboundSmsMock).not.toHaveBeenCalled();
+    expect(prismaMock.contact.findMany).not.toHaveBeenCalled();
+    expect(sendPushToUserMock).not.toHaveBeenCalled();
+
+    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId: 41, threadId: 'signed-thread' });
+    prismaMock.contact.findMany.mockResolvedValueOnce([
+      { alias: 'Signed contact', externalPhone: '+13035550123', user: null },
+    ]);
+    const signature = twilio.getExpectedTwilioSignature(
+      process.env.TWILIO_AUTH_TOKEN, `https://api.example.test${path}`, body
+    );
+    await request(securedApp).post(path)
+      .set('X-Twilio-Signature', signature).type('form').send(body).expect(200);
+    for (let attempt = 0; attempt < 10 && sendPushToUserMock.mock.calls.length === 0; attempt += 1) {
+      await new Promise(setImmediate);
+    }
+
+    expect(recordInboundSmsMock).toHaveBeenCalledTimes(1);
+    expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
+      alert: { title: 'Signed contact', body: 'Signed hello' },
+    }));
+  });
+
   test.each(['/webhooks/sms/twilio', '/api/webhooks/sms/twilio'])(
     'rejects unauthenticated STOP before opt-out writes and accepts signed STOP at %s',
     async (path) => {
@@ -73,6 +113,7 @@ describe('signed Twilio SMS handler', () => {
       expect(prismaMock.smsOptOut.findFirst).not.toHaveBeenCalled();
       expect(prismaMock.smsOptOut.create).not.toHaveBeenCalled();
       expect(recordInboundSmsMock).not.toHaveBeenCalled();
+      expect(sendPushToUserMock).not.toHaveBeenCalled();
 
       const signature = twilio.getExpectedTwilioSignature(
         process.env.TWILIO_AUTH_TOKEN,
@@ -252,6 +293,11 @@ await jest.unstable_mockModule('../services/smsService.js', () => {
   };
 });
 
+await jest.unstable_mockModule('../services/pushService.js', () => {
+  sendPushToUserMock = jest.fn().mockResolvedValue({ ok: true });
+  return { sendPushToUser: sendPushToUserMock };
+});
+
 await jest.unstable_mockModule('../services/planUsageService.js', () => {
   assertAndConsumeUsageMock = jest.fn();
   releaseUsageMock = jest.fn();
@@ -297,6 +343,8 @@ app.use('/webhooks/sms', smsWebhooksRouter);
 beforeEach(() => {
   jest.clearAllMocks();
   process.env = { ...ORIGINAL_ENV };
+  prismaMock.contact.findMany.mockResolvedValue([]);
+  prismaMock.user.findUnique.mockResolvedValue(null);
 });
 
 afterAll(() => {
@@ -306,6 +354,140 @@ afterAll(() => {
 // -------------------- Tests --------------------
 
 describe('POST /webhooks/sms/twilio', () => {
+  async function receiveForPush({ userId = 41, from = '+13035550123', body = 'Hello' } = {}) {
+    const expectedPushCount = sendPushToUserMock.mock.calls.length + 1;
+    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId, threadId: `thread-${userId}` });
+    const response = await request(app).post('/webhooks/sms/twilio').type('form').send({
+      From: from,
+      To: '+17205550123',
+      Body: body,
+      MessageSid: `SM-${userId}-${sendPushToUserMock.mock.calls.length}`,
+    });
+    expect(response.status).toBe(200);
+    for (let attempt = 0; attempt < 10 && sendPushToUserMock.mock.calls.length < expectedPushCount; attempt += 1) {
+      await new Promise(setImmediate);
+    }
+    expect(sendPushToUserMock).toHaveBeenCalledTimes(expectedPushCount);
+    return response;
+  }
+
+  test('uses the recipient saved phone alias and preserves push content and delivery', async () => {
+    prismaMock.contact.findMany.mockResolvedValueOnce([
+      { alias: 'My contact', externalName: 'Other label', externalPhone: '+13035550123', user: null },
+      { alias: 'Linked account', externalPhone: null, user: {
+        displayName: 'Account name', username: 'account', phoneNumber: '+13035550123',
+        phoneVerifiedAt: new Date(), assignedNumbers: [],
+      } },
+    ]);
+
+    await receiveForPush();
+
+    expect(recordInboundSmsMock).toHaveBeenCalledTimes(1);
+    expect(prismaMock.contact.findMany).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({ ownerId: 41 }),
+    }));
+    expect(sendPushToUserMock).toHaveBeenCalledWith(41, {
+      alert: { title: 'My contact', body: 'Hello' },
+      sound: 'default',
+      data: {
+        type: 'sms_message', threadId: 'thread-41',
+        fromNumber: '+13035550123', toNumber: '+17205550123',
+      },
+    });
+    expect(sendSmsMock).not.toHaveBeenCalled();
+    expect(sendMailMock).not.toHaveBeenCalled();
+  });
+
+  test.each([
+    ['verified phone', { phoneNumber: '+13035550123', phoneVerifiedAt: new Date(), assignedNumbers: [] }],
+    ['assigned DID', { phoneNumber: '+13035550123', phoneVerifiedAt: null, assignedNumbers: [{ e164: '+13035550123' }] }],
+  ])('uses a linked contact alias for %s', async (_kind, user) => {
+    prismaMock.contact.findMany.mockResolvedValueOnce([{
+      alias: 'Saved account alias', externalName: null, externalPhone: null,
+      user: { username: 'account', displayName: 'Account name', ...user },
+    }]);
+
+    await receiveForPush();
+
+    expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
+      alert: { title: 'Saved account alias', body: 'Hello' },
+    }));
+  });
+
+  test('unknown senders use the normalized number', async () => {
+    normalizeE164Mock.mockImplementation((number) =>
+      number === '3035550123' ? '+13035550123' : number
+    );
+
+    await receiveForPush({ from: '3035550123' });
+
+    expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
+      alert: { title: '+13035550123', body: 'Hello' },
+      data: expect.objectContaining({ fromNumber: '+13035550123' }),
+    }));
+  });
+
+  test('does not infer a linked name from an unverified phone', async () => {
+    prismaMock.contact.findMany.mockResolvedValueOnce([{
+      alias: 'Unverified account', externalPhone: null,
+      user: { username: 'account', displayName: 'Account name',
+        phoneNumber: '+13035550123', phoneVerifiedAt: null, assignedNumbers: [] },
+    }]);
+
+    await receiveForPush();
+
+    expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
+      alert: { title: '+13035550123', body: 'Hello' },
+      data: expect.objectContaining({ fromNumber: '+13035550123' }),
+    }));
+  });
+
+  test.each([
+    ['an oversized alias', 'A'.repeat(500), 'A'.repeat(160)],
+    ['a blank alias', '   ', '+13035550123'],
+  ])('keeps push titles usable for %s', async (_kind, alias, expectedTitle) => {
+    prismaMock.contact.findMany.mockResolvedValueOnce([{
+      alias, externalPhone: '+13035550123', user: null,
+    }]);
+
+    await receiveForPush();
+
+    expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
+      alert: { title: expectedTitle, body: 'Hello' },
+    }));
+  });
+
+  test('looks up contacts only for the receiving account', async () => {
+    prismaMock.contact.findMany.mockImplementation(async ({ where }) => where.ownerId === 41
+      ? [{ alias: 'First account alias', externalPhone: '+13035550123', user: null }]
+      : []);
+
+    await receiveForPush({ userId: 41 });
+    await receiveForPush({ userId: 42 });
+
+    expect(prismaMock.contact.findMany.mock.calls.map(([query]) => query.where.ownerId)).toEqual([41, 42]);
+    expect(sendPushToUserMock.mock.calls.map(([, payload]) => payload.alert.title))
+      .toEqual(['First account alias', '+13035550123']);
+  });
+
+  test('contact lookup failure still sends the unchanged SMS push', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      prismaMock.contact.findMany.mockRejectedValueOnce(new Error('synthetic lookup failure'));
+
+      await receiveForPush({ body: 'Fallback message' });
+
+      expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
+        alert: { title: '+13035550123', body: 'Fallback message' },
+        sound: 'default',
+        data: expect.objectContaining({ type: 'sms_message', threadId: 'thread-41' }),
+      }));
+      expect(recordInboundSmsMock).toHaveBeenCalledTimes(1);
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
   test('ignores invalid payload (no valid E164 or empty body) and still returns 200', async () => {
     // Force isE164 to always return false for this test
     isE164Mock.mockReturnValue(false);

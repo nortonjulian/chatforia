@@ -105,3 +105,21 @@ test('disk headroom is checked before staging, npm install, and service stop', (
   assert.ok(check < script.indexOf('mkdir -m 0755 -- "$release"'));
   assert.ok(check < script.indexOf('systemctl stop "$unit"'));
 });
+
+test('APNs key preflight runs before production shutdown', () => {
+  const preflight = script.indexOf(
+    'server/scripts/apns-key-preflight.mjs'
+  );
+  const shutdown = script.indexOf('systemctl stop "$unit"');
+
+  assert.ok(preflight >= 0, 'APNs preflight must exist');
+  assert.ok(shutdown > preflight, 'APNs preflight must precede shutdown');
+  assert.match(
+    script.slice(Math.max(0, preflight - 350), preflight),
+    /User=chatforia-api/
+  );
+  assert.match(
+    script.slice(Math.max(0, preflight - 350), preflight),
+    /EnvironmentFile=\/etc\/chatforia\/api-runtime\.env/
+  );
+});

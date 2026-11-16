@@ -138,6 +138,15 @@ chmod 600 "$release/previous-unit.service"
 /usr/bin/node "$release/app/server/scripts/systemd-release-unit.mjs" \
   "$unit_file" "$active_server" "$new_server" "$release/next-unit.service"
 
+# Verify APNs key access under the actual restricted API identity.
+# Fail before stopping the healthy service if the key is inaccessible.
+systemd-run --unit=chatforia-apns-release-check --wait --collect --pipe \
+  -p User=chatforia-api -p Group=chatforia-api \
+  -p WorkingDirectory="$new_server" \
+  -p EnvironmentFile=/etc/chatforia/api-runtime.env \
+  -E NODE_ENV=production -E DOTENV_CONFIG_PATH=/dev/null \
+  /usr/bin/node "$new_server/scripts/apns-key-preflight.mjs"
+
 # The same restricted EnvironmentFile and OS identity used by the API must
 # confirm the 164-file schema, grants, and existing staff boundary before stop.
 systemd-run --unit=chatforia-application-release-check --wait --collect --pipe \
