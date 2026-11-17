@@ -1,4 +1,5 @@
 import { loadSmsContactNames, smsPhoneKeys } from '../services/smsContactNames.js';
+import { smsConversationLast } from '../services/smsConversationPreview.js';
 import express from 'express';
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
@@ -647,15 +648,7 @@ router.get(
               },
             ]
           : [],
-        last: lastMsg?.createdAt
-          ? {
-              text: previewText,
-              messageId: lastMsg.id,
-              at: lastMsg.createdAt.toISOString(),
-              senderName: null,
-              ...media,
-            }
-          : null,
+        last: smsConversationLast(lastMsg, previewText, media),
         unreadCount: unreadSmsCountByThread.get(t.id) || 0,
       };
     });
