@@ -13,11 +13,20 @@ import * as smsService from '../services/smsService.js';
 // ✅ Twilio-protected media fetch helper (does Basic Auth + returns fetch Response)
 import { fetchSMSMedia } from '../utils/smsMediaFetch.js';
 import { syncBadgeToUserDevices } from '../services/badgeSync.js';
+import { translateIncomingSms } from '../services/smsTranslationService.js';
 
 const r = express.Router();
 
 // JSON bodies for authenticated app routes
 r.use(express.json());
+
+// POST /sms/messages/:messageId/translation. The body is always read through
+// the authenticated owner's inbound-message query; this never marks SMS read.
+r.post('/messages/:messageId/translation', requireAuth, asyncHandler(async (req, res) => {
+  const result = await translateIncomingSms(req.user.id, req.params.messageId);
+  res.setHeader('Cache-Control', 'private, no-store');
+  res.json(result);
+}));
 
 /* -------------------------
  * Helpers

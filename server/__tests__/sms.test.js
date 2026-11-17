@@ -18,6 +18,7 @@ let smsMessageFindFirstMock;
 let smsMessageFindManyMock;
 let smsMessageUpdateManyMock;
 let syncBadgeMock;
+let translateIncomingSmsMock;
 
 // --- Mocks ---
 
@@ -62,6 +63,11 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
 await jest.unstable_mockModule('../services/badgeSync.js', () => {
   syncBadgeMock = jest.fn().mockResolvedValue(null);
   return { syncBadgeToUserDevices: syncBadgeMock };
+});
+
+await jest.unstable_mockModule('../services/smsTranslationService.js', () => {
+  translateIncomingSmsMock = jest.fn();
+  return { translateIncomingSms: translateIncomingSmsMock };
 });
 
 // Boom — create a realistic badRequest error object
@@ -173,6 +179,27 @@ describe('GET /sms/threads/:id', () => {
     expect(getThreadMock).toHaveBeenCalledTimes(1);
     expect(getThreadMock).toHaveBeenCalledWith(99, 'thread-123');
     // A GET must never clear unread counts, even when the client refreshes.
+    expect(smsMessageUpdateManyMock).not.toHaveBeenCalled();
+    expect(syncBadgeMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('POST /sms/messages/:messageId/translation', () => {
+  test('passes only authenticated identity and message id, without changing read state or badge', async () => {
+    translateIncomingSmsMock.mockResolvedValueOnce({
+      messageId: 501, originalText: 'Hello', translatedText: 'Hola',
+      displayText: 'Hola', targetLanguage: 'es',
+      showOriginalWithTranslation: true, status: 'translated', reason: null,
+    });
+    const res = await request(app)
+      .post('/sms/messages/501/translation')
+      .set('x-test-user-id', '42')
+      .send({ targetLanguage: 'fr', userId: 99 });
+    expect(res.status).toBe(200);
+    expect(res.body.originalText).toBe('Hello');
+    expect(res.body.translatedText).toBe('Hola');
+    expect(res.headers['cache-control']).toBe('private, no-store');
+    expect(translateIncomingSmsMock).toHaveBeenCalledWith(42, '501');
     expect(smsMessageUpdateManyMock).not.toHaveBeenCalled();
     expect(syncBadgeMock).not.toHaveBeenCalled();
   });
