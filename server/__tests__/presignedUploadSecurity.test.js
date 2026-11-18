@@ -123,6 +123,15 @@ describe('presigned upload HTTP security', () => {
     expect(mockStorage.headStorageObject).not.toHaveBeenCalled();
   });
 
+  test('teen cannot obtain a video-named upload by claiming an audio MIME', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    const response = await request(appFor(7)).post('/uploads/intent').send({
+      name: 'clip.mov', mimeType: 'audio/mp4', size: 1000,
+    });
+    expect(response.status).toBe(403);
+    expect(mockStorage.generatePresignedPutUrl).not.toHaveBeenCalled();
+  });
+
   const intentBody = {
     name: 'video.mp4',
     mimeType: 'video/mp4',

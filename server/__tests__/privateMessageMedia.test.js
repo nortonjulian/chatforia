@@ -115,6 +115,19 @@ describe('private message attachment authorization', () => {
     expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
   });
 
+  test('denies video-named legacy media mislabeled as audio while keeping voice notes', async () => {
+    const db = makeDb();
+    const attachment = await db.messageAttachment.findUnique();
+    attachment.kind = 'FILE';
+    attachment.mimeType = 'audio/mp4';
+    attachment.url = 'media/clip.mov';
+    db.messageAttachment.findUnique.mockResolvedValue(attachment);
+    db.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
+    attachment.url = 'media/voice.mp4';
+    expect((await getAuthorizedMessageMedia({ ...input, db }))?.relativePath).toBe('media/voice.mp4');
+  });
+
   test('rejects malformed upload object keys without changing CDN compatibility', () => {
     expect(cloudMessageMediaKey('uploads/u7/voice.webm')).toBe('uploads/u7/voice.webm');
     expect(cloudMessageMediaKey('uploads/u7/2026/10/26/voice.webm')).toBe('uploads/u7/2026/10/26/voice.webm');

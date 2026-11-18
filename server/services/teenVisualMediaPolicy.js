@@ -9,6 +9,9 @@ export const isTeenAccount = (user) => user?.ageBand === 'TEEN_13_17';
 const VISUAL_KINDS = new Set(['IMAGE', 'VIDEO', 'GIF']);
 const VISUAL_EXTENSIONS = /\.(?:jpe?g|png|gif|webp|avif|heic|heif|bmp|tiff?|mp4|m4v|mov|webm|ogv|3gp|3g2)(?:[?#]|$)/i;
 const IMAGE_EXTENSIONS = /\.(?:jpe?g|png|gif|webp|avif|heic|heif|bmp|tiff?)(?:[?#]|$)/i;
+// MP4 and WebM can carry voice notes; these suffixes are video-only in our
+// supported upload contract and must not be excused by a claimed audio MIME.
+const VIDEO_ONLY_EXTENSIONS = /\.(?:m4v|mov|ogv)(?:[?#]|$)/i;
 const AUDIO_EXTENSIONS = /\.(?:m4a|mp3|wav|aac|ogg|opus|flac)(?:[?#]|$)/i;
 
 export function isVisualAttachment(attachment) {
@@ -20,7 +23,7 @@ export function isVisualAttachment(attachment) {
     attachment.name].filter((value) => typeof value === 'string');
   // An image extension is unambiguous even if a client claims audio MIME.
   // Keep audio/webm and audio/mp4 usable: those containers can hold voice notes.
-  if (references.some((value) => IMAGE_EXTENSIONS.test(value))) return true;
+  if (references.some((value) => IMAGE_EXTENSIONS.test(value) || VIDEO_ONLY_EXTENSIONS.test(value))) return true;
   // A thumbnail is itself a visual object, even if the enclosing item was
   // mislabeled as a generic file by an older client.
   const isAudio = kind === 'AUDIO' || mime.startsWith('audio/') ||

@@ -134,6 +134,11 @@ r.get(
 
     const contentType =
       upstream.headers.get('content-type') || 'application/octet-stream';
+    // Carrier metadata may disagree with the fetched object. Do not stream a
+    // visual response to a teen merely because the stored item claimed audio.
+    if (isTeenAccount(viewer) && isTeenMmsRestricted({ contentType })) {
+      throw Boom.notFound('Media item not found');
+    }
     const contentLength = upstream.headers.get('content-length');
 
     res.setHeader('Content-Type', contentType);

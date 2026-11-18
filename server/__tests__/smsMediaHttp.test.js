@@ -135,6 +135,9 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
 
   test('teen proxy indexes surviving audio media after a hidden image', async () => {
     db.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    fetchMock.mockResolvedValue(new Response('voice-note-bytes', {
+      status: 200, headers: { 'content-type': 'audio/mpeg' },
+    }));
     state.urls = [
       { url: 'https://api.twilio.com/image', contentType: 'image/jpeg' },
       { url: 'https://api.twilio.com/audio', contentType: 'audio/mpeg' },
@@ -143,6 +146,18 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     expect(response.status).toBe(200);
     expect(fetchMock).toHaveBeenCalledWith('https://api.twilio.com/audio', { ownerId: 7 });
     expect((await read(7, '/sms/media/42/1')).status).toBe(404);
+  });
+
+  test('teen proxy rejects visual upstream bytes mislabeled as audio in stored metadata', async () => {
+    db.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    state.urls = [{ url: 'https://api.twilio.com/mislabeled', contentType: 'audio/mpeg' }];
+    fetchMock.mockResolvedValueOnce(new Response('visual-bytes', {
+      status: 200, headers: { 'content-type': 'video/quicktime' },
+    }));
+    const response = await read();
+    expect(response.status).toBe(404);
+    expect(response.text).not.toContain('visual-bytes');
+    expect(response.headers['cache-control']).toBe('private, no-store');
   });
 
   test('invalid and missing attachment indexes never fetch upstream', async () => {

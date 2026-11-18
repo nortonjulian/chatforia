@@ -15,11 +15,15 @@ describe('temporary teen visual-media policy', () => {
       { originalname: 'foo.png', mimetype: 'audio/mpeg' },
       { url: 'opaque-key', originalName: 'photo.heic', mimeType: 'audio/mpeg' },
       { url: 'opaque-key', storageKey: 'uploads/u1/photo.webp', mimeType: 'audio/mpeg' },
+      { filename: 'clip.mov', mimeType: 'audio/mp4' },
+      { kind: 'AUDIO', filename: 'clip.mov', mimeType: 'audio/mpeg' },
       { kind: 'FILE', mimeType: 'application/octet-stream', url: 'opaque', thumbUrl: 'thumbs/one' },
     ]) expect(isVisualAttachment(item)).toBe(true);
     expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/mpeg', url: 'voice.mp3' })).toBe(false);
     expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/webm', url: 'voice.webm' })).toBe(false);
     expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/mp4', url: 'voice.mp4' })).toBe(false);
+    expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/mp4', url: 'voice.m4a' })).toBe(false);
+    expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/3gpp', url: 'voice.3gp' })).toBe(false);
     expect(isVisualAttachment({ kind: 'FILE', mimeType: 'application/pdf', url: 'paper.pdf' })).toBe(false);
   });
 
@@ -68,6 +72,7 @@ describe('temporary teen visual-media policy', () => {
     expect(isTeenMmsRestricted({ url: 'x', contentType: 'video/mp4' })).toBe(true);
     expect(isTeenMmsRestricted({ url: 'x', contentType: 'audio/mpeg' })).toBe(false);
     expect(isTeenMmsRestricted({ url: 'photo.jpg', contentType: 'audio/mpeg' })).toBe(true);
+    expect(isTeenMmsRestricted({ url: 'clip.mov', contentType: 'audio/mp4' })).toBe(true);
     expect(redactTeenSmsMedia(original, true)).toMatchObject({
       body: 'hello', mediaRestricted: true,
       mediaUrls: [{ url: 'https://provider.invalid/two', contentType: 'audio/mpeg' }],
