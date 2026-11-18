@@ -201,6 +201,12 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       return res.type('text/xml').send(twiml.toString());
     }
 
+    // Select the same devices that Twilio will dial before deciding which
+    // iOS devices still need an ordinary APNs fallback alert.
+    const dialDestinations = callRecord?.id
+      ? await getVoiceDialDestinations(user.id)
+      : [];
+
     if (createdCall && callRecord?.id) {
       emitToUser(user.id, 'call:incoming', {
         callId: callRecord.id,
@@ -219,6 +225,9 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
         chatforiaNumber: toNumber,
         callId: callRecord.id,
         callSid,
+        callKitDeviceIds: dialDestinations
+          .filter((destination) => destination.platform === 'ios' && destination.deviceId)
+          .map((destination) => destination.deviceId),
       }).catch((err) => {
         console.error('[Twilio Voice inbound] push failed', err);
       });
@@ -247,9 +256,6 @@ router.post('/inbound', voiceLimiter, async (req, res) => {
       action: fallbackUrl,
       method: 'POST',
     });
-
-    const dialDestinations =
-      await getVoiceDialDestinations(user.id);
 
     if (dialDestinations.length === 0) {
       twiml.say('The Chatforia user is not available for calls.');

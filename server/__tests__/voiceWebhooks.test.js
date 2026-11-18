@@ -567,6 +567,13 @@ describe('POST /webhooks/voice/inbound', () => {
       getVoiceDialDestinations
     ).toHaveBeenCalledWith(65);
 
+    expect(sendIncomingForwardedCallPush).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userId: 65,
+        callKitDeviceIds: ['regina-iphone'],
+      })
+    );
+
     const actions = JSON.parse(res.text);
 
     expect(actions).toHaveLength(1);
