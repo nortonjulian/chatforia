@@ -11,10 +11,15 @@ describe('temporary teen visual-media policy', () => {
       { kind: 'FILE', mimeType: 'image/heic', url: 'opaque' },
       { kind: 'AUDIO', mimeType: 'video/mp4', url: 'opaque' },
       { kind: 'FILE', mimeType: 'application/octet-stream', url: 'foo.jpg' },
+      { kind: 'AUDIO', mimeType: 'audio/mpeg', url: 'foo.jpg?download=1' },
+      { originalname: 'foo.png', mimetype: 'audio/mpeg' },
+      { url: 'opaque-key', originalName: 'photo.heic', mimeType: 'audio/mpeg' },
+      { url: 'opaque-key', storageKey: 'uploads/u1/photo.webp', mimeType: 'audio/mpeg' },
       { kind: 'FILE', mimeType: 'application/octet-stream', url: 'opaque', thumbUrl: 'thumbs/one' },
     ]) expect(isVisualAttachment(item)).toBe(true);
     expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/mpeg', url: 'voice.mp3' })).toBe(false);
     expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/webm', url: 'voice.webm' })).toBe(false);
+    expect(isVisualAttachment({ kind: 'AUDIO', mimeType: 'audio/mp4', url: 'voice.mp4' })).toBe(false);
     expect(isVisualAttachment({ kind: 'FILE', mimeType: 'application/pdf', url: 'paper.pdf' })).toBe(false);
   });
 
@@ -62,6 +67,7 @@ describe('temporary teen visual-media policy', () => {
     ] };
     expect(isTeenMmsRestricted({ url: 'x', contentType: 'video/mp4' })).toBe(true);
     expect(isTeenMmsRestricted({ url: 'x', contentType: 'audio/mpeg' })).toBe(false);
+    expect(isTeenMmsRestricted({ url: 'photo.jpg', contentType: 'audio/mpeg' })).toBe(true);
     expect(redactTeenSmsMedia(original, true)).toMatchObject({
       body: 'hello', mediaRestricted: true,
       mediaUrls: [{ url: 'https://provider.invalid/two', contentType: 'audio/mpeg' }],

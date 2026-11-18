@@ -8,22 +8,30 @@ export const isTeenAccount = (user) => user?.ageBand === 'TEEN_13_17';
 
 const VISUAL_KINDS = new Set(['IMAGE', 'VIDEO', 'GIF']);
 const VISUAL_EXTENSIONS = /\.(?:jpe?g|png|gif|webp|avif|heic|heif|bmp|tiff?|mp4|m4v|mov|webm|ogv|3gp|3g2)(?:[?#]|$)/i;
+const IMAGE_EXTENSIONS = /\.(?:jpe?g|png|gif|webp|avif|heic|heif|bmp|tiff?)(?:[?#]|$)/i;
 const AUDIO_EXTENSIONS = /\.(?:m4a|mp3|wav|aac|ogg|opus|flac)(?:[?#]|$)/i;
 
 export function isVisualAttachment(attachment) {
   if (!attachment) return false;
   const kind = String(attachment.kind || '').toUpperCase();
   const mime = String(attachment.mimeType || attachment.contentType || attachment.mimetype || '').toLowerCase();
-  const reference = String(attachment.url || attachment.originalname || attachment.filename || '');
+  const references = [attachment.url, attachment.key, attachment.storageKey,
+    attachment.originalname, attachment.originalName, attachment.filename,
+    attachment.name].filter((value) => typeof value === 'string');
+  // An image extension is unambiguous even if a client claims audio MIME.
+  // Keep audio/webm and audio/mp4 usable: those containers can hold voice notes.
+  if (references.some((value) => IMAGE_EXTENSIONS.test(value))) return true;
   // A thumbnail is itself a visual object, even if the enclosing item was
   // mislabeled as a generic file by an older client.
-  const isAudio = kind === 'AUDIO' || mime.startsWith('audio/') || AUDIO_EXTENSIONS.test(reference);
+  const isAudio = kind === 'AUDIO' || mime.startsWith('audio/') ||
+    references.some((value) => AUDIO_EXTENSIONS.test(value));
   const hasThumbnail = !isAudio && Boolean(attachment.thumbUrl || attachment.thumbnailUrl || attachment.previewUrl);
   // WebM is a container used for voice notes as well as video. A stored
   // audio MIME type is stronger evidence than its ambiguous extension.
   if (mime.startsWith('audio/') && !VISUAL_KINDS.has(kind)) return false;
   return VISUAL_KINDS.has(kind) || mime.startsWith('image/') ||
-    mime.startsWith('video/') || hasThumbnail || VISUAL_EXTENSIONS.test(reference);
+    mime.startsWith('video/') || hasThumbnail ||
+    references.some((value) => VISUAL_EXTENSIONS.test(value));
 }
 
 export function redactVisualMedia(message, { viewerTeen = false, senderTeen = false } = {}) {

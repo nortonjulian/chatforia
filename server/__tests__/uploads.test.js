@@ -99,6 +99,15 @@ describe('uploadsRouter', () => {
     expect(res.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
   });
 
+  test('teen audio-labeled image intent is rejected before creating an upload', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({ ageBand: 'TEEN_13_17' });
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'disguised.jpg', mimeType: 'audio/mpeg', size: 32,
+    });
+    expect(res.status).toBe(403);
+    expect(res.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
+  });
+
   test('rejects a fractional presigned upload size', async () => {
     const res = await agent1.post('/uploads/intent').send({
       name: 'video.mp4',

@@ -27,6 +27,50 @@ async function room(users, { random = false } = {}) {
 beforeEach(async () => resetDb());
 
 describe('teen visual-media HTTP enforcement', () => {
+  test('initial adult attestation and existing adult-band changes remain available', async () => {
+    const firstTime = await user('firsttime', null);
+    const adult = await user('adult', 'ADULT_18_24');
+    for (const [account, band] of [
+      [firstTime, 'ADULT_18_24'],
+      [adult, 'ADULT_25_34'],
+    ]) {
+      const response = await asUser('patch', '/users/me', account.id).send({ ageBand: band });
+      expect(response.status).toBe(200);
+      expect((await prisma.user.findUnique({ where: { id: account.id } })).ageBand).toBe(band);
+    }
+  });
+
+  test('a teen cannot self-select adult or send audio-labeled image metadata', async () => {
+    const teen = await user('teen', 'TEEN_13_17');
+    const adult = await user('adult', 'ADULT_18_24');
+    const chatRoom = await room([teen, adult]);
+    const ageChange = await asUser('patch', '/users/me', teen.id)
+      .send({ ageBand: 'ADULT_18_24' });
+    expect(ageChange.status).toBe(403);
+    expect(ageChange.body.code).toBe('AGE_BAND_TRANSITION_REQUIRES_REVIEW');
+    expect((await prisma.user.findUnique({ where: { id: teen.id } })).ageBand).toBe('TEEN_13_17');
+
+    const disguised = { kind: 'AUDIO', mimeType: 'audio/mpeg', url: 'media/photo.jpg' };
+    const denied = await asUser('post', '/messages', adult.id)
+      .send({ chatRoomId: chatRoom.id, content: 'caption', attachmentsInline: [disguised] });
+    expect(denied.status).toBe(403);
+    expect(denied.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
+    expect(await prisma.message.count({ where: { chatRoomId: chatRoom.id } })).toBe(0);
+
+    const historical = await prisma.message.create({ data: {
+      chatRoom: { connect: { id: chatRoom.id } },
+      sender: { connect: { id: adult.id } }, rawContent: 'keep text',
+      attachments: { create: disguised },
+    }, include: { attachments: true } });
+    const history = await asUser('get', `/messages/${chatRoom.id}`, teen.id);
+    expect(history.status).toBe(200);
+    const shown = history.body.items.find((item) => item.id === historical.id);
+    expect(shown.attachments).toEqual([]);
+    expect(shown.mediaRestricted).toBe(true);
+    const grant = await asUser('get', `/private-media/message/${historical.attachments[0].id}`, teen.id);
+    expect(grant.status).toBe(404);
+  });
+
   test('direct, group, and Random Chat reject image sends before persistence; text and adult media survive', async () => {
     const adult = await user('adult', 'ADULT_18_24');
     const adult2 = await user('adult2', 'ADULT_18_24');
