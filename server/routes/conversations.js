@@ -5,6 +5,7 @@ import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { resolveDisplayName } from '../utils/displayName.js';
+import { isTeenAccount, isTeenMmsRestricted, isVisualAttachment } from '../services/teenVisualMediaPolicy.js';
 
 const router = express.Router();
 
@@ -154,6 +155,10 @@ router.get(
     res.removeHeader('ETag');
     const userId = Number(req.user?.id);
     if (!userId) throw Boom.unauthorized('Not authenticated');
+    const viewer = await prisma.user.findUnique({
+      where: { id: userId }, select: { ageBand: true },
+    });
+    const viewerTeen = isTeenAccount(viewer);
 
     // -----------------------
     // Rooms (app-to-app chats)
@@ -207,6 +212,7 @@ router.get(
                 displayName: true,
                 phoneNumber: true,
                 avatarUrl: true,
+                ageBand: true,
               },
             },
           },
@@ -250,6 +256,7 @@ router.get(
                 phoneNumber: true,
                 avatarUrl: true,
                 publicKey: true,
+                ageBand: true,
               },
             },
             keys: {
@@ -363,7 +370,13 @@ router.get(
     const chatConvos = rooms
       .map((r) => {
       const lastMsg = r.messages?.[0] || null;
-      const media = summarizeAttachments(lastMsg?.attachments || []);
+      const roomTeen = (r.participants || []).some((p) => isTeenAccount(p.user));
+      const mediaRestricted = Boolean(lastMsg?.attachments?.some(isVisualAttachment) &&
+        (viewerTeen || roomTeen || isTeenAccount(lastMsg?.sender)));
+      const visibleAttachments = mediaRestricted
+        ? (lastMsg?.attachments || []).filter((item) => !isVisualAttachment(item))
+        : (lastMsg?.attachments || []);
+      const media = summarizeAttachments(visibleAttachments);
 
       const randomChat = r.randomChatRoom || null;
       const isRandomChat = Boolean(randomChat);
@@ -534,6 +547,7 @@ router.get(
               ...(lastMsg.deletedForAll
                 ? { hasMedia: false, mediaKinds: [] }
                 : media),
+              mediaRestricted,
             }
           : null,
         unreadCount: unreadChatCountByRoom.get(r.id) || 0,
@@ -613,7 +627,10 @@ router.get(
 
     const smsConvos = smsThreads.map((t) => {
       const lastMsg = t.messages?.[0] || null;
-      const media = summarizeSmsMedia(lastMsg?.mediaUrls);
+      const smsItems = Array.isArray(lastMsg?.mediaUrls) ? lastMsg.mediaUrls :
+        lastMsg?.mediaUrls && typeof lastMsg.mediaUrls === 'object' ? Object.values(lastMsg.mediaUrls) : [];
+      const smsVisible = viewerTeen ? smsItems.filter((item) => !isTeenMmsRestricted(item)) : smsItems;
+      const media = summarizeSmsMedia(smsVisible);
 
       const phone = pickCounterpartyPhoneFromLastMessage(t);
 
@@ -654,6 +671,7 @@ router.get(
               at: lastMsg.createdAt.toISOString(),
               senderName: null,
               ...media,
+              mediaRestricted: smsVisible.length !== smsItems.length,
             }
           : null,
         unreadCount: unreadSmsCountByThread.get(t.id) || 0,

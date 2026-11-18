@@ -22,6 +22,7 @@ const db = {
       if (!record.exists || Number(where.id) !== 42) return null;
       return {
         id: 42,
+        kind: 'FILE', mimeType: 'text/plain',
         url: 'media/private.txt',
         thumbUrl: 'thumbs/private-thumb.txt',
         deletedAt: record.deletedAt,
@@ -39,12 +40,14 @@ const db = {
     }),
   },
   participant: {
+    findFirst: jest.fn(async () => null),
     findUnique: jest.fn(async ({ where }) =>
       record.isMember && Number(where.chatRoomId_userId.userId) === 2
         ? { id: 9, clearedAt: record.clearedAt }
         : null),
   },
   threadState: { findUnique: jest.fn(async () => null) },
+  user: { findUnique: jest.fn(async () => ({ ageBand: 'ADULT_18_24' })) },
 };
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({

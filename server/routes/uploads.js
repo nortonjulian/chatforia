@@ -12,6 +12,7 @@ import storage from '../services/storage/index.js';
 import { STORAGE_DRIVER } from '../utils/uploadConfig.js';
 import { keyToAbsolute } from '../services/storage/localStorage.js';
 import { buildSafeName, sha256, uploadDirs } from '../middleware/uploads.js';
+import { isTeenAccount, isVisualAttachment, TEEN_VISUAL_MEDIA_CODE } from '../services/teenVisualMediaPolicy.js';
 import {
   generatePresignedPutUrl,
   buildPublicUrlForKey,
@@ -87,6 +88,13 @@ function fallbackSha256ForObject(key, size) {
     .createHash('sha256')
     .update(`object:${String(key)}:${Number(size)}`)
     .digest('hex');
+}
+async function teenVisualUploadRestricted(ownerId, media) {
+  if (!isVisualAttachment(media)) return false;
+  const owner = await prisma.user.findUnique({
+    where: { id: Number(ownerId) }, select: { ageBand: true },
+  });
+  return !owner || isTeenAccount(owner);
 }
 const BANNED_MIME = new Set([
   'application/x-msdownload','application/x-msdos-program','application/x-executable',
@@ -228,6 +236,9 @@ router.post('/intent', requireAuth, async (req, res) => {
     if (!Number.isInteger(ownerId) || ownerId <= 0) {
       return res.status(403).json({ error: 'no_access' });
     }
+    if (await teenVisualUploadRestricted(ownerId, { filename: name, mimeType })) {
+      return res.status(403).json({ error: TEEN_VISUAL_MEDIA_CODE, code: TEEN_VISUAL_MEDIA_CODE });
+    }
 
     if (!Number.isSafeInteger(declaredSize) || declaredSize <= 0) {
       return res.status(400).json({ error: 'invalid_upload_size' });
@@ -349,6 +360,9 @@ router.post('/complete', requireAuth, async (req, res) => {
     if (!pending || pending.ownerId !== ownerId) {
       return res.status(404).json({ error: 'upload_intent_not_found' });
     }
+    if (await teenVisualUploadRestricted(ownerId, { filename: pending.originalName, mimeType: pending.mimeType })) {
+      return res.status(403).json({ error: TEEN_VISUAL_MEDIA_CODE, code: TEEN_VISUAL_MEDIA_CODE });
+    }
 
     const completed = pending.completedUploadId != null;
 
@@ -463,6 +477,9 @@ router.post('/', requireAuth, runUpload, async (req, res, next) => {
     if (Number.isFinite(MAX_BYTES) && f.size > MAX_BYTES) return res.status(413).json({ error: 'File too large' });
     if (looksLikeSvg(f.mimetype, f.originalname)) return res.status(415).json({ error: 'SVG not allowed' });
     if (hasBannedType(f.mimetype, f.originalname)) return res.status(415).json({ error: 'Executable type not allowed' });
+    if (await teenVisualUploadRestricted(req.user.id, f)) {
+      return res.status(403).json({ error: TEEN_VISUAL_MEDIA_CODE, code: TEEN_VISUAL_MEDIA_CODE });
+    }
 
     const { ext, suggested } = buildSafeName(f.mimetype, f.originalname);
     const canDedup = (f.size || f.buffer.length || 0) >= DEDUP_MIN_BYTES;
@@ -637,6 +654,9 @@ router.get('/:id', requireAuth, async (req, res, next) => {
       if (m) keyOwner = Number(m[1]);
     }
     if (!Number.isInteger(keyOwner) || keyOwner !== reqUid) throw Boom.forbidden('no access');
+    if (await teenVisualUploadRestricted(reqUid, { filename: mem.originalName, mimeType: mem.mimeType })) {
+      throw Boom.forbidden('Image and video uploads are unavailable for teen accounts');
+    }
 
     // Stream after ACL passes
     res.setHeader('Content-Type', mem.mimeType || 'application/octet-stream');

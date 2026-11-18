@@ -6,6 +6,7 @@ import { Readable } from 'node:stream';
 
 const state = { messageExists: true, threadOwnerId: 7, urls: ['https://api.twilio.com/fixture'] };
 const db = {
+  user: { findUnique: jest.fn(async () => ({ ageBand: 'ADULT_18_24' })) },
   smsMessage: {
     findFirst: jest.fn(async ({ where }) => state.messageExists && where.id === 42
       ? { id: 42, threadId: 19, mediaUrls: state.urls, provider: 'twilio' }
@@ -62,6 +63,7 @@ beforeEach(() => {
   state.threadOwnerId = 7;
   state.urls = ['https://api.twilio.com/fixture'];
   jest.clearAllMocks();
+  db.user.findUnique.mockResolvedValue({ ageBand: 'ADULT_18_24' });
 });
 
 const read = (user = 7, url = '/sms/media/42/0') =>
@@ -100,7 +102,28 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     expect(response.headers['content-type']).toMatch(/^image\/jpeg/);
     expect(response.headers['cache-control']).toContain('private');
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock).toHaveBeenCalledWith(state.urls[0]);
+    expect(fetchMock).toHaveBeenCalledWith(state.urls[0], { ownerId: 7 });
+  });
+
+  test('teen owner cannot fetch visual or unknown MMS media through the proxy', async () => {
+    db.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    state.urls = [{ url: 'https://api.twilio.com/fixture', contentType: 'image/jpeg' }];
+    expect((await read()).status).toBe(404);
+    state.urls = ['uploads/u7/old-opaque'];
+    expect((await read()).status).toBe(404);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  test('teen proxy indexes surviving audio media after a hidden image', async () => {
+    db.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    state.urls = [
+      { url: 'https://api.twilio.com/image', contentType: 'image/jpeg' },
+      { url: 'https://api.twilio.com/audio', contentType: 'audio/mpeg' },
+    ];
+    const response = await read(7, '/sms/media/42/0');
+    expect(response.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledWith('https://api.twilio.com/audio', { ownerId: 7 });
+    expect((await read(7, '/sms/media/42/1')).status).toBe(404);
   });
 
   test('invalid and missing attachment indexes never fetch upstream', async () => {

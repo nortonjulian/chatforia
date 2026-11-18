@@ -177,6 +177,19 @@ describe('smsService', () => {
       delete process.env.R2_PUBLIC_BASE;
     });
 
+    test('teen outbound MMS is rejected before thread, allowance, provider, or persistence effects', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({ plan: 'PLUS', ageBand: 'TEEN_13_17' });
+      await expect(sendUserSms({
+        userId: 1, to: '+15551234567', body: '', mediaUrls: [ownedKey],
+      })).rejects.toMatchObject({ output: { statusCode: 403,
+        payload: { code: 'TEEN_VISUAL_MEDIA_RESTRICTED' } } });
+      expect(mockPrisma.smsThread.create).not.toHaveBeenCalled();
+      expect(mockPrisma.upload.findFirst).not.toHaveBeenCalled();
+      expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
+      expect(sendSmsMock).not.toHaveBeenCalled();
+      expect(mockPrisma.smsMessage.create).not.toHaveBeenCalled();
+    });
+
     test('Twilio receives signed URL; database stores stable URL', async () => {
       await sendUserSms({
         userId: 1,
@@ -448,6 +461,24 @@ describe('smsService', () => {
   });
 
   describe('recordInboundSms', () => {
+    it('stores inbound MMS for history but withholds visual URLs from teen realtime delivery', async () => {
+      const media = [{ url: 'https://api.twilio.com/photo', contentType: 'image/jpeg' }];
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({ assignedUserId: 7 });
+      mockPrisma.user.findUnique.mockResolvedValue({ plan: 'PLUS', ageBand: 'TEEN_13_17' });
+      mockPrisma.smsThread.findFirst.mockResolvedValue({ id: 33, userId: 7, contactPhone: '+15551234567' });
+      mockPrisma.smsMessage.create.mockResolvedValue({ id: 700, body: 'keep text', mediaUrls: media });
+      const result = await recordInboundSms({
+        toNumber: '+19998887777', fromNumber: '+15551234567', body: 'keep text',
+        provider: 'twilio', providerMessageId: 'SM-TEEN-MMS', media,
+      });
+      expect(result.ok).toBe(true);
+      expect(mockPrisma.smsMessage.create).toHaveBeenCalled();
+      expect(emitToUserMock).toHaveBeenCalledWith(7, 'sms:message:new', {
+        threadId: 33,
+        message: expect.objectContaining({ body: 'keep text', mediaUrls: [], mediaRestricted: true }),
+      });
+    });
+
     it('persists inbound SMS when owner is found and returns ok', async () => {
       mockPrisma.phoneNumber.findFirst.mockResolvedValue({
         assignedUserId: 7,
@@ -716,6 +747,24 @@ describe('smsService', () => {
   });
 
   describe('getThread', () => {
+    it('hides historical MMS images for teen owner while retaining text and audio', async () => {
+      mockPrisma.smsThread.findFirst.mockResolvedValue({
+        id: 10, userId: 3, contactPhone: '+15551234567', contactId: null, participants: [],
+      });
+      mockPrisma.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+      mockPrisma.smsMessage.findMany.mockResolvedValue([{
+        id: 8, body: 'keep text', mediaUrls: [
+          { url: 'https://api.twilio.com/image', contentType: 'image/jpeg' },
+          { url: 'https://api.twilio.com/audio', contentType: 'audio/mpeg' },
+        ],
+      }]);
+      const thread = await getThread(3, '10');
+      expect(thread.messages[0]).toMatchObject({ body: 'keep text', mediaRestricted: true });
+      expect(thread.messages[0].mediaUrls).toEqual([
+        { url: 'https://api.twilio.com/audio', contentType: 'audio/mpeg' },
+      ]);
+    });
+
     it('returns thread when it belongs to the user', async () => {
       mockPrisma.smsThread.findFirst.mockResolvedValue({
         id: 10,

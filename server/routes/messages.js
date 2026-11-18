@@ -15,6 +15,11 @@ import { shapeMessageForUser, createMessageService } from '../services/messageSe
 import { recordMessageReads } from '../services/readReceiptService.js';
 import { assertDirectRoomAllowed } from '../services/userBlockService.js';
 import {
+  TEEN_VISUAL_MEDIA_CODE, isVisualAttachment,
+  isTeenAccount, redactVisualMediaForViewer,
+  roomHasTeen, visualMediaRestrictionError,
+} from '../services/teenVisualMediaPolicy.js';
+import {
   authorizeGroupRiaInvocation,
   GroupRiaInvocationError,
 } from '../services/groupRiaInvocationContract.js';
@@ -24,7 +29,7 @@ import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 import { scoreReport, shouldAutoHide } from '../services/src/moderationService.js';
 
 // Hardened upload + safety utilities
-import { uploadMedia } from '../middleware/uploads.js';
+import { uploadMedia, uploadDirs } from '../middleware/uploads.js';
 import { scanFile } from '../utils/antivirus.js';
 import { ensureThumb } from '../utils/thumbnailer.js';
 
@@ -376,6 +381,7 @@ router.get(
     if (!okMember) {
       throw Boom.forbidden('Not a participant in this chat');
     }
+    const roomTeen = await roomHasTeen(prisma, chatRoomId);
 
     let clearedAt = membership?.clearedAt ?? null;
 
@@ -442,7 +448,7 @@ router.get(
         deletedById: true,
         revision: true,
         isExplicit: true,
-        sender: { select: { id: true, username: true, publicKey: true, avatarUrl: true } },
+        sender: { select: { id: true, username: true, publicKey: true, avatarUrl: true, ageBand: true } },
         readBy: { select: { id: true, username: true, avatarUrl: true } },
         attachments: {
           where: { deletedAt: null },
@@ -502,8 +508,11 @@ router.get(
       translatedFrom: m.translatedFrom || null,
     }));
 
+    const viewer = await prisma.user.findUnique({
+      where: { id: requesterId }, select: { ageBand: true },
+    });
     return res.json({
-      items: shaped,
+      items: shaped.map((item) => redactVisualMediaForViewer(item, isTeenAccount(viewer), roomTeen)),
       nextSinceId: shaped.length ? shaped[shaped.length - 1].id : null,
       count: shaped.length,
     });
@@ -680,6 +689,18 @@ router.post(
     }
 
     const files = Array.isArray(req.files) ? req.files : [];
+    let declaredInline = [];
+    try {
+      declaredInline = Array.isArray(attachmentsInline)
+        ? attachmentsInline : JSON.parse(attachmentsInline || '[]');
+      if (!Array.isArray(declaredInline)) declaredInline = [];
+    } catch { declaredInline = []; }
+    if ((files.some(isVisualAttachment) || declaredInline.some(isVisualAttachment)) &&
+        await roomHasTeen(prisma, chatRoomId)) {
+      await Promise.all(files.map((file) => file.path
+        ? fs.promises.unlink(file.path).catch(() => {}) : Promise.resolve()));
+      return res.status(403).json({ error: TEEN_VISUAL_MEDIA_CODE, code: TEEN_VISUAL_MEDIA_CODE });
+    }
 
     // AV scan + derive attachments with PRIVATE paths
     const uploaded = [];
@@ -894,6 +915,13 @@ router.post(
     } catch (err) {
       if (err instanceof GroupRiaInvocationError) {
         return res.status(err.status).json({ error: err.code });
+      }
+      if (err?.code === TEEN_VISUAL_MEDIA_CODE) {
+        await Promise.all(uploaded.flatMap((item) => [
+          item._fsPath,
+          item._thumb ? path.join(uploadDirs.ROOT, item._thumb) : null,
+        ]).filter(Boolean).map((file) => fs.promises.unlink(file).catch(() => {})));
+        return res.status(403).json({ error: err.code, code: err.code });
       }
       console.error('[message create FAILED]', err);
 
@@ -1216,6 +1244,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       });
     }
 
+    const roomTeen = await roomHasTeen(prisma, chatRoomId);
     let clearedAt = membership?.clearedAt ?? null;
 
     if (!clearedAt && IS_TEST) {
@@ -1266,7 +1295,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         select: { id: true },
         take: 1,
       },
-      sender: { select: { id: true, username: true, publicKey: true } },
+      sender: { select: { id: true, username: true, publicKey: true, ageBand: true } },
       readBy: { select: { id: true, username: true, avatarUrl: true } },
       attachments: {
         where: { deletedAt: null },
@@ -1384,7 +1413,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
       const requester = await prisma.user.findUnique({
         where: { id: requesterId },
-        select: { preferredLanguage: true },
+        select: { preferredLanguage: true, ageBand: true },
       });
       const myLang = requester?.preferredLanguage || 'en';
       const translationEnabled = false;
@@ -1495,7 +1524,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       const nextCursorDelta =
         shapedDelta.length === 0 ? null : Math.min(...shapedDelta.map((m) => m.id));
       return res.json({
-        items: shapedDelta,
+        items: shapedDelta.map((item) => redactVisualMediaForViewer(item, isTeenAccount(requester), roomTeen)),
         nextCursor: nextCursorDelta,
         count: shapedDelta.length,
       });
@@ -1555,7 +1584,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
     const requester = await prisma.user.findUnique({
       where: { id: requesterId },
-      select: { preferredLanguage: true },
+      select: { preferredLanguage: true, ageBand: true },
     });
     const myLang = requester?.preferredLanguage || 'en';
 
@@ -1711,7 +1740,10 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     const nextCursor = all.length === limit ? makeCompoundCursor(all[all.length - 1]) : null;
     const nextCursorId = all.length === limit ? all[all.length - 1].id : null;
 
-    return res.json({ items: all, nextCursor, nextCursorId, count: all.length });
+    return res.json({
+      items: all.map((item) => redactVisualMediaForViewer(item, isTeenAccount(requester), roomTeen)),
+      nextCursor, nextCursorId, count: all.length,
+    });
   } catch (e) {
     console.error('[messages:list] failed', {
       message: e?.message,
@@ -2068,6 +2100,9 @@ async function editMessageCore(req, res) {
       if (mm.senderId !== requesterId) {
         throw Boom.forbidden('Unauthorized');
       }
+      if (attachments.some(isVisualAttachment) && await roomHasTeen(prisma, mm.chatRoomId)) {
+        throw visualMediaRestrictionError();
+      }
       if (mm.deletedForAll) {
         throw Boom.forbidden('Cannot edit a deleted message');
       }
@@ -2161,6 +2196,9 @@ async function editMessageCore(req, res) {
 
   if (existing.sender.id !== requesterId) {
     throw Boom.forbidden('Unauthorized');
+  }
+  if (attachments.some(isVisualAttachment) && await roomHasTeen(prisma, existing.chatRoomId)) {
+    throw visualMediaRestrictionError();
   }
 
   const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
@@ -2795,6 +2833,11 @@ router.post(
     if (IS_TEST) {
       const srcMem = memGetMessage(srcId);
       if (srcMem) {
+        if (srcMem.attachments?.some(isVisualAttachment) &&
+            (await roomHasTeen(prisma, srcMem.chatRoomId) ||
+             await roomHasTeen(prisma, Number(toRoomId)))) {
+          return res.status(403).json({ error: TEEN_VISUAL_MEDIA_CODE });
+        }
         const saved = memSaveMessage({
           chatRoomId: Number(toRoomId),
           senderId: userId,
@@ -2808,7 +2851,10 @@ router.post(
 
     const src = await prisma.message.findUnique({
       where: { id: srcId },
-      include: { chatRoom: { select: { id: true } }, attachments: true },
+      include: {
+        chatRoom: { select: { id: true } }, attachments: true,
+        sender: { select: { ageBand: true } },
+      },
     });
     if (!src) throw Boom.notFound('Not found');
 
@@ -2817,6 +2863,12 @@ router.post(
       prisma.participant.findFirst({ where: { chatRoomId: Number(toRoomId), userId } }),
     ]);
     if (!inSrc || !inDst) throw Boom.forbidden('Forbidden');
+    if ((src.imageUrl || src.attachments.some(isVisualAttachment)) &&
+        (src.sender?.ageBand === 'TEEN_13_17' ||
+         await roomHasTeen(prisma, src.chatRoomId) ||
+         await roomHasTeen(prisma, Number(toRoomId)))) {
+      return res.status(403).json({ error: TEEN_VISUAL_MEDIA_CODE });
+    }
 
     const saved = await prisma.message.create({
       data: {
@@ -2843,7 +2895,7 @@ router.post(
       include: { attachments: true },
     });
 
-    req.app.get('io')?.to(String(toRoomId)).emit('receive_message', saved);
+    await emitMessageUpsertPerParticipant(Number(toRoomId), saved.id);
     return res.json(saved);
   })
 );

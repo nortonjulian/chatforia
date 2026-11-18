@@ -1,5 +1,6 @@
 import express from 'express';
 import Boom from '@hapi/boom';
+import { isTeenAccount, isTeenMmsRestricted } from '../services/teenVisualMediaPolicy.js';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -111,7 +112,14 @@ r.get(
         ? Object.values(msg.mediaUrls)
         : [];
 
-    const item = urls?.[idx];
+    const viewer = await prisma.user.findUnique({
+      where: { id: Number(req.user.id) }, select: { ageBand: true },
+    });
+    if (!viewer) throw Boom.notFound('Media item not found');
+    // The client indexes the filtered list returned by GET /threads/:id.
+    const visibleUrls = isTeenAccount(viewer)
+      ? urls.filter((entry) => !isTeenMmsRestricted(entry)) : urls;
+    const item = visibleUrls[idx];
     const url = typeof item === 'string' ? item : item?.url;
     if (!url) throw Boom.notFound('Media item not found');
 
