@@ -1,6 +1,6 @@
 // Keep the latest SMS direction in the conversation preview so clients do not
 // request incoming-only translation for an outgoing message.
-export function smsConversationLast(lastMessage, previewText, media) {
+export function smsConversationLast(lastMessage, previewText, media, mediaRestricted) {
   if (!lastMessage?.createdAt) return null;
   return {
     text: previewText,
@@ -9,5 +9,6 @@ export function smsConversationLast(lastMessage, previewText, media) {
     direction: lastMessage.direction,
     senderName: null,
     ...media,
+    ...(typeof mediaRestricted === 'boolean' ? { mediaRestricted } : {}),
   };
 }

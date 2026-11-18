@@ -17,7 +17,7 @@ test('authenticated audio response renders playable audio instead of an image',a
  respond('audio/mp4');render(<SmsMessageMedia {...props}/>);
  const audio=await screen.findByLabelText('Voice message');
  expect(audio.tagName).toBe('AUDIO');expect(audio.controls).toBe(true);
- expect(axiosClient.get).toHaveBeenCalledWith('/sms/media/166/0',expect.objectContaining({responseType:'blob',signal:expect.any(Object)}));
+ expect(axiosClient.get).toHaveBeenCalledWith('/sms/media/166/0?cacheScope=65',expect.objectContaining({responseType:'blob',signal:expect.any(Object)}));
  expect(screen.queryByRole('img')).toBeNull();
 });
 test('image and video retain their appropriate controls',async()=>{
@@ -26,6 +26,10 @@ test('image and video retain their appropriate controls',async()=>{
  respond('video/mp4');view.rerender(<SmsMessageMedia {...props} messageId={167}/>);
  expect((await screen.findByLabelText('Video attachment')).tagName).toBe('VIDEO');
  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:sms-1');
+});
+test('authorized nonvisual attachment remains downloadable from a local blob',async()=>{
+ respond('application/pdf');render(<SmsMessageMedia {...props} item={{url:'opaque-file',contentType:'application/pdf'}}/>);
+ expect((await screen.findByRole('link',{name:'Download attachment'})).getAttribute('href')).toBe('blob:sms-1');
 });
 test('failed attachment has a styled Retry loading control that only refetches media',async()=>{
  axiosClient.get.mockRejectedValueOnce(Error('offline'));render(<SmsMessageMedia {...props}/>);
@@ -37,7 +41,7 @@ test('failed attachment has a styled Retry loading control that only refetches m
  respond('audio/mp4');fireEvent.click(retry);
  await screen.findByLabelText('Voice message');
  expect(axiosClient.get).toHaveBeenCalledTimes(2);
- expect(axiosClient.get.mock.calls.every(([url])=>url==='/sms/media/166/0')).toBe(true);
+ expect(axiosClient.get.mock.calls.every(([url])=>url==='/sms/media/166/0?cacheScope=65')).toBe(true);
 });
 test('late previous-account response cannot render or allocate a media URL',async()=>{
  let resolve;axiosClient.get.mockImplementationOnce(()=>new Promise(r=>{resolve=r;}));
@@ -45,6 +49,18 @@ test('late previous-account response cannot render or allocate a media URL',asyn
  view.rerender(<SmsMessageMedia {...props} accountKey="1"/>);await screen.findByRole('img');
  resolve({data:new Blob(['old'],{type:'audio/mp4'}),headers:{'content-type':'audio/mp4'}});
  await waitFor(()=>expect(URL.createObjectURL).toHaveBeenCalledTimes(1));expect(screen.queryByLabelText('Voice message')).toBeNull();
+});
+test('loaded account A blob is revoked and account B must fetch authorized bytes',async()=>{
+ respond('image/jpeg');const view=render(<SmsMessageMedia {...props}/>);
+ expect((await screen.findByRole('img')).getAttribute('src')).toBe('blob:sms-1');
+ axiosClient.get.mockRejectedValueOnce(new Error('forbidden'));
+ view.rerender(<SmsMessageMedia {...props} accountKey="8"/>);
+ expect(screen.queryByRole('img')).toBeNull();
+ expect(await screen.findByRole('alert')).toHaveTextContent("Couldn't load attachment.");
+ expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:sms-1');
+ expect(axiosClient.get.mock.calls.map(([url])=>url)).toEqual([
+   '/sms/media/166/0?cacheScope=65', '/sms/media/166/0?cacheScope=8',
+ ]);
 });
 test('playing one SMS attachment pauses other SMS audio only',async()=>{
  respond('audio/mp4');render(<><SmsMessageMedia {...props}/><SmsMessageMedia {...props} messageId={167}/><audio aria-label="Ringtone"/></>);

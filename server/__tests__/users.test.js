@@ -9,6 +9,7 @@ const mockUserFindUnique = jest.fn();
 const mockUserFindFirst = jest.fn();
 const mockUserCreate = jest.fn();
 const mockUserUpdate = jest.fn();
+const mockUserUpdateMany = jest.fn();
 
 // bcrypt.hash
 const mockHash = jest.fn();
@@ -43,6 +44,7 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
       findFirst: mockUserFindFirst,
       create: mockUserCreate,
       update: mockUserUpdate,
+      updateMany: mockUserUpdateMany,
     },
   },
 }));
@@ -93,6 +95,7 @@ beforeEach(() => {
   mockUserFindFirst.mockReset();
   mockUserCreate.mockReset();
   mockUserUpdate.mockReset();
+  mockUserUpdateMany.mockReset();
   mockHash.mockReset();
   mockValidateRegistrationInput.mockReset();
   mockAuthRouter.mockReset();
@@ -612,6 +615,59 @@ describe('PATCH /users/me', () => {
     expect(data.ageAttestedAt).toBeInstanceOf(Date);
     expect(data.randomChatAllowedBands).toEqual(['TEEN_13_17']);
     expect(data.wantsAgeFilter).toBe(true);
+  });
+
+  it('denies a teen-to-adult self-change without writing any accompanying profile fields', async () => {
+    mockUserUpdateMany.mockResolvedValueOnce({ count: 0 });
+    const res = await request(createApp({ user: { id: 301 } }))
+      .patch('/users/me')
+      .send({ ageBand: 'ADULT_18_24', theme: 'midnight' });
+
+    expect(res.statusCode).toBe(403);
+    expect(res.body.code).toBe('AGE_BAND_TRANSITION_REQUIRES_REVIEW');
+    expect(mockUserUpdateMany).toHaveBeenCalledWith({
+      where: {
+        id: 301,
+        OR: [{ ageBand: null }, { ageBand: { not: 'TEEN_13_17' } }],
+      },
+      data: expect.objectContaining({ ageBand: 'ADULT_18_24', theme: 'midnight' }),
+    });
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+    expect(mockUserFindUnique).not.toHaveBeenCalled();
+  });
+
+  it.each(['ADULT_18_24', 'ADULT_25_34'])('allows an eligible initial or existing adult selection of %s', async (band) => {
+    mockUserUpdateMany.mockResolvedValueOnce({ count: 1 });
+    mockUserFindUnique.mockResolvedValueOnce({ id: 302, ageBand: band });
+    const res = await request(createApp({ user: { id: 302 } }))
+      .patch('/users/me').send({ ageBand: band });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.ageBand).toBe(band);
+    expect(mockUserUpdateMany).toHaveBeenCalledTimes(1);
+    expect(mockUserUpdate).not.toHaveBeenCalled();
+  });
+
+  it('keeps teen selection authoritative when it races adult self-attestation', async () => {
+    let storedBand = null;
+    mockUserUpdate.mockImplementation(async ({ data }) => {
+      storedBand = data.ageBand;
+      return { id: 303, ageBand: storedBand };
+    });
+    mockUserUpdateMany.mockImplementation(async ({ data }) => {
+      if (storedBand === 'TEEN_13_17') return { count: 0 };
+      storedBand = data.ageBand;
+      return { count: 1 };
+    });
+    mockUserFindUnique.mockImplementation(async () => ({ id: 303, ageBand: storedBand }));
+    const app = createApp({ user: { id: 303 } });
+    const [teen, adult] = await Promise.all([
+      request(app).patch('/users/me').send({ ageBand: 'TEEN_13_17' }),
+      request(app).patch('/users/me').send({ ageBand: 'ADULT_18_24' }),
+    ]);
+    expect(teen.statusCode).toBe(200);
+    expect([200, 403]).toContain(adult.statusCode);
+    expect(storedBand).toBe('TEEN_13_17');
   });
 
   it('filters out TEEN_13_17 for adult users randomChatAllowedBands', async () => {

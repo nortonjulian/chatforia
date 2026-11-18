@@ -336,4 +336,58 @@ describe('Conversations: deleted-message preview fallback', () => {
     expect(await smsConversationIDs(recipientId)).not.toContain(thread.id);
   });
 
+  test('adult SMS preview retains outgoing direction, caption and image metadata', async () => {
+    await prisma.user.update({ where: { id: senderId }, data: { ageBand: 'ADULT_18_24' } });
+    const thread = await prisma.smsThread.create({
+      data: { userId: senderId, contactPhone: '+12025550101' },
+    });
+    const image = { url: 'https://media.example/adult.jpg', contentType: 'image/jpeg' };
+    const message = await prisma.smsMessage.create({
+      data: {
+        threadId: thread.id, direction: 'out', fromNumber: '+12025550103',
+        toNumber: '+12025550101', body: 'Sent photo', mediaUrls: [image],
+      },
+    });
+
+    const response = await asUser(request(app).get(ENDPOINTS.conversations), senderId).expect(200);
+    const last = response.body.items.find((item) => item.kind === 'sms' && item.id === thread.id)?.last;
+    expect(last).toMatchObject({
+      text: 'Sent photo', messageId: message.id, direction: 'out',
+      hasMedia: true, mediaCount: 1, mediaKinds: ['image'],
+      thumbUrl: image.url, mediaRestricted: false,
+    });
+  });
+
+  test('teen SMS previews omit hidden media text and metadata while retaining permitted audio', async () => {
+    await prisma.user.update({ where: { id: recipientId }, data: { ageBand: 'TEEN_13_17' } });
+    const hidden = { url: 'https://media.example/hidden.jpg', contentType: 'image/jpeg' };
+    const audio = { url: 'https://media.example/voice.mp3', contentType: 'audio/mpeg' };
+    const createThread = async (body, mediaUrls) => {
+      const thread = await prisma.smsThread.create({
+        data: { userId: recipientId, contactPhone: '+12025550101' },
+      });
+      await prisma.smsMessage.create({
+        data: {
+          threadId: thread.id, direction: 'in', fromNumber: '+12025550101',
+          toNumber: '+12025550103', body, mediaUrls,
+        },
+      });
+      return thread.id;
+    };
+    const imageOnlyId = await createThread('', [hidden]);
+    const mixedId = await createThread('Keep this caption', [hidden, audio]);
+
+    const response = await asUser(request(app).get(ENDPOINTS.conversations), recipientId).expect(200);
+    const lastFor = (id) => response.body.items.find((item) => item.kind === 'sms' && item.id === id)?.last;
+    expect(lastFor(imageOnlyId)).toMatchObject({
+      text: '', direction: 'in', mediaRestricted: true,
+      hasMedia: false, mediaCount: 0, mediaKinds: [], thumbUrl: null,
+    });
+    expect(lastFor(mixedId)).toMatchObject({
+      text: 'Keep this caption', direction: 'in', mediaRestricted: true,
+      hasMedia: true, mediaCount: 1, mediaKinds: ['audio'], thumbUrl: null,
+    });
+    expect(JSON.stringify([lastFor(imageOnlyId), lastFor(mixedId)])).not.toContain(hidden.url);
+  });
+
 });

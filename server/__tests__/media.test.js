@@ -42,6 +42,7 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
       findUnique: jest.fn(),
     },
     threadState: { findUnique: jest.fn(async () => null) },
+    user: { findUnique: jest.fn(async () => ({ ageBand: 'ADULT_18_24' })) },
   };
   return {
     __esModule: true,
@@ -110,6 +111,7 @@ app.use('/media', mediaRouter);
 
 beforeEach(() => {
   jest.clearAllMocks();
+  prismaMock.user.findUnique.mockResolvedValue({ ageBand: 'ADULT_18_24' });
   currentFile = null;
   currentMulterError = null;
 });
@@ -121,6 +123,14 @@ afterAll(() => {
 // -------------------- Tests --------------------
 
 describe('POST /media/upload', () => {
+  test('teen visual upload is rejected before storage', async () => {
+    currentFile = { originalname: 'photo.jpg', mimetype: 'image/jpeg', buffer: Buffer.from('synthetic'), size: 9 };
+    prismaMock.user.findUnique.mockResolvedValueOnce({ ageBand: 'TEEN_13_17' });
+    const denied = await request(app).post('/media/upload').set('x-test-user-id', '42');
+    expect(denied.status).toBe(403);
+    expect(denied.body.error).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
+    expect(r2PutObjectMock).not.toHaveBeenCalled();
+  });
   test('uploads file and returns signed URL in signed mode', async () => {
     currentFile = {
       originalname: 'photo.jpg',
@@ -345,11 +355,28 @@ describe('GET /media/chatrooms/:id/media', () => {
           select: {
             id: true,
             createdAt: true,
-            sender: { select: { id: true, username: true, avatarUrl: true } },
+            sender: { select: { id: true, username: true, avatarUrl: true, ageBand: true } },
           },
         },
       },
     });
+  });
+
+  test('does not list existing visual media in a room containing a teen', async () => {
+    prismaMock.participant.findFirst
+      .mockResolvedValueOnce({ id: 1 })
+      .mockResolvedValueOnce({ id: 2 });
+    prismaMock.messageAttachment.findMany.mockResolvedValueOnce([
+      { id: 1, kind: 'IMAGE', mimeType: 'image/jpeg', url: 'media/old.jpg',
+        message: { sender: { id: 10, ageBand: 'ADULT_18_24' } } },
+      { id: 2, kind: 'AUDIO', mimeType: 'audio/m4a', url: 'media/voice.m4a',
+        message: { sender: { id: 10, ageBand: 'ADULT_18_24' } } },
+    ]);
+    const res = await request(app).get('/media/chatrooms/55/media')
+      .set('x-test-user-id', '10');
+    expect(res.status).toBe(200);
+    expect(res.body.map((item) => item.id)).toEqual([2]);
+    expect(res.body[0].message.sender.ageBand).toBeUndefined();
   });
 
   test('unverified global admin cannot list another room media', async () => {

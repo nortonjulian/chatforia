@@ -1,6 +1,10 @@
 import prisma from '../utils/prismaClient.js';
 import { assertDirectRoomAllowed } from './userBlockService.js';
 import {
+  isTeenAccount, isVisualAttachment, redactVisualMediaForViewer,
+  roomHasTeen, visualMediaRestrictionError,
+} from './teenVisualMediaPolicy.js';
+import {
   authorizeGroupRiaInvocation,
   GroupRiaInvocationError,
 } from './groupRiaInvocationContract.js';
@@ -154,6 +158,7 @@ export async function createMessageService({
       autoDeleteSeconds: true,
       publicKey: true,
       plan: true,
+      ageBand: true,
     },
   });
   if (!sender) throw new Error('Sender not found');
@@ -163,6 +168,11 @@ export async function createMessageService({
   });
   if (!membership) throw new Error('Not a participant in this chat');
   await assertDirectRoomAllowed(roomIdNum, sender.id);
+
+  const hasVisualMedia = Boolean(imageUrl) || Boolean(attachments?.some(isVisualAttachment));
+  if (hasVisualMedia && (isTeenAccount(sender) || await roomHasTeen(prisma, roomIdNum))) {
+    throw visualMediaRestrictionError();
+  }
 
   // ✅ Idempotency: normalize client message id once and use it both for lookup and create
   const cid = typeof clientMessageId === 'string' ? clientMessageId.trim() : '';
@@ -233,6 +243,7 @@ export async function createMessageService({
           preferredLanguage: true,
           allowExplicitContent: true,
           publicKey: true,
+          ageBand: true,
         },
       },
     },
@@ -404,6 +415,11 @@ translationsMap = Object.keys(map).length ? map : null;
 
     // Run a transaction: create message, then (if keys) create messageKey rows referencing saved.id
     saved = await prisma.$transaction(async (tx) => {
+      if (hasVisualMedia && (isTeenAccount(await tx.user.findUnique({
+        where: { id: sender.id }, select: { ageBand: true },
+      })) || await roomHasTeen(tx, roomIdNum))) {
+        throw visualMediaRestrictionError();
+      }
       if (riaInvocationBody) {
         // Room row lock coordinates setting changes and new
         // participant FK references while this invocation commits.
@@ -802,6 +818,7 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
           publicKey: true,
           avatarUrl: true,
           preferredLanguage: true,
+          ageBand: true,
         },
       },
 
@@ -908,6 +925,7 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
     select: {
       id: true,
       preferredLanguage: true,
+      ageBand: true,
     },
   });
 
@@ -930,14 +948,14 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
     }
   : null;
 
-  return {
+  return redactVisualMediaForViewer({
     ...m,
     senderId,
     encryptedPayloadForMe,
     encryptedKeyForMe: m.keys?.[0]?.encryptedKey || null,
     translatedForMe,
     rawContent: hasCipher && !isSender ? null : (m.rawContent || ''),
-  };
+  }, isTeenAccount(viewer), await roomHasTeen(prisma, m.chatRoomId));
 }
 
 /**

@@ -11,8 +11,12 @@ const makeDb = (overrides = {}) => ({
       deletedBySender: false, deletions: [],
     },
   })) },
-  participant: { findUnique: jest.fn(async () => ({ id: 4, clearedAt: null })) },
+  participant: {
+    findUnique: jest.fn(async () => ({ id: 4, clearedAt: null })),
+    findFirst: jest.fn(async () => null),
+  },
   threadState: { findUnique: jest.fn(async () => null) },
+  user: { findUnique: jest.fn(async () => ({ ageBand: 'ADULT_18_24' })) },
   ...overrides,
 });
 
@@ -24,7 +28,9 @@ describe('private message attachment authorization', () => {
     expect((await getAuthorizedMessageMedia({ ...input, db, variant: 'thumb' }))?.relativePath).toBe('thumbs/voice.jpg');
   });
   test('never returns a path when recipient is not a member', async () => {
-    const db = makeDb({ participant: { findUnique: jest.fn(async () => null) } });
+    const db = makeDb({ participant: {
+      findUnique: jest.fn(async () => null), findFirst: jest.fn(async () => null),
+    } });
     expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
   });
   test('rejects message expiry, delete for all, per-user delete, and file deletion', async () => {
@@ -70,7 +76,9 @@ describe('private message attachment authorization', () => {
     const result = await getAuthorizedMessageMedia({ ...input, db });
     expect(result?.storageKey).toBe('uploads/u1/voice.webm');
     expect(result?.relativePath).toBeNull();
-    const blocked = makeDb({ participant: { findUnique: jest.fn(async () => null) } });
+    const blocked = makeDb({ participant: {
+      findUnique: jest.fn(async () => null), findFirst: jest.fn(async () => null),
+    } });
     blocked.messageAttachment.findUnique.mockResolvedValue(attachment);
     expect(await getAuthorizedMessageMedia({ ...input, db: blocked })).toBeNull();
   });
@@ -81,9 +89,30 @@ describe('private message attachment authorization', () => {
     db.messageAttachment.findUnique.mockResolvedValue(attachment);
     const accepted = await getAuthorizedMessageMedia({ ...input, db });
     expect(accepted?.storageKey).toBe(attachment.url);
-    const stranger = makeDb({ participant: { findUnique: jest.fn(async () => null) } });
+    const stranger = makeDb({ participant: {
+      findUnique: jest.fn(async () => null), findFirst: jest.fn(async () => null),
+    } });
     stranger.messageAttachment.findUnique.mockResolvedValue(attachment);
     expect(await getAuthorizedMessageMedia({ ...input, db: stranger })).toBeNull();
+  });
+
+  test('denies existing image and thumbnail grants to teens and for teen-sent media', async () => {
+    const db = makeDb();
+    const attachment = await db.messageAttachment.findUnique();
+    attachment.kind = 'IMAGE';
+    attachment.mimeType = 'image/jpeg';
+    attachment.url = 'media/photo.jpg';
+    db.messageAttachment.findUnique.mockResolvedValue(attachment);
+    db.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
+    expect(await getAuthorizedMessageMedia({ ...input, db, variant: 'thumb' })).toBeNull();
+    db.user.findUnique.mockResolvedValue({ ageBand: 'ADULT_18_24' });
+    attachment.message.sender = { ageBand: 'TEEN_13_17' };
+    expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
+    attachment.message.sender = { ageBand: 'ADULT_18_24' };
+    expect((await getAuthorizedMessageMedia({ ...input, db }))?.relativePath).toBe('media/photo.jpg');
+    db.participant.findFirst.mockResolvedValue({ id: 6 });
+    expect(await getAuthorizedMessageMedia({ ...input, db })).toBeNull();
   });
 
   test('rejects malformed upload object keys without changing CDN compatibility', () => {

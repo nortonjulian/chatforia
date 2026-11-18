@@ -9,6 +9,7 @@ import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import { r2PutObject, r2PresignGet } from '../utils/r2.js';
 import { cloudMessageMediaKey } from '../services/privateMessageMedia.js';
 import { issuePrivateMediaGrant } from '../services/privateMediaGrant.js';
+import { isTeenAccount, isVisualAttachment, roomHasTeen } from '../services/teenVisualMediaPolicy.js';
 
 const router = Router();
 
@@ -92,6 +93,14 @@ router.post(
       if (!req.file) return res.status(400).json({ error: 'No file uploaded' })
 
       const userId = req.user?.id;
+      if (isVisualAttachment(req.file)) {
+        const uploader = await prisma.user.findUnique({
+          where: { id: Number(userId) }, select: { ageBand: true },
+        });
+        if (!uploader || isTeenAccount(uploader)) {
+          return res.status(403).json({ error: 'TEEN_VISUAL_MEDIA_RESTRICTED' });
+        }
+      }
       const key = makeObjectKey(userId, req.file.originalname);
 
       await r2PutObject({
@@ -186,6 +195,11 @@ router.get('/chatrooms/:id/media', requireAuth, async (req, res) => {
   if (!member && !hasVerifiedAdminAccess(req))
     return res.status(403).json({ error: 'Forbidden' });
 
+  const viewer = await prisma.user.findUnique({
+    where: { id: Number(userId) }, select: { ageBand: true },
+  });
+  const roomTeen = await roomHasTeen(prisma, chatRoomId);
+
   const rows = await prisma.messageAttachment.findMany({
     where: { message: { chatRoomId } },
     orderBy: { createdAt: 'desc' },
@@ -203,13 +217,19 @@ router.get('/chatrooms/:id/media', requireAuth, async (req, res) => {
         select: {
           id: true,
           createdAt: true,
-          sender: { select: { id: true, username: true, avatarUrl: true } },
+          sender: { select: { id: true, username: true, avatarUrl: true, ageBand: true } },
         },
       },
     },
   });
 
-  res.json(rows);
+  res.json(rows
+    .filter((row) => !(isVisualAttachment(row) &&
+      (isTeenAccount(viewer) || roomTeen || isTeenAccount(row.message?.sender))))
+    .map((row) => {
+      const { ageBand, ...sender } = row.message?.sender || {};
+      return { ...row, message: { ...row.message, sender } };
+    }));
 });
 
 export default router;

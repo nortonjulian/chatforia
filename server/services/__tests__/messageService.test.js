@@ -40,6 +40,8 @@ const mockChatRoomFindUnique = jest.fn();
 
 const mockTransaction = jest.fn(async (callback) => {
   return callback({
+    user: { findUnique: mockUserFindUnique },
+    participant: { findFirst: mockParticipantFindFirst },
     message: {
       create: mockMessageCreate,
     },
@@ -179,6 +181,48 @@ afterAll(() => {
 // ============================================================================
 
 describe('createMessageService', () => {
+  it('rejects teen-sent and teen-recipient visual attachments before persistence', async () => {
+    const image = [{ kind: 'FILE', mimeType: 'image/jpeg', url: 'opaque' }];
+    mockUserFindUnique.mockResolvedValueOnce({ id: 1, ageBand: 'TEEN_13_17' });
+    mockParticipantFindFirst.mockResolvedValueOnce({ id: 1 });
+    await expect(createMessageService({ senderId: 1, chatRoomId: 77, attachments: image }))
+      .rejects.toMatchObject({ code: 'TEEN_VISUAL_MEDIA_RESTRICTED' });
+    expect(mockMessageCreate).not.toHaveBeenCalled();
+
+    mockUserFindUnique.mockResolvedValueOnce({ id: 1, ageBand: 'ADULT_18_24' });
+    mockParticipantFindFirst.mockResolvedValueOnce({ id: 1 }).mockResolvedValueOnce({ id: 2 });
+    await expect(createMessageService({ senderId: 1, chatRoomId: 77, attachments: image }))
+      .rejects.toMatchObject({ code: 'TEEN_VISUAL_MEDIA_RESTRICTED' });
+    expect(mockMessageCreate).not.toHaveBeenCalled();
+  });
+
+  it('preserves adult image sending and ordinary teen text', async () => {
+    const sender = { id: 1, username: 'adult', ageBand: 'ADULT_18_24',
+      allowExplicitContent: true, preferredLanguage: 'en', plan: 'FREE' };
+    mockUserFindUnique.mockResolvedValue(sender);
+    mockParticipantFindFirst.mockResolvedValueOnce({ id: 1 }).mockResolvedValueOnce(null).mockResolvedValueOnce(null);
+    mockParticipantFindMany.mockResolvedValue([{ user: sender }]);
+    mockMessageCreate.mockResolvedValueOnce({
+      id: 91, senderId: 1, chatRoomId: 77, rawContent: '',
+      attachments: [{ id: 7, kind: 'IMAGE', url: 'photo.jpg' }],
+    }).mockResolvedValueOnce({
+      id: 92, senderId: 1, chatRoomId: 77, rawContent: 'hello', attachments: [],
+    });
+    const sent = await createMessageService({
+      senderId: 1, chatRoomId: 77,
+      attachments: [{ kind: 'IMAGE', mimeType: 'image/jpeg', url: 'photo.jpg' }],
+    });
+    expect(sent.attachments).toHaveLength(1);
+    expect(mockMessageCreate).toHaveBeenCalledTimes(1);
+
+    mockUserFindUnique.mockResolvedValueOnce({ ...sender, ageBand: 'TEEN_13_17' });
+    mockParticipantFindFirst.mockResolvedValueOnce({ id: 1 });
+    mockParticipantFindMany.mockResolvedValueOnce([{ user: { ...sender, ageBand: 'TEEN_13_17' } }]);
+    const text = await createMessageService({ senderId: 1, chatRoomId: 77, content: 'hello' });
+    expect(text.rawContent).toBe('hello');
+    expect(mockMessageCreate.mock.calls[1][0].data.rawContent).toBe('hello');
+    expect(mockMessageCreate).toHaveBeenCalledTimes(2);
+  });
   it('runs full pipeline with FREE plan, clamps TTL, filters/translate, writes message & keys', async () => {
     const senderId = 1;
     const chatRoomId = 77;
@@ -278,6 +322,7 @@ describe('createMessageService', () => {
         autoDeleteSeconds: true,
         publicKey: true,
         plan: true,
+        ageBand: true,
       },
     });
 
@@ -295,6 +340,7 @@ describe('createMessageService', () => {
             preferredLanguage: true,
             allowExplicitContent: true,
             publicKey: true,
+            ageBand: true,
           },
         },
       },

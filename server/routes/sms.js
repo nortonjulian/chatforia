@@ -1,5 +1,6 @@
 import express from 'express';
 import Boom from '@hapi/boom';
+import { isTeenAccount, isTeenMmsRestricted } from '../services/teenVisualMediaPolicy.js';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -77,6 +78,12 @@ function normalizeBlockedPhone(raw) {
 // GET /sms/media/:messageId/:idx
 r.get(
   '/media/:messageId/:idx',
+  (_req, res, next) => {
+    // This URL is stable across account switches. Never let a browser reuse
+    // one account's media response before the next request reaches auth.
+    res.setHeader('Cache-Control', 'private, no-store');
+    next();
+  },
   requireAuth,
   asyncHandler(async (req, res) => {
     const messageId = Number(req.params.messageId);
@@ -111,7 +118,14 @@ r.get(
         ? Object.values(msg.mediaUrls)
         : [];
 
-    const item = urls?.[idx];
+    const viewer = await prisma.user.findUnique({
+      where: { id: Number(req.user.id) }, select: { ageBand: true },
+    });
+    if (!viewer) throw Boom.notFound('Media item not found');
+    // The client indexes the filtered list returned by GET /threads/:id.
+    const visibleUrls = isTeenAccount(viewer)
+      ? urls.filter((entry) => !isTeenMmsRestricted(entry)) : urls;
+    const item = visibleUrls[idx];
     const url = typeof item === 'string' ? item : item?.url;
     if (!url) throw Boom.notFound('Media item not found');
 
@@ -124,7 +138,6 @@ r.get(
 
     res.setHeader('Content-Type', contentType);
     if (contentLength) res.setHeader('Content-Length', contentLength);
-    res.setHeader('Cache-Control', 'private, max-age=60');
 
     if (upstream.body && typeof upstream.body.pipe === 'function') {
       const stream = upstream.body;

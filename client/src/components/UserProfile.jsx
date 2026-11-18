@@ -1334,12 +1334,16 @@ export default function UserProfile({ onLanguageChange, openSection, drawerScrol
                   setAllowExplicitContent(e.currentTarget.checked)
                 }
                 label={t(
-                  'profile.allowExplicitContent',
-                  'Allow explicit content'
+                  'profile.allowProfanityInChatText',
+                  'Allow profanity in chat text'
                 )}
                 aria-label={t(
-                  'profile.allowExplicitContent',
-                  'Allow explicit content'
+                  'profile.allowProfanityInChatText',
+                  'Allow profanity in chat text'
+                )}
+                description={t(
+                  'profile.profanityTextOnlyNote',
+                  'If anyone in the conversation turns this off, chat profanity is masked for everyone. Photos and videos are not screened.'
                 )}
               />
 

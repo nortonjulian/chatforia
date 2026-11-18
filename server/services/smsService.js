@@ -4,6 +4,7 @@ import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
 import { authorizeOutboundMmsAttachments } from './outboundMmsAttachments.js';
+import { isTeenAccount, redactTeenSmsMedia, visualMediaRestrictionError } from './teenVisualMediaPolicy.js';
 import { r2PresignGet } from '../utils/r2.js';
 import { emitToUser } from '../services/socketBus.js';
 import { recordSupportSignal } from './supportAutomationService.js';
@@ -331,12 +332,13 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       ? await assertUserOwnsFromNumber(uid, from)
       : (await getUserActiveDid(uid)).e164;
 
-    const thread = await upsertThread(uid, toPhone);
-
     const me = await prisma.user.findUnique({
       where: { id: uid },
-      select: { plan: true },
+      select: { plan: true, ageBand: true },
     });
+    if (safeMediaUrls.length && isTeenAccount(me)) throw visualMediaRestrictionError();
+
+    const thread = await upsertThread(uid, toPhone);
 
     const mms = safeMediaUrls.length
       ? await authorizeOutboundMmsAttachments({
@@ -633,7 +635,7 @@ export async function recordInboundSms({
 
   const me = await prisma.user.findUnique({
     where: { id: Number(owner.assignedUserId) },
-    select: { plan: true },
+    select: { plan: true, ageBand: true },
   });
 
   try {
@@ -734,7 +736,7 @@ export async function recordInboundSms({
 
   emitToUser(owner.assignedUserId, 'sms:message:new', {
     threadId: thread.id,
-    message: createdMessage,
+    message: redactTeenSmsMedia(createdMessage, isTeenAccount(me)),
   });
 
   return {
@@ -833,19 +835,23 @@ export async function getThread(userId, threadId) {
 
   if (!thread) throw Boom.notFound('Thread not found');
 
+  const viewer = await prisma.user.findUnique({
+    where: { id: uid }, select: { ageBand: true },
+  });
+
   const rawMessages = await prisma.smsMessage.findMany({
     where: { threadId: thread.id },
     orderBy: { createdAt: 'asc' },
   });
 
-  const messages = rawMessages.map((message) => ({
+  const messages = rawMessages.map((message) => redactTeenSmsMedia({
     ...message,
     mediaUrls: Array.isArray(message.mediaUrls)
       ? message.mediaUrls.filter(Boolean)
       : message.mediaUrls && typeof message.mediaUrls === 'object'
         ? Object.values(message.mediaUrls).filter(Boolean)
         : [],
-  }));
+  }, isTeenAccount(viewer)));
 
   const peerPhone =
     thread.contactPhone ||

@@ -1,5 +1,6 @@
 import path from 'node:path';
 import prisma from '../utils/prismaClient.js';
+import { isTeenAccount, isVisualAttachment, roomHasTeen } from './teenVisualMediaPolicy.js';
 
 const PRIVATE_DIRECTORIES = new Set(['media', 'thumbs']);
 
@@ -86,6 +87,8 @@ export async function getAuthorizedMessageMedia({
     where: { id },
     select: {
       id: true,
+      kind: true,
+      mimeType: true,
       url: true,
       thumbUrl: true,
       deletedAt: true,
@@ -94,6 +97,7 @@ export async function getAuthorizedMessageMedia({
           id: true,
           chatRoomId: true,
           senderId: true,
+          sender: { select: { ageBand: true } },
           createdAt: true,
           expiresAt: true,
           deletedForAll: true,
@@ -112,6 +116,14 @@ export async function getAuthorizedMessageMedia({
       (message.deletedBySender && Number(message.senderId) === userId) ||
       message.deletions?.length ||
       (message.expiresAt && new Date(message.expiresAt) <= now)) return null;
+
+  if (isVisualAttachment(attachment)) {
+    const viewer = await db.user.findUnique({
+      where: { id: userId }, select: { ageBand: true },
+    });
+    if (!viewer || isTeenAccount(viewer) || isTeenAccount(message.sender) ||
+        await roomHasTeen(db, message.chatRoomId)) return null;
+  }
 
   const membership = await db.participant.findUnique({
     where: { chatRoomId_userId: { chatRoomId: message.chatRoomId, userId } },

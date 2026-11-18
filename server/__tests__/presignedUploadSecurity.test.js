@@ -7,6 +7,7 @@ process.env.R2_BUCKET = 'chatforia-qa-test-bucket';
 const pendingRecords = new Map();
 
 const mockPrisma = {
+  user: { findUnique: jest.fn(async () => ({ ageBand: 'ADULT_18_24' })) },
   pendingUpload: {
     create: jest.fn(async ({ data }) => {
       const record = {
@@ -99,6 +100,27 @@ describe('presigned upload HTTP security', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     pendingRecords.clear();
+    mockPrisma.user.findUnique.mockResolvedValue({ ageBand: 'ADULT_18_24' });
+  });
+
+  test('teen cannot obtain visual upload intent or complete an older one', async () => {
+    mockPrisma.user.findUnique.mockResolvedValue({ ageBand: 'TEEN_13_17' });
+    const denied = await request(appFor(7)).post('/uploads/intent').send(intentBody);
+    expect(denied.status).toBe(403);
+    expect(denied.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
+    expect(mockStorage.generatePresignedPutUrl).not.toHaveBeenCalled();
+
+    pendingRecords.set('uploads/u7/2026/11/17/old.jpg', {
+      ownerId: 7, key: 'uploads/u7/2026/11/17/old.jpg',
+      originalName: 'old.jpg', mimeType: 'image/jpeg', expectedSize: 100,
+      expiresAt: new Date(Date.now() + 60_000), completedUploadId: null,
+    });
+    const completion = await request(appFor(7)).post('/uploads/complete').send({
+      key: 'uploads/u7/2026/11/17/old.jpg', mimeType: 'image/jpeg', size: 100,
+    });
+    expect(completion.status).toBe(403);
+    expect(completion.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
+    expect(mockStorage.headStorageObject).not.toHaveBeenCalled();
   });
 
   const intentBody = {
