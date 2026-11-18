@@ -2,18 +2,19 @@ import request from 'supertest';
 import express from 'express';
 import { jest } from '@jest/globals';
 
-const mockFindUnique = jest.fn();
+const mockMessageFindFirst = jest.fn();
 const mockFindFirst = jest.fn();
 const mockFindMany = jest.fn();
 const mockCreate = jest.fn();
 const mockUserBlockUpsert = jest.fn();
+const mockUserFindUnique = jest.fn();
 
 let mockAuthUserId = '123';
 
 await jest.unstable_mockModule('@prisma/client', () => {
   const instance = {
     message: {
-      findUnique: mockFindUnique,
+      findFirst: mockMessageFindFirst,
       findMany: mockFindMany,
     },
     report: {
@@ -21,6 +22,7 @@ await jest.unstable_mockModule('@prisma/client', () => {
       create: mockCreate,
     },
     userBlock: { upsert: mockUserBlockUpsert },
+    user: { findUnique: mockUserFindUnique },
   };
   instance.$transaction = jest.fn(async (fn) => fn(instance));
   const PrismaClient = jest.fn(() => instance);
@@ -58,6 +60,44 @@ describe('reports routes', () => {
     jest.clearAllMocks();
   });
 
+  describe('POST /reports/users/:userId', () => {
+    it('rejects invalid and self targets before storage effects', async () => {
+      const invalid = await request(app).post('/reports/users/nope').send({ reason: 'harassment' });
+      const self = await request(app).post('/reports/users/123').send({ reason: 'harassment' });
+      expect(invalid.status).toBe(400);
+      expect(self.status).toBe(400);
+      expect(mockUserFindUnique).not.toHaveBeenCalled();
+      expect(mockCreate).not.toHaveBeenCalled();
+    });
+
+    it('rejects missing users and duplicate open reports', async () => {
+      mockUserFindUnique.mockResolvedValueOnce(null).mockResolvedValueOnce({ id: 999 });
+      mockFindFirst.mockResolvedValueOnce({ id: 8 });
+      expect((await request(app).post('/reports/users/999').send({ reason: 'other' })).status).toBe(404);
+      expect((await request(app).post('/reports/users/999').send({ reason: 'other' })).status).toBe(409);
+      expect(mockCreate).not.toHaveBeenCalled();
+    });
+
+    it('queues a bounded account report without exposing private account data', async () => {
+      mockUserFindUnique.mockResolvedValueOnce({ id: 999 });
+      mockFindFirst.mockResolvedValueOnce(null);
+      mockCreate.mockResolvedValueOnce({ id: 81 });
+      const res = await request(app).post('/reports/users/999').send({
+        reason: 'sexual_content', details: `  ${'a'.repeat(2100)}  `,
+      });
+      expect(res.status).toBe(201);
+      expect(res.body).toEqual({ success: true, reportId: 81 });
+      expect(mockCreate).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          reporterId: 123, reportedUserId: 999,
+          reason: 'NUDITY', details: 'a'.repeat(2000),
+          evidence: { source: 'user_profile' }, status: 'OPEN',
+        }),
+        select: { id: true },
+      });
+    });
+  });
+
   describe('POST /reports', () => {
     it('returns 401 when authenticated user id is invalid', async () => {
       mockAuthUserId = 'abc';
@@ -82,7 +122,7 @@ describe('reports routes', () => {
     });
 
     it('returns 404 when message is not found', async () => {
-      mockFindUnique.mockResolvedValueOnce(null);
+      mockMessageFindFirst.mockResolvedValueOnce(null);
 
       const res = await request(app).post('/reports').send({
         messageId: 42,
@@ -92,8 +132,11 @@ describe('reports routes', () => {
       expect(res.status).toBe(404);
       expect(res.body).toEqual({ error: 'Message not found' });
 
-      expect(mockFindUnique).toHaveBeenCalledWith({
-        where: { id: 42 },
+      expect(mockMessageFindFirst).toHaveBeenCalledWith({
+        where: {
+          id: 42,
+          chatRoom: { participants: { some: { userId: 123 } } },
+        },
         select: {
           id: true,
           senderId: true,
@@ -101,6 +144,10 @@ describe('reports routes', () => {
           rawContent: true,
           translatedContent: true,
           createdAt: true,
+          attachments: {
+            where: { deletedAt: null },
+            select: { id: true, kind: true, url: true, thumbUrl: true, mimeType: true },
+          },
           sender: {
             select: {
               id: true,
@@ -111,8 +158,30 @@ describe('reports routes', () => {
       });
     });
 
+    it('rejects a message outside the reporter’s rooms before context, report, or block effects', async () => {
+      mockMessageFindFirst.mockResolvedValueOnce(null);
+
+      const res = await request(app).post('/reports').send({
+        messageId: 42,
+        reason: 'sexual_content',
+        blockAfterReport: true,
+      });
+
+      expect(res.status).toBe(404);
+      expect(mockMessageFindFirst).toHaveBeenCalledWith(expect.objectContaining({
+        where: {
+          id: 42,
+          chatRoom: { participants: { some: { userId: 123 } } },
+        },
+      }));
+      expect(mockFindMany).not.toHaveBeenCalled();
+      expect(mockFindFirst).not.toHaveBeenCalled();
+      expect(mockCreate).not.toHaveBeenCalled();
+      expect(mockUserBlockUpsert).not.toHaveBeenCalled();
+    });
+
     it('returns 400 when user tries to report their own message', async () => {
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 123,
         chatRoomId: 55,
@@ -132,7 +201,7 @@ describe('reports routes', () => {
     });
 
     it('returns 409 when there is already an open report for the same message by the same reporter', async () => {
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: 55,
@@ -165,7 +234,7 @@ describe('reports routes', () => {
     it('creates a report with normalized reason, trimmed details, evidence, and blockApplied', async () => {
       const messageCreatedAt = new Date('2026-03-29T12:00:00Z');
 
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: 55,
@@ -311,10 +380,10 @@ describe('reports routes', () => {
         },
         include: {
           reporter: {
-            select: { id: true, username: true, email: true },
+            select: { id: true, username: true },
           },
           reportedUser: {
-            select: { id: true, username: true, email: true, isBanned: true },
+            select: { id: true, username: true, isBanned: true },
           },
           message: {
             select: {
@@ -335,7 +404,7 @@ describe('reports routes', () => {
     it('clamps contextCount to 20', async () => {
       const messageCreatedAt = new Date('2026-03-29T12:00:00Z');
 
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: 55,
@@ -377,7 +446,7 @@ describe('reports routes', () => {
     });
 
     it('does not fetch context when parsedContextCount is 0', async () => {
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: 55,
@@ -409,8 +478,66 @@ describe('reports routes', () => {
       );
     });
 
+    it('records the reported media references for moderator review without extra context', async () => {
+      const attachments = [{
+        id: 7, kind: 'IMAGE', url: 'media/private-image',
+        thumbUrl: 'thumbs/private-image', mimeType: 'image/jpeg',
+      }];
+      mockMessageFindFirst.mockResolvedValueOnce({
+        id: 42,
+        senderId: 999,
+        chatRoomId: 55,
+        rawContent: '',
+        translatedContent: null,
+        attachments,
+        createdAt: new Date('2026-03-29T12:00:00Z'),
+        sender: { id: 999, username: 'other-user' },
+      });
+      mockFindFirst.mockResolvedValueOnce(null);
+      mockCreate.mockResolvedValueOnce({ id: 77 });
+
+      const res = await request(app).post('/reports').send({
+        messageId: 42,
+        reason: 'sexual_content',
+        contextCount: 0,
+      });
+
+      expect(res.status).toBe(201);
+      expect(mockFindMany).not.toHaveBeenCalled();
+      expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          reason: 'NUDITY',
+          evidence: { reportedAttachments: attachments },
+        }),
+      }));
+    });
+
+    it('labels bounded recipient-submitted plaintext as unverified report evidence', async () => {
+      mockMessageFindFirst.mockResolvedValueOnce({
+        id: 42, senderId: 999, chatRoomId: 55,
+        rawContent: '', translatedContent: null, attachments: [],
+        createdAt: new Date('2026-03-29T12:00:00Z'),
+        sender: { id: 999, username: 'other-user' },
+      });
+      mockFindFirst.mockResolvedValueOnce(null);
+      mockCreate.mockResolvedValueOnce({ id: 77 });
+
+      const res = await request(app).post('/reports').send({
+        messageId: 42, reason: 'harassment', contextCount: 0,
+        reportedContent: `  ${'a'.repeat(4200)}  `,
+      });
+
+      expect(res.status).toBe(201);
+      expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({
+        data: expect.objectContaining({
+          decryptedContent: 'a'.repeat(4000),
+          evidence: { contentSource: 'reporter_submission' },
+        }),
+      }));
+    });
+
     it('falls back to translatedContent when rawContent is missing', async () => {
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: null,
@@ -441,7 +568,7 @@ describe('reports routes', () => {
     });
 
     it('falls back to placeholder text when both raw and translated content are missing', async () => {
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: null,
@@ -474,7 +601,7 @@ describe('reports routes', () => {
     it('truncates details to 2000 chars', async () => {
       const longDetails = 'a'.repeat(2500);
 
-      mockFindUnique.mockResolvedValueOnce({
+      mockMessageFindFirst.mockResolvedValueOnce({
         id: 42,
         senderId: 999,
         chatRoomId: null,
@@ -505,7 +632,7 @@ describe('reports routes', () => {
     });
 
     it('returns 500 when prisma throws', async () => {
-      mockFindUnique.mockRejectedValueOnce(new Error('db failed'));
+      mockMessageFindFirst.mockRejectedValueOnce(new Error('db failed'));
 
       const res = await request(app).post('/reports').send({
         messageId: 42,

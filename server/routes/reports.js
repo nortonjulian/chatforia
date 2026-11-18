@@ -23,6 +23,56 @@ function normalizeReason(reason) {
   return map[value] || 'OTHER';
 }
 
+// A profile can be reported even when there is no message to attach. Keep it
+// in the same moderation queue as message reports, without exposing private
+// account details or allowing duplicate open reports for the same account.
+router.post('/users/:userId', requireAuth, async (req, res) => {
+  try {
+    const reporterId = Number(req.user?.id);
+    const reportedUserId = Number(req.params.userId);
+    if (!Number.isSafeInteger(reporterId) || reporterId <= 0) {
+      return res.status(401).json({ error: 'Invalid authenticated user' });
+    }
+    if (!Number.isSafeInteger(reportedUserId) || reportedUserId <= 0 || reportedUserId === reporterId) {
+      return res.status(400).json({ error: 'Invalid reported user' });
+    }
+
+    const target = await prisma.user.findUnique({
+      where: { id: reportedUserId }, select: { id: true },
+    });
+    if (!target) return res.status(404).json({ error: 'User not found' });
+
+    const existing = await prisma.report.findFirst({
+      where: { reporterId, reportedUserId, messageId: null, status: 'OPEN' },
+      select: { id: true },
+    });
+    if (existing) return res.status(409).json({ error: 'You already reported this user' });
+
+    const details = typeof req.body?.details === 'string'
+      ? req.body.details.trim().slice(0, 2000) : '';
+    const report = await prisma.report.create({
+      data: {
+        reporterId,
+        reportedUserId,
+        decryptedContent: '[User profile report]',
+        reason: normalizeReason(req.body?.reason),
+        details: details || null,
+        evidence: { source: 'user_profile' },
+        status: 'OPEN',
+      },
+      select: { id: true },
+    });
+    res.locals.audit = {
+      action: 'USER_CREATE_REPORT', targetUserId: reportedUserId,
+      notes: normalizeReason(req.body?.reason),
+    };
+    return res.status(201).json({ success: true, reportId: report.id });
+  } catch (e) {
+    console.error('POST /reports/users/:userId failed:', e);
+    return res.status(500).json({ error: 'Failed to submit report' });
+  }
+});
+
 router.post('/', requireAuth, async (req, res) => {
   try {
     const reporterId = Number(req.user?.id);
@@ -34,6 +84,7 @@ router.post('/', requireAuth, async (req, res) => {
       messageId,
       reason,
       details,
+      reportedContent,
       contextCount = 10,
       blockAfterReport = false,
     } = req.body || {};
@@ -44,13 +95,22 @@ router.post('/', requireAuth, async (req, res) => {
 
     const trimmedDetails = typeof details === 'string' ? details.trim() : '';
     const safeDetails = trimmedDetails ? trimmedDetails.slice(0, 2000) : null;
+    const submittedContent = typeof reportedContent === 'string'
+      ? reportedContent.trim().slice(0, 4000)
+      : '';
 
     if (!Number.isInteger(parsedMessageId)) {
       return res.status(400).json({ error: 'Valid messageId is required' });
     }
 
-    const message = await prisma.message.findUnique({
-      where: { id: parsedMessageId },
+    // Scope the lookup itself to the reporter's room membership. A report
+    // must never reveal another conversation's message or context in its
+    // response, including when the caller guesses a valid message ID.
+    const message = await prisma.message.findFirst({
+      where: {
+        id: parsedMessageId,
+        chatRoom: { participants: { some: { userId: reporterId } } },
+      },
       select: {
         id: true,
         senderId: true,
@@ -58,6 +118,10 @@ router.post('/', requireAuth, async (req, res) => {
         rawContent: true,
         translatedContent: true,
         createdAt: true,
+        attachments: {
+          where: { deletedAt: null },
+          select: { id: true, kind: true, url: true, thumbUrl: true, mimeType: true },
+        },
         sender: {
           select: {
             id: true,
@@ -129,45 +193,55 @@ router.post('/', requireAuth, async (req, res) => {
       };
     }
 
+    if (message.attachments?.length) {
+      evidence = { ...(evidence || {}), reportedAttachments: message.attachments };
+    }
+    if (submittedContent) {
+      // The reporter elected to share what their device displayed. It is
+      // user-submitted evidence, not independently verified server plaintext.
+      evidence = { ...(evidence || {}), contentSource: 'reporter_submission' };
+    }
+
     const decryptedContent =
+      submittedContent ||
       message.rawContent ||
       message.translatedContent ||
       '[Encrypted or unavailable content]';
 
     const report = await prisma.$transaction(async (tx) => {
       const created = await tx.report.create({
-      data: {
-        messageId: message.id,
-        reporterId,
-        reportedUserId: message.senderId,
-        chatRoomId: message.chatRoomId,
-        decryptedContent,
-        reason: normalizedReason,
-        details: safeDetails,
-        evidence,
-        blockApplied: Boolean(blockAfterReport),
-        status: 'OPEN',
-      },
-      include: {
-        reporter: {
-          select: { id: true, username: true, email: true },
+        data: {
+          messageId: message.id,
+          reporterId,
+          reportedUserId: message.senderId,
+          chatRoomId: message.chatRoomId,
+          decryptedContent,
+          reason: normalizedReason,
+          details: safeDetails,
+          evidence,
+          blockApplied: Boolean(blockAfterReport),
+          status: 'OPEN',
         },
-        reportedUser: {
-          select: { id: true, username: true, email: true, isBanned: true },
-        },
-        message: {
-          select: {
-            id: true,
-            rawContent: true,
-            translatedContent: true,
-            chatRoomId: true,
-            createdAt: true,
-            sender: {
-              select: { id: true, username: true, isBanned: true },
+        include: {
+          reporter: {
+            select: { id: true, username: true },
+          },
+          reportedUser: {
+            select: { id: true, username: true, isBanned: true },
+          },
+          message: {
+            select: {
+              id: true,
+              rawContent: true,
+              translatedContent: true,
+              chatRoomId: true,
+              createdAt: true,
+              sender: {
+                select: { id: true, username: true, isBanned: true },
+              },
             },
           },
         },
-      },
       });
       if (blockAfterReport) {
         await tx.userBlock.upsert({
