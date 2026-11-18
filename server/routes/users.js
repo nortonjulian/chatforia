@@ -506,7 +506,7 @@ router.patch('/me', requireAuth, async (req, res) => {
 
       // get their current or updated band so we can enforce teen isolation
       const meBand =
-        ageBand ||
+        data.ageBand ||
         (
           await prisma.user.findUnique({
             where: { id: req.user.id },
@@ -529,12 +529,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       return res.status(400).json({ error: 'No valid fields to update' });
     }
 
-    let updated;
-    try {
-      updated = await prisma.user.update({
-        where: { id: Number(req.user.id) },
-        data,
-        select: {
+    const profileSelect = {
           id: true,
           username: true,
           email: true,
@@ -574,8 +569,39 @@ router.patch('/me', requireAuth, async (req, res) => {
           voicemailEmailForwardingEnabled: true,
           voicemailGreetingText: true,
           voicemailGreetingUrl: true,
-        },
-      });
+    };
+
+    let updated;
+    try {
+      const userId = Number(req.user.id);
+      if (data.ageBand && data.ageBand !== 'TEEN_13_17') {
+        // A conditional write closes the concurrent self-attestation race:
+        // a teen selection that commits first makes this adult write fail.
+        // Null remains eligible for legitimate first-time adult attestation.
+        const result = await prisma.user.updateMany({
+          where: {
+            id: userId,
+            OR: [
+              { ageBand: null },
+              { ageBand: { not: 'TEEN_13_17' } },
+            ],
+          },
+          data,
+        });
+        if (result.count !== 1) {
+          return res.status(403).json({
+            error: 'Adult age-band changes from a teen account require verified review.',
+            code: 'AGE_BAND_TRANSITION_REQUIRES_REVIEW',
+          });
+        }
+        updated = await prisma.user.findUnique({
+          where: { id: userId }, select: profileSelect,
+        });
+      } else {
+        updated = await prisma.user.update({
+          where: { id: userId }, data, select: profileSelect,
+        });
+      }
     } catch (err) {
       console.error('💥 prisma.user.update failed in PATCH /users/me', {
         userId: req.user.id,

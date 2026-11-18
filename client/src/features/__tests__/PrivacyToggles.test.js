@@ -94,11 +94,14 @@ describe('PrivacyToggles', () => {
       allowExplicitContent: true,
       privacyBlurEnabled: false,
       privacyHoldToReveal: true, // will be shown but disabled (since blur off)
-      notifyOnCopy: false,
     });
 
     expect(getSwitch(/Send read receipts/i)).not.toBeChecked();
-    expect(getSwitch(/Allow explicit content/i)).toBeChecked();
+    expect(getSwitch(/Allow profanity in chat text/i)).toBeChecked();
+    expect(getSwitch(/Allow profanity in chat text/i)).toHaveAttribute(
+      'aria-description',
+      expect.stringContaining('Photos and videos are not screened')
+    );
     expect(getSwitch(/Blur chat content until focus/i)).not.toBeChecked();
     const hold = getSwitch(/Hold to reveal/i);
     expect(hold).toBeChecked();
@@ -110,16 +113,14 @@ describe('PrivacyToggles', () => {
       allowExplicitContent: false,
       privacyBlurEnabled: true,
       privacyHoldToReveal: false,
-      notifyOnCopy: true,
     };
     rerender(<PrivacyToggles />); // re-render to pick up new context
 
     expect(getSwitch(/Send read receipts/i)).toBeChecked();
-    expect(getSwitch(/Allow explicit content/i)).not.toBeChecked();
+    expect(getSwitch(/Allow profanity in chat text/i)).not.toBeChecked();
     expect(getSwitch(/Blur chat content until focus/i)).toBeChecked();
     expect(getSwitch(/Hold to reveal/i)).not.toBeChecked();
     expect(screen.getByTestId('switch-Hold to reveal')).toHaveAttribute('aria-disabled', 'false');
-    expect(getSwitch(/Notify me if someone copies my message/i)).toBeChecked();
   });
 
   test('optimistic patch and setCurrentUser merge on success', async () => {
@@ -128,7 +129,6 @@ describe('PrivacyToggles', () => {
       allowExplicitContent: false,
       privacyBlurEnabled: false,
       privacyHoldToReveal: false,
-      notifyOnCopy: false,
     });
 
     mockPatch.mockResolvedValueOnce({ data: { showReadReceipts: true, serverEcho: 1 } });
@@ -152,7 +152,7 @@ describe('PrivacyToggles', () => {
 
     mockPatch.mockRejectedValueOnce(new Error('nope'));
 
-    const explicit = getSwitch(/Allow explicit content/i);
+    const explicit = getSwitch(/Allow profanity in chat text/i);
     expect(explicit).not.toBeChecked();
 
     fireEvent.click(explicit); // optimistic

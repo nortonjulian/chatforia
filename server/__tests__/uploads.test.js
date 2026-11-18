@@ -4,6 +4,7 @@
 import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
+import prisma from '../utils/prismaClient.js';
 
 jest.mock('../services/storage/index.js', () => ({
   __esModule: true,
@@ -81,10 +82,30 @@ describe('uploadsRouter', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(prisma.user, 'findUnique').mockResolvedValue({ ageBand: 'ADULT_18_24' });
     mockUploadId = 1000;
 
     agent1 = request.agent(makeApp(1));
     agent2 = request.agent(makeApp(2));
+  });
+
+  afterEach(() => jest.restoreAllMocks());
+
+  test('teen visual multipart upload is rejected before storage', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({ ageBand: 'TEEN_13_17' });
+    const res = await agent1.post('/uploads')
+      .attach('file', Buffer.from('synthetic image bytes'), 'photo.png');
+    expect(res.status).toBe(403);
+    expect(res.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
+  });
+
+  test('teen audio-labeled image intent is rejected before creating an upload', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({ ageBand: 'TEEN_13_17' });
+    const res = await agent1.post('/uploads/intent').send({
+      name: 'disguised.jpg', mimeType: 'audio/mpeg', size: 32,
+    });
+    expect(res.status).toBe(403);
+    expect(res.body.code).toBe('TEEN_VISUAL_MEDIA_RESTRICTED');
   });
 
   test('rejects a fractional presigned upload size', async () => {

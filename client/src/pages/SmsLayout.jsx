@@ -283,7 +283,7 @@ const showCallBanner = Boolean(
       fetchThread: async () => (await axiosClient.get(`/sms/threads/${threadId}`)).data,
       onThread: data => { setThread(data); setLoadedScope(scopeKey); setLoadError(''); },
       onError: () => setLoadError('Could not refresh this conversation. Try again.'),
-      cache: data => addSmsMessages(String(threadId), data?.messages || []),
+      cache: data => addSmsMessages(accountKey, String(threadId), data?.messages || []),
       onRefresh: () => window.dispatchEvent(new Event('sidebar:reload-rooms')),
     });
     loaderRef.current = loader;
@@ -1175,11 +1175,12 @@ const showCallBanner = Boolean(
 
         {/* ✅ Local Search Drawer (IndexedDB) */}
         <SmsSearchDrawer
+          key={accountKey}
           opened={searchOpen}
           onClose={() => setSearchOpen(false)}
           threadId={String(threadId)}
           onJumpToMessage={(id) => jumpToSmsMessage(id)}
-          searchFn={searchSmsMessages}
+          searchFn={(id, query, limit) => searchSmsMessages(accountKey, id, query, limit)}
         />
 
         <SmsReportModal

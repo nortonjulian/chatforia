@@ -2,6 +2,7 @@ import apn from 'apn';
 import prisma from '../utils/prismaClient.js';
 import { getFirebaseMessaging } from './firebaseAdmin.js';
 import { resolveMessageNotificationSound } from '../config/messageToneCatalog.js';
+import { needsIncomingCallAlert } from './incomingCallAlertTargets.js';
 import { getVoiceEligibleDevices } from './voiceDeviceService.js';
 import { getBadgeState } from './badgeState.js';
 
@@ -189,13 +190,15 @@ function getProvider(environment = 'production') {
 /**
  * Get all valid push tokens for a user
  */
-async function getUserTokens(userId) {
+async function getUserTokens(userId, { callKitDeviceIds = [] } = {}) {
   const devices = await prisma.device.findMany({
     where: {
       userId: Number(userId),
       revokedAt: null,
     },
     select: {
+      deviceId: true,
+      voicePushEnvironment: true,
       pushToken: true,
       pushProvider: true,
       apnsPushToken: true,
@@ -209,12 +212,28 @@ async function getUserTokens(userId) {
   const unique = (items) =>
     [...new Set(items.filter(Boolean))];
 
+  const callKitIds = new Set(callKitDeviceIds);
+  const productionAlertDevices = devices.filter((device) =>
+    needsIncomingCallAlert(device, 'production', callKitIds));
+  const sandboxAlertDevices = devices.filter((device) =>
+    needsIncomingCallAlert(device, 'sandbox', callKitIds));
+  // The same APNs token can linger on an older device row. Suppress by token
+  // as well as device ID so that stale rows cannot recreate the duplicate.
+  const suppressedProductionTokens = new Set(devices
+    .filter((device) => !needsIncomingCallAlert(device, 'production', callKitIds))
+    .flatMap((device) => [device.apnsPushToken, device.pushProvider === 'apns' ? device.pushToken : null])
+    .filter(Boolean));
+  const suppressedSandboxTokens = new Set(devices
+    .filter((device) => !needsIncomingCallAlert(device, 'sandbox', callKitIds))
+    .map((device) => device.apnsSandboxPushToken)
+    .filter(Boolean));
+
   return {
     apnsProduction: unique([
-      ...devices.map(
+      ...productionAlertDevices.map(
         (device) => device.apnsPushToken
       ),
-      ...devices
+      ...productionAlertDevices
         .filter(
           (device) =>
             device.pushProvider === 'apns'
@@ -222,14 +241,14 @@ async function getUserTokens(userId) {
         .map(
           (device) => device.pushToken
         ),
-    ]),
+    ]).filter((token) => !suppressedProductionTokens.has(token)),
 
     apnsSandbox: unique(
-      devices.map(
+      sandboxAlertDevices.map(
         (device) =>
           device.apnsSandboxPushToken
       )
-    ),
+    ).filter((token) => !suppressedSandboxTokens.has(token)),
 
     apnsVoipProduction: unique(
       devices.map(
@@ -506,7 +525,9 @@ export async function sendVoipCallPushToUser(
  * Generic push sender
  */
 export async function sendPushToUser(userId, payload) {
-  const tokens = await getUserTokens(userId);
+  const tokens = await getUserTokens(userId, {
+    callKitDeviceIds: payload.callKitDeviceIds,
+  });
 
   const results = {
     apns: {
@@ -810,8 +831,10 @@ export async function sendIncomingForwardedCallPush({
   chatforiaNumber,
   callId,
   callSid,
+  callKitDeviceIds = [],
 }) {
   return sendPushToUser(userId, {
+    callKitDeviceIds,
     alert: {
       title: 'Incoming call',
       body: `Call from ${fromNumber || 'Unknown'}`,

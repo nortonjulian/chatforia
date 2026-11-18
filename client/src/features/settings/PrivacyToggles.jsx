@@ -57,8 +57,8 @@ export default function PrivacyToggles() {
 
       <Switch
         checked={state.allowExplicitContent}
-        label="Allow explicit content"
-        description="If off, media flagged as explicit will be hidden by default."
+        label="Allow profanity in chat text"
+        description="When anyone in a conversation turns this off, profanity in chat text is masked for everyone. Photos and videos are not screened."
         onChange={(e) => patch({ allowExplicitContent: e.currentTarget.checked })}
       />
 

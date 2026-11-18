@@ -29,6 +29,7 @@ const sendR2 = jest.fn(async command => {
 const db = {
   messageAttachment: { findUnique: jest.fn(async () => ({
     id: 12,
+    kind: 'AUDIO', mimeType: 'audio/webm',
     url: state.mediaRef,
     thumbUrl: null,
     deletedAt: null,

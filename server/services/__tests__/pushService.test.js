@@ -109,6 +109,7 @@ await jest.unstable_mockModule(
 const {
   sendPushToUser,
   sendVoipCallPushToUser,
+  sendIncomingForwardedCallPush,
 } = await import('../pushService.js');
 
 const productionAlertToken = 'prod-alert-token';
@@ -247,6 +248,56 @@ describe('pushService APNs environment routing', () => {
       });
     }
   );
+
+  it('omits the duplicate alert only for a dialed iOS Voice device', async () => {
+    mockPrisma.device.findMany.mockResolvedValueOnce([
+      {
+        deviceId: 'ringing-iphone', voicePushEnvironment: 'production',
+        apnsPushToken: 'ringing-alert', voipPushToken: 'ringing-voip',
+        pushProvider: 'apns', pushToken: 'ringing-alert',
+      },
+      {
+        deviceId: 'fallback-iphone', voicePushEnvironment: null,
+        apnsPushToken: 'fallback-alert', voipPushToken: null,
+      },
+      {
+        deviceId: 'stale-row', voicePushEnvironment: null,
+        apnsPushToken: 'ringing-alert', voipPushToken: null,
+      },
+    ]);
+
+    await sendIncomingForwardedCallPush({
+      userId: 7,
+      fromNumber: '+15550001111',
+      callKitDeviceIds: ['ringing-iphone'],
+    });
+
+    expect(providerSendMock).toHaveBeenCalledTimes(1);
+    expect(providerSendMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        production: true,
+        tokens: ['fallback-alert'],
+      })
+    );
+  });
+
+  it('keeps ordinary missed-call alerts on a Voice device', async () => {
+    mockPrisma.device.findMany.mockResolvedValueOnce([
+      {
+        deviceId: 'ringing-iphone', voicePushEnvironment: 'production',
+        apnsPushToken: 'ringing-alert', voipPushToken: 'ringing-voip',
+      },
+    ]);
+
+    await sendPushToUser(7, {
+      alert: { title: 'Missed call', body: 'Please call back' },
+      data: { type: 'call_missed' },
+    });
+
+    expect(providerSendMock).toHaveBeenCalledWith(
+      expect.objectContaining({ tokens: ['ringing-alert'] })
+    );
+  });
 
   it(
     'routes production and sandbox VoIP tokens through matching providers',

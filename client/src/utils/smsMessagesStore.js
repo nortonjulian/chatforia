@@ -1,23 +1,40 @@
 const DB_NAME = 'chatforia_sms_db';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORE_MESSAGES = 'sms_messages';
 
 function openDb() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
+    let blocked = false;
 
-    req.onupgradeneeded = () => {
+    req.onupgradeneeded = (event) => {
       const db = req.result;
+      // Version 1 used thread IDs without an owner. Its rows cannot be
+      // attributed safely after an account switch, so discard that cache.
+      if (db.objectStoreNames.contains(STORE_MESSAGES) && event.oldVersion < 2) {
+        db.deleteObjectStore(STORE_MESSAGES);
+      }
       if (!db.objectStoreNames.contains(STORE_MESSAGES)) {
         const store = db.createObjectStore(STORE_MESSAGES, { keyPath: 'key' });
-        store.createIndex('threadId', 'threadId', { unique: false });
+        store.createIndex('accountThread', 'accountThread', { unique: false });
+        store.createIndex('accountId', 'accountId', { unique: false });
         store.createIndex('createdAt', 'createdAt', { unique: false });
       }
     };
-
-    req.onsuccess = () => resolve(req.result);
+    req.onsuccess = () => {
+      if (blocked) {
+        req.result.close();
+        return;
+      }
+      req.result.onversionchange = () => req.result.close();
+      resolve(req.result);
+    };
     req.onerror = () => reject(req.error);
+    req.onblocked = () => {
+      blocked = true;
+      reject(new Error('SMS cache upgrade blocked by another tab'));
+    };
   });
 }
 
@@ -25,10 +42,12 @@ function tx(db, mode = 'readonly') {
   return db.transaction([STORE_MESSAGES], mode).objectStore(STORE_MESSAGES);
 }
 
-function normalizeSmsMessage(threadId, m) {
+function normalizeSmsMessage(accountId, threadId, m) {
   const createdAt = m.createdAt || m.sentAt || m.created_at || new Date().toISOString();
   return {
-    key: `${threadId}:${m.id}`,
+    key: `${accountId}:${threadId}:${m.id}`,
+    accountId: String(accountId),
+    accountThread: `${accountId}:${threadId}`,
     threadId: String(threadId),
     id: m.id,
     direction: m.direction,
@@ -40,8 +59,8 @@ function normalizeSmsMessage(threadId, m) {
   };
 }
 
-export async function addSmsMessages(threadId, messages) {
-  if (!threadId) return;
+export async function addSmsMessages(accountId, threadId, messages) {
+  if (!accountId || !threadId) return;
   const db = await openDb();
   const store = tx(db, 'readwrite');
 
@@ -49,7 +68,7 @@ export async function addSmsMessages(threadId, messages) {
     (messages || []).map(
       (m) =>
         new Promise((resolve, reject) => {
-          const row = normalizeSmsMessage(String(threadId), m);
+          const row = normalizeSmsMessage(String(accountId), String(threadId), m);
           const req = store.put(row);
           req.onsuccess = () => resolve(true);
           req.onerror = () => reject(req.error);
@@ -60,18 +79,18 @@ export async function addSmsMessages(threadId, messages) {
   db.close();
 }
 
-export async function searchSmsMessages(threadId, query, limit = 50) {
+export async function searchSmsMessages(accountId, threadId, query, limit = 50) {
   const q = String(query || '').trim().toLowerCase();
-  if (!threadId || !q) return [];
+  if (!accountId || !threadId || !q) return [];
 
   const db = await openDb();
   const store = tx(db, 'readonly');
-  const index = store.index('threadId');
+  const index = store.index('accountThread');
 
   const results = [];
 
   await new Promise((resolve, reject) => {
-    const req = index.openCursor(IDBKeyRange.only(String(threadId)));
+    const req = index.openCursor(IDBKeyRange.only(`${accountId}:${threadId}`));
     req.onsuccess = () => {
       const cursor = req.result;
       if (!cursor) return resolve();
@@ -107,17 +126,17 @@ export function getSmsMediaItems(threadId) {
   return [];
 }
 
-export async function getSmsMediaItemsAsync(threadId, limit = 250) {
-  if (!threadId) return [];
+export async function getSmsMediaItemsAsync(accountId, threadId, limit = 250) {
+  if (!accountId || !threadId) return [];
 
   const db = await openDb();
   const store = tx(db, 'readonly');
-  const index = store.index('threadId');
+  const index = store.index('accountThread');
 
   const rows = [];
 
   await new Promise((resolve, reject) => {
-    const req = index.openCursor(IDBKeyRange.only(String(threadId)));
+    const req = index.openCursor(IDBKeyRange.only(`${accountId}:${threadId}`));
     req.onsuccess = () => {
       const cursor = req.result;
       if (!cursor) return resolve();
@@ -163,6 +182,31 @@ export async function getSmsMediaItemsAsync(threadId, limit = 250) {
   // newest first
   items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   return items;
+}
+
+export async function clearSmsMessagesForAccount(accountId) {
+  if (!accountId) return;
+  const db = await openDb();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction([STORE_MESSAGES], 'readwrite');
+      transaction.oncomplete = resolve;
+      transaction.onabort = () => reject(transaction.error);
+      transaction.onerror = () => reject(transaction.error);
+      const index = transaction.objectStore(STORE_MESSAGES).index('accountId');
+      const req = index.openCursor(IDBKeyRange.only(String(accountId)));
+      req.onsuccess = () => {
+        const cursor = req.result;
+        if (!cursor) return;
+        const deletion = cursor.delete();
+        deletion.onsuccess = () => cursor.continue();
+        deletion.onerror = () => reject(deletion.error);
+      };
+      req.onerror = () => reject(req.error);
+    });
+  } finally {
+    db.close();
+  }
 }
 
 function guessMimeFromUrl(url) {

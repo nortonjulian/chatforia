@@ -27,6 +27,11 @@ jest.mock('@/utils/encryptionClient', () => ({
 // ---- Axios mocks ----
 const mockGet = jest.fn();
 const mockPost = jest.fn();
+const mockClearSmsMessagesForAccount = jest.fn(() => Promise.resolve());
+
+jest.mock('@/utils/smsMessagesStore.js', () => ({
+  clearSmsMessagesForAccount: (...args) => mockClearSmsMessagesForAccount(...args),
+}));
 
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
@@ -96,6 +101,7 @@ beforeEach(() => {
   mockDisconnect.mockClear();
   mockGet.mockReset();
   mockPost.mockReset();
+  mockClearSmsMessagesForAccount.mockClear();
   i18n.changeLanguage.mockClear();
   getLocalKeyBundleMeta.mockReset().mockResolvedValue(null);
   getUnlockedPrivateKeyForPublicKey.mockReset();
@@ -262,6 +268,7 @@ describe('UserContext', () => {
 
     expect(screen.getByTestId('currentUser').textContent).toBe('');
     expect(mockDisconnect).toHaveBeenCalled();
+    await waitFor(() => expect(mockClearSmsMessagesForAccount).toHaveBeenCalledWith(1));
   });
 
   test('logout: POST /auth/logout, clears tokens/cookies, sets user null, disconnects', async () => {
@@ -306,6 +313,17 @@ describe('UserContext', () => {
       expect(screen.getByTestId('currentUser').textContent).toBe('');
       expect(mockDisconnect).toHaveBeenCalled();
     });
+    await waitFor(() => expect(mockClearSmsMessagesForAccount).toHaveBeenCalledWith(3));
+  });
+
+  test('switching accounts clears only the prior account SMS cache', async () => {
+    mockGet.mockResolvedValueOnce({ data: { id: 7 } });
+    mockRefreshRooms.mockResolvedValueOnce([]);
+    renderWithProvider();
+    await waitFor(() => expect(screen.getByTestId('currentUser').textContent).toContain('"id":7'));
+    act(() => window.__userCtx.setCurrentUser({ id: 8 }));
+    await waitFor(() => expect(mockClearSmsMessagesForAccount).toHaveBeenCalledWith(7));
+    expect(mockClearSmsMessagesForAccount).not.toHaveBeenCalledWith(8);
   });
 
   test('provider value has expected shape', async () => {
