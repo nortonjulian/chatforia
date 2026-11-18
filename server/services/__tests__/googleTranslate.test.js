@@ -138,7 +138,7 @@ describe('googleTranslate service', () => {
       GOOGLE_PROJECT_ID: 'chatforia-dev',
     });
 
-    translateMock.mockResolvedValueOnce(['hola']);
+    translateMock.mockResolvedValueOnce(['hola', { data: { translations: [{ detectedSourceLanguage: 'en' }] } }]);
 
     const out = await translateText('hello', 'es');
     expect(translateCtorSpy).toHaveBeenCalledWith(
@@ -148,7 +148,7 @@ describe('googleTranslate service', () => {
     );
     expect(translateMock).toHaveBeenCalledWith('hello', 'es');
     expect(pRetryCallSpy).toHaveBeenCalledWith({ retries: 3 });
-    expect(out).toEqual({ translated: 'hola', provider: 'google' });
+    expect(out).toEqual({ translated: 'hola', provider: 'google', detectedSourceLanguage: 'en' });
   });
 
   test('translateBatch: disabled → echoes inputs with detectedSourceLanguage=null', async () => {
@@ -197,7 +197,7 @@ describe('googleTranslate service', () => {
     });
 
     // API returns a single string when input was a single string
-    translateMock.mockResolvedValueOnce(['hola']);
+    translateMock.mockResolvedValueOnce(['hola', { data: { translations: [{ detectedSourceLanguage: 'en' }] } }]);
 
     const out = await translateBatch('hello', 'es');
     expect(translateMock).toHaveBeenCalledWith(['hello'], 'es'); // we pass an array

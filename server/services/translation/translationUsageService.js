@@ -31,18 +31,9 @@ export async function withTranslationAllowance({
     amount: normalizedAmount,
   });
 
+  let result;
   try {
-    const result = await operation();
-
-    if (!shouldBillResult(result)) {
-      await releaseUsage({
-        userId,
-        meter: 'translationChars',
-        amount: normalizedAmount,
-      });
-    }
-
-    return result;
+    result = await operation();
   } catch (error) {
     try {
       await releaseUsage({
@@ -59,4 +50,11 @@ export async function withTranslationAllowance({
 
     throw error;
   }
+
+  // Keep refund failures outside the operation catch: retrying a refund whose
+  // commit outcome is unknown could subtract another request's usage.
+  if (!shouldBillResult(result)) {
+    await releaseUsage({ userId, meter: 'translationChars', amount: normalizedAmount });
+  }
+  return result;
 }
