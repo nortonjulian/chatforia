@@ -23,6 +23,7 @@ import {
   requestBrowserPairing,
   tryInstallKeysFromApprovedPairing,
 } from '@/utils/encryptionClient';
+import { clearSmsMessagesForAccount } from '@/utils/smsMessagesStore.js';
 
 const UserContext = createContext(null);
 
@@ -50,6 +51,19 @@ function hasAuthHint() {
 
 export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const previousUserIdRef = useRef(null);
+  useEffect(() => {
+    const nextUserId = currentUser?.id ?? null;
+    const previousUserId = previousUserIdRef.current;
+    previousUserIdRef.current = nextUserId;
+    if (previousUserId && previousUserId !== nextUserId) {
+      // This is a disposable search/media-reference cache, never the source of
+      // message truth. Account-scoped keys also protect an in-flight clear.
+      void clearSmsMessagesForAccount(previousUserId).catch((err) => {
+        console.warn('Could not clear signed-out SMS cache', err?.message || err);
+      });
+    }
+  }, [currentUser?.id]);
   useEffect(() => {
     applyInterfaceFont(currentUser?.a11yUiFont);
   }, [currentUser?.id, currentUser?.a11yUiFont]);
@@ -358,9 +372,20 @@ export function UserProvider({ children }) {
 
       disconnect?.();
 
+      // Hide the old account immediately, then give its disposable cache a
+      // bounded chance to finish clearing before navigation.
+      if (currentUser?.id) {
+        await Promise.race([
+          clearSmsMessagesForAccount(currentUser.id).catch((err) => {
+            console.warn('Could not clear signed-out SMS cache', err?.message || err);
+          }),
+          new Promise((resolve) => setTimeout(resolve, 1500)),
+        ]);
+      }
+
       window.location.replace('/');
     }
-  }, [disconnect]);
+  }, [disconnect, currentUser?.id]);
 
   const value = useMemo(
     () => ({

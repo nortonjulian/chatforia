@@ -73,6 +73,7 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
   test('unauthenticated request cannot read or fetch an attachment', async () => {
     const response = await request(app).get('/sms/media/42/0');
     expect(response.status).toBe(401);
+    expect(response.headers['cache-control']).toBe('private, no-store');
     expect(db.smsMessage.findFirst).not.toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
   });
@@ -80,6 +81,7 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
   test('authenticated stranger cannot fetch media from another account thread', async () => {
     const denied = await read(8);
     expect(denied.status).toBe(404);
+    expect(denied.headers['cache-control']).toBe('private, no-store');
     expect(denied.text).not.toContain('fixture-image-bytes');
     expect(fetchMock).not.toHaveBeenCalled();
     expect(db.smsThread.findFirst).toHaveBeenCalledWith({
@@ -100,9 +102,26 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     expect(response.status).toBe(200);
     expect(response.body.toString('utf8')).toBe('fixture-image-bytes');
     expect(response.headers['content-type']).toMatch(/^image\/jpeg/);
-    expect(response.headers['cache-control']).toContain('private');
+    expect(response.headers['cache-control']).toBe('private, no-store');
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith(state.urls[0], { ownerId: 7 });
+  });
+
+  test('account A media cannot be reused after logout and account B sign-in', async () => {
+    const owner = await read(7, '/sms/media/42/0?cacheScope=7');
+    expect(owner.status).toBe(200);
+    expect(owner.headers['cache-control']).toBe('private, no-store');
+    expect(owner.body.toString()).toBe('fixture-image-bytes');
+
+    const signedOut = await request(app).get('/sms/media/42/0?cacheScope=7');
+    expect(signedOut.status).toBe(401);
+    expect(signedOut.headers['cache-control']).toBe('private, no-store');
+
+    const otherAccount = await read(8, '/sms/media/42/0?cacheScope=8');
+    expect(otherAccount.status).toBe(404);
+    expect(otherAccount.headers['cache-control']).toBe('private, no-store');
+    expect(otherAccount.text).not.toContain('fixture-image-bytes');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   test('teen owner cannot fetch visual or unknown MMS media through the proxy', async () => {
@@ -135,6 +154,7 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     ]) {
       const response = await read(7, path);
       expect([400, 404]).toContain(response.status);
+      expect(response.headers['cache-control']).toBe('private, no-store');
     }
     expect(fetchMock).not.toHaveBeenCalled();
   });
@@ -154,6 +174,7 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     const response = await read();
 
     expect(response.status).toBe(200);
+    expect(response.headers['cache-control']).toBe('private, no-store');
     expect(response.headers['content-type']).toMatch('audio/mp4');
     expect(response.body.toString()).toBe('voice-note-bytes');
   });
@@ -174,6 +195,7 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     const response = await read();
 
     expect(response.status).toBe(502);
+    expect(response.headers['cache-control']).toBe('private, no-store');
     expect(response.text || '').not.toContain('fixture storage interruption');
   });
 
@@ -181,7 +203,16 @@ describe('SMS/MMS media HTTP ownership boundary', () => {
     fetchMock.mockResolvedValueOnce(new Response('sensitive upstream error', { status: 403 }));
     const denied = await read();
     expect(denied.status).toBe(502);
+    expect(denied.headers['cache-control']).toBe('private, no-store');
     expect(denied.text).not.toContain('sensitive upstream error');
     expect(denied.text).not.toContain('fixture-image-bytes');
+  });
+
+  test('unexpected storage failure also remains uncacheable', async () => {
+    db.smsMessage.findFirst.mockRejectedValueOnce(new Error('synthetic storage failure'));
+    const response = await read();
+    expect(response.status).toBe(500);
+    expect(response.headers['cache-control']).toBe('private, no-store');
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

@@ -10,11 +10,14 @@ export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKe
   const [attempt, setAttempt] = useState(0);
   const element = useRef(null);
   const scope = `${accountKey}:${messageId}:${mediaIndex}:${typeof item === 'string' ? item : item?.url}`;
+  // A distinct URL per viewer also bypasses media responses cached by older
+  // releases before the API began returning no-store.
+  const mediaPath = `/sms/media/${messageId}/${mediaIndex}?cacheScope=${encodeURIComponent(accountKey || '')}`;
   useEffect(() => {
     let alive = true, objectURL;
     const controller = new AbortController();
     setMedia(null); setFailed(false);
-    axiosClient.get(`/sms/media/${messageId}/${mediaIndex}`, { responseType: 'blob', signal: controller.signal })
+    axiosClient.get(mediaPath, { responseType: 'blob', signal: controller.signal })
       .then(response => {
         if (!alive) return;
         const type = response.headers?.['content-type'] || response.data?.type || '';
@@ -28,7 +31,7 @@ export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKe
       element.current?.pause?.();
       if (objectURL) URL.revokeObjectURL(objectURL);
     };
-  }, [scope, attempt]); // item identity alone must not refetch on every thread refresh
+  }, [scope, mediaPath, attempt]); // item identity alone must not refetch on every thread refresh
 
   if (failed) return (
     <div role="alert" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8, maxWidth: '100%', padding: '6px 2px' }}>

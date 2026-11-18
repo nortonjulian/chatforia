@@ -78,6 +78,12 @@ function normalizeBlockedPhone(raw) {
 // GET /sms/media/:messageId/:idx
 r.get(
   '/media/:messageId/:idx',
+  (_req, res, next) => {
+    // This URL is stable across account switches. Never let a browser reuse
+    // one account's media response before the next request reaches auth.
+    res.setHeader('Cache-Control', 'private, no-store');
+    next();
+  },
   requireAuth,
   asyncHandler(async (req, res) => {
     const messageId = Number(req.params.messageId);
@@ -132,7 +138,6 @@ r.get(
 
     res.setHeader('Content-Type', contentType);
     if (contentLength) res.setHeader('Content-Length', contentLength);
-    res.setHeader('Cache-Control', 'private, max-age=60');
 
     if (upstream.body && typeof upstream.body.pipe === 'function') {
       const stream = upstream.body;
