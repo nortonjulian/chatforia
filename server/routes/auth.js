@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import { z } from 'zod';
 
 import prisma from '../utils/prismaClient.js';
+import { creatorAttributionFields } from '../services/creatorAttribution.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { sendMail } from '../utils/sendMail.js';
@@ -36,6 +37,7 @@ const RegisterSchema = z.object({
   email: z.string().trim().email().toLowerCase(),
   password: z.string().min(8),
   preferredLanguage: z.string().optional(),
+  referralCode: z.unknown().optional(),
 });
 
 import { generateKeyPair } from '../utils/encryption.js';
@@ -245,6 +247,7 @@ router.post(
         usernameNorm,
         emailNorm,
         passwordHash: hashedPassword,
+        ...creatorAttributionFields(parsed.data.referralCode, 'registration'),
         preferredLanguage,
         role: 'USER',
         plan: 'FREE',

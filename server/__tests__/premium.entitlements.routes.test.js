@@ -6,10 +6,12 @@ import express from 'express';
 import request from 'supertest';
 
 const findUniqueMock = jest.fn();
+const sttMock = jest.fn();
 const getUsageSummaryMock = jest.fn();
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   default: {
+    sTTUsage: { findUnique: sttMock },
     user: {
       findUnique: findUniqueMock,
     },
@@ -143,5 +145,43 @@ describe('premium entitlements route', () => {
       limit: 20,
       remaining: 20,
     });
+  });
+});
+
+
+describe('usage screen balances', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    getUsageSummaryMock.mockResolvedValue({ plan: 'PREMIUM', monthKey: '2026-11',
+      entitlements: {}, usage: { riaActions: { used: 12, limit: 500, remaining: 488 } } });
+    sttMock.mockResolvedValue({ seconds: 90 });
+  });
+  test('returns measured seconds, active Premium limit and UTC reset without caching', async () => {
+    findUniqueMock.mockResolvedValue({ plan: 'PREMIUM', subscriptionStatus: 'ACTIVE' });
+    const res = await request(makeApp()).get('/premium/usage');
+    expect(res.status).toBe(200);
+    expect(res.headers['cache-control']).toBe('private, no-store');
+    expect(res.body.usage.voiceNoteTranscriptionSeconds).toEqual({ used: 90, limit: 7200, remaining: 7110 });
+    expect(res.body.resetAt).toBe('2026-12-01T00:00:00.000Z');
+    expect(sttMock).toHaveBeenCalledWith({ where: { userId_monthKey: { userId: 42, monthKey: '2026-11' } } });
+  });
+  test('expired Premium uses the same transcription eligibility as enforcement', async () => {
+    findUniqueMock.mockResolvedValue({ plan: 'PREMIUM', subscriptionStatus: 'CANCELED' });
+    sttMock.mockResolvedValue({ seconds: 1400 });
+    const res = await request(makeApp()).get('/premium/usage');
+    expect(res.body.usage.voiceNoteTranscriptionSeconds).toEqual({ used: 1400, limit: 1200, remaining: 0 });
+  });
+  test('database failure does not manufacture available or exhausted balances', async () => {
+    findUniqueMock.mockResolvedValue({ plan: 'PLUS' });
+    sttMock.mockRejectedValue(new Error('offline'));
+    const res = await request(makeApp()).get('/premium/usage');
+    expect(res.status).toBe(503);
+    expect(res.body.usage).toBeUndefined();
+  });
+  test('missing account cannot receive balances', async () => {
+    findUniqueMock.mockResolvedValue(null);
+    const res = await request(makeApp()).get('/premium/usage');
+    expect(res.status).toBe(401);
+    expect(getUsageSummaryMock).not.toHaveBeenCalled();
   });
 });

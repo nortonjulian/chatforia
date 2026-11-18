@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { probeDurationSec } from '../../utils/mediaProbe.js';
 import fs from 'node:fs';
 import { mkdtemp, writeFile, rm, readFile, realpath, stat } from 'node:fs/promises';
 import os from 'node:os';
@@ -59,7 +60,7 @@ export function voiceNoteMediaURL(value, env = process.env) {
   return url;
 }
 
-export async function transcribeVoiceNote(value, language) {
+export async function transcribeVoiceNote(value, language, { beforeTranscribe } = {}) {
   if (!process.env.OPENAI_API_KEY) throw Object.assign(new Error('Provider not configured'), { code: 'TRANSCRIPTION_NOT_CONFIGURED' });
   let buffer;
   let mime = '';
@@ -98,6 +99,13 @@ export async function transcribeVoiceNote(value, language) {
   try {
     const filename = path.join(directory, `audio${ext}`);
     await writeFile(filename, buffer, { mode: 0o600 });
+    // Probe the downloaded bytes, never a client-supplied attachment duration.
+    const seconds = await probeDurationSec(filename, { roundUp: true });
+    if (!Number.isSafeInteger(seconds) || seconds <= 0) {
+      throw Object.assign(new Error('Audio duration unavailable'), { status: 422, code: 'AUDIO_DURATION_UNAVAILABLE' });
+    }
+    if (typeof beforeTranscribe !== 'function') throw new Error('Transcription reservation required');
+    await beforeTranscribe(seconds);
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 60000, maxRetries: 0 });
     return await client.audio.transcriptions.create({ file: fs.createReadStream(filename), model: 'gpt-4o-transcribe', language: language.split('-')[0] });
   } finally { await rm(directory, { recursive: true, force: true }); }

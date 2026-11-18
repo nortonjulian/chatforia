@@ -224,6 +224,10 @@ model User {
   email                String? @unique
   usernameNorm         String?
   emailNorm            String?
+  // Creator pilot attribution, written only when an account is created.
+  creatorReferralCode   String? @db.VarChar(40)
+  creatorReferralSource String? @db.VarChar(32)
+  creatorReferredAt     DateTime?
   passwordHash         String
   phoneNumber          String? @db.VarChar(32)
   preferredLanguage    String  @default("en")

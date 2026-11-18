@@ -31,13 +31,16 @@ import userEvent from '@testing-library/user-event';
 import { act, screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils';
 import LoginForm from '../src/components/LoginForm.jsx';
+import { captureCreatorReferral, currentCreatorReferral, clearCreatorReferral } from '../src/utils/creatorReferral';
 
 beforeEach(() => {
   jest.clearAllMocks();
+  clearCreatorReferral();
   mockRefreshSession.mockResolvedValue(undefined);
 });
 
 test('logs in successfully and navigates home', async () => {
+  captureCreatorReferral({pathname: '/ref/PILOT_1', search: ''});
   mockPost.mockResolvedValueOnce({ data: { user: { id: 1, username: 'alice' } } });
   let finishKeyCheck;
   mockRefreshSession.mockReturnValueOnce(new Promise((resolve) => { finishKeyCheck = resolve; }));
@@ -55,6 +58,7 @@ test('logs in successfully and navigates home', async () => {
   });
   await act(async () => finishKeyCheck());
   await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'));
+  expect(currentCreatorReferral()).toBeNull();
 });
 
 test('shows error on failed login', async () => {

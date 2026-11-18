@@ -5,37 +5,9 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import blockWhenStrictE2EE from '../middleware/blockWhenStrictE2EE.js';
 import { suggestReplies, rewriteText, chatWithRia } from '../services/riaService.js';
 import { getPlanEntitlements } from '../config/planEntitlements.js';
-import {
-  assertAndConsumeUsage,
-  releaseUsage,
-} from '../services/planUsageService.js';
+import { withRiaAllowance } from '../services/aiUsageService.js';
 
 const r = express.Router();
-
-async function withRiaAllowance(req, operation) {
-  await assertAndConsumeUsage({
-    userId: req.user.id,
-    plan: req.user.plan,
-    meter: 'riaActions',
-    amount: 1,
-  });
-
-  try {
-    return await operation();
-  } catch (err) {
-    try {
-      await releaseUsage({
-        userId: req.user.id,
-        meter: 'riaActions',
-        amount: 1,
-      });
-    } catch (releaseErr) {
-      console.error('Failed to release Ria allowance', releaseErr);
-    }
-
-    throw err;
-  }
-}
 
 function requireComposerAiEntitlement(
   req,
@@ -78,7 +50,7 @@ r.post('/suggest-replies', blockWhenStrictE2EE, asyncHandler(async (req, res) =>
 
   requireComposerAiEntitlement(req, 'AI smart replies');
 
-  const result = await withRiaAllowance(req, () =>
+  const result = await withRiaAllowance(req.user, () =>
     suggestReplies({
       messages: normalizedMessages,
       draft: String(draft || ''),
@@ -100,11 +72,11 @@ r.post('/rewrite', blockWhenStrictE2EE, asyncHandler(async (req, res) => {
 
   requireComposerAiEntitlement(req, 'AI rewrite');
 
-  const result = await rewriteText({
+  const result = await withRiaAllowance(req.user, () => rewriteText({
     text: clean,
     tone: String(tone || 'friendly'),
     filterProfanity: Boolean(filterProfanity),
-  });
+  }));
 
   res.json(result);
 }));
@@ -129,7 +101,7 @@ r.post('/chat', blockWhenStrictE2EE, asyncHandler(async (req, res) => {
     throw Boom.badRequest('at least one message is required');
   }
 
-  const result = await withRiaAllowance(req, () =>
+  const result = await withRiaAllowance(req.user, () =>
     chatWithRia({
       userId: req.user.id,
       username: req.user.username || null,

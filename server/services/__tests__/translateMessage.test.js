@@ -1,217 +1,107 @@
 import { jest } from '@jest/globals';
-import { fileURLToPath } from 'url';
-import path from 'path';
 
-let detectLanguageMock;
-let translateTextMock;
-let getCachedMock;
-let setCachedMock;
+const translateText = jest.fn();
+const detectLanguage = jest.fn();
+const consume = jest.fn();
+const release = jest.fn();
+await jest.unstable_mockModule('../translation/googleTranslate.js', () => ({ translateText, detectLanguage }));
+await jest.unstable_mockModule('../planUsageService.js', () => ({
+  assertAndConsumeUsage: consume, releaseUsage: release,
+}));
 
-const resetLocalMocks = () => {
-  detectLanguageMock = jest.fn();
-  translateTextMock = jest.fn();
-  getCachedMock = jest.fn();
-  setCachedMock = jest.fn();
-};
-
-// ---- Build ABSOLUTE filesystem paths so Jest's resolver matches exactly ----
-const THIS_DIR   = path.dirname(fileURLToPath(import.meta.url));                 // .../server/services/__tests__
-const SUT_PATH   = path.resolve(THIS_DIR, '../translation/translateMessage.js'); // .../server/services/translation/translateMessage.js
-const GOOGLE_PATH= path.resolve(THIS_DIR, '../translation/googleTranslate.js');  // .../server/services/translation/googleTranslate.js
-const CACHE_PATH = path.resolve(THIS_DIR, '../translation/cache.js');            // .../server/services/translation/cache.js
-// ----------------------------------------------------------------------------
-
-const reload = async () => {
+let translate;
+let withTranslationAllowance;
+const oldTTL = process.env.TRANSLATION_CACHE_TTL_SECONDS;
+beforeEach(async () => {
   jest.resetModules();
-  resetLocalMocks();
-
-  // ESM-friendly mocks using absolute paths
-  await jest.unstable_mockModule(GOOGLE_PATH, () => ({
-    __esModule: true,
-    detectLanguage: detectLanguageMock,
-    translateText: translateTextMock,
-  }));
-
-  await jest.unstable_mockModule(CACHE_PATH, () => ({
-    __esModule: true,
-    getCached: getCachedMock,
-    setCached: setCachedMock,
-  }));
-
-  // Import SUT by the SAME absolute path so the mocks apply
-  return import(SUT_PATH);
-};
-
-beforeEach(() => {
-  jest.clearAllMocks?.();
-  resetLocalMocks();
+  jest.resetAllMocks();
+  process.env.TRANSLATION_CACHE_TTL_SECONDS = '60';
+  ({ maybeTranslateForTarget: translate } = await import('../translation/translateMessage.js'));
+  ({ withTranslationAllowance } = await import('../translation/translationUsageService.js'));
+  translateText.mockResolvedValue({ translated: 'hola', provider: 'google', detectedSourceLanguage: 'en' });
+});
+afterAll(() => {
+  if (oldTTL === undefined) delete process.env.TRANSLATION_CACHE_TTL_SECONDS;
+  else process.env.TRANSLATION_CACHE_TTL_SECONDS = oldTTL;
+});
+const options = () => ({
+  runBillable: operation => withTranslationAllowance({
+    userId: 1, plan: 'PLUS', amount: 5, operation,
+    shouldBillResult: result => result.provider === 'google',
+  }),
 });
 
-describe('maybeTranslateForTarget', () => {
-  test('returns fallback when originalText empty or target missing', async () => {
-    const { maybeTranslateForTarget } = await reload();
+test('blank input and explicit same-language skip provider and reservation', async () => {
+  expect((await translate('', null, 'es', options())).provider).toBe('none');
+  expect((await translate('hello', 'EN', 'en', options())).detectedLang).toBe('en');
+  expect(consume).not.toHaveBeenCalled();
+  expect(translateText).not.toHaveBeenCalled();
+});
 
-    await expect(maybeTranslateForTarget('', 'en', 'es')).resolves.toEqual({
-      translatedText: null,
-      detectedLang: null,
-      confidence: null,
-      provider: 'none',
-    });
-
-    await expect(maybeTranslateForTarget('Hello', 'en', '')).resolves.toEqual({
-      translatedText: null,
-      detectedLang: null,
-      confidence: null,
-      provider: 'none',
-    });
-
-    expect(getCachedMock).not.toHaveBeenCalled();
-    expect(detectLanguageMock).not.toHaveBeenCalled();
-    expect(translateTextMock).not.toHaveBeenCalled();
+test('one provider call auto-detects language and consumes allowance once', async () => {
+  expect(await translate('hello', null, 'es', options())).toEqual({
+    translatedText: 'hola', detectedLang: 'en', confidence: null, provider: 'google',
   });
+  expect(consume).toHaveBeenCalledTimes(1);
+  expect(consume).toHaveBeenCalledWith({userId: 1, plan: 'PLUS', meter: 'translationChars', amount: 5, date: expect.any(Date)});
+  expect(translateText).toHaveBeenCalledTimes(1);
+  expect(detectLanguage).not.toHaveBeenCalled();
+});
 
-  test('explicit source equals target → skip translation, return detectedLang only, no cache writes', async () => {
-    const { maybeTranslateForTarget } = await reload();
+test('real cache hit remains available at exhausted quota without another reservation', async () => {
+  const first = await translate('hello', null, 'es', options());
+  consume.mockRejectedValue(new Error('allowance exhausted'));
+  expect(await translate('hello', null, 'es', options())).toEqual({...first, provider: 'cache'});
+  expect(first.provider).toBe('google');
+  expect(consume).toHaveBeenCalledTimes(1);
+  expect(translateText).toHaveBeenCalledTimes(1);
+  expect(release).not.toHaveBeenCalled();
+});
 
-    const out = await maybeTranslateForTarget('Bonjour', 'FR', 'fr');
-    expect(out).toEqual({
-      translatedText: null,
-      detectedLang: 'fr',
-      confidence: null,
-      provider: 'none',
-    });
+test('cache miss cannot call the provider when allowance is exhausted', async () => {
+  consume.mockRejectedValue(new Error('allowance exhausted'));
+  await expect(translate('hello', null, 'es', options())).rejects.toThrow('allowance exhausted');
+  expect(translateText).not.toHaveBeenCalled();
+});
 
-    expect(getCachedMock).not.toHaveBeenCalled();
-    expect(setCachedMock).not.toHaveBeenCalled();
-    expect(detectLanguageMock).not.toHaveBeenCalled();
-    expect(translateTextMock).not.toHaveBeenCalled();
-  });
+test('failed provider call releases allowance and is not cached', async () => {
+  translateText.mockRejectedValueOnce(new Error('provider failed'));
+  await expect(translate('hello', null, 'es', options())).rejects.toThrow('provider failed');
+  expect(release).toHaveBeenCalledTimes(1);
+  expect((await translate('hello', null, 'es', options())).translatedText).toBe('hola');
+  expect(translateText).toHaveBeenCalledTimes(2);
+});
 
-  test('cache hit short-circuits detection/translation', async () => {
-    const { maybeTranslateForTarget } = await reload();
+test('disabled provider releases allowance and does not poison cache', async () => {
+  translateText.mockResolvedValueOnce({ translated: null, provider: 'none' });
+  expect((await translate('hello', null, 'es', options())).provider).toBe('none');
+  expect(release).toHaveBeenCalledTimes(1);
+  expect((await translate('hello', null, 'es', options())).translatedText).toBe('hola');
+  expect(translateText).toHaveBeenCalledTimes(2);
+});
 
-    const cached = {
-      translatedText: 'hola',
-      detectedLang: 'en',
-      confidence: 0.9,
-      provider: 'google',
-    };
-    getCachedMock.mockReturnValueOnce(cached);
+test('auto-detected same language preserves no-translation result and caches paid work', async () => {
+  translateText.mockResolvedValue({ translated: 'hello', provider: 'google', detectedSourceLanguage: 'en' });
+  expect((await translate('hello', null, 'en', options())).translatedText).toBeNull();
+  expect((await translate('hello', null, 'en', options())).provider).toBe('cache');
+  expect(consume).toHaveBeenCalledTimes(1);
+});
 
-    const out = await maybeTranslateForTarget('Hello', null, 'es');
-    expect(out).toBe(cached);
-    expect(getCachedMock).toHaveBeenCalledTimes(1);
-    const keyArg = getCachedMock.mock.calls[0][0];
-    expect(keyArg).toContain('v1:auto:es:Hello');
-    expect(detectLanguageMock).not.toHaveBeenCalled();
-    expect(translateTextMock).not.toHaveBeenCalled();
-  });
+test('cache populated while reservation awaits refunds the unnecessary reservation', async () => {
+  consume.mockImplementationOnce(async () => { await translate('hello', null, 'es'); });
+  expect((await translate('hello', null, 'es', options())).provider).toBe('cache');
+  expect(translateText).toHaveBeenCalledTimes(1);
+  expect(release).toHaveBeenCalledTimes(1);
+});
 
-  test('detected language equals target → no translation, caches result', async () => {
-    const { maybeTranslateForTarget } = await reload();
-
-    getCachedMock.mockReturnValueOnce(null);
-    detectLanguageMock.mockResolvedValueOnce({
-      language: 'ES',
-      confidence: 0.88,
-      provider: 'google',
-    });
-
-    const out = await maybeTranslateForTarget('hola mundo', null, 'es');
-    expect(out).toEqual({
-      translatedText: null,
-      detectedLang: 'es',
-      confidence: 0.88,
-      provider: 'google',
-    });
-
-    expect(translateTextMock).not.toHaveBeenCalled();
-    expect(setCachedMock).toHaveBeenCalledTimes(1);
-    const [keySet, valSet] = setCachedMock.mock.calls[0];
-    expect(keySet).toContain(':es:hola mundo');
-    expect(valSet).toEqual(out);
-  });
-
-  test('detection throws → proceed with provider="google" then translate', async () => {
-    const { maybeTranslateForTarget } = await reload();
-
-    getCachedMock.mockReturnValueOnce(null);
-    detectLanguageMock.mockRejectedValueOnce(new Error('api down'));
-    translateTextMock.mockResolvedValueOnce({ translated: 'bonjour', provider: 'google' });
-
-    const out = await maybeTranslateForTarget('hello', null, 'fr');
-    expect(out).toEqual({
-      translatedText: 'bonjour',
-      detectedLang: null,
-      confidence: null,
-      provider: 'google',
-    });
-
-    expect(detectLanguageMock).toHaveBeenCalled();
-    expect(translateTextMock).toHaveBeenCalledWith('hello', 'fr');
-    expect(setCachedMock).toHaveBeenCalledTimes(1);
-  });
-
-  test('translation success → uses translated text, carries confidence/provider, caches', async () => {
-    const { maybeTranslateForTarget } = await reload();
-
-    getCachedMock.mockReturnValueOnce(null);
-    detectLanguageMock.mockResolvedValueOnce({
-      language: 'en',
-      confidence: 0.73,
-      provider: 'google',
-    });
-    translateTextMock.mockResolvedValueOnce({ translated: 'hola', provider: 'google' });
-
-    const out = await maybeTranslateForTarget('hello', null, 'es');
-    expect(out).toEqual({
-      translatedText: 'hola',
-      detectedLang: 'en',
-      confidence: 0.73,
-      provider: 'google',
-    });
-
-    expect(setCachedMock).toHaveBeenCalledTimes(1);
-    const saved = setCachedMock.mock.calls[0][1];
-    expect(saved).toEqual(out);
-  });
-
-  test('translation throws → returns null translated with detection metadata, caches', async () => {
-    const { maybeTranslateForTarget } = await reload();
-
-    getCachedMock.mockReturnValueOnce(null);
-    detectLanguageMock.mockResolvedValueOnce({
-      language: 'de',
-      confidence: 0.6,
-      provider: 'google',
-    });
-    translateTextMock.mockRejectedValueOnce(new Error('quota'));
-
-    const out = await maybeTranslateForTarget('hallo welt', null, 'fr');
-    expect(out).toEqual({
-      translatedText: null,
-      detectedLang: 'de',
-      confidence: 0.6,
-      provider: 'google',
-    });
-
-    expect(setCachedMock).toHaveBeenCalledTimes(1);
-  });
-
-  test('explicit source different from target → skip detect, go straight to translate', async () => {
-    const { maybeTranslateForTarget } = await reload();
-
-    getCachedMock.mockReturnValueOnce(null);
-    translateTextMock.mockResolvedValueOnce({ translated: 'ciao', provider: 'google' });
-
-    const out = await maybeTranslateForTarget('hello', 'EN', 'it');
-    expect(detectLanguageMock).not.toHaveBeenCalled();
-    expect(translateTextMock).toHaveBeenCalledWith('hello', 'it');
-    expect(out).toEqual({
-      translatedText: 'ciao',
-      detectedLang: 'en',
-      confidence: null,
-      provider: 'google',
-    });
-  });
+test('cache expiry requires a new reservation and provider call', async () => {
+  const clock = jest.spyOn(Date, 'now');
+  try {
+    clock.mockReturnValue(1000);
+    await translate('hello', null, 'es', options());
+    clock.mockReturnValue(62000);
+    await translate('hello', null, 'es', options());
+    expect(consume).toHaveBeenCalledTimes(2);
+    expect(translateText).toHaveBeenCalledTimes(2);
+  } finally { clock.mockRestore(); }
 });

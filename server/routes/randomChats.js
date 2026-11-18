@@ -16,10 +16,7 @@ import {
 
 // 🔮 OpenAI (Ria bot brain)
 import OpenAI from 'openai';
-import {
-  assertAndConsumeUsage,
-  releaseUsage,
-} from '../services/planUsageService.js';
+import { assertAiPromptBudget, withRiaAllowance } from '../services/aiUsageService.js';
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -34,7 +31,7 @@ function getOpenAI() {
   const key = process.env.OPENAI_API_KEY;
   if (!key) return null;
   if (!openaiClient) {
-    openaiClient = new OpenAI({ apiKey: key });
+    openaiClient = new OpenAI({ apiKey: key, maxRetries: 0, timeout: 60000 });
   }
   return openaiClient;
 }
@@ -120,6 +117,7 @@ You are Ria, a friendly chat companion inside the Chatforia app.
   let replyText;
 
   try {
+    assertAiPromptBudget(messages);
     const response = await client.chat.completions.create({
       model: 'gpt-4.1-mini',
       messages,
@@ -166,34 +164,8 @@ async function resolveRiaPlan(user) {
 }
 
 async function withRandomChatRiaAllowance(user, operation) {
-  const userId = Number(user.id);
   const plan = await resolveRiaPlan(user);
-
-  await assertAndConsumeUsage({
-    userId,
-    plan,
-    meter: 'riaActions',
-    amount: 1,
-  });
-
-  try {
-    return await operation();
-  } catch (error) {
-    try {
-      await releaseUsage({
-        userId,
-        meter: 'riaActions',
-        amount: 1,
-      });
-    } catch (releaseError) {
-      console.error('[Ria] Failed to release Random Chat allowance', {
-        userId,
-        message: releaseError?.message || String(releaseError),
-      });
-    }
-
-    throw error;
-  }
+  return withRiaAllowance({ id: Number(user.id), plan }, operation);
 }
 
 function emitRiaFailure(socket, roomId, error) {

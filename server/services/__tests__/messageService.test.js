@@ -306,7 +306,8 @@ describe('createMessageService', () => {
     expect(mockMaybeTranslateForTarget).toHaveBeenCalledWith(
       'CLEAN_CONTENT',
       'en',
-      'fr'
+      'fr',
+      expect.objectContaining({ runBillable: expect.any(Function) })
     );
 
     expect(mockEncryptMessageForParticipants).not.toHaveBeenCalled();
@@ -556,5 +557,44 @@ describe('maybeAutoTranslate', () => {
     expect(db.participant.findMany).not.toHaveBeenCalled();
     expect(db.message.update).not.toHaveBeenCalled();
     expect(mockMaybeTranslateForTarget).not.toHaveBeenCalled();
+  });
+});
+
+describe('translation allowance integration with message delivery', () => {
+  it('keeps delivering the original message when the reservation is rejected', async () => {
+    mockUserFindUnique.mockResolvedValue({ id: 1, preferredLanguage: 'en', plan: 'PLUS', allowExplicitContent: true });
+    mockParticipantFindFirst.mockResolvedValue({ userId: 1 });
+    mockParticipantFindMany.mockResolvedValue([{ user: { id: 2, preferredLanguage: 'es', allowExplicitContent: true } }]);
+    mockWithTranslationAllowance.mockRejectedValue(Object.assign(new Error('exhausted'), { code: 'PLAN_ALLOWANCE_EXCEEDED' }));
+    const provider = jest.fn();
+    mockMaybeTranslateForTarget.mockImplementation((_text, _source, _target, { runBillable }) => runBillable(provider));
+    mockMessageCreate.mockImplementation(async ({ data }) => ({ id: 20, rawContent: data.rawContent, translations: data.translations }));
+    const result = await createMessageService({ senderId: 1, chatRoomId: 7, content: 'hello' });
+    expect(result.rawContent).toBe('hello');
+    expect(result.translations).toBeNull();
+    expect(provider).not.toHaveBeenCalled();
+    expect(mockWithTranslationAllowance).toHaveBeenCalledWith(expect.objectContaining({ userId: 1, plan: 'PLUS', amount: 5 }));
+  });
+
+  it('does not translate an already translated target again, and preserves it when adding another', async () => {
+    process.env.TRANSLATION_ENABLED = 'true';
+    mockAllow.mockReturnValue(true);
+    const db = {
+      user: { findUnique: jest.fn().mockResolvedValue({ plan: 'PLUS' }) },
+      chatRoom: { findUnique: jest.fn().mockResolvedValue({ autoTranslateMode: 'ON' }) },
+      participant: { findMany: jest.fn().mockResolvedValue([
+        { user: { autoTranslate: true, preferredLanguage: 'es' } },
+        { user: { autoTranslate: true, preferredLanguage: 'fr' } },
+      ]) },
+      message: { update: jest.fn() },
+    };
+    mockMaybeTranslateForTarget.mockImplementation((_text, _source, _target, { runBillable }) =>
+      runBillable(async () => ({ translatedText: 'bonjour', provider: 'google' })));
+    await maybeAutoTranslate({ savedMessage: { id: 20, chatRoomId: 7, senderId: 1, rawContent: 'hello', translations: { es: 'hola' } }, prisma: db });
+    expect(mockMaybeTranslateForTarget).toHaveBeenCalledTimes(1);
+    expect(mockMaybeTranslateForTarget.mock.calls[0][2]).toBe('fr');
+    expect(mockWithTranslationAllowance).toHaveBeenCalledWith(expect.objectContaining({ userId: 1, plan: 'PLUS', amount: 5 }));
+    expect(db.message.update).toHaveBeenCalledWith(expect.objectContaining({ data: { translations: { es: 'hola', fr: 'bonjour' } } }));
+    delete process.env.TRANSLATION_ENABLED;
   });
 });

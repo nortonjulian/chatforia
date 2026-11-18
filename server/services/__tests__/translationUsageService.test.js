@@ -51,6 +51,7 @@ describe('translationUsageService', () => {
       plan: 'PLUS',
       meter: 'translationChars',
       amount: 5,
+        date: expect.any(Date),
     });
     expect(releaseUsageMock).not.toHaveBeenCalled();
   });
@@ -68,6 +69,7 @@ describe('translationUsageService', () => {
       userId: 42,
       meter: 'translationChars',
       amount: 5,
+        date: expect.any(Date),
     });
   });
 
@@ -87,6 +89,7 @@ describe('translationUsageService', () => {
       userId: 42,
       meter: 'translationChars',
       amount: 5,
+        date: expect.any(Date),
     });
   });
 
@@ -102,4 +105,16 @@ describe('translationUsageService', () => {
     expect(assertAndConsumeUsageMock).not.toHaveBeenCalled();
     expect(releaseUsageMock).not.toHaveBeenCalled();
   });
+});
+
+
+test('a failed nonbillable refund is attempted only once', async () => {
+  jest.clearAllMocks();
+  releaseUsageMock.mockRejectedValueOnce(new Error('refund unavailable'));
+  await expect(withTranslationAllowance({
+    userId: 42, plan: 'PLUS', amount: 5,
+    operation: async () => ({ provider: 'cache' }),
+    shouldBillResult: () => false,
+  })).rejects.toThrow('refund unavailable');
+  expect(releaseUsageMock).toHaveBeenCalledTimes(1);
 });

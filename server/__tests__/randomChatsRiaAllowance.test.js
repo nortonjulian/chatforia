@@ -85,6 +85,7 @@ describe('Random Chat Ria allowance helpers', () => {
       plan: 'PLUS',
       meter: 'riaActions',
       amount: 1,
+      date: expect.any(Date),
     });
 
     expect(releaseUsageMock).not.toHaveBeenCalled();
@@ -113,12 +114,14 @@ describe('Random Chat Ria allowance helpers', () => {
       plan: 'FREE',
       meter: 'riaActions',
       amount: 1,
+      date: expect.any(Date),
     });
 
     expect(releaseUsageMock).toHaveBeenCalledWith({
       userId: 42,
       meter: 'riaActions',
       amount: 1,
+      date: expect.any(Date),
     });
   });
 

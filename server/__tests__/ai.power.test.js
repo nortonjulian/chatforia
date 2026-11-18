@@ -18,7 +18,7 @@ const mockPrisma = {
 
 const mockRequireAuth = jest.fn((req, _res, next) => {
   // Simulate an authenticated user
-  req.user = { id: 1 };
+  req.user = { id: 1, plan: 'PREMIUM' };
   next();
 });
 
@@ -39,6 +39,10 @@ await jest.unstable_mockModule('../middleware/requirePremium.js', () => ({
   __esModule: true,
   requirePremium: mockRequirePremium,
 }));
+
+const consume = jest.fn();
+const release = jest.fn();
+await jest.unstable_mockModule('../services/planUsageService.js', () => ({ assertAndConsumeUsage: consume, releaseUsage: release }));
 
 // Import the router under test
 const aiRouter = (await import('../routes/ai.power.js')).default;

@@ -30,7 +30,7 @@ const opportunityAreas = [
   [
     "partnerships",
     "Sales & partnerships",
-    "Creator and affiliate partnerships, advertising sales, business development and carrier partnerships."
+    "Creator partnerships, advertising sales, business development and carrier partnerships."
   ],
   [
     "operations",

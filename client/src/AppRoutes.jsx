@@ -469,6 +469,7 @@ export default function AppRoutes() {
           <Route path="/" element={<LoginForm />} />
           <Route path="/voicemail" element={<VoicemailSignIn />} />
           <Route path="/register" element={<Registration />} />
+          <Route path="/ref/:code" element={<Registration />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/verify-phone-consent" element={<VerifyPhoneConsentPage />} />
           <Route path="/verify-code" element={<VerifyCodePage />} />

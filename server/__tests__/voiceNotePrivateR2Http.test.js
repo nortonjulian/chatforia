@@ -78,6 +78,7 @@ const db = {
   },
 };
 
+await jest.unstable_mockModule('../utils/mediaProbe.js', () => ({ probeDurationSec: jest.fn(async () => 4) }));
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({ __esModule: true, default: db }));
 await jest.unstable_mockModule('../utils/r2.js', () => ({ __esModule: true, r2: { send: r2Send } }));
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
@@ -108,6 +109,7 @@ const previousBucket = process.env.R2_BUCKET;
 const previousKey = process.env.OPENAI_API_KEY;
 const previousFetch = global.fetch;
 beforeEach(() => {
+  jest.clearAllMocks();
   state.member = true;
   state.deleted = false;
   state.enabled = true;

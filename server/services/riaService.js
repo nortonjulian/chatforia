@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { assertAiPromptBudget } from './aiUsageService.js';
 import prisma from '../utils/prismaClient.js';
 import {
   buildSuggestRepliesPrompt,
@@ -15,7 +16,7 @@ function getOpenAIClient() {
     throw err;
   }
 
-  return new OpenAI({ apiKey });
+  return new OpenAI({ apiKey, maxRetries: 0, timeout: 60000 });
 }
 
 function parseLineList(text, max = 3) {
@@ -43,6 +44,7 @@ function maybeMaskText(text, filterProfanity) {
 }
 
 async function chatText(messages, maxTokens = 120) {
+  assertAiPromptBudget(messages);
   const client = getOpenAIClient();
 
   const response = await client.chat.completions.create({

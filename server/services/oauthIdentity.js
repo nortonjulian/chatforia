@@ -48,6 +48,8 @@ function defaultEmailVerifiedAt({ email, emailVerified }) {
   return emailVerified ? new Date() : null;
 }
 
+import { creatorAttributionFields } from './creatorAttribution.js';
+
 export async function resolveOAuthUser({
   provider,
   providerSub,
@@ -56,6 +58,8 @@ export async function resolveOAuthUser({
   displayName = null,
   avatarUrl = null,
   logContext = {},
+  referralCode,
+  referralSource,
 }) {
   if (!providerSub) {
     throw new Error(`${provider} providerSub is required`);
@@ -213,6 +217,7 @@ export async function resolveOAuthUser({
         avatarUrl,
         [subField]: providerSub,
         passwordHash: 'oauth',
+        ...creatorAttributionFields(referralCode, referralSource),
         emailVerifiedAt: defaultEmailVerifiedAt({
           email: normalizedEmail,
           emailVerified,
