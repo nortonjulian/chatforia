@@ -23,22 +23,10 @@ import { useTranslation } from 'react-i18next';
 import posthog from '@/utils/analytics';
 import useEntitlements from '@/hooks/useEntitlements';
 import {
+  MESSAGE_TTL_OPTIONS,
   buildMessageTtlOptions,
   clampMessageTtlSeconds,
 } from '@/utils/messageTtl';
-
-const RAW_TTL_OPTIONS = [
-  { value: '0', labelKey: 'messageInput.ttl.off', fallback: 'Off' },
-  { value: '10', fallback: '10s' },
-  { value: '60', fallback: '1m' },
-  { value: String(10 * 60), fallback: '10m' },
-  { value: String(60 * 60), fallback: '1h' },
-  { value: String(24 * 3600), fallback: '1d', days: 1 },
-  { value: String(3 * 24 * 3600), fallback: '3d', days: 3 },
-  { value: String(7 * 24 * 3600), fallback: '7d', days: 7 },
-  { value: String(14 * 24 * 3600), fallback: '14d', days: 14 },
-  { value: String(30 * 24 * 3600), fallback: '30d', days: 30 },
-];
 
 export default function MessageInput({
   chatroomId,
@@ -54,7 +42,7 @@ export default function MessageInput({
   const expireMaxDays = Number(entitlements?.expireMaxDays || 1);
 
   const ttlOptions = useMemo(
-    () => buildMessageTtlOptions(RAW_TTL_OPTIONS, expireMaxDays, t),
+    () => buildMessageTtlOptions(MESSAGE_TTL_OPTIONS, expireMaxDays, t),
     [t, expireMaxDays]
   );
 

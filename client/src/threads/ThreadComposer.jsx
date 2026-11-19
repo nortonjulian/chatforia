@@ -8,6 +8,9 @@ export default function ThreadComposer({
   topSlot = null,
   onUploadFiles, // optional
   prepareFile, // carrier-only attachment preparation when supplied
+  showMessageTimer = false,
+  defaultExpireSeconds = 0,
+  expireMaxDays = 1,
   features = {
     showGif: true,
     showEmoji: true,
@@ -28,6 +31,9 @@ export default function ThreadComposer({
       showUpload={!!features.showUpload}
       onUploadFiles={onUploadFiles}
       prepareFile={prepareFile}
+      showMessageTimer={showMessageTimer}
+      defaultExpireSeconds={defaultExpireSeconds}
+      expireMaxDays={expireMaxDays}
     />
   );
 }

@@ -2608,9 +2608,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         composer={
           <Box w="100%">
             <ThreadComposer
+              key={`chat-composer-${currentUserId}-${chatroom.id}`}
               value={draft}
               onChange={setDraft}
               placeholder="Type a message…"
+              showMessageTimer
+              defaultExpireSeconds={currentUser?.autoDeleteSeconds || 0}
+              expireMaxDays={planEntitlements?.expireMaxDays ?? (
+                ['PLUS', 'PREMIUM'].includes(String(currentUser?.plan || '').toUpperCase()) ? 30 : 1
+              )}
               topSlot={
                 <Group gap="sm" align="center" wrap="wrap">
                   <label
@@ -2735,6 +2741,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           decryptedContent: text || '',
                           attachments: optimisticAttachments,
                           attachmentsInline: optimisticAttachments,
+                          expireSeconds: payload.expireSeconds,
                           optimistic: true,
                         })
                       );
@@ -2776,6 +2783,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           encryptedKeys: null,
                           encryptedPayloads,
                           clientMessageId,
+                          expireSeconds: payload.expireSeconds,
                           attachmentsInline: optimisticAttachments.map((a) => ({
                             ...a,
                             caption: null,
@@ -2862,6 +2870,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                       encryptedKeys: null,
                       encryptedPayloads,
                       clientMessageId,
+                      expireSeconds: payload.expireSeconds,
                     },
                     { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
                   );
