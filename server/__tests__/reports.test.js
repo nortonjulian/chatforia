@@ -8,6 +8,7 @@ const mockFindMany = jest.fn();
 const mockCreate = jest.fn();
 const mockUserBlockUpsert = jest.fn();
 const mockUserFindUnique = jest.fn();
+const mockQueryRaw = jest.fn();
 
 let mockAuthUserId = '123';
 
@@ -23,6 +24,7 @@ await jest.unstable_mockModule('@prisma/client', () => {
     },
     userBlock: { upsert: mockUserBlockUpsert },
     user: { findUnique: mockUserFindUnique },
+    $queryRaw: mockQueryRaw,
   };
   instance.$transaction = jest.fn(async (fn) => fn(instance));
   const PrismaClient = jest.fn(() => instance);

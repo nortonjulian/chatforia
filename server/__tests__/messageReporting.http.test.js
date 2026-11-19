@@ -12,6 +12,7 @@ const db = {
 };
 const committed = [];
 let reporterId = 7;
+const locks = new Map();
 
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({ default: db }));
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
@@ -64,6 +65,7 @@ const payload = (extra = {}) => ({
 beforeEach(() => {
   jest.clearAllMocks();
   committed.length = 0;
+  locks.clear();
   reporterId = 7;
   db.message.findUnique.mockImplementation(async ({ select }) => {
     // Keep this fixture bound to the current Prisma relation contract.
@@ -73,20 +75,37 @@ beforeEach(() => {
     return primaryMessage();
   });
   db.participant.findFirst.mockResolvedValue({ id: 1 });
-  db.report.findFirst.mockResolvedValue(null);
+  db.report.findFirst.mockImplementation(async ({ where }) =>
+    committed.find(({ type, result }) => type === 'report' &&
+      result.messageId === where.messageId && result.reporterId === where.reporterId &&
+      result.status === where.status)?.result || null);
   db.report.findMany.mockResolvedValue([]);
   db.report.count.mockResolvedValue(0);
-  db.report.create.mockImplementation(async ({ data }) => ({ id: 80, ...data }));
+  db.report.create.mockImplementation(async ({ data }) => ({ id: 80 + committed.length, status: 'OPEN', ...data }));
   db.userBlock.upsert.mockResolvedValue({});
   db.message.update.mockResolvedValue({});
   db.$transaction.mockImplementation(async (fn) => {
     const pending = [];
+    let releaseLock;
     const tx = {
-      report: { create: async (args) => {
-        const result = await db.report.create(args);
-        pending.push({ type: 'report', result });
-        return result;
-      } },
+      $queryRaw: async (_strings, reporter, target) => {
+        const key = `${reporter}:${target}`;
+        const previous = locks.get(key);
+        let resolve;
+        const held = new Promise((r) => { resolve = r; });
+        locks.set(key, held);
+        if (previous) await previous;
+        releaseLock = resolve;
+        return [{ pg_advisory_xact_lock: null }];
+      },
+      report: {
+        findFirst: (args) => db.report.findFirst(args),
+        create: async (args) => {
+          const result = await db.report.create(args);
+          pending.push({ type: 'report', result });
+          return result;
+        },
+      },
       userBlock: { upsert: async (args) => {
         const result = await db.userBlock.upsert(args);
         pending.push({ type: 'block', result });
@@ -98,9 +117,13 @@ beforeEach(() => {
         return result;
       } },
     };
-    const result = await fn(tx);
-    committed.push(...pending);
-    return result;
+    try {
+      const result = await fn(tx);
+      committed.push(...pending);
+      return result;
+    } finally {
+      releaseLock?.();
+    }
   });
 });
 
@@ -116,6 +139,7 @@ describe('POST /messages/report', () => {
       evidence: expect.objectContaining({
         primaryMessage: expect.objectContaining({ contentCiphertext: { ciphertext: 'synthetic' } }),
         submittedMessages: [expect.objectContaining({ messageId: 42, plaintext: 'Reporter-submitted text' })],
+        contentSource: 'reporter_submission',
       }),
     }) });
     expect(db.userBlock.upsert).not.toHaveBeenCalled();
@@ -133,7 +157,7 @@ describe('POST /messages/report', () => {
   test('rejects an already-open report without another moderation record', async () => {
     db.report.findFirst.mockResolvedValueOnce({ id: 79 });
     expect((await request(app).post('/messages/report').send(payload())).status).toBe(409);
-    expect(db.$transaction).not.toHaveBeenCalled();
+    expect(db.report.create).not.toHaveBeenCalled();
     expect(committed).toEqual([]);
   });
 
@@ -144,7 +168,7 @@ describe('POST /messages/report', () => {
     expect(committed).toEqual([]);
   });
 
-  test('uses the actual random-room relation for moderation scoring and auto-hide', async () => {
+  test('fabricated reporter plaintext queues human review without punitive auto-hide', async () => {
     db.message.findUnique.mockImplementationOnce(async ({ select }) => {
       expect(select.chatRoom.select.randomChatRoom).toEqual({ select: { id: true } });
       return { ...primaryMessage(), chatRoom: { id: 11, randomChatRoom: { id: 4 } } };
@@ -153,14 +177,37 @@ describe('POST /messages/report', () => {
       reason: 'threats', messages: [{ messageId: 42, senderId: 9, plaintext: 'I will kill you', attachments: [] }],
     }));
     expect(response.status).toBe(201);
-    expect(response.body.moderation.autoHidden).toBe(true);
+    expect(response.body.moderation.autoHidden).toBe(false);
+    expect(response.body.moderation.recommendedAction).toBe('PRIORITY_REVIEW');
     expect(db.report.create).toHaveBeenCalledWith({ data: expect.objectContaining({
-      reportedUserId: 9, autoHidden: true,
+      reportedUserId: 9, autoHidden: false,
       scoreFactors: expect.arrayContaining(['random_room_boost', 'matched_threat_pattern']),
     }) });
-    expect(db.message.update).toHaveBeenCalledWith({
-      where: { id: 42 }, data: { isHiddenByModeration: true, moderationStatus: 'SOFT_HIDDEN' },
-    });
-    expect(committed.map((item) => item.type)).toEqual(['report', 'hide']);
+    expect(db.message.update).not.toHaveBeenCalled();
+    expect(committed.map((item) => item.type)).toEqual(['report']);
+  });
+
+  test('concurrent duplicate submissions commit only one report and optional block', async () => {
+    const [first, second] = await Promise.all([
+      request(app).post('/messages/report').send(payload({ blockAfterReport: true })),
+      request(app).post('/messages/report').send(payload({ blockAfterReport: true })),
+    ]);
+    expect([first.status, second.status].sort()).toEqual([201, 409]);
+    expect(committed.filter((item) => item.type === 'report')).toHaveLength(1);
+    expect(db.userBlock.upsert).toHaveBeenCalledTimes(1);
+  });
+
+  test('distinct authorized reporters can report the same message', async () => {
+    const first = await request(app).post('/messages/report').send(payload());
+    reporterId = 8;
+    const second = await request(app).post('/messages/report').send(payload());
+    expect([first.status, second.status]).toEqual([201, 201]);
+    expect(committed.filter((item) => item.type === 'report')).toHaveLength(2);
+  });
+
+  test('rejects a self-report before creating moderation work', async () => {
+    reporterId = 9;
+    expect((await request(app).post('/messages/report').send(payload())).status).toBe(400);
+    expect(db.report.create).not.toHaveBeenCalled();
   });
 });

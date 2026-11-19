@@ -3,6 +3,7 @@ import pkg from '@prisma/client';
 const { PrismaClient } = pkg;
 
 import { requireAuth } from '../middleware/auth.js';
+import { createOpenReport } from '../services/openReportTransaction.js';
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -50,7 +51,7 @@ router.post('/users/:userId', requireAuth, async (req, res) => {
 
     const details = typeof req.body?.details === 'string'
       ? req.body.details.trim().slice(0, 2000) : '';
-    const report = await prisma.report.create({
+    const result = await createOpenReport(prisma, { reporterId, reportedUserId }, (tx) => tx.report.create({
       data: {
         reporterId,
         reportedUserId,
@@ -61,7 +62,9 @@ router.post('/users/:userId', requireAuth, async (req, res) => {
         status: 'OPEN',
       },
       select: { id: true },
-    });
+    }));
+    if (result.duplicate) return res.status(409).json({ error: 'You already reported this user' });
+    const report = result.report;
     res.locals.audit = {
       action: 'USER_CREATE_REPORT', targetUserId: reportedUserId,
       notes: normalizeReason(req.body?.reason),
@@ -139,15 +142,12 @@ router.post('/', requireAuth, async (req, res) => {
       return res.status(400).json({ error: 'You cannot report your own message' });
     }
 
+    // Avoid fetching context on an ordinary retry; the locked check inside
+    // createOpenReport remains authoritative for concurrent requests.
     const existingOpenReport = await prisma.report.findFirst({
-      where: {
-        messageId: parsedMessageId,
-        reporterId,
-        status: 'OPEN',
-      },
+      where: { messageId: parsedMessageId, reporterId, status: 'OPEN' },
       select: { id: true },
     });
-
     if (existingOpenReport) {
       return res.status(409).json({ error: 'You already reported this message' });
     }
@@ -208,7 +208,7 @@ router.post('/', requireAuth, async (req, res) => {
       message.translatedContent ||
       '[Encrypted or unavailable content]';
 
-    const report = await prisma.$transaction(async (tx) => {
+    const result = await createOpenReport(prisma, { reporterId, messageId: parsedMessageId }, async (tx) => {
       const created = await tx.report.create({
         data: {
           messageId: message.id,
@@ -252,6 +252,10 @@ router.post('/', requireAuth, async (req, res) => {
       }
       return created;
     });
+    if (result.duplicate) {
+      return res.status(409).json({ error: 'You already reported this message' });
+    }
+    const report = result.report;
 
     res.locals.audit = {
       action: 'USER_CREATE_REPORT',
