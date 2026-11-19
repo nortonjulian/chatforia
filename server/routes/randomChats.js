@@ -13,6 +13,15 @@ import {
   skipRandomChat,
   handleDisconnect,
 } from '../services/randomChatService.js';
+import {
+  activeRandomRoomForUser,
+  resumeRandomRoom,
+  disconnectRandomSocket,
+  touchRandomSocket,
+  sweepExpiredRandomRooms,
+  randomResumeRequestId,
+  requireRandomChatProtocol,
+} from '../services/randomChatLifecycle.js';
 
 // 🔮 OpenAI (Ria bot brain)
 import OpenAI from 'openai';
@@ -231,19 +240,65 @@ function emitRiaFailure(socket, roomId, error) {
  */
 export function attachRandomChatSockets(io) {
   ioRef = io;
+  const sweep = setInterval(() => {
+    void sweepExpiredRandomRooms(prisma, io).catch((error) =>
+      console.error('[random] expiry sweep failed', error));
+  }, 10000);
+  sweep.unref?.();
 
   io.on('connection', (socket) => {
   const u = getSocketUser(socket);
   if (!u?.id) return;
+  const heartbeat = setInterval(() => {
+    void touchRandomSocket(prisma, socket.id, u.id).catch((error) =>
+      console.error('[random] heartbeat failed', error));
+  }, 30000);
+  heartbeat.unref?.();
+
+  socket.on('random:resume', async (payload = {}) => {
+    if (!requireRandomChatProtocol(socket, payload)) return;
+    // A request ID correlates a negative result with the request that caused
+    // it. It never selects or authorizes a room.
+    const requestId = randomResumeRequestId(payload);
+    const bindingBefore = queues.activeRoomBySocket.get(socket.id);
+    try {
+      const restored = await resumeRandomRoom({ prisma, io, socket, queues, userId: u.id, requestId });
+      if (!restored) {
+        // A match may have been created while the resume query was in flight.
+        // Never let an older negative result evict that socket's new binding.
+        const bindingAfter = queues.activeRoomBySocket.get(socket.id);
+        if (bindingAfter && bindingAfter !== bindingBefore) return;
+        if (bindingAfter) {
+          queues.activeRoomBySocket.delete(socket.id);
+          socket.leave(`random:${bindingAfter.roomId}`);
+        }
+        socket.emit('random:none', { requestId });
+      }
+    } catch (error) {
+      console.error('[random:resume] failed', error);
+      socket.emit('random:error', { code: 'MATCHMAKING_UNAVAILABLE' });
+    }
+  });
 
   // 🔍 JOIN RANDOM QUEUE
   socket.on('random:join', async (payload = {}) => {
-    if (
-      queues.waitingBySocket.has(socket.id) ||
-      queues.activeRoomBySocket.get(socket.id)
-    ) return;
+    if (!requireRandomChatProtocol(socket, payload)) return;
+    if (queues.waitingBySocket.has(socket.id)) return;
 
     try {
+      const existing = await activeRandomRoomForUser(prisma, u.id);
+      if (existing) {
+        const restored = await resumeRandomRoom({ prisma, io, socket, queues, userId: u.id,
+          requestId: randomResumeRequestId(payload) });
+        if (restored) return;
+      }
+      // A peer timeout may have ended the database session while this socket
+      // remained connected. Retire its local binding before finding a match.
+      const stale = queues.activeRoomBySocket.get(socket.id);
+      if (stale) {
+        queues.activeRoomBySocket.delete(socket.id);
+        socket.leave(`random:${stale.roomId}`);
+      }
       // Read authoritative preferences on every join; socket identity excludes
       // the age fields and may outlive a subsequent profile change.
       const prefs = await prisma.user.findUnique({
@@ -291,6 +346,7 @@ export function attachRandomChatSockets(io) {
       io,
       prisma,
       socketId: socket.id,
+      userId: u.id,
       peerEndedReason: 'peer_left',
     });
   });
@@ -299,7 +355,6 @@ export function attachRandomChatSockets(io) {
   socket.on('random:message', async (payload) => {
     if (!payload?.content || !payload?.roomId) return;
 
-    const senderId = Number(u.id);
     const roomId = payload.roomId;
     if (isAiRoom(roomId)) {
       // The user may only talk to their own Ria session.
@@ -308,41 +363,10 @@ export function attachRandomChatSockets(io) {
         return;
       }
     } else {
-      const active = queues.activeRoomBySocket.get(socket.id);
-      const session = active && queues.sessionByRoomId.get(active.roomId);
-      if (!active || String(active.roomId) !== String(roomId) ||
-          session?.users?.[senderId]?.socketId !== socket.id) {
-        socket.emit('random:error', { code: 'NOT_IN_ACTIVE_SESSION' });
-        return;
-      }
-      // Blocking is checked again at message-time so a newly blocked user
-      // cannot continue an already matched Random Chat session.
-      try {
-        const block = await prisma.userBlock.findFirst({
-          where: { OR: [
-            { blockerId: senderId, blockedId: Number(active.peerUserId) },
-            { blockerId: Number(active.peerUserId), blockedId: senderId },
-          ] },
-          select: { id: true },
-        });
-        if (block) {
-          socket.emit('random:error', { code: 'ACCOUNT_BLOCKED' });
-          return;
-        }
-      } catch (error) {
-        console.error('[random:message] block check failed', error);
-        socket.emit('random:error', { code: 'MESSAGING_UNAVAILABLE' });
-        return;
-      }
+      // Human matches use the authenticated encrypted /messages pipeline.
+      socket.emit('random:error', { code: 'PERSISTED_MESSAGE_REQUIRED' });
+      return;
     }
-
-    const message = {
-      content: payload.content,
-      senderId,
-      randomChatRoomId: roomId,
-      sender: { id: senderId, username: u.username },
-      createdAt: new Date().toISOString(),
-    };
 
     if (isAiRoom(roomId)) {
       // Do NOT echo the user's message back.
@@ -371,9 +395,6 @@ export function attachRandomChatSockets(io) {
       return;
     }
 
-    // For human random chats, send only to the other person.
-    // The sender already sees their own optimistic message.
-    socket.to(`random:${roomId}`).emit('random:message', message);
   });
 
   // 🤝 ADD FRIEND
@@ -384,6 +405,7 @@ export function attachRandomChatSockets(io) {
       prisma,
       roomId,
       userId: u.id,
+      socketId: socket.id,
     });
 
     // handled internally (emit inside service)
@@ -396,15 +418,10 @@ export function attachRandomChatSockets(io) {
       io,
       prisma,
       socketId: socket.id,
+      userId: u.id,
       peerEndedReason: 'peer_skipped',
     });
-
-    if (result.ok) {
-      socket.emit('random:ended', {
-        roomId: result.roomId,
-        reason: 'you_skipped',
-      });
-    }
+    if (!result.ok) socket.emit('random:error', { code: 'NOT_IN_ACTIVE_SESSION' });
   });
 
   // 🤖 START RIA
@@ -420,55 +437,39 @@ export function attachRandomChatSockets(io) {
 
   // 🔌 DISCONNECT
   socket.on('disconnect', () => {
-    const result = handleDisconnect({
-      queues,
-      io,
-      socketId: socket.id,
-    });
-
-    if (result?.roomId) {
-      const peerSocket = getSocketById(result.peerSocketId);
-      if (peerSocket) {
-        peerSocket.emit('random:ended', {
-          roomId: result.roomId,
-          reason: 'peer_disconnected',
-        });
-      }
-    }
+    clearInterval(heartbeat);
+    handleDisconnect({ queues, socketId: socket.id });
+    void disconnectRandomSocket({ prisma, io, queues, socketId: socket.id, userId: u.id })
+      .catch((error) => console.error('[random] disconnect cleanup failed', error));
   });
 });
 }
 
 /** ==== REST routes (mostly unchanged) ================================================= */
 
-router.post('/', requireAuth, async (req, res) => {
-  const { messages, participants } = req.body;
-  if (!Array.isArray(messages))
-    return res.status(400).json({ error: 'messages must be an array' });
-  if (!Array.isArray(participants) || participants.length !== 2)
-    return res
-      .status(400)
-      .json({ error: 'participants must be an array of two user IDs' });
+function presentRandomChat(chat) {
+  if (!chat || chat.unlockedAt) return chat;
+  const aliases = chat.aliasByUser && typeof chat.aliasByUser === 'object'
+    ? chat.aliasByUser : {};
+  const anonymous = (user) => user ? {
+    id: user.id,
+    username: aliases[String(user.id)] || 'Random Chat',
+  } : user;
+  return {
+    ...chat,
+    participants: (chat.participants || []).map(anonymous),
+    messages: (chat.messages || []).map((message) => ({
+      ...message,
+      sender: anonymous(message.sender),
+    })),
+  };
+}
 
-  try {
-    const savedChat = await prisma.randomChatRoom.create({
-      data: {
-        participants: { connect: participants.map((id) => ({ id: Number(id) })) },
-        messages: {
-          create: messages.map((msg) => ({
-            content: msg.content,
-            sender: { connect: { id: Number(msg.senderId) } },
-          })),
-        },
-      },
-      include: { participants: true, messages: { include: { sender: true } } },
-    });
-    res.status(201).json(savedChat);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error saving random chat:', error);
-    res.status(500).json({ error: 'Failed to save chat' });
-  }
+router.post('/', requireAuth, async (req, res) => {
+  // Historical clients could submit arbitrary participant and sender IDs here.
+  // Live matches are created only by authenticated matchmaking and messages
+  // must pass through the encrypted, persisted /messages route.
+  res.status(410).json({ error: 'Use authenticated Random Chat matchmaking' });
 });
 
 router.get('/', requireAuth, async (req, res) => {
@@ -478,7 +479,7 @@ router.get('/', requireAuth, async (req, res) => {
       include: { participants: true, messages: { include: { sender: true } } },
       orderBy: { createdAt: 'desc' },
     });
-    res.json(chats);
+    res.json(chats.map(presentRandomChat));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Error fetching saved chats:', error);
@@ -507,7 +508,7 @@ router.get('/id/:id', requireAuth, async (req, res) => {
       return res
         .status(403)
         .json({ error: 'You do not have access to this chat.' });
-    res.json(chat);
+    res.json(presentRandomChat(chat));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to fetch random chat:', error);

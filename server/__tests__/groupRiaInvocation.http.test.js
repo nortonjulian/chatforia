@@ -25,6 +25,7 @@ const invokeRia = jest.fn(async () => {});
 const emitUserUpsert = jest.fn();
 
 const db = {
+  randomChatRoom: { findUnique: jest.fn(async () => null) },
   chatRoom: {
     findUnique: jest.fn(),
   },

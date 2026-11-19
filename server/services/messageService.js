@@ -18,6 +18,8 @@ import {
 } from './translation/translationUsageService.js';
 import * as socketBus from './socketBus.js';
 import { getPlanEntitlements } from '../config/planEntitlements.js';
+import { anonymousMessage } from '../utils/randomChatPresentation.js';
+import { connectionExpired } from './randomChatLifecycle.js';
 
 const FORIA_BOT_USER_ID = Number(process.env.FORIA_BOT_USER_ID ?? 0);
 const MAX_TRANSLATE_CHARS = Number(process.env.TRANSLATE_MAX_INPUT_CHARS || 1200);
@@ -116,6 +118,7 @@ export async function createMessageService({
   isAutoReply = false,
   attachments = [],
   riaInvocationBody = null,
+  randomChatRoomId = null,
 }) {
   const roomIdNum = Number(chatRoomId);
 
@@ -415,6 +418,23 @@ translationsMap = Object.keys(map).length ? map : null;
 
     // Run a transaction: create message, then (if keys) create messageKey rows referencing saved.id
     saved = await prisma.$transaction(async (tx) => {
+      if (randomChatRoomId) {
+        // Serialize a persisted send against explicit Leave, Next and unlock.
+        // A send that starts after termination cannot commit to the old room.
+        const locked = await tx.$queryRaw`
+          SELECT "id", "endedAt", "unlockedAt" FROM "RandomChatRoom"
+          WHERE "id" = ${Number(randomChatRoomId)} FOR SHARE
+        `;
+        if (locked.length !== 1 || locked[0].endedAt || locked[0].unlockedAt) {
+          throw new Error('Random Chat session is unavailable');
+        }
+        const connections = await tx.randomChatConnection.findMany({
+          where: { randomChatRoomId: Number(randomChatRoomId) },
+        });
+        if (connections.length !== 2 || connections.some((entry) => connectionExpired(entry))) {
+          throw new Error('Random Chat session is unavailable');
+        }
+      }
       if (hasVisualMedia && (isTeenAccount(await tx.user.findUnique({
         where: { id: sender.id }, select: { ageBand: true },
       })) || await roomHasTeen(tx, roomIdNum))) {
@@ -948,14 +968,18 @@ export async function shapeMessageForUser(messageId, viewerUserId) {
     }
   : null;
 
-  return redactVisualMediaForViewer({
+  const random = await prisma.randomChatRoom.findUnique({
+    where: { chatRoomId: m.chatRoomId },
+    select: { aliasByUser: true, unlockedAt: true },
+  });
+  return redactVisualMediaForViewer(anonymousMessage({
     ...m,
     senderId,
     encryptedPayloadForMe,
     encryptedKeyForMe: m.keys?.[0]?.encryptedKey || null,
     translatedForMe,
     rawContent: hasCipher && !isSender ? null : (m.rawContent || ''),
-  }, isTeenAccount(viewer), await roomHasTeen(prisma, m.chatRoomId));
+  }, random), isTeenAccount(viewer), await roomHasTeen(prisma, m.chatRoomId));
 }
 
 /**

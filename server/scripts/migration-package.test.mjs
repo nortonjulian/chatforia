@@ -397,7 +397,7 @@ test('approved v5 pins only eSIM migration 166 after the approved 165 recovery',
   const prior = buildPackage('aa4b4e040464336033ed8f9679290e727d58e7a6');
   const priorFiles = verifyPackage(prior);
   const priorRelease = applicationReleaseSpec(priorFiles);
-  const bundle = buildPackage('HEAD');
+  const bundle = buildPackage('00bbecf9ce65572a4ff96778a6285ae93fb1007f');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const esimName = '20261113010000_add_esim_operation_lock';
@@ -464,6 +464,57 @@ test('approved v5 pins only eSIM migration 166 after the approved 165 recovery',
     const packageBytes = Buffer.from(JSON.stringify(proposal));
     writeFileSync(path, packageBytes);
     await assert.rejects(deployPackage({ package: path, sha256: digest(packageBytes) }),
+      /production execution is not approved/);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('proposed v6 pins only Random Chat migration 167 on approved v5 and cannot execute', async () => {
+  const prior = buildPackage('00bbecf9ce65572a4ff96778a6285ae93fb1007f');
+  const bundle = buildPackage('HEAD');
+  const files = verifyPackage(bundle);
+  const release = applicationReleaseSpec(files);
+  const name = '20261119010000_random_chat_connection_grace';
+  assert.equal(applicationReleaseSpec(verifyPackage(prior)).status, 'approved-for-production');
+  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.beforeCount, 166);
+  assert.equal(release.afterCount, 167);
+  assert.deepEqual(Object.keys(release.requiredExactMigrations), [name]);
+  assert.deepEqual(files.get('server/security/applicationMigrationRelease.v5.json'),
+    verifyPackage(prior).get('server/security/applicationMigrationRelease.v5.json'));
+  const entries = bundle.files.filter((file) => /\/migrations\/[^/]+\/migration.sql$/.test(file.path));
+  assert.equal(entries.length, 167);
+  const exceptions = reconciliationPackageSpec(files).manifest.exceptions;
+  const active = entries.map((file, index) => {
+    const migration_name = file.path.split('/').at(-2);
+    return { id: `active-${index}`, migration_name,
+      checksum: exceptions[migration_name]?.recordedChecksum || file.sha256,
+      finished_at: 'now', rolled_back_at: null };
+  });
+  const historical = release.historicalRolledBackRows.map((row) => ({
+    id: row.id, migration_name: row.name, checksum: row.checksum,
+    finished_at: null, rolled_back_at: 'now',
+  }));
+  const before = [...active.filter((row) => row.migration_name !== name), ...historical];
+  assert.deepEqual(checkReconciledHistory(bundle, before, release.target), [name]);
+  assert.deepEqual(checkReconciledHistory(bundle, [...active, ...historical], release.target, true), []);
+  assert.deepEqual(checksForPending(files, [name]).map(([id]) => id),
+    ['preserve_user_count', 'preserve_random_chat_room_count', 'random_chat_connection_exists']);
+  for (const path of [
+    `server/prisma/migrations/${name}/migration.sql`,
+    'server/security/applicationMigrationRelease.v6.json',
+  ]) {
+    const altered = structuredClone(bundle);
+    const file = altered.files.find((entry) => entry.path === path);
+    file.content = Buffer.from('SELECT 1;').toString('base64');
+    file.sha256 = digest('SELECT 1;');
+    assert.throws(() => checkReconciledHistory(altered, before, release.target));
+  }
+  const directory = mkdtempSync(join(tmpdir(), 'random-chat-release-proposal-'));
+  try {
+    const path = join(directory, 'package.json');
+    const bytes = Buffer.from(JSON.stringify(bundle));
+    writeFileSync(path, bytes);
+    await assert.rejects(deployPackage({ package: path, sha256: digest(bytes) }),
       /production execution is not approved/);
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });

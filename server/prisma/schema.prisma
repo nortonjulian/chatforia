@@ -320,6 +320,7 @@ model User {
   reportsSubmitted           Report[]                  @relation("UserReports")
   reportedReports            Report[]                  @relation("ReportedUserReports")
   randomChatRooms            RandomChatRoom[]          @relation("RandomChatParticipants")
+  randomChatConnections      RandomChatConnection[]
   readMessages               Message[]                 @relation("ReadMessages")
   contactsOwned              Contact[]                 @relation("ContactsOwned")
   contactsSaved              Contact[]                 @relation("ContactsSaved")
@@ -834,6 +835,26 @@ model RandomChatRoom {
   unlockedAt  DateTime?
 
   aliasByUser Json?
+  connections RandomChatConnection[]
+}
+
+// The database owns the active match and its reconnection window. Socket IDs
+// are replaceable bindings; they are never proof of room membership.
+model RandomChatConnection {
+  randomChatRoomId Int
+  userId           Int
+  socketId         String?
+  active           Boolean   @default(true)
+  lastSeenAt       DateTime  @default(now())
+  disconnectedAt   DateTime?
+  friendRequestedAt DateTime?
+
+  randomChatRoom RandomChatRoom @relation(fields: [randomChatRoomId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([randomChatRoomId, userId])
+  @@index([socketId])
+  @@index([active, disconnectedAt])
 }
 
 // ===================== 6) Messaging (Messages + E2EE + Media + Scheduling) =====================

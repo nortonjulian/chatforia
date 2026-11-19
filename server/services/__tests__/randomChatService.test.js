@@ -419,6 +419,7 @@ describe('tryMatch', () => {
     expect(queues.activeRoomBySocket.get('sock-current')).toEqual({
       roomId: 'room-999',
       randomChatRoomId: 'random-room-999',
+      userId: 'user-1',
       peerSocketId: 'sock-peer',
       peerUserId: 'user-2',
     });
@@ -426,6 +427,7 @@ describe('tryMatch', () => {
     expect(queues.activeRoomBySocket.get('sock-peer')).toEqual({
       roomId: 'room-999',
       randomChatRoomId: 'random-room-999',
+      userId: 'user-2',
       peerSocketId: 'sock-current',
       peerUserId: 'user-1',
     });
@@ -443,6 +445,8 @@ describe('tryMatch', () => {
 
     expect(socketCurrent.emit).toHaveBeenCalledWith('random:matched', {
       roomId: 'room-999',
+      chatRoomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       myAlias: expect.any(String),
       partnerAlias: expect.any(String),
       partnerDisplayName: expect.any(String),
@@ -451,6 +455,8 @@ describe('tryMatch', () => {
 
     expect(socketPeer.emit).toHaveBeenCalledWith('random:matched', {
       roomId: 'room-999',
+      chatRoomId: 'room-999',
+      randomChatRoomId: 'random-room-999',
       myAlias: expect.any(String),
       partnerAlias: expect.any(String),
       partnerDisplayName: expect.any(String),
@@ -460,6 +466,26 @@ describe('tryMatch', () => {
 });
 
 describe('Random Chat blocked account exclusion', () => {
+  it('does not match a peer who leaves while the block lookup is in flight', async () => {
+    const queues = buildQueues();
+    enqueue(queues, { socketId: 'waiting', userId: 2, ageBand: 'ADULT_18_24' });
+    const prisma = {
+      userBlock: { findFirst: jest.fn(async () => {
+        removeFromQueue(queues, 'waiting');
+        return null;
+      }) },
+      $transaction: jest.fn(),
+    };
+    const socket = { emit: jest.fn() };
+    const result = await tryMatch({
+      queues, prisma, io: {},
+      currentEntry: { socketId: 'current', userId: 1, ageBand: 'ADULT_18_24' },
+      getSocketById: () => socket,
+    });
+    expect(result).toEqual({ matched: false });
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
   it('never creates a room for a mutually blocked pair', async () => {
     const { buildQueues, enqueue, tryMatch } = await import('../randomChatService.js');
     const queues = buildQueues();

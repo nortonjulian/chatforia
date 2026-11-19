@@ -22,23 +22,13 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
-import { WS_URL } from '@/config';
 import posthog from '@/utils/analytics';
 import axiosClient from '@/api/axiosClient';
-
-const SOCKET_URL = WS_URL;
-
-function buildSocket() {
-  const token = localStorage.getItem('token');
-
-  return io(SOCKET_URL, {
-    transports: ['websocket'],
-    withCredentials: true,
-    auth: token ? { token } : undefined,
-  });
-}
+import { useSocket } from '@/context/SocketContext';
+import { fetchLatestMessages } from '@/lib/api';
+import loadEncryptionClient from '@/utils/loadEncryptionClient';
+import { encryptForSingleUser } from '@/utils/encryptionClient';
 
 function systemMessage(text) {
   return {
@@ -57,16 +47,41 @@ function normalizeIncomingMessage(payload) {
         .toString(36)
         .slice(2, 7)}`,
     kind: 'message',
-    content: payload?.content ?? '',
-    senderId: payload?.senderId ?? null,
+    content: payload?.decryptedContent ?? payload?.rawContent ?? payload?.content ?? '',
+    senderId: payload?.senderId ?? payload?.sender?.id ?? null,
     sender: payload?.sender ?? null,
+    clientMessageId: payload?.clientMessageId ?? null,
+    chatRoomId: payload?.chatRoomId ?? payload?.roomId ?? null,
     createdAt: payload?.createdAt ?? new Date().toISOString(),
   };
 }
 
+function mergeMessage(rows, incoming) {
+  const next = rows.filter((row) =>
+    !(incoming.id != null && String(row.id) === String(incoming.id)) &&
+    !(incoming.clientMessageId && row.clientMessageId === incoming.clientMessageId)
+  );
+  return [...next, incoming].sort((a, b) =>
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() ||
+    Number(a.id || 0) - Number(b.id || 0)
+  );
+}
+
+async function decryptHumanMessages(rows, userId, publicKey) {
+  const crypto = await loadEncryptionClient();
+  const privateKey = publicKey && crypto.getUnlockedPrivateKeyForPublicKey
+    ? await crypto.getUnlockedPrivateKeyForPublicKey(publicKey)
+    : await crypto.getUnlockedPrivateKey?.();
+  return crypto.decryptFetchedMessages(rows, privateKey, null, userId);
+}
+
 export default function RandomChatPage() {
   const navigate = useNavigate();
+  const { socket } = useSocket() || {};
   const socketRef = useRef(null);
+  const activeRef = useRef(null);
+  const profileRef = useRef(null);
+  const pendingResumeIdRef = useRef(null);
   const bottomRef = useRef(null);
 
   const [status, setStatus] = useState('idle');
@@ -90,12 +105,17 @@ export default function RandomChatPage() {
   const [errorText, setErrorText] = useState('');
 
   const [profile, setProfile] = useState({
+    id: null,
+    publicKey: null,
     ageBand: null,
     wantsAgeFilter: false,
   });
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [profileLoadError, setProfileLoadError] = useState(false);
   const { t } = useTranslation();
+  socketRef.current = socket;
+  activeRef.current = active;
+  profileRef.current = profile;
 
   const canSend = useMemo(() => {
     return !!active?.roomId && draft.trim().length > 0;
@@ -119,6 +139,8 @@ export default function RandomChatPage() {
         if (cancelled) return;
 
         setProfile({
+          id: data?.user?.id ?? null,
+          publicKey: data?.user?.publicKey ?? null,
           ageBand: data?.user?.ageBand ?? null,
           wantsAgeFilter: !!data?.user?.wantsAgeFilter,
         });
@@ -126,6 +148,8 @@ export default function RandomChatPage() {
         if (!cancelled) {
           setProfileLoadError(true);
           setProfile({
+            id: null,
+            publicKey: null,
             ageBand: null,
             wantsAgeFilter: false,
           });
@@ -144,26 +168,55 @@ export default function RandomChatPage() {
     };
   }, []);
 
+  async function syncHumanMessages(roomId) {
+    const identity = profileRef.current;
+    if (!identity?.id || !Number.isSafeInteger(Number(roomId))) return;
+    const data = await fetchLatestMessages(roomId, 50);
+    const rows = Array.isArray(data?.items) ? data.items : [];
+    const decrypted = await decryptHumanMessages(rows, identity.id, identity.publicKey);
+    if (Number(activeRef.current?.roomId) !== Number(roomId)) return;
+    setMessages((previous) => decrypted.slice().reverse().reduce(
+      (next, row) => mergeMessage(next, normalizeIncomingMessage(row)), previous
+    ));
+  }
+
   useEffect(() => {
-    const socket = buildSocket();
-    socketRef.current = socket;
+    if (profile.id && active?.chatRoomId && !active.isAI)
+      syncHumanMessages(active.chatRoomId).catch(() => {});
+  }, [profile.id, profile.publicKey, active?.chatRoomId, active?.isAI]);
 
-    socket.on('connect', () => {
+  useEffect(() => {
+    if (!socket) return undefined;
+    const listeners = [];
+    const on = (event, handler) => { socket.on(event, handler); listeners.push([event, handler]); };
+    const requestResume = () => {
+      const requestId = `web_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      pendingResumeIdRef.current = requestId;
+      socket.emit('random:resume', { requestId, randomChatProtocol: 2 });
+    };
+
+    on('connect', () => {
       setErrorText('');
+      requestResume();
     });
+    if (socket.connected) requestResume();
 
-    socket.on('connect_error', (err) => {
+    on('connect_error', (err) => {
       setErrorText(err?.message || 'Unable to connect.');
     });
 
-    socket.on('random:waiting', (payload) => {
+    on('random:waiting', (payload) => {
       setStatus('matching');
       setBannerText(payload?.message || 'Looking for someone to chat with…');
     });
 
     // Handle backend safety rejections explicitly: never leave the UI stuck matching.
-    socket.on('random:error', (payload) => {
+    on('random:error', (payload) => {
       const code = String(payload?.code || '');
+      if (code === 'UPDATE_REQUIRED') {
+        if (!pendingResumeIdRef.current || payload?.requestId !== pendingResumeIdRef.current) return;
+        pendingResumeIdRef.current = null;
+      }
       const textByCode = {
         AGE_ATTESTATION_REQUIRED: t(
           'randomChat.ageAttestationRequired',
@@ -185,6 +238,10 @@ export default function RandomChatPage() {
           'randomChat.messagingUnavailable',
           'Messaging is temporarily unavailable. Please try again.'
         ),
+        UPDATE_REQUIRED: t(
+          'randomChat.updateRequired',
+          'Update Chatforia to use Random Chat.'
+        ),
       };
       setErrorText(
         textByCode[code] || t('randomChat.unavailable', 'Random Chat is temporarily unavailable.')
@@ -194,7 +251,8 @@ export default function RandomChatPage() {
         // The server is authoritative even if a stale profile has an age band.
         setProfile((previous) => ({ ...previous, ageBand: null }));
       }
-      if (code === 'ACCOUNT_BLOCKED' || code === 'NOT_IN_ACTIVE_SESSION') {
+      if (code === 'ACCOUNT_BLOCKED' || code === 'NOT_IN_ACTIVE_SESSION' || code === 'UPDATE_REQUIRED') {
+        if (code === 'UPDATE_REQUIRED') activeRef.current = null;
         setActive(null);
         setMessages([]);
         setDraft('');
@@ -204,32 +262,72 @@ export default function RandomChatPage() {
       }
     });
 
-    socket.on('random:matched', (payload) => {
-      setStatus('matched');
-      setErrorText('');
-      setBannerText('');
-
-      setActive({
+    const activateHumanRoom = (payload, resumed = false) => {
+      if (resumed && (!pendingResumeIdRef.current ||
+          payload?.requestId !== pendingResumeIdRef.current)) return;
+      pendingResumeIdRef.current = null;
+      const next = {
         roomId: payload.roomId,
         myAlias: payload.myAlias || 'You',
         partnerAlias: payload.partnerAlias || 'Someone',
         isAI: false,
-        chatRoomId: null,
-        unlockedUsername: null,
-        unlockedUserId: null,
-        iRequestedFriend: false,
+        chatRoomId: payload.chatRoomId ?? payload.roomId,
+        iRequestedFriend: !!payload.iRequestedFriend,
+      };
+      activeRef.current = next;
+      setStatus('matched');
+      setErrorText('');
+      setBannerText(payload.partnerReconnecting ? 'Your match is reconnecting…' : '');
+      setActive(next);
+      socket.emit('join:rooms', [String(next.chatRoomId)]);
+      if (!resumed) {
+        posthog.capture('random_chat_matched', { roomId: payload?.roomId });
+        setMessages([systemMessage(`You matched with ${next.partnerAlias}. Say hi 👋`)]);
+      }
+      syncHumanMessages(next.chatRoomId).catch(() => {
+        setErrorText('Could not load encrypted messages. Please unlock your encryption key and retry.');
       });
+    };
 
-      posthog.capture('random_chat_matched', {
-        roomId: payload?.roomId,
-      });
-
-      setMessages([
-        systemMessage(`You matched with ${payload.partnerAlias || 'someone new'}. Say hi 👋`),
-      ]);
+    on('random:matched', (payload) => {
+      activateHumanRoom(payload);
+    });
+    on('random:resumed', (payload) => activateHumanRoom(payload, true));
+    on('random:none', (payload) => {
+      if (!pendingResumeIdRef.current ||
+          payload?.requestId !== pendingResumeIdRef.current) return;
+      pendingResumeIdRef.current = null;
+      if (!activeRef.current || activeRef.current.isAI) return;
+      activeRef.current = null;
+      setActive(null);
+      setMessages([]);
+      setDraft('');
+      setStatus('ended');
+      setBannerText('This chat session expired. Find another match.');
+    });
+    on('random:peer_reconnecting', (payload) => {
+      if (Number(payload?.roomId) === Number(activeRef.current?.roomId))
+        setBannerText('Your match is reconnecting…');
+    });
+    on('random:peer_resumed', (payload) => {
+      if (Number(payload?.roomId) === Number(activeRef.current?.roomId)) setBannerText('');
+    });
+    on('message:upsert', async (payload) => {
+      const row = payload?.item ?? payload?.message ?? payload;
+      const roomId = Number(row?.chatRoomId ?? payload?.roomId);
+      if (!activeRef.current || activeRef.current.isAI ||
+          roomId !== Number(activeRef.current.chatRoomId)) return;
+      try {
+        const decrypted = await decryptHumanMessages([row], profileRef.current?.id,
+          profileRef.current?.publicKey);
+        if (Number(activeRef.current?.chatRoomId) === roomId && decrypted[0])
+          setMessages((previous) => mergeMessage(previous, normalizeIncomingMessage(decrypted[0])));
+      } catch {
+        syncHumanMessages(roomId).catch(() => {});
+      }
     });
 
-    socket.on('random:ai_started', (payload) => {
+    on('random:ai_started', (payload) => {
       setStatus('ai');
       setErrorText('');
       setBannerText('');
@@ -253,11 +351,13 @@ export default function RandomChatPage() {
       setMessages([systemMessage("YOU'RE NOW CHATTING WITH RIA.")]);
     });
 
-    socket.on('random:message', (payload) => {
-      setMessages((prev) => [...prev, normalizeIncomingMessage(payload)]);
+    on('random:message', (payload) => {
+      if (activeRef.current?.isAI &&
+          (payload?.roomId ?? payload?.randomChatRoomId) === activeRef.current.roomId)
+        setMessages((prev) => mergeMessage(prev, normalizeIncomingMessage(payload)));
     });
 
-    socket.on('random:friend_accepted', (payload) => {
+    on('random:friend_accepted', (payload) => {
       setActive((prev) => {
         if (!prev) return prev;
         return {
@@ -284,7 +384,9 @@ export default function RandomChatPage() {
       }
     });
 
-    socket.on('random:ended', (payload) => {
+    on('random:ended', (payload) => {
+      if (String(payload?.roomId) !== String(activeRef.current?.roomId)) return;
+      pendingResumeIdRef.current = null;
       setStatus('ended');
 
       const reason = payload?.reason;
@@ -304,16 +406,15 @@ export default function RandomChatPage() {
       }
 
       setBannerText(text);
-      setMessages((prev) => [...prev, systemMessage(text)]);
+      setMessages([]);
       setActive(null);
       setDraft('');
     });
 
     return () => {
-      socket.removeAllListeners();
-      socket.disconnect();
+      listeners.forEach(([event, handler]) => socket.off(event, handler));
     };
-  }, [navigate]);
+  }, [socket, navigate, t]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -342,7 +443,9 @@ export default function RandomChatPage() {
 
     posthog.capture('random_chat_match_started');
 
-    socket.emit('random:join', {});
+    const requestId = `web_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    pendingResumeIdRef.current = requestId;
+    socket.emit('random:join', { requestId, randomChatProtocol: 2 });
   };
 
   const cancelMatching = () => {
@@ -378,19 +481,21 @@ export default function RandomChatPage() {
     socket.emit('random:ai_start');
   };
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const socket = socketRef.current;
     if (!socket || !active?.roomId) return;
 
     const text = draft.trim();
     if (!text) return;
 
+    const clientMessageId = `web-random-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const optimistic = {
-      id: `local-${Date.now()}`,
+      id: clientMessageId,
       kind: 'message',
       content: text,
-      senderId: -1,
+      senderId: active.isAI ? -1 : profile.id,
       sender: { username: active.myAlias || 'You' },
+      clientMessageId,
       createdAt: new Date().toISOString(),
     };
 
@@ -402,10 +507,38 @@ export default function RandomChatPage() {
       roomId: active.roomId,
     });
 
-    socket.emit('random:message', {
-      roomId: active.roomId,
-      content: text,
-    });
+    if (active.isAI) {
+      socket.emit('random:message', { roomId: active.roomId, content: text });
+      return;
+    }
+    try {
+      const roomId = Number(active.chatRoomId);
+      const { data } = await axiosClient.get(`/chatrooms/${roomId}/participants`);
+      const participants = data?.participants || [];
+      if (participants.length !== 2) throw new Error('Match participants unavailable');
+      const encryptedPayloads = {};
+      for (const participant of participants) {
+        const user = participant.user ?? participant;
+        if (!user.id || !user.publicKey) throw new Error('Encryption key unavailable');
+        encryptedPayloads[String(user.id)] = await encryptForSingleUser(
+          text, Number(user.id), user.publicKey, user.preferredLanguage || null
+        );
+      }
+      const saved = await axiosClient.post('/messages', {
+        chatRoomId: roomId,
+        content: null,
+        contentCiphertext: null,
+        encryptedPayloads,
+        clientMessageId,
+      });
+      const row = saved?.data?.message;
+      if (row) setMessages((previous) => mergeMessage(previous,
+        normalizeIncomingMessage({ ...row, clientMessageId, decryptedContent: text })));
+    } catch (error) {
+      setMessages((previous) => previous.filter((row) => row.clientMessageId !== clientMessageId));
+      setDraft(text);
+      setErrorText(error?.response?.data?.message || 'Message could not be sent. Please try again.');
+    }
   };
 
   const nextPerson = () => {
@@ -505,10 +638,10 @@ export default function RandomChatPage() {
             <Stack gap="md">
               <Group justify="space-between" align="center">
                 <Stack gap={2}>
-                  <Text fw={600}>{t('randomChat.start', 'Start a conversation')}</Text>
-                  <Text size="sm" c="dimmed">
+                  <Text fw={600}>{status === 'ended' ? t('randomChat.chatEnded', 'Chat ended') : t('randomChat.start', 'Start a conversation')}</Text>
+                  {status !== 'ended' ? <Text size="sm" c="dimmed">
                     {t('randomChat.description', 'Chat anonymously first. Add Friend later if it feels right.')}
-                  </Text>
+                  </Text> : null}
                 </Stack>
 
                 {status === 'matching' ? (
@@ -517,7 +650,7 @@ export default function RandomChatPage() {
                   </Badge>
                 ) : (
                   <Badge color="gray" variant="light">
-                    {t('randomChat.idle', 'Idle')}
+                    {status === 'ended' ? t('randomChat.disconnected', 'Disconnected') : t('randomChat.idle', 'Idle')}
                   </Badge>
                 )}
               </Group>
@@ -678,7 +811,7 @@ export default function RandomChatPage() {
                     );
                   }
 
-                  const isMine = msg.senderId === -1;
+                  const isMine = msg.senderId === -1 || Number(msg.senderId) === Number(profile.id);
                   const senderName = isMine
                     ? active?.myAlias || 'You'
                     : active?.isAI
@@ -748,43 +881,6 @@ export default function RandomChatPage() {
           </Card>
         ) : null}
 
-        {status === 'ended' ? (
-          <Card withBorder radius="lg" p="lg">
-            <Stack gap="md">
-              <Text fw={600}>{t('randomChat.chatEnded', 'Chat ended')}</Text>
-              <Text size="sm" c="dimmed">
-                {bannerText || t('randomChat.conversationEnded', 'That conversation has ended.')}
-              </Text>
-
-              <Group>
-                <Button
-                  onClick={startMatching}
-                  disabled={isLoadingProfile || !canStartHumanMatch}
-                >
-                  {t('randomChat.findAnotherMatch', 'Find another match')}
-                </Button>
-
-                <Button
-                  variant="light"
-                  leftSection={<IconRobot size={16} />}
-                  onClick={startRiaChat}
-                >
-                  {t('randomChat.chatWithRia', 'Chat with Ria')}
-                </Button>
-              </Group>
-
-              {!isLoadingProfile && profileLoadError ? (
-                <Alert color="red" variant="light">
-                  {t('randomChat.profileUnavailable', 'Could not verify your age range. Please try again.')}
-                </Alert>
-              ) : !isLoadingProfile && !canStartHumanMatch ? (
-                <Alert color="yellow" variant="light">
-                  {t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')}
-                </Alert>
-              ) : null}
-            </Stack>
-          </Card>
-        ) : null}
       </Stack>
     </Box>
   );
