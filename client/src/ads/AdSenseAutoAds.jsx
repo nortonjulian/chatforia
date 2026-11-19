@@ -5,6 +5,9 @@ import { useUser } from '@/context/UserContext';
 const ADSENSE_CLIENT = 'ca-pub-8163977681153105';
 
 const EXCLUDED_PREFIXES = [
+  // Public invite links need a clear call to action, without Auto ad overlays.
+  '/join/',
+  '/family/join/',
   '/chat',
   '/calls',
   '/video',
@@ -15,6 +18,17 @@ const EXCLUDED_PREFIXES = [
   '/pricing',
   '/mobile/esim',
 ];
+
+const GUEST_AUTH_PATHS = new Set([
+  '/',
+  '/register',
+  '/verify-email',
+  '/verify-phone-consent',
+  '/verify-code',
+  '/forgot-password',
+  '/reset-password',
+  '/auth/complete',
+]);
 
 function isPaidUser(user) {
   const plan = String(user?.plan || '').toLowerCase();
@@ -42,10 +56,17 @@ export default function AdSenseAutoAds() {
       location.pathname.startsWith(prefix)
     );
 
+    // The guest landing/login and registration flows must never initialize
+    // Auto ads. For signed-in users, '/' may be the main app, so don't
+    // globally suppress that route here.
+    const isGuestAuthRoute =
+      !currentUser && GUEST_AUTH_PATHS.has(location.pathname);
+
     const shouldLoadAds =
       adsEnabled &&
       !isPaidUser(currentUser) &&
-      !isExcludedRoute;
+      !isExcludedRoute &&
+      !isGuestAuthRoute;
     
     if (!shouldLoadAds) return;
 
