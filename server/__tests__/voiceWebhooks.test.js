@@ -1447,6 +1447,7 @@ describe('POST /webhooks/voice/app-call-complete', () => {
     );
 
     expect(recordAction).toBeDefined();
+    expect(recordAction.opts.timeout).toBe(12);
 
     const completionUrl = new URL(
       recordAction.opts.action,
