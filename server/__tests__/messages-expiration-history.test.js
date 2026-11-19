@@ -5,7 +5,7 @@ import request from 'supertest';
 
 const db = {
   participant: { findFirst: jest.fn(async () => ({ id: 1, clearedAt: null })) },
-  randomChatRoom: { findFirst: jest.fn(async () => null) },
+  randomChatRoom: { findFirst: jest.fn(async () => null), findUnique: jest.fn(async () => null) },
   threadState: { findUnique: jest.fn(async () => null) },
   message: { findMany: jest.fn(async () => []) },
   user: { findUnique: jest.fn(async () => ({ preferredLanguage: 'en' })) },

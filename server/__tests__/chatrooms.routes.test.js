@@ -216,6 +216,7 @@ describe('chatrooms routes', () => {
         orderBy: [{ updatedAt: 'desc' }, { id: 'desc' }],
         take: 2,
         include: {
+          randomChatRoom: { select: { aliasByUser: true, unlockedAt: true } },
           participants: {
             include: {
               user: {
@@ -504,6 +505,7 @@ describe('chatrooms routes', () => {
         where: { id: 10 },
         select: {
           ownerId: true,
+          randomChatRoom: { select: { aliasByUser: true, unlockedAt: true } },
           participants: {
             select: {
               userId: true,

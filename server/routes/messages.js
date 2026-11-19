@@ -10,10 +10,12 @@ import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { emitMessageUpsert, emitMessageUpsertToUser, emitMessageAck, emitToUser } from '../services/socketBus.js';
+import { emitMessageUpsert, emitMessageUpsertToUser, emitMessageAck, emitToUser, getIo } from '../services/socketBus.js';
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 import { recordMessageReads } from '../services/readReceiptService.js';
 import { assertDirectRoomAllowed } from '../services/userBlockService.js';
+import { assertRandomRoomWritable } from '../services/randomChatLifecycle.js';
+import { anonymousMessage } from '../utils/randomChatPresentation.js';
 import {
   TEEN_VISUAL_MEDIA_CODE, isVisualAttachment,
   isTeenAccount, redactVisualMediaForViewer,
@@ -382,6 +384,9 @@ router.get(
       throw Boom.forbidden('Not a participant in this chat');
     }
     const roomTeen = await roomHasTeen(prisma, chatRoomId);
+    const random = await prisma.randomChatRoom.findUnique({
+      where: { chatRoomId }, select: { aliasByUser: true, unlockedAt: true },
+    });
 
     let clearedAt = membership?.clearedAt ?? null;
 
@@ -512,7 +517,7 @@ router.get(
       where: { id: requesterId }, select: { ageBand: true },
     });
     return res.json({
-      items: shaped.map((item) => redactVisualMediaForViewer(item, isTeenAccount(viewer), roomTeen)),
+      items: shaped.map((item) => redactVisualMediaForViewer(anonymousMessage(item, random), isTeenAccount(viewer), roomTeen)),
       nextSinceId: shaped.length ? shaped[shaped.length - 1].id : null,
       count: shaped.length,
     });
@@ -672,6 +677,10 @@ router.post(
     const okMember = await isMemberOrMemFallback(chatRoomId, senderId);
     if (!okMember) throw Boom.forbidden('Not a participant in this chat');
     await assertDirectRoomAllowed(chatRoomId, senderId);
+    const randomRoom = await assertRandomRoomWritable(prisma, chatRoomId, senderId, encryptedPayloads, getIo());
+    if (randomRoom && content.trim()) {
+      throw Boom.forbidden('Random Chat messages require encrypted content');
+    }
 
     // Clamp optional per-message TTL (5s .. 7d)
     let secs = Number(expireSeconds);
@@ -877,6 +886,7 @@ router.post(
         contentCiphertext,
         encryptedKeys,
         encryptedPayloads,
+        randomChatRoomId: randomRoom?.id ?? null,
         expireSeconds: secs,
         attachments,
         riaInvocationBody:
@@ -990,7 +1000,9 @@ router.post(
       await sendMessagePushesToRecipients({
         chatRoomId,
         senderId,
-        senderName: sender?.username || 'Chatforia',
+        senderName: randomRoom && !randomRoom.unlockedAt
+          ? randomRoom.aliasByUser?.[String(senderId)] || 'Random Chat'
+          : sender?.username || 'Chatforia',
         saved,
         // Keep explicit Ria invocation text out of push previews.
         content: res.locals.groupRiaInvocationAuthorized === true
@@ -1129,6 +1141,7 @@ router.post(
     });
     if (!membership) throw Boom.forbidden('Not a participant in this chat');
     await assertDirectRoomAllowed(roomId, senderId);
+    await assertRandomRoomWritable(prisma, roomId, senderId, null, getIo());
 
     const ts =
       typeof scheduledAt === 'string' || typeof scheduledAt === 'number'
@@ -1245,6 +1258,9 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     }
 
     const roomTeen = await roomHasTeen(prisma, chatRoomId);
+    const random = await prisma.randomChatRoom.findUnique({
+      where: { chatRoomId }, select: { aliasByUser: true, unlockedAt: true },
+    });
     let clearedAt = membership?.clearedAt ?? null;
 
     if (!clearedAt && IS_TEST) {
@@ -1524,7 +1540,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       const nextCursorDelta =
         shapedDelta.length === 0 ? null : Math.min(...shapedDelta.map((m) => m.id));
       return res.json({
-        items: shapedDelta.map((item) => redactVisualMediaForViewer(item, isTeenAccount(requester), roomTeen)),
+        items: shapedDelta.map((item) => redactVisualMediaForViewer(anonymousMessage(item, random), isTeenAccount(requester), roomTeen)),
         nextCursor: nextCursorDelta,
         count: shapedDelta.length,
       });
@@ -1741,7 +1757,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     const nextCursorId = all.length === limit ? all[all.length - 1].id : null;
 
     return res.json({
-      items: all.map((item) => redactVisualMediaForViewer(item, isTeenAccount(requester), roomTeen)),
+      items: all.map((item) => redactVisualMediaForViewer(anonymousMessage(item, random), isTeenAccount(requester), roomTeen)),
       nextCursor, nextCursorId, count: all.length,
     });
   } catch (e) {

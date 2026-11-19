@@ -54,90 +54,12 @@ describe('randomChats REST routes', () => {
     jest.clearAllMocks();
   });
 
-  test('POST /random-chats 400 when messages is not an array', async () => {
-    const res = await request(app)
-      .post('/random-chats')
-      .send({ messages: 'not-array', participants: [1, 2] });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'messages must be an array' });
-    expect(mockPrisma.randomChatRoom.create).not.toHaveBeenCalled();
-  });
-
-  test('POST /random-chats 400 when participants invalid', async () => {
-    const res = await request(app)
-      .post('/random-chats')
-      .send({ messages: [], participants: [1] });
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: 'participants must be an array of two user IDs',
+  test('legacy POST cannot create an unverified match or forge a sender', async () => {
+    const res = await request(app).post('/random-chats').send({
+      participants: [2, 3], messages: [{ senderId: 2, content: 'forged' }],
     });
+    expect(res.statusCode).toBe(410);
     expect(mockPrisma.randomChatRoom.create).not.toHaveBeenCalled();
-  });
-
-  test('POST /random-chats 201 on success', async () => {
-    const savedChat = {
-      id: 10,
-      participants: [{ id: 1 }, { id: 2 }],
-      messages: [
-        {
-          id: 100,
-          content: 'hello',
-          senderId: 1,
-          sender: { id: 1, username: 'tester' },
-        },
-      ],
-    };
-
-    mockPrisma.randomChatRoom.create.mockResolvedValue(savedChat);
-
-    const payload = {
-      participants: [1, 2],
-      messages: [
-        {
-          senderId: 1,
-          content: 'hello',
-        },
-      ],
-    };
-
-    const res = await request(app).post('/random-chats').send(payload);
-
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toEqual(savedChat);
-
-    expect(mockPrisma.randomChatRoom.create).toHaveBeenCalledTimes(1);
-    expect(mockPrisma.randomChatRoom.create).toHaveBeenCalledWith({
-      data: {
-        participants: { connect: [{ id: 1 }, { id: 2 }] },
-        messages: {
-          create: [
-            {
-              content: 'hello',
-              sender: { connect: { id: 1 } },
-            },
-          ],
-        },
-      },
-      include: {
-        participants: true,
-        messages: { include: { sender: true } },
-      },
-    });
-  });
-
-  test('POST /random-chats 500 on Prisma error', async () => {
-    mockPrisma.randomChatRoom.create.mockRejectedValue(
-      new Error('DB error')
-    );
-
-    const res = await request(app)
-      .post('/random-chats')
-      .send({ participants: [1, 2], messages: [] });
-
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({ error: 'Failed to save chat' });
   });
 
   test('GET /random-chats returns chats for current user', async () => {
@@ -153,7 +75,10 @@ describe('randomChats REST routes', () => {
     const res = await request(app).get('/random-chats');
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual(chats);
+    expect(res.body[0].participants).toEqual([
+      { id: 1, username: 'Random Chat' },
+      { id: 2, username: 'Random Chat' },
+    ]);
 
     expect(mockPrisma.randomChatRoom.findMany).toHaveBeenCalledTimes(1);
     expect(mockPrisma.randomChatRoom.findMany).toHaveBeenCalledWith({
@@ -213,7 +138,11 @@ describe('randomChats REST routes', () => {
     const res = await request(app).get('/random-chats/id/5');
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual(chat);
+    expect(res.body.participants).toEqual([
+      { id: 1, username: 'Random Chat' },
+      { id: 2, username: 'Random Chat' },
+    ]);
+    expect(res.body.messages[0].sender.username).toBe('Random Chat');
 
     expect(mockPrisma.randomChatRoom.findUnique).toHaveBeenCalledWith({
       where: { id: 5 },
