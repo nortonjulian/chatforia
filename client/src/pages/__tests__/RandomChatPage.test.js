@@ -219,7 +219,7 @@ describe('RandomChatPage', () => {
     fireEvent.click(screen.getByRole('button', { name: /find me a match/i }));
 
     expect(mockEmit).toHaveBeenCalledWith('random:join',
-      expect.objectContaining({ requestId: expect.any(String) }));
+      expect.objectContaining({ requestId: expect.any(String), randomChatProtocol: 2 }));
     expect(screen.getByText(/matching/i)).toBeInTheDocument();
     const requestId = mockEmit.mock.calls.find(([event]) => event === 'random:join')[1].requestId;
     triggerSocket('random:resumed', {
@@ -227,6 +227,14 @@ describe('RandomChatPage', () => {
       myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
     });
     expect(await screen.findByText('Bright Wave')).toBeInTheDocument();
+  });
+
+  test('reconnect advertises the same protocol capability', async () => {
+    render(<RandomChatPage />);
+    await waitFor(() => expect(mockGetProfile).toHaveBeenCalled());
+    triggerSocket('connect');
+    expect(mockEmit).toHaveBeenCalledWith('random:resume',
+      expect.objectContaining({ requestId: expect.any(String), randomChatProtocol: 2 }));
   });
 
   test('starting Ria chat emits random:ai_start', async () => {
@@ -237,6 +245,28 @@ describe('RandomChatPage', () => {
     );
 
     expect(mockEmit).toHaveBeenCalledWith('random:ai_start');
+  });
+
+  test('update-required rejection stops matching without creating a phantom room', async () => {
+    render(<RandomChatPage />);
+    fireEvent.click(await screen.findByRole('button', { name: /find me a match/i }));
+    const requestId = mockEmit.mock.calls.find(([event]) => event === 'random:join')[1].requestId;
+    triggerSocket('random:error', { code: 'UPDATE_REQUIRED', requestId });
+    expect(screen.getByText('Update Chatforia to use Random Chat.')).toBeInTheDocument();
+    expect(screen.getByText(/idle/i)).toBeInTheDocument();
+    expect(mockPostMessage).not.toHaveBeenCalled();
+  });
+
+  test('a delayed update-required response cannot erase a newer match', async () => {
+    render(<RandomChatPage />);
+    fireEvent.click(await screen.findByRole('button', { name: /find me a match/i }));
+    const requestId = mockEmit.mock.calls.find(([event]) => event === 'random:join')[1].requestId;
+    triggerSocket('random:matched', {
+      roomId: 27, chatRoomId: 27, myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
+    });
+    triggerSocket('random:error', { code: 'UPDATE_REQUIRED', requestId });
+    expect(await screen.findByText('Bright Wave')).toBeInTheDocument();
+    expect(screen.queryByText('Update Chatforia to use Random Chat.')).not.toBeInTheDocument();
   });
 
   test('age attestation rejection ends searching and asks for profile confirmation', async () => {

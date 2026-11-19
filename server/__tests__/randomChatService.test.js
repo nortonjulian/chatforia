@@ -54,6 +54,31 @@ describe('randomChats REST routes', () => {
     jest.clearAllMocks();
   });
 
+  test('legacy sockets cannot join or restore before any database access', async () => {
+    let connect;
+    randomChatsModule.attachRandomChatSockets({
+      on: (event, handler) => { if (event === 'connection') connect = handler; },
+    });
+    const handlers = new Map();
+    const socket = {
+      id: 'legacy-socket', user: { id: 1, username: 'tester' },
+      on: (event, handler) => handlers.set(event, handler),
+      emit: jest.fn(),
+    };
+    connect(socket);
+    for (const event of ['random:join', 'random:resume']) {
+      await handlers.get(event)({ requestId: event === 'random:join' ? 'join_1' : 'resume_1' });
+    }
+    expect(socket.emit).toHaveBeenNthCalledWith(1, 'random:error', expect.objectContaining({
+      code: 'UPDATE_REQUIRED', requestId: 'join_1',
+    }));
+    expect(socket.emit).toHaveBeenNthCalledWith(2, 'random:error', expect.objectContaining({
+      code: 'UPDATE_REQUIRED', requestId: 'resume_1',
+    }));
+    expect(mockPrisma.randomChatRoom.findMany).not.toHaveBeenCalled();
+    expect(mockPrisma.randomChatRoom.findUnique).not.toHaveBeenCalled();
+  });
+
   test('legacy POST cannot create an unverified match or forge a sender', async () => {
     const res = await request(app).post('/random-chats').send({
       participants: [2, 3], messages: [{ senderId: 2, content: 'forged' }],

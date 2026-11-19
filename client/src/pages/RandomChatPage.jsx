@@ -192,7 +192,7 @@ export default function RandomChatPage() {
     const requestResume = () => {
       const requestId = `web_${Date.now()}_${Math.random().toString(36).slice(2)}`;
       pendingResumeIdRef.current = requestId;
-      socket.emit('random:resume', { requestId });
+      socket.emit('random:resume', { requestId, randomChatProtocol: 2 });
     };
 
     on('connect', () => {
@@ -213,6 +213,10 @@ export default function RandomChatPage() {
     // Handle backend safety rejections explicitly: never leave the UI stuck matching.
     on('random:error', (payload) => {
       const code = String(payload?.code || '');
+      if (code === 'UPDATE_REQUIRED') {
+        if (!pendingResumeIdRef.current || payload?.requestId !== pendingResumeIdRef.current) return;
+        pendingResumeIdRef.current = null;
+      }
       const textByCode = {
         AGE_ATTESTATION_REQUIRED: t(
           'randomChat.ageAttestationRequired',
@@ -234,6 +238,10 @@ export default function RandomChatPage() {
           'randomChat.messagingUnavailable',
           'Messaging is temporarily unavailable. Please try again.'
         ),
+        UPDATE_REQUIRED: t(
+          'randomChat.updateRequired',
+          'Update Chatforia to use Random Chat.'
+        ),
       };
       setErrorText(
         textByCode[code] || t('randomChat.unavailable', 'Random Chat is temporarily unavailable.')
@@ -243,7 +251,8 @@ export default function RandomChatPage() {
         // The server is authoritative even if a stale profile has an age band.
         setProfile((previous) => ({ ...previous, ageBand: null }));
       }
-      if (code === 'ACCOUNT_BLOCKED' || code === 'NOT_IN_ACTIVE_SESSION') {
+      if (code === 'ACCOUNT_BLOCKED' || code === 'NOT_IN_ACTIVE_SESSION' || code === 'UPDATE_REQUIRED') {
+        if (code === 'UPDATE_REQUIRED') activeRef.current = null;
         setActive(null);
         setMessages([]);
         setDraft('');
@@ -436,7 +445,7 @@ export default function RandomChatPage() {
 
     const requestId = `web_${Date.now()}_${Math.random().toString(36).slice(2)}`;
     pendingResumeIdRef.current = requestId;
-    socket.emit('random:join', { requestId });
+    socket.emit('random:join', { requestId, randomChatProtocol: 2 });
   };
 
   const cancelMatching = () => {

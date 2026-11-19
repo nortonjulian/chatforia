@@ -5,6 +5,7 @@ import {
   endRandomRoom,
   randomChatGraceMs,
   randomResumeRequestId,
+  requireRandomChatProtocol,
   resumeRandomRoom,
   sweepExpiredRandomRooms,
 } from '../services/randomChatLifecycle.js';
@@ -62,6 +63,22 @@ function fixture() {
 }
 
 describe('server-authoritative Random Chat lifecycle', () => {
+  test('protocol gate rejects legacy, malformed and unsupported values without granting room authority', () => {
+    const f = fixture();
+    const socket = f.makeSocket('legacy');
+    for (const value of [undefined, null, '2', 1, 3, true, {}, [2]]) {
+      expect(requireRandomChatProtocol(socket, { requestId: 'join_1', randomChatProtocol: value })).toBe(false);
+    }
+    expect(socket.emit).toHaveBeenCalledTimes(8);
+    expect(socket.emit).toHaveBeenCalledWith('random:error', {
+      code: 'UPDATE_REQUIRED', message: 'Update Chatforia to use Random Chat.',
+      requiredProtocol: 2, requestId: 'join_1',
+    });
+    expect(f.queues.waitingBySocket.size).toBe(0);
+    expect(f.room.connections.map((entry) => entry.socketId)).toEqual(['old-1', 'old-2']);
+    expect(requireRandomChatProtocol(socket, { randomChatProtocol: 2 })).toBe(true);
+    expect(socket.emit).toHaveBeenCalledTimes(8);
+  });
   test('defaults to 120 seconds and rejects out-of-range settings', () => {
     const previous = process.env.RANDOM_CHAT_RECONNECT_GRACE_MS;
     try {
@@ -106,6 +123,21 @@ describe('server-authoritative Random Chat lifecycle', () => {
     await resumeRandomRoom({ ...f, socket, userId: 1 });
     await disconnectRandomSocket({ ...f, socketId: 'old-1', userId: 1 });
     expect(f.room.connections[0].socketId).toBe('new-1');
+  });
+
+  test('two authenticated sockets for one user leave only the newest socket bound', async () => {
+    const f = fixture();
+    const first = f.makeSocket('first-1');
+    const second = f.makeSocket('second-1');
+    f.sockets.set(first.id, first);
+    f.sockets.set(second.id, second);
+    await resumeRandomRoom({ ...f, socket: first, userId: 1 });
+    await resumeRandomRoom({ ...f, socket: second, userId: 1 });
+    expect(first.leave).toHaveBeenCalledWith('random:20');
+    expect(f.queues.activeRoomBySocket.has(first.id)).toBe(false);
+    expect(f.queues.activeRoomBySocket.get(second.id).userId).toBe(1);
+    await disconnectRandomSocket({ ...f, socketId: first.id, userId: 1 });
+    expect(f.room.connections[0].socketId).toBe(second.id);
   });
 
   test('timeout ends once and prevents replay or writes', async () => {

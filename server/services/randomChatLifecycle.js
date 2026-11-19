@@ -5,6 +5,20 @@ export function randomResumeRequestId(payload) {
     /^[A-Za-z0-9_-]{1,80}$/.test(payload.requestId) ? payload.requestId : null;
 }
 
+export const RANDOM_CHAT_PROTOCOL = 2;
+
+export function requireRandomChatProtocol(socket, payload) {
+  if (payload?.randomChatProtocol === RANDOM_CHAT_PROTOCOL) return true;
+  const requestId = randomResumeRequestId(payload);
+  socket.emit('random:error', {
+    code: 'UPDATE_REQUIRED',
+    message: 'Update Chatforia to use Random Chat.',
+    requiredProtocol: RANDOM_CHAT_PROTOCOL,
+    ...(requestId ? { requestId } : {}),
+  });
+  return false;
+}
+
 export function randomChatGraceMs() {
   const configured = Number(process.env.RANDOM_CHAT_RECONNECT_GRACE_MS);
   return Number.isSafeInteger(configured) && configured >= 1000 && configured <= 600000

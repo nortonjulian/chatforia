@@ -20,6 +20,7 @@ import {
   touchRandomSocket,
   sweepExpiredRandomRooms,
   randomResumeRequestId,
+  requireRandomChatProtocol,
 } from '../services/randomChatLifecycle.js';
 
 // 🔮 OpenAI (Ria bot brain)
@@ -255,6 +256,7 @@ export function attachRandomChatSockets(io) {
   heartbeat.unref?.();
 
   socket.on('random:resume', async (payload = {}) => {
+    if (!requireRandomChatProtocol(socket, payload)) return;
     // A request ID correlates a negative result with the request that caused
     // it. It never selects or authorizes a room.
     const requestId = randomResumeRequestId(payload);
@@ -280,6 +282,7 @@ export function attachRandomChatSockets(io) {
 
   // 🔍 JOIN RANDOM QUEUE
   socket.on('random:join', async (payload = {}) => {
+    if (!requireRandomChatProtocol(socket, payload)) return;
     if (queues.waitingBySocket.has(socket.id)) return;
 
     try {
