@@ -4,6 +4,7 @@ import {
   disconnectRandomSocket,
   endRandomRoom,
   randomChatGraceMs,
+  randomResumeRequestId,
   resumeRandomRoom,
   sweepExpiredRandomRooms,
 } from '../services/randomChatLifecycle.js';
@@ -79,12 +80,21 @@ describe('server-authoritative Random Chat lifecycle', () => {
     const f = fixture();
     const socket = f.makeSocket('new-1');
     f.sockets.set(socket.id, socket);
-    const restored = await resumeRandomRoom({ ...f, socket, userId: 1 });
+    const restored = await resumeRandomRoom({ ...f, socket, userId: 1,
+      requestId: 'fresh_1', roomId: 9999 });
     expect(restored).toMatchObject({
-      roomId: 20, myAlias: 'Quiet Signal 1000', partnerAlias: 'Bright Wave 2000',
+      roomId: 20, requestId: 'fresh_1',
+      myAlias: 'Quiet Signal 1000', partnerAlias: 'Bright Wave 2000',
     });
     expect(socket.join).toHaveBeenCalledWith('random:20');
     expect(await resumeRandomRoom({ ...f, socket: f.makeSocket('intruder'), userId: 3 })).toBeNull();
+  });
+
+  test('resume correlation accepts bounded IDs and grants no room authority', () => {
+    expect(randomResumeRequestId({ requestId: 'ios_123-ABC' })).toBe('ios_123-ABC');
+    for (const value of [null, 'a'.repeat(81), 'bad:room', 'room/20', 20]) {
+      expect(randomResumeRequestId({ requestId: value })).toBeNull();
+    }
   });
 
   test('temporary disconnect preserves the room; stale socket cannot evict a newer binding', async () => {

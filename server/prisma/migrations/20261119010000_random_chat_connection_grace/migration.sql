@@ -18,3 +18,9 @@ ALTER TABLE "RandomChatConnection" ADD CONSTRAINT "RandomChatConnection_randomCh
     FOREIGN KEY ("randomChatRoomId") REFERENCES "RandomChatRoom"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "RandomChatConnection" ADD CONSTRAINT "RandomChatConnection_userId_fkey"
     FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- The restricted API role needs reads, new bindings, and lifecycle updates.
+-- Session ownership keys are immutable; explicit deletion is not required.
+GRANT SELECT, INSERT ON TABLE public."RandomChatConnection" TO chatforia_dev;
+GRANT UPDATE ("socketId", "active", "lastSeenAt", "disconnectedAt", "friendRequestedAt")
+    ON TABLE public."RandomChatConnection" TO chatforia_dev;

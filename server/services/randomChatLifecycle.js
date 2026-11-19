@@ -1,5 +1,10 @@
 import Boom from '@hapi/boom';
 
+export function randomResumeRequestId(payload) {
+  return typeof payload?.requestId === 'string' &&
+    /^[A-Za-z0-9_-]{1,80}$/.test(payload.requestId) ? payload.requestId : null;
+}
+
 export function randomChatGraceMs() {
   const configured = Number(process.env.RANDOM_CHAT_RECONNECT_GRACE_MS);
   return Number.isSafeInteger(configured) && configured >= 1000 && configured <= 600000
@@ -72,7 +77,7 @@ export async function expireRandomRoomIfNeeded({ prisma, io, room, now = new Dat
   return false;
 }
 
-export async function resumeRandomRoom({ prisma, io, socket, queues, userId }) {
+export async function resumeRandomRoom({ prisma, io, socket, queues, userId, requestId = null }) {
   const room = await activeRandomRoomForUser(prisma, userId);
   if (!room) return null;
   if (await expireRandomRoomIfNeeded({ prisma, io, room })) return null;
@@ -116,6 +121,7 @@ export async function resumeRandomRoom({ prisma, io, socket, queues, userId }) {
   socket.join(`random:${room.chatRoomId}`);
   const aliases = room.aliasByUser && typeof room.aliasByUser === 'object' ? room.aliasByUser : {};
   const payload = {
+    ...(requestId ? { requestId } : {}),
     roomId: room.chatRoomId,
     chatRoomId: room.chatRoomId,
     randomChatRoomId: room.id,

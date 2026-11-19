@@ -19,6 +19,7 @@ import {
   disconnectRandomSocket,
   touchRandomSocket,
   sweepExpiredRandomRooms,
+  randomResumeRequestId,
 } from '../services/randomChatLifecycle.js';
 
 // 🔮 OpenAI (Ria bot brain)
@@ -253,16 +254,23 @@ export function attachRandomChatSockets(io) {
   }, 30000);
   heartbeat.unref?.();
 
-  socket.on('random:resume', async () => {
+  socket.on('random:resume', async (payload = {}) => {
+    // A request ID correlates a negative result with the request that caused
+    // it. It never selects or authorizes a room.
+    const requestId = randomResumeRequestId(payload);
+    const bindingBefore = queues.activeRoomBySocket.get(socket.id);
     try {
-      const restored = await resumeRandomRoom({ prisma, io, socket, queues, userId: u.id });
+      const restored = await resumeRandomRoom({ prisma, io, socket, queues, userId: u.id, requestId });
       if (!restored) {
-        const stale = queues.activeRoomBySocket.get(socket.id);
-        if (stale) {
+        // A match may have been created while the resume query was in flight.
+        // Never let an older negative result evict that socket's new binding.
+        const bindingAfter = queues.activeRoomBySocket.get(socket.id);
+        if (bindingAfter && bindingAfter !== bindingBefore) return;
+        if (bindingAfter) {
           queues.activeRoomBySocket.delete(socket.id);
-          socket.leave(`random:${stale.roomId}`);
+          socket.leave(`random:${bindingAfter.roomId}`);
         }
-        socket.emit('random:none');
+        socket.emit('random:none', { requestId });
       }
     } catch (error) {
       console.error('[random:resume] failed', error);
@@ -277,7 +285,8 @@ export function attachRandomChatSockets(io) {
     try {
       const existing = await activeRandomRoomForUser(prisma, u.id);
       if (existing) {
-        const restored = await resumeRandomRoom({ prisma, io, socket, queues, userId: u.id });
+        const restored = await resumeRandomRoom({ prisma, io, socket, queues, userId: u.id,
+          requestId: randomResumeRequestId(payload) });
         if (restored) return;
       }
       // A peer timeout may have ended the database session while this socket

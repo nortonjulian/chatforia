@@ -81,6 +81,7 @@ export default function RandomChatPage() {
   const socketRef = useRef(null);
   const activeRef = useRef(null);
   const profileRef = useRef(null);
+  const pendingResumeIdRef = useRef(null);
   const bottomRef = useRef(null);
 
   const [status, setStatus] = useState('idle');
@@ -188,12 +189,17 @@ export default function RandomChatPage() {
     if (!socket) return undefined;
     const listeners = [];
     const on = (event, handler) => { socket.on(event, handler); listeners.push([event, handler]); };
+    const requestResume = () => {
+      const requestId = `web_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      pendingResumeIdRef.current = requestId;
+      socket.emit('random:resume', { requestId });
+    };
 
     on('connect', () => {
       setErrorText('');
-      socket.emit('random:resume');
+      requestResume();
     });
-    if (socket.connected) socket.emit('random:resume');
+    if (socket.connected) requestResume();
 
     on('connect_error', (err) => {
       setErrorText(err?.message || 'Unable to connect.');
@@ -248,6 +254,9 @@ export default function RandomChatPage() {
     });
 
     const activateHumanRoom = (payload, resumed = false) => {
+      if (resumed && (!pendingResumeIdRef.current ||
+          payload?.requestId !== pendingResumeIdRef.current)) return;
+      pendingResumeIdRef.current = null;
       const next = {
         roomId: payload.roomId,
         myAlias: payload.myAlias || 'You',
@@ -275,7 +284,10 @@ export default function RandomChatPage() {
       activateHumanRoom(payload);
     });
     on('random:resumed', (payload) => activateHumanRoom(payload, true));
-    on('random:none', () => {
+    on('random:none', (payload) => {
+      if (!pendingResumeIdRef.current ||
+          payload?.requestId !== pendingResumeIdRef.current) return;
+      pendingResumeIdRef.current = null;
       if (!activeRef.current || activeRef.current.isAI) return;
       activeRef.current = null;
       setActive(null);
@@ -365,6 +377,7 @@ export default function RandomChatPage() {
 
     on('random:ended', (payload) => {
       if (String(payload?.roomId) !== String(activeRef.current?.roomId)) return;
+      pendingResumeIdRef.current = null;
       setStatus('ended');
 
       const reason = payload?.reason;
@@ -421,7 +434,9 @@ export default function RandomChatPage() {
 
     posthog.capture('random_chat_match_started');
 
-    socket.emit('random:join', {});
+    const requestId = `web_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    pendingResumeIdRef.current = requestId;
+    socket.emit('random:join', { requestId });
   };
 
   const cancelMatching = () => {

@@ -21,15 +21,18 @@ jest.mock('@/utils/encryptionClient', () => ({
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
-  const passthrough =
-    (Tag = 'div', testId) =>
-    ({ children, leftSection, rightSection, ...props }) => (
-      <Tag data-testid={testId} {...props}>
-        {leftSection}
-        {children}
-        {rightSection}
-      </Tag>
-    );
+  const passthrough = (Tag = 'div', testId) => {
+    function MockMantineComponent({ children, leftSection, rightSection, ...props }) {
+      return (
+        <Tag data-testid={testId} {...props}>
+          {leftSection}
+          {children}
+          {rightSection}
+        </Tag>
+      );
+    }
+    return MockMantineComponent;
+  };
 
   return {
     __esModule: true,
@@ -215,8 +218,15 @@ describe('RandomChatPage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /find me a match/i }));
 
-    expect(mockEmit).toHaveBeenCalledWith('random:join', {});
+    expect(mockEmit).toHaveBeenCalledWith('random:join',
+      expect.objectContaining({ requestId: expect.any(String) }));
     expect(screen.getByText(/matching/i)).toBeInTheDocument();
+    const requestId = mockEmit.mock.calls.find(([event]) => event === 'random:join')[1].requestId;
+    triggerSocket('random:resumed', {
+      roomId: 27, chatRoomId: 27, requestId,
+      myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
+    });
+    expect(await screen.findByText('Bright Wave')).toBeInTheDocument();
   });
 
   test('starting Ria chat emits random:ai_start', async () => {
@@ -386,7 +396,8 @@ describe('RandomChatPage', () => {
   test('navigation cleanup preserves the shared socket and can restore the match', async () => {
     mockSocket.connected = true;
     const page = render(<RandomChatPage />);
-    expect(mockEmit).toHaveBeenCalledWith('random:resume');
+    expect(mockEmit).toHaveBeenCalledWith('random:resume',
+      expect.objectContaining({ requestId: expect.any(String) }));
     triggerSocket('random:matched', {
       roomId: 15, chatRoomId: 15, myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
     });
@@ -394,8 +405,10 @@ describe('RandomChatPage', () => {
     expect(mockDisconnect).not.toHaveBeenCalled();
     expect(mockSocket.off).toHaveBeenCalled();
     render(<RandomChatPage />);
+    const requestId = mockEmit.mock.calls.filter(([event]) => event === 'random:resume').at(-1)[1].requestId;
     triggerSocket('random:resumed', {
-      roomId: 15, chatRoomId: 15, myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
+      roomId: 15, chatRoomId: 15, requestId,
+      myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
     });
     expect(await screen.findByText('Bright Wave')).toBeInTheDocument();
   });
@@ -405,10 +418,37 @@ describe('RandomChatPage', () => {
     triggerSocket('random:matched', {
       roomId: 16, chatRoomId: 16, myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
     });
-    triggerSocket('random:none');
+    triggerSocket('connect');
+    const requestId = mockEmit.mock.calls.filter(([event]) => event === 'random:resume').at(-1)[1].requestId;
+    triggerSocket('random:none', { requestId });
     expect(await screen.findByText(/chat session expired/i)).toBeInTheDocument();
     expect(screen.getAllByTestId('card')).toHaveLength(1);
     expect(screen.getByRole('button', { name: /find me a match/i })).toBeInTheDocument();
+  });
+
+  test('a late or superseded random:none cannot end a newer match', async () => {
+    mockSocket.connected = true;
+    render(<RandomChatPage />);
+    const oldRequestId = mockEmit.mock.calls.find(([event]) => event === 'random:resume')[1].requestId;
+    triggerSocket('random:matched', {
+      roomId: 17, chatRoomId: 17, myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
+    });
+    triggerSocket('random:none', { requestId: oldRequestId });
+    expect(screen.getAllByText('Bright Wave').length).toBeGreaterThan(0);
+    triggerSocket('connect');
+    const currentRequestId = mockEmit.mock.calls.filter(([event]) => event === 'random:resume').at(-1)[1].requestId;
+    triggerSocket('random:none', { requestId: oldRequestId });
+    expect(screen.getAllByText('Bright Wave').length).toBeGreaterThan(0);
+    triggerSocket('random:resumed', {
+      roomId: 99, chatRoomId: 99, myAlias: 'Old Alias', partnerAlias: 'Old Partner',
+    });
+    expect(screen.getAllByText('Bright Wave').length).toBeGreaterThan(0);
+    triggerSocket('random:resumed', {
+      roomId: 17, chatRoomId: 17, requestId: currentRequestId,
+      myAlias: 'Quiet Signal', partnerAlias: 'Bright Wave',
+    });
+    triggerSocket('random:none', { requestId: currentRequestId });
+    expect(screen.getAllByText('Bright Wave').length).toBeGreaterThan(0);
   });
 
   test('Add Friend emits random:add_friend and disables request button', async () => {
