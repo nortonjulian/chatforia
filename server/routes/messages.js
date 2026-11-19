@@ -26,7 +26,8 @@ import {
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 
-import { scoreReport, shouldAutoHide } from '../services/src/moderationService.js';
+import { scoreReport } from '../services/src/moderationService.js';
+import { createOpenReport } from '../services/openReportTransaction.js';
 
 // Hardened upload + safety utilities
 import { uploadMedia, uploadDirs } from '../middleware/uploads.js';
@@ -2601,8 +2602,7 @@ router.post(
         chatRoom: {
           select: {
             id: true,
-            isRandom: true,
-            origin: true,
+            randomChatRoom: { select: { id: true } },
           },
         },
       },
@@ -2629,6 +2629,10 @@ router.post(
 
     const effectiveReportedUserId = primaryMessage.senderId;
 
+    if (effectiveReportedUserId === reporterId) {
+      throw Boom.badRequest('You cannot report your own message');
+    }
+
     if (
       Number.isFinite(Number(reportedUserId)) &&
       Number(reportedUserId) !== effectiveReportedUserId
@@ -2636,15 +2640,12 @@ router.post(
       throw Boom.badRequest('reportedUserId does not match the primary message sender');
     }
 
+    // Fast rejection for common retries. The locked check in
+    // createOpenReport is still required for concurrent submissions.
     const existingOpenReport = await prisma.report.findFirst({
-      where: {
-        messageId: primaryMessageId,
-        reporterId,
-        status: 'OPEN',
-      },
+      where: { messageId: primaryMessageId, reporterId, status: 'OPEN' },
       select: { id: true },
     });
-
     if (existingOpenReport) {
       throw Boom.conflict('You already reported this message');
     }
@@ -2719,10 +2720,7 @@ router.post(
       },
     });
 
-    const isRandomRoom = Boolean(
-      primaryMessage.chatRoom?.isRandom ||
-        primaryMessage.chatRoom?.origin === 'random'
-    );
+    const isRandomRoom = Boolean(primaryMessage.chatRoom?.randomChatRoom);
 
     const hasAttachments =
       Array.isArray(primaryMessage.attachments) &&
@@ -2740,12 +2738,12 @@ router.post(
       distinctSenderReporterCount,
     });
 
-    const autoHidden = shouldAutoHide(
-      scoring.severityScore,
-      distinctMessageReporterCount
-    );
+    // E2EE plaintext and details are supplied by the reporter, not verified by
+    // the server. They can prioritize human review but cannot hide a message.
+    const recommendedAction = scoring.priority === 'LOW'
+      ? 'QUEUE_REVIEW' : 'PRIORITY_REVIEW';
 
-    const created = await prisma.$transaction(async (tx) => {
+    const result = await createOpenReport(prisma, { reporterId, messageId: primaryMessageId }, async (tx) => {
       const report = await tx.report.create({
         data: {
           messageId: primaryMessageId,
@@ -2758,8 +2756,8 @@ router.post(
           blockApplied: !!blockAfterReport,
           severityScore: scoring.severityScore,
           priority: scoring.priority,
-          recommendedAction: scoring.recommendedAction,
-          autoHidden,
+          recommendedAction,
+          autoHidden: false,
           scoreFactors: scoring.scoreFactors,
           evidence: {
             primaryMessage: {
@@ -2773,6 +2771,8 @@ router.post(
               attachments: primaryMessage.attachments || [],
             },
             submittedMessages: normalizedMessages,
+            contentSource: primarySnapshot?.plaintext ? 'reporter_submission'
+              : primaryMessage.rawContent ? 'server_plaintext' : 'unavailable',
             clientMetadata:
               clientMetadata && typeof clientMetadata === 'object'
                 ? clientMetadata
@@ -2789,18 +2789,13 @@ router.post(
         });
       }
 
-      if (autoHidden && !primaryMessage.isHiddenByModeration) {
-        await tx.message.update({
-          where: { id: primaryMessageId },
-          data: {
-            isHiddenByModeration: true,
-            moderationStatus: 'SOFT_HIDDEN',
-          },
-        });
-      }
-
       return report;
     });
+
+    if (result.duplicate) {
+      throw Boom.conflict('You already reported this message');
+    }
+    const created = result.report;
 
     return res.status(201).json({
       success: true,
