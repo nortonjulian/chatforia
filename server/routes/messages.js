@@ -2601,8 +2601,7 @@ router.post(
         chatRoom: {
           select: {
             id: true,
-            isRandom: true,
-            origin: true,
+            randomChatRoom: { select: { id: true } },
           },
         },
       },
@@ -2719,10 +2718,7 @@ router.post(
       },
     });
 
-    const isRandomRoom = Boolean(
-      primaryMessage.chatRoom?.isRandom ||
-        primaryMessage.chatRoom?.origin === 'random'
-    );
+    const isRandomRoom = Boolean(primaryMessage.chatRoom?.randomChatRoom);
 
     const hasAttachments =
       Array.isArray(primaryMessage.attachments) &&
