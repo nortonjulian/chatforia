@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import usePrivacy from '@/privacy/usePrivacy';
 import { useLocation } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
 
 const ADSENSE_CLIENT = 'ca-pub-8163977681153105';
 
 const EXCLUDED_PREFIXES = [
+  '/legal',
   '/chat',
   '/calls',
   '/video',
@@ -32,8 +34,14 @@ function isPaidUser(user) {
 export default function AdSenseAutoAds() {
   const { currentUser, authLoading } = useUser();
   const location = useLocation();
+  const { advertising } = usePrivacy();
+  const loaded = useRef(false);
 
   useEffect(() => {
+    if (!advertising) {
+      if (loaded.current || document.querySelector('script[data-chatforia-adsense="true"]')) window.location.reload();
+      return;
+    }
     if (authLoading) return;
 
     const adsEnabled = import.meta.env.VITE_ADS_ENABLED !== 'false';
@@ -58,7 +66,8 @@ export default function AdSenseAutoAds() {
     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
 
     document.head.appendChild(script);
-  }, [authLoading, currentUser, location.pathname]);
+    loaded.current = true;
+  }, [advertising, authLoading, currentUser, location.pathname]);
 
   return null;
 }

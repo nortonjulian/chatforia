@@ -4,7 +4,7 @@ import DevErrorBoundary from '@/components/DevErrorBoundary.jsx';
 import AppRoutes from './AppRoutes';
 import VisualAlerts from '@/components/VisualAlerts';
 
-import posthog from '@/utils/analytics';
+import PrivacyBanner from '@/privacy/PrivacyChoices';
 
 export default function App() {
   const { pathname } = useLocation();
@@ -14,12 +14,10 @@ export default function App() {
     if (el) el.focus();
   }, [pathname]);
 
-  useEffect(() => {
-    posthog.capture('test_event');
-  }, []);
 
   return (
     <>
+      <PrivacyBanner />
       <VisualAlerts />
       <DevErrorBoundary>
         <AppRoutes />
