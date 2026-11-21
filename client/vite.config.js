@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import thirdPartyNotices from './scripts/third-party-notices.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig(async ({ mode, command }) => {
   const env = loadEnv(mode, __dirname, '');
-  const plugins = [react()];
+  const plugins = [react(), thirdPartyNotices()];
   let enableSourcemaps = false;
 
   const hasSentryEnv =
