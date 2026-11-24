@@ -258,6 +258,9 @@ router.post(
             data: {
               type: 'sms_message',
               threadId: String(rec.threadId),
+              ...(Number.isSafeInteger(rec.messageId) && rec.messageId > 0
+                ? { messageId: String(rec.messageId) }
+                : {}),
               fromNumber,
               toNumber,
             },
