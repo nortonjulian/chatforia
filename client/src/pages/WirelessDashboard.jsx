@@ -85,7 +85,7 @@ export default function WirelessDashboard() {
     })();
   }, [currentUser, navigate, t]);
 
-  const goToPlans = () => navigate('/upgrade');
+  const goToPlans = () => navigate('/upgrade?section=mobile');
   const goToEsim = () => navigate('/account/esim');
 
   const isNone = !status || status.mode === 'NONE';

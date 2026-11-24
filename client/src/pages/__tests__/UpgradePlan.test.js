@@ -1,6 +1,9 @@
 /** @jest-environment jsdom */
 
 import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
+import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom';
+
+jest.unmock('react-router-dom');
 
 // ---- Minimal Mantine stubs ----
 jest.mock('@mantine/core', () => {
@@ -152,36 +155,6 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// ---- Router ----
-const mockNavigate = jest.fn();
-const mockSetSearchParams = jest.fn();
-const mockSearchParams = new URLSearchParams();
-
-jest.mock('react-router-dom', () => {
-  const actual = jest.requireActual('react-router-dom');
-
-  return {
-    __esModule: true,
-    ...actual,
-
-    Link: ({ to, children, ...p }) => (
-      <a href={to} {...p}>
-        {children}
-      </a>
-    ),
-
-    useNavigate: () => mockNavigate,
-
-    useLocation: () => ({
-      pathname: '/settings/upgrade',
-      search: '',
-      state: null,
-    }),
-
-    useSearchParams: () => [mockSearchParams, mockSetSearchParams],
-  };
-});
-
 // ---- Analytics ----
 jest.mock('@/utils/analytics', () => ({
   __esModule: true,
@@ -221,19 +194,83 @@ jest.mock('../../api/axiosClient', () => ({
 // ---- SUT ----
 import UpgradePage from '../UpgradePlan';
 
+function HistoryControls() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <output data-testid="route-location">{location.pathname}{location.search}</output>
+      <button type="button" onClick={() => navigate(-1)}>Browser back</button>
+      <button type="button" onClick={() => navigate(1)}>Browser forward</button>
+    </div>
+  );
+}
+
+function renderUpgrade(page = <UpgradePage />, initialEntries = ['/upgrade']) {
+  return render(
+    <MemoryRouter initialEntries={initialEntries}>
+      {page}
+      <HistoryControls />
+    </MemoryRouter>
+  );
+}
+
 describe('UpgradePage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
     mockCurrentUser = { plan: 'FREE' };
+  });
 
-    for (const key of [...mockSearchParams.keys()]) {
-      mockSearchParams.delete(key);
-    }
+  test('defaults ordinary Pricing & Plans visits to App plans', async () => {
+    renderUpgrade();
+
+    expect(await screen.findByText('Free, Plus, and Premium plans')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'App plans' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.queryByText('Choose a data pack')).not.toBeInTheDocument();
+    expect(screen.getByTestId('route-location')).toHaveTextContent('/upgrade');
+  });
+
+  test('defaults the public Pricing & Plans route to App plans', async () => {
+    renderUpgrade(<UpgradePage variant="public" />, ['/pricing']);
+
+    expect(await screen.findByText('Free, Plus, and Premium plans')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'App plans' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.queryByText('Choose a data pack')).not.toBeInTheDocument();
+    expect(screen.getByTestId('route-location')).toHaveTextContent('/pricing');
+  });
+
+  test('opens a direct Mobile link with data packages visible', async () => {
+    renderUpgrade(<UpgradePage />, ['/upgrade?section=mobile']);
+
+    expect(await screen.findByText('Choose a data pack')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Mobile (eSIM)' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByText('Local 3 GB')).toBeInTheDocument();
+    expect(screen.queryByText('Free, Plus, and Premium plans')).not.toBeInTheDocument();
+    expect(screen.getByTestId('route-location')).toHaveTextContent('/upgrade?section=mobile');
+  });
+
+  test('restores the selected tab and eSIM scope through browser history', async () => {
+    renderUpgrade(<UpgradePage />, ['/upgrade?section=mobile&scope=europe']);
+
+    expect(await screen.findByText('Choose a data pack')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Europe' })).toHaveAttribute('aria-pressed', 'true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'App plans' }));
+    expect(screen.getByText('Free, Plus, and Premium plans')).toBeInTheDocument();
+    expect(screen.getByTestId('route-location')).toHaveTextContent('section=app');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Browser back' }));
+    expect(await screen.findByText('Choose a data pack')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Europe' })).toHaveAttribute('aria-pressed', 'true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Browser forward' }));
+    expect(await screen.findByText('Free, Plus, and Premium plans')).toBeInTheDocument();
   });
 
   test('renders Free and Premium cards; Free is the current plan', async () => {
-    render(<UpgradePage />);
+    renderUpgrade();
 
     await screen.findByTestId('plan-free');
 
@@ -258,7 +295,7 @@ describe('UpgradePage', () => {
       response: { data: { message: 'Stripe not configured' } },
     });
 
-    render(<UpgradePage redirect={redirectSpy} />);
+    renderUpgrade(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -285,7 +322,7 @@ describe('UpgradePage', () => {
       data: { checkoutUrl: 'https://pay.example/checkout' },
     });
 
-    render(<UpgradePage redirect={redirectSpy} />);
+    renderUpgrade(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -317,7 +354,7 @@ describe('UpgradePage', () => {
       })
     );
 
-    render(<UpgradePage redirect={redirectSpy} />);
+    renderUpgrade(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -346,7 +383,7 @@ describe('UpgradePage', () => {
 
     mockPost.mockRejectedValueOnce(new Error('network down'));
 
-    render(<UpgradePage redirect={redirectSpy} />);
+    renderUpgrade(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -375,7 +412,7 @@ describe('UpgradePage', () => {
       data: { portalUrl: 'https://billing.example/portal' },
     });
 
-    render(<UpgradePage redirect={redirectSpy} />);
+    renderUpgrade(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -408,7 +445,7 @@ describe('UpgradePage', () => {
       })
     );
 
-    render(<UpgradePage redirect={redirectSpy} />);
+    renderUpgrade(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -430,7 +467,7 @@ describe('UpgradePage', () => {
   });
 
   test('Free card button is disabled for Free users', async () => {
-    render(<UpgradePage />);
+    renderUpgrade();
 
     await screen.findByTestId('plan-free');
 
