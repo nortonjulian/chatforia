@@ -526,10 +526,13 @@ describe('session authentication fails closed', () => {
     const { req, res, next } = requestWithToken();
     await mod.requireAuth(req, res, next);
     expect(req.user).toMatchObject({ id: 42, role: 'USER', tokenVersion: 2 });
-    expect(req.auth).toEqual({
+    expect(req.auth).toMatchObject({
       mfaVerified: false,
       tokenVersion: 2,
     });
+    expect(req.auth.pushFingerprint).toMatch(/^[a-f0-9]{64}$/);
+    expect(req.auth.pushIssuedAtMs).toBe(0);
+    expect(req.auth.pushExpiresAtMs).toBe(0);
     expect(next).toHaveBeenCalledTimes(1);
     expect(res._json).toBeNull();
   });
@@ -590,12 +593,28 @@ describe('session authentication fails closed', () => {
       tokenVersion: 2,
     });
 
-    expect(req.auth).toEqual({
+    expect(req.auth).toMatchObject({
       mfaVerified: true,
       tokenVersion: 2,
     });
 
     expect(next).toHaveBeenCalledTimes(1);
+  });
+
+  test('signed session issuance and expiry are exposed only as push metadata', async () => {
+    const mod = await loadModule();
+    const issuedAtMs = Date.now();
+    verifyMock.mockReturnValue({ id: 42, typ: 'session', tokenVersion: 2,
+      issuedAtMs, exp: Math.ceil(issuedAtMs / 1000) + 3600 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(req.auth.pushIssuedAtMs).toBe(issuedAtMs);
+    expect(req.auth.pushExpiresAtMs).toBe((Math.ceil(issuedAtMs / 1000) + 3600) * 1000);
+    expect(req.auth.pushFingerprint).toMatch(/^[a-f0-9]{64}$/);
+    expect(req.auth).not.toHaveProperty('token');
+    expect(req.auth).not.toHaveProperty('jti');
   });
 
   test('revoked token versions never attach a user', async () => {

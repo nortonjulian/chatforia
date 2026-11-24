@@ -4,6 +4,10 @@ import request from 'supertest';
 
 const prismaMock = {
   $transaction: jest.fn(),
+  $queryRaw: jest.fn(),
+  pushInstallation: {
+    findMany: jest.fn(),
+  },
   device: {
     findMany: jest.fn(),
     updateMany: jest.fn(),
@@ -402,12 +406,14 @@ describe('Device logout', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     app = makeApp();
+    prismaMock.$transaction.mockImplementation(async (callback) => callback(prismaMock));
+    prismaMock.pushInstallation.findMany.mockResolvedValue([]);
+    prismaMock.$queryRaw.mockResolvedValue([]);
   });
 
   test('logout clears push credentials without revoking the device', async () => {
-    prismaMock.device.updateMany.mockResolvedValue({
-      count: 1,
-    });
+    prismaMock.device.findUnique.mockResolvedValue(makeDevice({ deviceId: 'device-current' }));
+    prismaMock.device.update.mockResolvedValue(makeDevice({ deviceId: 'device-current' }));
 
     const response = await request(app)
       .post('/devices/logout')
@@ -419,11 +425,9 @@ describe('Device logout', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.deviceId).toBe('device-current');
 
-    expect(prismaMock.device.updateMany).toHaveBeenCalledWith({
+    expect(prismaMock.device.update).toHaveBeenCalledWith({
       where: {
-        userId: 1,
-        deviceId: 'device-current',
-        revokedAt: null,
+        id: 'database-device-1',
       },
       data: {
         pushToken: null,
@@ -442,7 +446,7 @@ describe('Device logout', () => {
     });
 
     const update =
-      prismaMock.device.updateMany.mock.calls[0][0];
+      prismaMock.device.update.mock.calls[0][0];
 
     expect(update.data).not.toHaveProperty('revokedAt');
     expect(update.data).not.toHaveProperty('revokedById');
@@ -450,9 +454,7 @@ describe('Device logout', () => {
   });
 
   test('logout cannot modify a nonexistent or unauthorized device', async () => {
-    prismaMock.device.updateMany.mockResolvedValue({
-      count: 0,
-    });
+    prismaMock.device.findUnique.mockResolvedValue(null);
 
     const response = await request(app)
       .post('/devices/logout')

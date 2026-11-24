@@ -181,7 +181,9 @@ try {
     console.log(`PASS: actual MFA recovery runner / real Prisma resolve+deploy / cleanup / ${failureStage}`);
   } finally {process.env.DATABASE_URL=url.toString();}
   if (failureStage === 'none') {
-    const esimBundle = buildPackage('HEAD');
+    // Keep the approved 166 rehearsal pinned when HEAD proposes the next,
+    // separately gated security migration.
+    const esimBundle = buildPackage('bc1cb67807cdc41e17329073679724921e9bd2bf');
     const esimFiles = verifyPackage(esimBundle);
     const esimRelease = applicationReleaseSpec(esimFiles);
     assert.equal(esimRelease.status, 'approved-for-production');
@@ -229,6 +231,31 @@ try {
         WHERE "userId" = 987654321`);
     });
     console.log('PASS: disposable PG18 approved 165 recovery then approved 166 migration, preserved eSIM entitlement and restricted lock writes');
+    const pushBundle = buildPackage('HEAD');
+    const pushFiles = verifyPackage(pushBundle);
+    const pushRelease = applicationReleaseSpec(pushFiles);
+    assert.equal(pushRelease.status, 'proposed-not-authorized-for-production');
+    assert.equal(pushRelease.beforeCount, 166);
+    assert.equal(pushRelease.afterCount, 167);
+    const [pushName] = Object.keys(pushRelease.requiredExactMigrations);
+    assert.equal(pushName, '20261124020000_push_session_authority');
+    const pushChecks = checksForPending(pushFiles, [pushName]);
+    const pushBefore = await aggregateChecks(db, pushChecks);
+    assert.deepEqual((await runApplicationReleasePreflight(db, pushBundle, 'before',
+      { allowProposedForIsolatedTest: true })).pending, [pushName]);
+    add(pushName);
+    deploy();
+    const pushAfter = await aggregateChecks(db, pushChecks);
+    assertChecks(pushChecks, pushBefore, pushAfter);
+    assert.equal((await runApplicationReleasePreflight(db, pushBundle, 'after',
+      { allowProposedForIsolatedTest: true })).migrationCount, 167);
+    const [pushGrants] = await db.$queryRawUnsafe(`SELECT
+      has_table_privilege('chatforia_dev','public."PushInstallation"','SELECT,INSERT,UPDATE') AS installation_rw,
+      has_table_privilege('chatforia_dev','public."PushRegistration"','SELECT,INSERT,UPDATE') AS registration_rw,
+      NOT has_table_privilege('chatforia_dev','public."PushInstallation"','DELETE') AS installation_no_delete,
+      NOT has_table_privilege('chatforia_dev','public."PushRegistration"','DELETE') AS registration_no_delete`);
+    assert.ok(Object.values(pushGrants).every(Boolean));
+    console.log('PASS: disposable PG18 proposed 167 push authority migration, exact ledger and restricted grants');
   }
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {

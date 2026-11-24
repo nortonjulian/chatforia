@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'node:crypto';
 import { hasVerifiedAdminAccess } from './verifiedAdmin.js';
 import prisma from '../utils/prismaClient.js';
 
@@ -43,6 +44,13 @@ function decodeSession(token) {
     userId,
     tokenVersion,
     mfaVerified: decoded.mfaVerified === true,
+    // Never persist or log the bearer credential. Its fingerprint is scoped
+    // to push registration and cannot be used to authenticate API requests.
+    pushFingerprint: crypto.createHash('sha256').update(token).digest('hex'),
+    pushIssuedAtMs: Number.isSafeInteger(decoded.issuedAtMs)
+      ? decoded.issuedAtMs
+      : Number.isSafeInteger(decoded.iat) ? decoded.iat * 1000 : 0,
+    pushExpiresAtMs: Number.isSafeInteger(decoded.exp) ? decoded.exp * 1000 : 0,
   };
 }
 
@@ -96,6 +104,9 @@ export async function requireAuth(req, res, next, db = prisma) {
   req.auth = {
     mfaVerified: session.mfaVerified,
     tokenVersion: session.tokenVersion,
+    pushFingerprint: session.pushFingerprint,
+    pushIssuedAtMs: session.pushIssuedAtMs,
+    pushExpiresAtMs: session.pushExpiresAtMs,
   };
   return next();
 }
@@ -114,6 +125,9 @@ export async function verifyTokenOptional(req, _res, next) {
           req.auth = {
             mfaVerified: session.mfaVerified,
             tokenVersion: session.tokenVersion,
+            pushFingerprint: session.pushFingerprint,
+            pushIssuedAtMs: session.pushIssuedAtMs,
+            pushExpiresAtMs: session.pushExpiresAtMs,
           };
         }
     } catch {

@@ -159,6 +159,10 @@ export function issueSession(res, user, { mfaVerified = false } = {}) {
     plan: user.plan,
     tokenVersion: user.tokenVersion ?? 0,
     typ: 'session',
+    // A distinct identity and high-resolution issue time allow push authority
+    // to reject delayed requests from an older authenticated session.
+    jti: crypto.randomUUID(),
+    issuedAtMs: Date.now(),
     // Only successful MFA completion may mark a session verified.
     mfaVerified: mfaVerified === true,
   };

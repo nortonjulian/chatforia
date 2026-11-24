@@ -231,6 +231,7 @@ model User {
   allowExplicitContent Boolean @default(false)
 
   payloads MessagePayload[]
+  pushInstallations PushInstallation[]
 
   // NOTE: existing field uses "...WithTranslation"
   showOriginalWithTranslation Boolean @default(true)
@@ -533,11 +534,56 @@ model Device {
   revokedBy   User? @relation("DeviceRevokedBy", fields: [revokedById], references: [id])
 
   messageSessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Device")
+  pushInstallations PushInstallation[]
 
   @@unique([userId, deviceId])
   @@index([userId])
   @@index([userId, revokedAt])
   @@index([userId, pairingStatus])
+}
+
+// Notification delivery authority is scoped to one app installation and the
+// current verified session. A generation survives logout and account changes.
+model PushInstallation {
+  id String @id @db.Uuid
+  proofHash String @db.VarChar(64)
+  platform String @db.VarChar(16)
+  appId String @db.VarChar(160)
+  generation BigInt @default(0)
+  currentUserId Int?
+  currentUser User? @relation(fields: [currentUserId], references: [id], onDelete: SetNull)
+  currentDeviceRowId String?
+  currentDevice Device? @relation(fields: [currentDeviceRowId], references: [id], onDelete: SetNull)
+  sessionFingerprint String? @db.VarChar(64)
+  tokenVersion Int?
+  issuedAtMs BigInt?
+  highWaterIssuedAtMs BigInt @default(0)
+  sessionExpiresAt DateTime?
+  cleanupHash String? @db.VarChar(64)
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  registrations PushRegistration[]
+
+  @@index([currentUserId, sessionExpiresAt])
+  @@index([currentDeviceRowId])
+}
+
+model PushRegistration {
+  id String @id @default(uuid()) @db.Uuid
+  installationId String @db.Uuid
+  installation PushInstallation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  generation BigInt
+  provider String @db.VarChar(16)
+  environment String @db.VarChar(16)
+  token String?
+  tokenDigest String @db.VarChar(64)
+  tokenRevision BigInt
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([installationId, generation, revokedAt])
 }
 
 // ===================== 3) Config & Localization =====================

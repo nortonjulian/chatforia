@@ -25,6 +25,8 @@ const legacyMigrationSetSha256 = 'ad8b4728d73fffedd8f2f13f20ac587f27c417a086fe7f
 export const applicationReleasePath = 'server/security/applicationMigrationRelease.v3.json';
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
 export const esimReleasePath = 'server/security/applicationMigrationRelease.v5.json';
+export const pushAuthorityReleasePath = 'server/security/applicationMigrationRelease.v6.json';
+const pushAuthorityReleaseDigest = '90c4e3cc881b35dc290c28c100b9de14607f03dac77db61cece66b5e41720eef';
 const esimReleaseDigests = Object.freeze({
   // A reviewable 165-to-166 proposal. Production authority requires a separate owner approval.
   'a27172c770c418201e00da5a9f13814c8da65ecdc5454331ba2039240ed7451b':
@@ -71,7 +73,7 @@ const recoveredRolledBackRows = Object.freeze([
 const allowedPath = (path) => migrationPath.test(path) || [
   'server/prisma/schema.prisma', 'server/prisma/migrations/migration_lock.toml',
   'server/prisma/deployment-checks.json', 'package-lock.json',
-  applicationReleasePath, mfaReleasePath, esimReleasePath,
+  applicationReleasePath, mfaReleasePath, esimReleasePath, pushAuthorityReleasePath,
   ...new Set([...reconciliationPaths, ...reconciliationPathsV2]),
 ].includes(path);
 
@@ -128,7 +130,7 @@ function mfaApplicationReleaseSpec(files) {
   return next;
 }
 
-export function applicationReleaseSpec(files) {
+function esimApplicationReleaseSpec(files) {
   const previous = mfaApplicationReleaseSpec(files);
   if (!files.has(esimReleasePath)) return previous;
   const reviewedStatus = esimReleaseDigests[digest(files.get(esimReleasePath))];
@@ -155,12 +157,38 @@ export function applicationReleaseSpec(files) {
   return next;
 }
 
+export function applicationReleaseSpec(files) {
+  const previous = esimApplicationReleaseSpec(files);
+  if (!files.has(pushAuthorityReleasePath)) return previous;
+  const nextBytes = files.get(pushAuthorityReleasePath);
+  if (!previous || digest(nextBytes) !== pushAuthorityReleaseDigest) {
+    throw new Error('Unreviewed push-authority release manifest');
+  }
+  const next = JSON.parse(nextBytes);
+  if (previous.status !== 'approved-for-production' ||
+      next.id !== 'chatforia-push-session-authority-20261124-v6' ||
+      next.status !== 'proposed-not-authorized-for-production' ||
+      next.basedOnEsimManifestSha256 !== digest(files.get(esimReleasePath)) ||
+      next.beforeCount !== 166 || next.afterCount !== 167 ||
+      next.historicalRolledBackCount !== previous.historicalRolledBackCount ||
+      JSON.stringify(next.historicalRolledBackRows) !== JSON.stringify(previous.historicalRolledBackRows) ||
+      next.beforeMigrationSetSha256 !== previous.afterMigrationSetSha256 ||
+      next.afterMigrationSetSha256 !== '3ed48243ecfa1a2845e240cd3e181c227417c15bc042004bf4bd0740665deba1' ||
+      JSON.stringify(next.requiredExactMigrations) !== JSON.stringify({
+        '20261124020000_push_session_authority':
+          '0162397551d2d2f7cb5482c89c96f4bbb56e30f21c48234a5ca4ef479623d6ff',
+      }) || JSON.stringify(next.target) !== JSON.stringify(previous.target)) {
+    throw new Error('Push-authority release baseline mismatch');
+  }
+  return next;
+}
+
 export function buildPackage(ref, cwd = process.cwd()) {
   const git = (...args) => execFileSync('git', args, { cwd, maxBuffer: 32 * 1024 * 1024 });
   const commit = git('rev-parse', '--verify', `${ref}^{commit}`).toString().trim();
   const entries = git('ls-tree', '-rz', commit, '--', 'server/prisma', 'package-lock.json',
     ...new Set([...reconciliationPaths, ...reconciliationPathsV2,
-      applicationReleasePath, mfaReleasePath, esimReleasePath]))
+      applicationReleasePath, mfaReleasePath, esimReleasePath, pushAuthorityReleasePath]))
     .toString().split('\0').filter(Boolean);
   const hasConsent = entries.some((entry) => entry.split('\t')[1] ===
     `server/prisma/migrations/${consentMigration}/migration.sql`);
@@ -251,6 +279,8 @@ function assertReconciliationReleaseSet(bundle, files) {
       ? Object.keys(archivedApplicationReleaseSpec(files).requiredExactMigrations) : []),
     ...(files.has(esimReleasePath)
       ? Object.keys(mfaApplicationReleaseSpec(files).requiredExactMigrations) : []),
+    ...(files.has(pushAuthorityReleasePath)
+      ? Object.keys(esimApplicationReleaseSpec(files).requiredExactMigrations) : []),
   ];
   const base = applicationBase.filter(({ name }) => !priorNames.includes(name));
   const legacy = base.filter(({ name }) => name !== consentMigration);
@@ -278,7 +308,8 @@ function assertReconciliationReleaseSet(bundle, files) {
     application.target.port !== manifest.target.port
   )) throw new Error('Application release migration set changed');
   return { version: application ?
-    (files.has(esimReleasePath) ? 'v5' : files.has(mfaReleasePath) ? 'v4' : 'v3') :
+    (files.has(pushAuthorityReleasePath) ? 'v6' : files.has(esimReleasePath) ? 'v5' :
+      files.has(mfaReleasePath) ? 'v4' : 'v3') :
     version, manifest, application, migrations };
 }
 
