@@ -7,6 +7,7 @@ import { hasVerifiedAdminAccess } from '../middleware/verifiedAdmin.js';
 import prisma from '../utils/prismaClient.js';
 import { assertDirectUsersAllowed } from '../services/userBlockService.js';
 import { getIo } from '../services/socketBus.js';
+import { anonymousParticipants } from '../utils/randomChatPresentation.js';
 
 import {
   requireRoomRank,
@@ -131,6 +132,7 @@ router.get(
       take: limit,
       // Never expose users' private identity, billing or credential fields.
       include: {
+        randomChatRoom: { select: { aliasByUser: true, unlockedAt: true } },
         participants: {
           include: {
             user: {
@@ -157,7 +159,17 @@ router.get(
           }
         : null;
 
-    return res.json({ items, nextCursor, count: items.length });
+    return res.json({
+      items: items.map((room) => ({
+        ...room,
+        participants: anonymousParticipants(room),
+        randomChatRoom: room.randomChatRoom
+          ? { unlockedAt: room.randomChatRoom.unlockedAt }
+          : null,
+      })),
+      nextCursor,
+      count: items.length,
+    });
   })
 );
 
@@ -293,6 +305,17 @@ router.get(
 
     return res.json({
       ...room,
+      participants: anonymousParticipants(room),
+      randomChatRoom: randomChat ? {
+        id: randomChat.id,
+        chatRoomId: randomChat.chatRoomId,
+        endedAt: randomChat.endedAt,
+        endedReason: randomChat.endedReason,
+        endedById: randomChat.endedById,
+        unlockedAt: randomChat.unlockedAt,
+        aiEnabled: randomChat.aiEnabled,
+        createdAt: randomChat.createdAt,
+      } : null,
       me: {
         allowAIBot: (() => {
           const member = room.participants?.find((p) => Number(p.userId) === me);
@@ -353,6 +376,7 @@ router.get(
       where: { id },
       select: {
         ownerId: true,
+        randomChatRoom: { select: { aliasByUser: true, unlockedAt: true } },
         participants: {
           select: {
             userId: true,
@@ -377,7 +401,7 @@ router.get(
 
     return res.json({
       ownerId: room.ownerId ?? null,
-      participants: room.participants,
+      participants: anonymousParticipants(room),
     });
   })
 );

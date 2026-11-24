@@ -44,6 +44,12 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
       if (!catalog.lock_table_absent)
         throw new Error('eSIM operation-lock table exists before its reviewed migration');
     }
+    if (phase === 'before' && release.id === 'chatforia-random-chat-connection-grace-20261119-v6') {
+      const [catalog] = await tx.$queryRawUnsafe(`SELECT
+        to_regclass('public."RandomChatConnection"') IS NULL AS connection_table_absent`);
+      if (!catalog.connection_table_absent)
+        throw new Error('Random Chat connection table exists before its reviewed migration');
+    }
     let pending = [];
     // The restricted API role has no migration-ledger grant. The separately
     // held DBA executor verifies exact history in before/after preflight;
@@ -69,7 +75,8 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         throw new Error('Application release restricted runtime grants differ');
     }
     if ((phase !== 'before' && release.id === 'chatforia-mfa-disable-20261114-v4') ||
-        release.id === 'chatforia-esim-operation-lock-20261114-v5') {
+        release.id === 'chatforia-esim-operation-lock-20261114-v5' ||
+        release.id === 'chatforia-random-chat-connection-grace-20261119-v6') {
       // Resolve protected objects through pg_catalog. The DBA executor may not
       // have USAGE on staff_security; name-based privilege helpers would throw
       // 42501 even though the runtime role has the required privileges.
@@ -108,7 +115,8 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
       if (Object.values(mfa).some((allowed) => allowed !== true))
         throw new Error('MFA release restricted runtime grants differ');
     }
-    if (phase !== 'before' && release.id === 'chatforia-esim-operation-lock-20261114-v5') {
+    if (phase !== 'before' && ['chatforia-esim-operation-lock-20261114-v5',
+      'chatforia-random-chat-connection-grace-20261119-v6'].includes(release.id)) {
       const [lock] = await tx.$queryRawUnsafe(`SELECT
         has_table_privilege('chatforia_dev','public."EsimOperationLock"','SELECT') AS can_select,
         has_table_privilege('chatforia_dev','public."EsimOperationLock"','INSERT') AS can_insert,
@@ -116,6 +124,21 @@ export async function runApplicationReleasePreflight(db, bundle, phase, options 
         NOT has_table_privilege('chatforia_dev','public."EsimOperationLock"','UPDATE') AS no_update`);
       if (Object.values(lock).some((allowed) => allowed !== true))
         throw new Error('eSIM operation-lock restricted runtime grants differ');
+    }
+    if (phase !== 'before' && release.id === 'chatforia-random-chat-connection-grace-20261119-v6') {
+      const [connection] = await tx.$queryRawUnsafe(`SELECT
+        has_table_privilege('chatforia_dev','public."RandomChatConnection"','SELECT') AS can_select,
+        has_table_privilege('chatforia_dev','public."RandomChatConnection"','INSERT') AS can_insert,
+        NOT has_table_privilege('chatforia_dev','public."RandomChatConnection"','DELETE') AS no_delete,
+        NOT has_column_privilege('chatforia_dev','public."RandomChatConnection"','userId','UPDATE') AS no_user_rebind,
+        NOT has_column_privilege('chatforia_dev','public."RandomChatConnection"','randomChatRoomId','UPDATE') AS no_room_rebind,
+        has_column_privilege('chatforia_dev','public."RandomChatConnection"','socketId','UPDATE') AS can_rebind_socket,
+        has_column_privilege('chatforia_dev','public."RandomChatConnection"','active','UPDATE') AS can_end,
+        has_column_privilege('chatforia_dev','public."RandomChatConnection"','lastSeenAt','UPDATE') AS can_heartbeat,
+        has_column_privilege('chatforia_dev','public."RandomChatConnection"','disconnectedAt','UPDATE') AS can_disconnect,
+        has_column_privilege('chatforia_dev','public."RandomChatConnection"','friendRequestedAt','UPDATE') AS can_request_friend`);
+      if (Object.values(connection).some((allowed) => allowed !== true))
+        throw new Error('Random Chat connection restricted runtime grants differ');
     }
     return { phase, pending, migrationCount: phase === 'before' ? release.beforeCount : release.afterCount };
   }, { timeout: 30000 });

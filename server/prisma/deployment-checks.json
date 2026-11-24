@@ -1,6 +1,16 @@
 {
   "version": 1,
   "checks": {
+    "random_chat_connection_exists": {
+      "sql": "SELECT to_regclass('public.\"RandomChatConnection\"') IS NOT NULL AS random_chat_connection_exists",
+      "rule": "expected",
+      "before": [{ "random_chat_connection_exists": false }],
+      "after": [{ "random_chat_connection_exists": true }]
+    },
+    "preserve_random_chat_room_count": {
+      "sql": "SELECT count(*)::text AS random_chat_room_count FROM public.\"RandomChatRoom\"",
+      "rule": "unchanged"
+    },
     "esim_operation_lock_exists": {
       "sql": "SELECT to_regclass('public.\"EsimOperationLock\"') IS NOT NULL AS esim_operation_lock_exists",
       "rule": "expected",
@@ -58,6 +68,15 @@
     }
   },
   "migrations": {
+    "20261119010000_random_chat_connection_grace": {
+      "kind": "schema",
+      "reason": "Add recoverable Random Chat connection bindings without changing existing rooms, participants, messages, or users; grant only the runtime operations needed for session lifecycle.",
+      "checks": [
+        "preserve_user_count",
+        "preserve_random_chat_room_count",
+        "random_chat_connection_exists"
+      ]
+    },
     "20261113010000_add_esim_operation_lock": {
       "kind": "schema",
       "reason": "Create a per-account eSIM operation claim for purchase and replacement serialization; preserve existing accounts and verify the table exists.",

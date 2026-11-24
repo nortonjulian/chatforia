@@ -1,3 +1,5 @@
+import { activeRandomRoomForSocket, endRandomRoom, expireRandomRoomIfNeeded } from './randomChatLifecycle.js';
+
 const DESCRIPTORS = [
   "Calm",
   "Quiet",
@@ -177,6 +179,12 @@ export async function createRandomRoom(prisma, userA, userB) {
           connect: [{ id: userA.userId }, { id: userB.userId }],
         },
         aliasByUser,
+        connections: {
+          create: [
+            { userId: Number(userA.userId), socketId: userA.socketId },
+            { userId: Number(userB.userId), socketId: userB.socketId },
+          ],
+        },
         messages: {
           create: [
             {
@@ -281,11 +289,11 @@ async function emitMatched(prisma, io, roomId, session, userA, userB) {
     socketA.join(chan);
     socketA.emit("random:matched", {
       roomId,
+      chatRoomId: roomId,
+      randomChatRoomId: session.randomChatRoomId,
       myAlias: session.users[userA.userId].alias,
       partnerAlias: session.users[userB.userId].alias,
-      partnerDisplayName: contactA
-        ? (contactA.alias || userB.username || session.users[userB.userId].alias)
-        : session.users[userB.userId].alias,
+      partnerDisplayName: session.users[userB.userId].alias,
       relationshipStatus: contactA ? "friends" : "none",
     });
   }
@@ -294,11 +302,11 @@ async function emitMatched(prisma, io, roomId, session, userA, userB) {
     socketB.join(chan);
     socketB.emit("random:matched", {
       roomId,
+      chatRoomId: roomId,
+      randomChatRoomId: session.randomChatRoomId,
       myAlias: aliasForB,
       partnerAlias: aliasForA,
-      partnerDisplayName: contactB
-        ? (contactB.alias || userA.username || aliasForA)
-        : aliasForA,
+      partnerDisplayName: aliasForA,
       relationshipStatus: contactB ? "friends" : "none",
     });
   }
@@ -331,8 +339,8 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
       select: { id: true },
     });
     if (!block) {
-      peerIdx = i;
-      break;
+      peerIdx = queues.waitingQueue.findIndex((entry) => entry.socketId === candidate.socketId);
+      if (peerIdx !== -1) break;
     }
   }
 
@@ -344,6 +352,15 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
   }
 
   const peerEntry = queues.waitingQueue[peerIdx];
+  if (!getSocketById(currentEntry.socketId)) return { matched: false };
+  if (!getSocketById(peerEntry.socketId)) {
+    removeFromQueue(queues, peerEntry.socketId);
+    enqueue(queues, currentEntry);
+    getSocketById(currentEntry.socketId)?.emit('random:waiting', {
+      message: 'Looking for a partner…',
+    });
+    return { matched: false };
+  }
 
   // Remove peer from queue
   queues.waitingQueue.splice(peerIdx, 1);
@@ -354,6 +371,7 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
   queues.activeRoomBySocket.set(currentEntry.socketId, {
     roomId: room.chatRoomId,
     randomChatRoomId: room.randomChatRoomId,
+    userId: currentEntry.userId,
     peerSocketId: peerEntry.socketId,
     peerUserId: peerEntry.userId,
   });
@@ -361,6 +379,7 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
   queues.activeRoomBySocket.set(peerEntry.socketId, {
     roomId: room.chatRoomId,
     randomChatRoomId: room.randomChatRoomId,
+    userId: peerEntry.userId,
     peerSocketId: currentEntry.socketId,
     peerUserId: currentEntry.userId,
   });
@@ -403,8 +422,7 @@ export async function tryMatch({ queues, prisma, io, currentEntry, getSocketById
 }
 
 async function ensureMutualContacts(prisma, userA, userB) {
-  await prisma.$transaction(async (tx) => {
-    const existingA = await tx.contact.findUnique({
+    const existingA = await prisma.contact.findUnique({
       where: {
         ownerId_userId: {
           ownerId: userA.userId,
@@ -414,7 +432,7 @@ async function ensureMutualContacts(prisma, userA, userB) {
     });
 
     if (!existingA) {
-      await tx.contact.create({
+      await prisma.contact.create({
         data: {
           ownerId: userA.userId,
           userId: userB.userId,
@@ -423,7 +441,7 @@ async function ensureMutualContacts(prisma, userA, userB) {
       });
     }
 
-    const existingB = await tx.contact.findUnique({
+    const existingB = await prisma.contact.findUnique({
       where: {
         ownerId_userId: {
           ownerId: userB.userId,
@@ -433,7 +451,7 @@ async function ensureMutualContacts(prisma, userA, userB) {
     });
 
     if (!existingB) {
-      await tx.contact.create({
+      await prisma.contact.create({
         data: {
           ownerId: userB.userId,
           userId: userA.userId,
@@ -441,77 +459,74 @@ async function ensureMutualContacts(prisma, userA, userB) {
         },
       });
     }
-  });
 }
 
 /**
  * Marks that a user in a random room requested "Add Friend".
  * When both sides request it, usernames become unlocked.
  */
-export async function requestAddFriend({ queues, io, prisma, roomId, userId }) {
-  const session = queues.sessionByRoomId.get(roomId);
-  if (!session) {
-    return { ok: false, reason: "session_not_found" };
+export async function requestAddFriend({ queues, io, prisma, roomId, userId, socketId }) {
+  const room = await activeRandomRoomForSocket(prisma, userId, socketId);
+  if (!room || Number(room.chatRoomId) !== Number(roomId) ||
+      await expireRandomRoomIfNeeded({ prisma, io, room })) {
+    return { ok: false, reason: 'not_in_active_random_room' };
   }
-
-  const me = session.users[userId];
-  if (!me) {
-    return { ok: false, reason: "user_not_in_session" };
+  const peer = room.connections.find((entry) => entry.userId !== Number(userId));
+  const blocked = peer && await prisma.userBlock.findFirst({
+    where: { OR: [
+      { blockerId: Number(userId), blockedId: peer.userId },
+      { blockerId: peer.userId, blockedId: Number(userId) },
+    ] },
+    select: { id: true },
+  });
+  if (blocked) {
+    await endRandomRoom({ prisma, io, room, reason: 'account_blocked' });
+    return { ok: false, reason: 'account_blocked' };
   }
-
-  me.requestedFriend = true;
-
-  const participants = Object.values(session.users);
-  const bothRequested =
-    participants.length === 2 &&
-    participants.every((u) => u.requestedFriend);
-
-  if (!bothRequested) {
+  const request = await prisma.randomChatConnection.updateMany({
+    where: { randomChatRoomId: room.id, userId: Number(userId), socketId, active: true },
+    data: { friendRequestedAt: new Date() },
+  });
+  if (request.count !== 1) return { ok: false, reason: 'stale_socket' };
+  const participants = await prisma.randomChatConnection.findMany({
+    where: { randomChatRoomId: room.id, active: true },
+    include: { user: { select: { id: true, username: true } } },
+  });
+  if (participants.length !== 2 || !participants.every((entry) => entry.friendRequestedAt)) {
     return { ok: true, unlocked: false };
   }
-
-  session.isUnlocked = true;
-
-  await prisma.randomChatRoom.updateMany({
-    where: {
-      chatRoomId: roomId,
-      unlockedAt: null,
-    },
-    data: {
-      unlockedAt: new Date(),
-    },
+  const [userA, userB] = participants.map((entry) => ({
+    userId: entry.userId, username: entry.user.username,
+  }));
+  const directRoom = await prisma.$transaction(async (tx) => {
+    const result = await tx.randomChatRoom.updateMany({
+      where: { id: room.id, endedAt: null, unlockedAt: null },
+      data: { unlockedAt: new Date() },
+    });
+    if (result.count !== 1) return null;
+    const direct = await createOrOpenDirectChatRoom(tx, userA.userId, userB.userId);
+    await ensureMutualContacts(tx, userA, userB);
+    await tx.randomChatConnection.updateMany({
+      where: { randomChatRoomId: room.id },
+      data: { active: false, socketId: null },
+    });
+    return direct;
   });
+  if (!directRoom) return { ok: true, unlocked: true };
 
-  const [userA, userB] = participants;
-
-  const directRoom = await createOrOpenDirectChatRoom(
-    prisma,
-    userA.userId,
-    userB.userId
-  );
-
-  await ensureMutualContacts(prisma, userA, userB);
-
-  const socketA = io.sockets.sockets.get(userA.socketId);
-  const socketB = io.sockets.sockets.get(userB.socketId);
-
-  if (socketA) {
-    socketA.emit("random:friend_accepted", {
-      roomId,
-      chatRoomId: directRoom.id,
-      username: userB.username,
-      userId: userB.userId,
-    });
+  io.to(`user:${userA.userId}`).emit('random:friend_accepted', {
+    roomId, chatRoomId: directRoom.id, username: userB.username, userId: userB.userId,
+  });
+  io.to(`user:${userB.userId}`).emit('random:friend_accepted', {
+    roomId, chatRoomId: directRoom.id, username: userA.username, userId: userA.userId,
+  });
+  for (const [id, active] of queues.activeRoomBySocket) {
+    if (Number(active.roomId) === Number(roomId)) {
+      queues.activeRoomBySocket.delete(id);
+      io.sockets.sockets.get(id)?.leave(`random:${roomId}`);
+    }
   }
-
-  if (socketB) {
-    socketB.emit("random:friend_accepted", {
-      roomId,
-      chatRoomId: directRoom.id,
-      username: userA.username,
-      userId: userA.userId,
-    });
-  }
+  queues.sessionByRoomId.delete(roomId);
 
   return {
     ok: true,
@@ -529,56 +544,23 @@ export async function skipRandomChat({
   io,
   prisma,
   socketId,
+  userId,
   peerEndedReason = "peer_skipped",
 }) {
-  const active = queues.activeRoomBySocket.get(socketId);
-  if (!active) {
-    return { ok: false, reason: "not_in_active_random_room" };
-  }
-
-  const { roomId, peerSocketId } = active;
-
-  queues.activeRoomBySocket.delete(socketId);
-
-  const peerMeta = queues.activeRoomBySocket.get(peerSocketId);
-  if (peerMeta && peerMeta.roomId === roomId) {
-    queues.activeRoomBySocket.delete(peerSocketId);
-
-    const peerSocket = io.sockets.sockets.get(peerSocketId);
-    if (peerSocket) {
-      peerSocket.leave(`random:${roomId}`);
-      peerSocket.emit("random:ended", {
-        roomId,
-        reason: peerEndedReason,
-      });
+  const room = await activeRandomRoomForSocket(prisma, userId, socketId);
+  if (!room) return { ok: false, reason: 'not_in_active_random_room' };
+  const ended = await endRandomRoom({
+    prisma, io, room, reason: peerEndedReason, endedById: Number(userId),
+  });
+  if (!ended) return { ok: false, reason: 'already_ended' };
+  for (const [id, active] of queues.activeRoomBySocket) {
+    if (Number(active.roomId) === Number(room.chatRoomId)) {
+      queues.activeRoomBySocket.delete(id);
+      io.sockets.sockets.get(id)?.leave(`random:${room.chatRoomId}`);
     }
   }
-
-  const mySocket = io.sockets.sockets.get(socketId);
-  if (mySocket) {
-    mySocket.leave(`random:${roomId}`);
-  }
-
-  queues.sessionByRoomId.delete(roomId);
-
-  try {
-    await prisma.randomChatRoom.updateMany({
-      where: {
-        chatRoomId: roomId,
-        endedAt: null,
-      },
-      data: {
-        endedAt: new Date(),
-      },
-    });
-  } catch (err) {
-    console.error("[random] failed to mark random chat ended", {
-      roomId,
-      error: err?.message || err,
-    });
-  }
-
-  return { ok: true, roomId };
+  queues.sessionByRoomId.delete(room.chatRoomId);
+  return { ok: true, roomId: room.chatRoomId };
 }
 
 /**
@@ -586,37 +568,10 @@ export async function skipRandomChat({
  * - remove from waiting queue if present
  * - if in active room, notify peer and clean room session maps
  */
-export function handleDisconnect({ queues, io, socketId }) {
+export function handleDisconnect({ queues, socketId }) {
   const waitingEntry = removeFromQueue(queues, socketId);
-  if (waitingEntry) {
-    return { removedFromQueue: true, endedRoom: false };
-  }
-
-  const active = queues.activeRoomBySocket.get(socketId);
-  if (!active) {
-    return { removedFromQueue: false, endedRoom: false };
-  }
-
-  const { roomId, peerSocketId } = active;
   queues.activeRoomBySocket.delete(socketId);
-
-  const peerMeta = queues.activeRoomBySocket.get(peerSocketId);
-  if (peerMeta && peerMeta.roomId === roomId) {
-    queues.activeRoomBySocket.delete(peerSocketId);
-
-    const peerSocket = io.sockets.sockets.get(peerSocketId);
-    if (peerSocket) {
-      peerSocket.leave(`random:${roomId}`);
-      peerSocket.emit("random:ended", {
-        roomId,
-        reason: "peer_disconnected",
-      });
-    }
-  }
-
-  queues.sessionByRoomId.delete(roomId);
-
-  return { removedFromQueue: false, endedRoom: true, roomId };
+  return { removedFromQueue: Boolean(waitingEntry) };
 }
 
 async function createOrOpenDirectChatRoom(prisma, userId1, userId2) {

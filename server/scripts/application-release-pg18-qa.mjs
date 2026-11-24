@@ -181,7 +181,7 @@ try {
     console.log(`PASS: actual MFA recovery runner / real Prisma resolve+deploy / cleanup / ${failureStage}`);
   } finally {process.env.DATABASE_URL=url.toString();}
   if (failureStage === 'none') {
-    const esimBundle = buildPackage('HEAD');
+    const esimBundle = buildPackage('00bbecf9ce65572a4ff96778a6285ae93fb1007f');
     const esimFiles = verifyPackage(esimBundle);
     const esimRelease = applicationReleaseSpec(esimFiles);
     assert.equal(esimRelease.status, 'approved-for-production');
@@ -229,6 +229,60 @@ try {
         WHERE "userId" = 987654321`);
     });
     console.log('PASS: disposable PG18 approved 165 recovery then approved 166 migration, preserved eSIM entitlement and restricted lock writes');
+
+    const [peer] = await db.$queryRawUnsafe(`INSERT INTO public."User" (username, "passwordHash", plan)
+      VALUES ('release_random_peer', 'unusable-synthetic-hash', 'FREE') RETURNING id`);
+    const backingRoom = await db.chatRoom.create({ data: {
+      participants: { create: [{ userId }, { userId: peer.id }] },
+    } });
+    const legacyRandomRoom = await db.randomChatRoom.create({ data: {
+      chatRoomId: backingRoom.id,
+      participants: { connect: [{ id: userId }, { id: peer.id }] },
+      aliasByUser: { [userId]: 'Quiet Signal', [peer.id]: 'Bright Wave' },
+    } });
+    const legacyMessage = await db.message.create({ data: {
+      chatRoomId: backingRoom.id, randomChatRoomId: legacyRandomRoom.id,
+      senderId: userId, rawContent: 'synthetic pre-migration message',
+    } });
+    const randomBundle = buildPackage('HEAD');
+    const randomFiles = verifyPackage(randomBundle);
+    const randomRelease = applicationReleaseSpec(randomFiles);
+    const [randomName] = Object.keys(randomRelease.requiredExactMigrations);
+    assert.equal(randomRelease.status, 'proposed-not-authorized-for-production');
+    assert.equal(randomRelease.beforeCount, 166);
+    assert.equal(randomRelease.afterCount, 167);
+    assert.equal(randomName, '20261119010000_random_chat_connection_grace');
+    const randomChecks = checksForPending(randomFiles, [randomName]);
+    const randomBefore = await aggregateChecks(db, randomChecks);
+    assert.deepEqual((await runApplicationReleasePreflight(db, randomBundle, 'before',
+      { allowProposedForIsolatedTest: true })).pending, [randomName]);
+    add(randomName);
+    deploy();
+    const randomAfter = await aggregateChecks(db, randomChecks);
+    assertChecks(randomChecks, randomBefore, randomAfter);
+    assert.equal((await runApplicationReleasePreflight(db, randomBundle, 'after',
+      { allowProposedForIsolatedTest: true })).migrationCount, 167);
+    assert.equal((await db.randomChatRoom.findUnique({ where: { id: legacyRandomRoom.id } })).chatRoomId,
+      backingRoom.id);
+    assert.equal((await db.message.findUnique({ where: { id: legacyMessage.id } })).rawContent,
+      'synthetic pre-migration message');
+    const rollback = new Error('restricted-random-role-check-complete');
+    await assert.rejects(db.$transaction(async (tx) => {
+      await tx.$executeRawUnsafe('SET LOCAL ROLE chatforia_dev');
+      await tx.randomChatConnection.create({ data: {
+        randomChatRoomId: legacyRandomRoom.id, userId, socketId: 'synthetic-socket',
+      } });
+      await tx.randomChatConnection.updateMany({
+        where: { randomChatRoomId: legacyRandomRoom.id, userId },
+        data: { socketId: null, disconnectedAt: new Date(), active: false },
+      });
+      throw rollback;
+    }), (error) => error === rollback);
+    await assert.rejects(db.$transaction(async (tx) => {
+      await tx.$executeRawUnsafe('SET LOCAL ROLE chatforia_dev');
+      await tx.$executeRawUnsafe('DELETE FROM public."RandomChatConnection"');
+    }), /permission denied/);
+    console.log('PASS: disposable PG18 proposed 167 migration preserves existing Random Chat data and grants only required runtime writes');
   }
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');
 } finally {
