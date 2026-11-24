@@ -576,35 +576,28 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
 
   const isPublic = variant === 'public';
 
-  const initialSection = searchParams.get('section');
-  const initialBilling = searchParams.get('billing');
-  const initialScope = searchParams.get('scope');
+  const sectionParam = searchParams.get('section');
+  const billingParam = searchParams.get('billing');
+  const scopeParam = searchParams.get('scope');
 
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [loadingPortal, setLoadingPortal] = useState(false);
   const [loadingKeep, setLoadingKeep] = useState(false);
 
-  // Which section (App plans vs Mobile vs Family)
-  const [section, setSection] = useState(
-    initialSection === SECTION_MOBILE || initialSection === SECTION_APP
-      ? initialSection
-      : SECTION_APP
-  );
+  // URL state keeps direct links, refreshes, and browser history in sync.
+  const section = sectionParam === SECTION_MOBILE ? SECTION_MOBILE : SECTION_APP;
+  const billingCycle = billingParam === 'annual' ? 'annual' : 'monthly';
+  const esimScope = [ESIM_SCOPE_LOCAL, ESIM_SCOPE_EUROPE, ESIM_SCOPE_GLOBAL].includes(scopeParam)
+    ? scopeParam
+    : ESIM_SCOPE_LOCAL;
 
-  // Display toggle: which premium option should be visually emphasized
-  const [billingCycle, setBillingCycle] = useState(
-    initialBilling === 'annual' || initialBilling === 'monthly'
-      ? initialBilling
-      : 'monthly'
-  ); // 'monthly' | 'annual'
-
-  const [esimScope, setEsimScope] = useState(
-    initialScope === ESIM_SCOPE_LOCAL ||
-      initialScope === ESIM_SCOPE_EUROPE ||
-      initialScope === ESIM_SCOPE_GLOBAL
-      ? initialScope
-      : ESIM_SCOPE_LOCAL
-  );
+  const setPlanOption = (key, value) => {
+    setSearchParams((previous) => {
+      const next = new URLSearchParams(previous);
+      next.set(key, value);
+      return next;
+    });
+  };
 
   // pricing quotes – app
   const [qPlus, setQPlus] = useState(null);
@@ -613,22 +606,6 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
 
   // eSIM scope + quotes map
   const [esimQuotes, setEsimQuotes] = useState({}); // { [product]: quote }
-
-  useEffect(() => {
-    const next = new URLSearchParams();
-
-    next.set('section', section);
-
-    if (section === SECTION_APP) {
-      next.set('billing', billingCycle);
-    }
-
-    if (section === SECTION_MOBILE) {
-      next.set('scope', esimScope);
-    }
-
-    setSearchParams(next, { replace: true });
-}, [section, billingCycle, esimScope, setSearchParams]);
 
   const isAuthed = !!currentUser;
   const planName = (currentUser?.plan || 'FREE').toUpperCase();
@@ -1150,7 +1127,7 @@ useEffect(() => {
       <Group justify="flex-start">
         <SegmentedControl
           value={section}
-          onChange={setSection}
+          onChange={(value) => setPlanOption('section', value)}
           data={[
             { label: t('upgrade.section.app', 'App plans'), value: SECTION_APP },
             { label: t('upgrade.section.mobile', 'Mobile (eSIM)'), value: SECTION_MOBILE },
@@ -1207,7 +1184,7 @@ useEffect(() => {
          <Group justify="flex-start" mt={6}>
             <SegmentedControl
               value={billingCycle}
-              onChange={setBillingCycle}
+              onChange={(value) => setPlanOption('billing', value)}
               data={[
                 { label: t('upgrade.toggle.monthly', 'Monthly'), value: 'monthly' },
                 { label: t('upgrade.toggle.annual', 'Annual (Save 23%)'), value: 'annual' },
@@ -1430,7 +1407,7 @@ useEffect(() => {
           <Group justify="flex-start" mt={4}>
             <SegmentedControl
               value={esimScope}
-              onChange={setEsimScope}
+              onChange={(value) => setPlanOption('scope', value)}
               data={[
                 { label: t('upgrade.mobile.scope.localTab', 'Local'), value: ESIM_SCOPE_LOCAL },
                 { label: t('upgrade.mobile.scope.europeTab', 'Europe'), value: ESIM_SCOPE_EUROPE },

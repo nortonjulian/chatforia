@@ -77,7 +77,7 @@ describe('WirelessDashboard', () => {
     expect(fetchWirelessStatus).not.toHaveBeenCalled();
   });
 
-  test('shows Get a data plan and navigates to /upgrade when viewing plans', async () => {
+  test('shows Get a data plan and opens Mobile plans when viewing plans', async () => {
     fetchWirelessStatus.mockResolvedValueOnce({
       mode: 'NONE',
     });
@@ -96,11 +96,11 @@ describe('WirelessDashboard', () => {
 
     await userEvent.click(viewPlansBtn);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/upgrade');
+    expect(mockNavigate).toHaveBeenCalledWith('/upgrade?section=mobile');
     expect(fetchWirelessStatus).toHaveBeenCalled();
   });
 
-  test('shows FAMILY pool details and LOW data alert, and uses /upgrade on top up', async () => {
+  test('shows FAMILY pool details and LOW data alert, and opens Mobile plans on top up', async () => {
     fetchWirelessStatus.mockResolvedValueOnce({
       mode: 'FAMILY',
       state: 'LOW',
@@ -131,7 +131,7 @@ describe('WirelessDashboard', () => {
 
     await userEvent.click(topUpBtn);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/upgrade');
+    expect(mockNavigate).toHaveBeenCalledWith('/upgrade?section=mobile');
     expect(fetchWirelessStatus).toHaveBeenCalled();
   });
 
