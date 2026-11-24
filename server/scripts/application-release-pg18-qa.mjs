@@ -255,6 +255,26 @@ try {
       NOT has_table_privilege('chatforia_dev','public."PushInstallation"','DELETE') AS installation_no_delete,
       NOT has_table_privilege('chatforia_dev','public."PushRegistration"','DELETE') AS registration_no_delete`);
     assert.ok(Object.values(pushGrants).every(Boolean));
+    const [revocationGrants] = await db.$queryRawUnsafe(`SELECT
+      has_table_privilege('chatforia_dev','public."PushSessionRevocation"','SELECT,INSERT,UPDATE') AS revocation_rw,
+      NOT has_table_privilege('chatforia_dev','public."PushSessionRevocation"','DELETE') AS revocation_no_delete,
+      has_function_privilege('chatforia_dev','public.prune_expired_push_session_revocations(integer)','EXECUTE') AS prune_execute`);
+    assert.ok(Object.values(revocationGrants).every(Boolean));
+    await db.$executeRawUnsafe(`INSERT INTO public."PushSessionRevocation"
+      ("sessionFingerprint", "expiresAt") VALUES
+      ($1, now() + interval '1 day'), ($2, now() - interval '2 days')`,
+      'a'.repeat(64), 'b'.repeat(64));
+    await db.$transaction(async (tx) => {
+      await tx.$executeRawUnsafe('SET LOCAL ROLE chatforia_dev');
+      const [pruned] = await tx.$queryRawUnsafe(
+        'SELECT public.prune_expired_push_session_revocations(1000) AS removed');
+      assert.equal(pruned.removed, 1);
+    });
+    const [retained] = await db.$queryRawUnsafe(`SELECT
+      count(*) FILTER (WHERE "sessionFingerprint" = $1)::int AS live,
+      count(*) FILTER (WHERE "sessionFingerprint" = $2)::int AS expired
+      FROM public."PushSessionRevocation"`, 'a'.repeat(64), 'b'.repeat(64));
+    assert.deepEqual(retained, { live: 1, expired: 0 });
     console.log('PASS: disposable PG18 proposed 167 push authority migration, exact ledger and restricted grants');
   }
   console.log('PASS: disposable PG18 v2-to-v3 161/4/0 to 164/4/0 history, exact recovery rows, SMS backfill, NULL zone, restricted grants, atomic outbox claim and aggregate preservation');

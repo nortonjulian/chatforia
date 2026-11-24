@@ -78,6 +78,20 @@ async function lockInstallation(tx, installationId) {
   return tx.pushInstallation.findUnique({ where: { id: installationId } });
 }
 
+async function lockSessionAuthority(tx, fingerprint) {
+  // Serialize logout with activation/registration even when no grant exists.
+  const key = BigInt.asIntN(64, BigInt(`0x${fingerprint.slice(0, 16)}`));
+  await tx.$queryRaw`SELECT pg_advisory_xact_lock(${key}::bigint)::text`;
+  if (await tx.pushSessionRevocation.findUnique({ where: { sessionFingerprint: fingerprint } })) {
+    throw new PushAuthorityError('PUSH_SESSION_REVOKED', 403);
+  }
+}
+
+async function lockSessionForRevocation(tx, fingerprint) {
+  const key = BigInt.asIntN(64, BigInt(`0x${fingerprint.slice(0, 16)}`));
+  await tx.$queryRaw`SELECT pg_advisory_xact_lock(${key}::bigint)::text`;
+}
+
 function fieldFor(provider, environment) {
   if (provider === 'apns') return environment === 'sandbox' ? 'apnsSandboxPushToken' : 'apnsPushToken';
   if (provider === 'apns_voip') return environment === 'sandbox' ? 'voipSandboxPushToken' : 'voipPushToken';
@@ -114,6 +128,7 @@ export async function activatePushInstallation({ user, auth, body }) {
   const proofHash = digest(proof);
 
   return withSerializableRetry(async (tx) => {
+    await lockSessionAuthority(tx, session.pushFingerprint);
     await assertCurrentSession(tx, userId, session);
     const device = await tx.device.findUnique({ where: { userId_deviceId: { userId, deviceId } } });
     if (!device || device.revokedAt || String(device.pairingStatus || '').toLowerCase() === 'rejected') {
@@ -218,6 +233,7 @@ export async function registerAuthorizedPush({ user, auth, body }) {
   const tokenDigest = digest(token);
   const now = new Date();
   return withSerializableRetry(async (tx) => {
+    await lockSessionAuthority(tx, session.pushFingerprint);
     await assertCurrentSession(tx, Number(user.id), session);
     const installation = await lockInstallation(tx, installationId);
     if (!installation || !safeEqual(installation.proofHash, digest(proof)) ||
@@ -253,8 +269,16 @@ export async function registerAuthorizedPush({ user, auth, body }) {
         installationId: { not: installationId } },
     });
     for (const owner of otherOwners) {
-      const oldInstallation = await tx.pushInstallation.findUnique({ where: { id: owner.installationId } });
-      await clearMirror(tx, oldInstallation?.currentDeviceRowId, owner);
+      const oldInstallation = await lockInstallation(tx, owner.installationId);
+      if (oldInstallation && !oldInstallation.revokedAt) {
+        // The token represents one app installation. Moving it to a newer
+        // authenticated installation must fence the previous generation,
+        // including any delayed request still carrying the old session.
+        if (BigInt(session.pushIssuedAtMs) <= oldInstallation.highWaterIssuedAtMs) {
+          throw new PushAuthorityError('STALE_PUSH_SESSION', 409);
+        }
+        await revokeAuthority(tx, oldInstallation);
+      }
     }
     await tx.pushRegistration.updateMany({
       where: { provider, environment, tokenDigest, revokedAt: null,
@@ -336,10 +360,45 @@ async function revokeAuthority(tx, installation) {
   });
 }
 
+// A verified signed session is a revocation capability for its own push
+// grants, including after JWT expiry. Never persist or log the raw token.
+async function revokeSessionWithinTransaction(tx, session) {
+  const { fingerprint, expiresAt } = session;
+  if (expiresAt > new Date()) {
+    await tx.pushSessionRevocation.upsert({
+      where: { sessionFingerprint: fingerprint },
+      create: { sessionFingerprint: fingerprint, expiresAt },
+      update: {},
+    });
+  }
+  const authorities = await tx.pushInstallation.findMany({
+    where: { sessionFingerprint: fingerprint, revokedAt: null },
+    orderBy: { id: 'asc' },
+  });
+  for (const item of authorities) {
+    const locked = await lockInstallation(tx, item.id);
+    if (locked?.sessionFingerprint === fingerprint && !locked.revokedAt) {
+      await revokeAuthority(tx, locked);
+    }
+  }
+}
+
+export async function revokePushAuthorityForSession(session) {
+  if (!session) return;
+  await withSerializableRetry(async (tx) => {
+    await lockSessionForRevocation(tx, session.fingerprint);
+    await revokeSessionWithinTransaction(tx, session);
+  });
+}
+
 export async function revokeAuthenticatedDevice({ user, auth, deviceId }) {
   const userId = Number(user?.id);
   if (!userId || !deviceId) throw new PushAuthorityError('DEVICE_ID_REQUIRED', 400);
   return withSerializableRetry(async (tx) => {
+    const session = auth?.pushFingerprint && Number.isSafeInteger(auth.pushExpiresAtMs)
+      ? { fingerprint: auth.pushFingerprint, expiresAt: new Date(auth.pushExpiresAtMs) }
+      : null;
+    if (session) await lockSessionForRevocation(tx, session.fingerprint);
     const device = await tx.device.findUnique({ where: { userId_deviceId: { userId, deviceId } } });
     if (!device || device.revokedAt) throw new PushAuthorityError('DEVICE_NOT_FOUND', 404);
     await tx.$queryRaw`SELECT "id" FROM public."Device" WHERE "id" = ${device.id} FOR UPDATE`;
@@ -351,11 +410,11 @@ export async function revokeAuthenticatedDevice({ user, auth, deviceId }) {
     for (const item of authorities) lockedAuthorities.push(await lockInstallation(tx, item.id));
     if (lockedAuthorities.some((item) => item?.sessionFingerprint !== auth?.pushFingerprint)) {
       // A delayed logout from an older session cannot clear a newer session.
+      if (session) await revokeSessionWithinTransaction(tx, session);
       return { success: true, stale: true };
     }
-    for (const locked of lockedAuthorities) {
-      if (locked?.sessionFingerprint === auth?.pushFingerprint) await revokeAuthority(tx, locked);
-    }
+    if (session) await revokeSessionWithinTransaction(tx, session);
+    else for (const locked of lockedAuthorities) await revokeAuthority(tx, locked);
     await tx.device.update({
       where: { id: device.id },
       data: {

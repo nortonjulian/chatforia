@@ -586,6 +586,16 @@ model PushRegistration {
   @@index([installationId, generation, revokedAt])
 }
 
+// A signed-out session cannot reactivate push authority under a different
+// installation ID. The fingerprint is SHA-256 of the JWT; no raw JWT is stored.
+model PushSessionRevocation {
+  sessionFingerprint String @id @db.VarChar(64)
+  expiresAt DateTime
+  revokedAt DateTime @default(now())
+
+  @@index([expiresAt])
+}
+
 // ===================== 3) Config & Localization =====================
 
 model Language {

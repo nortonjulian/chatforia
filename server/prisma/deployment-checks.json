@@ -2,10 +2,10 @@
   "version": 1,
   "checks": {
     "push_authority_tables_exist": {
-      "sql": "SELECT to_regclass('public.\"PushInstallation\"') IS NOT NULL AS installation_exists, to_regclass('public.\"PushRegistration\"') IS NOT NULL AS registration_exists",
+      "sql": "SELECT to_regclass('public.\"PushInstallation\"') IS NOT NULL AS installation_exists, to_regclass('public.\"PushRegistration\"') IS NOT NULL AS registration_exists, to_regclass('public.\"PushSessionRevocation\"') IS NOT NULL AS revocation_exists",
       "rule": "expected",
-      "before": [{ "installation_exists": false, "registration_exists": false }],
-      "after": [{ "installation_exists": true, "registration_exists": true }]
+      "before": [{ "installation_exists": false, "registration_exists": false, "revocation_exists": false }],
+      "after": [{ "installation_exists": true, "registration_exists": true, "revocation_exists": true }]
     },
     "preserve_device_count": {
       "sql": "SELECT count(*)::text AS device_count FROM public.\"Device\"",

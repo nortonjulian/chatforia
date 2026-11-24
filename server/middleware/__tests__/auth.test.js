@@ -530,7 +530,8 @@ describe('session authentication fails closed', () => {
       mfaVerified: false,
       tokenVersion: 2,
     });
-    expect(req.auth.pushFingerprint).toMatch(/^[a-f0-9]{64}$/);
+    if (typ === 'short') expect(req.auth.pushFingerprint).toBeNull();
+    else expect(req.auth.pushFingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(req.auth.pushIssuedAtMs).toBe(0);
     expect(req.auth.pushExpiresAtMs).toBe(0);
     expect(next).toHaveBeenCalledTimes(1);
@@ -615,6 +616,18 @@ describe('session authentication fails closed', () => {
     expect(req.auth.pushFingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(req.auth).not.toHaveProperty('token');
     expect(req.auth).not.toHaveProperty('jti');
+  });
+
+  test('short API tokens with valid expiry cannot establish push authority', async () => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, typ: 'short', tokenVersion: 2,
+      iat: Math.floor(Date.now() / 1000), exp: Math.floor(Date.now() / 1000) + 600 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    const { req, res, next } = requestWithToken();
+    await mod.requireAuth(req, res, next);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(req.auth).toMatchObject({ pushFingerprint: null,
+      pushIssuedAtMs: 0, pushExpiresAtMs: 0 });
   });
 
   test('revoked token versions never attach a user', async () => {

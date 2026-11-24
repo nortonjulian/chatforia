@@ -6,6 +6,9 @@ import { z } from 'zod';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
+import { sessionTokenFromRequest } from '../utils/sessionTokenFromRequest.js';
+import { pushSessionRevocationFromToken } from '../utils/pushSessionRevocation.js';
+import { revokePushAuthorityForSession } from '../services/pushAuthorityService.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { sendMail } from '../utils/sendMail.js';
 
@@ -858,6 +861,8 @@ router.post(
 router.post(
   '/logout',
   asyncHandler(async (req, res) => {
+    await revokePushAuthorityForSession(pushSessionRevocationFromToken(
+      sessionTokenFromRequest(req, getCookieName())));
     clearAllAuthCookies(res);
 
     if (req.logout) {
@@ -878,7 +883,9 @@ router.post(
   })
 );
 
-router.get('/logout', (req, res) => {
+router.get('/logout', asyncHandler(async (req, res) => {
+  await revokePushAuthorityForSession(pushSessionRevocationFromToken(
+    sessionTokenFromRequest(req, getCookieName())));
   clearAllAuthCookies(res);
 
   if (req.session) {
@@ -889,7 +896,7 @@ router.get('/logout', (req, res) => {
     req.query.next || 'https://www.chatforia.com/';
 
   return res.redirect(next);
-});
+}));
 
 /* =========================
  *   KEY BACKUP SAVE

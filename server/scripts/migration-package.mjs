@@ -26,7 +26,7 @@ export const applicationReleasePath = 'server/security/applicationMigrationRelea
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
 export const esimReleasePath = 'server/security/applicationMigrationRelease.v5.json';
 export const pushAuthorityReleasePath = 'server/security/applicationMigrationRelease.v6.json';
-const pushAuthorityReleaseDigest = '90c4e3cc881b35dc290c28c100b9de14607f03dac77db61cece66b5e41720eef';
+const pushAuthorityReleaseDigest = '4a787ad2e6b40ccd1b77e91e5ec48cf6373fb91f33650538243fcf2ffc22a521';
 const esimReleaseDigests = Object.freeze({
   // A reviewable 165-to-166 proposal. Production authority requires a separate owner approval.
   'a27172c770c418201e00da5a9f13814c8da65ecdc5454331ba2039240ed7451b':
@@ -173,10 +173,10 @@ export function applicationReleaseSpec(files) {
       next.historicalRolledBackCount !== previous.historicalRolledBackCount ||
       JSON.stringify(next.historicalRolledBackRows) !== JSON.stringify(previous.historicalRolledBackRows) ||
       next.beforeMigrationSetSha256 !== previous.afterMigrationSetSha256 ||
-      next.afterMigrationSetSha256 !== '3ed48243ecfa1a2845e240cd3e181c227417c15bc042004bf4bd0740665deba1' ||
+      next.afterMigrationSetSha256 !== '497f991bdb4f8ee6fa5817abec1f99ffddd83a3738f42743d1942ad973dfa63b' ||
       JSON.stringify(next.requiredExactMigrations) !== JSON.stringify({
         '20261124020000_push_session_authority':
-          '0162397551d2d2f7cb5482c89c96f4bbb56e30f21c48234a5ca4ef479623d6ff',
+          'c29ac0a1e735d64082e4faa4eb3caac2e809e34087e947e462a3c49c080deedd',
       }) || JSON.stringify(next.target) !== JSON.stringify(previous.target)) {
     throw new Error('Push-authority release baseline mismatch');
   }

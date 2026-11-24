@@ -4,6 +4,7 @@ import prisma from '../../utils/prismaClient.js';
 import {
   activatePushInstallation, registerAuthorizedPush, cleanupPushInstallation,
   authorizedPushRegistrations, revokeAuthenticatedDevice,
+  revokePushAuthorityForSession,
 } from '../pushAuthorityService.js';
 
 const prefix = crypto.randomUUID().slice(0, 8);
@@ -76,7 +77,9 @@ describe('server-verified push installation authority', () => {
     expect(await rowsFor(0)).toHaveLength(0);
     await expect(register(0, session, active.generation, 2, `revoked-${prefix}`))
       .rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
-    await prisma.user.update({ where: { id: users[0].id }, data: { tokenVersion: { decrement: 1 } } });
+    // Production's staff-security trigger forbids rolling tokenVersion back.
+    // Keep later synthetic sessions aligned with the incremented version.
+    users[0].tokenVersion += 1;
   });
 
   test('logout capability is device-scoped and idempotent; old registration cannot return', async () => {
@@ -120,6 +123,60 @@ describe('server-verified push installation authority', () => {
       .toEqual([`switch-${prefix}`]);
   });
 
+  test('token transfer between distinct installations fences the prior generation', async () => {
+    const oldId = installationId;
+    const oldProof = installationProof;
+    const newId = crypto.randomUUID();
+    const newProof = proof();
+    const otherDeviceId = crypto.randomUUID();
+    const otherProof = proof();
+    const otherDevice = await prisma.device.create({
+      data: { userId: users[0].id, deviceId: `push-other-${crypto.randomUUID()}`,
+        publicKey: 'synthetic-public-key' },
+    });
+    const oldSession = auth('transfer-old', users[0], -20000);
+    const newSession = auth('transfer-new', users[1], 20000);
+    const other = await activatePushInstallation({ user: users[0], auth: oldSession,
+      body: { installationId: otherDeviceId, installationProof: otherProof,
+        deviceId: otherDevice.deviceId, platform: 'ios', appId: 'com.chatforia.Chatforia' } });
+    await register(0, oldSession, other.generation, 1, `independent-${prefix}`,
+      'production', otherDeviceId, otherProof);
+    const old = await activate(0, oldSession, oldId, oldProof);
+    const current = await activate(1, newSession, newId, newProof);
+    const token = `transferred-${prefix}`;
+    await register(0, oldSession, old.generation, 1, token, 'production', oldId, oldProof);
+    await register(1, newSession, current.generation, 1, token, 'production', newId, newProof);
+    expect(await rowsFor(0, oldId)).toHaveLength(0);
+    expect((await rowsFor(1, newId)).map((row) => row.token)).toEqual([token]);
+    await expect(register(0, oldSession, old.generation, 2, token, 'production', oldId, oldProof))
+      .rejects.toMatchObject({ code: 'PUSH_AUTHORITY_REVOKED' });
+    await expect(activate(0, oldSession, oldId, oldProof))
+      .rejects.toMatchObject({ code: 'STALE_PUSH_SESSION' });
+    expect((await rowsFor(0, otherDeviceId)).map((row) => row.token))
+      .toEqual([`independent-${prefix}`]);
+  });
+
+  test('concurrent cross-installation token claims settle on the newer session', async () => {
+    const oldId = installationId;
+    const oldProof = installationProof;
+    const newId = crypto.randomUUID();
+    const newProof = proof();
+    const oldSession = auth('race-old', users[0], -20000);
+    const newSession = auth('race-new', users[1], 20000);
+    const old = await activate(0, oldSession, oldId, oldProof);
+    const current = await activate(1, newSession, newId, newProof);
+    const token = `race-transfer-${prefix}`;
+    const results = await Promise.allSettled([
+      register(0, oldSession, old.generation, 1, token, 'production', oldId, oldProof),
+      register(1, newSession, current.generation, 1, token, 'production', newId, newProof),
+    ]);
+    expect(results[1].status).toBe('fulfilled');
+    expect((await rowsFor(1, newId)).map((row) => row.token)).toEqual([token]);
+    expect(await rowsFor(0, oldId)).toHaveLength(0);
+    await expect(register(0, oldSession, old.generation, 2, token, 'production', oldId, oldProof))
+      .rejects.toMatchObject({ code: expect.stringMatching(/^(PUSH_AUTHORITY_REVOKED|STALE_PUSH_SESSION)$/) });
+  });
+
   test('concurrent duplicate registration leaves one active owner', async () => {
     const session = auth('concurrent', users[0]);
     const active = await activate(0, session);
@@ -152,10 +209,88 @@ describe('server-verified push installation authority', () => {
     await register(0, session, active.generation, 1, `authenticated-logout-${prefix}`);
     expect(await revokeAuthenticatedDevice({ user: users[0], auth: session,
       deviceId: devices[0].deviceId })).toEqual({ success: true, stale: false });
+    expect(await revokeAuthenticatedDevice({ user: users[0], auth: session,
+      deviceId: devices[0].deviceId })).toEqual({ success: true, stale: false });
     expect(await rowsFor(0)).toHaveLength(0);
     await expect(register(0, session, active.generation, 2, `late-logout-${prefix}`))
-      .rejects.toMatchObject({ code: 'PUSH_AUTHORITY_REVOKED' });
-    await expect(activate(0, session)).rejects.toMatchObject({ code: 'STALE_PUSH_SESSION' });
+      .rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+    await expect(activate(0, session)).rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+    await expect(activate(0, session, crypto.randomUUID(), proof()))
+      .rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+  });
+
+  test('auth-only logout revokes one session and preserves another device and session', async () => {
+    const firstToken = `synthetic-session-${crypto.randomUUID()}`;
+    const secondToken = `synthetic-session-${crypto.randomUUID()}`;
+    const firstSession = { ...auth('auth-logout-first', users[0], -10000),
+      pushFingerprint: crypto.createHash('sha256').update(firstToken).digest('hex') };
+    const secondSession = { ...auth('auth-logout-second', users[0], 10000),
+      pushFingerprint: crypto.createHash('sha256').update(secondToken).digest('hex') };
+    const secondId = crypto.randomUUID();
+    const secondProof = proof();
+    const secondDevice = await prisma.device.create({
+      data: { userId: users[0].id, deviceId: `push-second-${crypto.randomUUID()}`,
+        publicKey: 'synthetic-public-key' },
+    });
+    const first = await activate(0, firstSession);
+    const second = await activatePushInstallation({ user: users[0], auth: secondSession,
+      body: { installationId: secondId, installationProof: secondProof,
+        deviceId: secondDevice.deviceId, platform: 'ios', appId: 'com.chatforia.Chatforia' } });
+    await register(0, firstSession, first.generation, 1, `auth-logout-first-${prefix}`);
+    await register(0, secondSession, second.generation, 1, `auth-logout-second-${prefix}`,
+      'production', secondId, secondProof);
+    const revokedSession = { fingerprint: firstSession.pushFingerprint,
+      expiresAt: new Date(firstSession.pushExpiresAtMs) };
+    await revokePushAuthorityForSession(revokedSession);
+    await revokePushAuthorityForSession(revokedSession);
+    expect(await rowsFor(0)).toHaveLength(0);
+    await expect(register(0, firstSession, first.generation, 2, `auth-late-${prefix}`))
+      .rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+    expect((await rowsFor(0, secondId)).map((row) => row.token))
+      .toEqual([`auth-logout-second-${prefix}`]);
+  });
+
+  test('retention pruning cannot remove an unexpired session revocation', async () => {
+    const session = auth('retention', users[0]);
+    await revokePushAuthorityForSession({ fingerprint: session.pushFingerprint,
+      expiresAt: new Date(session.pushExpiresAtMs) });
+    const [result] = await prisma.$queryRaw`
+      SELECT public.prune_expired_push_session_revocations(1000) AS removed`;
+    expect(result.removed).toBeGreaterThanOrEqual(0);
+    expect(await prisma.pushSessionRevocation.findUnique({
+      where: { sessionFingerprint: session.pushFingerprint },
+    })).not.toBeNull();
+    await expect(activate(0, session)).rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+  });
+
+  test('concurrent logout and registration leave no eligible push grant', async () => {
+    const session = auth('logout-race', users[0]);
+    const active = await activate(0, session);
+    const results = await Promise.allSettled([
+      revokePushAuthorityForSession({ fingerprint: session.pushFingerprint,
+        expiresAt: new Date(session.pushExpiresAtMs) }),
+      register(0, session, active.generation, 1, `logout-race-${prefix}`),
+    ]);
+    expect(results[0].status).toBe('fulfilled');
+    expect(await rowsFor(0)).toHaveLength(0);
+    expect(await prisma.pushSessionRevocation.findUnique({
+      where: { sessionFingerprint: session.pushFingerprint },
+    })).not.toBeNull();
+  });
+
+  test('concurrent logout and new-installation activation cannot restore authority', async () => {
+    const session = auth('new-installation-race', users[0]);
+    const [logout] = await Promise.allSettled([
+      revokePushAuthorityForSession({ fingerprint: session.pushFingerprint,
+        expiresAt: new Date(session.pushExpiresAtMs) }),
+      activate(0, session, crypto.randomUUID(), proof()),
+    ]);
+    expect(logout.status).toBe('fulfilled');
+    expect(await prisma.pushInstallation.count({ where: {
+      sessionFingerprint: session.pushFingerprint, revokedAt: null,
+    } })).toBe(0);
+    await expect(activate(0, session, crypto.randomUUID(), proof()))
+      .rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
   });
 
   test('provider and environment ownership never alias another grant', async () => {

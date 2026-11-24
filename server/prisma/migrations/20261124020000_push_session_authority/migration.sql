@@ -60,6 +60,44 @@ CREATE UNIQUE INDEX "PushRegistration_active_token_owner_key"
   ON public."PushRegistration" ("provider", "environment", "tokenDigest")
   WHERE "revokedAt" IS NULL;
 
+-- A logout must fence the signed session itself, including delayed requests
+-- using a different installation ID. Only a SHA-256 JWT fingerprint is stored.
+CREATE TABLE public."PushSessionRevocation" (
+  "sessionFingerprint" varchar(64) PRIMARY KEY,
+  "expiresAt" timestamptz NOT NULL,
+  "revokedAt" timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "PushSessionRevocation_fingerprint_check"
+    CHECK ("sessionFingerprint" ~ '^[0-9a-f]{64}$')
+);
+CREATE INDEX "PushSessionRevocation_expiresAt_idx"
+  ON public."PushSessionRevocation" ("expiresAt");
+
+-- The API role may only prune records whose JWT expired at least 24 hours
+-- ago. It has no direct DELETE grant on this security table.
+CREATE FUNCTION public.prune_expired_push_session_revocations(p_limit integer)
+RETURNS integer LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = pg_catalog, pg_temp AS $prune$
+DECLARE removed integer;
+BEGIN
+  IF p_limit IS NULL OR p_limit < 1 OR p_limit > 1000 THEN
+    RAISE EXCEPTION 'Invalid push revocation prune limit';
+  END IF;
+  WITH expired AS (
+    SELECT "sessionFingerprint"
+    FROM public."PushSessionRevocation"
+    WHERE "expiresAt" < clock_timestamp() - interval '1 day'
+    ORDER BY "expiresAt"
+    LIMIT p_limit
+    FOR UPDATE SKIP LOCKED
+  )
+  DELETE FROM public."PushSessionRevocation" AS revocation
+  USING expired
+  WHERE revocation."sessionFingerprint" = expired."sessionFingerprint";
+  GET DIAGNOSTICS removed = ROW_COUNT;
+  RETURN removed;
+END;
+$prune$;
+
 DO $role_check$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'chatforia_dev') THEN
@@ -68,6 +106,8 @@ BEGIN
 END;
 $role_check$;
 
-REVOKE ALL ON public."PushInstallation", public."PushRegistration" FROM PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON public."PushInstallation", public."PushRegistration" TO chatforia_dev;
+REVOKE ALL ON public."PushInstallation", public."PushRegistration", public."PushSessionRevocation" FROM PUBLIC;
+GRANT SELECT, INSERT, UPDATE ON public."PushInstallation", public."PushRegistration", public."PushSessionRevocation" TO chatforia_dev;
+REVOKE ALL ON FUNCTION public.prune_expired_push_session_revocations(integer) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.prune_expired_push_session_revocations(integer) TO chatforia_dev;
 -- No runtime DELETE, TRUNCATE, TRIGGER, REFERENCES, or DDL grant.
