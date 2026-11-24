@@ -743,6 +743,7 @@ export async function recordInboundSms({
     ok: true,
     userId: owner.assignedUserId,
     threadId: thread.id,
+    messageId: createdMessage.id,
   };
 }
 

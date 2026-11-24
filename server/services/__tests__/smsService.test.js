@@ -566,6 +566,7 @@ describe('smsService', () => {
         ok: true,
         userId: 7,
         threadId: 33,
+        messageId: 700,
       });
     });
 

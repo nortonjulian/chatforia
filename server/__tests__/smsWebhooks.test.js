@@ -90,6 +90,7 @@ describe('signed Twilio SMS handler', () => {
     expect(sendPushToUserMock).toHaveBeenCalledWith(41, expect.objectContaining({
       alert: { title: 'Signed contact', body: 'Signed hello' },
     }));
+    expect(sendPushToUserMock.mock.calls[0][1].data).not.toHaveProperty('messageId');
   });
 
   test.each(['/webhooks/sms/twilio', '/api/webhooks/sms/twilio'])(
@@ -356,7 +357,7 @@ afterAll(() => {
 describe('POST /webhooks/sms/twilio', () => {
   async function receiveForPush({ userId = 41, from = '+13035550123', body = 'Hello' } = {}) {
     const expectedPushCount = sendPushToUserMock.mock.calls.length + 1;
-    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId, threadId: `thread-${userId}` });
+    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId, threadId: `thread-${userId}`, messageId: 700 });
     const response = await request(app).post('/webhooks/sms/twilio').type('form').send({
       From: from,
       To: '+17205550123',
@@ -391,6 +392,7 @@ describe('POST /webhooks/sms/twilio', () => {
       sound: 'default',
       data: {
         type: 'sms_message', threadId: 'thread-41',
+        messageId: '700',
         fromNumber: '+13035550123', toNumber: '+17205550123',
       },
     });
