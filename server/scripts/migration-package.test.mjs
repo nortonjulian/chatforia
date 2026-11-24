@@ -397,7 +397,7 @@ test('approved v5 pins only eSIM migration 166 after the approved 165 recovery',
   const prior = buildPackage('aa4b4e040464336033ed8f9679290e727d58e7a6');
   const priorFiles = verifyPackage(prior);
   const priorRelease = applicationReleaseSpec(priorFiles);
-  const bundle = buildPackage('HEAD');
+  const bundle = buildPackage('bc1cb67807cdc41e17329073679724921e9bd2bf');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const esimName = '20261113010000_add_esim_operation_lock';
@@ -464,6 +464,52 @@ test('approved v5 pins only eSIM migration 166 after the approved 165 recovery',
     const packageBytes = Buffer.from(JSON.stringify(proposal));
     writeFileSync(path, packageBytes);
     await assert.rejects(deployPackage({ package: path, sha256: digest(packageBytes) }),
+      /production execution is not approved/);
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});
+
+test('proposed v6 pins only push authority migration 167 after the approved 166 baseline', async () => {
+  const bundle = buildPackage('HEAD');
+  const files = verifyPackage(bundle);
+  const release = applicationReleaseSpec(files);
+  const name = '20261124020000_push_session_authority';
+  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.beforeCount, 166);
+  assert.equal(release.afterCount, 167);
+  assert.deepEqual(Object.keys(release.requiredExactMigrations), [name]);
+  assert.equal(digest(files.get(`server/prisma/migrations/${name}/migration.sql`)),
+    release.requiredExactMigrations[name]);
+  const migrationFiles = bundle.files.filter((file) =>
+    /\/migrations\/[^/]+\/migration.sql$/.test(file.path));
+  assert.equal(migrationFiles.length, 167);
+  const exceptions = reconciliationPackageSpec(files).manifest.exceptions;
+  const active = migrationFiles.map((file, index) => {
+    const migration_name = file.path.split('/').at(-2);
+    return { id: `active-${index}`, migration_name,
+      checksum: exceptions[migration_name]?.recordedChecksum || file.sha256,
+      finished_at: 'now', rolled_back_at: null };
+  });
+  const historical = release.historicalRolledBackRows.map((row) => ({
+    id: row.id, migration_name: row.name, checksum: row.checksum,
+    finished_at: null, rolled_back_at: 'now',
+  }));
+  const before = [...active.filter((row) => row.migration_name !== name), ...historical];
+  assert.deepEqual(checkReconciledHistory(bundle, before, release.target), [name]);
+  assert.deepEqual(checkReconciledHistory(bundle, [...active, ...historical], release.target, true), []);
+  assert.deepEqual(checksForPending(files, [name]).map(([id]) => id),
+    ['preserve_user_count', 'preserve_device_count', 'push_authority_tables_exist']);
+  const altered = structuredClone(bundle);
+  const sql = altered.files.find((file) => file.path ===
+    `server/prisma/migrations/${name}/migration.sql`);
+  sql.content = Buffer.from('SELECT 1;').toString('base64');
+  sql.sha256 = digest('SELECT 1;');
+  assert.throws(() => checkReconciledHistory(altered, before, release.target));
+  const directory = mkdtempSync(join(tmpdir(), 'push-release-proposal-'));
+  try {
+    const path = join(directory, 'package.json');
+    const bytes = Buffer.from(JSON.stringify(bundle));
+    writeFileSync(path, bytes);
+    await assert.rejects(deployPackage({ package: path, sha256: digest(bytes) }),
       /production execution is not approved/);
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
