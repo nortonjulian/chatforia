@@ -7,6 +7,7 @@ inventory, not to a production feature flag. Do not merge the older QA branch as
 
 - Source QA worktree: `/Users/juliannorton/Desktop/chatforia-web-final-polish-qa-20261121`, branch `qa/web-final-polish-20261121`, HEAD `c4135d07203202a8349b553ee6c117b8fd8ea626`. It retains 193 modified tracked files and 21 untracked files. Its QA changes are uncommitted.
 - First release worktree: `/Users/juliannorton/Desktop/chatforia-web-release-slice1-20261123`, branch `release/web-download-wireless-20261123`, based on refreshed `origin/main` at `13feefb66731c5beea08b9836571be7a809142f5`.
+- First release pull request: [#348](https://github.com/nortonjulian/chatforia/pull/348), open for review. The slice is committed and pushed; it is not merged or deployed.
 - **Completed QA** means implemented in the source QA worktree; **transferred** means selectively present in the release branch; **merged** means a separate PR reached main; **deployed** means included in a recorded successful frontend deploy workflow. These are separate states.
 - The latest recorded successful frontend deploy workflow found in this assessment was run [43541660794](https://github.com/nortonjulian/chatforia/actions/runs/43541660794) on 2026-11-14 at `a69f5fbc08c920c9146bda8a34454b51b5cc5eb8`. Current main is newer. Live-server revision and backend deployment were not independently checked.
 
@@ -22,7 +23,7 @@ Focused tests: `Downloads.test.jsx`, `WirelessDashboard.test.js`, and `UpgradePl
 
 Headless Chromium checks at 1280px and 390px: QR and both badges loaded; the QR anchor points to the existing smart link; visible badge artwork measured 38px and 39px high on the same row at both widths; no horizontal overflow on `/download` or Mobile pricing. Scrolling revealed Local data package cards at both widths. An ordinary `/pricing` visit showed App plans; browser back restored `/pricing?section=mobile&scope=europe`. Final download screenshots: `/private/tmp/chatforia-release-download-final-{1280,390}.png`. Pricing card screenshots: `/private/tmp/chatforia-release-pricing-cards-{1280,390}.png`.
 
-**Review gate:** commit, push, and pull request preparation were approved on 2026-11-23. Merge and deployment still require separate approval. Do not treat the local production build as deployment evidence.
+**Review gate:** commit, push, and pull request preparation were approved on 2026-11-23 and completed in PR #348. Merge and deployment still require separate approval. Do not treat the local production build as deployment evidence.
 
 ## Next separate release slice: native conversation snapshots
 
