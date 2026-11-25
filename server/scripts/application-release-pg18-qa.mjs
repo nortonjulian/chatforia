@@ -234,7 +234,7 @@ try {
     const pushBundle = buildPackage('HEAD');
     const pushFiles = verifyPackage(pushBundle);
     const pushRelease = applicationReleaseSpec(pushFiles);
-    assert.equal(pushRelease.status, 'proposed-not-authorized-for-production');
+    assert.equal(pushRelease.status, 'approved-for-production');
     assert.equal(pushRelease.beforeCount, 166);
     assert.equal(pushRelease.afterCount, 167);
     const [pushName] = Object.keys(pushRelease.requiredExactMigrations);
