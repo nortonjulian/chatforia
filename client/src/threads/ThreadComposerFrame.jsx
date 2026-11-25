@@ -8,8 +8,8 @@ export default function ThreadComposerFrame({ topRow, children }) {
   return (
     <Box
       style={{
-        borderTop: '1px solid rgba(0,0,0,0.06)',
-        background: 'var(--mantine-color-body)',
+        borderTop: '1px solid var(--composer-border, rgba(0,0,0,0.06))',
+        background: 'var(--composer-bg, var(--mantine-color-body))',
         padding: 10,
       }}
     >
@@ -17,10 +17,10 @@ export default function ThreadComposerFrame({ topRow, children }) {
 
       <Box
         style={{
-          border: '1px solid rgba(0,0,0,0.08)',
+          border: '1px solid var(--composer-border, rgba(0,0,0,0.08))',
           borderRadius: 14,
           padding: 10,
-          background: 'rgba(255,255,255,0.6)',
+          background: 'var(--composer-field-bg, rgba(255,255,255,0.6))',
         }}
       >
         {children}

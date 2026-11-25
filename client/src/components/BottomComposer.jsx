@@ -148,7 +148,7 @@ export default function BottomComposer({
               pointerEvents: 'auto',
               width: '100%',
               margin: 0,
-              background: 'var(--mantine-color-body)',
+              background: 'var(--composer-bg, var(--mantine-color-body))',
             }}
           >
             {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
@@ -306,6 +306,7 @@ export default function BottomComposer({
             <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
               {showGif && (
                 <Button
+                  className="composer-gradient-control"
                   variant="filled"
                   radius="xl"
                   size="compact-md"
@@ -408,6 +409,7 @@ export default function BottomComposer({
               )}
 
               <Textarea
+                className="composer-theme-field"
                 placeholder={placeholder ?? t('composer.placeholder', 'Type a message…')}
                 aria-label={t('composer.aria', 'Message composer')}
                 value={value}
@@ -448,6 +450,7 @@ export default function BottomComposer({
                 openDelay={400}
               >
                 <ActionIcon
+                  className="composer-gradient-control"
                   size="lg"
                   radius="xl"
                   variant="filled"

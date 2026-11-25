@@ -447,7 +447,7 @@ export default function MessageBubble({
                       </Text>
                     )}
                   {Boolean(msg.editedAt) && !isTombstone ? (
-                    <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
+                    <Text component="span" size="xs" ml={8} className={mine ? 'outgoing-message-edited' : undefined} style={{ opacity: 0.85 }}>
                       (edited)
                     </Text>
                   ) : null}
@@ -511,6 +511,7 @@ export default function MessageBubble({
                 <Tooltip label={ts} withinPortal>
                   <Text
                     role="text"
+                    className={mine && !isTombstone ? 'outgoing-message-caption' : undefined}
                     aria-label={`Message sent ${ts}`}
                     size="sm"
                     mt={6}
@@ -531,7 +532,7 @@ export default function MessageBubble({
                       </Text>
                     )}
                     {Boolean(msg.editedAt) && !isTombstone ? (
-                      <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
+                      <Text component="span" size="xs" ml={8} className={mine ? 'outgoing-message-edited' : undefined} style={{ opacity: 0.85 }}>
                         (edited)
                       </Text>
                     ) : null}

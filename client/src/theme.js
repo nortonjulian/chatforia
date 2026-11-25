@@ -52,7 +52,7 @@ export const chatforiaTheme = createTheme({
         light: () => ({
           root: {
             background: 'transparent',
-            color: 'var(--accent)',
+            color: 'var(--link-fg, var(--accent))',
             border: '1px solid var(--border)',
             boxShadow: 'none',
           },
@@ -61,7 +61,7 @@ export const chatforiaTheme = createTheme({
         outline: () => ({
           root: {
             background: 'transparent',
-            color: 'var(--accent)',
+            color: 'var(--link-fg, var(--accent))',
             border: '1.5px solid var(--accent)',
             boxShadow: 'none',
           },
@@ -70,7 +70,7 @@ export const chatforiaTheme = createTheme({
         subtle: () => ({
           root: {
             background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
-            color: 'var(--accent)',
+            color: 'var(--link-fg, var(--accent))',
             border: '1px solid var(--border)',
             boxShadow: 'none',
           },
@@ -79,7 +79,7 @@ export const chatforiaTheme = createTheme({
         link: () => ({
           root: {
             background: 'transparent',
-            color: 'var(--accent)',
+            color: 'var(--link-fg, var(--accent))',
             border: 'none',
             boxShadow: 'none',
             paddingInline: 0,
@@ -174,7 +174,7 @@ export const chatforiaTheme = createTheme({
     Checkbox: {
       styles: () => ({
         icon: {
-          color: '#fff',
+          color: 'var(--accent-control-fg, #fff)',
         },
       }),
     },
@@ -182,7 +182,7 @@ export const chatforiaTheme = createTheme({
     Radio: {
       styles: () => ({
         icon: {
-          color: '#fff',
+          color: 'var(--accent-control-fg, #fff)',
         },
       }),
     },
@@ -205,7 +205,7 @@ export const chatforiaTheme = createTheme({
         light: () => ({
           root: {
             background: 'transparent',
-            color: 'var(--accent)',
+            color: 'var(--toolbar-icon, var(--accent))',
             border: '1px solid var(--border)',
           },
         }),
@@ -228,14 +228,14 @@ export const chatforiaTheme = createTheme({
         light: () => ({
           root: {
             background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
-            color: 'var(--accent)',
+            color: 'var(--link-fg, var(--accent))',
             border: '1px solid var(--border)',
           },
         }),
 
         outline: () => ({
           root: {
-            color: 'var(--accent)',
+            color: 'var(--link-fg, var(--accent))',
             border: '1px solid var(--accent)',
             background: 'transparent',
           },
@@ -246,10 +246,10 @@ export const chatforiaTheme = createTheme({
     Tabs: {
       styles: () => ({
         tab: {
-          color: 'var(--muted)',
+          color: 'var(--tab-unselected, var(--muted))',
         },
         indicator: {
-          background: 'var(--accent)',
+          background: 'var(--tab-selected, var(--accent))',
         },
         list: {
           borderColor: 'var(--border)',
@@ -260,7 +260,7 @@ export const chatforiaTheme = createTheme({
     Anchor: {
       styles: () => ({
         root: {
-          color: 'var(--accent)',
+          color: 'var(--link-fg, var(--accent))',
           textDecoration: 'none',
         },
       }),
