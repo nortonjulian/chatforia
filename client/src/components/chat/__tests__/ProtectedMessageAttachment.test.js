@@ -35,6 +35,47 @@ test('requests a recipient-authorized URL for local private media', async () => 
   expect(image.style.borderRadius).toBe('12px');
 });
 
+test('native image opens in the shared viewer and reloads authorization before download', async () => {
+  URL.createObjectURL = jest.fn(() => 'blob:native-original');
+  URL.revokeObjectURL = jest.fn();
+  jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+  const original = new Blob(['original image'], { type: 'image/png' });
+  axiosClient.get.mockImplementation((path) => path === '/private-media/message/31'
+    ? Promise.resolve({ data: { url: '/private-media/file?token=temporary' } })
+    : Promise.resolve({ data: original }));
+  render(<ProtectedMessageAttachment viewerId={2} attachment={{
+    id: 31, kind: 'IMAGE', mimeType: 'image/png', url: 'media/photo.png',
+  }} index={0} />);
+  const trigger = await screen.findByRole('button', { name: 'Open image full size' });
+  expect(trigger.querySelector('img').style.width).toBe('220px');
+  expect(screen.queryByRole('link', { name: 'Open image full size' })).toBeNull();
+  fireEvent.click(trigger);
+  expect(screen.getByRole('dialog', { name: 'Image viewer' })).toBeInTheDocument();
+  await screen.findByRole('img', { name: 'Chatforia image' });
+  fireEvent.click(screen.getByRole('button', { name: 'Download image' }));
+  await waitFor(() => expect(HTMLAnchorElement.prototype.click).toHaveBeenCalledTimes(1));
+  expect(axiosClient.get.mock.calls.filter(([path]) => path === '/private-media/message/31')).toHaveLength(3);
+  expect(axiosClient.get.mock.calls.filter(([path]) => path === '/private-media/file?token=temporary')).toHaveLength(2);
+  fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:native-original');
+  jest.restoreAllMocks();
+});
+
+test('account changes close the native image viewer and release its Blob URL', async () => {
+  URL.createObjectURL = jest.fn(() => 'blob:old-account-viewer');
+  URL.revokeObjectURL = jest.fn();
+  axiosClient.get.mockImplementation((path) => path === '/private-media/message/31'
+    ? Promise.resolve({ data: { url: '/private-media/file?token=old-account' } })
+    : Promise.resolve({ data: new Blob(['image'], { type: 'image/png' }) }));
+  const attachment = { id: 31, kind: 'IMAGE', mimeType: 'image/png', url: 'media/photo.png' };
+  const view = render(<ProtectedMessageAttachment viewerId={2} attachment={attachment} index={0} />);
+  fireEvent.click(await screen.findByRole('button', { name: 'Open image full size' }));
+  await screen.findByRole('img', { name: 'Chatforia image' });
+  view.rerender(<ProtectedMessageAttachment viewerId={3} attachment={attachment} index={0} />);
+  expect(screen.queryByRole('dialog', { name: 'Image viewer' })).toBeNull();
+  await waitFor(() => expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:old-account-viewer'));
+});
+
 test('an unavailable private media lookup never falls back to the public local path', async () => {
   axiosClient.get.mockRejectedValue(new Error('Forbidden'));
   render(<ProtectedMessageAttachment viewerId={2} attachment={{

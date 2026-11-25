@@ -503,6 +503,8 @@ export default function MessageBubble({
                     attachment={a}
                     index={i}
                     viewerId={currentUser?.id ?? currentUserId}
+                    caption={hasText ? String(displayText).trim() : ''}
+                    expiresAt={msg.expiresAt}
                   />
                 ))}
               </Group>

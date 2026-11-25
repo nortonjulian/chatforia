@@ -3,6 +3,8 @@ import axiosClient from '@/api/axiosClient';
 import { Button } from '@mantine/core';
 import { IconRefresh } from '@tabler/icons-react';
 import { messageImageStyle } from './messageImagePresentation';
+import SharedImageViewer from './SharedImageViewer';
+import { loadNativeImageBlob } from './loadNativeImageBlob';
 
 /*
  * Persisted local message media is not public. Fetch a user-authorized,
@@ -200,15 +202,55 @@ export function useAuthorizedMedia(id, original, variant = 'file', viewerId, pre
   };
 }
 
-export default function ProtectedMessageAttachment({ attachment, index, viewerId }) {
+export default function ProtectedMessageAttachment({ attachment, index, viewerId, caption, expiresAt }) {
   const original = attachment?.url;
   const [retryCount, setRetryCount] = useState(0);
   const [failedVideoScope, setFailedVideoScope] = useState(null);
+  const [imageViewer, setImageViewer] = useState(null);
+  const imageRequest = useRef(null);
   const recoveringVideoRef = useRef(false);
   const pendingPlaybackRef = useRef(null);
 
   const videoScope =
     `${viewerId ?? 'anonymous'}:${attachment?.id}:${original ?? ''}`;
+  const imageScope = videoScope;
+
+  useEffect(() => {
+    setImageViewer(null);
+    return () => imageRequest.current?.abort();
+  }, [imageScope]);
+
+  const closeImage = () => {
+    imageRequest.current?.abort();
+    setImageViewer(null);
+  };
+
+  const loadImage = (signal) => loadNativeImageBlob(attachment, {
+    privateSource: isLocalPrivateMedia(original),
+    signal,
+  });
+
+  const openImage = async () => {
+    imageRequest.current?.abort();
+    const controller = new AbortController();
+    imageRequest.current = controller;
+    setImageViewer({ scope: imageScope, loading: true, blob: null, error: '' });
+    try {
+      const blob = await loadImage(controller.signal);
+      if (!controller.signal.aborted) {
+        setImageViewer({ scope: imageScope, loading: false, blob, error: '' });
+      }
+    } catch {
+      if (!controller.signal.aborted) {
+        setImageViewer({
+          scope: imageScope,
+          loading: false,
+          blob: null,
+          error: 'Image unavailable. Check your access and try again.',
+        });
+      }
+    }
+  };
 
   const videoFailed = failedVideoScope === videoScope;
 
@@ -376,9 +418,28 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
   if (isImage) {
     const display = preview.url || file.url;
     return (
-      <a href={file.url || display} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
-        <img src={display} alt="Attachment" style={messageImageStyle} />
-      </a>
+      <>
+        <button
+          type="button"
+          className="shared-image-inline-open"
+          aria-label="Open image full size"
+          onClick={openImage}
+        >
+          <img src={display} alt={attachment?.caption || 'Attachment'} style={messageImageStyle} />
+        </button>
+        <SharedImageViewer
+          opened={imageViewer?.scope === imageScope}
+          onClose={closeImage}
+          blob={imageViewer?.scope === imageScope ? imageViewer.blob : null}
+          loading={imageViewer?.scope === imageScope && imageViewer.loading}
+          error={imageViewer?.scope === imageScope ? imageViewer.error : ''}
+          alt={attachment?.caption || 'Chatforia image'}
+          caption={caption || attachment?.caption || ''}
+          expiresAt={expiresAt}
+          filename={attachment?.originalName || 'chatforia-image'}
+          onDownload={() => loadImage()}
+        />
+      </>
     );
   }
   return <a href={file.url} target="_blank" rel="noopener noreferrer">

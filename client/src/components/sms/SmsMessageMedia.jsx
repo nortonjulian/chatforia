@@ -2,19 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import axiosClient from '@/api/axiosClient';
 import { smsMediaKind } from '@/utils/smsMediaKind';
 import { messageImageStyle } from '@/components/chat/messageImagePresentation';
-import { Button, Group } from '@mantine/core';
+import SharedImageViewer from '@/components/chat/SharedImageViewer';
 
 // Fetch with the normal authenticated API client, then play a local Blob URL.
 // This supports cookie and bearer sessions without exposing either in a URL.
-export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKey, onOpenImage, presentation = 'message' }) {
+export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKey, onOpenImage, presentation = 'message', caption = '', galleryId }) {
   const [media, setMedia] = useState(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [openScope, setOpenScope] = useState(null);
   const element = useRef(null);
   const scope = `${accountKey}:${messageId}:${mediaIndex}:${typeof item === 'string' ? item : item?.url}`;
   // A distinct URL per viewer also bypasses media responses cached by older
   // releases before the API began returning no-store.
   const mediaPath = `/sms/media/${messageId}/${mediaIndex}?cacheScope=${encodeURIComponent(accountKey || '')}`;
+  useEffect(() => setOpenScope(null), [scope]);
   useEffect(() => {
     let alive = true, objectURL;
     const controller = new AbortController();
@@ -25,7 +27,7 @@ export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKe
         const type = response.headers?.['content-type'] || response.data?.type || '';
         const blob = response.data instanceof Blob ? response.data : new Blob([response.data], { type });
         objectURL = URL.createObjectURL(blob);
-        setMedia({ scope, url: objectURL, kind: smsMediaKind(item, type) });
+        setMedia({ scope, url: objectURL, blob, mimeType: type, kind: smsMediaKind(item, type) });
       })
       .catch(() => { if (alive) setFailed(true); });
     return () => {
@@ -67,25 +69,34 @@ export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKe
   if (media.kind === 'video') return <video ref={element} controls preload="metadata" src={media.url} aria-label="Video attachment" onError={() => setFailed(true)} style={{ maxWidth: '100%', width: 240 }} />;
   if (media.kind === 'image') {
     const image = <img src={media.url} alt="MMS attachment" onError={() => setFailed(true)}
-      style={presentation === 'viewer'
-          ? { ...messageImageStyle, width: '100%', maxHeight: '70vh', objectFit: 'contain', borderRadius: 'var(--mantine-radius-md)' }
-        : presentation === 'gallery'
+      style={presentation === 'gallery'
           ? { ...messageImageStyle, width: '100%', borderRadius: 'var(--mantine-radius-md)' }
           : messageImageStyle} />;
-    if (presentation === 'viewer') return <>
-      {image}
-      <Group justify="flex-end" mt="md">
-        <Button component="a" href={media.url} download="mms-image" variant="light" aria-label="Download MMS image">
-          Download
-        </Button>
-      </Group>
-    </>;
     return (
-      <button type="button" className={`sms-media-open${presentation === 'gallery' ? ' sms-media-gallery-open' : ''}`}
-        aria-label={presentation === 'gallery' ? 'Open MMS image full size' : 'Open MMS image in media gallery'}
-        onClick={onOpenImage}>
-        {image}
-      </button>
+      <>
+        <button type="button" className={`sms-media-open${presentation === 'gallery' ? ' sms-media-gallery-open' : ''}`}
+          aria-label="Open image full size"
+          data-sms-gallery-id={galleryId}
+          onClick={() => onOpenImage
+            ? onOpenImage({ blob: media.blob, mimeType: media.mimeType })
+            : setOpenScope(scope)}>
+          {image}
+        </button>
+        {!onOpenImage && <SharedImageViewer
+          opened={openScope === scope && media.scope === scope}
+          onClose={() => setOpenScope(null)}
+          blob={media.blob}
+          alt="MMS attachment"
+          caption={caption}
+          filename="mms-image"
+          onDownload={async () => {
+            const { data, headers } = await axiosClient.get(mediaPath, { responseType: 'blob' });
+            return data instanceof Blob
+              ? data
+              : new Blob([data], { type: headers?.['content-type'] || media.mimeType || 'application/octet-stream' });
+          }}
+        />}
+      </>
     );
   }
   return <a href={media.url} download="attachment">Download attachment</a>;

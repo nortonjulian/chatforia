@@ -21,6 +21,7 @@ export function buildSmsGalleryItems(messages) {
         messageId: message.id,
         mediaIndex,
         item,
+        caption: message.body || '',
         createdAt: message.createdAt || message.sentAt || message.created_at || '',
       });
     });

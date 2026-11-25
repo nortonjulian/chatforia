@@ -3,10 +3,15 @@ import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SmsMediaGalleryModal from '../SmsMediaGalleryModal.jsx';
 
+beforeEach(() => {
+  URL.createObjectURL = jest.fn(() => 'blob:gallery-viewer');
+  URL.revokeObjectURL = jest.fn();
+});
+
 jest.mock('../SmsMessageMedia.jsx', () => ({
   __esModule: true,
   default: ({ messageId, mediaIndex, accountKey, presentation, onOpenImage }) => (
-    <button type="button" onClick={onOpenImage} data-testid={`secure-sms-media-${presentation}`}>
+    <button type="button" onClick={() => onOpenImage?.({ blob: new Blob(['fixture'], { type: 'image/png' }) })} data-testid={`secure-sms-media-${presentation}`}>
       {accountKey}:{messageId}:{mediaIndex}
     </button>
   ),
@@ -53,12 +58,11 @@ test('keyboard opens the full-size viewer, and account changes close the old sel
   const user=userEvent.setup();
   tile.focus();
   await user.keyboard('{Enter}');
-  expect(screen.getByRole('dialog',{name:'MMS image preview'})).toBeInTheDocument();
-  expect(screen.getByTestId('secure-sms-media-viewer')).toHaveTextContent('1:241:0');
+  expect(screen.getByRole('dialog',{name:'Image viewer'})).toBeInTheDocument();
+  expect(screen.getByRole('img',{name:'MMS attachment'})).toHaveAttribute('src','blob:gallery-viewer');
   await user.click(screen.getByRole('button',{name:'Back to media'}));
-  expect(screen.queryByTestId('secure-sms-media-viewer')).toBeNull();
+  expect(screen.queryByRole('dialog',{name:'Image viewer'})).toBeNull();
   await user.click(screen.getByTestId('secure-sms-media-gallery'));
   view.rerender(<SmsMediaGalleryModal opened onClose={() => {}} accountKey="2" items={[item]}/>);
-  expect(screen.queryByRole('dialog',{name:'MMS image preview'})).toBeNull();
-  expect(screen.queryByTestId('secure-sms-media-viewer')).toBeNull();
+  expect(screen.queryByRole('dialog',{name:'Image viewer'})).toBeNull();
 });

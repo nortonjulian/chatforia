@@ -1049,7 +1049,7 @@ const showCallBanner = Boolean(
                                       {media.map((item, idx) => (
                                         <SmsMessageMedia key={`${accountKey}:${m.id}-${idx}`}
                                           messageId={m.id} mediaIndex={idx} item={item}
-                                          accountKey={accountKey} onOpenImage={() => setGalleryOpen(true)} />
+                                          accountKey={accountKey} caption={m.body} />
                                       ))}
                                     </Group>
                                     {hasText && <Text c="inherit" size="sm" mt={6}
