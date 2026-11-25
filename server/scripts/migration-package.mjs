@@ -26,7 +26,14 @@ export const applicationReleasePath = 'server/security/applicationMigrationRelea
 export const mfaReleasePath = 'server/security/applicationMigrationRelease.v4.json';
 export const esimReleasePath = 'server/security/applicationMigrationRelease.v5.json';
 export const pushAuthorityReleasePath = 'server/security/applicationMigrationRelease.v6.json';
-const pushAuthorityReleaseDigest = '4a787ad2e6b40ccd1b77e91e5ec48cf6373fb91f33650538243fcf2ffc22a521';
+const pushAuthorityReleaseDigests = Object.freeze({
+  // Preserve the reviewed proposal and any archived package built from it.
+  '4a787ad2e6b40ccd1b77e91e5ec48cf6373fb91f33650538243fcf2ffc22a521':
+    'proposed-not-authorized-for-production',
+  // Owner-approved 166-to-167 source gate; execution remains separately gated.
+  '7e1802a307f2c35191e71ac3b2f133c25c135776cad38607745923d40b610be6':
+    'approved-for-production',
+});
 const esimReleaseDigests = Object.freeze({
   // A reviewable 165-to-166 proposal. Production authority requires a separate owner approval.
   'a27172c770c418201e00da5a9f13814c8da65ecdc5454331ba2039240ed7451b':
@@ -161,13 +168,14 @@ export function applicationReleaseSpec(files) {
   const previous = esimApplicationReleaseSpec(files);
   if (!files.has(pushAuthorityReleasePath)) return previous;
   const nextBytes = files.get(pushAuthorityReleasePath);
-  if (!previous || digest(nextBytes) !== pushAuthorityReleaseDigest) {
+  const reviewedStatus = pushAuthorityReleaseDigests[digest(nextBytes)];
+  if (!previous || !reviewedStatus) {
     throw new Error('Unreviewed push-authority release manifest');
   }
   const next = JSON.parse(nextBytes);
   if (previous.status !== 'approved-for-production' ||
       next.id !== 'chatforia-push-session-authority-20261124-v6' ||
-      next.status !== 'proposed-not-authorized-for-production' ||
+      next.status !== reviewedStatus ||
       next.basedOnEsimManifestSha256 !== digest(files.get(esimReleasePath)) ||
       next.beforeCount !== 166 || next.afterCount !== 167 ||
       next.historicalRolledBackCount !== previous.historicalRolledBackCount ||

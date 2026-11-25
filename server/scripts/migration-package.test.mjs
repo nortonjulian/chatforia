@@ -468,12 +468,12 @@ test('approved v5 pins only eSIM migration 166 after the approved 165 recovery',
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 
-test('proposed v6 pins only push authority migration 167 after the approved 166 baseline', async () => {
+test('approved v6 pins only push authority migration 167 after the approved 166 baseline', async () => {
   const bundle = buildPackage('HEAD');
   const files = verifyPackage(bundle);
   const release = applicationReleaseSpec(files);
   const name = '20261124020000_push_session_authority';
-  assert.equal(release.status, 'proposed-not-authorized-for-production');
+  assert.equal(release.status, 'approved-for-production');
   assert.equal(release.beforeCount, 166);
   assert.equal(release.afterCount, 167);
   assert.deepEqual(Object.keys(release.requiredExactMigrations), [name]);
@@ -504,10 +504,22 @@ test('proposed v6 pins only push authority migration 167 after the approved 166 
   sql.content = Buffer.from('SELECT 1;').toString('base64');
   sql.sha256 = digest('SELECT 1;');
   assert.throws(() => checkReconciledHistory(altered, before, release.target));
+  const proposal = structuredClone(bundle);
+  const proposalFile = proposal.files.find((file) =>
+    file.path === 'server/security/applicationMigrationRelease.v6.json');
+  const proposalBytes = Buffer.from(Buffer.from(proposalFile.content, 'base64').toString()
+    .replace('"status": "approved-for-production"',
+      '"status": "proposed-not-authorized-for-production"'));
+  assert.equal(digest(proposalBytes),
+    '4a787ad2e6b40ccd1b77e91e5ec48cf6373fb91f33650538243fcf2ffc22a521');
+  proposalFile.content = proposalBytes.toString('base64');
+  proposalFile.sha256 = digest(proposalBytes);
+  assert.equal(applicationReleaseSpec(verifyPackage(proposal)).status,
+    'proposed-not-authorized-for-production');
   const directory = mkdtempSync(join(tmpdir(), 'push-release-proposal-'));
   try {
     const path = join(directory, 'package.json');
-    const bytes = Buffer.from(JSON.stringify(bundle));
+    const bytes = Buffer.from(JSON.stringify(proposal));
     writeFileSync(path, bytes);
     await assert.rejects(deployPackage({ package: path, sha256: digest(bytes) }),
       /production execution is not approved/);
