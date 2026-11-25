@@ -53,6 +53,7 @@ import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 import { fetchLatestMessages, fetchOlderMessages, fetchMessageDeltas } from '@/lib/api';
 import { addMessages, upsertMessage, removeExpiredMessages } from '@/utils/messagesStore';
 import { messageCacheKey } from '@/utils/messageCacheKey';
+import { reconcileLatestMessages } from '@/utils/nativeThreadSessionCache';
 import { isMessageExpired, expiryEventMessageId } from '@/utils/messageExpiry';
 import { mergeRecoveredReadReceipts, recoverLoadedReadReceipts } from '@/utils/readReceiptRecovery';
 
@@ -228,7 +229,7 @@ function isSameUser(a, b) {
 }
 
 /* ---------- component ---------- */
-export default function ChatView({ chatroom, currentUserId, currentUser }) {
+export default function ChatView({ chatroom, currentUserId, currentUser, nativeThreadCache, onAccessError }) {
   const isPremium = useIsPremium();
   const isPaidPlan = useIsPaidPlan();
 
@@ -256,7 +257,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     incoming: incomingCall,
   } = useCall();
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => nativeThreadCache?.getMessages(chatroom?.id) ?? []);
+  const [messageRoomId, setMessageRoomId] = useState(chatroom?.id);
+  const initialRefreshConfirmedRef = useRef(false);
+  const realtimeDuringRefreshRef = useRef([]);
+  const refreshBaselineIdsRef = useRef(new Set());
+  const retryAfterOnlineRef = useRef(false);
+  const mountedRef = useRef(true);
   const expiredMessageIds = useRef(new Set());
   const receiptMessagesRef = useRef(messages);
   receiptMessagesRef.current = messages;
@@ -658,11 +665,29 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   useEffect(() => {
     expiredMessageIds.current.clear();
-    setMessages([]);
+    initialRefreshConfirmedRef.current = false;
+    setMessages(nativeThreadCache?.getMessages(chatroom?.id) ?? []);
+    setMessageRoomId(chatroom?.id);
     setCursor(null);
     setHasMore(true);
     setHighestSeenId(0);
-  }, [chatroom?.id]);
+  }, [chatroom?.id, nativeThreadCache]);
+
+  useEffect(() => {
+    if (messageRoomId === chatroom?.id) nativeThreadCache?.updateMessages(chatroom.id, messages);
+  }, [messageRoomId, chatroom?.id, messages, nativeThreadCache]);
+
+  useEffect(() => {
+    const remaining = nativeThreadCache?.remainingMessagesMs(chatroom?.id) ?? 0;
+    if (!remaining) return undefined;
+    const roomId = chatroom.id;
+    const timer = setTimeout(() => {
+      if (initialRefreshConfirmedRef.current) return;
+      nativeThreadCache.delete(roomId);
+      setMessages([]);
+    }, remaining);
+    return () => clearTimeout(timer);
+  }, [chatroom?.id, nativeThreadCache]);
 
   const [emptyDismissed] = useDismissed('empty_state_promo', 14);
   const shouldShowEmptyPromo =
@@ -1266,6 +1291,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     loadingOlderRef.current = true;
     setLoading(true);
+    const refreshToken = initial ? nativeThreadCache?.beginMessageRefresh(chatroom.id) : null;
+    if (initial) {
+      realtimeDuringRefreshRef.current = [];
+      refreshBaselineIdsRef.current = new Set(receiptMessagesRef.current
+        .filter((message) => Number(message?.id) > 0)
+        .map((message) => String(message.id)));
+    }
 
     try {
       let resp;
@@ -1287,6 +1319,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               : [];
 
       const chronological = rows.slice().reverse();
+      if (initial && refreshToken != null && !nativeThreadCache.isCurrentMessageRefresh(chatroom.id, refreshToken)) return false;
 
       if (chatroom?.id && chronological.length) {
         addMessages(messageCacheKey(currentUserId, chatroom.id), chronological).catch((err) => {
@@ -1317,7 +1350,41 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (initial) {
         // Mark the scroll pending before React receives the state update.
         initialScrollPendingRef.current = true;
-        setMessages(chronological);
+        initialRefreshConfirmedRef.current = true;
+        nativeThreadCache?.putMessages(chatroom.id, chronological, refreshToken);
+        const realtimeChanges = realtimeDuringRefreshRef.current;
+        realtimeDuringRefreshRef.current = [];
+        setMessages((previous) => {
+          const next = reconcileLatestMessages(chronological, previous);
+          const authoritativeIds = new Set(next.map((message) => String(message.id)));
+          for (const message of previous) {
+            const id = String(message?.id ?? '');
+            const newSinceRefresh = Number(message?.id) > 0 && !refreshBaselineIdsRef.current.has(id);
+            const pending = message?.optimistic || message?.failed || !Number.isInteger(Number(message?.id));
+            if ((newSinceRefresh || pending) && !authoritativeIds.has(id) &&
+                !message.deletedForAll && !message.deletedForMe && !isMessageExpired(message)) {
+              next.push(message);
+              authoritativeIds.add(id);
+            }
+          }
+          const deletedDuringRefresh = new Set(next.filter((message) => message.deletedForAll || message.deletedForMe)
+            .map((message) => String(message.id)));
+          for (const change of realtimeChanges) {
+            const id = String(change.message.id);
+            const index = next.findIndex((message) => String(message.id) === id);
+            if (change.type === 'delete') {
+              deletedDuringRefresh.add(id);
+              if (index >= 0) next.splice(index, 1);
+            } else if (deletedDuringRefresh.has(id)) {
+              continue;
+            } else if (index < 0) {
+              next.push(change.message);
+            } else if (Number(change.message.revision ?? 0) >= Number(next[index].revision ?? 0)) {
+              next[index] = { ...next[index], ...change.message };
+            }
+          }
+          return sortMessagesChronologically(next);
+        });
         setCursor(data?.nextCursor ?? null);
         setHasMore(Boolean(data?.nextCursor));
       } else {
@@ -1348,11 +1415,26 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       return true;
     } catch (err) {
       console.error('[ChatView] loadMore failed', err);
+      if (initial) {
+        if (refreshToken != null && !nativeThreadCache.isCurrentMessageRefresh(chatroom.id, refreshToken)) return false;
+        nativeThreadCache?.delete(chatroom.id);
+        setMessages([]);
+        if ([401, 403, 404].includes(err?.response?.status)) {
+          retryAfterOnlineRef.current = false;
+          onAccessError?.(err);
+        }
+      }
       return false;
     } finally {
       pendingPages.current.delete(requestedCursor);
       setLoading(false);
       loadingOlderRef.current = false;
+      if (initial && retryAfterOnlineRef.current && !initialRefreshConfirmedRef.current && mountedRef.current) {
+        retryAfterOnlineRef.current = false;
+        queueMicrotask(() => {
+          if (mountedRef.current) loadMore(true);
+        });
+      }
     }
   }
 
@@ -1388,6 +1470,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   useEffect(() => {
     let alive = true;
+    mountedRef.current = true;
+    retryAfterOnlineRef.current = false;
 
     setCursor(null);
     setShowNewMessage(false);
@@ -1414,8 +1498,18 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
     })();
 
+    const onOnline = () => {
+      if (initialRefreshConfirmedRef.current) return;
+      if (loadingOlderRef.current) retryAfterOnlineRef.current = true;
+      else loadMore(true);
+    };
+    window.addEventListener('online', onOnline);
+
     return () => {
       alive = false;
+      mountedRef.current = false;
+      retryAfterOnlineRef.current = false;
+      window.removeEventListener('online', onOnline);
     };
   }, [chatroom?.id]);
 
@@ -2372,12 +2466,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
       const incoming = decrypted ?? raw;
 
+      if (pendingPages.current.has('initial')) realtimeDuringRefreshRef.current.push({ type: 'upsert', message: incoming });
       mergeIncomingMessage(incoming);
       console.log(
         `🌐 WEB Successfully merged message ${incoming.id || incoming.clientMessageId || 'unknown'}`
       );
     } catch (e) {
       console.error('🌐 WEB decrypt/merge failed', e);
+      if (pendingPages.current.has('initial')) realtimeDuringRefreshRef.current.push({ type: 'upsert', message: raw });
       mergeIncomingMessage(raw);
     }
   };
@@ -2415,6 +2511,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
 
     if (raw.deletedForAll === true) {
+      if (pendingPages.current.has('initial')) realtimeDuringRefreshRef.current.push({ type: 'delete', message: raw });
       // Replace the visible message with a tombstone and discard every
       // attachment reference. Do not merely hide the image visually.
       setMessages((prev) =>
@@ -2443,6 +2540,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
 
     if (raw.deletedForMe === true) {
+      if (pendingPages.current.has('initial')) realtimeDuringRefreshRef.current.push({ type: 'delete', message: raw });
       setMessages((prev) =>
         prev.filter((message) => Number(message?.id) !== targetId)
       );
@@ -2453,6 +2551,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const id = expiryEventMessageId(payload, currentRoomId);
     if (id == null) return;
     expiredMessageIds.current.add(id);
+    if (pendingPages.current.has('initial')) realtimeDuringRefreshRef.current.push({ type: 'delete', message: { id } });
     setMessages((previous) => previous.filter((message) => Number(message.id) !== id));
     removeExpiredMessages(messageCacheKey(currentUserId, currentRoomId), [id]).catch(() => {});
   };

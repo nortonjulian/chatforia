@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axiosClient from '@/api/axiosClient';
 import SmsMessageMedia from '../SmsMessageMedia';
 jest.mock('@/api/axiosClient', () => ({ __esModule: true, default: { get: jest.fn() } }));
@@ -26,6 +27,18 @@ test('image and video retain their appropriate controls',async()=>{
  respond('video/mp4');view.rerender(<SmsMessageMedia {...props} messageId={167}/>);
  expect((await screen.findByLabelText('Video attachment')).tagName).toBe('VIDEO');
  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:sms-1');
+});
+test('an authenticated MMS image opens the gallery by keyboard and keeps descriptive text',async()=>{
+ const onOpenImage=jest.fn();respond('image/jpeg');
+ render(<SmsMessageMedia {...props} onOpenImage={onOpenImage}/>);
+ const button=await screen.findByRole('button',{name:'Open MMS image in media gallery'});
+ expect(button.querySelector('img')).toHaveAttribute('alt','MMS attachment');
+ const user=userEvent.setup();
+ await user.tab();
+ expect(document.activeElement).toBe(button);
+ await user.keyboard('{Enter}');
+ expect(onOpenImage).toHaveBeenCalledTimes(1);
+ expect(button.querySelector('img')).toHaveAttribute('src','blob:sms-1');
 });
 test('authorized nonvisual attachment remains downloadable from a local blob',async()=>{
  respond('application/pdf');render(<SmsMessageMedia {...props} item={{url:'opaque-file',contentType:'application/pdf'}}/>);

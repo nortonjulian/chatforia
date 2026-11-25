@@ -3,6 +3,7 @@
 import { jest } from '@jest/globals';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils.js';
+import { createNativeThreadSessionCache } from '../src/utils/nativeThreadSessionCache.js';
 
 /* ---------- Vite/env-safe mocks ---------- */
 jest.mock('@/utils/toast', () => ({
@@ -679,4 +680,84 @@ test('a failed account block stays open and displays an error', async () => {
   expect(await screen.findByRole('alert')).toHaveTextContent(/could not block this account/i);
   expect(screen.getByRole('dialog')).toBeInTheDocument();
   expect(window.alert).not.toHaveBeenCalled();
+});
+
+const cachedRow = (id, content, revision = 1) => ({
+  id, chatRoomId: 10, content, revision, contentCiphertext: `cipher-${id}-${revision}`,
+  sender: { id: 2 }, createdAt: `2026-01-01T00:00:${String(id).padStart(2, '0')}.000Z`,
+});
+const seededNativeCache = (messages) => {
+  const cache = createNativeThreadSessionCache('1:key:key');
+  cache.putRoom(10, { id: 10 });
+  cache.putMessages(10, messages);
+  return cache;
+};
+const deferredNativeRefresh = () => {
+  let resolve, reject;
+  const promise = new Promise((res, rej) => { resolve = res; reject = rej; });
+  return { promise, resolve, reject };
+};
+
+test('native cached messages appear immediately and an authoritative refresh reconciles edits and deletions', async () => {
+  const refresh = deferredNativeRefresh();
+  fetchLatestMessages.mockReturnValueOnce(refresh.promise);
+  const cache = seededNativeCache([cachedRow(1, 'Old edit'), cachedRow(2, 'Deleted')]);
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} nativeThreadCache={cache} />);
+  expect(screen.getByText('Old edit')).toBeInTheDocument();
+  expect(screen.getByText('Deleted')).toBeInTheDocument();
+  await act(async () => { refresh.resolve({ items: [cachedRow(1, 'Edited', 2)], nextCursor: null }); });
+  expect(screen.getByText('Edited')).toBeInTheDocument();
+  expect(screen.queryByText('Deleted')).not.toBeInTheDocument();
+  expect(cache.getMessages(10).map((message) => message.id)).toEqual([1]);
+});
+
+test('failed native refresh removes cached content and online recovery retries', async () => {
+  const refresh = deferredNativeRefresh();
+  fetchLatestMessages.mockReturnValueOnce(refresh.promise)
+    .mockResolvedValueOnce({ items: [cachedRow(3, 'Recovered')], nextCursor: null });
+  const cache = seededNativeCache([cachedRow(1, 'Private cached text')]);
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} nativeThreadCache={cache} />);
+  expect(screen.getByText('Private cached text')).toBeInTheDocument();
+  act(() => window.dispatchEvent(new Event('online')));
+  await act(async () => { refresh.reject(new Error('offline')); });
+  expect(await screen.findByText('Recovered')).toBeInTheDocument();
+  expect(screen.queryByText('Private cached text')).not.toBeInTheDocument();
+  expect(fetchLatestMessages).toHaveBeenCalledTimes(2);
+});
+
+test('a realtime native message received during refresh survives the response', async () => {
+  const refresh = deferredNativeRefresh();
+  fetchLatestMessages.mockReturnValueOnce(refresh.promise);
+  const cache = seededNativeCache([cachedRow(1, 'Already here')]);
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} nativeThreadCache={cache} />);
+  await waitFor(() => expect(useSocket().socket.on.mock.calls.some(([name]) => name === 'message:upsert')).toBe(true));
+  await deliverSocketEvent('message:upsert', { chatRoomId: 10, item: cachedRow(2, 'Realtime') });
+  await act(async () => { refresh.resolve({ items: [cachedRow(1, 'Already here')], nextCursor: null }); });
+  expect(screen.getByText('Realtime')).toBeInTheDocument();
+  await waitFor(() => expect(cache.getMessages(10).map((message) => message.id)).toEqual([1, 2]));
+});
+
+test('a deletion during native refresh cannot be resurrected by its older response', async () => {
+  const refresh = deferredNativeRefresh();
+  fetchLatestMessages.mockReturnValueOnce(refresh.promise);
+  const cache = seededNativeCache([cachedRow(1, 'Delete me')]);
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} nativeThreadCache={cache} />);
+  expect(screen.getByText('Delete me')).toBeInTheDocument();
+  await deliverSocketEvent('message:deleted', { item: { id: 1, chatRoomId: 10, deletedForAll: true } });
+  await act(async () => { refresh.resolve({ items: [cachedRow(1, 'Delete me')], nextCursor: null }); });
+  expect(screen.queryByText('Delete me')).not.toBeInTheDocument();
+  expect(cache.getMessages(10)).toEqual([]);
+});
+
+test.each([401, 403, 404])('native message refresh %s removes cached content and reports access loss', async (status) => {
+  const refresh = deferredNativeRefresh();
+  fetchLatestMessages.mockReturnValueOnce(refresh.promise);
+  const cache = seededNativeCache([cachedRow(1, 'Private cached text')]);
+  const onAccessError = jest.fn();
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} nativeThreadCache={cache} onAccessError={onAccessError} />);
+  expect(screen.getByText('Private cached text')).toBeInTheDocument();
+  await act(async () => { refresh.reject({ response: { status } }); });
+  expect(screen.queryByText('Private cached text')).not.toBeInTheDocument();
+  expect(cache.getMessages(10)).toBeNull();
+  expect(onAccessError).toHaveBeenCalledTimes(1);
 });

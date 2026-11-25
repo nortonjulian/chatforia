@@ -25,6 +25,48 @@
   box-sizing: border-box;
 }
 
+.sms-media-open {
+  display: block;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sms-media-open:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--fg));
+  outline-offset: 3px;
+}
+
+.sms-media-open img {
+  display: block;
+  width: min(140px, 100%);
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Loaded image-only MMS uses its authenticated media thumbnail as the visual surface. */
+.sms-bubble[data-media-only="true"]:has(.sms-media-open):not(:has(audio, video, a)) {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none;
+  box-shadow: none;
+}
+
+.sms-bubble[data-media-only="true"]:has(.sms-media-open):not(:has(audio, video, a)) > div:last-child {
+  margin-top: 0 !important;
+}
+
+.sms-bubble[data-media-only="true"]:has(.sms-media-open):not(:has(audio, video, a)) .sms-media-open img {
+  width: min(220px, 100%);
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+}
+
 /* Use the actual loaded player to recognize opaque inbound audio URLs too.
    Text + audio, images, videos and files retain their normal bubble treatment. */
 .sms-bubble[data-media-only="true"]:has(audio[data-sms-audio]):not(:has(img, video, a)) {

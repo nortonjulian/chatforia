@@ -63,6 +63,10 @@ export default function SmsMessageMedia({ messageId, mediaIndex, item, accountKe
   };
   if (media.kind === 'audio') return <audio ref={element} data-sms-audio controls preload="metadata" src={media.url} aria-label="Voice message" onPlay={onlyThisSMSAudio} onError={() => setFailed(true)} style={{ maxWidth: '100%', width: 280 }} />;
   if (media.kind === 'video') return <video ref={element} controls preload="metadata" src={media.url} aria-label="Video attachment" onError={() => setFailed(true)} style={{ maxWidth: '100%', width: 240 }} />;
-  if (media.kind === 'image') return <img src={media.url} alt="MMS attachment" onError={() => setFailed(true)} onClick={onOpenImage} style={{ width: 140, height: 140, objectFit: 'cover', borderRadius: 12, cursor: 'pointer' }} />;
+  if (media.kind === 'image') return (
+    <button type="button" className="sms-media-open" aria-label="Open MMS image in media gallery" onClick={onOpenImage}>
+      <img src={media.url} alt="MMS attachment" onError={() => setFailed(true)} />
+    </button>
+  );
   return <a href={media.url} download="attachment">Download attachment</a>;
 }
