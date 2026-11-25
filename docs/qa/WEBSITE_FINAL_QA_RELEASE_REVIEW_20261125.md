@@ -37,6 +37,29 @@ recorded in the
 Unchanged suites were not rerun for this source-identical review candidate. The refreshed
 iOS parity document from main is retained.
 
+## Owner-reported QA approvals
+
+- The owner reported that the initial website QA pass was satisfactory, without
+  a case-by-case scope. That report is not a blanket PASS for later changes.
+- The owner confirmed native Chatforia and SMS/MMS inline image sizing and
+  presentation were consistent under the tested conditions.
+- The owner visually approved the final shared viewer's desktop dimensions,
+  landscape and square images, and portrait image presentation on an iPhone SE.
+  The exact device/test setup was not independently recorded. Automated local
+  Chromium separately checked 1440×900, 390×844 and 375×667, with the 920px
+  modal limit, 14.6–15.8% desktop image reduction, caption/Download visibility,
+  gallery Back, original-byte downloads, focus restoration, and eight-theme
+  controls. This visual approval does not establish live-carrier delivery or
+  every gallery, download, or authorization interaction on a physical device.
+- The owner reviewed Velvet accessibility previews and rejected dark text/icon
+  rectangles. Its approved pink-to-gold gradient, white text and white
+  microphone remain. The roughly 1.4–1.61:1 white-on-gold text contrast is a
+  documented WCAG AA exception; approved appearance is not AA compliance.
+- The owner acknowledged correction of the disposable upload fixture's local
+  500. The authenticated local browser check passed image selection, preview,
+  caption and removal without a send. An owner retest after the correction was
+  not reported.
+
 ## Local authenticated QA environment
 
 The corrected Vite server is listening from the original website checkpoint
@@ -56,7 +79,7 @@ Use `http://localhost:5173/` and the existing disposable `dev_user_1` and
 real carrier sends, or real eSIM purchases. The running Vite server serves the
 **original checkpoint**, whose client bytes match this review candidate.
 
-## Outstanding owner-led manual verification only
+## Remaining manual, provider, and device verification
 
 1. **Native conversation switching and recovery.** As `dev_user_1`, open two
    previously loaded direct/group rooms and switch A→B→A rapidly. The prior
@@ -67,19 +90,12 @@ real carrier sends, or real eSIM purchases. The running Vite server serves the
    attachments and realtime additions. Logout, sign in as `dev_user_2`, and
    confirm no prior account content appears. Exercise a denied/removed room and
    a changed/locked encryption key if the disposable fixture supports them.
-2. **Native/MMS images.** With the paired portrait, landscape and square
-   fixtures, inspect image-only and captioned messages at desktop, about
-   390px mobile width, and 375×667. Both channels should retain 220px inline
-   width, natural
-   proportions, transparent image-only MMS surface, caption-below placement
-   and 12px corners. Click a specific image: it should open directly in the
-   same responsive viewer. Check the 920px desktop modal limit, Close in the
-   title header, and caption plus Download visibility on short screens. Check
-   gallery Back only when gallery-opened, Download of original bytes, Escape,
-   focus restoration and conversation scroll position. Confirm `dev_user_2`
-   cannot fetch `dev_user_1`'s private
-   media. Real carrier/cloud MMS and physical-device behavior remain separate
-   provider/device checks; the local fixture does not prove them.
+2. **Native/MMS images.** The owner-approved inline parity and final viewer
+   visuals need no repeat visual signoff. On a device, still verify direct open,
+   gallery Back only when gallery-opened, original-byte Download, Escape/focus
+   where supported, and conversation scroll restoration. Confirm `dev_user_2`
+   cannot fetch `dev_user_1`'s private media after account change or revocation.
+   Real carrier/cloud MMS remains a separate provider check.
 3. **Composer and Help.** Review native new/existing and SMS new/existing
    conversations at 360, 375, 390, 440, 488, 768, 1032 and 1280px. Confirm
    the text field remains usable, placeholder does not break mid-word, action
@@ -115,9 +131,11 @@ emulation and the recorded local Chromium evidence are not physical-device QA.
   can be reviewed independently of the protected username workflow, Stage A,
   group-invitation activation, Broadcast Messaging and MLS. No new backend API
   is introduced by these website commits.
-- **Manual outcomes:** record the owner-led cases above. The known Velvet
-  contrast exception needs explicit acceptance or a separately approved
-  treatment; no redesign is included here.
+- **Manual outcomes:** owner visual approvals are recorded above. Offline
+  missed-edit/deletion reconciliation and account/key/membership denial still
+  lack an owner-led pass. The known Velvet contrast exception needs an explicit
+  launch accessibility disposition if full AA conformance is required; no
+  redesign is included here.
 - **Frontend deployment controls:** current main's `deploy.yml` deploy job
   still uses `npm install`, runtime `ssh-keyscan` without the pinned comparison
   used by `verify_ssh`, and no exact build/revision check. The previously
@@ -135,5 +153,22 @@ emulation and the recorded local Chromium evidence are not physical-device QA.
   SMS media and eSIM checks. Keep notification session-authority deployment
   and the protected username migration in their separate approval tracks.
 
-No localization work, production change, provider purchase, or new automated
-test suite was started for this review preparation.
+This documentation reconciliation did not resume localization, change
+production, make a provider purchase, or rerun completed test suites.
+
+## Release recommendation for owner decision
+
+**GO for focused code review and pull-request preparation of this local
+website candidate. HOLD production deployment.** The branch carries eight
+reviewable website checkpoints with no backend or native changes, and its
+client tree matches the locally tested checkpoint. The remaining predeployment
+gates are: (1) review and transfer the existing SSH host-key pinning, `npm ci`,
+and exact artifact/revision deployment controls; (2) verify the final release
+artifact against the running API contract at the release window; (3) complete
+disposable-account authenticated SMS media and eSIM navigation/owned-package
+checks on the final candidate; and (4) record the offline missed-edit/deletion
+and revoked-room/account-key manual outcomes or an explicit release risk
+decision. Do not claim all-theme WCAG AA while Velvet's text exception remains.
+Live carrier delivery, real purchases, broader physical-device coverage, and
+the separate protected-username, notification-authorization, MLS, and Random
+Chat workstreams are not silently counted as completed by this website review.
