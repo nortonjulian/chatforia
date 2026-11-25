@@ -23,7 +23,11 @@ export function pushSessionRevocationFromToken(token) {
       !Number.isSafeInteger(claims.exp)) return null;
   const expiresMs = claims.exp * 1000;
   if (!Number.isSafeInteger(expiresMs) || expiresMs <= 0) return null;
+  // A short API token has no trustworthy binding to its parent full session.
+  // Callers must reject it instead of reporting that logout revoked that parent.
+  if (claims.typ === 'short') return { kind: 'short' };
   return {
+    kind: 'session',
     fingerprint: crypto.createHash('sha256').update(token).digest('hex'),
     expiresAt: new Date(expiresMs),
   };

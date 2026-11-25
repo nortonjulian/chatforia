@@ -142,6 +142,17 @@ describe('Auth flows', () => {
     expect(me.body.user).not.toHaveProperty('totpSecretEnc');
     expect(me.body.user).not.toHaveProperty('twoFactorRecoveryCodes');
     expect(me.body.user).not.toHaveProperty('passwordHash');
+
+    const enrolledToken = enabled.body.token;
+    const shortToken = (await makeAgent().agent.get('/auth/token')
+      .set('Authorization', `Bearer ${enrolledToken}`).expect(200)).body.token;
+    await makeAgent().agent.post('/auth/logout')
+      .set('Authorization', `Bearer ${enrolledToken}`).expect(200);
+    for (const token of [enrolledToken, shortToken]) {
+      await makeAgent().agent.post('/auth/2fa/disable')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ code }).expect(401);
+    }
   });
 
   it('auth-only logout revokes its push grant while another session stays authorized', async () => {
@@ -194,6 +205,14 @@ describe('Auth flows', () => {
     const second = await install('second', secondToken);
     expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(2);
 
+    const shortToken = (await api.get('/auth/token')
+      .set('Authorization', `Bearer ${firstToken}`).expect(200)).body.token;
+    await api.post('/auth/logout').set('Authorization', `Bearer ${shortToken}`).expect(401);
+    await api.get('/auth/logout').set('Authorization', `Bearer ${shortToken}`).expect(401);
+    await api.post('/devices/logout').set('Authorization', `Bearer ${shortToken}`)
+      .send({ deviceId: first.body.deviceId }).expect(401);
+    expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(2);
+
     await api.post('/auth/logout').set('Authorization', `Bearer ${firstToken}`).expect(200);
     await api.post('/auth/logout').set('Authorization', `Bearer ${firstToken}`).expect(200);
     expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(1);
@@ -238,5 +257,40 @@ describe('Auth flows', () => {
         installationProof: crypto.randomBytes(32).toString('base64url'),
         deviceId, platform: 'ios', appId: 'com.chatforia.Chatforia' },
     })).rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+  });
+
+  it('logged-out full and preexisting short tokens cannot enroll MFA or mint a new full session', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    await prisma.user.update({ where: { id: registered.body.user.id },
+      data: { emailVerifiedAt: new Date() } });
+    const api = makeAgent().agent;
+    const bearer = makeAgent().agent;
+    const fullToken = (await api.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    const shortToken = (await api.get('/auth/token')
+      .set('Authorization', `Bearer ${fullToken}`).expect(200)).body.token;
+    await api.post('/auth/logout').set('Authorization', `Bearer ${fullToken}`).expect(200);
+    for (const token of [fullToken, shortToken]) {
+      await bearer.post('/auth/2fa/setup')
+        .set('Authorization', `Bearer ${token}`).expect(401);
+    }
+    expect(await prisma.verificationToken.count({ where: {
+      userId: registered.body.user.id, type: 'mfa_setup', usedAt: null,
+    } })).toBe(0);
+
+    const freshToken = (await api.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    const setup = await bearer.post('/auth/2fa/setup')
+      .set('Authorization', `Bearer ${freshToken}`).expect(200);
+    const code = speakeasy.totp({ secret: setup.body.tmpSecret, encoding: 'base32' });
+    await bearer.post('/auth/2fa/enable').set('Authorization', `Bearer ${fullToken}`)
+      .send({ tmpSecret: setup.body.tmpSecret, code }).expect(401);
+    await bearer.post('/auth/2fa/enable').set('Authorization', `Bearer ${shortToken}`)
+      .send({ tmpSecret: setup.body.tmpSecret, code }).expect(401);
+    const enabled = await bearer.post('/auth/2fa/enable')
+      .set('Authorization', `Bearer ${freshToken}`)
+      .send({ tmpSecret: setup.body.tmpSecret, code }).expect(200);
+    expect(enabled.body.token).toBeTruthy();
   });
 });

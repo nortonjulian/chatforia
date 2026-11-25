@@ -932,6 +932,9 @@ router.post('/heartbeat', requireAuth, async (req, res, next) => {
 
 router.post('/logout', requireAuth, async (req, res, next) => {
   try {
+    if (!req.auth?.pushFingerprint) {
+      return res.status(401).json({ code: 'FULL_SESSION_REQUIRED', error: 'FULL_SESSION_REQUIRED' });
+    }
     const userId = Number(req.user.id);
     const deviceId =
       normalizeString(req.body?.deviceId, 191);

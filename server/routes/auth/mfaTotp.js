@@ -9,8 +9,17 @@ import { issueSession } from '../auth.js';
 import { lockMfaUser, recoveryCodeHash } from '../../services/mfaLogin.js';
 import { enrollMfa } from '../../security/enrollMfa.js';
 import { disableMfa } from '../../security/disableMfa.js';
+import { assertUnrevokedFullSession } from '../../services/pushAuthorityService.js';
 
 export const router = express.Router();
+router.use(asyncHandler(async (req, res, next) => {
+  if (!req.auth?.pushFingerprint) return res.status(401).json({ error: 'full_session_required' });
+  const revoked = await prisma.pushSessionRevocation.findUnique({
+    where: { sessionFingerprint: req.auth.pushFingerprint },
+  });
+  if (revoked) return res.status(401).json({ error: 'session_revoked' });
+  return next();
+}));
 const validCode = (code) => typeof code === 'string' && /^\d{6}$/.test(code);
 function protectedEnrollment(res) {
   return res.status(403).json({ ok: false, reason: 'mfa_protected',
@@ -29,6 +38,7 @@ router.post('/setup', asyncHandler(async (req, res) => {
     name: `Chatforia (${req.user.username})`, issuer: 'Chatforia' });
   const qrDataUrl = await qrcode.toDataURL(generated.otpauth_url);
   const prepared = await prisma.$transaction(async (tx) => {
+    await assertUnrevokedFullSession(tx, req.auth);
     const secured = process.env.STAFF_SECURITY_ENABLED === 'true';
     if (secured) await tx.$queryRaw`SELECT pg_advisory_xact_lock(73421, 1)::text`;
     const user = await lockMfaUser(tx, req.user.id);
@@ -56,6 +66,7 @@ router.post('/enable', asyncHandler(async (req, res) => {
   }
   const backupCodes = makeBackup();
   const enabled = await prisma.$transaction(async (tx) => {
+    await assertUnrevokedFullSession(tx, req.auth);
     const secured = process.env.STAFF_SECURITY_ENABLED === 'true';
     if (secured) await tx.$queryRaw`SELECT pg_advisory_xact_lock(73421, 1)::text`;
     const user = await lockMfaUser(tx, req.user.id);
@@ -97,6 +108,7 @@ router.post('/disable', asyncHandler(async (req, res) => {
   const { code } = req.body || {};
   if (!validCode(code)) return res.status(400).json({ ok: false, reason: 'bad_code' });
   const disabled = await prisma.$transaction(async (tx) => {
+    await assertUnrevokedFullSession(tx, req.auth);
     const secured = process.env.STAFF_SECURITY_ENABLED === 'true';
     if (secured) await tx.$queryRaw`SELECT pg_advisory_xact_lock(73421, 1)::text`;
     const user = await lockMfaUser(tx, req.user.id);

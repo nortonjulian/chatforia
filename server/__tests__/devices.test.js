@@ -32,6 +32,7 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
       id: 1,
       role: 'USER',
     };
+    req.auth = { pushFingerprint: 'a'.repeat(64) };
 
     next();
   },

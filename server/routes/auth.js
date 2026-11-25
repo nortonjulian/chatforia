@@ -861,8 +861,12 @@ router.post(
 router.post(
   '/logout',
   asyncHandler(async (req, res) => {
-    await revokePushAuthorityForSession(pushSessionRevocationFromToken(
-      sessionTokenFromRequest(req, getCookieName())));
+    const token = sessionTokenFromRequest(req, getCookieName());
+    const session = pushSessionRevocationFromToken(token);
+    if (session?.kind === 'short' || (token && !session)) {
+      return res.status(401).json({ error: 'full_session_required' });
+    }
+    await revokePushAuthorityForSession(session);
     clearAllAuthCookies(res);
 
     if (req.logout) {
@@ -884,8 +888,12 @@ router.post(
 );
 
 router.get('/logout', asyncHandler(async (req, res) => {
-  await revokePushAuthorityForSession(pushSessionRevocationFromToken(
-    sessionTokenFromRequest(req, getCookieName())));
+  const token = sessionTokenFromRequest(req, getCookieName());
+  const session = pushSessionRevocationFromToken(token);
+  if (session?.kind === 'short' || (token && !session)) {
+    return res.status(401).json({ error: 'full_session_required' });
+  }
+  await revokePushAuthorityForSession(session);
   clearAllAuthCookies(res);
 
   if (req.session) {

@@ -87,6 +87,13 @@ async function lockSessionAuthority(tx, fingerprint) {
   }
 }
 
+// Session-issuing account operations must share the logout fence. A revoked
+// full JWT must never mint a fresh, independently push-eligible JWT.
+export async function assertUnrevokedFullSession(tx, auth) {
+  const session = verifiedSession(auth);
+  await lockSessionAuthority(tx, session.pushFingerprint);
+}
+
 async function lockSessionForRevocation(tx, fingerprint) {
   const key = BigInt.asIntN(64, BigInt(`0x${fingerprint.slice(0, 16)}`));
   await tx.$queryRaw`SELECT pg_advisory_xact_lock(${key}::bigint)::text`;
