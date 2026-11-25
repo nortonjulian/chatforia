@@ -6,11 +6,59 @@ import { open as openMfaSecret } from '../utils/secretBox.js';
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { sendPushToUser } from '../services/pushService.js';
+import {
+  activatePushInstallation,
+  registerAuthorizedPush,
+  cleanupPushInstallation,
+  revokeAuthenticatedDevice,
+  PushAuthorityError,
+  pushAuthorityMode,
+} from '../services/pushAuthorityService.js';
 import { getPlanEntitlements } from '../config/planEntitlements.js';
 
 const router = express.Router();
 
 router.use(express.json());
+
+const pushCleanupLimiter = rateLimit({ windowMs: 60_000, limit: 20,
+  standardHeaders: 'draft-7', legacyHeaders: false });
+
+function sendPushAuthorityError(res, error, next) {
+  if (error instanceof PushAuthorityError) {
+    return res.status(error.status).json({ code: error.code, error: error.code });
+  }
+  return next(error);
+}
+
+router.post('/push-authority/activate', requireAuth, async (req, res, next) => {
+  try {
+    res.set('Cache-Control', 'no-store');
+    return res.json(await activatePushInstallation({ user: req.user, auth: req.auth, body: req.body }));
+  } catch (error) {
+    return sendPushAuthorityError(res, error, next);
+  }
+});
+
+router.post('/push-authority/register', requireAuth, async (req, res, next) => {
+  try {
+    res.set('Cache-Control', 'no-store');
+    return res.json(await registerAuthorizedPush({ user: req.user, auth: req.auth, body: req.body }));
+  } catch (error) {
+    return sendPushAuthorityError(res, error, next);
+  }
+});
+
+// A cleanup capability can only revoke its own installation generation.
+// It remains usable after the associated JWT expires and reveals no account data.
+router.post('/push-authority/cleanup', pushCleanupLimiter, async (req, res, next) => {
+  try {
+    res.set('Cache-Control', 'no-store');
+    await cleanupPushInstallation(req.body);
+    return res.sendStatus(204);
+  } catch (error) {
+    return sendPushAuthorityError(res, error, next);
+  }
+});
 
 
 function normalizeString(value, maxLen = 255) {
@@ -884,6 +932,9 @@ router.post('/heartbeat', requireAuth, async (req, res, next) => {
 
 router.post('/logout', requireAuth, async (req, res, next) => {
   try {
+    if (!req.auth?.pushFingerprint) {
+      return res.status(401).json({ code: 'FULL_SESSION_REQUIRED', error: 'FULL_SESSION_REQUIRED' });
+    }
     const userId = Number(req.user.id);
     const deviceId =
       normalizeString(req.body?.deviceId, 191);
@@ -895,50 +946,14 @@ router.post('/logout', requireAuth, async (req, res, next) => {
       });
     }
 
-    /*
-     * Logout is not revocation.
-     *
-     * Keep the device identity, encryption metadata, and pairing state.
-     * Remove delivery credentials so a signed-out installation cannot
-     * continue receiving messages or incoming-call pushes.
-     */
-    const result = await prisma.device.updateMany({
-      where: {
-        userId,
-        deviceId,
-        revokedAt: null,
-      },
-      data: {
-        pushToken: null,
-        pushProvider: null,
-        apnsPushToken: null,
-        apnsSandboxPushToken: null,
-        fcmPushToken: null,
-        voipPushToken: null,
-        voipSandboxPushToken: null,
-
-        voiceIdentity: null,
-        voiceRegisteredAt: null,
-        voiceRegistrationVer: 0,
-        voicePushEnvironment: null,
-
-        lastSeenAt: new Date(),
-      },
-    });
-
-    if (result.count < 1) {
-      return res.status(404).json({
-        error: 'Active device not found',
-        code: 'DEVICE_NOT_FOUND',
-      });
-    }
+    await revokeAuthenticatedDevice({ user: req.user, auth: req.auth, deviceId });
 
     return res.json({
       success: true,
       deviceId,
     });
   } catch (error) {
-    next(error);
+    return sendPushAuthorityError(res, error, next);
   }
 });
 
@@ -1008,6 +1023,12 @@ router.post('/revoke', requireAuth, async (req, res, next) => {
 
 
 router.post('/push-token', requireAuth, async (req, res) => {
+  if (pushAuthorityMode() === 'strict') {
+    return res.status(426).json({
+      code: 'PUSH_AUTHORITY_REQUIRED',
+      error: 'Update the app to register notifications securely.',
+    });
+  }
   const userId = Number(req.user?.id);
   const deviceId = normalizeString(req.body?.deviceId, 191);
   const pushToken = normalizeString(req.body?.pushToken, 4096);

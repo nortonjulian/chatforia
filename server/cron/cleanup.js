@@ -41,6 +41,13 @@ export function startCleanupJobs() {
         console.warn('[CLEANUP] passwordResetToken:', e?.message || e);
       }
 
+      // --- Push session revocations: retain until JWT expiry plus 24 hours ---
+      try {
+        await prisma.$queryRaw`SELECT public.prune_expired_push_session_revocations(1000)`;
+      } catch (e) {
+        console.warn('[CLEANUP] pushSessionRevocation:', e?.message || e);
+      }
+
       // --- Messages: disappearing / expiresAt ---
       try {
         const res = await prisma.message?.deleteMany?.({

@@ -1,3 +1,6 @@
+import crypto from 'node:crypto';
+import jwt from 'jsonwebtoken';
+
 export const requireAuth = (req, _res, next) => {
   const headerId = req.headers['x-test-user-id'];
   const id = headerId ? Number(headerId) : 1;
@@ -7,6 +10,25 @@ export const requireAuth = (req, _res, next) => {
     role: req.headers['x-test-role'] || 'USER',
     plan: req.headers['x-test-plan'] || 'FREE',
   };
+
+  // Match the production request's session metadata for route tests that
+  // exercise push revocation; retain x-test-user-id for unrelated fixtures.
+  const token = req.cookies?.[process.env.JWT_COOKIE_NAME || 'foria_jwt'] ||
+    /^Bearer\s+(\S+)$/i.exec(req.headers.authorization || '')?.[1];
+  if (token) {
+    try {
+      const claims = jwt.verify(token, process.env.JWT_SECRET || 'test_secret',
+        { algorithms: ['HS256'] });
+      if (Number(claims.id) !== id) throw new Error('Synthetic account mismatch');
+      const full = claims.typ !== 'short' && (claims.typ == null || claims.typ === 'session');
+      req.auth = {
+        pushFingerprint: full ? crypto.createHash('sha256').update(token).digest('hex') : null,
+        pushIssuedAtMs: full ? claims.issuedAtMs ?? claims.iat * 1000 : 0,
+        pushExpiresAtMs: full ? claims.exp * 1000 : 0,
+        tokenVersion: claims.tokenVersion ?? 0,
+      };
+    } catch { /* Other route fixtures may use synthetic credentials. */ }
+  }
 
   next();
 };

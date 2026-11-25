@@ -20,6 +20,7 @@ const mockIssueSession = jest.fn();
 
 const tx = {
   $queryRaw: jest.fn(),
+  pushSessionRevocation: { findUnique: jest.fn() },
   user: {
     findUnique: jest.fn(),
     update: jest.fn(),
@@ -38,6 +39,7 @@ const tx = {
 
 const mockPrisma = {
   $transaction: jest.fn(async (callback) => callback(tx)),
+  pushSessionRevocation: { findUnique: jest.fn() },
 };
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
@@ -92,6 +94,12 @@ function createApp(user = { id: 1, username: 'alice', tokenVersion: 0 }) {
 
   app.use((req, _res, next) => {
     req.user = user;
+    req.auth = {
+      pushFingerprint: 'a'.repeat(64),
+      pushIssuedAtMs: Date.now() - 1_000,
+      pushExpiresAtMs: Date.now() + 60_000,
+      tokenVersion: user.tokenVersion,
+    };
     next();
   });
 

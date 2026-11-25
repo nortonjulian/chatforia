@@ -1,4 +1,5 @@
 import prisma from '../utils/prismaClient.js';
+import { authorizedPushRegistrations, pushAuthorityMode } from './pushAuthorityService.js';
 import {
   buildBrowserVoiceIdentity,
   buildDeviceVoiceIdentity,
@@ -127,6 +128,7 @@ export async function getVoiceEligibleDevices(
       voicePushEnvironment: true,
       voipPushToken: true,
       voipSandboxPushToken: true,
+      fcmPushToken: true,
     },
     orderBy: [
       { isPrimary: 'desc' },
@@ -136,11 +138,25 @@ export async function getVoiceEligibleDevices(
     take: MAX_VOICE_FANOUT_DEVICES * 3,
   });
 
-  return candidates
+  let eligible = candidates
     .filter((device) =>
       isVoiceEligibleDevice(device, numericUserId)
-    )
-    .slice(0, safeLimit);
+    );
+  if (pushAuthorityMode() === 'strict') {
+    try {
+      const registrations = await authorizedPushRegistrations(numericUserId);
+      eligible = eligible.filter((device) => registrations.some((row) =>
+        row.installation.currentDevice?.deviceId === device.deviceId &&
+        (normalizeVoicePlatform(device.platform) === 'ios'
+          ? row.provider === 'apns_voip' && row.environment === device.voicePushEnvironment &&
+            row.token === (row.environment === 'sandbox' ? device.voipSandboxPushToken : device.voipPushToken)
+          : row.provider === 'fcm' && row.environment === 'none' &&
+            row.token === device.fcmPushToken)));
+    } catch {
+      eligible = [];
+    }
+  }
+  return eligible.slice(0, safeLimit);
 }
 
 export async function getVoiceDialDestinations(
@@ -199,7 +215,7 @@ export async function getVoiceDialDestinations(
    */
   if (
     deviceDestinations.length === 0 &&
-    allowLegacyFallback
+    allowLegacyFallback && pushAuthorityMode() !== 'strict'
   ) {
     const legacyIdentity =
       buildLegacyVoiceIdentity(

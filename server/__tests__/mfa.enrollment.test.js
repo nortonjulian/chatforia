@@ -10,6 +10,7 @@ let user, pending, recoveryHashes;
 const issueSession = jest.fn(() => 'renewed-session');
 const tx = {
   $queryRaw: async () => [{ id: user.id }],
+  pushSessionRevocation: { findUnique: async () => null },
   user: {
     findUnique: async () => ({ ...user }),
     update: async ({ data }) => {
@@ -30,14 +31,21 @@ const tx = {
     createMany: async ({ data }) => { recoveryHashes = data; },
   },
 };
-await jest.unstable_mockModule(fileURLToPath(new URL('../utils/prismaClient.js', import.meta.url)), () => ({ default: { $transaction: (fn) => fn(tx) } }));
+await jest.unstable_mockModule(fileURLToPath(new URL('../utils/prismaClient.js', import.meta.url)), () => ({ default: {
+  $transaction: (fn) => fn(tx), pushSessionRevocation: { findUnique: async () => null },
+} }));
 await jest.unstable_mockModule(fileURLToPath(new URL('../utils/secretBox.js', import.meta.url)), () => ({ seal: (s) => `sealed:${s}`, open: (s) => s.slice(7) }));
 await jest.unstable_mockModule(fileURLToPath(new URL('../routes/auth.js', import.meta.url)), () => ({ issueSession }));
 const { router } = await import('../routes/auth/mfaTotp.js');
 const { recoveryCodeHash } = await import('../services/mfaLogin.js');
 const app = express();
 app.use(express.json());
-app.use((req, _res, next) => { req.user = { ...user }; next(); });
+app.use((req, _res, next) => {
+  req.user = { ...user };
+  req.auth = { pushFingerprint: 'b'.repeat(64), pushIssuedAtMs: Date.now() - 1_000,
+    pushExpiresAtMs: Date.now() + 60_000, tokenVersion: user.tokenVersion };
+  next();
+});
 app.use('/auth/2fa', router);
 beforeEach(() => {
   jest.clearAllMocks(); pending = null; recoveryHashes = [];

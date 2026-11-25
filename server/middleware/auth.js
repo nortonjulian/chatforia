@@ -1,19 +1,11 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'node:crypto';
 import { hasVerifiedAdminAccess } from './verifiedAdmin.js';
 import prisma from '../utils/prismaClient.js';
+import { sessionTokenFromRequest } from '../utils/sessionTokenFromRequest.js';
 
 function getCookieName() {
   return process.env.JWT_COOKIE_NAME || 'foria_jwt';
-}
-
-// Preserve cookie precedence for browser clients; mobile clients use Bearer.
-function getTokenFromReq(req) {
-  const cookieToken = req.cookies?.[getCookieName()];
-  if (typeof cookieToken === 'string' && cookieToken) return cookieToken;
-  const header = req.headers?.authorization;
-  if (typeof header !== 'string') return null;
-  const match = /^Bearer\s+(\S+)\s*$/i.exec(header);
-  return match?.[1] || null;
 }
 
 const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
@@ -39,10 +31,20 @@ function decodeSession(token) {
   const tokenVersion = Number(decoded.tokenVersion ?? 0);
   if (!Number.isSafeInteger(userId) || userId <= 0 || userId > 2147483647 ||
       !Number.isSafeInteger(tokenVersion) || tokenVersion < 0) return null;
+  // Short API tokens may authenticate ordinary requests, but must not mint
+  // fresh push authority after their parent full session was logged out.
+  const pushEligible = typ !== 'short';
   return {
     userId,
     tokenVersion,
     mfaVerified: decoded.mfaVerified === true,
+    // Never persist or log the bearer credential. Its fingerprint is scoped
+    // to push registration and cannot be used to authenticate API requests.
+    pushFingerprint: pushEligible ? crypto.createHash('sha256').update(token).digest('hex') : null,
+    pushIssuedAtMs: pushEligible && Number.isSafeInteger(decoded.issuedAtMs)
+      ? decoded.issuedAtMs
+      : pushEligible && Number.isSafeInteger(decoded.iat) ? decoded.iat * 1000 : 0,
+    pushExpiresAtMs: pushEligible && Number.isSafeInteger(decoded.exp) ? decoded.exp * 1000 : 0,
   };
 }
 
@@ -78,7 +80,7 @@ async function hydrateUser(userId, db = prisma) {
 export async function requireAuth(req, res, next, db = prisma) {
   delete req.user;
   delete req.auth;
-  const session = decodeSession(getTokenFromReq(req));
+  const session = decodeSession(sessionTokenFromRequest(req, getCookieName()));
   if (!session) return res.status(401).json({ error: 'Unauthorized' });
   let user;
   try {
@@ -96,6 +98,9 @@ export async function requireAuth(req, res, next, db = prisma) {
   req.auth = {
     mfaVerified: session.mfaVerified,
     tokenVersion: session.tokenVersion,
+    pushFingerprint: session.pushFingerprint,
+    pushIssuedAtMs: session.pushIssuedAtMs,
+    pushExpiresAtMs: session.pushExpiresAtMs,
   };
   return next();
 }
@@ -104,7 +109,7 @@ export async function requireAuth(req, res, next, db = prisma) {
 export async function verifyTokenOptional(req, _res, next) {
   delete req.user;
   delete req.auth;
-  const session = decodeSession(getTokenFromReq(req));
+  const session = decodeSession(sessionTokenFromRequest(req, getCookieName()));
   if (session) {
     try {
       const user = await hydrateUser(session.userId);
@@ -114,6 +119,9 @@ export async function verifyTokenOptional(req, _res, next) {
           req.auth = {
             mfaVerified: session.mfaVerified,
             tokenVersion: session.tokenVersion,
+            pushFingerprint: session.pushFingerprint,
+            pushIssuedAtMs: session.pushIssuedAtMs,
+            pushExpiresAtMs: session.pushExpiresAtMs,
           };
         }
     } catch {

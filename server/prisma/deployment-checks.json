@@ -1,6 +1,16 @@
 {
   "version": 1,
   "checks": {
+    "push_authority_tables_exist": {
+      "sql": "SELECT to_regclass('public.\"PushInstallation\"') IS NOT NULL AS installation_exists, to_regclass('public.\"PushRegistration\"') IS NOT NULL AS registration_exists, to_regclass('public.\"PushSessionRevocation\"') IS NOT NULL AS revocation_exists",
+      "rule": "expected",
+      "before": [{ "installation_exists": false, "registration_exists": false, "revocation_exists": false }],
+      "after": [{ "installation_exists": true, "registration_exists": true, "revocation_exists": true }]
+    },
+    "preserve_device_count": {
+      "sql": "SELECT count(*)::text AS device_count FROM public.\"Device\"",
+      "rule": "unchanged"
+    },
     "esim_operation_lock_exists": {
       "sql": "SELECT to_regclass('public.\"EsimOperationLock\"') IS NOT NULL AS esim_operation_lock_exists",
       "rule": "expected",
@@ -58,6 +68,11 @@
     }
   },
   "migrations": {
+    "20261124020000_push_session_authority": {
+      "kind": "schema",
+      "reason": "Add installation-bound push session and provider authority without rewriting existing devices, messages, or registrations.",
+      "checks": ["preserve_user_count", "preserve_device_count", "push_authority_tables_exist"]
+    },
     "20261113010000_add_esim_operation_lock": {
       "kind": "schema",
       "reason": "Create a per-account eSIM operation claim for purchase and replacement serialization; preserve existing accounts and verify the table exists.",

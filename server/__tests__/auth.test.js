@@ -3,6 +3,7 @@ import crypto from 'node:crypto';
 import speakeasy from 'speakeasy';
 import prisma from '../utils/prismaClient.js';
 import { makeAgent, resetDb } from './helpers/testServer.js';
+import { activatePushInstallation, registerAuthorizedPush } from '../services/pushAuthorityService.js';
 
 describe('Auth flows', () => {
   let agent;
@@ -141,5 +142,155 @@ describe('Auth flows', () => {
     expect(me.body.user).not.toHaveProperty('totpSecretEnc');
     expect(me.body.user).not.toHaveProperty('twoFactorRecoveryCodes');
     expect(me.body.user).not.toHaveProperty('passwordHash');
+
+    const enrolledToken = enabled.body.token;
+    const shortToken = (await makeAgent().agent.get('/auth/token')
+      .set('Authorization', `Bearer ${enrolledToken}`).expect(200)).body.token;
+    await makeAgent().agent.post('/auth/logout')
+      .set('Authorization', `Bearer ${enrolledToken}`).expect(200);
+    for (const token of [enrolledToken, shortToken]) {
+      await makeAgent().agent.post('/auth/2fa/disable')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ code }).expect(401);
+    }
+  });
+
+  it('auth-only logout revokes its push grant while another session stays authorized', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    const userId = registered.body.user.id;
+    await prisma.user.update({ where: { id: userId },
+      data: { emailVerifiedAt: new Date() } });
+    const otherAgent = makeAgent().agent;
+    const firstToken = (await agent.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    const secondToken = (await otherAgent.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    for (const token of [firstToken, secondToken]) {
+      const claims = JSON.parse(Buffer.from(token.split('.')[1], 'base64url'));
+      expect(claims.issuedAtMs).toBeGreaterThan(0);
+      expect(Number.isSafeInteger(claims.issuedAtMs)).toBe(true);
+      expect(Number.isSafeInteger(claims.exp)).toBe(true);
+      expect(claims.exp * 1000).toBeGreaterThan(Date.now());
+    }
+    const api = makeAgent().agent;
+
+    const install = async (suffix, token) => {
+      const deviceId = `push-auth-logout-${suffix}`;
+      const installationId = crypto.randomUUID();
+      const installationProof = crypto.randomBytes(32).toString('base64url');
+      await prisma.device.create({ data: { userId, deviceId,
+        publicKey: 'synthetic-public-key' } });
+      const claims = JSON.parse(Buffer.from(token.split('.')[1], 'base64url'));
+      const session = {
+        pushFingerprint: crypto.createHash('sha256').update(token).digest('hex'),
+        pushIssuedAtMs: claims.issuedAtMs,
+        pushExpiresAtMs: claims.exp * 1000,
+        tokenVersion: claims.tokenVersion,
+      };
+      const user = { id: userId };
+      const body = {
+        installationId, installationProof, deviceId,
+        platform: 'ios', appId: 'com.chatforia.Chatforia',
+      };
+      const active = await activatePushInstallation({ user, auth: session, body });
+      await registerAuthorizedPush({ user, auth: session, body: {
+        installationId, installationProof, generation: active.generation,
+        provider: 'apns', environment: 'production',
+        tokenRevision: 1, token: `synthetic-push-${suffix}`,
+      } });
+      return { user, session, body, generation: active.generation };
+    };
+    const first = await install('first', firstToken);
+    const second = await install('second', secondToken);
+    expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(2);
+
+    const shortToken = (await api.get('/auth/token')
+      .set('Authorization', `Bearer ${firstToken}`).expect(200)).body.token;
+    await api.post('/auth/logout').set('Authorization', `Bearer ${shortToken}`).expect(401);
+    await api.get('/auth/logout').set('Authorization', `Bearer ${shortToken}`).expect(401);
+    await api.post('/devices/logout').set('Authorization', `Bearer ${shortToken}`)
+      .send({ deviceId: first.body.deviceId }).expect(401);
+    expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(2);
+
+    await api.post('/auth/logout').set('Authorization', `Bearer ${firstToken}`).expect(200);
+    await api.post('/auth/logout').set('Authorization', `Bearer ${firstToken}`).expect(200);
+    expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(1);
+    await expect(registerAuthorizedPush({ user: first.user, auth: first.session, body: {
+      installationId: first.body.installationId,
+      installationProof: first.body.installationProof, generation: first.generation,
+      provider: 'apns', environment: 'production', tokenRevision: 2,
+      token: 'synthetic-push-late',
+    } })).rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+    await expect(activatePushInstallation({ user: first.user, auth: first.session,
+      body: { ...first.body, installationId: crypto.randomUUID(),
+        installationProof: crypto.randomBytes(32).toString('base64url') },
+    })).rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+    await api.get('/auth/logout')
+      .set('Cookie', `${process.env.JWT_COOKIE_NAME || 'foria_jwt'}=${secondToken}`)
+      .expect(302);
+    expect(await prisma.pushRegistration.count({ where: { revokedAt: null } })).toBe(0);
+  });
+
+  it('logout before installation activation fences a delayed new installation', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    const userId = registered.body.user.id;
+    await prisma.user.update({ where: { id: userId },
+      data: { emailVerifiedAt: new Date() } });
+    const token = (await agent.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    const claims = JSON.parse(Buffer.from(token.split('.')[1], 'base64url'));
+    const session = {
+      pushFingerprint: crypto.createHash('sha256').update(token).digest('hex'),
+      pushIssuedAtMs: claims.issuedAtMs,
+      pushExpiresAtMs: claims.exp * 1000,
+      tokenVersion: claims.tokenVersion,
+    };
+    const deviceId = `push-auth-before-${crypto.randomUUID()}`;
+    await prisma.device.create({ data: { userId, deviceId,
+      publicKey: 'synthetic-public-key' } });
+    await makeAgent().agent.post('/auth/logout')
+      .set('Authorization', `Bearer ${token}`).expect(200);
+    await expect(activatePushInstallation({ user: { id: userId }, auth: session,
+      body: { installationId: crypto.randomUUID(),
+        installationProof: crypto.randomBytes(32).toString('base64url'),
+        deviceId, platform: 'ios', appId: 'com.chatforia.Chatforia' },
+    })).rejects.toMatchObject({ code: 'PUSH_SESSION_REVOKED' });
+  });
+
+  it('logged-out full and preexisting short tokens cannot enroll MFA or mint a new full session', async () => {
+    const registered = await agent.post('/auth/register')
+      .send({ email, username, password }).expect(201);
+    await prisma.user.update({ where: { id: registered.body.user.id },
+      data: { emailVerifiedAt: new Date() } });
+    const api = makeAgent().agent;
+    const bearer = makeAgent().agent;
+    const fullToken = (await api.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    const shortToken = (await api.get('/auth/token')
+      .set('Authorization', `Bearer ${fullToken}`).expect(200)).body.token;
+    await api.post('/auth/logout').set('Authorization', `Bearer ${fullToken}`).expect(200);
+    for (const token of [fullToken, shortToken]) {
+      await bearer.post('/auth/2fa/setup')
+        .set('Authorization', `Bearer ${token}`).expect(401);
+    }
+    expect(await prisma.verificationToken.count({ where: {
+      userId: registered.body.user.id, type: 'mfa_setup', usedAt: null,
+    } })).toBe(0);
+
+    const freshToken = (await api.post('/auth/login')
+      .send({ email, password }).expect(200)).body.token;
+    const setup = await bearer.post('/auth/2fa/setup')
+      .set('Authorization', `Bearer ${freshToken}`).expect(200);
+    const code = speakeasy.totp({ secret: setup.body.tmpSecret, encoding: 'base32' });
+    await bearer.post('/auth/2fa/enable').set('Authorization', `Bearer ${fullToken}`)
+      .send({ tmpSecret: setup.body.tmpSecret, code }).expect(401);
+    await bearer.post('/auth/2fa/enable').set('Authorization', `Bearer ${shortToken}`)
+      .send({ tmpSecret: setup.body.tmpSecret, code }).expect(401);
+    const enabled = await bearer.post('/auth/2fa/enable')
+      .set('Authorization', `Bearer ${freshToken}`)
+      .send({ tmpSecret: setup.body.tmpSecret, code }).expect(200);
+    expect(enabled.body.token).toBeTruthy();
   });
 });

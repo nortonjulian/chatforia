@@ -62,6 +62,7 @@ const resolveMessageNotificationSoundMock =
   jest.fn(() => 'Chatforia_Default.caf');
 
 const getVoiceEligibleDevicesMock = jest.fn();
+const authorizedPushRegistrationsMock = jest.fn();
 
 await jest.unstable_mockModule('apn', () => ({
   __esModule: true,
@@ -105,6 +106,12 @@ await jest.unstable_mockModule(
       getVoiceEligibleDevicesMock,
   })
 );
+
+await jest.unstable_mockModule('../services/pushAuthorityService.js', () => ({
+  authorizedPushRegistrations: authorizedPushRegistrationsMock,
+  pushAuthorityMode: () => process.env.PUSH_AUTHORITY_MODE === 'strict' ? 'strict' : 'shadow',
+  revokeInvalidProviderToken: jest.fn(),
+}));
 
 const {
   sendPushToUser,
@@ -153,6 +160,8 @@ describe('pushService APNs environment routing', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    process.env.PUSH_AUTHORITY_MODE = 'shadow';
+    authorizedPushRegistrationsMock.mockResolvedValue([]);
 
     mockPrisma.device.findMany.mockResolvedValue(
       devicesWithEveryToken()
@@ -602,4 +611,35 @@ describe('pushService APNs environment routing', () => {
       });
     }
   );
+
+  test('strict mode excludes every unbound legacy alert and VoIP token', async () => {
+    process.env.PUSH_AUTHORITY_MODE = 'strict';
+    authorizedPushRegistrationsMock.mockResolvedValue([]);
+    await sendPushToUser(7, { alert: { title: 'Test', body: 'Test' }, data: { type: 'sms_message' } });
+    await sendVoipCallPushToUser(7, { callId: 12, mode: 'VIDEO' });
+    expect(providerSendMock).not.toHaveBeenCalled();
+  });
+
+  test('strict mode sends only a currently authorized provider/environment token', async () => {
+    process.env.PUSH_AUTHORITY_MODE = 'strict';
+    authorizedPushRegistrationsMock.mockResolvedValue([{
+      provider: 'apns', environment: 'production', token: productionAlertToken,
+      installation: { currentDevice: { deviceId: 'authorized-ios', voicePushEnvironment: 'production' } },
+    }]);
+    await sendPushToUser(7, { alert: { title: 'Test', body: 'Test' }, data: { type: 'sms_message' } });
+    expect(providerSendMock).toHaveBeenCalledTimes(1);
+    expect(providerSendMock.mock.calls[0][0].tokens).toEqual([productionAlertToken]);
+  });
+
+  test('strict mode rechecks and withholds a token revoked before provider I/O', async () => {
+    process.env.PUSH_AUTHORITY_MODE = 'strict';
+    authorizedPushRegistrationsMock
+      .mockResolvedValueOnce([{
+        provider: 'apns', environment: 'production', token: productionAlertToken,
+        installation: { currentDevice: { deviceId: 'authorized-ios', voicePushEnvironment: 'production' } },
+      }])
+      .mockResolvedValueOnce([]);
+    await sendPushToUser(7, { alert: { title: 'Test', body: 'Test' }, data: { type: 'sms_message' } });
+    expect(providerSendMock).not.toHaveBeenCalled();
+  });
 });

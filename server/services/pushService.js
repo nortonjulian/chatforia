@@ -4,6 +4,7 @@ import { getFirebaseMessaging } from './firebaseAdmin.js';
 import { resolveMessageNotificationSound } from '../config/messageToneCatalog.js';
 import { needsIncomingCallAlert } from './incomingCallAlertTargets.js';
 import { getVoiceEligibleDevices } from './voiceDeviceService.js';
+import { authorizedPushRegistrations, pushAuthorityMode, revokeInvalidProviderToken } from './pushAuthorityService.js';
 import { getBadgeState } from './badgeState.js';
 
 const providers = {
@@ -49,6 +50,9 @@ async function cleanupInvalidFcmTokens(failed = []) {
       },
       data: { pushToken: null },
     });
+    if (pushAuthorityMode() === 'strict') {
+      await revokeInvalidProviderToken('fcm', 'none', token);
+    }
   }
 }
 
@@ -118,6 +122,9 @@ async function cleanupInvalidApnsTokens(
         [tokenField]: null,
       },
     });
+    if (pushAuthorityMode() === 'strict') {
+      await revokeInvalidProviderToken(kind === 'voip' ? 'apns_voip' : 'apns', environment, token);
+    }
 
     /*
      * Legacy/general APNs fields represent production alert
@@ -191,6 +198,30 @@ function getProvider(environment = 'production') {
  * Get all valid push tokens for a user
  */
 async function getUserTokens(userId, { callKitDeviceIds = [] } = {}) {
+  if (pushAuthorityMode() === 'strict') {
+    try {
+      const rows = await authorizedPushRegistrations(userId);
+      const callKitIds = new Set(callKitDeviceIds);
+      const tokenSet = (provider, environment, predicate = () => true) =>
+        [...new Set(rows.filter((row) => row.provider === provider &&
+          row.environment === environment && predicate(row.installation.currentDevice))
+          .map((row) => row.token).filter(Boolean))];
+      return {
+        apnsProduction: tokenSet('apns', 'production', (device) =>
+          needsIncomingCallAlert(device, 'production', callKitIds)),
+        apnsSandbox: tokenSet('apns', 'sandbox', (device) =>
+          needsIncomingCallAlert(device, 'sandbox', callKitIds)),
+        apnsVoipProduction: tokenSet('apns_voip', 'production'),
+        apnsVoipSandbox: tokenSet('apns_voip', 'sandbox'),
+        fcm: tokenSet('fcm', 'none'),
+      };
+    } catch {
+      // Push failure must not block message persistence or call-state writes.
+      console.warn('[push] authority lookup unavailable; delivery withheld');
+      return { apnsProduction: [], apnsSandbox: [], apnsVoipProduction: [],
+        apnsVoipSandbox: [], fcm: [] };
+    }
+  }
   const devices = await prisma.device.findMany({
     where: {
       userId: Number(userId),
@@ -208,6 +239,16 @@ async function getUserTokens(userId, { callKitDeviceIds = [] } = {}) {
       voipSandboxPushToken: true,
     },
   });
+
+  if (process.env.PUSH_AUTHORITY_SHADOW_METRICS === '1') {
+    // Aggregate only: no token, phone number, message body, or session data.
+    void authorizedPushRegistrations(userId)
+      .then((rows) => console.info('[push-authority] shadow', {
+        legacyDeviceCount: devices.length,
+        authorizedRegistrationCount: rows.length,
+      }))
+      .catch(() => console.warn('[push-authority] shadow lookup unavailable'));
+  }
 
   const unique = (items) =>
     [...new Set(items.filter(Boolean))];
@@ -279,6 +320,19 @@ async function getUserTokens(userId, { callKitDeviceIds = [] } = {}) {
   };
 }
 
+async function tokensEligibleAtSend(userId, provider, environment, tokens) {
+  if (pushAuthorityMode() !== 'strict' || !tokens.length) return tokens;
+  try {
+    const rows = await authorizedPushRegistrations(userId, provider);
+    const allowed = new Set(rows.filter((row) => row.environment === environment)
+      .map((row) => row.token));
+    return tokens.filter((token) => allowed.has(token));
+  } catch {
+    console.warn('[push] authority recheck unavailable; delivery withheld');
+    return [];
+  }
+}
+
 export async function sendVoipCallPushToUser(
   userId,
   payload
@@ -297,8 +351,17 @@ export async function sendVoipCallPushToUser(
      * those same eligible iOS devices rather than every historical
      * non-revoked VoIP token on the account.
      */
-    const voiceDevices =
-      await getVoiceEligibleDevices(userId);
+    let voiceDevices = await getVoiceEligibleDevices(userId);
+    if (pushAuthorityMode() === 'strict') {
+      try {
+        const authorized = await authorizedPushRegistrations(userId, 'apns_voip');
+        const allowed = new Set(authorized.map((row) => row.token));
+        voiceDevices = voiceDevices.filter((device) =>
+          allowed.has(device.voipPushToken) || allowed.has(device.voipSandboxPushToken));
+      } catch {
+        voiceDevices = [];
+      }
+    }
 
     const productionTokens =
       voiceDevices
@@ -386,6 +449,7 @@ export async function sendVoipCallPushToUser(
   };
 
   for (const group of groups) {
+    group.tokens = await tokensEligibleAtSend(userId, 'apns_voip', group.environment, group.tokens);
     if (!group.tokens.length) continue;
 
     const apnProvider =
@@ -595,6 +659,7 @@ export async function sendPushToUser(userId, payload) {
     }
 
     for (const group of apnsGroups) {
+      group.tokens = await tokensEligibleAtSend(userId, 'apns', group.environment, group.tokens);
       if (!group.tokens.length) continue;
 
       const apnProvider =
@@ -775,37 +840,41 @@ export async function sendPushToUser(userId, payload) {
         };
       }
 
-      results.fcm = await messaging.sendEachForMulticast(message);
+      // Recheck after payload construction, immediately before provider I/O.
+      message.tokens = await tokensEligibleAtSend(userId, 'fcm', 'none', message.tokens);
+      if (message.tokens.length) {
+        results.fcm = await messaging.sendEachForMulticast(message);
 
-      if (results.fcm.failureCount > 0) {
-        const failed = results.fcm.responses
-          .map((response, index) => ({
-            token: tokens.fcm[index],
-            success: response.success,
-            code: response.error?.code || null,
-            message: response.error?.message || null,
-          }))
-          .filter((item) => !item.success);
+        if (results.fcm.failureCount > 0) {
+          const failed = results.fcm.responses
+            .map((response, index) => ({
+              token: message.tokens[index],
+              success: response.success,
+              code: response.error?.code || null,
+              message: response.error?.message || null,
+            }))
+            .filter((item) => !item.success);
 
-        console.warn(
-          '[push] FCM failures',
-          JSON.stringify(
-            {
-              userId,
-              failed: failed.map((failure) => ({
-                token: failure.token
-                  ? `${String(failure.token).slice(0, 10)}...${String(failure.token).slice(-6)}`
-                  : null,
-                code: failure.code,
-                message: failure.message,
-              })),
-            },
-            null,
-            2
-          )
-        );
+          console.warn(
+            '[push] FCM failures',
+            JSON.stringify(
+              {
+                userId,
+                failed: failed.map((failure) => ({
+                  token: failure.token
+                    ? `${String(failure.token).slice(0, 10)}...${String(failure.token).slice(-6)}`
+                    : null,
+                  code: failure.code,
+                  message: failure.message,
+                })),
+              },
+              null,
+              2
+            )
+          );
 
-        await cleanupInvalidFcmTokens(failed);
+          await cleanupInvalidFcmTokens(failed);
+        }
       }
     }
   }
