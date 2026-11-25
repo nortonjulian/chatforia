@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import axiosClient from '@/api/axiosClient';
 import { Button } from '@mantine/core';
 import { IconRefresh } from '@tabler/icons-react';
+import { messageImageStyle } from './messageImagePresentation';
 
 /*
  * Persisted local message media is not public. Fetch a user-authorized,
@@ -376,8 +377,7 @@ export default function ProtectedMessageAttachment({ attachment, index, viewerId
     const display = preview.url || file.url;
     return (
       <a href={file.url || display} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
-        <img src={display} alt="Attachment"
-          style={{ width: 220, maxWidth: '100%', borderRadius: 12 }} />
+        <img src={display} alt="Attachment" style={messageImageStyle} />
       </a>
     );
   }

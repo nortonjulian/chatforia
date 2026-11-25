@@ -28,6 +28,11 @@ test('requests a recipient-authorized URL for local private media', async () => 
     '/private-media/message/31',
     expect.objectContaining({ params: { variant: 'file' } })
   );
+  const image=screen.getByAltText('Attachment');
+  expect(image.style.width).toBe('220px');
+  expect(image.style.height).toBe('auto');
+  expect(image.style.maxHeight).toBe('');
+  expect(image.style.borderRadius).toBe('12px');
 });
 
 test('an unavailable private media lookup never falls back to the public local path', async () => {

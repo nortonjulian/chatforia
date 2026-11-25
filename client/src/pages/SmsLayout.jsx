@@ -951,6 +951,7 @@ const showCallBanner = Boolean(
                       key={m.id}
                       data-sms-msg-id={m.id}
                       className="sms-message-row"
+                      data-outgoing={isOut ? 'true' : 'false'}
                       justify={isOut ? 'flex-end' : 'flex-start'}
                       align="flex-start"
                       wrap="nowrap"
@@ -1028,10 +1029,11 @@ const showCallBanner = Boolean(
                             }}
                             className="sms-bubble"
                             data-media-only={!hasText && !isEditing ? "true" : undefined}
+                            data-has-media={hasMedia && !isEditing ? 'true' : undefined}
                           >
                             {!isEditing ? (
                               <>
-                                <Text
+                                {!hasMedia && <Text
                                   c="inherit"
                                   style={{
                                     whiteSpace: 'pre-wrap',
@@ -1039,16 +1041,29 @@ const showCallBanner = Boolean(
                                   }}
                                 >
                                   {m.body}
-                                </Text>
+                                </Text>}
 
                                 {media.length > 0 && (
-                                  <Group gap="xs" mt={8} wrap="wrap">
-                                    {media.map((item, idx) => (
-                                      <SmsMessageMedia key={`${accountKey}:${m.id}-${idx}`}
-                                        messageId={m.id} mediaIndex={idx} item={item}
-                                        accountKey={accountKey} onOpenImage={() => setGalleryOpen(true)} />
-                                    ))}
-                                  </Group>
+                                  <>
+                                    <Group gap="xs" mt={2} wrap="wrap" justify={isOut ? 'flex-end' : 'flex-start'}>
+                                      {media.map((item, idx) => (
+                                        <SmsMessageMedia key={`${accountKey}:${m.id}-${idx}`}
+                                          messageId={m.id} mediaIndex={idx} item={item}
+                                          accountKey={accountKey} onOpenImage={() => setGalleryOpen(true)} />
+                                      ))}
+                                    </Group>
+                                    {hasText && <Text c="inherit" size="sm" mt={6}
+                                      style={{
+                                        maxWidth: 260,
+                                        whiteSpace: 'pre-wrap',
+                                        overflowWrap: 'anywhere',
+                                        wordBreak: 'break-word',
+                                        textAlign: isOut ? 'right' : 'left',
+                                        opacity: 0.92,
+                                      }}>
+                                      {m.body}
+                                    </Text>}
+                                  </>
                                 )}
                               </>
                             ) : (

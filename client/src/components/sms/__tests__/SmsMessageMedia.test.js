@@ -39,6 +39,21 @@ test('an authenticated MMS image opens the gallery by keyboard and keeps descrip
  await user.keyboard('{Enter}');
  expect(onOpenImage).toHaveBeenCalledTimes(1);
  expect(button.querySelector('img')).toHaveAttribute('src','blob:sms-1');
+ expect(button.querySelector('img').style.width).toBe('220px');
+ expect(button.querySelector('img').style.height).toBe('auto');
+ expect(button.querySelector('img').style.maxHeight).toBe('');
+ expect(button.querySelector('img').style.objectFit).toBe('');
+ expect(button.querySelector('img').style.borderRadius).toBe('12px');
+});
+test('full-size MMS image uses the same authorized account-scoped loader and offers download',async()=>{
+ respond('image/png');
+ render(<SmsMessageMedia {...props} presentation="viewer"/>);
+ const image=await screen.findByRole('img',{name:'MMS attachment'});
+ expect(image.style.maxHeight).toBe('70vh');
+ expect(image.style.objectFit).toBe('contain');
+ expect(screen.queryByRole('button',{name:'Open MMS image in media gallery'})).toBeNull();
+ expect(screen.getByLabelText('Download MMS image')).toHaveAttribute('href','blob:sms-1');
+ expect(axiosClient.get).toHaveBeenCalledWith('/sms/media/166/0?cacheScope=65',expect.objectContaining({responseType:'blob'}));
 });
 test('authorized nonvisual attachment remains downloadable from a local blob',async()=>{
  respond('application/pdf');render(<SmsMessageMedia {...props} item={{url:'opaque-file',contentType:'application/pdf'}}/>);
