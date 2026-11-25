@@ -302,24 +302,28 @@ export default function SmsCompose() {
           borderTop: '1px solid var(--mantine-color-default-border)',
         }}
       >
-        <Group gap="xs" align="center" wrap="nowrap">
-          <Button variant="subtle" onClick={() => setPickerOpen(true)}>
+        <Group className="responsive-message-composer" gap="xs" align="center" wrap="nowrap">
+          <div className="composer-attachment-row">
+          <Button variant="subtle" aria-label={t('composer.emoji', 'Emoji')} onClick={() => setPickerOpen(true)}>
             <IconMoodSmile size={18} />
           </Button>
-          <Button variant="subtle" onClick={() => setPickerOpen(true)}>
+          <Button variant="subtle" aria-label={t('composer.gifPicker', 'Open GIF picker')} onClick={() => setPickerOpen(true)}>
             <IconGif size={18} />
           </Button>
           <FileButton onChange={() => {}}>
             {(props) => (
-              <Button variant="subtle" {...props}>
+              <Button variant="subtle" aria-label={t('composer.upload', 'Upload')} {...props}>
                 <IconPaperclip size={18} />
               </Button>
             )}
           </FileButton>
+          </div>
 
+          <div className="composer-input-row">
           <Textarea
             ref={inputRef}
             variant="filled"
+            aria-label={t('composer.aria', 'Message composer')}
             placeholder={
               to
                 ? t('sms.typeMessage', 'Type a message…')
@@ -328,7 +332,7 @@ export default function SmsCompose() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             autosize
-            minRows={3}
+            minRows={2}
             maxRows={6}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -336,7 +340,7 @@ export default function SmsCompose() {
                 handleSend();
               }
             }}
-            styles={{ root: { flex: 1 } }}
+            styles={{ root: { flex: 1, minWidth: 0 } }}
           />
 
           <Button
@@ -347,6 +351,7 @@ export default function SmsCompose() {
           >
             {t('common.send', 'Send')}
           </Button>
+          </div>
         </Group>
       </Box>
 

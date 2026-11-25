@@ -303,7 +303,8 @@ export default function BottomComposer({
                 );
               })()}
 
-            <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
+            <Group className="responsive-message-composer" gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
+              <div className="composer-attachment-row">
               {showGif && (
                 <Button
                   className="composer-gradient-control"
@@ -407,7 +408,9 @@ export default function BottomComposer({
                   }}
                 />
               )}
+              </div>
 
+              <div className="composer-input-row">
               <Textarea
                 className="composer-theme-field"
                 placeholder={placeholder ?? t('composer.placeholder', 'Type a message…')}
@@ -424,8 +427,8 @@ export default function BottomComposer({
                   input: {
                     overflowX: 'hidden',
                     whiteSpace: 'pre-wrap',
-                    overflowWrap: 'anywhere',
-                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    wordBreak: 'normal',
                     lineHeight: 1.45,
                     paddingTop: 8,
                     paddingBottom: 8,
@@ -461,6 +464,7 @@ export default function BottomComposer({
                   <Send size={16} />
                 </ActionIcon>
               </Tooltip>
+              </div>
 
               <input
                 ref={fileRef}

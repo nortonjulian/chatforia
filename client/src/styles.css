@@ -392,6 +392,33 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 :root[data-theme="solarized"] .composer-theme-field .mantine-Textarea-input::placeholder {
   color: var(--fg) !important;
 }
+/* Keep the input beside Send; move attachment actions to a compact row on phones. */
+.responsive-message-composer .composer-attachment-row,
+.responsive-message-composer .composer-input-row { display: contents; }
+.responsive-message-composer .mantine-Textarea-input::placeholder {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 850px) {
+  .responsive-message-composer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .responsive-message-composer .composer-attachment-row,
+  .responsive-message-composer .composer-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .responsive-message-composer .composer-attachment-row { justify-content: flex-start; }
+  .responsive-message-composer .composer-input-row .mantine-Textarea-root {
+    flex: 1;
+    min-width: 0;
+  }
+  .responsive-message-composer .composer-input-row > :last-child { flex: 0 0 auto; }
+}
 :root:not([data-theme="neon"]):not([data-theme="dark"]) .composer-theme-field .mantine-Textarea-input {
   box-shadow: 0 0 0 1px var(--muted);
 }

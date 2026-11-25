@@ -368,7 +368,7 @@ function AuthedLayout() {
 
               </div>
 
-              <SupportWidget excludeRoutes={['/sms', '/admin']} />
+              <SupportWidget excludeRoutes={['/', '/chat/', '/sms', '/random', '/admin']} />
             </AdProvider>
           </AppShell.Main>
       </AppShell>

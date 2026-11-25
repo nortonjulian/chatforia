@@ -1,5 +1,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
+jest.mock('react-router-dom', () => ({
+  useLocation: () => ({ pathname: globalThis.location.pathname }),
+}));
+
 // ---- Mocks ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
@@ -205,6 +209,36 @@ describe('SupportWidget', () => {
 
     expect(screen.queryByRole('button', { name: /open support/i })).toBeNull();
     expect(screen.queryByText(/help/i)).toBeNull();
+  });
+
+  test.each(['/', '/chat/1', '/sms/1', '/sms/compose', '/random'])(
+    'hides on messaging screen %s', (path) => {
+      setPath(path);
+      render(<SupportWidget excludeRoutes={['/', '/chat/', '/sms', '/random']} />);
+      expect(screen.queryByRole('button', { name: /open support/i })).toBeNull();
+    }
+  );
+
+  test('keeps Help on non-messaging screens', () => {
+    setPath('/settings');
+    render(<SupportWidget excludeRoutes={['/', '/chat/', '/sms', '/random']} />);
+    expect(screen.getByRole('button', { name: /open support/i })).toBeInTheDocument();
+  });
+
+  test('closes an open Help drawer when navigation enters a messaging screen', () => {
+    const excludeRoutes = ['/', '/chat/', '/sms', '/random'];
+    setPath('/settings');
+    const { rerender } = render(<SupportWidget excludeRoutes={excludeRoutes} />);
+    fireEvent.click(screen.getByRole('button', { name: /open support/i }));
+    expect(screen.getByTestId('drawer')).toHaveAttribute('data-opened', 'true');
+
+    setPath('/chat/1');
+    rerender(<SupportWidget excludeRoutes={excludeRoutes} />);
+    expect(screen.queryByTestId('drawer')).toBeNull();
+
+    setPath('/settings');
+    rerender(<SupportWidget excludeRoutes={excludeRoutes} />);
+    expect(screen.getByTestId('drawer')).toHaveAttribute('data-opened', 'false');
   });
 
   test('shows FAB and opens drawer on click', () => {

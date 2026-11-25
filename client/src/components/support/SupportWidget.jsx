@@ -20,6 +20,7 @@ import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
 import { useTranslation } from 'react-i18next';
 import posthog from '@/utils/analytics';
+import { useLocation } from 'react-router-dom';
 
 // Keep value identifiers here; labels will be localized inside the component.
 const QUICK_TOPICS = [
@@ -34,6 +35,7 @@ export default function SupportWidget({
 }) {
   const { t } = useTranslation();
   const { currentUser } = useUser();
+  const { pathname } = useLocation();
 
   const [opened, setOpened] = useState(false);
   const [tab, setTab] = useState('help'); // 'help' | 'contact'
@@ -61,9 +63,12 @@ export default function SupportWidget({
   };
 
   const shouldHide = useMemo(() => {
-    const path = window.location.pathname;
-    return excludeRoutes.some((p) => path.startsWith(p));
-  }, [excludeRoutes]);
+    return excludeRoutes.some((p) => p === '/' ? pathname === '/' : pathname.startsWith(p));
+  }, [excludeRoutes, pathname]);
+
+  useEffect(() => {
+    if (shouldHide) setOpened(false);
+  }, [shouldHide]);
 
   useEffect(() => {
     if (!opened) {
