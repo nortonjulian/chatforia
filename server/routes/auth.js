@@ -9,6 +9,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { sessionTokenFromRequest } from '../utils/sessionTokenFromRequest.js';
 import { pushSessionRevocationFromToken } from '../utils/pushSessionRevocation.js';
 import { revokePushAuthorityForSession } from '../services/pushAuthorityService.js';
+import { disconnectSessionSockets } from '../services/socketBus.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { sendMail } from '../utils/sendMail.js';
 
@@ -532,6 +533,10 @@ router.get(
   '/token',
   requireAuth,
   asyncHandler(async (req, res) => {
+    if (req.auth?.sessionKind !== 'session' || !req.auth?.pushFingerprint ||
+        !Number.isSafeInteger(req.auth.pushExpiresAtMs) || req.auth.pushExpiresAtMs <= Date.now()) {
+      return res.status(401).json({ error: 'full_session_required' });
+    }
     const payload = {
       id: req.user.id,
       email: req.user.email,
@@ -540,6 +545,8 @@ router.get(
       plan: req.user.plan,
       tokenVersion: req.user.tokenVersion ?? 0,
       typ: 'short',
+      parentSessionFingerprint: req.auth.pushFingerprint,
+      parentSessionExpiresAt: req.auth.pushExpiresAtMs,
       mfaVerified: req.auth?.mfaVerified === true,
     };
 
@@ -867,6 +874,7 @@ router.post(
       return res.status(401).json({ error: 'full_session_required' });
     }
     await revokePushAuthorityForSession(session);
+    if (session) disconnectSessionSockets(session.fingerprint);
     clearAllAuthCookies(res);
 
     if (req.logout) {
@@ -894,6 +902,7 @@ router.get('/logout', asyncHandler(async (req, res) => {
     return res.status(401).json({ error: 'full_session_required' });
   }
   await revokePushAuthorityForSession(session);
+  if (session) disconnectSessionSockets(session.fingerprint);
   clearAllAuthCookies(res);
 
   if (req.session) {
