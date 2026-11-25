@@ -7,9 +7,9 @@
 - Base: refreshed `origin/main` at `d189cf65`
 - Status: local review only; not pushed, merged, or deployed.
 
-The seven original website checkpoints remain untouched in
+The eight original website checkpoints remain intact in
 `/Users/juliannorton/Desktop/chatforia-web-conversation-mms-checkpoint-20261124`
-at `f2d5d539`. The candidate replays their website corrections as follows:
+at `8f812f7c`. The candidate replays their website corrections as follows:
 
 | Original checkpoint | Review commit | Scope |
 | --- | --- | --- |
@@ -20,27 +20,37 @@ at `f2d5d539`. The candidate replays their website corrections as follows:
 | `8bab90e5` | `6c6eab7c` | Shared authenticated image viewer and gallery/download behavior |
 | `aa666e3d` | `f21dba04` | Responsive composer and Help placement |
 | `f2d5d539` | `7289ea45` | New SMS/MMS composition; obsolete account-66 handoff excluded |
+| `8f812f7c` | `03a46870` | Shared viewer desktop/mobile sizing, header Close and short-screen caption/Download fit |
 
 The candidate changes no backend, migration, MLS, native, or deployment-workflow
-files. `git diff --quiet f2d5d539 HEAD -- client` exited 0: the candidate's
+files. `git diff --quiet 8f812f7c HEAD -- client` exited 0: the candidate's
 client tree is byte-identical to the tested checkpoint. The four newer main
 commits since its `bc1cb678` base changed backend/session authorization and
-parity documentation, with **no client file changes**. Existing focused tests,
-production client builds, and paired browser evidence are recorded in the
+parity documentation, with **no client file changes**. The eighth checkpoint's
+focused viewer suite passed **6/6**, its production client build passed, and
+authenticated Chromium checked 24 direct cases at 1440×900, 390×844 and
+375×667, plus four gallery cases, short-screen scrolling, and viewer controls
+in all eight themes under light/dark appearance. Desktop image long edges were
+**14.6–15.8%** smaller. Existing focused tests and paired browser evidence are
+recorded in the
 [master website QA checklist](../WEBSITE_QA_RELEASE_CHECKLIST_20261123.md).
-They were not rerun for this source-identical review candidate. The refreshed
+Unchanged suites were not rerun for this source-identical review candidate. The refreshed
 iOS parity document from main is retained.
 
 ## Local authenticated QA environment
 
 The corrected Vite server is listening from the original website checkpoint
 worktree on `[::1]:5173`; the disposable backend is listening from that same
-worktree on `127.0.0.1:5002`. On November 25, frontend HTTP and backend
+worktree on `127.0.0.1:5002`. A local-only image upload fixture is listening
+on `127.0.0.1:5004`; it replaced the read-only fixture that caused a local
+`POST /uploads/intent` 500. The authenticated local image selection, preview,
+caption and removal check passed without an SMS send. On November 25, frontend
+HTTP and backend
 `/health` each returned 200. A local Socket.IO polling handshake returned
 200 with `Access-Control-Allow-Origin: http://localhost:5173`; the disposable
 PostgreSQL fixture and account password file remain present under the existing
 private `/private/tmp/chatforia-webqa-20261124.QrNEHS` directory. These checks
-establish service availability, not a fresh authenticated account pass.
+use disposable accounts and fixtures; they are not live-provider checks.
 Use `http://localhost:5173/` and the existing disposable `dev_user_1` and
 `dev_user_2` credentials in that private fixture. Do not use production users,
 real carrier sends, or real eSIM purchases. The running Vite server serves the
@@ -58,13 +68,16 @@ real carrier sends, or real eSIM purchases. The running Vite server serves the
    confirm no prior account content appears. Exercise a denied/removed room and
    a changed/locked encryption key if the disposable fixture supports them.
 2. **Native/MMS images.** With the paired portrait, landscape and square
-   fixtures, inspect image-only and captioned messages at desktop and about
-   390px mobile width. Both channels should retain 220px inline width, natural
+   fixtures, inspect image-only and captioned messages at desktop, about
+   390px mobile width, and 375×667. Both channels should retain 220px inline
+   width, natural
    proportions, transparent image-only MMS surface, caption-below placement
    and 12px corners. Click a specific image: it should open directly in the
-   same responsive viewer. Check Close, gallery Back only when gallery-opened,
-   Download of original bytes, Escape, focus restoration and conversation
-   scroll position. Confirm `dev_user_2` cannot fetch `dev_user_1`'s private
+   same responsive viewer. Check the 920px desktop modal limit, Close in the
+   title header, and caption plus Download visibility on short screens. Check
+   gallery Back only when gallery-opened, Download of original bytes, Escape,
+   focus restoration and conversation scroll position. Confirm `dev_user_2`
+   cannot fetch `dev_user_1`'s private
    media. Real carrier/cloud MMS and physical-device behavior remain separate
    provider/device checks; the local fixture does not prove them.
 3. **Composer and Help.** Review native new/existing and SMS new/existing
@@ -97,7 +110,7 @@ emulation and the recorded local Chromium evidence are not physical-device QA.
 
 ## Genuine release gates
 
-- **Code review:** review seven source commits, the retained main parity
+- **Code review:** review eight source commits, the retained main parity
   document, the excluded account-66 handoff, and this checklist. The candidate
   can be reviewed independently of the protected username workflow, Stage A,
   group-invitation activation, Broadcast Messaging and MLS. No new backend API
