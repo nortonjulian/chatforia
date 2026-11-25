@@ -28,11 +28,12 @@ export default function ThreadShell({ header, children, composer }) {
 
       {composer ? (
         <Box
+          className="thread-composer-shell"
           style={{
             flex: '0 0 auto',
             padding: '8px 12px',
-            borderTop: '1px solid rgba(0,0,0,0.06)',
-            background: 'var(--mantine-color-body)',
+            borderTop: '1px solid var(--composer-border, rgba(0,0,0,0.06))',
+            background: 'var(--composer-bg, var(--mantine-color-body))',
             position: 'relative',
             zIndex: 2,
           }}

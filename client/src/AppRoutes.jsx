@@ -245,6 +245,7 @@ function AuthedLayout() {
               <Burger
                 opened={opened}
                 onClick={toggle}
+                style={{ '--burger-color': 'var(--toolbar-icon, var(--fg))' }}
                 hiddenFrom="sm"
                 aria-label={
                   opened

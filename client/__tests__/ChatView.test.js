@@ -1,6 +1,7 @@
 /** @jest-environment jsdom */
 
 import { jest } from '@jest/globals';
+import React from 'react';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils.js';
 import { createNativeThreadSessionCache } from '../src/utils/nativeThreadSessionCache.js';
@@ -760,4 +761,59 @@ test.each([401, 403, 404])('native message refresh %s removes cached content and
   expect(screen.queryByText('Private cached text')).not.toBeInTheDocument();
   expect(cache.getMessages(10)).toBeNull();
   expect(onAccessError).toHaveBeenCalledTimes(1);
+});
+
+test('socket reconnection reconciles missed edits and deletions from authoritative history', async () => {
+  fetchLatestMessages.mockResolvedValueOnce({
+    items: [cachedRow(2, 'Deleted while offline'), cachedRow(1, 'Original')], nextCursor: null,
+  }).mockResolvedValueOnce({
+    items: [cachedRow(1, 'Edited while offline', 2)], nextCursor: null,
+  });
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} />);
+  expect(await screen.findByText('Original')).toBeInTheDocument();
+  expect(screen.getByText('Deleted while offline')).toBeInTheDocument();
+  await deliverSocketEvent('connect', {});
+  expect(await screen.findByText('Edited while offline')).toBeInTheDocument();
+  expect(screen.queryByText('Deleted while offline')).not.toBeInTheDocument();
+  expect(fetchLatestMessages).toHaveBeenCalledTimes(2);
+});
+
+test('browser online recovery refreshes an already loaded native room without duplicate socket fetch', async () => {
+  const refresh = deferredNativeRefresh();
+  fetchLatestMessages.mockResolvedValueOnce({
+    items: [cachedRow(2, 'Removed offline'), cachedRow(1, 'Before offline')], nextCursor: null,
+  }).mockReturnValueOnce(refresh.promise);
+  renderWithRouter(<ChatView chatroom={{ id: 10 }} currentUserId={1} currentUser={{ id: 1 }} />);
+  expect(await screen.findByText('Before offline')).toBeInTheDocument();
+  act(() => window.dispatchEvent(new Event('online')));
+  await deliverSocketEvent('connect', {});
+  await act(async () => { refresh.resolve({ items: [cachedRow(1, 'After offline', 2)], nextCursor: null }); });
+  expect(screen.getByText('After offline')).toBeInTheDocument();
+  expect(screen.queryByText('Removed offline')).not.toBeInTheDocument();
+  expect(fetchLatestMessages).toHaveBeenCalledTimes(2);
+});
+
+test('rapid native A → B → A restores confirmed A messages before its return fetch completes', async () => {
+  const cache = seededNativeCache([cachedRow(1, 'Confirmed A')]);
+  cache.putRoom(20, { id: 20 });
+  cache.putMessages(20, [{ ...cachedRow(2, 'Confirmed B'), chatRoomId: 20 }]);
+  const pending = [];
+  fetchLatestMessages.mockImplementation(() => new Promise((resolve) => pending.push(resolve)));
+  function Harness() {
+    const [id, setId] = React.useState(10);
+    return <>
+      <button type="button" onClick={() => setId(10)}>Room A</button>
+      <button type="button" onClick={() => setId(20)}>Room B</button>
+      <ChatView key={id} chatroom={{ id }} currentUserId={1} currentUser={{ id: 1 }} nativeThreadCache={cache} />
+    </>;
+  }
+  renderWithRouter(<Harness />);
+  expect(screen.getByText('Confirmed A')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Room B' }));
+  expect(screen.getByText('Confirmed B')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Room A' }));
+  expect(screen.getByText('Confirmed A')).toBeInTheDocument();
+  expect(screen.queryByText('Confirmed B')).not.toBeInTheDocument();
+  expect(fetchLatestMessages).toHaveBeenCalledTimes(3);
+  await act(async () => pending.forEach((resolve) => resolve({ items: [], nextCursor: null })));
 });

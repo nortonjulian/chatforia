@@ -50,7 +50,7 @@ import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 
 // ✅ Local message cache for search/media
-import { fetchLatestMessages, fetchOlderMessages, fetchMessageDeltas } from '@/lib/api';
+import { fetchLatestMessages, fetchOlderMessages } from '@/lib/api';
 import { addMessages, upsertMessage, removeExpiredMessages } from '@/utils/messagesStore';
 import { messageCacheKey } from '@/utils/messageCacheKey';
 import { reconcileLatestMessages } from '@/utils/nativeThreadSessionCache';
@@ -263,6 +263,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
   const realtimeDuringRefreshRef = useRef([]);
   const refreshBaselineIdsRef = useRef(new Set());
   const retryAfterOnlineRef = useRef(false);
+  const reconnectRefreshPendingRef = useRef(false);
   const mountedRef = useRef(true);
   const expiredMessageIds = useRef(new Set());
   const receiptMessagesRef = useRef(messages);
@@ -1421,6 +1422,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
         setMessages([]);
         if ([401, 403, 404].includes(err?.response?.status)) {
           retryAfterOnlineRef.current = false;
+          reconnectRefreshPendingRef.current = false;
           onAccessError?.(err);
         }
       }
@@ -1431,6 +1433,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
       loadingOlderRef.current = false;
       if (initial && retryAfterOnlineRef.current && !initialRefreshConfirmedRef.current && mountedRef.current) {
         retryAfterOnlineRef.current = false;
+        queueMicrotask(() => {
+          if (mountedRef.current) loadMore(true);
+        });
+      }
+      if (reconnectRefreshPendingRef.current && mountedRef.current) {
+        reconnectRefreshPendingRef.current = false;
         queueMicrotask(() => {
           if (mountedRef.current) loadMore(true);
         });
@@ -1472,6 +1480,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
     let alive = true;
     mountedRef.current = true;
     retryAfterOnlineRef.current = false;
+    reconnectRefreshPendingRef.current = false;
 
     setCursor(null);
     setShowNewMessage(false);
@@ -1499,9 +1508,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
     })();
 
     const onOnline = () => {
-      if (initialRefreshConfirmedRef.current) return;
-      if (loadingOlderRef.current) retryAfterOnlineRef.current = true;
-      else loadMore(true);
+      if (loadingOlderRef.current) {
+        if (pendingPages.current.has('initial')) {
+          if (!initialRefreshConfirmedRef.current) retryAfterOnlineRef.current = true;
+        } else {
+          reconnectRefreshPendingRef.current = true;
+        }
+      } else loadMore(true);
     };
     window.addEventListener('online', onOnline);
 
@@ -1509,6 +1522,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
       alive = false;
       mountedRef.current = false;
       retryAfterOnlineRef.current = false;
+      reconnectRefreshPendingRef.current = false;
       window.removeEventListener('online', onOnline);
     };
   }, [chatroom?.id]);
@@ -1708,44 +1722,23 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
   useEffect(() => {
   if (!socket || !chatroom?.id) return;
 
-  const onSocketConnect = async () => {
-    if (!highestSeenId || highestSeenId <= 0) return;
-
-    try {
-      const resp = await fetchMessageDeltas(chatroom.id, highestSeenId);
-      const rows = resp?.items || [];
-      if (!rows.length) return;
-
-      const chronological = rows.slice().reverse();
-
-      setMessages((prev) => {
-        const seen = new Set(prev.map((m) => String(m.id ?? m.clientMessageId ?? '')));
-        const newRows = chronological.filter(
-          (m) => !seen.has(String(m.id ?? m.clientMessageId ?? ''))
-        );
-        return [...prev, ...newRows];
-      });
-
-      addMessages(messageCacheKey(currentUserId, chatroom.id), chronological).catch(() => {});
-
-      const maxId = rows
-        .map((m) => Number(m?.id || 0))
-        .filter(Number.isFinite)
-        .reduce((a, b) => Math.max(a, b), 0);
-
-      if (maxId > 0) {
-        setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+  const onSocketConnect = () => {
+    if (loadingOlderRef.current) {
+      if (pendingPages.current.has('initial')) {
+        if (!initialRefreshConfirmedRef.current) retryAfterOnlineRef.current = true;
+      } else {
+        reconnectRefreshPendingRef.current = true;
       }
-    } catch (e) {
-      console.error('Delta resync failed on socket reconnect', e);
+      return;
     }
+    loadMore(true);
   };
 
   socket.on('connect', onSocketConnect);
   return () => {
     socket.off('connect', onSocketConnect);
   };
-}, [socket, chatroom?.id, highestSeenId]);
+}, [socket, chatroom?.id]);
 
   const { suggestions, clear } = useSmartReplies({
     messages,
@@ -2635,7 +2628,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser, nativeT
                 )}
               </Group>
 
-              <Group gap="xs" wrap="nowrap">
+              <Group gap="xs" wrap="nowrap" className="theme-toolbar-actions">
                 <Tooltip label="Call" withArrow>
                   <ActionIcon
                     variant="subtle"
