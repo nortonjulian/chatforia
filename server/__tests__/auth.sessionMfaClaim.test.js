@@ -1,4 +1,6 @@
 /** @jest-environment node */
+import crypto from 'node:crypto';
+
 import { jest, test, expect } from '@jest/globals';
 import express from 'express';
 import jwt from 'jsonwebtoken';
@@ -78,7 +80,9 @@ test.each([true, false])('short API tokens preserve authenticated MFA proof (%s)
   const app = express();
   app.use((req, _res, next) => {
     req.user = account;
-    req.auth = { mfaVerified, tokenVersion: 3 };
+    req.auth = { mfaVerified, tokenVersion: 3, sessionKind: 'session',
+      pushFingerprint: crypto.createHash('sha256').update('parent').digest('hex'),
+      pushExpiresAtMs: Date.now() + 3600000 };
     next();
   });
   app.use('/auth', authRouter);
@@ -87,6 +91,9 @@ test.each([true, false])('short API tokens preserve authenticated MFA proof (%s)
   expect(claims.typ).toBe('short');
   expect(claims.mfaVerified).toBe(mfaVerified);
   expect(claims.tokenVersion).toBe(3);
+  expect(claims.parentSessionFingerprint).toBe(
+    crypto.createHash('sha256').update('parent').digest('hex'));
+  expect(claims.parentSessionExpiresAt).toBeGreaterThan(Date.now());
 });
 
 test.each(['development', 'production'])(

@@ -1,5 +1,5 @@
-import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
+import { decodeSession } from '../../utils/sessionAuthority.js';
 
 export const requireAuth = (req, _res, next) => {
   const headerId = req.headers['x-test-user-id'];
@@ -20,12 +20,17 @@ export const requireAuth = (req, _res, next) => {
       const claims = jwt.verify(token, process.env.JWT_SECRET || 'test_secret',
         { algorithms: ['HS256'] });
       if (Number(claims.id) !== id) throw new Error('Synthetic account mismatch');
-      const full = claims.typ !== 'short' && (claims.typ == null || claims.typ === 'session');
+      const session = decodeSession(token);
+      if (!session) throw new Error('Invalid synthetic session');
       req.auth = {
-        pushFingerprint: full ? crypto.createHash('sha256').update(token).digest('hex') : null,
-        pushIssuedAtMs: full ? claims.issuedAtMs ?? claims.iat * 1000 : 0,
-        pushExpiresAtMs: full ? claims.exp * 1000 : 0,
-        tokenVersion: claims.tokenVersion ?? 0,
+        sessionKind: session.sessionKind,
+        authorityFingerprint: session.authorityFingerprint,
+        authorityExpiresAtMs: session.authorityExpiresAtMs,
+        mfaVerified: session.mfaVerified,
+        pushFingerprint: session.pushFingerprint,
+        pushIssuedAtMs: session.pushIssuedAtMs,
+        pushExpiresAtMs: session.pushExpiresAtMs,
+        tokenVersion: session.tokenVersion,
       };
     } catch { /* Other route fixtures may use synthetic credentials. */ }
   }

@@ -67,6 +67,12 @@ export function getIo() {
   return _io;
 }
 
+/** Disconnect just the revoked session, including peers on a Redis adapter. */
+export function disconnectSessionSockets(fingerprint) {
+  if (!_io || !/^[a-f0-9]{64}$/.test(fingerprint || '')) return;
+  _io.in(`session:${fingerprint}`).disconnectSockets(true);
+}
+
 /** Quick readiness check for routes/services that want to bail if sockets aren’t up yet. */
 export function isReady() {
   return !!_io;

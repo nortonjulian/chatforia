@@ -15,6 +15,7 @@ const prismaMock = {
   user: {
     findUnique: jest.fn(),
   },
+  pushSessionRevocation: { findUnique: jest.fn() },
 };
 
 const setupMocks = () => {
@@ -24,7 +25,11 @@ const setupMocks = () => {
     return {
       __esModule: true,
       default: {
-        verify: (...args) => verifyMock(...args),
+        verify: (...args) => {
+          const claims = verifyMock(...args);
+          return claims && typeof claims === 'object' && !('exp' in claims)
+            ? { ...claims, exp: Math.floor(Date.now() / 1000) + 3600 } : claims;
+        },
       },
       verify: (...args) => verifyMock(...args),
     };
@@ -87,6 +92,7 @@ const loadModule = async () => {
   delete process.env.JWT_SECRET;
 
   prismaMock.user.findUnique.mockReset();
+  prismaMock.pushSessionRevocation.findUnique.mockReset().mockResolvedValue(null);
 
   setupMocks();
 
@@ -497,6 +503,55 @@ describe('session authentication fails closed', () => {
     cookies: { foria_jwt: 'token' }, user: { id: 999, role: 'ADMIN' },
   } });
 
+  test('logged-out full session is rejected by strict and optional API authentication', async () => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, typ: 'session', tokenVersion: 2 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    prismaMock.pushSessionRevocation.findUnique.mockResolvedValue({ sessionFingerprint: 'revoked' });
+    const strict = requestWithToken();
+    await mod.requireAuth(strict.req, strict.res, strict.next);
+    expect(strict.res.statusCode).toBe(401);
+    expect(strict.next).not.toHaveBeenCalled();
+    const optional = requestWithToken();
+    await mod.verifyTokenOptional(optional.req, optional.res, optional.next);
+    expect(optional.req.user).toBeUndefined();
+  });
+
+  test('bound short token loses access with its parent while another session remains valid', async () => {
+    const mod = await loadModule();
+    const parent = 'b'.repeat(64);
+    verifyMock.mockReturnValue({ id: 42, typ: 'short', tokenVersion: 2,
+      parentSessionFingerprint: parent, parentSessionExpiresAt: Date.now() + 7200000 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    prismaMock.pushSessionRevocation.findUnique.mockImplementation(({ where }) =>
+      where.sessionFingerprint === parent ? { sessionFingerprint: parent } : null);
+    const denied = requestWithToken();
+    await mod.requireAuth(denied.req, denied.res, denied.next);
+    expect(denied.res.statusCode).toBe(401);
+    expect(prismaMock.pushSessionRevocation.findUnique).toHaveBeenCalledWith({
+      where: { sessionFingerprint: parent }, select: { sessionFingerprint: true },
+    });
+    verifyMock.mockReturnValue({ id: 42, typ: 'session', tokenVersion: 2 });
+    const allowed = requestWithToken();
+    await mod.requireAuth(allowed.req, allowed.res, allowed.next);
+    expect(allowed.next).toHaveBeenCalledTimes(1);
+  });
+
+  test('unbound legacy short token is rejected and revocation lookup outage fails closed', async () => {
+    const mod = await loadModule();
+    verifyMock.mockReturnValue({ id: 42, typ: 'short', tokenVersion: 2 });
+    const legacy = requestWithToken();
+    await mod.requireAuth(legacy.req, legacy.res, legacy.next);
+    expect(legacy.res.statusCode).toBe(401);
+    verifyMock.mockReturnValue({ id: 42, typ: 'session', tokenVersion: 2 });
+    prismaMock.user.findUnique.mockResolvedValue(activeUser());
+    prismaMock.pushSessionRevocation.findUnique.mockRejectedValue(new Error('database unavailable'));
+    const unavailable = requestWithToken();
+    await mod.requireAuth(unavailable.req, unavailable.res, unavailable.next);
+    expect(unavailable.res.statusCode).toBe(503);
+    expect(unavailable.next).not.toHaveBeenCalled();
+  });
+
   test.each([0, -1, 1.5, 'invalid', true, 2147483648])('rejects invalid user id %p before database lookup', async (id) => {
     const mod = await loadModule();
     verifyMock.mockReturnValue({ id });
@@ -521,7 +576,9 @@ describe('session authentication fails closed', () => {
 
   test.each(['session', 'short', undefined])('accepts a current database user for token purpose %p', async (typ) => {
     const mod = await loadModule();
-    verifyMock.mockReturnValue({ id: 42, typ, tokenVersion: 2 });
+    verifyMock.mockReturnValue({ id: 42, typ, tokenVersion: 2,
+      ...(typ === 'short' ? { parentSessionFingerprint: 'a'.repeat(64),
+        parentSessionExpiresAt: Date.now() + 7200000 } : {}) });
     prismaMock.user.findUnique.mockResolvedValue(activeUser());
     const { req, res, next } = requestWithToken();
     await mod.requireAuth(req, res, next);
@@ -533,7 +590,8 @@ describe('session authentication fails closed', () => {
     if (typ === 'short') expect(req.auth.pushFingerprint).toBeNull();
     else expect(req.auth.pushFingerprint).toMatch(/^[a-f0-9]{64}$/);
     expect(req.auth.pushIssuedAtMs).toBe(0);
-    expect(req.auth.pushExpiresAtMs).toBe(0);
+    if (typ === 'short') expect(req.auth.pushExpiresAtMs).toBe(0);
+    else expect(req.auth.pushExpiresAtMs).toBeGreaterThan(Date.now());
     expect(next).toHaveBeenCalledTimes(1);
     expect(res._json).toBeNull();
   });
@@ -621,7 +679,8 @@ describe('session authentication fails closed', () => {
   test('short API tokens with valid expiry cannot establish push authority', async () => {
     const mod = await loadModule();
     verifyMock.mockReturnValue({ id: 42, typ: 'short', tokenVersion: 2,
-      iat: Math.floor(Date.now() / 1000), exp: Math.floor(Date.now() / 1000) + 600 });
+      iat: Math.floor(Date.now() / 1000), exp: Math.floor(Date.now() / 1000) + 600,
+      parentSessionFingerprint: 'a'.repeat(64), parentSessionExpiresAt: Date.now() + 7200000 });
     prismaMock.user.findUnique.mockResolvedValue(activeUser());
     const { req, res, next } = requestWithToken();
     await mod.requireAuth(req, res, next);

@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import cookie from 'cookie';
-import jwt from 'jsonwebtoken';
 import prisma from './utils/prismaClient.js';
+import { decodeSession, isSessionRevoked } from './utils/sessionAuthority.js';
 import { setSocketIo } from './services/socketBus.js';
 import { registerReadReceipts } from './sockets/readReceipts.js';
 
@@ -75,6 +75,17 @@ async function getUserRoomIds(userId) {
   return [...new Set(rows.map((r) => String(r.chatRoomId)))];
 }
 
+async function isSocketSessionCurrent(session) {
+  if (!session || session.authorityExpiresAtMs <= Date.now()) return false;
+  const account = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { tokenVersion: true, isBanned: true, deletedAt: true },
+  });
+  if (!account || account.isBanned || account.deletedAt ||
+      (account.tokenVersion ?? 0) !== session.tokenVersion) return false;
+  return !(await isSessionRevoked(prisma, session.authorityFingerprint));
+}
+
 /**
  * Initialize Socket.IO on the given HTTP server.
  * If REDIS_URL is set, a cross-node pub/sub adapter is enabled.
@@ -136,19 +147,13 @@ export function initSocket(httpServer) {
         const preview = token.slice(0, 8);
       }
 
-      const secret =
-        process.env.JWT_SECRET || (IS_TEST ? 'test_secret' : 'dev_secret');
-
-      let decoded;
-      try {
-        decoded = jwt.verify(token, secret);
-      } catch (e) {
-        console.warn('[WS] jwt verify failed', e?.message || e);
+      const session = decodeSession(token);
+      if (!session || !(await isSocketSessionCurrent(session))) {
         return next(new Error('Unauthorized'));
       }
 
       const user = await prisma.user.findUnique({
-        where: { id: Number(decoded.id) },
+        where: { id: session.userId },
         select: {
           id: true,
           email: true,
@@ -167,9 +172,17 @@ export function initSocket(httpServer) {
 
       socket.user = user;
       socket.data.user = user;
+      socket.data.session = session;
 
-      // personal unicast room
-      socket.join(`user:${user.id}`);
+      // Join the session fence before rechecking authority. If logout commits
+      // during the handshake, either this check rejects or logout disconnects
+      // the joined session room before user-room traffic can be delivered.
+      await socket.join(`session:${session.authorityFingerprint}`);
+      if (!(await isSocketSessionCurrent(session))) {
+        socket.disconnect(true);
+        return next(new Error('Unauthorized'));
+      }
+      await socket.join(`user:${user.id}`);
 
       if (!IS_TEST) {
         console.log('[WS] authed socket user:', {
@@ -204,6 +217,23 @@ export function initSocket(httpServer) {
   // ---- Connection handler ----
   io.on('connection', async (socket) => {
     const userId = socket.user?.id;
+    const session = socket.data.session;
+
+    const checkSocketAuthority = async () => {
+      try {
+        if (await isSocketSessionCurrent(session)) return true;
+      } catch {
+        // A database or grant failure must not leave a socket authorized.
+      }
+      socket.disconnect(true);
+      return false;
+    };
+    socket.use(async (_packet, next) => {
+      if (await checkSocketAuthority()) next();
+      else next(new Error('Unauthorized'));
+    });
+    const authorityTimer = setInterval(() => { void checkSocketAuthority(); }, 5000);
+    authorityTimer.unref?.();
 
     let lastTypingRoomId = null;
 
@@ -336,6 +366,7 @@ export function initSocket(httpServer) {
     });
 
     socket.on('disconnect', (reason) => {
+      clearInterval(authorityTimer);
       // ✅ If the user disconnects mid-typing, force-stop typing for others
       try {
         if (lastTypingRoomId && socket.rooms?.has(String(lastTypingRoomId))) {

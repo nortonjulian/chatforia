@@ -29,6 +29,7 @@ function makeIoDouble() {
     },
     adapter: jest.fn(),
     to: jest.fn(() => ({ emit: jest.fn() })),
+    in: jest.fn(() => ({ disconnectSockets: jest.fn() })),
     close: jest.fn((cb) => cb && cb()),
     _getMiddlewares: () => middlewares,
     _getHandler: (evt) => handlers[evt],
@@ -52,6 +53,8 @@ function makeSocketDouble({ tokenFrom = 'auth', token = 'jwt' } = {}) {
     user: null,
     join: jest.fn(async (room) => joined.add(room)),
     leave: jest.fn(async (room) => joined.delete(room)),
+    use: jest.fn(),
+    disconnect: jest.fn(),
     on: jest.fn((ev, cb) => onMap.set(ev, cb)),
     to: jest.fn(() => ({ emit: jest.fn() })),
     _emitClient: async (ev, payload) => onMap.get(ev)?.(payload),
@@ -85,12 +88,17 @@ const reload = async (env = {}) => {
   jwtVerifyMock = jest.fn();
 
   await jest.unstable_mockModule('jsonwebtoken', () => {
-    const jwt = { verify: jwtVerifyMock };
+    const verify = (...args) => {
+      const claims = jwtVerifyMock(...args);
+      return claims && typeof claims === 'object' && !('exp' in claims)
+        ? { ...claims, exp: Math.floor(Date.now() / 1000) + 3600 } : claims;
+    };
+    const jwt = { verify };
 
     return {
       __esModule: true,
       default: jwt,
-      verify: jwtVerifyMock,
+      verify,
     };
   });
 
@@ -124,6 +132,7 @@ const reload = async (env = {}) => {
       findMany: jest.fn(),
       findFirst: jest.fn(),
     },
+    pushSessionRevocation: { findUnique: jest.fn().mockResolvedValue(null) },
   };
 
   await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
@@ -244,7 +253,7 @@ describe('initSocket', () => {
 
     await mw(socket, next);
 
-    expect(jwtVerifyMock).toHaveBeenCalledWith('t', 'test_secret');
+    expect(jwtVerifyMock).toHaveBeenCalledWith('t', 'test_secret', { algorithms: ['HS256'] });
     expect(socket.user).toEqual({
       id: 123,
       email: 'julian@example.com',
@@ -282,7 +291,7 @@ describe('initSocket', () => {
 
     await mw(socket, next);
 
-    expect(jwtVerifyMock).toHaveBeenCalledWith('abc', 'sekret');
+    expect(jwtVerifyMock).toHaveBeenCalledWith('abc', 'sekret', { algorithms: ['HS256'] });
 
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { id: 123 },
@@ -310,6 +319,62 @@ describe('initSocket', () => {
     expect(socket.data.user).toEqual(socket.user);
     expect(socket.join).toHaveBeenCalledWith('user:123');
     expect(next).toHaveBeenCalledWith();
+  });
+
+  test('revoked socket credential is rejected at handshake without joining a room', async () => {
+    const { initSocket } = await reload({ JWT_SECRET: 'sekret' });
+    initSocket({});
+    jwtVerifyMock.mockReturnValue({ id: 123, tokenVersion: 0 });
+    prismaMock.user.findUnique.mockResolvedValue({ id: 123, tokenVersion: 0 });
+    prismaMock.pushSessionRevocation.findUnique.mockResolvedValue({ sessionFingerprint: 'revoked' });
+    const socket = makeSocketDouble({ token: 'old-session' });
+    const next = jest.fn();
+    await serverInstance._getMiddlewares()[0](socket, next);
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
+    expect(socket.join).not.toHaveBeenCalled();
+  });
+
+  test('logout racing a handshake cannot enter the user delivery room', async () => {
+    const { initSocket } = await reload({ JWT_SECRET: 'sekret' });
+    initSocket({});
+    jwtVerifyMock.mockReturnValue({ id: 123, tokenVersion: 0 });
+    prismaMock.user.findUnique.mockResolvedValue({ id: 123, tokenVersion: 0 });
+    prismaMock.pushSessionRevocation.findUnique
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce({ sessionFingerprint: 'revoked' });
+    const socket = makeSocketDouble({ token: 'racing-session' });
+    const next = jest.fn();
+    await serverInstance._getMiddlewares()[0](socket, next);
+    expect(socket.join).toHaveBeenCalledWith(expect.stringMatching(/^session:/));
+    expect(socket.join).not.toHaveBeenCalledWith('user:123');
+    expect(socket.disconnect).toHaveBeenCalledWith(true);
+    expect(next).toHaveBeenCalledWith(expect.any(Error));
+  });
+
+  test('existing socket disconnects when its session is revoked; another session stays authorized', async () => {
+    const { initSocket } = await reload({ JWT_SECRET: 'sekret' });
+    initSocket({});
+    jwtVerifyMock.mockReturnValue({ id: 123, tokenVersion: 0 });
+    prismaMock.user.findUnique.mockResolvedValue({ id: 123, tokenVersion: 0 });
+    const first = makeSocketDouble({ token: 'first-session' });
+    const second = makeSocketDouble({ token: 'second-session' });
+    await serverInstance._getMiddlewares()[0](first, jest.fn());
+    await serverInstance._getMiddlewares()[0](second, jest.fn());
+    await serverInstance._getHandler('connection')(first);
+    await serverInstance._getHandler('connection')(second);
+    const revokedFingerprint = first.data.session.authorityFingerprint;
+    prismaMock.pushSessionRevocation.findUnique.mockImplementation(({ where }) =>
+      where.sessionFingerprint === revokedFingerprint ? { sessionFingerprint: revokedFingerprint } : null);
+    const denied = jest.fn();
+    await first.use.mock.calls[0][0](['typing:start', { roomId: 1 }], denied);
+    expect(first.disconnect).toHaveBeenCalledWith(true);
+    expect(denied).toHaveBeenCalledWith(expect.any(Error));
+    const allowed = jest.fn();
+    await second.use.mock.calls[0][0](['typing:start', { roomId: 1 }], allowed);
+    expect(allowed).toHaveBeenCalledWith();
+    expect(second.disconnect).not.toHaveBeenCalled();
+    first.on.mock.calls.find(([name]) => name === 'disconnect')[1]('server namespace disconnect');
+    second.on.mock.calls.find(([name]) => name === 'disconnect')[1]('test cleanup');
   });
 
   test('connection handler: autojoin rooms, join/leave events, bulk join', async () => {
