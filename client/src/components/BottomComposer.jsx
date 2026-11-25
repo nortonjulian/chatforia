@@ -33,6 +33,7 @@ export default function BottomComposer({
   showUpload = true,
   prepareFile, // optional; carrier MMS conversion only when caller supplies it
   onUploadFiles, // optional; if omitted, we'll pass files to onSend via 2nd arg
+  onPickMedia, // optional; consume picker media as text for SMS-only flows
 }) {
   const { t } = useTranslation();
   const fileRef = useRef(null);
@@ -498,6 +499,11 @@ export default function BottomComposer({
           if (pick.native) {
             const next = `${value || ''}${pick.native}`;
             onChange?.(next);
+            setPickerOpen(false);
+            return;
+          }
+
+          if (onPickMedia?.(pick) === true) {
             setPickerOpen(false);
             return;
           }

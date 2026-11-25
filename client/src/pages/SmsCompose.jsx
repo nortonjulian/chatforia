@@ -1,35 +1,33 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import axiosClient from '@/api/axiosClient';
 import {
   Box,
   Group,
   Text,
   Button,
-  Textarea,
-  FileButton,
 } from '@mantine/core';
 import {
-  IconMoodSmile,
-  IconGif,
-  IconPaperclip,
-  IconSend,
   IconX,
 } from '@tabler/icons-react';
-import StickerPicker from '@/components/StickerPicker';
+import BottomComposer from '@/components/BottomComposer.jsx';
 import RecipientSelector from '@/components/RecipientSelector';
 import { NumberPickerModal } from '@/components/profile/PhoneNumberManager';
+import { prepareCarrierMmsFile } from '@/utils/prepareCarrierMmsFile.js';
+import { sendCarrierMmsAttachment } from '@/pages/sendCarrierMmsAttachment.js';
 import { useTranslation } from 'react-i18next';
 import posthog from '@/utils/analytics';
 
 /* ---------------- helpers ---------------- */
 
 function toE164Dev(raw) {
-  const s = String(raw || '').replace(/[^\d+]/g, '');
-  if (!s) return '';
-  if (s.startsWith('+')) return s;
-  if (s.length === 10) return `+1${s}`;
-  return `+${s}`;
+  const input = String(raw || '').trim();
+  if (!/^\+?[0-9().\-\s]+$/.test(input)) return '';
+  const digits = input.replace(/\D/g, '');
+  const normalized = input.startsWith('+')
+    ? `+${digits}`
+    : digits.length === 10 ? `+1${digits}` : `+${digits}`;
+  return /^\+[1-9]\d{6,14}$/.test(normalized) ? normalized : '';
 }
 
 function contactToRecipient(c) {
@@ -80,17 +78,14 @@ export default function SmsCompose() {
 
   const [text, setText] = useState('');
   const [hasNumber, setHasNumber] = useState(true);
-  const [sending, setSending] = useState(false);
-  const [pickerOpen, setPickerOpen] = useState(false);
   const [numberPickerOpen, setNumberPickerOpen] = useState(false);
+  const [sendError, setSendError] = useState('');
   const { t } = useTranslation();
-
-  const inputRef = useRef(null);
 
   const to = useMemo(() => {
     const first = recipients[0];
     if (!first) return '';
-    return first.phone || first.email || first.display || '';
+    return first.phone || '';
   }, [recipients]);
 
     const refreshMyNumber = useCallback(async () => {
@@ -166,77 +161,78 @@ export default function SmsCompose() {
     ]);
   }, [presetTo, presetName]);
 
-  const canSend = useMemo(
-    () => Boolean(to && text.trim() && hasNumber),
-    [to, text, hasNumber]
-  );
-
-  async function handleSend() {
+  async function handleSend(payload) {
+    const normalizedTo = toE164Dev(to);
+    const body = String(payload?.text || '').trim();
+    const attachment = payload?.attachments?.[0];
+    if (!normalizedTo) {
+      setSendError(t('sms.addRecipient', 'Add a recipient above to start…'));
+      return false;
+    }
     if (!hasNumber) {
       setNumberPickerOpen(true);
+      setSendError(t('sms.numberRequired', 'You need a Chatforia number before sending SMS.'));
 
       posthog.capture('sms_number_missing_blocked', {
         source: 'sms_compose',
       });
-      return;
+      return false;
     }
 
-    if (!canSend) return;
+    if (!body && !attachment) return false;
 
-    setSending(true);
+    setSendError('');
     try {
-      const normalizedTo = toE164Dev(to);
-
-      const res = await axiosClient.post('/sms/send', {
-        to: normalizedTo,
-        body: text.trim(),
-      });
+      const res = attachment
+        ? await sendCarrierMmsAttachment({
+            axiosClient, toNumber: normalizedTo, text: body, fileMeta: attachment,
+          })
+        : await axiosClient.post('/sms/send', { to: normalizedTo, body });
 
       posthog.capture('sms_sent', {
         source: 'sms_compose',
         has_recipient: Boolean(normalizedTo),
+        type: attachment ? 'mms' : 'sms',
       });
 
       const data = res.data;
 
       if (data?.threadId) {
         navigate(`/sms/${data.threadId}`);
-        return;
+        return true;
       }
 
-      const lookup = await axiosClient.get('/sms/threads/lookup', {
-        params: { to: normalizedTo },
-      });
-
-      if (lookup?.data?.threadId) {
-        navigate(`/sms/${lookup.data.threadId}`);
-      } else {
-        setText('');
+      try {
+        const lookup = await axiosClient.get('/sms/threads/lookup', {
+          params: { to: normalizedTo },
+        });
+        if (lookup?.data?.threadId) {
+          navigate(`/sms/${lookup.data.threadId}`);
+          return true;
+        }
+      } catch {
+        // Sending succeeded; a delayed thread lookup must not resend the MMS.
       }
+      navigate('/sms');
+      return true;
     } catch (e) {
       const code = e?.response?.data?.code;
       if (code === 'NO_NUMBER') {
         setNumberPickerOpen(true);
-      } else {
-        console.error('SMS send failed', e);
       }
-    } finally {
-      setSending(false);
+      setSendError(e?.response
+        ? t('sms.sendFailed', 'Message could not be sent. Check the recipient and attachment, then try again.')
+        : e?.message || t('sms.sendFailed', 'Message could not be sent. Try again.'));
+      return false;
     }
   }
 
-  function handlePick(p) {
-    if (p.kind === 'EMOJI' && p.native) {
-      setText((t) => `${t}${p.native}`);
-      setPickerOpen(false);
-      inputRef.current?.focus();
-      return;
-    }
+  function handlePickMedia(p) {
     if ((p.kind === 'GIF' || p.kind === 'STICKER') && p.url) {
-      setText((t) => (t ? `${t} ${p.url}` : p.url));
-      setPickerOpen(false);
-      inputRef.current?.focus();
+      setText((draft) => (draft ? `${draft} ${p.url}` : p.url));
+      return true;
     }
+    return false;
   }
 
   return (
@@ -302,64 +298,21 @@ export default function SmsCompose() {
           borderTop: '1px solid var(--mantine-color-default-border)',
         }}
       >
-        <Group className="responsive-message-composer" gap="xs" align="center" wrap="nowrap">
-          <div className="composer-attachment-row">
-          <Button variant="subtle" aria-label={t('composer.emoji', 'Emoji')} onClick={() => setPickerOpen(true)}>
-            <IconMoodSmile size={18} />
-          </Button>
-          <Button variant="subtle" aria-label={t('composer.gifPicker', 'Open GIF picker')} onClick={() => setPickerOpen(true)}>
-            <IconGif size={18} />
-          </Button>
-          <FileButton onChange={() => {}}>
-            {(props) => (
-              <Button variant="subtle" aria-label={t('composer.upload', 'Upload')} {...props}>
-                <IconPaperclip size={18} />
-              </Button>
-            )}
-          </FileButton>
-          </div>
-
-          <div className="composer-input-row">
-          <Textarea
-            ref={inputRef}
-            variant="filled"
-            aria-label={t('composer.aria', 'Message composer')}
-            placeholder={
+        {sendError && <Text role="alert" c="red" size="sm">{sendError}</Text>}
+        <BottomComposer
+          value={text}
+          onChange={(next) => { setText(next); setSendError(''); }}
+          onSend={handleSend}
+          prepareFile={prepareCarrierMmsFile}
+          onPickMedia={handlePickMedia}
+          showMic={false}
+          placeholder={
               to
                 ? t('sms.typeMessage', 'Type a message…')
                 : t('sms.addRecipient', 'Add a recipient above to start…')
-            }
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            autosize
-            minRows={2}
-            maxRows={6}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
-            styles={{ root: { flex: 1, minWidth: 0 } }}
-          />
-
-          <Button
-            onClick={handleSend}
-            disabled={!canSend}
-            loading={sending}
-            rightSection={<IconSend size={16} />}
-          >
-            {t('common.send', 'Send')}
-          </Button>
-          </div>
-        </Group>
+          }
+        />
       </Box>
-
-      <StickerPicker
-        opened={pickerOpen}
-        onClose={() => setPickerOpen(false)}
-        onPick={handlePick}
-      />
 
       <NumberPickerModal
         opened={numberPickerOpen}
