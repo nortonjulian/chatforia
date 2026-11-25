@@ -17,12 +17,12 @@ test('both channels use the same large, uncropped image stage and control positi
   const view = render(<SharedImageViewer opened onClose={() => {}} blob={blob}
     onDownload={async () => blob} alt="Portrait fixture" />);
   const image = await screen.findByRole('img', { name: 'Portrait fixture' });
-  expect(IMAGE_VIEWER_WIDTH).toBe('min(96vw, 1200px)');
-  expect(IMAGE_VIEWER_HEIGHT).toBe('calc(94dvh - 170px)');
-  expect(CAPTIONED_IMAGE_VIEWER_HEIGHT).toBe('calc(94dvh - 205px)');
+  expect(IMAGE_VIEWER_WIDTH).toBe('min(96vw, 920px)');
+  expect(IMAGE_VIEWER_HEIGHT).toBe('calc(80dvh - 145px)');
+  expect(CAPTIONED_IMAGE_VIEWER_HEIGHT).toBe('calc(80dvh - 180px)');
   expect(image).toHaveClass('shared-image-viewer-image');
   expect(image.closest('.shared-image-viewer-stage')).toBeTruthy();
-  expect(screen.getByRole('button', { name: 'Close' }).closest('.shared-image-viewer-header')).toBeTruthy();
+  expect(screen.getByRole('button', { name: 'Close' }).closest('h2 .shared-image-viewer-header')).toBeTruthy();
   expect(screen.getByRole('button', { name: 'Download image' }).closest('.shared-image-viewer-footer')).toBeTruthy();
   expect(screen.queryByRole('button', { name: 'Back to media' })).toBeNull();
   view.rerender(<SharedImageViewer opened onClose={() => {}} onBack={() => {}} blob={blob}

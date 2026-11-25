@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Group, Modal, Text } from '@mantine/core';
 import './SharedImageViewer.css';
 
-export const IMAGE_VIEWER_WIDTH = 'min(96vw, 1200px)';
-export const IMAGE_VIEWER_HEIGHT = 'calc(94dvh - 170px)';
-export const CAPTIONED_IMAGE_VIEWER_HEIGHT = 'calc(94dvh - 205px)';
+export const IMAGE_VIEWER_WIDTH = 'min(96vw, 920px)';
+export const IMAGE_VIEWER_HEIGHT = 'calc(80dvh - 145px)';
+export const CAPTIONED_IMAGE_VIEWER_HEIGHT = 'calc(80dvh - 180px)';
 
 const extensionForMime = {
   'image/jpeg': 'jpg',
@@ -108,7 +108,14 @@ export default function SharedImageViewer({
     <Modal
       opened={opened}
       onClose={onClose}
-      title="Image viewer"
+      title={
+        <Group justify="space-between" gap="sm" className="shared-image-viewer-header">
+          <Text component="span">Image viewer</Text>
+          <Button type="button" variant="default" className="shared-image-viewer-control" onClick={onClose}>
+            Close
+          </Button>
+        </Group>
+      }
       aria-label="Image viewer"
       withCloseButton={false}
       centered
@@ -118,19 +125,18 @@ export default function SharedImageViewer({
       returnFocus
       classNames={{
         content: `shared-image-viewer-content${caption ? ' shared-image-viewer-with-caption' : ''}`,
+        header: 'shared-image-viewer-modal-header',
+        title: 'shared-image-viewer-modal-title',
         body: 'shared-image-viewer-body',
       }}
     >
-      <Group justify="space-between" gap="sm" className="shared-image-viewer-header">
-        {onBack ? (
+      {onBack && (
+        <Group justify="flex-start" className="shared-image-viewer-back-row">
           <Button type="button" variant="default" className="shared-image-viewer-control" onClick={onBack}>
             Back to media
           </Button>
-        ) : <span />}
-        <Button type="button" variant="default" className="shared-image-viewer-control" onClick={onClose}>
-          Close
-        </Button>
-      </Group>
+        </Group>
+      )}
       <div className="shared-image-viewer-stage">
         {loading ? <Text role="status">Loading image…</Text> : error ? (
           <Text role="alert">{error}</Text>
