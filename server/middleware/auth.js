@@ -1,51 +1,10 @@
-import jwt from 'jsonwebtoken';
-import crypto from 'node:crypto';
 import { hasVerifiedAdminAccess } from './verifiedAdmin.js';
 import prisma from '../utils/prismaClient.js';
 import { sessionTokenFromRequest } from '../utils/sessionTokenFromRequest.js';
+import { decodeSession, isSessionRevoked } from '../utils/sessionAuthority.js';
 
 function getCookieName() {
   return process.env.JWT_COOKIE_NAME || 'foria_jwt';
-}
-
-const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
-if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
-  throw new Error('JWT_SECRET is required in production');
-}
-const SECRET = process.env.JWT_SECRET || (IS_TEST ? 'test_secret' : 'dev_secret');
-
-function decodeSession(token) {
-  if (!token) return null;
-  let decoded;
-  try {
-    decoded = jwt.verify(token, SECRET, { algorithms: ['HS256'] });
-  } catch {
-    return null;
-  }
-  if (!decoded || typeof decoded !== 'object' || Array.isArray(decoded)) return null;
-  const typ = decoded.typ;
-  // Keep legacy session tokens without typ; reject MFA and other token purposes.
-  if (typ != null && typ !== 'session' && typ !== 'short') return null;
-  if (!['string', 'number'].includes(typeof decoded.id)) return null;
-  const userId = Number(decoded.id);
-  const tokenVersion = Number(decoded.tokenVersion ?? 0);
-  if (!Number.isSafeInteger(userId) || userId <= 0 || userId > 2147483647 ||
-      !Number.isSafeInteger(tokenVersion) || tokenVersion < 0) return null;
-  // Short API tokens may authenticate ordinary requests, but must not mint
-  // fresh push authority after their parent full session was logged out.
-  const pushEligible = typ !== 'short';
-  return {
-    userId,
-    tokenVersion,
-    mfaVerified: decoded.mfaVerified === true,
-    // Never persist or log the bearer credential. Its fingerprint is scoped
-    // to push registration and cannot be used to authenticate API requests.
-    pushFingerprint: pushEligible ? crypto.createHash('sha256').update(token).digest('hex') : null,
-    pushIssuedAtMs: pushEligible && Number.isSafeInteger(decoded.issuedAtMs)
-      ? decoded.issuedAtMs
-      : pushEligible && Number.isSafeInteger(decoded.iat) ? decoded.iat * 1000 : 0,
-    pushExpiresAtMs: pushEligible && Number.isSafeInteger(decoded.exp) ? decoded.exp * 1000 : 0,
-  };
 }
 
 async function hydrateUser(userId, db = prisma) {
@@ -94,8 +53,18 @@ export async function requireAuth(req, res, next, db = prisma) {
       session.tokenVersion !== user.tokenVersion) {
     return res.status(401).json({ error: 'invalid_session' });
   }
+  try {
+    if (await isSessionRevoked(db, session.authorityFingerprint)) {
+      return res.status(401).json({ error: 'invalid_session' });
+    }
+  } catch {
+    return res.status(503).json({ error: 'Authentication temporarily unavailable' });
+  }
   req.user = user;
   req.auth = {
+    sessionKind: session.sessionKind,
+    authorityFingerprint: session.authorityFingerprint,
+    authorityExpiresAtMs: session.authorityExpiresAtMs,
     mfaVerified: session.mfaVerified,
     tokenVersion: session.tokenVersion,
     pushFingerprint: session.pushFingerprint,
@@ -114,9 +83,13 @@ export async function verifyTokenOptional(req, _res, next) {
     try {
       const user = await hydrateUser(session.userId);
       if (user && Number.isSafeInteger(user.tokenVersion) && user.tokenVersion >= 0 &&
-          session.tokenVersion === user.tokenVersion) {
+          session.tokenVersion === user.tokenVersion &&
+          !(await isSessionRevoked(prisma, session.authorityFingerprint))) {
           req.user = user;
           req.auth = {
+            sessionKind: session.sessionKind,
+            authorityFingerprint: session.authorityFingerprint,
+            authorityExpiresAtMs: session.authorityExpiresAtMs,
             mfaVerified: session.mfaVerified,
             tokenVersion: session.tokenVersion,
             pushFingerprint: session.pushFingerprint,

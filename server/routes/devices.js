@@ -4,6 +4,7 @@ import speakeasy from 'speakeasy';
 import rateLimit from 'express-rate-limit';
 import { open as openMfaSecret } from '../utils/secretBox.js';
 import { requireAuth } from '../middleware/auth.js';
+import { disconnectSessionSockets } from '../services/socketBus.js';
 import prisma from '../utils/prismaClient.js';
 import { sendPushToUser } from '../services/pushService.js';
 import {
@@ -947,6 +948,7 @@ router.post('/logout', requireAuth, async (req, res, next) => {
     }
 
     await revokeAuthenticatedDevice({ user: req.user, auth: req.auth, deviceId });
+    disconnectSessionSockets(req.auth.pushFingerprint);
 
     return res.json({
       success: true,

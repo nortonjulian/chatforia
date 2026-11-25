@@ -8,12 +8,15 @@ import {
   emitToRoom,
   emitToChatRoom,
   _resetSocketBus,
+  disconnectSessionSockets,
 } from '../socketBus.js';
 
 const makeIo = () => {
   const emit = jest.fn();
   const to = jest.fn(() => ({ emit }));
-  return { to, emit };
+  const disconnectSockets = jest.fn();
+  const inRoom = jest.fn(() => ({ disconnectSockets }));
+  return { to, emit, in: inRoom, disconnectSockets };
 };
 
 describe('socketBus', () => {
@@ -39,6 +42,16 @@ describe('socketBus', () => {
     expect(io.to).toHaveBeenCalledWith('user:123');
     const emitFn = io.to.mock.results[0].value.emit;
     expect(emitFn).toHaveBeenCalledWith('ping', { foo: 'bar' });
+  });
+
+  it('disconnects only the session room with a valid fingerprint', () => {
+    const io = makeIo();
+    setSocketIo(io);
+    disconnectSessionSockets('a'.repeat(64));
+    expect(io.in).toHaveBeenCalledWith(`session:${'a'.repeat(64)}`);
+    expect(io.disconnectSockets).toHaveBeenCalledWith(true);
+    disconnectSessionSockets('invalid');
+    expect(io.in).toHaveBeenCalledTimes(1);
   });
 
   it('setSocketIo uses custom emitToUser implementation when provided', () => {
