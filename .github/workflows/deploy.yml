@@ -45,7 +45,7 @@ jobs:
             || fail_stage key_file "$?"
           test "$(stat -c %a "$HOME/.ssh/id_ed25519" 2>/dev/null)" = 600 \
             || fail_stage key_file "$?"
-          ssh-keyscan -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts" \
+          ssh-keyscan -q -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts" \
             || fail_stage host_scan "$?"
           host_key_count="$(wc -l 2>/dev/null < "$HOME/.ssh/known_hosts")" \
             || fail_stage host_key_count_read "$?"
@@ -125,7 +125,7 @@ jobs:
           install -d -m 0700 "$HOME/.ssh"
           printf '%s\n' "$DO_SSH_KEY" > "$HOME/.ssh/id_ed25519"
           chmod 0600 "$HOME/.ssh/id_ed25519"
-          ssh-keyscan -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts"
+          ssh-keyscan -q -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts"
           test "$(wc -l < "$HOME/.ssh/known_hosts")" -eq 1
           fingerprint="$(ssh-keygen -lf "$HOME/.ssh/known_hosts" -E sha256 | awk '{print $2}')"
           test "$fingerprint" = 'SHA256:1x93qv1E+XlLIKRiGgV1F3sNR0w60bv7oP5nuUxaElM'
