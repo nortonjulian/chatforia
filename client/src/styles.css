@@ -380,6 +380,14 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 :root:is([data-theme="midnight"], [data-theme="amoled"], [data-theme="aurora"], [data-theme="neon"], [data-theme="solarized"]) :is(.outgoing-message-edited, .outgoing-message-caption) {
   opacity: 1 !important;
 }
+/* Velvet bubble ink is dark; captions sit outside the gradient on its dark chat surface. */
+:root[data-theme="velvet"] .outgoing-message-caption,
+:root[data-theme="velvet"] .sms-message-row[data-outgoing="true"] .sms-bubble[data-has-media="true"] {
+  color: #FFFFFF !important;
+}
+:root[data-theme="velvet"] .outgoing-message-edited {
+  opacity: 1 !important;
+}
 :root:not([data-theme="dark"]) .composer-theme-field .mantine-Textarea-input {
   background-color: var(--composer-field-bg, var(--card)) !important;
   border-color: var(--composer-border, var(--border)) !important;

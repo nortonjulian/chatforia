@@ -34,7 +34,8 @@ function textContrast(foreground, background) {
 }
 
 // Approved iOS PR #97 merged commit d04e13f, and Build 50 commit e007ad0 for Neon.
-// Velvet keeps the explicitly approved white web ink.
+// Velvet keeps its approved gradient and white controls; the proposed deep-plum
+// bubble ink remains pending owner visual approval.
 const verified = {
   dawn: {
     bg: '#FFF7F0', card: '#FFFFFF', border: '#F1E3D8', fg: '#241510', muted: '#745E53',
@@ -84,6 +85,7 @@ const verified = {
     accent: '#FF2D7A', incoming: '#2B1736', highlighted: '#29324F',
     composer: '#1F0D26', composerBorder: '#2B1331', toolbar: '#FF2D7A',
     button: ['#FF2D7A', '#FFD84D'], outgoing: ['#FF2D7A', '#FFD84D'], ink: '#FFFFFF',
+    bubbleInk: '#241031',
   },
 };
 
@@ -107,7 +109,7 @@ test.each(Object.entries(verified))('%s matches the verified iOS semantic palett
   expect(tokens['--composer-border']).toBe(expected.composerBorder);
   expect(tokens['--toolbar-icon']).toBe(expected.toolbar);
   expect(tokens['--cta-label']).toBe(expected.ink);
-  expect(tokens['--bubble-outgoing-text']).toBe(expected.ink);
+  expect(tokens['--bubble-outgoing-text']).toBe(expected.bubbleInk || expected.ink);
   for (const stop of expected.button) expect(resolveBrands(tokens['--cta-gradient'])).toContain(stop);
   for (const stop of expected.outgoing) expect(resolveBrands(tokens['--bubble-outgoing'])).toContain(stop);
   expect(tokens['--bubble-outgoing']).toContain('135deg');
@@ -159,9 +161,23 @@ test('active secondary text, composer boundaries, focus, and Neon card links use
   expect(styles).toMatch(/:root:is\(\[data-theme="midnight"\], \[data-theme="amoled"\], \[data-theme="aurora"\], \[data-theme="neon"\], \[data-theme="solarized"\]\) :is\(\.outgoing-message-edited, \.outgoing-message-caption\)\s*\{\s*opacity: 1 !important;/);
 });
 
-test('Velvet keeps its white control and outgoing ink over pink-to-gold', () => {
+test('Velvet keeps its gradient and white controls while deep-plum bubble text clears AA', () => {
   const tokens = themeTokens('velvet');
   expect(tokens['--composer-ink']).toBe('#FFFFFF');
-  expect(tokens['--bubble-outgoing-text']).toBe('#FFFFFF');
+  expect(tokens['--cta-label']).toBe('#FFFFFF');
+  expect(tokens['--bubble-outgoing-text']).toBe('#241031');
+  expect(tokens['--bubble-outgoing-shadow']).toBe('none');
   expect(tokens['--bubble-outgoing']).toBe('linear-gradient(135deg, #FF2D7A, #FFD84D)');
+  const from = [0xFF, 0x2D, 0x7A];
+  const to = [0xFF, 0xD8, 0x4D];
+  for (let step = 0; step <= 100; step++) {
+    const fraction = step / 100;
+    const color = '#' + from.map((value, i) => Math.round(value + (to[i] - value) * fraction)
+      .toString(16).padStart(2, '0')).join('');
+    expect(textContrast(tokens['--bubble-outgoing-text'], color)).toBeGreaterThanOrEqual(4.5);
+  }
+  const styles = fs.readFileSync(path.join(__dirname, '..', '..', 'styles.css'), 'utf8');
+  expect(styles).toMatch(/:root\[data-theme="velvet"\] \.outgoing-message-caption,[\s\S]*?color: #FFFFFF !important;/);
+  expect(styles).toContain(':root[data-theme="velvet"] .sms-message-row[data-outgoing="true"] .sms-bubble[data-has-media="true"]');
+  expect(styles).toMatch(/:root\[data-theme="velvet"\] \.outgoing-message-edited\s*\{\s*opacity: 1 !important;/);
 });
