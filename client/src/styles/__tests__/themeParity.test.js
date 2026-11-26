@@ -34,8 +34,8 @@ function textContrast(foreground, background) {
 }
 
 // Approved iOS PR #97 merged commit d04e13f, and Build 50 commit e007ad0 for Neon.
-// Velvet keeps its approved gradient and white controls; the proposed deep-plum
-// bubble ink remains pending owner visual approval.
+// Velvet keeps its approved gradient and white controls; the owner approved
+// deep-plum bubble ink after rendered contrast and visual review.
 const verified = {
   dawn: {
     bg: '#FFF7F0', card: '#FFFFFF', border: '#F1E3D8', fg: '#241510', muted: '#745E53',

@@ -5,7 +5,7 @@
 - Worktree: `/Users/juliannorton/Desktop/chatforia-web-final-qa-release-review-20261125`
 - Branch: `release/web-final-qa-review-20261125`
 - Base: refreshed `origin/main` at `d189cf65`
-- Status: local review only; not pushed, merged, or deployed.
+- Status: PR #354 is open; the approved Velvet follow-up is being added for CI review. No merge or deployment has occurred.
 
 The eight original website checkpoints remain intact in
 `/Users/juliannorton/Desktop/chatforia-web-conversation-mms-checkpoint-20261124`
@@ -51,10 +51,12 @@ iOS parity document from main is retained.
   gallery Back, original-byte downloads, focus restoration, and eight-theme
   controls. This visual approval does not establish live-carrier delivery or
   every gallery, download, or authorization interaction on a physical device.
-- The owner reviewed Velvet accessibility previews and rejected dark text/icon
-  rectangles. Its approved pink-to-gold gradient, white text and white
-  microphone remain. The roughly 1.4–1.61:1 white-on-gold text contrast is a
-  documented WCAG AA exception; approved appearance is not AA compliance.
+- The owner rejected dark text/icon rectangles, then visually approved Velvet
+  checkpoint `8b52ed50`: `#241031` outgoing text on the exact approved
+  pink-to-gold gradient. The white microphone and CTA labels remain. Local
+  authenticated Chromium measured **4.946:1** minimum outgoing text and
+  edited-label contrast across the rendered gradient at desktop/mobile widths
+  in light/dark appearances. This does not establish full WCAG compliance.
 - The owner acknowledged correction of the disposable upload fixture's local
   500. The authenticated local browser check passed image selection, preview,
   caption and removal without a send. An owner retest after the correction was
@@ -109,10 +111,10 @@ real carrier sends, or real eSIM purchases. The running Vite server serves the
    Premium, Sunset, Solarized and Velvet at desktop/mobile widths under light
    and dark system appearances. Check message bubbles, toolbar/icon colors,
    composer, Send/microphone, gallery controls, keyboard focus and Premium
-   locks. Preserve approved Neon and Velvet styling. Velvet's white outgoing
-   text on the gold gradient is a confirmed roughly 1.4–1.61:1 contrast
-   exception; the owner rejected a dark surface. Record an explicit design/
-   accessibility disposition before claiming WCAG AA for every theme.
+   locks. Preserve approved Neon and Velvet styling. The owner approved
+   Velvet's deep-plum outgoing text on its unchanged gradient at `8b52ed50`;
+   the earlier white-on-gold exception was superseded. Do not infer full WCAG
+   conformance for every theme from this single corrected text combination.
 5. **Existing commercial and media release gates.** With disposable accounts,
    verify Wireless Top up opens the Mobile packages and ordinary Pricing opens
    App plans; inspect owned purchased-package/replacement states without
@@ -244,3 +246,33 @@ API remain running. The owner must remove the manually installed QA certificate
 profile from the iPhone under Settings > General > VPN & Device Management.
 Post-merge artifact/serving-host/API-origin checks and any production rollout
 still require separate approval.
+
+## Owner-approved Velvet refinement — final PR #354 follow-up
+
+The owner visually approved local checkpoint `8b52ed50`. Velvet now uses its
+existing card deep plum `#241031` for outgoing message text and edited labels,
+while retaining the exact approved `135deg` `#FF2D7A` to `#FFD84D` outgoing
+gradient, dark surfaces, bubble geometry, white microphone, and white CTA
+labels. Native and MMS captions outside the gradient remain white. The other
+seven theme tokens were unchanged; the focused eight-theme palette test passed
+14/14 after the final selector assertion. The native-message, SMS reporting,
+and theme suites passed 33/33; the production web build and `git diff --check`
+passed. Authenticated disposable Chromium measured minimum outgoing text and
+edited-label contrast of **4.946:1** over 80,000 rendered gradient samples at
+1280px and 390px in both light and dark system appearances. The unchanged
+white caption measured 16.339:1; `Seen` metadata measured 10.569:1.
+Before/after screenshots, JSON reports, and the browser-only SMS/MMS check are
+in `docs/qa/velvet-text-refinement-20261125/`. This is an owner-approved
+visual refinement, not a claim of full WCAG compliance or physical-device
+contrast verification.
+
+The owner also reported removal of the temporary disposable LAN QA CA profile
+from the physical iPhone. The approved Safari composer checkpoint `e6b0a155`
+remains in PR #354. Physical Android browser behavior, native image download
+on a device, live carrier delivery, Telna purchases, and broader encryption-key
+scenarios, including immediate remote key-rotation detection in an already-open
+tab, remain unverified. Prior local key-lock, observed key-change, account
+switching, media authorization, and offline reconciliation evidence remains
+credited. Deployment-hardening PR #355 is already in main; after any separately
+approved merge, verify the exact artifact, serving host, and runtime API origin
+before a separately approved deployment.
