@@ -208,8 +208,8 @@ It has not been pushed, merged, or CI-validated. Because it preserves and exclud
 the live serving host. No deployment approval is implied.
 
 The local authenticated checks clear the specific offline reconciliation,
-private-media authorization, composer, and mock owned-package questions. They
-do not establish physical-device behavior, live carrier/Telna delivery, or
+private-media authorization, composer, and mock owned-package questions. At
+that checkpoint they did not establish physical-device behavior, live carrier/Telna delivery, or
 account/encryption-key invalidation in the owner interface. Velvet's approved
 appearance and roughly 1.4–1.61:1 text contrast exception remain unchanged and
 require an explicit accessibility disposition. The review candidate still
@@ -224,6 +224,23 @@ the same minimum. Focused component tests passed 9/9 and the production build
 passed. Authenticated Chromium measurements in
 `iphone-composer-layout-20261125.json` show 16px fields and Send within the
 360px/375px simulated viewports; desktop remains 14px. The temporary HTTPS
-gateway now serves this corrected worktree. Physical Safari keyboard open/close
-and Send visibility still need owner confirmation before PR #354 includes the
-follow-up. Browser zoom remains enabled; Velvet and other themes are unchanged.
+gateway served this corrected worktree for owner review. The owner approved
+checkpoint `e6b0a155` after physical iPhone Safari testing: Send remained
+visible while the keyboard was open, layout returned on dismissal, and manual
+pinch zoom worked. Photo selection, local upload, image preview, shared image
+viewing, and MMS image download also passed on that iPhone. This is owner-led
+device evidence, distinct from the 9/9 automated tests and Chromium geometry
+report. Physical Android browser behavior, native image download on device,
+live carrier delivery, and Telna purchases remain unverified. The disposable
+HTTPS gateway and its temporary CA are removed after this approval; localhost
+QA services remain. Velvet and other themes are unchanged.
+
+**PR and environment status after owner approval:** PR #355 merged the separate
+deployment-workflow hardening at `039cdddd`; it did not dispatch deployment.
+PR #354 remains open for the website candidate and this approved Safari
+follow-up. The temporary LAN gateway stopped and its local CA key, server key,
+certificate, and profile were deleted. The localhost Vite website and disposable
+API remain running. The owner must remove the manually installed QA certificate
+profile from the iPhone under Settings > General > VPN & Device Management.
+Post-merge artifact/serving-host/API-origin checks and any production rollout
+still require separate approval.
