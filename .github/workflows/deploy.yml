@@ -47,8 +47,13 @@ jobs:
             || fail_stage key_file "$?"
           ssh-keyscan -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts" \
             || fail_stage host_scan "$?"
-          test "$(wc -l 2>/dev/null < "$HOME/.ssh/known_hosts")" -eq 1 \
-            || fail_stage host_key_count "$?"
+          host_key_count="$(wc -l 2>/dev/null < "$HOME/.ssh/known_hosts")" \
+            || fail_stage host_key_count_read "$?"
+          if test "$host_key_count" -eq 0 2>/dev/null; then
+            fail_stage host_key_count_zero 1
+          fi
+          test "$host_key_count" -eq 1 2>/dev/null \
+            || fail_stage host_key_count_multiple "$?"
           fingerprint="$(ssh-keygen -lf "$HOME/.ssh/known_hosts" -E sha256 2>/dev/null | awk '{print $2}')" \
             || fail_stage pinned_fingerprint "$?"
           test "$fingerprint" = 'SHA256:1x93qv1E+XlLIKRiGgV1F3sNR0w60bv7oP5nuUxaElM' \
