@@ -87,7 +87,7 @@ jobs:
           npm run -w client build
           test -s client/dist/index.html
           test -s client/dist/qr-chatforia.png
-          artifact_sha256="$(cd client/dist && find . -type f ! -name env.js -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')"
+          artifact_sha256="$(cd client/dist && find . -type f ! -path ./env.js -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')"
           test "${#artifact_sha256}" -eq 64
           echo "ARTIFACT_SHA256=$artifact_sha256" >> "$GITHUB_ENV"
           echo "Release $GITHUB_SHA artifact SHA-256: $artifact_sha256" >> "$GITHUB_STEP_SUMMARY"
@@ -125,7 +125,7 @@ jobs:
           DO_USER: ${{ secrets.DO_USER }}
         run: |
           set -euo pipefail
-          rsync -avz --delete --exclude=env.js \
+          rsync -avz --delete --exclude=/env.js \
             -e "ssh -i $HOME/.ssh/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" \
             client/dist/ "$DO_USER@$DO_HOST:/var/www/chatforia/"
 
@@ -142,7 +142,7 @@ jobs:
             -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes \
             -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
             "$DO_USER@$DO_HOST" \
-            'cd /var/www/chatforia && find . -type f ! -name env.js -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk "{print \$1}"')"
+            'cd /var/www/chatforia && find . -type f ! -path ./env.js -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk "{print \$1}"')"
           test "$remote_sha256" = "$ARTIFACT_SHA256"
           ssh -i "$HOME/.ssh/id_ed25519" \
             -o IdentitiesOnly=yes -o BatchMode=yes \
