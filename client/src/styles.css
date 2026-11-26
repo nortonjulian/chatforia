@@ -405,6 +405,13 @@ html, body, #root { background: var(--bg); color: var(--fg); }
     flex-direction: column;
     align-items: stretch;
   }
+  /* Safari zooms focused text fields below 16px and can move Send off-screen. */
+  .responsive-message-composer .mantine-Textarea-input {
+    font-size: max(16px, 1rem);
+  }
+  .new-conversation-recipient {
+    --new-conversation-recipient-font-size: max(16px, 1rem);
+  }
   .responsive-message-composer .composer-attachment-row,
   .responsive-message-composer .composer-input-row {
     display: flex;

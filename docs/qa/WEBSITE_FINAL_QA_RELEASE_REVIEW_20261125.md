@@ -215,3 +215,15 @@ appearance and roughly 1.4–1.61:1 text contrast exception remain unchanged and
 require an explicit accessibility disposition. The review candidate still
 requires the separate deployment-control change and exact post-merge
 artifact/API verification before release.
+
+**Physical iPhone Safari composer follow-up:** owner testing found partial Send
+clipping after the message field received focus. The shared textarea computed
+to 14px before correction. The mobile-only release-review change raises native
+and SMS/MMS composer text to at least 16px; the new native recipient field uses
+the same minimum. Focused component tests passed 9/9 and the production build
+passed. Authenticated Chromium measurements in
+`iphone-composer-layout-20261125.json` show 16px fields and Send within the
+360px/375px simulated viewports; desktop remains 14px. The temporary HTTPS
+gateway now serves this corrected worktree. Physical Safari keyboard open/close
+and Send visibility still need owner confirmation before PR #354 includes the
+follow-up. Browser zoom remains enabled; Velvet and other themes are unchanged.
