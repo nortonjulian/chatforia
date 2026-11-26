@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, cleanup, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axiosClient from '@/api/axiosClient';
 import SmsMessageMedia from '../SmsMessageMedia';
 jest.mock('@/api/axiosClient', () => ({ __esModule: true, default: { get: jest.fn() } }));
@@ -26,6 +27,37 @@ test('image and video retain their appropriate controls',async()=>{
  respond('video/mp4');view.rerender(<SmsMessageMedia {...props} messageId={167}/>);
  expect((await screen.findByLabelText('Video attachment')).tagName).toBe('VIDEO');
  expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:sms-1');
+});
+test('an authenticated MMS image opens its own viewer by keyboard and keeps inline geometry',async()=>{
+ respond('image/jpeg');
+ render(<SmsMessageMedia {...props}/>);
+ const button=await screen.findByRole('button',{name:'Open image full size'});
+ expect(button.querySelector('img')).toHaveAttribute('alt','MMS attachment');
+ const user=userEvent.setup();
+ await user.tab();
+ expect(document.activeElement).toBe(button);
+ await user.keyboard('{Enter}');
+ expect(screen.getByRole('dialog',{name:'Image viewer'})).toBeInTheDocument();
+ expect(screen.queryByRole('button',{name:'Back to media'})).toBeNull();
+ expect(button.querySelector('img')).toHaveAttribute('src','blob:sms-1');
+ expect(button.querySelector('img').style.width).toBe('220px');
+ expect(button.querySelector('img').style.height).toBe('auto');
+ expect(button.querySelector('img').style.maxHeight).toBe('');
+ expect(button.querySelector('img').style.objectFit).toBe('');
+ expect(button.querySelector('img').style.borderRadius).toBe('12px');
+});
+test('full-size MMS download re-fetches authorized original bytes',async()=>{
+ respond('image/png');
+ jest.spyOn(HTMLAnchorElement.prototype,'click').mockImplementation(()=>{});
+ const user=userEvent.setup();
+ render(<SmsMessageMedia {...props}/>);
+ await user.click(await screen.findByRole('button',{name:'Open image full size'}));
+ await within(screen.getByRole('dialog',{name:'Image viewer'})).findByRole('img',{name:'MMS attachment'});
+ await user.click(screen.getByRole('button',{name:'Download image'}));
+ await waitFor(()=>expect(axiosClient.get).toHaveBeenCalledTimes(2));
+ expect(axiosClient.get.mock.calls.every(([path])=>path==='/sms/media/166/0?cacheScope=65')).toBe(true);
+ expect(HTMLAnchorElement.prototype.click).toHaveBeenCalledTimes(1);
+ expect(screen.getByRole('button',{name:'Close'})).toBeInTheDocument();
 });
 test('authorized nonvisual attachment remains downloadable from a local blob',async()=>{
  respond('application/pdf');render(<SmsMessageMedia {...props} item={{url:'opaque-file',contentType:'application/pdf'}}/>);

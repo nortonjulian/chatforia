@@ -59,7 +59,7 @@
 
   /* Highlighted surface (e.g. “Best value” pricing card) */
   --surface-highlight-bg: #FFF4D0;  /* warm coupon-like yellow */
-  --surface-highlight-fg: #1F1308;  /* dark readable text */
+  --surface-highlight-fg: #241510;
 
   /* wordmark / large decorative gradient (warm) */
   --logo-gradient: linear-gradient(90deg,
@@ -95,6 +95,23 @@
   --bubble-incoming-fg: var(--fg);
 
   --bubble-outgoing-text: #2B1712;
+}
+
+:root:not([data-theme]),
+:root[data-theme="dawn"] {
+  --title-accent: #B56E00;
+  --composer-bg: #FFF7F0;
+  --composer-field-bg: #FFFFFF;
+  --composer-border: #F1E3D8;
+  --composer-gradient: linear-gradient(90deg, #FFB300, #FF9800);
+  --composer-ink: #2B1712;
+  --toolbar-icon: #241510;
+  --toolbar-text: #241510;
+  --link-fg: #241510;
+  --tab-selected: #FFB300;
+  --tab-unselected: #A78B7A;
+  --accent-control-fg: #2B1712;
+  --switch-gradient: #FFB300;
 }
 
 /* =====================================================================
@@ -141,26 +158,27 @@
    MIDNIGHT (flagship dark)
 ====================================================================== */
 :root[data-theme="midnight"] {
-  --bg: #0B1020;
+  --bg: #050B1A;
   --fg: #EEF2FF;
-  --card: #121933;
-  --border: #1E2747;
+  --card: #0E1630;
+  --border: #1B2A49;
   --muted: #A3AED0;
   --ring: color-mix(in oklab, var(--brand-mint) 35%, transparent);
 
   --primary: var(--brand-violet);
-  --accent:  var(--brand-mint);
+  --accent:  var(--brand-cyan);
   --accent-alt: var(--brand-cyan);
+  --title-accent: #EEF2FF;
 
   /* Highlight surface */
-  --surface-highlight-bg: #FEF3C7;
-  --surface-highlight-fg: #111827;
+  --surface-highlight-bg: #22344C;
+  --surface-highlight-fg: #EEF2FF;
 
   --logo-gradient: linear-gradient(90deg, var(--brand-violet), var(--brand-mint));
-  --cta-gradient:  linear-gradient(90deg, var(--brand-violet), var(--brand-mint));
-  --bubble-outgoing: linear-gradient(135deg, var(--brand-violet), var(--brand-mint));
+  --cta-gradient: linear-gradient(90deg, rgba(255,255,255,.25), transparent), linear-gradient(90deg, var(--brand-violet), var(--brand-mint));
+  --bubble-outgoing: linear-gradient(135deg, rgba(255,255,255,.25), transparent), linear-gradient(135deg, var(--brand-violet), var(--brand-mint));
 
-  --cta-label: #fff;
+  --cta-label: #050B1A;
   --cta-label-on-gradient: var(--cta-label);
   --cta-on: var(--cta-label-on-gradient);
 
@@ -172,55 +190,82 @@
   --logo-stop-3: var(--brand-cyan);
 
   /* Chat bubbles */
-  --bubble-incoming-bg: color-mix(in oklab, var(--card) 92%, #000);
+  --bubble-incoming-bg: #121933;
   --bubble-incoming-fg: var(--fg);
 
-  --bubble-outgoing-text: #FFFFFF;
-  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.35);
+  --bubble-outgoing-text: #050B1A;
+  --bubble-outgoing-shadow: none;
+  --composer-bg: #050B1A;
+  --composer-field-bg: #121933;
+  --composer-border: #1E2747;
+  --composer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,.25)), linear-gradient(90deg, #3CF9FF, #6A3CC1);
+  --composer-ink: #050B1A;
+  --toolbar-icon: #3CF9FF;
+  --toolbar-text: #3CF9FF;
+  --link-fg: #3CF9FF;
+  --tab-selected: #3CF9FF;
+  --tab-unselected: #6E7D9C;
+  --accent-control-fg: #050B1A;
+  --switch-gradient: #3CF9FF;
 }
 
 /* =====================================================================
-   NEON (premium cool/dark) — slate + cyan/magenta neon gradient & glow
+   NEON PREMIUM — iOS Build 50 (e007ad0) cobalt to ultraviolet
 ====================================================================== */
 :root[data-theme="neon"] {
-  --bg: #0B0F14;          /* dark slate, not pure black */
-  --fg: #EAF2FF;
-  --card: #0F141D;
-  --border: #171821;
-  --muted: #9FB3D1;
-  --ring: color-mix(in oklab, var(--brand-cyan) 45%, transparent);
+  --bg: #0D0A22;
+  --fg: #F4F1FF;
+  --card: #211A3D;
+  --border: #4A3C70;
+  --muted: #B9B2D5;
+  --ring: #7772F8;
 
-  --primary: var(--brand-violet);
-  --accent:  var(--brand-cyan);     /* neon cyan */
-  --accent-alt: var(--brand-mint);  /* cool green */
+  --primary: #4667F5;
+  --accent: #7772F8;
+  --accent-alt: #B2C7FF;
+  --title-accent: #F4F1FF;
 
-  /* Highlight surface */
-  --surface-highlight-bg: #FEF3C7;
-  --surface-highlight-fg: #111827;
+  --surface-highlight-bg: #322957;
+  --surface-highlight-fg: #F4F1FF;
 
+  /* Native gradients: 3% white contrast lift inside the fill. */
+  /* The iOS source does not specify website logo or favicon artwork. */
   --logo-gradient: linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
-  --cta-gradient:  linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
-  --bubble-outgoing: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet));
+  --cta-gradient: linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.03)), linear-gradient(90deg, #4667F5 0%, #4667F5 58%, #7772F8 86%, #B2C7FF 100%);
+  --bubble-outgoing: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.03)), linear-gradient(135deg, #4667F5 0%, #4667F5 58%, #7772F8 86%, #B2C7FF 100%);
+  --composer-gradient: linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.03)), linear-gradient(90deg, #4667F5 0%, #4667F5 58%, #7772F8 86%, #B2C7FF 100%);
+  --neon-pressed-gradient: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.06)), linear-gradient(90deg, #4667F5 0%, #4667F5 58%, #7772F8 86%, #B2C7FF 100%);
+  --neon-disabled-fill: #302A4A;
+  --neon-disabled-ink: #AFA7CA;
 
-    /* Force white CTA text like your “good” screenshots */
-  --cta-label: #FFFFFF;
-  --cta-label-on-gradient: #FFFFFF;
+  --cta-label: #000000;
+  --cta-label-on-gradient: #000000;
   --cta-on: var(--cta-label-on-gradient);
-
-  /* Helps white stay readable over bright cyan edges */
-  --cta-on-shadow: 0 1px 2px rgba(0,0,0,.45);
-
-
-  --cta-overlay: radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,.10), rgba(255,255,255,0));
-  --shadow-accent: 0 0 28px rgba(0,229,255,.35), 0 0 18px rgba(106,60,193,.25);
+  --cta-on-shadow: none;
+  --cta-overlay: transparent;
+  --shadow-accent: rgba(178,199,255,.12);
 
   /* Chameleon / favicon stops */
   --logo-stop-1: #5B8CFF;
   --logo-stop-2: #00C2A8;
   --logo-stop-3: #3CF9FF;
 
-  --bubble-outgoing-text: #FFFFFF;
-  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.40);
+  --bubble-outgoing-text: #000000;
+  --bubble-outgoing-shadow: none;
+  --bubble-incoming-bg: #29204B;
+  --bubble-incoming-text: #F4F1FF;
+  --bubble-incoming-fg: #F4F1FF;
+  --composer-bg: #0D0A22;
+  --composer-field-bg: #241D42;
+  --composer-border: #756BA5;
+  --composer-ink: #000000;
+  --toolbar-icon: #7772F8;
+  --toolbar-text: #7772F8;
+  --link-fg: #7772F8;
+  --tab-selected: #7772F8;
+  --tab-unselected: #AAA3C4;
+  --accent-control-fg: #000000;
+  --switch-gradient: #7772F8;
 }
 
 /* =====================================================================
@@ -237,13 +282,14 @@
   --primary: var(--brand-violet);
   --accent:  #7C3AED;     /* royal violet */
   --accent-alt: #7C3AED;
+  --title-accent: #F2F2F2;
 
   /* Highlight surface */
-  --surface-highlight-bg: #FEF3C7;
-  --surface-highlight-fg: #111827;
+  --surface-highlight-bg: #171717;
+  --surface-highlight-fg: #F2F2F2;
 
   --logo-gradient: linear-gradient(90deg, #7C3AED, var(--brand-violet));
-  --cta-gradient:  var(--accent);   /* SOLID, no gradient */
+  --cta-gradient: linear-gradient(90deg, #7C3AED, #5932C7);
   --bubble-outgoing: linear-gradient(135deg, #7C3AED, #5932C7);
 
   --cta-label: #FFFFFF;
@@ -260,25 +306,38 @@
 
   --bubble-outgoing-text: #FFFFFF;
   --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.45);
+  --composer-bg: #000000;
+  --composer-field-bg: #0F0F0F;
+  --composer-border: #1A1A1A;
+  --composer-gradient: linear-gradient(90deg, #7C3AED, #5932C7);
+  --composer-ink: #FFFFFF;
+  --toolbar-icon: #7C3AED;
+  --toolbar-text: #F2F2F2;
+  --link-fg: #F2F2F2;
+  --tab-selected: #7C3AED;
+  --tab-unselected: #6B7280;
+  --accent-control-fg: #FFFFFF;
+  --switch-gradient: #7C3AED;
 }
 
 /* =====================================================================
    SUNSET (premium warm) — peach paper + orange→rose gradient
 ====================================================================== */
 :root[data-theme="sunset"] {
-  --bg: #FFF1E8;          /* peach vs Dawn’s cream */
+  --bg: #F7E8DE;
   --fg: #2C1A10;
-  --card: #FFF7F3;
-  --border: #F2D9CB;
+  --card: #F1DFD2;
+  --border: #D9C4B5;
   --muted: #7B6152;
   --ring: color-mix(in oklab, var(--brand-coral) 35%, transparent);
 
   --primary: var(--brand-purple);
   --accent:  var(--brand-orange);  /* orange */
   --accent-alt: var(--brand-coral);/* rose/coral */
+  --title-accent: #C65D52;
 
   /* Highlight surface */
-  --surface-highlight-bg: #FFF4D8;
+  --surface-highlight-bg: #DDD7D5;
   --surface-highlight-fg: #2C1A10;
 
   --logo-gradient: linear-gradient(90deg, var(--brand-coral), var(--brand-peach), var(--brand-gold));
@@ -298,39 +357,50 @@
 
   --bubble-outgoing-text: #22160E; /* warm dark */
   --bubble-outgoing-shadow: none;
+  --composer-bg: #F7E8DE;
+  --composer-field-bg: #FFF7F3;
+  --composer-border: #E2CDBF;
+  --composer-gradient: linear-gradient(90deg, #FF9800, #FF6F61);
+  --composer-ink: #22160E;
+  --toolbar-icon: #2C1A10;
+  --toolbar-text: #2C1A10;
+  --link-fg: #2C1A10;
+  --tab-selected: #FF9800;
+  --tab-unselected: #B08B7A;
+  --accent-control-fg: #22160E;
+  --switch-gradient: #FF9800;
 }
 
 /* =====================================================================
    AURORA (premium cool)
 ====================================================================== */
 :root[data-theme="aurora"] {
-  --bg: #061A1A;
-  --fg: #E7FFF9;
-  --card: #0B2323;
-  --border: #123131;
-  --muted: #A7D7CF;
+  --bg: #03161B;
+  --fg: #E9FFF8;
+  --card: #08252B;
+  --border: #123841;
+  --muted: #A8D8D1;
   --ring: color-mix(in oklab, var(--brand-mint) 45%, transparent);
 
   --primary: var(--brand-mint);
   --accent:  #29D39A;
   --accent-alt: var(--brand-blue);
+  --title-accent: #E9FFF8;
 
   /* Highlight surface (mint-tinted light) */
-  --surface-highlight-bg: #E6FFFA;
-  --surface-highlight-fg: #022C22;
+  --surface-highlight-bg: #213F52;
+  --surface-highlight-fg: #E9FFF8;
 
   --logo-gradient: linear-gradient(90deg, var(--brand-mint), #29D39A, var(--brand-blue));
   --cta-gradient:  linear-gradient(90deg, var(--brand-mint), #29D39A);
   --bubble-outgoing: linear-gradient(135deg, #29D39A, var(--brand-blue));
 
-  /* IMPORTANT: buttons on this gradient need dark text */
-    /* Force white CTA text like your “good” screenshots */
-  --cta-label: #FFFFFF;
-  --cta-label-on-gradient: #FFFFFF;
+  /* Dark ink follows the approved contrast role on the mint gradient. */
+  --cta-label: #03161B;
+  --cta-label-on-gradient: #03161B;
   --cta-on: var(--cta-label-on-gradient);
 
-  /* Helps white stay readable on the mint side */
-  --cta-on-shadow: 0 1px 2px rgba(0,0,0,.40);
+  --cta-on-shadow: none;
 
 
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,0));
@@ -341,8 +411,20 @@
   --logo-stop-3: var(--brand-blue);
 
   /* keep your bubbles as you had them */
-  --bubble-outgoing-text: #FFFFFF;
+  --bubble-outgoing-text: #03161B;
   --bubble-outgoing-shadow: none;
+  --composer-bg: #03161B;
+  --composer-field-bg: #0B2323;
+  --composer-border: #123131;
+  --composer-gradient: linear-gradient(90deg, #00C2A8, #29D39A);
+  --composer-ink: #03161B;
+  --toolbar-icon: #29D39A;
+  --toolbar-text: #29D39A;
+  --link-fg: #29D39A;
+  --tab-selected: #29D39A;
+  --tab-unselected: #7AAEA6;
+  --accent-control-fg: #03161B;
+  --switch-gradient: #29D39A;
 }
 
 /* ------------------------------- */
@@ -350,10 +432,10 @@
 /* ------------------------------- */
 :root[data-theme="solarized"] {
   /* neutrals (Solarized Light) */
-  --bg: #FDF6E3;
+  --bg: #EEE8D5;
   --fg: #073642;
-  --card: #FFFFFF;
-  --border: #EEE8D5;
+  --card: #E8E3D0;
+  --border: #D6CFB9;
   --muted: #657B83;
   --ring: color-mix(in oklab, #B58900 40%, transparent);
 
@@ -361,26 +443,39 @@
   --primary: #268BD2;      /* blue */
   --accent:  #B58900;      /* yellow/amber */
   --accent-alt: #2AA198;   /* cyan-green */
+  --title-accent: #0B4251;
 
   /* Highlight surface */
-  --surface-highlight-bg: #FDF0C0;
-  --surface-highlight-fg: #002B36;
+  --surface-highlight-bg: #DDE1D6;
+  --surface-highlight-fg: #073642;
 
   /* gradients */
   --logo-gradient: linear-gradient(90deg, #B58900, #CB4B16, #DC322F);
-  --cta-gradient:  linear-gradient(90deg, #B58900, #CB4B16);
-  --bubble-outgoing: linear-gradient(135deg, #B58900, #CB4B16);
+  --cta-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,.05)), linear-gradient(90deg, #B58900, #CB4B16);
+  --bubble-outgoing: linear-gradient(135deg, transparent, rgba(255,255,255,.05)), linear-gradient(135deg, #B58900, #CB4B16);
 
   /* UI effects */
-  --cta-label: #1B1200;
+  --cta-label: #000000;
   --cta-label-on-gradient: var(--cta-label);
   --cta-on: var(--cta-label-on-gradient);
 
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, #B58900 30%, transparent);
 
-  --bubble-outgoing-text: #1B1200; /* matches your CTA label */
+  --bubble-outgoing-text: #000000;
   --bubble-incoming-text: var(--fg);
+  --composer-bg: #EEE8D5;
+  --composer-field-bg: #FDF6E3;
+  --composer-border: #D6CFB9;
+  --composer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,.05)), linear-gradient(90deg, #B58900, #CB4B16);
+  --composer-ink: #000000;
+  --toolbar-icon: #073642;
+  --toolbar-text: #073642;
+  --link-fg: #073642;
+  --tab-selected: #B58900;
+  --tab-unselected: #8B8B7A;
+  --accent-control-fg: #1B1200;
+  --switch-gradient: #B58900;
 }
 
 /* ---- Chameleon favicon/wordmark stops (used by themeFavicon & C wordmark) ---- */
@@ -406,26 +501,27 @@
    VELVET (premium romantic)
 ====================================================================== */
 :root[data-theme="velvet"] {
-  --bg: #150919;
+  --bg: #17071C;
   --fg: #FFF3FA;
-  --card: #1F0D26;
-  --border: #2B1331;
-  --muted: #E8B9D6;
+  --card: #241031;
+  --border: #3B1A46;
+  --muted: #DAB5CB;
   --ring: color-mix(in oklab, var(--brand-pink) 40%, transparent);
 
   --primary: var(--brand-violet);
-  --accent:  var(--brand-pink);
-  --accent-alt: var(--brand-gold);
+  --accent: #FF2D7A;
+  --accent-alt: #FFD84D;
+  --title-accent: #FFF3FA;
 
   /* Highlight surface (soft rose) */
-  --surface-highlight-bg: #FEF2F7;
-  --surface-highlight-fg: #3B0A1E;
+  --surface-highlight-bg: #29324F;
+  --surface-highlight-fg: #FFF3FA;
 
   --logo-gradient: linear-gradient(90deg, var(--brand-violet), var(--brand-pink));
-  --cta-gradient:  linear-gradient(90deg, var(--brand-pink), var(--brand-gold));
-  --bubble-outgoing: linear-gradient(135deg, var(--brand-violet), var(--brand-pink));
+  --cta-gradient: linear-gradient(90deg, #FF2D7A, #FFD84D);
+  --bubble-outgoing: linear-gradient(135deg, #FF2D7A, #FFD84D);
 
-  /* CTA label: force white for Velvet controls so it reads on the gold side */
+  /* Keep the approved white Velvet CTA and microphone treatment. */
   --cta-label: #FFFFFF;
   --cta-label-on-gradient: #FFFFFF;
   --cta-on: var(--cta-label-on-gradient);
@@ -440,8 +536,21 @@
   --logo-stop-2: var(--brand-pink);
   --logo-stop-3: var(--brand-gold);
 
-  --bubble-outgoing-text: #FFFFFF;
-  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.40);
+  /* Owner-approved bubble ink reuses Velvet's deep-plum card color. */
+  --bubble-outgoing-text: #241031;
+  --bubble-outgoing-shadow: none;
+  --composer-bg: #17071C;
+  --composer-field-bg: #1F0D26;
+  --composer-border: #2B1331;
+  --composer-gradient: linear-gradient(90deg, #FF2D7A, #FFD84D);
+  --composer-ink: #FFFFFF;
+  --toolbar-icon: #FF2D7A;
+  --toolbar-text: #FF2D7A;
+  --link-fg: #FF2D7A;
+  --tab-selected: #FF2D7A;
+  --tab-unselected: #A26D95;
+  --accent-control-fg: #FFFFFF;
+  --switch-gradient: #FF2D7A;
 }
 
 /* --- Premium bubble embellishments ----------------------------------- */
@@ -457,7 +566,6 @@
 
 :root[data-theme="dark"],
 :root[data-theme="midnight"],
-:root[data-theme="neon"],
 :root[data-theme="amoled"],
 :root[data-theme="aurora"],
 :root[data-theme="velvet"] {
@@ -477,3 +585,10 @@
   --bubble-incoming-text: var(--fg);
   --bubble-incoming-fg: var(--fg);
 }
+
+:root[data-theme="midnight"] { --bubble-incoming-bg: #121933; }
+:root[data-theme="amoled"] { --bubble-incoming-bg: #111111; }
+:root[data-theme="aurora"] { --bubble-incoming-bg: #143B4A; }
+:root[data-theme="sunset"] { --bubble-incoming-bg: #EFE1D7; }
+:root[data-theme="solarized"] { --bubble-incoming-bg: #F5F0DF; }
+:root[data-theme="velvet"] { --bubble-incoming-bg: #2B1736; }

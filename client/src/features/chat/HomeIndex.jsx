@@ -293,6 +293,7 @@ export default function HomeIndex({ currentUser }) {
 
                 <Box style={{ flex: 1, minWidth: 0 }}>
                   <TextInput
+                    className="new-conversation-recipient"
                     ref={toInputRef}
                     value={toRaw}
                     onChange={(e) => setToRaw(e.currentTarget.value)}
@@ -300,7 +301,7 @@ export default function HomeIndex({ currentUser }) {
                     variant="unstyled"
                     styles={{
                       input: {
-                        fontSize: 14,
+                        fontSize: 'var(--new-conversation-recipient-font-size, 14px)',
                         padding: 0,
                         minHeight: 28,
                       },

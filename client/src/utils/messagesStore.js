@@ -338,6 +338,7 @@ export async function getMediaInRoom(roomId) {
           height: a.height ?? undefined,
           durationSec: a.durationSec ?? undefined,
           caption: a.caption ?? undefined,
+          expiresAt: m.expiresAt ?? undefined,
           messageId,
         });
       }
@@ -351,6 +352,7 @@ export async function getMediaInRoom(roomId) {
         url: m.imageUrl,
         mimeType: undefined,
         caption: undefined,
+        expiresAt: m.expiresAt ?? undefined,
         width: undefined,
         height: undefined,
         durationSec: undefined,

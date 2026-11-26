@@ -14,6 +14,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
 
 import { useUser } from '@/context/UserContext';
+import { useNativeThreadSessionCache } from '@/utils/nativeThreadSessionCache';
 import { RequirePremium } from '@/routes/guards';
 
 import SkipLink from '@/components/a11y/SkipLink.jsx';
@@ -159,7 +160,8 @@ function AuthedLayout() {
   );
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const { currentUser, logout, needsKeyUnlock } = useUser();
+  const { currentUser, logout, needsKeyUnlock, keyMeta } = useUser();
+  const nativeThreadCache = useNativeThreadSessionCache(currentUser, keyMeta, needsKeyUnlock);
   const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
@@ -243,6 +245,7 @@ function AuthedLayout() {
               <Burger
                 opened={opened}
                 onClick={toggle}
+                style={{ '--burger-color': 'var(--toolbar-icon, var(--fg))' }}
                 hiddenFrom="sm"
                 aria-label={
                   opened
@@ -358,13 +361,14 @@ function AuthedLayout() {
                       setSelectedRoom,
                       currentUser,
                       features,
+                      nativeThreadCache,
                     }}
                   />
                 )}
 
               </div>
 
-              <SupportWidget excludeRoutes={['/sms', '/admin']} />
+              <SupportWidget excludeRoutes={['/', '/chat/', '/sms', '/random', '/admin']} />
             </AdProvider>
           </AppShell.Main>
       </AppShell>

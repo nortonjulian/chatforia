@@ -80,6 +80,8 @@ jest.mock('@mantine/core', () => {
     Box,
     Group,
     Text,
+    Button: ({ children, onClick, ...props }) => <button type="button" onClick={onClick} {...props}>{children}</button>,
+    Modal: ({ opened, children }) => opened ? <section role="dialog">{children}</section> : null,
     ActionIcon,
     Tooltip,
     Menu,

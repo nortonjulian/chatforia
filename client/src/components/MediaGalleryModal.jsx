@@ -1,9 +1,11 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, SimpleGrid, Image, Text, Group, Button } from '@mantine/core';
 import { getMediaInRoom } from '../utils/messagesStore';
 import { messageCacheKey } from '../utils/messageCacheKey';
-import { useAuthorizedMedia } from './chat/ProtectedMessageAttachment';
+import { isLocalPrivateMedia, useAuthorizedMedia } from './chat/ProtectedMessageAttachment';
+import SharedImageViewer from './chat/SharedImageViewer';
+import { loadNativeImageBlob } from './chat/loadNativeImageBlob';
 
 /**
  * MediaGalleryModal
@@ -13,7 +15,7 @@ import { useAuthorizedMedia } from './chat/ProtectedMessageAttachment';
  */
 function AuthorizedGallerySource({ item, accountId, children }) {
   const { url } = useAuthorizedMedia(
-    item?.messageId,
+    Number.isSafeInteger(Number(item?.id)) ? item.id : item?.messageId,
     item?.url,
     'file',
     accountId,
@@ -27,6 +29,63 @@ export default function MediaGalleryModal({ opened, onClose, roomId, accountId }
   const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [viewerIndex, setViewerIndex] = useState(null);
+  const [imageViewer, setImageViewer] = useState(null);
+  const imageRequest = useRef(null);
+  const returnImageIndex = useRef(null);
+  const imageScope = `${accountId ?? 'anonymous'}:${roomId ?? 'none'}`;
+
+  useEffect(() => {
+    setImageViewer(null);
+    setViewerIndex(null);
+    imageRequest.current?.abort();
+    return () => imageRequest.current?.abort();
+  }, [imageScope]);
+
+  const closeAll = () => {
+    imageRequest.current?.abort();
+    setImageViewer(null);
+    setViewerIndex(null);
+    onClose();
+  };
+
+  const openImage = async (item, index) => {
+    imageRequest.current?.abort();
+    const controller = new AbortController();
+    imageRequest.current = controller;
+    setImageViewer({ scope: imageScope, item, index, loading: true, blob: null, error: '' });
+    try {
+      const blob = await loadNativeImageBlob(item, {
+        privateSource: isLocalPrivateMedia(item.url),
+        signal: controller.signal,
+      });
+      if (!controller.signal.aborted) {
+        setImageViewer({ scope: imageScope, item, index, loading: false, blob, error: '' });
+      }
+    } catch {
+      if (!controller.signal.aborted) {
+        setImageViewer({
+          scope: imageScope, item, index, loading: false, blob: null,
+          error: 'Image unavailable. Check your access and try again.',
+        });
+      }
+    }
+  };
+
+  const backToGallery = () => {
+    returnImageIndex.current = imageViewer?.index ?? null;
+    imageRequest.current?.abort();
+    setImageViewer(null);
+  };
+
+  useEffect(() => {
+    if (!opened || imageViewer || returnImageIndex.current == null) return undefined;
+    const index = returnImageIndex.current;
+    const timer = window.setTimeout(() => {
+      document.querySelector(`[data-native-gallery-index="${index}"]`)?.focus();
+      returnImageIndex.current = null;
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [opened, imageViewer]);
 
   // load cached media when opened
   useEffect(() => {
@@ -80,8 +139,8 @@ export default function MediaGalleryModal({ opened, onClose, roomId, accountId }
   return (
     <>
       <Modal
-        opened={opened}
-        onClose={onClose}
+        opened={opened && imageViewer?.scope !== imageScope}
+        onClose={closeAll}
         title={t('mediaGallery.sharedMedia', 'Shared media')}
         size="lg"
         centered
@@ -105,14 +164,20 @@ export default function MediaGalleryModal({ opened, onClose, roomId, accountId }
               >
                 {(authorizedUrl) => (
               m.kind === 'IMAGE' ? (
-                <Image
-                  key={m.id ?? `${m.url}-${i}`}
-                  radius="md"
-                  src={authorizedUrl || undefined}
-                  alt={m.caption || t('mediaGallery.imageAlt', 'image')}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setViewerIndex(i)}
-                />
+                <button
+                  type="button"
+                  className="shared-image-inline-open"
+                  data-native-gallery-index={i}
+                  aria-label="Open image full size"
+                  onClick={() => openImage(m, i)}
+                >
+                  <Image
+                    key={m.id ?? `${m.url}-${i}`}
+                    radius="md"
+                    src={authorizedUrl || undefined}
+                    alt={m.caption || t('mediaGallery.imageAlt', 'image')}
+                  />
+                </button>
               ) : m.kind === 'VIDEO' ? (
                 <div
                   key={m.id ?? `${m.url}-${i}`}
@@ -158,7 +223,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId, accountId }
       </Modal>
 
       <Modal
-        opened={viewerIndex != null}
+        opened={viewerIndex != null && selected?.kind !== 'IMAGE'}
         onClose={closeViewer}
         withCloseButton
         centered
@@ -199,22 +264,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId, accountId }
           >
             {(authorizedUrl) => (
               <>
-        {selected.kind === 'IMAGE' ? (
-          <>
-            <Image
-              radius="md"
-              src={authorizedUrl || undefined}
-              alt={selected.caption || t('mediaGallery.imageAlt', 'image')}
-              fit="contain"
-              styles={{ image: { maxHeight: '70vh' } }}
-            />
-            {selected.caption && (
-              <Text size="sm" mt="sm" c="dimmed">
-                {selected.caption}
-              </Text>
-            )}
-          </>
-        ) : selected.kind === 'VIDEO' ? (
+        {selected.kind === 'VIDEO' ? (
           <>
             <video
               src={authorizedUrl || undefined}
@@ -278,6 +328,21 @@ export default function MediaGalleryModal({ opened, onClose, roomId, accountId }
           </AuthorizedGallerySource>
         )}
       </Modal>
+      <SharedImageViewer
+        opened={opened && imageViewer?.scope === imageScope}
+        onClose={closeAll}
+        onBack={imageViewer?.scope === imageScope ? backToGallery : undefined}
+        blob={imageViewer?.scope === imageScope ? imageViewer.blob : null}
+        loading={imageViewer?.scope === imageScope && imageViewer.loading}
+        error={imageViewer?.scope === imageScope ? imageViewer.error : ''}
+        alt={imageViewer?.item?.caption || 'Chatforia image'}
+        caption={imageViewer?.item?.caption || ''}
+        expiresAt={imageViewer?.item?.expiresAt}
+        filename="chatforia-image"
+        onDownload={() => loadNativeImageBlob(imageViewer.item, {
+          privateSource: isLocalPrivateMedia(imageViewer.item.url),
+        })}
+      />
     </>
   );
 }

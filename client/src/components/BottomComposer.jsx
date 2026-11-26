@@ -33,6 +33,7 @@ export default function BottomComposer({
   showUpload = true,
   prepareFile, // optional; carrier MMS conversion only when caller supplies it
   onUploadFiles, // optional; if omitted, we'll pass files to onSend via 2nd arg
+  onPickMedia, // optional; consume picker media as text for SMS-only flows
 }) {
   const { t } = useTranslation();
   const fileRef = useRef(null);
@@ -148,7 +149,7 @@ export default function BottomComposer({
               pointerEvents: 'auto',
               width: '100%',
               margin: 0,
-              background: 'var(--mantine-color-body)',
+              background: 'var(--composer-bg, var(--mantine-color-body))',
             }}
           >
             {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
@@ -303,9 +304,11 @@ export default function BottomComposer({
                 );
               })()}
 
-            <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
+            <Group className="responsive-message-composer" gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
+              <div className="composer-attachment-row">
               {showGif && (
                 <Button
+                  className="composer-gradient-control"
                   variant="filled"
                   radius="xl"
                   size="compact-md"
@@ -406,8 +409,11 @@ export default function BottomComposer({
                   }}
                 />
               )}
+              </div>
 
+              <div className="composer-input-row">
               <Textarea
+                className="composer-theme-field"
                 placeholder={placeholder ?? t('composer.placeholder', 'Type a message…')}
                 aria-label={t('composer.aria', 'Message composer')}
                 value={value}
@@ -422,8 +428,8 @@ export default function BottomComposer({
                   input: {
                     overflowX: 'hidden',
                     whiteSpace: 'pre-wrap',
-                    overflowWrap: 'anywhere',
-                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    wordBreak: 'normal',
                     lineHeight: 1.45,
                     paddingTop: 8,
                     paddingBottom: 8,
@@ -448,6 +454,7 @@ export default function BottomComposer({
                 openDelay={400}
               >
                 <ActionIcon
+                  className="composer-gradient-control"
                   size="lg"
                   radius="xl"
                   variant="filled"
@@ -458,6 +465,7 @@ export default function BottomComposer({
                   <Send size={16} />
                 </ActionIcon>
               </Tooltip>
+              </div>
 
               <input
                 ref={fileRef}
@@ -491,6 +499,11 @@ export default function BottomComposer({
           if (pick.native) {
             const next = `${value || ''}${pick.native}`;
             onChange?.(next);
+            setPickerOpen(false);
+            return;
+          }
+
+          if (onPickMedia?.(pick) === true) {
             setPickerOpen(false);
             return;
           }

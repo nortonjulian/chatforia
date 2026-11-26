@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-11-26T01:00:41.125Z",
+  "environment": "Disposable local mock purchase only; mock- provider ID bypasses Telna; no real payment or replacement",
+  "api": {
+    "low": {
+      "http": 200,
+      "mode": "INDIVIDUAL",
+      "state": "LOW",
+      "purchaseVisible": true
+    },
+    "purchases": {
+      "http": 200,
+      "mockPurchasePaid": true,
+      "state": "PROVIDER_UNVERIFIED",
+      "replacementEligible": false
+    },
+    "exhausted": {
+      "http": 200,
+      "state": "EXHAUSTED",
+      "purchaseVisible": true
+    }
+  },
+  "browser": {
+    "lowPackVisible": true,
+    "topUpOpenedMobilePackages": true,
+    "exhaustedWarningVisible": true
+  },
+  "pass": true,
+  "mockPurchaseRemoved": true
+}

@@ -66,7 +66,7 @@
 .oauth-button,
 .secondary-cta {
   background: var(--card);
-  color: var(--accent);
+  color: var(--link-fg, var(--accent));
   border: 1px solid var(--border);
   box-shadow: none;
 }
@@ -74,7 +74,7 @@
 /* Baseline links everywhere */
 a,
 .link {
-  color: var(--accent);
+  color: var(--link-fg, var(--accent));
   text-decoration: none;
 }
 
@@ -365,10 +365,124 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 .mantine-Switch-track[data-checked],
 .mantine-Switch-track[data-checked="true"] { background: var(--switch-gradient) !important; border-color: transparent !important; }
 .mantine-Checkbox-input:checked + .mantine-Checkbox-inner { background: var(--switch-gradient) !important; border-color: transparent !important; }
-.mantine-Checkbox-input:checked + .mantine-Checkbox-inner .mantine-Checkbox-icon { color: #fff; }
+.mantine-Checkbox-input:checked + .mantine-Checkbox-inner .mantine-Checkbox-icon { color: var(--accent-control-fg, #fff); }
 .mantine-Switch-root[data-checked] .mantine-Switch-track,
 .mantine-Switch-root[data-checked="true"] .mantine-Switch-track,
 .mantine-Switch-input:checked ~ .mantine-Switch-track { background: var(--switch-gradient) !important; border-color: transparent !important; }
+
+/* Verified iOS semantic roles, including Neon's Build 50 palette. */
+:root:not([data-theme="dark"]) {
+  --mantine-color-dimmed: var(--muted);
+}
+:root:is([data-theme="sunset"], [data-theme="solarized"]) {
+  --mantine-color-dimmed: var(--fg);
+}
+:root:is([data-theme="midnight"], [data-theme="amoled"], [data-theme="aurora"], [data-theme="neon"], [data-theme="solarized"]) :is(.outgoing-message-edited, .outgoing-message-caption) {
+  opacity: 1 !important;
+}
+/* Velvet bubble ink is dark; captions sit outside the gradient on its dark chat surface. */
+:root[data-theme="velvet"] .outgoing-message-caption,
+:root[data-theme="velvet"] .sms-message-row[data-outgoing="true"] .sms-bubble[data-has-media="true"] {
+  color: #FFFFFF !important;
+}
+:root[data-theme="velvet"] .outgoing-message-edited {
+  opacity: 1 !important;
+}
+:root:not([data-theme="dark"]) .composer-theme-field .mantine-Textarea-input {
+  background-color: var(--composer-field-bg, var(--card)) !important;
+  border-color: var(--composer-border, var(--border)) !important;
+  color: var(--fg) !important;
+}
+:root:not([data-theme="dark"]) .composer-theme-field .mantine-Textarea-input::placeholder {
+  color: var(--muted) !important;
+  opacity: 1;
+}
+:root[data-theme="solarized"] .composer-theme-field .mantine-Textarea-input::placeholder {
+  color: var(--fg) !important;
+}
+/* Keep the input beside Send; move attachment actions to a compact row on phones. */
+.responsive-message-composer .composer-attachment-row,
+.responsive-message-composer .composer-input-row { display: contents; }
+.responsive-message-composer .mantine-Textarea-input::placeholder {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 850px) {
+  .responsive-message-composer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* Safari zooms focused text fields below 16px and can move Send off-screen. */
+  .responsive-message-composer .mantine-Textarea-input {
+    font-size: max(16px, 1rem);
+  }
+  .new-conversation-recipient {
+    --new-conversation-recipient-font-size: max(16px, 1rem);
+  }
+  .responsive-message-composer .composer-attachment-row,
+  .responsive-message-composer .composer-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .responsive-message-composer .composer-attachment-row { justify-content: flex-start; }
+  .responsive-message-composer .composer-input-row .mantine-Textarea-root {
+    flex: 1;
+    min-width: 0;
+  }
+  .responsive-message-composer .composer-input-row > :last-child { flex: 0 0 auto; }
+}
+:root:not([data-theme="neon"]):not([data-theme="dark"]) .composer-theme-field .mantine-Textarea-input {
+  box-shadow: 0 0 0 1px var(--muted);
+}
+:root[data-theme="neon"] :is(.mantine-Card-root, .mantine-Paper-root) :is(a, .mantine-Anchor-root):not(.auth-link-gradient) {
+  color: var(--fg) !important;
+  text-decoration: underline;
+}
+:root:not([data-theme="dark"]) .composer-gradient-control {
+  background: var(--composer-gradient, var(--cta-gradient)) !important;
+  color: var(--composer-ink, var(--cta-label)) !important;
+}
+:root:not([data-theme="neon"]):not([data-theme="dark"]) .composer-gradient-control[data-disabled] { opacity: .6; }
+:root:not([data-theme="dark"]) .theme-toolbar-actions .mantine-ActionIcon-root,
+:root:not([data-theme="dark"]) .mantine-AppShell-header .mantine-ActionIcon-root[data-variant="subtle"] {
+  color: var(--toolbar-icon, var(--accent));
+}
+:root:not([data-theme="dark"]) .mantine-AppShell-header .mantine-Anchor-root {
+  color: var(--toolbar-text, var(--fg));
+}
+:root:not([data-theme="dark"]) .mantine-Tabs-tab[data-active] {
+  color: var(--tab-selected, var(--accent));
+}
+:root:not([data-theme="dark"]) :is(.mantine-Button-root, .mantine-ActionIcon-root, .mantine-Anchor-root, .mantine-Input-input, .mantine-Textarea-input):focus-visible {
+  outline: 2px solid var(--toolbar-icon, var(--fg));
+  outline-offset: 2px;
+}
+
+/* iOS Build 50 uses a uniform 6% pressed lift and a solid disabled fill. */
+:root[data-theme="neon"] :is(.button-primary, .mantine-Button-root[data-variant="filled"], .mantine-ActionIcon-root[data-variant="filled"]) {
+  box-shadow: 0 4px 10px var(--shadow-accent) !important;
+}
+:root[data-theme="neon"] .composer-gradient-control {
+  box-shadow: 0 3px 8px var(--shadow-accent) !important;
+}
+:root[data-theme="neon"] :is(.button-primary, .mantine-Button-root[data-variant="filled"], .mantine-ActionIcon-root[data-variant="filled"], .composer-gradient-control):active:not(:disabled):not([data-disabled]) {
+  background: var(--neon-pressed-gradient) !important;
+}
+:root[data-theme="neon"] :is(.button-primary, .mantine-Button-root[data-variant="filled"], .mantine-ActionIcon-root[data-variant="filled"], .composer-gradient-control):is(:disabled, [data-disabled]) {
+  --cta-on: var(--neon-disabled-ink);
+  background: var(--neon-disabled-fill) !important;
+  color: var(--neon-disabled-ink) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+:root[data-theme="neon"] :is(.mantine-Button-root, .mantine-ActionIcon-root, .mantine-Anchor-root, .mantine-Input-input, .mantine-Textarea-input):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
 
 /* ================== Theme chips ================== */
 .theme-chip {
@@ -381,7 +495,7 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 }
 .theme-chip svg { width: 18px; height: 18px; }
 .theme-chip:hover { background: #fff8f0; border-color: rgba(0,0,0,.2); }
-.theme-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,165,0,.35); }
+.theme-chip:focus-visible { outline: 2px solid var(--toolbar-icon, var(--fg)); outline-offset: 2px; }
 .theme-chip[aria-pressed="true"], .theme-chip[data-selected="true"] { background: #ffedd5; border-color: #f59e0b; color: #7c2d12; }
 @media (prefers-color-scheme: dark) {
   .theme-chip { background: #0f0f10; color: #e7e7e7; border-color: rgba(255,255,255,.12); }
@@ -413,7 +527,7 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 .auth-page .mantine-PasswordInput-input::placeholder,
 .auth-page input::placeholder,
 .auth-page textarea::placeholder { color: color-mix(in oklab, var(--fg) 72%, transparent) !important; opacity: 1 !important; }
-.auth-page .mantine-Anchor-root { color: var(--accent) !important; }
+.auth-page .mantine-Anchor-root { color: var(--link-fg, var(--accent)) !important; }
 .auth-page .mantine-ThemeIcon-root { color: var(--cta-label) !important; }
 .auth-page .mantine-Divider-label { color: var(--fg) !important; opacity: .85 !important; }
 
@@ -514,8 +628,8 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 /* Composer at the bottom + iOS safe area */
 .chat-footer {
   padding: 8px 12px;
-  border-top: 1px solid rgba(0,0,0,.06);
-  background: var(--mantine-color-body);
+  border-top: 1px solid var(--composer-border, rgba(0,0,0,.06));
+  background: var(--composer-bg, var(--mantine-color-body));
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
 }
 
@@ -581,6 +695,10 @@ html, body, #root { height: 100%; }
 .cf-phone-input .PhoneInputInput:focus {
   border-color: var(--mantine-primary-color-filled);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--mantine-primary-color-filled) 15%, transparent);
+}
+.cf-phone-input .PhoneInputInput:focus-visible {
+  outline: 2px solid var(--toolbar-icon, var(--fg));
+  outline-offset: 2px;
 }
 
 .skip-link {
@@ -675,6 +793,11 @@ html, body, #root { height: 100%; }
   opacity: 0;
   pointer-events: none;
   transition: opacity 120ms ease;
+}
+
+.sms-media-open:focus-visible {
+  outline: 2px solid var(--toolbar-icon, var(--fg));
+  outline-offset: 3px;
 }
 
 .sms-message-row:hover .sms-message-menu {

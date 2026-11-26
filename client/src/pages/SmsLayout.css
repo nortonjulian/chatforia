@@ -25,15 +25,48 @@
   box-sizing: border-box;
 }
 
-/* Use the actual loaded player to recognize opaque inbound audio URLs too.
-   Text + audio, images, videos and files retain their normal bubble treatment. */
-.sms-bubble[data-media-only="true"]:has(audio[data-sms-audio]):not(:has(img, video, a)) {
+.sms-media-open {
+  display: block;
+  width: min(220px, 100%);
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sms-media-open:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--fg));
+  outline-offset: 3px;
+}
+
+.sms-media-open img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Native Chatforia media, including captions, has no colored text bubble.
+   Apply before media resolves so loading and failure states never flash amber. */
+.sms-bubble[data-has-media="true"] {
   background: transparent !important;
   padding: 0 !important;
   border: none;
   box-shadow: none;
 }
 
-.sms-bubble[data-media-only="true"]:has(audio[data-sms-audio]):not(:has(img, video, a)) > div:last-child {
-  margin-top: 0 !important;
+/* Match the native message row's 16px edge padding and 8px action inset. */
+.sms-message-row[data-outgoing="false"] .sms-bubble[data-has-media="true"] {
+  margin-left: 24px;
+}
+
+.sms-message-row[data-outgoing="true"] .sms-bubble[data-has-media="true"] {
+  margin-right: 24px;
+}
+
+.sms-media-gallery-open {
+  width: 100%;
+  border-radius: var(--mantine-radius-md);
 }
