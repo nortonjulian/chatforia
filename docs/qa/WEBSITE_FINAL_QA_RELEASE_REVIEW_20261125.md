@@ -172,3 +172,43 @@ decision. Do not claim all-theme WCAG AA while Velvet's text exception remains.
 Live carrier delivery, real purchases, broader physical-device coverage, and
 the separate protected-username, notification-authorization, MLS, and Random
 Chat workstreams are not silently counted as completed by this website review.
+
+## Focused release-verification addendum — November 25
+
+The authenticated disposable environment completed the remaining local checks
+after the review above. Browser offline mode retained confirmed native messages;
+an edit and deletion made while offline reconciled after connectivity returned
+and `/messages/1` refreshed. Native private-media access returned 404 to an
+unrelated account and, after membership revocation, both a new grant and an
+already issued file URL returned 404. The MMS owner received 200 and the other
+account 404. Temporary messages and membership changes were cleaned up.
+
+The new-SMS composer selected, previewed, removed, and reselected a local image;
+the caption and attachment survived an intercepted 503 and a simulated 202
+retry used a private upload key. Intent, PUT, and complete returned 200 against
+the disposable upload fixture. No carrier send occurred. Ordinary Pricing
+opened App plans; Wireless opened Mobile packages. A temporary `mock-` eSIM
+purchase drove real local LOW and EXHAUSTED API/browser states, and the
+purchase listing correctly showed provider unverified and replacement
+ineligible. The mock purchase was removed; no purchase or provider call occurred.
+The corresponding scripts and redacted results are the three
+`final-release-*-20261125.mjs` and `.json` pairs in this directory. The master
+checklist records exact outcomes and remaining limits.
+
+The separate, uncommitted deployment patch passed `git diff --check` and a
+focused static review: it checks the known ed25519 fingerprint, requires an
+exact reviewed main SHA, runs locked `npm ci --ignore-scripts`, and compares
+built and remote artifact hashes before reload. Its SHA-256 diff digest is
+`c2cd5d8ecc1e6e933436b4d6feacceb6e1297fd3d203892af354db05804eebb6`.
+It has not been transferred or CI-validated. Because it preserves and excludes
+`env.js`, the release operator must independently verify that runtime file and
+the live serving host. No deployment approval is implied.
+
+The local authenticated checks clear the specific offline reconciliation,
+private-media authorization, composer, and mock owned-package questions. They
+do not establish physical-device behavior, live carrier/Telna delivery, or
+account/encryption-key invalidation in the owner interface. Velvet's approved
+appearance and roughly 1.4–1.61:1 text contrast exception remain unchanged and
+require an explicit accessibility disposition. The review candidate still
+requires the separate deployment-control change and exact post-merge
+artifact/API verification before release.
