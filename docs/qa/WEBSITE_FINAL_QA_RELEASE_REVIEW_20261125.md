@@ -195,12 +195,15 @@ The corresponding scripts and redacted results are the three
 `final-release-*-20261125.mjs` and `.json` pairs in this directory. The master
 checklist records exact outcomes and remaining limits.
 
-The separate, uncommitted deployment patch passed `git diff --check` and a
+The separate deployment patch was transferred unchanged to clean local branch
+`release/web-deploy-hardening-review-20261125` in workflow-only commit
+`e346cfe3`, followed by PR/runbook commit `0d5606b2`. It passed
+`git diff --check`, YAML parsing, `bash -n` for all seven shell steps, and a
 focused static review: it checks the known ed25519 fingerprint, requires an
 exact reviewed main SHA, runs locked `npm ci --ignore-scripts`, and compares
 built and remote artifact hashes before reload. Its SHA-256 diff digest is
 `c2cd5d8ecc1e6e933436b4d6feacceb6e1297fd3d203892af354db05804eebb6`.
-It has not been transferred or CI-validated. Because it preserves and excludes
+It has not been pushed, merged, or CI-validated. Because it preserves and excludes
 `env.js`, the release operator must independently verify that runtime file and
 the live serving host. No deployment approval is implied.
 
