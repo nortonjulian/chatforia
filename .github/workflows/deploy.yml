@@ -11,6 +11,10 @@ on:
         options:
           - verify_ssh
           - deploy
+      expected_sha:
+        description: Exact reviewed 40-character main commit SHA (required for deploy)
+        type: string
+        required: false
 
 jobs:
   verify_ssh:
@@ -49,41 +53,101 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout exact dispatched revision
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Verify reviewed release revision
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$EXPECTED_SHA" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          test -z "$(git status --porcelain)"
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
 
-      - name: Install dependencies
-        run: |
-          cd client
-          npm install
+      - name: Install locked dependencies without server postinstall
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Build frontend
+      - name: Build frontend and identify release artifact
+        shell: bash
+        env:
+          VITE_COMMIT_SHA: ${{ github.sha }}
         run: |
-          cd client
-          npm run build
+          set -euo pipefail
+          npm run -w client build
+          test -s client/dist/index.html
+          test -s client/dist/qr-chatforia.png
+          artifact_sha256="$(cd client/dist && find . -type f ! -name env.js -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')"
+          test "${#artifact_sha256}" -eq 64
+          echo "ARTIFACT_SHA256=$artifact_sha256" >> "$GITHUB_ENV"
+          echo "Release $GITHUB_SHA artifact SHA-256: $artifact_sha256" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Setup SSH
+      - name: Setup pinned SSH host key
+        shell: bash
+        env:
+          DO_HOST: ${{ secrets.DO_HOST }}
+          DO_USER: ${{ secrets.DO_USER }}
+          DO_SSH_KEY: ${{ secrets.DO_SSH_KEY }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DO_SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts
+          set -euo pipefail
+          test -n "$DO_HOST" && test -n "$DO_USER" && test -n "$DO_SSH_KEY"
+          umask 077
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$DO_SSH_KEY" > "$HOME/.ssh/id_ed25519"
+          chmod 0600 "$HOME/.ssh/id_ed25519"
+          ssh-keyscan -T 10 -t ed25519 "$DO_HOST" 2>/dev/null > "$HOME/.ssh/known_hosts"
+          test "$(wc -l < "$HOME/.ssh/known_hosts")" -eq 1
+          fingerprint="$(ssh-keygen -lf "$HOME/.ssh/known_hosts" -E sha256 | awk '{print $2}')"
+          test "$fingerprint" = 'SHA256:1x93qv1E+XlLIKRiGgV1F3sNR0w60bv7oP5nuUxaElM'
+          ssh -i "$HOME/.ssh/id_ed25519" \
+            -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o PreferredAuthentications=publickey \
+            -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no \
+            -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            -o ControlMaster=no -o ControlPath=none -o ControlPersist=no \
+            -o ConnectTimeout=10 "$DO_USER@$DO_HOST" true
 
-      - name: Deploy to web server
+      - name: Deploy exact artifact
+        shell: bash
+        env:
+          DO_HOST: ${{ secrets.DO_HOST }}
+          DO_USER: ${{ secrets.DO_USER }}
         run: |
-          rsync -avz --delete client/dist/ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/var/www/chatforia/
+          set -euo pipefail
+          rsync -avz --delete --exclude=env.js \
+            -e "ssh -i $HOME/.ssh/id_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" \
+            client/dist/ "$DO_USER@$DO_HOST:/var/www/chatforia/"
 
-      - name: Restore env.js and reload nginx
+      - name: Verify deployed artifact and reload nginx
+        shell: bash
+        env:
+          DO_HOST: ${{ secrets.DO_HOST }}
+          DO_USER: ${{ secrets.DO_USER }}
         run: |
-          ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
-          cat > /var/www/chatforia/env.js <<'EOL'
-          window.__API_URL__ = "https://api.chatforia.com";
-          window.__ENV = {};
-          EOL
-          systemctl reload nginx
-          EOF
+          set -euo pipefail
+          remote_sha256="$(ssh -i "$HOME/.ssh/id_ed25519" \
+            -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no \
+            -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            "$DO_USER@$DO_HOST" \
+            'cd /var/www/chatforia && find . -type f ! -name env.js -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | awk "{print \$1}"')"
+          test "$remote_sha256" = "$ARTIFACT_SHA256"
+          ssh -i "$HOME/.ssh/id_ed25519" \
+            -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o PasswordAuthentication=no -o KbdInteractiveAuthentication=no \
+            -o HostKeyAlgorithms=ssh-ed25519 -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
+            "$DO_USER@$DO_HOST" 'systemctl reload nginx'
+          echo "Verified deployed artifact $ARTIFACT_SHA256 for $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
