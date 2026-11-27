@@ -392,8 +392,8 @@ function EsimCompareTable({ scope }) {
           ),
         },
         {
-          pack: t('upgrade.mobile.unlimited.title', 'Unlimited'),
-          data: t('upgrade.mobile.unlimited.data', 'High-speed data included'),
+          pack: t('upgrade.mobile.travelData.title', '30-Day Travel Data'),
+          data: t('upgrade.mobile.travelData.dailyAllowance', '3 GB at full speed each day, then 1 Mbps until the daily reset.'),
           bestFor: t(
             'upgrade.mobile.unlimited.bestFor',
             'Peace of mind for heavy travel use'
@@ -436,8 +436,8 @@ function EsimCompareTable({ scope }) {
         ),
       },
       {
-        pack: t('upgrade.mobile.unlimited.title', 'Unlimited'),
-        data: t('upgrade.mobile.unlimited.data', 'High-speed data included'),
+        pack: t('upgrade.mobile.travelData.title', '30-Day Travel Data'),
+        data: t('upgrade.mobile.travelData.dailyAllowance', '3 GB at full speed each day, then 1 Mbps until the daily reset.'),
         bestFor: t(
           'upgrade.mobile.unlimited.bestFor',
           'Peace of mind for heavy everyday or travel use'
@@ -635,10 +635,10 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
         {
           product: 'chatforia_esim_global_unlimited_premium',
           gb: 999,
-          title: t('upgrade.esim.global.unlimited.title', 'Global Unlimited'),
+          title: t('upgrade.esim.global.travelData.title', 'Global Travel Data · 30 Days'),
           desc: t(
-            'upgrade.esim.global.unlimited.desc',
-            'For heavy use in supported destinations; speed terms depend on the data package.'
+            'upgrade.mobile.travelData.dailyAllowance',
+            '3 GB at full speed each day, then 1 Mbps until the daily reset.'
           ),
           kind: 'unlimited',
         },
@@ -671,10 +671,10 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
         {
           product: 'chatforia_esim_europe_unlimited_premium',
           gb: 999,
-          title: t('upgrade.esim.europe.unlimited.title', 'Europe Unlimited'),
+          title: t('upgrade.esim.europe.travelData.title', 'Europe Travel Data · 30 Days'),
           desc: t(
-            'upgrade.esim.europe.unlimited.desc',
-            'For heavy use in supported destinations; speed terms depend on the data package.'
+            'upgrade.mobile.travelData.dailyAllowance',
+            '3 GB at full speed each day, then 1 Mbps until the daily reset.'
           ),
           kind: 'unlimited',
         },
@@ -715,10 +715,10 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
       {
         product: 'chatforia_esim_local_unlimited_premium',
         gb: 999,
-        title: t('upgrade.esim.local.unlimited.title', 'Local Unlimited'),
+        title: t('upgrade.esim.local.travelData.title', 'U.S. Travel Data · 30 Days'),
         desc: t(
-          'upgrade.esim.local.unlimited.desc',
-            'For heavy use in supported destinations; speed terms depend on the data package.'
+          'upgrade.mobile.travelData.dailyAllowance',
+            '3 GB at full speed each day, then 1 Mbps until the daily reset.'
         ),
         kind: 'unlimited',
       },
@@ -873,21 +873,21 @@ useEffect(() => {
   if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
     return formatMoney(qPlus.unitAmount, qPlus.currency);
   }
-    return t('upgrade.plans.plus.price', '$7.99');
+    return formatMoney(1299, 'USD');
   }, [qPlus, t]);
 
   const labelPremMonthly = useMemo(() => {
     if (qPremMonthly?.currency && typeof qPremMonthly?.unitAmount === 'number') {
       return formatMoney(qPremMonthly.unitAmount, qPremMonthly.currency);
     }
-    return t('upgrade.plans.premiumMonthly.price', '$12.99');
+    return formatMoney(1999, 'USD');
   }, [qPremMonthly, t]);
 
   const labelPremAnnual = useMemo(() => {
     if (qPremAnnual?.currency && typeof qPremAnnual?.unitAmount === 'number') {
       return formatMoney(qPremAnnual.unitAmount, qPremAnnual.currency);
     }
-    return t('upgrade.plans.premiumAnnual.price', '$119.99');
+    return formatMoney(19999, 'USD');
   }, [qPremAnnual, t]);
 
   const perMonthLabel = t('upgrade.perMonthLong', '/ mo');
@@ -1391,7 +1391,7 @@ useEffect(() => {
 
           <Group gap="md" mt={4}>
             <Text fw={600} c="dimmed">
-              {t('upgrade.mobile.feature.firstUse', '✔ Install eSIM to activate')}
+              {t('upgrade.mobile.feature.dataOnly', '✔ Data-only eSIM')}
             </Text>
             <Text fw={600} c="dimmed">
               {t('upgrade.mobile.feature.validity', '✔ Valid for 30 days')}
@@ -1457,12 +1457,7 @@ useEffect(() => {
                     </Text>
                   </Box>
 
-                  <Text size="sm" c="dimmed">
-                    {t(
-                      'upgrade.mobile.hero.subcopy',
-                      'Unlimited data for the package validity period, with speeds subject to applicable package terms.'
-                    )}
-                  </Text>
+
                 </Stack>
 
                 <Stack gap={8} justify="space-between">
@@ -1473,25 +1468,11 @@ useEffect(() => {
                     style={{ margin: 0, paddingLeft: '1.2rem' }}
                   >
                       <li><Text size="sm" component="span">
-                        {esimValidityLabel}
+                        {t('upgrade.mobile.travelData.expiry', 'Service ends after 30 days or 150 GB of total use, whichever comes first.')}
                       </Text></li>
-
                       <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.heavyUse', 'Data for heavy use in supported destinations')}
+                        {t('upgrade.mobile.travelData.start', 'Starts on your first mobile data connection.')}
                       </Text></li>
-
-                      <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.throttle', 'Speed terms depend on the data package')}
-                      </Text></li>
-
-                      <li><Text size="sm" component="span">
-                        {t('upgrade.mobile.unlimited.features.coverage', 'Coverage in supported destinations')}
-                      </Text></li>
-
-                      <li><Text size="sm" component="span">
-                        {esimActivationLabel}
-                      </Text></li>
-
                       <li><Text size="sm" component="span">
                         {t('upgrade.mobile.unlimited.features.noContract', 'One-time purchase with no contract')}
                       </Text></li>
@@ -1505,7 +1486,7 @@ useEffect(() => {
                     }
                     loading={isAuthed ? loadingCheckout : false}
                     aria-busy={isAuthed && loadingCheckout ? 'true' : 'false'}
-                    aria-label={t('upgrade.mobile.hero.aria', 'Buy unlimited eSIM plan')}
+                    aria-label={t('upgrade.mobile.travelData.buy', 'Buy travel data pack')}
                     fullWidth
                   >
                     {mobileCta}
@@ -1579,8 +1560,8 @@ useEffect(() => {
 
           <Text size="xs" c="dimmed">
             {t(
-              'upgrade.mobile.disclaimer.fairUse',
-              'Unlimited package speed, fair-use, and network management terms depend on the provider package. Performance varies by destination and network conditions.'
+              'upgrade.mobile.disclaimer.networkSpeed',
+              'Speeds vary by destination and network conditions.'
             )}
           </Text>
 
