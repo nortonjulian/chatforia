@@ -250,7 +250,7 @@ export async function seedPricing() {
       '3gb': 21.99,
       '5gb': 32.99,
       '10gb': 49.99,
-      unlimited: 79.99,
+      unlimited: 149.99,
     },
   };
 

@@ -57,7 +57,7 @@ const FALLBACKS = {
   chatforia_esim_global_3: { currency: 'USD', unitAmount: 2199 },
   chatforia_esim_global_5: { currency: 'USD', unitAmount: 3299 },
   chatforia_esim_global_10: { currency: 'USD', unitAmount: 4999 },
-  chatforia_esim_global_unlimited: { currency: 'USD', unitAmount: 7999 },
+  chatforia_esim_global_unlimited: { currency: 'USD', unitAmount: 14999 },
 
   // Premium ids
   chatforia_esim_local_3_premium: { currency: 'USD', unitAmount: 999 },
@@ -75,7 +75,7 @@ const FALLBACKS = {
   chatforia_esim_global_3_premium: { currency: 'USD', unitAmount: 2199 },
   chatforia_esim_global_5_premium: { currency: 'USD', unitAmount: 3299 },
   chatforia_esim_global_10_premium: { currency: 'USD', unitAmount: 4999 },
-  chatforia_esim_global_unlimited_premium: { currency: 'USD', unitAmount: 7999 },
+  chatforia_esim_global_unlimited_premium: { currency: 'USD', unitAmount: 14999 },
 
   // Standard ids (kept lower for future Phase 2 if/when you expose them)
   chatforia_esim_local_3_standard: { currency: 'USD', unitAmount: 1299 },
