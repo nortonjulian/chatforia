@@ -154,9 +154,9 @@ export async function seedPricing() {
   const T1 = [
     [
       'USD',
-      799,
       1299,
-      11999,
+      1999,
+      19999,
       null,
       null,
       null,
@@ -203,9 +203,9 @@ export async function seedPricing() {
   const ROW = [
     [
       'USD',
-      799,
       1299,
-      11999,
+      1999,
+      19999,
       null,
       null,
       null,
@@ -237,7 +237,7 @@ export async function seedPricing() {
       '5gb': 14.99,
       '10gb': 24.99,
       '20gb': 39.99,
-      unlimited: 59.99,
+      unlimited: 69.99,
     },
     europe: {
       '3gb': 12.99,
@@ -250,7 +250,7 @@ export async function seedPricing() {
       '3gb': 21.99,
       '5gb': 32.99,
       '10gb': 49.99,
-      unlimited: 79.99,
+      unlimited: 149.99,
     },
   };
 

@@ -19,7 +19,7 @@ const ESIM_PRICES = [
   { product: 'chatforia_esim_local_5', envName: 'STRIPE_PRICE_ESIM_LOCAL_5', expectedUnitAmount: 1499 },
   { product: 'chatforia_esim_local_10', envName: 'STRIPE_PRICE_ESIM_LOCAL_10', expectedUnitAmount: 2499 },
   { product: 'chatforia_esim_local_20', envName: 'STRIPE_PRICE_ESIM_LOCAL_20', expectedUnitAmount: 3999 },
-  { product: 'chatforia_esim_local_unlimited', envName: 'STRIPE_PRICE_ESIM_LOCAL_UNLIMITED', expectedUnitAmount: 5999 },
+  { product: 'chatforia_esim_local_unlimited', envName: 'STRIPE_PRICE_ESIM_LOCAL_UNLIMITED', expectedUnitAmount: 6999 },
 
   // Europe
   { product: 'chatforia_esim_europe_3', envName: 'STRIPE_PRICE_ESIM_EUROPE_3', expectedUnitAmount: 1299 },
@@ -32,7 +32,7 @@ const ESIM_PRICES = [
   { product: 'chatforia_esim_global_3', envName: 'STRIPE_PRICE_ESIM_GLOBAL_3', expectedUnitAmount: 2199 },
   { product: 'chatforia_esim_global_5', envName: 'STRIPE_PRICE_ESIM_GLOBAL_5', expectedUnitAmount: 3299 },
   { product: 'chatforia_esim_global_10', envName: 'STRIPE_PRICE_ESIM_GLOBAL_10', expectedUnitAmount: 4999 },
-  { product: 'chatforia_esim_global_unlimited', envName: 'STRIPE_PRICE_ESIM_GLOBAL_UNLIMITED', expectedUnitAmount: 7999 },
+  { product: 'chatforia_esim_global_unlimited', envName: 'STRIPE_PRICE_ESIM_GLOBAL_UNLIMITED', expectedUnitAmount: 14999 },
 ];
 
 const ESIM_TIERS = ['T1', 'T2', 'T3', 'T4', 'ROW'];

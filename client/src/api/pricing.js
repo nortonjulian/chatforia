@@ -35,16 +35,16 @@ import axiosClient from '@/api/axiosClient';
 // Hard-coded safety net for UI formatting if the quote API fails.
 const FALLBACKS = {
   // App plans
-  chatforia_plus: { currency: 'USD', unitAmount: 799 },
-  chatforia_premium_monthly: { currency: 'USD', unitAmount: 1299 },
-  chatforia_premium_annual: { currency: 'USD', unitAmount: 11999 },
+  chatforia_plus: { currency: 'USD', unitAmount: 1299 },
+  chatforia_premium_monthly: { currency: 'USD', unitAmount: 1999 },
+  chatforia_premium_annual: { currency: 'USD', unitAmount: 19999 },
 
   // Local - current / legacy ids (treated as premium/default)
   chatforia_esim_local_3: { currency: 'USD', unitAmount: 999 },
   chatforia_esim_local_5: { currency: 'USD', unitAmount: 1499 },
   chatforia_esim_local_10: { currency: 'USD', unitAmount: 2499 },
   chatforia_esim_local_20: { currency: 'USD', unitAmount: 3999 },
-  chatforia_esim_local_unlimited: { currency: 'USD', unitAmount: 5999 },
+  chatforia_esim_local_unlimited: { currency: 'USD', unitAmount: 6999 },
 
   // Europe - current / legacy ids
   chatforia_esim_europe_3: { currency: 'USD', unitAmount: 1299 },
@@ -57,14 +57,14 @@ const FALLBACKS = {
   chatforia_esim_global_3: { currency: 'USD', unitAmount: 2199 },
   chatforia_esim_global_5: { currency: 'USD', unitAmount: 3299 },
   chatforia_esim_global_10: { currency: 'USD', unitAmount: 4999 },
-  chatforia_esim_global_unlimited: { currency: 'USD', unitAmount: 7999 },
+  chatforia_esim_global_unlimited: { currency: 'USD', unitAmount: 14999 },
 
   // Premium ids
   chatforia_esim_local_3_premium: { currency: 'USD', unitAmount: 999 },
   chatforia_esim_local_5_premium: { currency: 'USD', unitAmount: 1499 },
   chatforia_esim_local_10_premium: { currency: 'USD', unitAmount: 2499 },
   chatforia_esim_local_20_premium: { currency: 'USD', unitAmount: 3999 },
-  chatforia_esim_local_unlimited_premium: { currency: 'USD', unitAmount: 5999 },
+  chatforia_esim_local_unlimited_premium: { currency: 'USD', unitAmount: 6999 },
 
   chatforia_esim_europe_3_premium: { currency: 'USD', unitAmount: 1299 },
   chatforia_esim_europe_5_premium: { currency: 'USD', unitAmount: 1999 },
@@ -75,7 +75,7 @@ const FALLBACKS = {
   chatforia_esim_global_3_premium: { currency: 'USD', unitAmount: 2199 },
   chatforia_esim_global_5_premium: { currency: 'USD', unitAmount: 3299 },
   chatforia_esim_global_10_premium: { currency: 'USD', unitAmount: 4999 },
-  chatforia_esim_global_unlimited_premium: { currency: 'USD', unitAmount: 7999 },
+  chatforia_esim_global_unlimited_premium: { currency: 'USD', unitAmount: 14999 },
 
   // Standard ids (kept lower for future Phase 2 if/when you expose them)
   chatforia_esim_local_3_standard: { currency: 'USD', unitAmount: 1299 },
