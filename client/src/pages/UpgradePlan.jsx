@@ -36,6 +36,8 @@ const SECTION_FAMILY = 'family';
 
 // Hidden for now — flip to true later when reseller/wholesale makes it sane.
 const ENABLE_FAMILY_SECTION = false;
+// Enable after a fulfilled purchase confirms when the activation deadline begins.
+const PURCHASE_ACTIVATION_WINDOW_VERIFIED = false;
 
 // eSIM scopes
 const ESIM_SCOPE_LOCAL = 'local';
@@ -646,22 +648,19 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
           product: 'chatforia_esim_global_3_premium',
           gb: 3,
           title: t('upgrade.esim.global.3.title', 'Global 3 GB'),
-          desc: t('upgrade.esim.global.3.desc', 'Great for short trips and light international use.'),
+          desc: t('upgrade.wireless.globalData', '{{gb}} GB of mobile data across supported global destinations.', { gb: 3 }),
         },
         {
           product: 'chatforia_esim_global_5_premium',
           gb: 5,
           title: t('upgrade.esim.global.5.title', 'Global 5 GB'),
-          desc: t('upgrade.esim.global.5.desc', 'Perfect for moderate travel and daily connectivity.'),
+          desc: t('upgrade.wireless.globalData', '{{gb}} GB of mobile data across supported global destinations.', { gb: 5 }),
         },
         {
           product: 'chatforia_esim_global_10_premium',
           gb: 10,
           title: t('upgrade.esim.global.10.title', 'Global 10 GB'),
-          desc: t(
-            'upgrade.esim.global.10.desc',
-            'Ideal for longer trips, streaming, and frequent use.'
-          ),
+          desc: t('upgrade.wireless.globalData', '{{gb}} GB of mobile data across supported global destinations.', { gb: 10 }),
         },
       ];
     }
@@ -682,31 +681,25 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
           product: 'chatforia_esim_europe_3_premium',
           gb: 3,
           title: t('upgrade.esim.europe.3.title', 'Europe 3 GB'),
-          desc: t('upgrade.esim.europe.3.desc', 'Great for quick trips, maps, and messaging.'),
+          desc: t('upgrade.wireless.europeData', '{{gb}} GB of mobile data across supported European destinations.', { gb: 3 }),
         },
         {
           product: 'chatforia_esim_europe_5_premium',
           gb: 5,
           title: t('upgrade.esim.europe.5.title', 'Europe 5 GB'),
-          desc: t(
-            'upgrade.esim.europe.5.desc',
-            'Perfect for weekend trips and regular daily use.'
-          ),
+          desc: t('upgrade.wireless.europeData', '{{gb}} GB of mobile data across supported European destinations.', { gb: 5 }),
         },
         {
           product: 'chatforia_esim_europe_10_premium',
           gb: 10,
           title: t('upgrade.esim.europe.10.title', 'Europe 10 GB'),
-          desc: t(
-            'upgrade.esim.europe.10.desc',
-            'Ideal for longer stays, streaming, and daily use.'
-          ),
+          desc: t('upgrade.wireless.europeData', '{{gb}} GB of mobile data across supported European destinations.', { gb: 10 }),
         },
         {
           product: 'chatforia_esim_europe_20_premium',
           gb: 20,
           title: t('upgrade.esim.europe.20.title', 'Europe 20 GB'),
-          desc: t('upgrade.esim.europe.20.desc', 'Best for power users, hotspot use, and heavy browsing'),
+          desc: t('upgrade.wireless.europeData', '{{gb}} GB of mobile data across supported European destinations.', { gb: 20 }),
         },
       ];
     }
@@ -725,26 +718,26 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
       {
         product: 'chatforia_esim_local_3_premium',
         gb: 3,
-        title: t('upgrade.esim.local.3.title', 'Local 3 GB'),
-        desc: t('upgrade.esim.local.3.desc', 'Great for light use, maps, and messaging.'),
+        title: t('upgrade.wireless.us3Title', 'U.S. 3 GB'),
+        desc: t('upgrade.wireless.localData', '{{gb}} GB of mobile data in the United States.', { gb: 3 }),
       },
       {
         product: 'chatforia_esim_local_5_premium',
         gb: 5,
-        title: t('upgrade.esim.local.5.title', 'Local 5 GB'),
-        desc: t('upgrade.esim.local.5.desc', 'Perfect for everyday use and regular browsing.'),
+        title: t('upgrade.wireless.us5Title', 'U.S. 5 GB'),
+        desc: t('upgrade.wireless.localData', '{{gb}} GB of mobile data in the United States.', { gb: 5 }),
       },
       {
         product: 'chatforia_esim_local_10_premium',
         gb: 10,
-        title: t('upgrade.esim.local.10.title', 'Local 10 GB'),
-        desc: t('upgrade.esim.local.10.desc', 'Ideal for streaming, sharing, and heavier daily use.'),
+        title: t('upgrade.wireless.us10Title', 'U.S. 10 GB'),
+        desc: t('upgrade.wireless.localData', '{{gb}} GB of mobile data in the United States.', { gb: 10 }),
       },
       {
         product: 'chatforia_esim_local_20_premium',
         gb: 20,
-        title: t('upgrade.esim.local.20.title', 'Local 20 GB'),
-        desc: t('upgrade.esim.local.20.desc', 'Best for power users, hotspot, and high data usage.'),
+        title: t('upgrade.wireless.us20Title', 'U.S. 20 GB'),
+        desc: t('upgrade.wireless.localData', '{{gb}} GB of mobile data in the United States.', { gb: 20 }),
       },
     ];
   }, [esimScope, t]);
@@ -775,12 +768,12 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
 
   const mobileSectionTitle = useMemo(() => {
     if (esimScope === ESIM_SCOPE_EUROPE) {
-      return t('upgrade.mobile.region.europe', 'Chatforia Mobile for Europe');
+      return t('upgrade.mobile.region.europe', 'Europe');
     }
     if (esimScope === ESIM_SCOPE_GLOBAL) {
-      return t('upgrade.mobile.region.global', 'Chatforia Mobile Worldwide');
+      return t('upgrade.mobile.region.global', 'Global');
     }
-    return t('upgrade.mobile.region.local', 'Chatforia Mobile in the U.S.');
+    return t('upgrade.wireless.usRegion', 'United States');
   }, [esimScope, t]);
 
   const mobileSectionSubtitle = useMemo(() => {
@@ -797,8 +790,8 @@ export default function UpgradePage({ variant = 'account', redirect = redirectTo
       );
     }
     return t(
-      'upgrade.mobile.region.localSubtitle',
-      'Reliable connectivity when you need data away from Wi-Fi.'
+      'upgrade.wireless.usSubtitle',
+      'Mobile data within the United States.'
     );
   }, [esimScope, t]);
 
@@ -890,6 +883,13 @@ useEffect(() => {
     return formatMoney(19999, 'USD');
   }, [qPremAnnual, t]);
 
+  const monthlyAmount = qPremMonthly?.unitAmount ?? 1999;
+  const annualAmount = qPremAnnual?.unitAmount ?? 19999;
+  const monthlyCurrency = qPremMonthly?.currency || 'USD';
+  const annualCurrency = qPremAnnual?.currency || 'USD';
+  const annualSavings = monthlyCurrency === annualCurrency ? monthlyAmount * 12 - annualAmount : 0;
+  const savingsPercent = annualSavings > 0 ? Math.round(100 * annualSavings / (monthlyAmount * 12)) : 0;
+
   const perMonthLabel = t('upgrade.perMonthLong', '/ mo');
   const perYearLabel = t('upgrade.perYearLong', '/ year');
   const oneTimeLabel = t('upgrade.oneTime', 'one-time');
@@ -900,8 +900,8 @@ useEffect(() => {
   );
 
   const esimActivationLabel = t(
-    'upgrade.mobile.activation.firstConnection',
-    'Activation status is confirmed after eSIM installation'
+    'upgrade.mobile.travelData.start',
+    'Starts on your first mobile data connection.'
   );
 
   const startCheckout = async ({ plan, priceId } = {}) => {
@@ -1087,8 +1087,8 @@ useEffect(() => {
       : t('upgrade.cta.upgradeAnnual', 'Upgrade Annual')
     : isPublic
     ? t(
-        'upgrade.cta.public.premiumAnnual',
-        'Save 23% with annual – continue to login'
+        'upgrade.cta.public.annualLogin',
+        'Choose annual billing – continue to login'
       )
     : t('upgrade.auth.continue', 'Continue to login');
 
@@ -1130,7 +1130,7 @@ useEffect(() => {
           onChange={(value) => setPlanOption('section', value)}
           data={[
             { label: t('upgrade.section.app', 'App plans'), value: SECTION_APP },
-            { label: t('upgrade.section.mobile', 'Mobile (eSIM)'), value: SECTION_MOBILE },
+            { label: t('upgrade.section.wireless', 'Wireless (eSIM)'), value: SECTION_MOBILE },
             ...(ENABLE_FAMILY_SECTION
               ? [{ label: t('upgrade.section.family', 'Family plans'), value: SECTION_FAMILY }]
               : []),
@@ -1187,7 +1187,7 @@ useEffect(() => {
               onChange={(value) => setPlanOption('billing', value)}
               data={[
                 { label: t('upgrade.toggle.monthly', 'Monthly'), value: 'monthly' },
-                { label: t('upgrade.toggle.annual', 'Annual (Save 23%)'), value: 'annual' },
+                { label: savingsPercent > 0 ? t('upgrade.toggle.annualWithSavings', 'Annual (Save {{percent}}%)', { percent: savingsPercent }) : t('upgrade.toggle.annualOnly', 'Annual'), value: 'annual' },
               ]}
             />
           </Group>
@@ -1337,10 +1337,11 @@ useEffect(() => {
                   'Everything in Premium Monthly — including extra color themes'
                 ),
                 t('upgrade.plans.premiumAnnual.features.annualBilling', 'Billed once per year'),
-                t(
-                  'upgrade.plans.premiumAnnual.features.save25',
-                  'Save about 23% compared to paying monthly'
-                ),
+                ...(annualSavings > 0 ? [t(
+                  'upgrade.plans.premiumAnnual.features.annualSavings',
+                  'Save {{amount}} per year compared to paying monthly',
+                  { amount: formatMoney(annualSavings, annualCurrency) }
+                )] : []),
                 t(
                   'upgrade.plans.premiumAnnual.features.bestFor',
                   'Best for power users, remote workers, and heavy travelers'
@@ -1349,7 +1350,7 @@ useEffect(() => {
               highlight={billingCycle === 'annual'}
               tint={billingCycle === 'annual'}
               tintColor="green"
-              badge={t('upgrade.plans.premiumAnnual.badge', 'Save 25%')}
+              badge={savingsPercent > 0 ? t('upgrade.plans.premiumAnnual.savingsBadge', 'Save {{percent}}%', { percent: savingsPercent }) : undefined}
               badgeColor="green"
               icon={<CircleDollarSign size={18} />}
               cta={ctaPremAnnual}
@@ -1379,22 +1380,28 @@ useEffect(() => {
           <Divider my={6} />
 
           <Title order={2}>
-            {t('upgrade.mobile.title', 'Chatforia Mobile (eSIM data packs)')}
+            {t('upgrade.wireless.title', 'Chatforia Wireless')}
           </Title>
 
           <Text c="dimmed" size="sm">
             {t(
-              'upgrade.mobile.subtitle',
-              'Use mobile data in supported destinations when Wi-Fi is unavailable. Coverage and available networks depend on your selected package.'
+              'upgrade.wireless.subtitle',
+              'eSIM data packs for the United States and supported international destinations.'
             )}
           </Text>
+
+          {PURCHASE_ACTIVATION_WINDOW_VERIFIED && (
+            <Text size="sm">
+              {t('upgrade.wireless.activationWindow', 'Buy ahead. Activate within 365 days of purchase. Your 30 days start when you first connect to a supported mobile network.')}
+            </Text>
+          )}
 
           <Group gap="md" mt={4}>
             <Text fw={600} c="dimmed">
               {t('upgrade.mobile.feature.dataOnly', '✔ Data-only eSIM')}
             </Text>
             <Text fw={600} c="dimmed">
-              {t('upgrade.mobile.feature.validity', '✔ Valid for 30 days')}
+              {t('upgrade.wireless.validity', '✔ Valid for 30 days after activation')}
             </Text>
             <Text fw={600} c="dimmed">
               {t('upgrade.mobile.feature.contracts', '✔ No contracts')}
@@ -1409,7 +1416,7 @@ useEffect(() => {
               value={esimScope}
               onChange={(value) => setPlanOption('scope', value)}
               data={[
-                { label: t('upgrade.mobile.scope.localTab', 'Local'), value: ESIM_SCOPE_LOCAL },
+                { label: t('upgrade.wireless.usTab', 'U.S. plans'), value: ESIM_SCOPE_LOCAL },
                 { label: t('upgrade.mobile.scope.europeTab', 'Europe'), value: ESIM_SCOPE_EUROPE },
                 { label: t('upgrade.mobile.scope.globalTab', 'Global'), value: ESIM_SCOPE_GLOBAL },
               ]}
