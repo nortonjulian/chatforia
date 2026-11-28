@@ -15,6 +15,7 @@ import {
   Table,
   Accordion,
 } from '@mantine/core';
+import TravelDataDestinations from './TravelDataDestinations';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -1484,6 +1485,8 @@ useEffect(() => {
                         {t('upgrade.mobile.unlimited.features.noContract', 'One-time purchase with no contract')}
                       </Text></li>
                   </Stack>
+
+                  <TravelDataDestinations scope={esimScope} />
 
                   <Button
                     onClick={() =>
