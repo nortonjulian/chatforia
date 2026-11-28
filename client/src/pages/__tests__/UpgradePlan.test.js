@@ -251,6 +251,24 @@ describe('UpgradePage', () => {
     expect(screen.getByTestId('route-location')).toHaveTextContent('/upgrade?section=mobile');
   });
 
+  test('shows package-specific destinations and closes the list on region change', async () => {
+    renderUpgrade(<UpgradePage />, ['/upgrade?section=mobile&scope=europe']);
+    const europe = (await screen.findByText('View covered destinations (46)')).closest('details');
+    expect(within(europe).getByText('Andorra')).toBeInTheDocument();
+    fireEvent.click(europe.querySelector('summary'));
+    expect(europe).toHaveAttribute('open');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Global' }));
+    const global = screen.getByText('View covered destinations (105)').closest('details');
+    expect(global).not.toHaveAttribute('open');
+    expect(within(global).getByText('Puerto Rico')).toBeInTheDocument();
+    expect(within(global).queryByText('Andorra')).not.toBeInTheDocument();
+    expect(within(global).queryByText('United States')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'U.S. plans' }));
+    expect(screen.queryByText(/View covered destinations/)).not.toBeInTheDocument();
+  });
+
   test('restores the selected tab and eSIM scope through browser history', async () => {
     renderUpgrade(<UpgradePage />, ['/upgrade?section=mobile&scope=europe']);
 
