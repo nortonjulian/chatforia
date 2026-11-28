@@ -245,8 +245,8 @@ describe('UpgradePage', () => {
     renderUpgrade(<UpgradePage />, ['/upgrade?section=mobile']);
 
     expect(await screen.findByText('Choose a data pack')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Mobile (eSIM)' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByText('Local 3 GB')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Wireless (eSIM)' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByText('U.S. 3 GB')).toBeInTheDocument();
     expect(screen.queryByText('Free, Plus, and Premium plans')).not.toBeInTheDocument();
     expect(screen.getByTestId('route-location')).toHaveTextContent('/upgrade?section=mobile');
   });

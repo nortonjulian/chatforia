@@ -13,6 +13,8 @@ const EXCLUDED_PREFIXES = [
   '/dialer',
   '/voicemail',
   '/pricing',
+  '/upgrade',
+  '/settings/upgrade',
   '/mobile/esim',
 ];
 
